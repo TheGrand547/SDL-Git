@@ -24,7 +24,7 @@ public:
 		inLineB = Line(inPointRight, bottomRight);
 	}
 			
-	void loadTexture(SDL_Renderer *renderer, string path="taff.jpg") {
+	void loadTexture(SDL_Renderer *renderer, string path="resources/taff.jpg") {
 		mTexture.loadFromFile(path.c_str(), renderer, innerRect.getWidth(), innerRect.getHeight());
 	}
 		

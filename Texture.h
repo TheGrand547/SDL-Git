@@ -14,8 +14,6 @@ public:
 		ypos = new int(0);
 	}
 	
-	void loadFromFile(string path, SDL_Renderer* renderer, int xSize = 0, int ySize = 0, Uint8 r = 0xFF, Uint8 g = 0xFF, Uint8 b = 0xFF);
-	
 	~Texture() {
 		free();
 		delete this->width;
@@ -34,7 +32,6 @@ public:
 		*xpos = *(that.xpos);
 		*ypos = *(that.ypos);
 		texture = NULL;
-		loadFromFile("Taff.jpg", gRenderer, 100, 50);
 	}
 	
 	Texture (const Texture &that) {
@@ -47,7 +44,6 @@ public:
 		*xpos = *(that.xpos);
 		*ypos = *(that.ypos);
 		texture = NULL;
-		loadFromFile("Taff.jpg", gRenderer, 100, 50);
 	}
 	
 	void free() {
@@ -120,9 +116,7 @@ public:
 		*(this->ypos) = point->y();
 	}
 	
-};
-
-void Texture::loadFromFile(string path, SDL_Renderer* renderer, int xSize, int ySize, Uint8 r, Uint8 g, Uint8 b) {
+	void loadFromFile(string path, SDL_Renderer* renderer, int xSize, int ySize, Uint8 r = 0x00, Uint8 g = 0x00, Uint8 b = 0x00) {
 		free();
 		SDL_Texture *newTexture = NULL;
 		SDL_Surface *tempSurface = IMG_Load(path.c_str());
@@ -144,3 +138,4 @@ void Texture::loadFromFile(string path, SDL_Renderer* renderer, int xSize, int y
 		SDL_FreeSurface(tempSurface);
 		texture = newTexture;
 	}
+};

@@ -7,15 +7,20 @@ class Box {
 	//Class for boxes
 private:
 	const float outdent = .5;
+	const int width = 100;
+	const int height = 100;
+	
+	
 	Rect *outerRect, *innerRect;
 	Texture *mTexture;
 	Point *inPointLeft, *inPointRight;
 public:
-	Box(Point topLeft, Point bottomRight) {
-		outerRect = new Rect(topLeft, bottomRight);
-		//This is going to get ugly
-		inPointLeft = new Point(topLeft.x(), topLeft.y());
-		inPointRight = new Point(bottomRight.x(), bottomRight.y() - outerRect->getHeight() * outdent);
+	Box(Point position) {
+		//All boxes are of the same size
+		outerRect = new Rect(position, this->width, this->height);
+		
+		inPointLeft = new Point(position);
+		inPointRight = new Point(position.x() + this->width, position.y() + this->height * outdent);
 		innerRect = new Rect(inPointLeft, inPointRight);
 		innerRect->setColorChannels(0x30, 0x30, 0x30, 0xFF);
 		outerRect->setColorChannels(0x00, 0x00, 0x00, 0xFF);
@@ -57,7 +62,7 @@ public:
 	}
 		
 			
-	void loadTexture(SDL_Renderer *renderer, string path = "taff.jpg") {
+	void loadTexture(SDL_Renderer *renderer, string path = "resources/taff.jpg") {
 		mTexture->loadFromFile(path.c_str(), renderer, innerRect->getWidth(), innerRect->getHeight());
 		mTexture->setPos(innerRect->getTopLeft());
 	}

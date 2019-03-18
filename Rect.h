@@ -1,7 +1,7 @@
 #pragma once
 #include "MyBase.h"
 #include "Point.h"
-#include "util.h"
+#include "Line.h"
 Point smallerDistance(Point distanceFrom, Point pointA, Point pointB);
 bool valueInRange(int value, int min, int max);
 class Rect: public MyBase{
@@ -26,6 +26,23 @@ public:
 		delete topRight;
 		delete bottomLeft;
 	}
+	
+	Rect(Point position, int width, int height) {
+		Point *topRight = new Point(position.x() + width, position.y());
+		Point *bottomLeft = new Point(position.x(), position.y() + height);
+		tL = new Point(position);
+		tR = new Point(*topRight);
+		bL = new Point(*bottomLeft);
+		bR = new Point(position + Point(width, height));
+		lines[0] =  new Line(position, *topRight); //Top
+		lines[1] = new Line(*bottomLeft, *bR); //Bottom
+		lines[2] = new Line(position, *bottomLeft); //Left
+		lines[3] = new Line(*topRight, *bR); //Right
+		_setColorChannels(0x00, 0x00, 0x00, 0xFF);
+		delete topRight;
+		delete bottomLeft;
+	}
+	
 	~Rect() {
 		for (Line *line: lines) {
 			delete line;
@@ -64,7 +81,7 @@ public:
 			return smallerDistance(ray.getOrigin(),intersect[2], smallerDistance(ray.getOrigin(), intersect[0], 
 									intersect[1]));
 		}
-		return intersect[1]; //If index 0 or 1 is zero, 1 with always be zero
+		return intersect[0]; //If index 0-2 are null, 1 with always be null
 		
 	}
 	

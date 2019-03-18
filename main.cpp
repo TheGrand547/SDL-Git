@@ -9,7 +9,6 @@
 #include<stdio.h>
 #include<sstream>
 #include<vector>
-SDL_Renderer* gRenderer = NULL;
 #include "util.h"
 #include "Line.h"
 #include "MyBase.h"
@@ -20,7 +19,6 @@ SDL_Renderer* gRenderer = NULL;
 #include "Font.h"
 #include "Texture.h"
 #include "Timer.h"
-
 
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
@@ -42,6 +40,8 @@ SDL_Surface* gScreenSurface = NULL;
 
 //The image we will load and show on the screen
 SDL_Surface* gXOut = NULL;
+
+SDL_Renderer* gRenderer = NULL;
 
 
 bool init() {
@@ -114,14 +114,13 @@ int main(int argc, char *argv[]) {
 			
 			SDL_Rect IOP = {0,0,SCREEN_WIDTH,SCREEN_HEIGHT};
 			Font gFont = Font();
-			Box test = Box(Point(50, 50), Point(150,150));
-			Box te = Box(Point(200, 200), Point(300,300));	
+			Box test = Box(Point(50, 50));
+			Box te = Box(Point(200, 200));	
 			gnar.push_back(test);
 			gnar.push_back(te);
-			gnar.push_back(Box(Point(350, 200), Point(450,300)));
+			gnar.push_back(Box(Point(350, 200)));
 			
 			Point dx = Point(0,0);
-			
 			
 			Timer time;
 			int countedFrames = 0;
