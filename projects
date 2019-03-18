@@ -1,0 +1,56 @@
+[editor]
+line_wrapping=false
+line_break_column=72
+auto_continue_multiline=true
+
+[file_prefs]
+final_new_line=true
+ensure_convert_new_lines=false
+strip_trailing_spaces=false
+replace_tabs=false
+
+[indentation]
+indent_width=4
+indent_type=1
+indent_hard_tab_width=8
+detect_indent=false
+detect_indent_width=false
+indent_mode=2
+
+[project]
+name=Steel Cog
+base_path=/Users/thegrand/Documents/My Documents/SDL Git
+description=
+file_patterns=
+
+[long line marker]
+long_line_behaviour=1
+long_line_column=72
+
+[files]
+current_page=8
+FILE_NAME_0=0;C++;0;EUTF-8;1;1;0;%2FUsers%2Fthegrand%2FDocuments%2FMy%20Documents%2FSDL%20Git%2FWall.h;0;4
+FILE_NAME_1=0;C++;0;EUTF-8;1;1;0;%2FUsers%2Fthegrand%2FDocuments%2FMy%20Documents%2FSDL%20Git%2Futil.h;0;4
+FILE_NAME_2=0;C++;0;EUTF-8;1;1;0;%2FUsers%2Fthegrand%2FDocuments%2FMy%20Documents%2FSDL%20Git%2FTimer.h;0;4
+FILE_NAME_3=0;C++;0;EUTF-8;1;1;0;%2FUsers%2Fthegrand%2FDocuments%2FMy%20Documents%2FSDL%20Git%2FTexture.h;0;4
+FILE_NAME_4=0;C++;0;EUTF-8;1;1;0;%2FUsers%2Fthegrand%2FDocuments%2FMy%20Documents%2FSDL%20Git%2FRect.h;0;4
+FILE_NAME_5=0;None;0;EUTF-8;1;1;0;%2FUsers%2Fthegrand%2FDocuments%2FMy%20Documents%2FSDL%20Git%2Fprojects;0;4
+FILE_NAME_6=0;C++;0;EUTF-8;1;1;0;%2FUsers%2Fthegrand%2FDocuments%2FMy%20Documents%2FSDL%20Git%2FPoint.h;0;4
+FILE_NAME_7=0;C++;0;EUTF-8;1;1;0;%2FUsers%2Fthegrand%2FDocuments%2FMy%20Documents%2FSDL%20Git%2FMyBase.h;0;4
+FILE_NAME_8=0;C++;0;EUTF-8;1;1;0;%2FUsers%2Fthegrand%2FDocuments%2FMy%20Documents%2FSDL%20Git%2Fmain.cpp;0;4
+FILE_NAME_9=0;C++;0;EUTF-8;1;1;0;%2FUsers%2Fthegrand%2FDocuments%2FMy%20Documents%2FSDL%20Git%2FLine.h;0;4
+FILE_NAME_10=0;C++;0;EUTF-8;1;1;0;%2FUsers%2Fthegrand%2FDocuments%2FMy%20Documents%2FSDL%20Git%2FFont.h;0;4
+FILE_NAME_11=0;C++;0;EUTF-8;1;1;0;%2FUsers%2Fthegrand%2FDocuments%2FMy%20Documents%2FSDL%20Git%2FDot.h;0;4
+FILE_NAME_12=0;C++;0;EUTF-8;1;1;0;%2FUsers%2Fthegrand%2FDocuments%2FMy%20Documents%2FSDL%20Git%2FBox.h;0;4
+
+[VTE]
+last_dir=/Users/thegrand
+
+[build-menu]
+C++FT_01_LB=_Build
+C++FT_01_CM=g++ -Wall -o "%e" "%f" -lSDL2 -w -lSDL2_gfx -lSDL2_ttf -lSDL2_image
+C++FT_01_WD=
+filetypes=C++;
+C++FT_00_LB=_Compile
+C++FT_00_CM=g++ -Wall -c "%f" -w
+C++FT_00_WD=
