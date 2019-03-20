@@ -5,10 +5,10 @@
 class Box {
 	//Class for boxes
 private:
-	Rect outerRect, innerRect;
 	const float indent = .15;
 	const float outdent = .10;
 	Line inLineA, inLineB;
+	Rect outerRect, innerRect;
 	Texture mTexture;
 public:
 	Box(Point topLeft, Point bottomRight) {

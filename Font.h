@@ -13,7 +13,8 @@ public:
 		}
 	}
 	~Font() {
-		delete fontRenderer;
+		TTF_CloseFont(fontRenderer);
+		fontRenderer = NULL;
 		delete fontSize;
 	}
 	

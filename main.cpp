@@ -6,6 +6,7 @@
 #include<SDL2/SDL2_framerate.h>
 #include<SDL2_ttf/SDL_ttf.h>
 #include<SDL2_image/SDL_image.h>
+#include<SDL2/SDL_thread.h>
 #include<stdio.h>
 #include<sstream>
 #include<vector>
@@ -19,6 +20,7 @@
 #include "Font.h"
 #include "Texture.h"
 #include "Timer.h"
+#include "PointDelta.h"
 
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
@@ -120,8 +122,7 @@ int main(int argc, char *argv[]) {
 			gnar.push_back(te);
 			gnar.push_back(Box(Point(350, 200)));
 			
-			Point dx = Point(0,0);
-			
+			//Point dx = Point(0,0);
 			Timer time;
 			int countedFrames = 0;
 			time.start();
@@ -129,12 +130,13 @@ int main(int argc, char *argv[]) {
 			stringstream fpsStr;
 			//Event handler
 			SDL_Event e;
+			PointDelta dx = PointDelta(0, 0, 2, 2);
 			//While application is running
 			while(!quit) {
 				//Handle events on queue
-				dx = Point(0, 0);
 				while(SDL_PollEvent(&e) != 0) {
 					//User requests quit
+					/*
 					if(e.type == SDL_QUIT) {
 						quit = true;
 					} else if (e.type == SDL_KEYDOWN) {
@@ -152,8 +154,53 @@ int main(int argc, char *argv[]) {
 								dx += Point(10, 0);
 								break;
 						}
+					}*/
+					switch(e.type) {
+						case SDL_QUIT:
+							quit = true;
+							break;
+						case SDL_KEYDOWN:
+							if (e.key.repeat == 0) {
+								switch (e.key.keysym.sym) {
+									case SDLK_UP: 
+										dx -= Point(0, 10);
+										break;
+									case SDLK_DOWN:
+										dx += Point(0, 10);
+										break;
+									case SDLK_LEFT:
+										dx -= Point(10, 0);
+										break;
+									case SDLK_RIGHT:
+										dx += Point(10, 0);
+										break;
+								}
+								break;
+							}
+						case SDL_KEYUP:
+							if (e.key.repeat == 0) {
+								switch (e.key.keysym.sym) {
+									case SDLK_UP: 
+										if (dx.y() < 0) 
+											dx.yZero();
+										break;
+									case SDLK_DOWN:
+										if (dx.y() > 0) 
+											dx.yZero();
+										break;
+									case SDLK_LEFT:
+										if (dx.x() < 0) 
+											dx.xZero();
+										break;
+									case SDLK_RIGHT:
+										if (dx.x() > 0) 
+											dx.xZero();
+										break;
+								break;
+								}
+							}
+						}
 					}
-				}
 				SDL_GetMouseState(&mousePosX, &mousePosY);
 				//Clear screen
                 SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
@@ -162,10 +209,10 @@ int main(int argc, char *argv[]) {
                 //gFont.renderTextWrapped(0, 0, "Will this work? I really hope so just to annoy my boy coyote, INFINITE AMMO BTW", gRenderer, red, 250);
                 float avgFPS = countedFrames / (time.getTicks() / 1000.f);
                 fpsStr.str("");
-                fpsStr << "FPS: " << avgFPS;
+                //fpsStr << "FPS: " << avgFPS;
+                fpsStr << "Dx: " << dx;
                 
                 gFont.renderText(100, 0, fpsStr.str(), gRenderer, red);
-                
                 if (!collideRect(dot.getRect()+dx, gnar)) {
 					dot += dx;
 				}
