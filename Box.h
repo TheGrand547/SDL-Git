@@ -17,7 +17,6 @@ class Box {
 		Box(Point position) {
 			//All boxes are of the same size
 			outerRect = new Rect(position, this->width, this->height);
-			
 			inPointLeft = new Point(position);
 			inPointRight = new Point(position.x() + this->width, position.y() + this->height * outdent);
 			innerRect = new Rect(inPointLeft, inPointRight);

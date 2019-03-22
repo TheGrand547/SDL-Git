@@ -21,6 +21,9 @@
 #include "Texture.h"
 #include "Timer.h"
 #include "PointDelta.h"
+#include "HeldKey.h"
+
+#define PI 3.14159265
 
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
@@ -132,29 +135,12 @@ int main(int argc, char *argv[]) {
 			SDL_Event e;
 			PointDelta dx = PointDelta(0, 0, 2, 2);
 			//While application is running
+			
+			HeldKey shift(SDLK_LSHIFT, 30);
+			
 			while(!quit) {
 				//Handle events on queue
 				while(SDL_PollEvent(&e) != 0) {
-					//User requests quit
-					/*
-					if(e.type == SDL_QUIT) {
-						quit = true;
-					} else if (e.type == SDL_KEYDOWN) {
-						switch (e.key.keysym.sym) {
-							case SDLK_UP: 
-								dx -= Point(0, 10);
-								break;
-							case SDLK_DOWN:
-								dx += Point(0, 10);
-								break;
-							case SDLK_LEFT:
-								dx -= Point(10, 0);
-								break;
-							case SDLK_RIGHT:
-								dx += Point(10, 0);
-								break;
-						}
-					}*/
 					switch(e.type) {
 						case SDL_QUIT:
 							quit = true;
@@ -174,9 +160,15 @@ int main(int argc, char *argv[]) {
 									case SDLK_RIGHT:
 										dx += Point(10, 0);
 										break;
+									case SDLK_LSHIFT:
+										
+										break;
 								}
-								break;
 							}
+							if (e.key.keysym.sym == SDLK_LSHIFT) {
+								shift.set(true);
+							}
+							break;
 						case SDL_KEYUP:
 							if (e.key.repeat == 0) {
 								switch (e.key.keysym.sym) {
@@ -196,21 +188,25 @@ int main(int argc, char *argv[]) {
 										if (dx.x() > 0) 
 											dx.xZero();
 										break;
-								break;
 								}
 							}
+							if (e.key.keysym.sym == SDLK_LSHIFT) {
+								shift.set(false);
+							}
+							break;
 						}
 					}
+				shift.tick();
 				SDL_GetMouseState(&mousePosX, &mousePosY);
 				//Clear screen
                 SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
                 SDL_RenderClear(gRenderer);
                 //c.drawLine(gRenderer);
-                //gFont.renderTextWrapped(0, 0, "Will this work? I really hope so just to annoy my boy coyote, INFINITE AMMO BTW", gRenderer, red, 250);
+                //gFont.renderTextWrapped(100, 100, "fuck off noah ur a pleb", gRenderer, red, 250);
                 float avgFPS = countedFrames / (time.getTicks() / 1000.f);
                 fpsStr.str("");
                 //fpsStr << "FPS: " << avgFPS;
-                fpsStr << "Dx: " << dx;
+                fpsStr << "Ticks: " << shift.get();
                 
                 gFont.renderText(100, 0, fpsStr.str(), gRenderer, red);
                 if (!collideRect(dot.getRect()+dx, gnar)) {
@@ -219,7 +215,9 @@ int main(int argc, char *argv[]) {
 				for (int i = 0; i < gnar.size(); i++) {
 					gnar[i].draw(gRenderer);
 				}
-                Line aabc(dot.getPos(), Point(0, dot.getPos().y()));
+				
+                //Line aabc(dot.getPos(), Point(0, dot.getPos().y()));
+                Line aabc(dot.getRay());
                 //aabc.drawLine(gRenderer);
                 newPoint = collideTestVectorToRay(gnar, aabc);
                 if (!newPoint.isNull()) {
