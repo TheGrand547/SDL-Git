@@ -32,10 +32,10 @@ class Line: public MyBase{
 			c = new float((*ax * pointA.x()) + (*by * pointA.y()));
 			originPoint = new Point(pointA);
 			endingPoint = new Point(pointB);
-			minX = new float(0);
-			maxX = new float(0);
-			minY = new float(0);
-			maxY = new float(0);
+			minX = new float(0.0f);
+			maxX = new float(0.0f);
+			minY = new float(0.0f);
+			maxY = new float(0.0f);
 			mMax(pointA.x(), pointB.x(), *minX, *maxX);
 			mMax(pointA.y(), pointB.y(), *minY, *maxY);
 			setColorChannels(r, g, b, a);
@@ -47,10 +47,10 @@ class Line: public MyBase{
 			c = new float((*ax * pointA->x()) + (*by * pointA->y()));
 			originPoint = new Point(pointA);
 			endingPoint = new Point(pointB);
-			minX = new float(0);
-			maxX = new float(0);
-			minY = new float(0);
-			maxY = new float(0);
+			minX = new float(0.0f);
+			maxX = new float(0.0f);
+			minY = new float(0.0f);
+			maxY = new float(0.0f);
 			mMax(pointA->x(), pointB->x(), *minX, *maxX);
 			mMax(pointA->y(), pointB->y(), *minY, *maxY);
 		}
@@ -73,10 +73,10 @@ class Line: public MyBase{
 			c = new float(*line.c);
 			originPoint = new Point(*line.originPoint);
 			endingPoint = new Point(*line.endingPoint);
-			minX = new float(0);
-			maxX = new float(0);
-			minY = new float(0);
-			maxY = new float(0);
+			minX = new float(0.0f);
+			maxX = new float(0.0f);
+			minY = new float(0.0f);
+			maxY = new float(0.0f);
 			mMax(originPoint->x(), endingPoint->x(), *minX, *maxX);
 			mMax(originPoint->y(), endingPoint->y(), *minY, *maxY);
 		}
@@ -87,10 +87,10 @@ class Line: public MyBase{
 			c = new float (*that.c);
 			originPoint = new Point(*that.originPoint);
 			endingPoint = new Point(*that.endingPoint);
-			minX = new float(0);
-			maxX = new float(0);
-			minY = new float(0);
-			maxY = new float(0);
+			minX = new float(0.0f);
+			maxX = new float(0.0f);
+			minY = new float(0.0f);
+			maxY = new float(0.0f);
 			mMax(originPoint->x(), endingPoint->x(), *minX, *maxX);
 			mMax(originPoint->y(), endingPoint->y(), *minY, *maxY);
 			return *this;
@@ -104,14 +104,19 @@ class Line: public MyBase{
 		}
 		
 		bool collidePoint(Point point) {
-			if (lValueInRange(point.x(), minX, maxX) && lValueInRange(point.y(), minY, maxY))
-				return true;
+			if (lValueInRange(int(point.x()), this->minX, this->maxX)) {
+				if (lValueInRange(int(point.y()), this->minY, this->maxY)) {
+					return true;
+				}
+			}
 			return false;
+		
 		}
 		
 		bool collidePoint(Point *point) {
-			if (lValueInRange(point->x(), minX, maxX) && lValueInRange(point->y(), minY, maxY))
+			if (lValueInRange(point->x(), minX, maxX) && lValueInRange(point->y(), minY, maxY)) {
 				return true;
+			}
 			return false;
 		}
 		void operator+=(Point b) {
@@ -132,10 +137,10 @@ class Line: public MyBase{
 			*ax = endingPoint->y() - originPoint->y();
 			*by = originPoint->x() - endingPoint->x();
 			*c = (*ax * originPoint->x()) + (*by * originPoint->y());
-			*minX += b.x();
-			*maxX += b.x();
-			*minY += b.y();
-			*maxY += b.y();
+			*minX -= b.x();
+			*maxX -= b.x();
+			*minY -= b.y();
+			*maxY -= b.y();
 		}
 		
 		Line operator+(Point b) {
@@ -144,10 +149,25 @@ class Line: public MyBase{
 			return Line(originPoint, endingPoint);
 		}
 			
-		float getAx() { return *ax; }
-		float getBy() { return *by; }
-		float getC() { return *c; }
-		Point getOrigin() {return *originPoint;}
+		float getAx() { 
+			return *ax; 
+		}
+		
+		float getBy() { 
+			return *by; 
+		}
+		
+		float getC() { 
+			return *c; 
+		}
+		
+		Point getOrigin() {
+			return *originPoint;
+		}
+		
+		Point getEnd() {
+			return *endingPoint;
+		}
 		
 		friend ostream &operator<<(ostream &output, const Line &line) {
 			output << line.ax << "x + " << line.by << "y = " << line.c;
@@ -166,13 +186,14 @@ class Line: public MyBase{
 Point intersectionTest(Line line1, Line line2) {
 	float delta = (line1.getAx() * line2.getBy()) - (line1.getBy() * line2.getAx());
 	if (delta == 0) 
-		return Point(-1, -1);
+		return Point();
 	float x = ((line1.getC() * line2.getBy()) - (line1.getBy() * line2.getC())) / delta;
 	float y = ((line1.getAx() * line2.getC()) - (line1.getC() * line2.getAx())) / delta;
 	Point newPoint = Point(x, y);
-	if (line1.collidePoint(newPoint) && line2.collidePoint(newPoint))
+	if (line1.collidePoint(newPoint) && line2.collidePoint(newPoint)) {
 		return Point(x, y);
-	return Point(-1, -1);
+	}
+	return Point();
 }
 
 bool xBetweenAandB(float x, float a, float b) {

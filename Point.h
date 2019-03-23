@@ -103,4 +103,8 @@ class Point {
 		void yZero() {
 			*yval = 0;
 		}
+		
+		float getMagnitude() {
+			return sqrt(pow(*xval, 2) + pow(*yval, 2));
+		}
 };

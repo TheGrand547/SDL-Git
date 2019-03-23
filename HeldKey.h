@@ -44,7 +44,11 @@ class HeldKey {
 			return *(this->toggle);
 		}
 		
-		int get() {
+		int getFrames() {
 			return *(this->framesHeld);
+		}
+		
+		bool getHeld() {
+			return *(this->toggle);
 		}
 };

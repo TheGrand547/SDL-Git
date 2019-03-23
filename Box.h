@@ -60,7 +60,7 @@ class Box {
 		}
 			
 				
-		void loadTexture(SDL_Renderer *renderer, string path = "resources/taff.jpg") {
+		void loadTexture(SDL_Renderer *renderer, string path = "resources/missingTexture.jpg") {
 			mTexture->loadFromFile(path.c_str(), renderer, innerRect->getWidth(), innerRect->getHeight());
 			mTexture->setPos(innerRect->getTopLeft());
 		}

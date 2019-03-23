@@ -1,0 +1,5 @@
+projects
+lines
+main
+*.h.gch
+*.o

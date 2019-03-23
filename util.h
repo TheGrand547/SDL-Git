@@ -15,6 +15,7 @@ bool lValueInRange(float value, float *min, float *max);
 #include "Box.h"
 #include "Line.h"
 #include<vector>
+#include<SDL2/SDL2_gfxPrimitives.h>
 //Basic wrapper for parts of sdl2_gfx so I don't have to do work
 void rectangleRGBA(SDL_Renderer *renderer, Point pointA, Point pointB, 
 					uint8_t r, uint8_t g, uint8_t b, uint8_t a) {
@@ -54,11 +55,11 @@ void mMax(int numA, int numB, float &iMin, float &iMax) {
 }
 
 bool valueInRange(int value, int min, int max){ 
-	return (value >= min) && (value < max); 
+	return (value >= min) && (value <= max); 
 }
 
 bool valueInRange(float value, float min, float max){ 
-	return (value >= min) && (value < max); 
+	return (value >= min) && (value <= max); 
 }
 
 bool valueInRange(float value, float *min, float *max){ 
@@ -66,10 +67,10 @@ bool valueInRange(float value, float *min, float *max){
 }
 
 bool lValueInRange(float value, float min, float max){ 
-	return (value >= min) && (value <= max); 
+	return ((value >= min) && (value <= max)); 
 }
 bool lValueInRange(float value, float *min, float *max){ 
-	return (value >= *min) && (value <= *max); 
+	return ((value >= *min) && (value <= *max)); 
 }
 
 Point smallestDistanceFrom(vector<Box> &boxes, Point origin, Line ray) {

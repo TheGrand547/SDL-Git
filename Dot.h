@@ -1,6 +1,7 @@
 #pragma once
 #include<SDL2/SDL.h>
 #include "Rect.h"
+#include "PointDelta.h"
 
 #define PI 3.14159265
 
@@ -27,12 +28,28 @@ class Dot: public MyBase {
 				*(this->angle) = atan2(0-delta.y(), delta.x());
 		}
 		
-		void operator-=(Point delta) {
-			*myRect += delta;
-			evalAngle(delta);
+		float calcAngle(Point point) {
+			if(point.y() != 0 || point.x() != 0)
+				 return atan2(0-point.y(), point.x());
+			return 0;
 		}
 		
-		void operator+=(Point delta) {
+		void operator-=(PointDelta delta) {
+			Point temp = Point(delta);
+			if (delta.getMagnitude() > delta.getMaxMagnitude()) {
+				float tempFloat = calcAngle(delta);
+				temp = Point(delta.getXMin() * cos(tempFloat), -delta.getXMin() * sin(tempFloat));
+			}
+			*myRect -= temp;
+			evalAngle(temp);
+		}
+		
+		void operator+=(PointDelta delta) {
+			Point temp = Point(delta);
+			if (delta.getMagnitude() > delta.getMaxMagnitude()) {
+				float tempFloat = calcAngle(delta);
+				temp = Point(delta.getXMin() * cos(tempFloat), -delta.getXMin() * sin(tempFloat));
+			}
 			*myRect += delta;
 			evalAngle(delta);
 		}
@@ -47,7 +64,7 @@ class Dot: public MyBase {
 		
 		Line getRay() {
 			Point temp = Point(this->myRect->getTopLeft());
-			temp += Point(4000*cos(*angle), 4000*sin(PI+*angle));
+			temp += Point(300*cos(*angle), 300*sin(PI+*angle));
 			return Line(this->myRect->getTopLeft(), temp);
 		}
 		

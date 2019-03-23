@@ -1,6 +1,7 @@
 #pragma once
 #include "MyBase.h"
 #include "Point.h"
+#include "PointDelta.h"
 #include "Line.h"
 Point smallerDistance(Point distanceFrom, Point pointA, Point pointB);
 bool valueInRange(int value, int min, int max);
@@ -64,11 +65,11 @@ class Rect: public MyBase{
 			//No way for a single straight line to intersect a line in more than
 			//two points *except with the stupid inline ones that i'm changing
 			//the whole thing for
-			Point intersect[3] = {Point(-1,-1), Point(-1,-1), Point(-1,-1)};
+			Point intersect[3] = {Point(-1, -1), Point(-1, -1), Point(-1, -1)};
 			Point tempPoint;
 			int index = 0;
 			for (int i = 0; i < arrayLength; i++) {
-				tempPoint = intersectionTest(*lines[i], ray);
+				tempPoint = intersectionTest(*(lines[i]), ray);
 				if (tempPoint.isReal()) {
 					intersect[index] = tempPoint;
 					index++;
@@ -83,7 +84,7 @@ class Rect: public MyBase{
 				return smallerDistance(ray.getOrigin(),intersect[2], smallerDistance(ray.getOrigin(), intersect[0], 
 										intersect[1]));
 			}
-			return intersect[0]; //If index 0-2 are null, 1 with always be null
+			return intersect[0]; //If index 0-2 are null, 0 with always be null
 			
 		}
 		
@@ -136,6 +137,7 @@ class Rect: public MyBase{
 			Rect newRect = Rect(*(this->tL) + point, *(this->bR) + point);
 			return newRect;
 		}
+		
 		void operator+=(Point point) {
 			*(this->tL) += point;
 			*(this->bR) += point;
@@ -143,6 +145,36 @@ class Rect: public MyBase{
 			*(this->bL) += point;
 			for (Line *line: lines) {
 				*line += point;
+			}
+		}
+		
+		void operator-=(Point point) {
+			*(this->tL) -= point;
+			*(this->bR) -= point;
+			*(this->tR) -= point;
+			*(this->bL) -= point;
+			for (Line *line: lines) {
+				*line -= point;
+			}
+		}
+		
+		void operator+=(PointDelta point) {
+			*(this->tL) += point;
+			*(this->bR) += point;
+			*(this->tR) += point;
+			*(this->bL) += point;
+			for (Line *line: lines) {
+				*line += point;
+			}
+		}
+		
+		void operator-=(PointDelta point) {
+			*(this->tL) -= point;
+			*(this->bR) -= point;
+			*(this->tR) -= point;
+			*(this->bL) -= point;
+			for (Line *line: lines) {
+				*line -= point;
 			}
 		}
 		
@@ -178,12 +210,21 @@ class Rect: public MyBase{
 
 
 Point smallerDistance(Point distanceFrom, Point pointA, Point pointB) {
-	if (pointA.isReal() && pointB.isNull()) 
+	if (pointA.isReal() && pointB.isNull()) {
 		return pointA;
-	if (pointA.isNull() && pointB.isNull())
+	}
+	if (pointA.isNull() && pointB.isReal()) {
+		return pointB;
+	}
+	if (pointA.isNull() && pointB.isNull()) {
 		return Point();
-	if (distanceFrom.distanceToPoint(pointA) <= distanceFrom.distanceToPoint(pointB))
+	}
+	if (distanceFrom.distanceToPoint(pointA) < distanceFrom.distanceToPoint(pointB)) {
 		return pointA;
-	return pointB;
+	} 
+	if (distanceFrom.distanceToPoint(pointA) > distanceFrom.distanceToPoint(pointB)) {
+		return pointB;
+	}
+	return Point();
 }
 

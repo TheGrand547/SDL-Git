@@ -5,7 +5,7 @@ class Font {
 		int *fontSize;
 		TTF_Font *fontRenderer;
 	public:
-		Font(int size = 20, const char *filename = "resources/Font.ttf") {
+		Font(int size = 20, const char *filename = "resources/font.ttf") {
 			fontSize = new int(size);
 			fontRenderer = TTF_OpenFont(filename, size);
 			if (fontRenderer == NULL) {
@@ -33,7 +33,7 @@ class Font {
 				SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
 				if (!(texture == NULL)) {
 					SDL_FreeSurface(surface);
-					SDL_Rect newRect = {x, y, surface->w, surface-> h};
+					SDL_Rect newRect = {x, y, surface->w, surface->h};
 					drawTexture(renderer, texture, newRect, clip, angle, center, flip);
 					SDL_DestroyTexture(texture);
 				}
@@ -49,7 +49,7 @@ class Font {
 				SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
 				if (!(texture == NULL)) {
 					SDL_FreeSurface(surface);
-					SDL_Rect newRect = {x, y, surface->w, surface->	h};
+					SDL_Rect newRect = {x, y, surface->w, surface->h};
 					drawTexture(renderer, texture, newRect, clip, angle, center, flip);
 					SDL_DestroyTexture(texture);
 				}

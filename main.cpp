@@ -10,6 +10,7 @@
 #include<stdio.h>
 #include<sstream>
 #include<vector>
+SDL_Renderer* gRenderer = NULL;
 #include "util.h"
 #include "Line.h"
 #include "MyBase.h"
@@ -27,6 +28,8 @@
 
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
+const int IDEAL_FPS = 100;
+const int TICKS_PER_FRAME = 1000 / (IDEAL_FPS+10); //Please do no even ask
 
 //Starts up SDL and creates window
 bool init();
@@ -46,7 +49,7 @@ SDL_Surface* gScreenSurface = NULL;
 //The image we will load and show on the screen
 SDL_Surface* gXOut = NULL;
 
-SDL_Renderer* gRenderer = NULL;
+//SDL_Renderer* gRenderer = NULL;
 
 
 bool init() {
@@ -103,7 +106,7 @@ int main(int argc, char *argv[]) {
 	int mousePosX, mousePosY;
 	Line newLine;
 	Point newPoint;
-	Dot dot = Dot(Point(0, 0));
+	Dot dot = Dot(Point(300, 150));
 	dot.setColorChannels(0xFF);
 	vector<Box> gnar;
 	
@@ -123,23 +126,30 @@ int main(int argc, char *argv[]) {
 			Box te = Box(Point(200, 200));	
 			gnar.push_back(test);
 			gnar.push_back(te);
-			gnar.push_back(Box(Point(350, 200)));
+			gnar.push_back(Box(Point(350, 300)));
 			
-			//Point dx = Point(0,0);
+			//Timer Stuff
 			Timer time;
 			int countedFrames = 0;
-			time.start();
+			
+			Timer frameCap;
+			int ticks = 0;
 			
 			stringstream fpsStr;
 			//Event handler
 			SDL_Event e;
-			PointDelta dx = PointDelta(0, 0, 2, 2);
+			PointDelta dx = PointDelta(0, 0, 4, 4);
 			//While application is running
 			
 			HeldKey shift(SDLK_LSHIFT, 30);
-			
+			time.start();
 			while(!quit) {
 				//Handle events on queue
+				if (countedFrames > 1000) {
+					time.start();
+					countedFrames = 1;
+				}
+				frameCap.start();
 				while(SDL_PollEvent(&e) != 0) {
 					switch(e.type) {
 						case SDL_QUIT:
@@ -201,12 +211,11 @@ int main(int argc, char *argv[]) {
 				//Clear screen
                 SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
                 SDL_RenderClear(gRenderer);
-                //c.drawLine(gRenderer);
-                //gFont.renderTextWrapped(100, 100, "fuck off noah ur a pleb", gRenderer, red, 250);
+				//gFont.renderTextWrapped(200, 100, "andrew did a good :D but sam did the red bar and lets be real thats more important lul", gRenderer, red, 250);
                 float avgFPS = countedFrames / (time.getTicks() / 1000.f);
                 fpsStr.str("");
                 //fpsStr << "FPS: " << avgFPS;
-                fpsStr << "Ticks: " << shift.get();
+                fpsStr << "(x,y): (" <<  mousePosX << "," << mousePosY << ")";
                 
                 gFont.renderText(100, 0, fpsStr.str(), gRenderer, red);
                 if (!collideRect(dot.getRect()+dx, gnar)) {
@@ -216,13 +225,13 @@ int main(int argc, char *argv[]) {
 					gnar[i].draw(gRenderer);
 				}
 				
-                //Line aabc(dot.getPos(), Point(0, dot.getPos().y()));
-                Line aabc(dot.getRay());
+                //Line aabc(dot.getPos(), dot.getRay().getEnd());
+				Line aabc(dot.getRay());
                 //aabc.drawLine(gRenderer);
                 newPoint = collideTestVectorToRay(gnar, aabc);
                 if (!newPoint.isNull()) {
 					newLine = Line(dot.getPos(), newPoint.copy());
-					newLine.setColorChannels(0x00, 0x00, 0xFF);
+					newLine.setColorChannels(0xFF, 0x00, 0x00);
 					newLine.drawLine(gRenderer);
 				}
                 dot.draw(gRenderer);
@@ -230,7 +239,12 @@ int main(int argc, char *argv[]) {
 				//Update the surface
 				SDL_RenderPresent(gRenderer);
 				SDL_UpdateWindowSurface(gWindow);
-				++countedFrames;
+				countedFrames++;
+				ticks = frameCap.getTicks();
+				if (ticks < TICKS_PER_FRAME) {
+					SDL_Delay(TICKS_PER_FRAME - ticks);
+				}
+				
 			}
 		}
 	}
