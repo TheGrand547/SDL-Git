@@ -1,4 +1,5 @@
 #pragma once
+#include "util.h"
 #include "MyBase.h"
 #include "Point.h"
 #include "PointDelta.h"
@@ -205,6 +206,10 @@ class Rect: public MyBase{
 			lines[2] = new Line(tL, bL); //Left
 			lines[3] = new Line(tR, bR); //Right
 			_setColorChannels(0x00, 0x00, 0x00, 0xFF);
+		}
+		
+		Point getCenter() {
+			return *(this->tL) + Point(this->getWidth()/2, this->getHeight()/2);
 		}
 };
 

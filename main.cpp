@@ -10,26 +10,25 @@
 #include<stdio.h>
 #include<sstream>
 #include<vector>
-SDL_Renderer* gRenderer = NULL;
-#include "util.h"
-#include "Line.h"
-#include "MyBase.h"
-#include "Point.h"
-#include "Dot.h"
-#include "Rect.h"
-#include "Box.h"
-#include "Font.h"
-#include "Texture.h"
-#include "Timer.h"
-#include "PointDelta.h"
-#include "HeldKey.h"
+#include "source/util.h"
+#include "source/Line.h"
+#include "source/MyBase.h"
+#include "source/Point.h"
+#include "source/Dot.h"
+#include "source/Rect.h"
+#include "source/Box.h"
+#include "source/Font.h"
+#include "source/Texture.h"
+#include "source/Timer.h"
+#include "source/PointDelta.h"
+#include "source/HeldKey.h"
 
 #define PI 3.14159265
 
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
 const int IDEAL_FPS = 100;
-const int TICKS_PER_FRAME = 1000 / (IDEAL_FPS+10); //Please do no even ask
+const int TICKS_PER_FRAME = 1000 / (IDEAL_FPS+10); //Please do not even ask
 
 //Starts up SDL and creates window
 bool init();
@@ -50,7 +49,7 @@ SDL_Surface* gScreenSurface = NULL;
 SDL_Surface* gXOut = NULL;
 
 //SDL_Renderer* gRenderer = NULL;
-
+SDL_Renderer* gRenderer = NULL;
 
 bool init() {
 	//Initialization flag
@@ -215,11 +214,17 @@ int main(int argc, char *argv[]) {
                 float avgFPS = countedFrames / (time.getTicks() / 1000.f);
                 fpsStr.str("");
                 //fpsStr << "FPS: " << avgFPS;
-                fpsStr << "(x,y): (" <<  mousePosX << "," << mousePosY << ")";
+                fpsStr << mousePosX << ", " << mousePosY;
                 
                 gFont.renderText(100, 0, fpsStr.str(), gRenderer, red);
                 if (!collideRect(dot.getRect()+dx, gnar)) {
 					dot += dx;
+				} else if (!collideRect(dot.getRect()+dx/3, gnar)) {
+					dot += dx/3;
+				} else if (!collideRect(dot.getRect()+dx/4, gnar)) {
+					dot += dx/4;
+				} else if (!collideRect(dot.getRect()+dx/5, gnar)) {
+					dot += dx/5;
 				}
 				for (int i = 0; i < gnar.size(); i++) {
 					gnar[i].draw(gRenderer);
@@ -230,12 +235,13 @@ int main(int argc, char *argv[]) {
                 //aabc.drawLine(gRenderer);
                 newPoint = collideTestVectorToRay(gnar, aabc);
                 if (!newPoint.isNull()) {
-					newLine = Line(dot.getPos(), newPoint.copy());
+					newLine = Line(dot.getRay().getOrigin(), newPoint.copy());
 					newLine.setColorChannels(0xFF, 0x00, 0x00);
 					newLine.drawLine(gRenderer);
 				}
                 dot.draw(gRenderer);
-				lineColor(gRenderer, 200, 200, 400, 300, 0xFF0000FF);
+				lineColor(gRenderer, 200, 200, 300, 300, 0xFFFF00FF);
+				
 				//Update the surface
 				SDL_RenderPresent(gRenderer);
 				SDL_UpdateWindowSurface(gWindow);

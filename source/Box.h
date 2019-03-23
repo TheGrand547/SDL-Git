@@ -16,7 +16,7 @@ class Box {
 	public:
 		Box(Point position) {
 			//All boxes are of the same size
-			outerRect = new Rect(position, this->width, this->height);
+			outerRect = new Rect(position, this->width+1, this->height+1);
 			inPointLeft = new Point(position);
 			inPointRight = new Point(position.x() + this->width, position.y() + this->height * outdent);
 			innerRect = new Rect(inPointLeft, inPointRight);
@@ -66,8 +66,7 @@ class Box {
 		}
 			
 		void draw(SDL_Renderer* renderer) {		
-			boxRGBA(renderer, outerRect->getTopLeft()->x(), outerRect->getTopLeft()->y(),  
-					outerRect->getBottomRight()->x(), outerRect->getBottomRight()->y(), 0x00, 0x00, 0x00, 0xFF);
+			boxRGBA(renderer, outerRect->getTopLeft(), outerRect->getBottomRight(), 0xFF, 0x00, 0x00, 0xFF);
 			if (mTexture->isLoaded() == true) {
 				mTexture->render(renderer);
 			} else {

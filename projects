@@ -29,17 +29,20 @@ long_line_column=72
 
 [files]
 current_page=0
-FILE_NAME_0=528;C++;0;EUTF-8;1;1;0;%2FUsers%2Fthegrand%2FDocuments%2FMy%20Documents%2FSDL%20Git%2Fmain.cpp;0;4
-FILE_NAME_1=2495;C++;0;EUTF-8;1;1;0;%2FUsers%2Fthegrand%2FDocuments%2FMy%20Documents%2FSDL%20Git%2Futil.h;0;4
-FILE_NAME_2=68;C++;0;EUTF-8;1;1;0;%2FUsers%2Fthegrand%2FDocuments%2FMy%20Documents%2FSDL%20Git%2FTexture.h;0;4
-FILE_NAME_3=287;C++;0;EUTF-8;1;1;0;%2FUsers%2Fthegrand%2FDocuments%2FMy%20Documents%2FSDL%20Git%2FBox.h;0;4
-FILE_NAME_4=525;C++;0;EUTF-8;1;1;0;%2FUsers%2Fthegrand%2FDocuments%2FMy%20Documents%2FSDL%20Git%2FRect.h;0;4
-FILE_NAME_5=188;C++;0;EUTF-8;1;1;0;%2FUsers%2Fthegrand%2FDocuments%2FMy%20Documents%2FSDL%20Git%2FLine.h;0;4
-FILE_NAME_6=2053;C++;0;EUTF-8;1;1;0;%2FUsers%2Fthegrand%2FDocuments%2FMy%20Documents%2FSDL%20Git%2FFont.h;0;4
-FILE_NAME_7=1069;C++;0;EUTF-8;1;1;0;%2FUsers%2Fthegrand%2FDocuments%2FMy%20Documents%2FSDL%20Git%2FDot.h;0;4
-FILE_NAME_8=2061;C++;0;EUTF-8;1;1;0;%2FUsers%2Fthegrand%2FDocuments%2FMy%20Documents%2FSDL%20Git%2FPoint.h;0;4
-FILE_NAME_9=983;C++;0;EUTF-8;1;1;0;%2FUsers%2Fthegrand%2FDocuments%2FMy%20Documents%2FSDL%20Git%2FPointDelta.h;0;4
-FILE_NAME_10=529;C++;0;EUTF-8;1;1;0;%2FUsers%2Fthegrand%2FDocuments%2FMy%20Documents%2FSDL%20Git%2FHeldKey.h;0;4
+FILE_NAME_0=5178;C++;0;EUTF-8;1;1;0;%2FUsers%2Fthegrand%2FDocuments%2FMy%20Documents%2FSDL%20Git%2Fmain.cpp;0;4
+FILE_NAME_1=0;C++;0;EUTF-8;1;1;0;%2FUsers%2Fthegrand%2FDocuments%2FMy%20Documents%2FSDL%20Git%2Fsource%2FWall.h;0;4
+FILE_NAME_2=0;C++;0;EUTF-8;1;1;0;%2FUsers%2Fthegrand%2FDocuments%2FMy%20Documents%2FSDL%20Git%2Fsource%2Futil.h;0;4
+FILE_NAME_3=0;C++;0;EUTF-8;1;1;0;%2FUsers%2Fthegrand%2FDocuments%2FMy%20Documents%2FSDL%20Git%2Fsource%2FTimer.h;0;4
+FILE_NAME_4=0;C++;0;EUTF-8;1;1;0;%2FUsers%2Fthegrand%2FDocuments%2FMy%20Documents%2FSDL%20Git%2Fsource%2FTexture.h;0;4
+FILE_NAME_5=0;C++;0;EUTF-8;1;1;0;%2FUsers%2Fthegrand%2FDocuments%2FMy%20Documents%2FSDL%20Git%2Fsource%2FRect.h;0;4
+FILE_NAME_6=0;C++;0;EUTF-8;1;1;0;%2FUsers%2Fthegrand%2FDocuments%2FMy%20Documents%2FSDL%20Git%2Fsource%2FPointDelta.h;0;4
+FILE_NAME_7=0;C++;0;EUTF-8;1;1;0;%2FUsers%2Fthegrand%2FDocuments%2FMy%20Documents%2FSDL%20Git%2Fsource%2FPoint.h;0;4
+FILE_NAME_8=0;C++;0;EUTF-8;1;1;0;%2FUsers%2Fthegrand%2FDocuments%2FMy%20Documents%2FSDL%20Git%2Fsource%2FMyBase.h;0;4
+FILE_NAME_9=0;C++;0;EUTF-8;1;1;0;%2FUsers%2Fthegrand%2FDocuments%2FMy%20Documents%2FSDL%20Git%2Fsource%2FLine.h;0;4
+FILE_NAME_10=0;C++;0;EUTF-8;1;1;0;%2FUsers%2Fthegrand%2FDocuments%2FMy%20Documents%2FSDL%20Git%2Fsource%2FHeldKey.h;0;4
+FILE_NAME_11=0;C++;0;EUTF-8;1;1;0;%2FUsers%2Fthegrand%2FDocuments%2FMy%20Documents%2FSDL%20Git%2Fsource%2FFont.h;0;4
+FILE_NAME_12=0;C++;0;EUTF-8;1;1;0;%2FUsers%2Fthegrand%2FDocuments%2FMy%20Documents%2FSDL%20Git%2Fsource%2FDot.h;0;4
+FILE_NAME_13=610;C++;0;EUTF-8;1;1;0;%2FUsers%2Fthegrand%2FDocuments%2FMy%20Documents%2FSDL%20Git%2Fsource%2FBox.h;0;4
 
 [VTE]
 last_dir=/Users/thegrand

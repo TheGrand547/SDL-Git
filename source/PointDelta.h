@@ -72,4 +72,8 @@ class PointDelta : public Point {
 			Point::operator+=(delta);
 			reduceToBounds();
 		}
+		
+		PointDelta operator/(const float &num) {
+			return PointDelta((*this->xval)/num, (*this->yval)/num, *this->xmin, *this->ymin);
+		}
 };

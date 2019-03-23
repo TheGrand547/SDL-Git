@@ -63,9 +63,9 @@ class Dot: public MyBase {
 		}
 		
 		Line getRay() {
-			Point temp = Point(this->myRect->getTopLeft());
+			Point temp = Point(this->myRect->getCenter());
 			temp += Point(300*cos(*angle), 300*sin(PI+*angle));
-			return Line(this->myRect->getTopLeft(), temp);
+			return Line(this->myRect->getCenter(), temp);
 		}
 		
 		float getAngle() {
@@ -73,6 +73,7 @@ class Dot: public MyBase {
 		}
 		
 		void draw(SDL_Renderer *renderer) {
+			setColorChannels(0x00, 0xFF, 0x00, 0xFF);
 			SDL_SetRenderDrawColor(renderer, rChannel, gChannel, 
 									bChannel, aChannel);
 			SDL_Rect temp = this->myRect->getSDLRect();
