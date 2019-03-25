@@ -1,5 +1,4 @@
-projects
-lines
-main
 *.h.gch
 *.o
+Garbage Collection/**
+projects

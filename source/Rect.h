@@ -1,4 +1,5 @@
 #pragma once
+#include<iostream>
 #include "util.h"
 #include "MyBase.h"
 #include "Point.h"

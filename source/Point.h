@@ -1,110 +1,32 @@
-#pragma once
+#ifndef POINT_H
+#define POINT_H
 #include<math.h>
-
-using namespace std;
+#include<iostream>
 class Point {
 	protected:
 		float *xval = NULL;
 		float *yval = NULL;
 	public:
-		Point(float xCoordinate=-1, float yCoordinate=-1) {
-			xval = new float(xCoordinate);
-			yval = new float(yCoordinate);
-		}
-
-		~Point() {
-			delete this->xval;
-			delete this->yval;
-		}
-		
-		Point(const Point &point) {
-			this->xval = new float(*point.xval);
-			this->yval = new float(*point.yval);
-		}
-		Point(const Point *point) {
-			xval = new float(*(point->xval));
-			yval = new float(*(point->yval));
-		}
-
-		float x() const {
-			return *xval;
-		}
-		
-		float y() const {
-			return *yval;
-		}
-		
-		float originDistance() {
-			return distanceToPoint(0,0);
-		}
-
-		Point operator-(const Point &point) {
-			Point temp;
-			*(temp.xval) = *(this->xval) - *(point.xval);
-			*(temp.yval) = *(this->yval) - *(point.yval);
-			return temp;
-		}
-		Point operator+(const Point &point) {
-			Point temp;
-			*(temp.xval) = *(this->xval) + *(point.xval);
-			*(temp.yval) = *(this->yval) + *(point.yval);
-			return temp;
-		}
-
-		void operator-=(Point delta) {
-			*(this->xval) -= delta.x();
-			*(this->yval) -= delta.y();
-		}
-		
-		void operator+=(Point delta) {
-			*(this->xval) += delta.x();
-			*(this->yval) += delta.y();
-		}
-		
-		Point &operator=(const Point &that) {
-			*xval = that.x();
-			*yval = that.y();
-			return *this;
-		}
-		
-		friend ostream &operator<<(ostream &output, const Point &point) {
-			output << "(" << point.x() << ", " << point.y() << ")";
-			return output;
-		}
-
-		float distanceToPoint(Point point) {
-			float dx = *xval - point.x();
-			float dy = *yval - point.y();
-			return sqrt(dx*dx + dy*dy);
-		}
-
-		float distanceToPoint(float x, float y) {
-			float dx = *xval - x;
-			float dy = *yval - y;
-			return sqrt(dx * dx + dy * dy);
-		}
-
-		bool isNull() {
-			if (*xval == -1 && *yval == -1)
-				return true;
-			return false;
-		}
-		
-		bool isReal() {
-			return !isNull();
-		}
-		
-		Point copy() const {
-			return Point(*(this->xval),*(this->yval));
-		}
-		void xZero() {
-			*xval = 0;
-		}
-		void yZero() {
-			*yval = 0;
-		}
-		
-		float getMagnitude() {
-			return sqrt(pow(*xval, 2) + pow(*yval, 2));
-		}
+		Point(float xCoordinate=-1, float yCoordinate=-1);
+		Point(const Point &point);
+		Point(const Point *point);
+		~Point();
+		Point operator-(const Point &point);
+		Point operator+(const Point &point);
+		Point &operator=(const Point &that);
+		Point copy() const;
+		friend std::ostream &operator<<(std::ostream &output, const Point &point);
+		float x() const;
+		float y() const;
+		float getMagnitude();
+		float originDistance();
+		float distanceToPoint(Point point);
+		float distanceToPoint(float x, float y);
+		bool isNull();
+		bool isReal();
+		void operator-=(Point delta);
+		void operator+=(Point delta);
+		void xZero();
+		void yZero();
 };
+#endif

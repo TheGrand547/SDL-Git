@@ -1,5 +1,5 @@
 #pragma once
-#include "Point.h"
+#include "Point.cpp"
 
 void rectangleRGBA(SDL_Renderer *renderer, Point pointA, Point pointB, 
 					uint8_t r, uint8_t g, uint8_t b, uint8_t a);
@@ -34,7 +34,7 @@ void boxRGBA(SDL_Renderer *renderer, Point pointA, Point pointB, uint8_t r, uint
 }
 
 
-bool collideRect(Rect rect, vector<Box> &vec) {
+bool collideRect(Rect rect, std::vector<Box> &vec) {
 	bool result = false;
 	for (int i = 0; i < (&vec)->size(); i++) {
 		result = result || ((&vec[i])->overlap(rect));
@@ -80,7 +80,7 @@ bool lValueInRange(float value, float *min, float *max){
 	return ((value >= *min) && (value <= *max)); 
 }
 
-Point smallestDistanceFrom(vector<Box> &boxes, Point origin, Line ray) {
+Point smallestDistanceFrom(std::vector<Box> &boxes, Point origin, Line ray) {
 	Point stored;
 	for (int i = 0; i < (&boxes)->size(); i++) {
 		stored = smallerDistance(origin, (&boxes[i])->collideLine(ray), stored);
@@ -88,6 +88,6 @@ Point smallestDistanceFrom(vector<Box> &boxes, Point origin, Line ray) {
 	return stored;
 }
 
-Point collideTestVectorToRay(vector<Box> &boxes, Line ray) {
+Point collideTestVectorToRay(std::vector<Box> &boxes, Line ray) {
 	return smallestDistanceFrom(boxes, ray.getOrigin(), ray);
 }

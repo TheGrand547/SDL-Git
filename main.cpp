@@ -91,7 +91,6 @@ void close() {
 	//Quit SDL subsystems
 	SDL_Quit();
 }
-using namespace std;
 int main(int argc, char *argv[]) {
 	//Start up SDL and create window
 	Point a = Point(0,0);
@@ -107,7 +106,7 @@ int main(int argc, char *argv[]) {
 	Point newPoint;
 	Dot dot = Dot(Point(300, 150));
 	dot.setColorChannels(0xFF);
-	vector<Box> gnar;
+	std::vector<Box> gnar;
 	
 	if(!init()) {
 		printf( "Failed to initialize!\n" );
@@ -134,7 +133,7 @@ int main(int argc, char *argv[]) {
 			Timer frameCap;
 			int ticks = 0;
 			
-			stringstream fpsStr;
+			std::stringstream fpsStr;
 			//Event handler
 			SDL_Event e;
 			PointDelta dx = PointDelta(0, 0, 4, 4);

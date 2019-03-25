@@ -116,7 +116,7 @@ class Texture {
 			*(this->ypos) = point->y();
 		}
 		
-		void loadFromFile(string path, SDL_Renderer* renderer, int xSize, int ySize, Uint8 r = 0x00, Uint8 g = 0x00, Uint8 b = 0x00) {
+		void loadFromFile(std::string path, SDL_Renderer* renderer, int xSize, int ySize, Uint8 r = 0x00, Uint8 g = 0x00, Uint8 b = 0x00) {
 			free();
 			SDL_Texture *newTexture = NULL;
 			SDL_Surface *tempSurface = IMG_Load(path.c_str());

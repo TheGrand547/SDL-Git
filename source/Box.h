@@ -1,9 +1,12 @@
 #pragma once
+#include<iostream>
+#include<SDL2/SDL.h>
 #include "Point.h"
 #include "Rect.h"	
 #include "Texture.h"
+
 typedef Uint32 uint32_t;
-class Box {
+class Box : public MyBase{
 	//Class for boxes
 	private:
 		const float outdent = .5;
@@ -60,7 +63,7 @@ class Box {
 		}
 			
 				
-		void loadTexture(SDL_Renderer *renderer, string path = "resources/missingTexture.jpg") {
+		void loadTexture(SDL_Renderer *renderer, std::string path = "resources/missingTexture.jpg") {
 			mTexture->loadFromFile(path.c_str(), renderer, innerRect->getWidth(), innerRect->getHeight());
 			mTexture->setPos(innerRect->getTopLeft());
 		}

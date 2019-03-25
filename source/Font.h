@@ -24,7 +24,7 @@ class Font {
 			 SDL_RenderCopyEx(renderer, texture, clip, &rect, angle, center, flip);
 		}
 		
-		void renderText(int x, int y, string text, SDL_Renderer *renderer, SDL_Color color, 
+		void renderText(int x, int y, std::string text, SDL_Renderer *renderer, SDL_Color color, 
 								SDL_Rect* clip = NULL, double angle = 0.0, 
 								SDL_Point* center = NULL, 
 								SDL_RendererFlip flip = SDL_FLIP_NONE) {
@@ -40,7 +40,7 @@ class Font {
 			}
 		}
 		
-		void renderTextWrapped(int x, int y, string text, SDL_Renderer *renderer, SDL_Color color, int maxWidth,
+		void renderTextWrapped(int x, int y, std::string text, SDL_Renderer *renderer, SDL_Color color, int maxWidth,
 								SDL_Rect* clip = NULL, double angle = 0.0, 
 								SDL_Point* center = NULL, 
 								SDL_RendererFlip flip = SDL_FLIP_NONE) {

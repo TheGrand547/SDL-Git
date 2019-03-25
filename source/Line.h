@@ -169,7 +169,7 @@ class Line: public MyBase{
 			return *endingPoint;
 		}
 		
-		friend ostream &operator<<(ostream &output, const Line &line) {
+		friend std::ostream &operator<<(std::ostream &output, const Line &line) {
 			output << line.ax << "x + " << line.by << "y = " << line.c;
 			return output;
 		}
