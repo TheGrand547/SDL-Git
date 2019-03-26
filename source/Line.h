@@ -2,7 +2,7 @@
 #include<SDL2/SDL.h>
 #include "MyBase.h"
 #include "Point.h"
-#include "util.h"
+#include "random.h"
 typedef Uint8 uint8_t;
 bool xBetweenAandB(float x, float a, float b);
 

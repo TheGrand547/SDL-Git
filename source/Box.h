@@ -1,6 +1,7 @@
 #pragma once
 #include<iostream>
 #include<SDL2/SDL.h>
+#include<vector>
 #include "Point.h"
 #include "Rect.h"	
 #include "Texture.h"
@@ -91,3 +92,24 @@ class Box : public MyBase{
 			return outerRect->overlap(test);
 		}
 };
+
+bool collideRect(Rect rect, std::vector<Box> &vec) {
+	bool result = false;
+	for (int i = 0; i < (&vec)->size(); i++) {
+		result = result || ((&vec[i])->overlap(rect));
+	}
+	return result;
+}
+
+Point smallestDistanceFrom(std::vector<Box> &boxes, Point origin, Line ray) {
+	Point stored;
+	for (int i = 0; i < (&boxes)->size(); i++) {
+		stored = smallerDistance(origin, (&boxes[i])->collideLine(ray), stored);
+	}
+	return stored;
+}
+
+
+Point collideTestVectorToRay(std::vector<Box> &boxes, Line ray) {
+	return smallestDistanceFrom(boxes, ray.getOrigin(), ray);
+}

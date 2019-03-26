@@ -233,4 +233,3 @@ Point smallerDistance(Point distanceFrom, Point pointA, Point pointB) {
 	}
 	return Point();
 }
-

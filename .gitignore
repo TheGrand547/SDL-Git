@@ -2,3 +2,4 @@
 *.o
 Garbage Collection/**
 projects
+source/CollideBase.h
