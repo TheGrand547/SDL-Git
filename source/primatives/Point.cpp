@@ -61,7 +61,7 @@ Point& Point::operator=(const Point &that) {
 }
 
 std::ostream& operator<<(std::ostream &output, const Point &point) {
-	output << "(" << point.x() << ", " << point.y() << ")";
+	output << "(" << int(point.x()) << ", " << int(point.y()) << ")";
 	return output;
 }
 

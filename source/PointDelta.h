@@ -1,6 +1,6 @@
 #pragma once
 #include<math.h>
-#include "Point.h"
+#include "primatives/Point.h"
 class PointDelta : public Point {
 	private:
 		float *xmin, *ymin;
@@ -54,21 +54,11 @@ class PointDelta : public Point {
 		}
 		
 		void operator-=(Point delta) {
-			/*
-			if (delta.getMagnitude() > this->getMaxMagnitude()) {
-				float tempFloat = calcAngle(delta);
-				delta = Point(this->getXMin() * cos(tempFloat), -this->getYMin() * sin(tempFloat));
-			}*/
 			Point::operator-=(delta);
 			reduceToBounds();
 		}
 		
 		void operator+=(Point delta) {
-			/*/
-			if (delta.getMagnitude() > this->getMaxMagnitude()) {
-				float tempFloat = calcAngle(delta);
-				delta = Point(this->getXMin() * cos(tempFloat), -this->getYMin() * sin(tempFloat));
-			}*/
 			Point::operator+=(delta);
 			reduceToBounds();
 		}

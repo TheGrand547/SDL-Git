@@ -2,12 +2,13 @@
 #include<iostream>
 #include<SDL2/SDL.h>
 #include<vector>
-#include "Point.h"
+#include "primatives/Point.h"
 #include "Rect.h"	
 #include "Texture.h"
+#include "CollideBase.h"
 
 typedef Uint32 uint32_t;
-class Box : public MyBase{
+class Box : public CollideBase{
 	//Class for boxes
 	private:
 		const float outdent = .5;
@@ -64,7 +65,7 @@ class Box : public MyBase{
 		}
 			
 				
-		void loadTexture(SDL_Renderer *renderer, std::string path = "resources/missingTexture.jpg") {
+		void loadTexture(SDL_Renderer* renderer, std::string path = "resources/missingTexture.jpg") {
 			mTexture->loadFromFile(path.c_str(), renderer, innerRect->getWidth(), innerRect->getHeight());
 			mTexture->setPos(innerRect->getTopLeft());
 		}
@@ -80,7 +81,7 @@ class Box : public MyBase{
 			innerRect->draw(renderer);
 		}
 		
-		Point collideLine(Line ray) {
+		Point collideLine(Line &ray) {
 			return outerRect->collideLine(ray);
 		}
 		

@@ -1,8 +1,10 @@
 #pragma once
 #include<SDL2/SDL.h>
-#include "MyBase.h"
+#include<SDL2/SDL2_gfxPrimitives.h>
 #include "Point.h"
-#include "random.h"
+#include "../MyBase.h"
+#include "../random.h"
+#include "../util.h"
 typedef Uint8 uint8_t;
 bool xBetweenAandB(float x, float a, float b);
 
@@ -103,14 +105,11 @@ class Line: public MyBase{
 			return false;
 		}
 		
-		bool collidePoint(Point point) {
-			if (lValueInRange(int(point.x()), this->minX, this->maxX)) {
-				if (lValueInRange(int(point.y()), this->minY, this->maxY)) {
-					return true;
-				}
+		bool collidePoint(Point &point) {
+			if (lValueInRange(point.x(), minX, maxX) && lValueInRange(point.y(), minY, maxY))  {
+				return true;
 			}
 			return false;
-		
 		}
 		
 		bool collidePoint(Point *point) {
@@ -119,6 +118,7 @@ class Line: public MyBase{
 			}
 			return false;
 		}
+		
 		void operator+=(Point b) {
 			*originPoint += b;
 			*endingPoint += b;
@@ -183,7 +183,7 @@ class Line: public MyBase{
 		}
 };
 
-Point intersectionTest(Line line1, Line line2) {
+Point intersectionTest(Line &line1, Line &line2) {
 	float delta = (line1.getAx() * line2.getBy()) - (line1.getBy() * line2.getAx());
 	if (delta == 0) 
 		return Point();
@@ -191,7 +191,7 @@ Point intersectionTest(Line line1, Line line2) {
 	float y = ((line1.getAx() * line2.getC()) - (line1.getC() * line2.getAx())) / delta;
 	Point newPoint = Point(x, y);
 	if (line1.collidePoint(newPoint) && line2.collidePoint(newPoint)) {
-		return Point(x, y);
+		return newPoint;
 	}
 	return Point();
 }

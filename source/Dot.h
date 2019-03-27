@@ -7,6 +7,8 @@
 
 class Dot: public MyBase {
 	private:
+		static const int DOT_X_DIMENSION = 10;
+		static const int DOT_Y_DIMENSION = 10;
 		float *angle;
 		Point *position;
 		Rect *myRect;
@@ -14,13 +16,17 @@ class Dot: public MyBase {
 		Dot(Point startingCoordinate) {
 			angle = new float(0);
 			position = new Point(startingCoordinate);
-			myRect = new Rect(startingCoordinate, startingCoordinate + Point(10,10));
+			myRect = new Rect(startingCoordinate, startingCoordinate + Point(DOT_X_DIMENSION, DOT_Y_DIMENSION));
 		}
 		
 		~Dot() {
 			delete angle;
 			delete position;
 			delete myRect;
+		}
+		
+		Point getCenter() {
+			return this->myRect->getCenter();
 		}
 		
 		void evalAngle(Point delta) {

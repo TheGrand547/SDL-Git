@@ -10,10 +10,12 @@
 #include<stdio.h>
 #include<sstream>
 #include<vector>
+
+SDL_Renderer* gRenderer = NULL;
+#include "source/primatives/Line.h"
+#include "source/primatives/Point.h"
 #include "source/util.h"
-#include "source/Line.h"
 #include "source/MyBase.h"
-#include "source/Point.h"
 #include "source/Dot.h"
 #include "source/Rect.h"
 #include "source/Box.h"
@@ -22,6 +24,7 @@
 #include "source/Timer.h"
 #include "source/PointDelta.h"
 #include "source/HeldKey.h"
+#include "source/CollideBase.h"
 
 #define PI 3.14159265
 
@@ -49,7 +52,6 @@ SDL_Surface* gScreenSurface = NULL;
 SDL_Surface* gXOut = NULL;
 
 //SDL_Renderer* gRenderer = NULL;
-SDL_Renderer* gRenderer = NULL;
 
 bool init() {
 	//Initialization flag
@@ -213,7 +215,8 @@ int main(int argc, char *argv[]) {
                 float avgFPS = countedFrames / (time.getTicks() / 1000.f);
                 fpsStr.str("");
                 //fpsStr << "FPS: " << avgFPS;
-                fpsStr << mousePosX << ", " << mousePosY;
+				fpsStr << mousePosX << ", " << mousePosY;
+                //fpsStr << dot.getCenter();
                 
                 gFont.renderText(100, 0, fpsStr.str(), gRenderer, red);
                 if (!collideRect(dot.getRect()+dx, gnar)) {
@@ -228,17 +231,17 @@ int main(int argc, char *argv[]) {
 				for (int i = 0; i < gnar.size(); i++) {
 					gnar[i].draw(gRenderer);
 				}
+				dot.draw(gRenderer);
 				
                 //Line aabc(dot.getPos(), dot.getRay().getEnd());
 				Line aabc(dot.getRay());
                 //aabc.drawLine(gRenderer);
                 newPoint = collideTestVectorToRay(gnar, aabc);
                 if (!newPoint.isNull()) {
-					newLine = Line(dot.getRay().getOrigin(), newPoint.copy());
-					newLine.setColorChannels(0xFF, 0x00, 0x00);
+					newLine = Line(dot.getCenter(), newPoint.copy());
+					newLine.setColorChannels(0x00, 0xFF, 0xFF);
 					newLine.drawLine(gRenderer);
 				}
-                dot.draw(gRenderer);
 				lineColor(gRenderer, 200, 200, 300, 300, 0xFFFF00FF);
 				
 				//Update the surface

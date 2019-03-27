@@ -2,9 +2,9 @@
 #include<iostream>
 #include "util.h"
 #include "MyBase.h"
-#include "Point.h"
+#include "primatives/Point.h"
 #include "PointDelta.h"
-#include "Line.h"
+#include "primatives/Line.h"
 Point smallerDistance(Point distanceFrom, Point pointA, Point pointB);
 bool valueInRange(int value, int min, int max);
 
@@ -63,7 +63,7 @@ class Rect: public MyBase{
 							rChannel, bChannel, gChannel, aChannel);
 		}
 		
-		Point collideLine(Line ray) {
+		Point collideLine(Line &ray) {
 			//No way for a single straight line to intersect a line in more than
 			//two points *except with the stupid inline ones that i'm changing
 			//the whole thing for
