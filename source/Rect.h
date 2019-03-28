@@ -3,8 +3,8 @@
 #include "util.h"
 #include "MyBase.h"
 #include "primatives/Point.h"
-#include "PointDelta.h"
 #include "primatives/Line.h"
+#include "PointDelta.h"
 Point smallerDistance(Point distanceFrom, Point pointA, Point pointB);
 bool valueInRange(int value, int min, int max);
 
@@ -12,7 +12,7 @@ bool valueInRange(int value, int min, int max);
 class Rect: public MyBase{
 	private:
 		static const int arrayLength = 4;
-		Line *lines[arrayLength];
+		Line* lines[arrayLength];
 		Point *tL, *tR, *bL, *bR;
 	public:
 		Rect() {}
@@ -49,13 +49,13 @@ class Rect: public MyBase{
 		}
 		
 		~Rect() {
-			for (Line *line: lines) {
+			for (Line* line: this->lines) {
 				delete line;
 			}
-			delete tL;
-			delete tR;
-			delete bL;
-			delete bR;
+			delete this->tL;
+			delete this->tR;
+			delete this->bL;
+			delete this->bR;
 		}
 		
 		void draw(SDL_Renderer* renderer) {
@@ -67,7 +67,7 @@ class Rect: public MyBase{
 			//No way for a single straight line to intersect a line in more than
 			//two points *except with the stupid inline ones that i'm changing
 			//the whole thing for
-			Point intersect[3] = {Point(-1, -1), Point(-1, -1), Point(-1, -1)};
+			Point intersect[4] = {Point(), Point(), Point(), Point()};
 			Point tempPoint;
 			int index = 0;
 			for (int i = 0; i < arrayLength; i++) {
