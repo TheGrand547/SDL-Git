@@ -1,22 +1,12 @@
 //Misc functions with no dependencies
 //Guess that technically means this is in C, not c++ but w/e
 void mMax(int numA, int numB, int &iMin, int &iMax) {
-	if (numA >= numB) {
-		iMin = numB;
-		iMax = numA;
-	} else {
-		iMin = numA;
-		iMax = numB;
-	}
+	iMin = (numA > numB) ? numB : numA;
+	iMax = (numA > numB) ? numA : numB;
 }
 void mMax(int numA, int numB, float &iMin, float &iMax) {
-	if (numA >= numB) {
-		iMin = numB;
-		iMax = numA;
-	} else {
-		iMin = numA;
-		iMax = numB;
-	}
+	iMin = (numA > numB) ? numB : numA;
+	iMax = (numA > numB) ? numA : numB;
 }
 
 bool valueInRange(int value, int min, int max){ 

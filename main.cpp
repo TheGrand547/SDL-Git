@@ -10,8 +10,6 @@
 #include<stdio.h>
 #include<sstream>
 #include<vector>
-
-SDL_Renderer* gRenderer = NULL;
 #include "source/primatives/Line.h"
 #include "source/primatives/Point.h"
 #include "source/util.h"
@@ -31,7 +29,7 @@ SDL_Renderer* gRenderer = NULL;
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
 const int IDEAL_FPS = 100;
-const int TICKS_PER_FRAME = 1000 / (IDEAL_FPS+10); //Please do not even ask
+const int TICKS_PER_FRAME = 1000 / (IDEAL_FPS + 10); //Please do not even ask
 
 //Starts up SDL and creates window
 bool init();
@@ -51,7 +49,7 @@ SDL_Surface* gScreenSurface = NULL;
 //The image we will load and show on the screen
 SDL_Surface* gXOut = NULL;
 
-//SDL_Renderer* gRenderer = NULL;
+SDL_Renderer* gRenderer = NULL;
 
 bool init() {
 	//Initialization flag
@@ -97,6 +95,7 @@ int main(int argc, char *argv[]) {
 	//Start up SDL and create window
 	Point a = Point(0,0);
 	Point b = Point(200,200);
+	
 	Line c = Line(a, b);
 	c.setColorChannels();
 	
@@ -108,7 +107,8 @@ int main(int argc, char *argv[]) {
 	Point newPoint;
 	Dot dot = Dot(Point(300, 150));
 	dot.setColorChannels(0xFF);
-	std::vector<Box> gnar;
+	
+	std::vector<Box*>* gnar = new std::vector<Box*>;
 	
 	if(!init()) {
 		printf( "Failed to initialize!\n" );
@@ -122,12 +122,14 @@ int main(int argc, char *argv[]) {
 			
 			SDL_Rect IOP = {0,0,SCREEN_WIDTH,SCREEN_HEIGHT};
 			Font gFont = Font();
-			Box test = Box(Point(50, 50));
-			Box te = Box(Point(200, 200));	
-			gnar.push_back(test);
-			gnar.push_back(te);
-			gnar.push_back(Box(Point(350, 300)));
+			Box *test = new Box(Point(50, 50));
+			Box *te = new Box(Point(200, 200));
 			
+			gnar->push_back(test);
+			gnar->push_back(te);
+			gnar->push_back(new Box(Point(350, 300)));
+		
+		
 			//Timer Stuff
 			Timer time;
 			int countedFrames = 0;
@@ -214,9 +216,8 @@ int main(int argc, char *argv[]) {
 				//gFont.renderTextWrapped(200, 100, "andrew did a good :D but sam did the red bar and lets be real thats more important lul", gRenderer, red, 250);
                 float avgFPS = countedFrames / (time.getTicks() / 1000.f);
                 fpsStr.str("");
-                //fpsStr << "FPS: " << avgFPS;
-				fpsStr << mousePosX << ", " << mousePosY;
-                //fpsStr << dot.getCenter();
+                fpsStr << "FPS: " << avgFPS;
+				
                 
                 gFont.renderText(100, 0, fpsStr.str(), gRenderer, red);
                 if (!collideRect(dot.getRect()+dx, gnar)) {
@@ -228,8 +229,8 @@ int main(int argc, char *argv[]) {
 				} else if (!collideRect(dot.getRect()+dx/5, gnar)) {
 					dot += dx/5;
 				}
-				for (int i = 0; i < gnar.size(); i++) {
-					gnar[i].draw(gRenderer);
+				for (int i = 0; i < gnar->size(); i++) {
+					(*gnar)[i]->draw(gRenderer);
 				}
 				dot.draw(gRenderer);
 				
@@ -250,12 +251,13 @@ int main(int argc, char *argv[]) {
 				countedFrames++;
 				ticks = frameCap.getTicks();
 				if (ticks < TICKS_PER_FRAME) {
-					SDL_Delay(TICKS_PER_FRAME - ticks);
+					//SDL_Delay(TICKS_PER_FRAME - ticks);
 				}
 				
 			}
 		}
 	}
 	close();
+	delete gnar;
 	return 0;
 }

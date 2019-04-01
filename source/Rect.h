@@ -19,10 +19,10 @@ class Rect: public MyBase{
 		Rect(Point topLeft, Point bottomRight) {
 			Point *topRight = new Point(bottomRight.x(), topLeft.y());
 			Point *bottomLeft = new Point(topLeft.x(), bottomRight.y());
-			tL = new Point(topLeft);
-			tR = new Point(*topRight);
-			bL = new Point(*bottomLeft);
-			bR = new Point(bottomRight);
+			this->tL = new Point(topLeft);
+			this->tR = new Point(*topRight);
+			this->bL = new Point(*bottomLeft);
+			this->bR = new Point(bottomRight);
 			lines[0] =  new Line(topLeft, *topRight); //Top
 			lines[1] = new Line(*bottomLeft, bottomRight); //Bottom
 			lines[2] = new Line(topLeft, *bottomLeft); //Left
@@ -35,10 +35,10 @@ class Rect: public MyBase{
 		Rect(Point position, int width, int height) {
 			Point *topRight = new Point(position.x() + width, position.y());
 			Point *bottomLeft = new Point(position.x(), position.y() + height);
-			tL = new Point(position);
-			tR = new Point(*topRight);
-			bL = new Point(*bottomLeft);
-			bR = new Point(position + Point(width, height));
+			this->tL = new Point(position);
+			this->tR = new Point(*topRight);
+			this->bL = new Point(*bottomLeft);
+			this->bR = new Point(position + Point(width, height));
 			lines[0] =  new Line(position, *topRight); //Top
 			lines[1] = new Line(*bottomLeft, *bR); //Bottom
 			lines[2] = new Line(position, *bottomLeft); //Left
@@ -91,23 +91,23 @@ class Rect: public MyBase{
 		}
 		
 		void setColorChannels(int r, int g, int b, int a) {
-			_setColorChannels(r,g,b,a);
+			_setColorChannels(r, g, b, a);
 		}
 		
 		Point* getTopLeft() const {
-			return tL;
+			return this->tL;
 		}
 		
 		Point* getTopRight() const {
-			return tR;
+			return this->tR;
 		}
 		
 		Point* getBottomLeft() const {
-			return bL;
+			return this->bL;
 		}
 		
 		Point* getBottomRight() const {
-			return bR;
+			return this->bR;
 		}
 		
 		
@@ -140,7 +140,7 @@ class Rect: public MyBase{
 			return newRect;
 		}
 		
-		void operator+=(Point point) {
+		void operator+=(Point &point) {
 			*(this->tL) += point;
 			*(this->bR) += point;
 			*(this->tR) += point;
@@ -150,7 +150,7 @@ class Rect: public MyBase{
 			}
 		}
 		
-		void operator-=(Point point) {
+		void operator-=(Point &point) {
 			*(this->tL) -= point;
 			*(this->bR) -= point;
 			*(this->tR) -= point;
@@ -160,7 +160,7 @@ class Rect: public MyBase{
 			}
 		}
 		
-		void operator+=(PointDelta point) {
+		void operator+=(PointDelta &point) {
 			*(this->tL) += point;
 			*(this->bR) += point;
 			*(this->tR) += point;
@@ -170,7 +170,7 @@ class Rect: public MyBase{
 			}
 		}
 		
-		void operator-=(PointDelta point) {
+		void operator-=(PointDelta &point) {
 			*(this->tL) -= point;
 			*(this->bR) -= point;
 			*(this->tR) -= point;

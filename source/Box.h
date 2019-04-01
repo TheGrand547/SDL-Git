@@ -19,6 +19,13 @@ class Box : public CollideBase{
 		Rect *outerRect, *innerRect;
 		Texture *mTexture;
 	public:
+		Box() {
+			outerRect = new Rect();
+			inPointLeft = new Point();
+			inPointRight = new Point();
+			innerRect = new Rect();
+			mTexture = new Texture();
+		}
 		Box(Point position) {
 			//All boxes are of the same size
 			outerRect = new Rect(position, this->width+1, this->height+1);
@@ -94,23 +101,63 @@ class Box : public CollideBase{
 		}
 };
 
-bool collideRect(Rect rect, std::vector<Box> &vec) {
+bool collideRect(Rect rect, std::vector<Box*> vec) {
 	bool result = false;
 	for (int i = 0; i < (&vec)->size(); i++) {
-		result = result || ((&vec[i])->overlap(rect));
+		result = result || ((vec[i])->overlap(rect));
 	}
 	return result;
 }
 
-Point smallestDistanceFrom(std::vector<Box> &boxes, Point origin, Line ray) {
+bool collideRect(Rect rect, std::vector<Box*>* vec) {
+	bool result = false;
+	for (int i = 0; i < vec->size(); i++) {
+		result = result || (*vec)[i]->overlap(rect);
+	}
+	return result;
+}
+
+bool collideRect(Rect rect, std::vector<Box>* vec) {
+	bool result = false;
+	for (int i = 0; i < vec->size(); i++) {
+		result = result || (*vec)[i].overlap(rect);
+	}
+	return result;
+}
+
+Point smallestDistanceFrom(std::vector<Box*> boxes, Point origin, Line ray) {
 	Point stored;
-	for (int i = 0; i < (&boxes)->size(); i++) {
-		stored = smallerDistance(origin, (&boxes[i])->collideLine(ray), stored);
+	for (int i = 0; i < (boxes).size(); i++) {
+		stored = smallerDistance(origin, (boxes[i])->collideLine(ray), stored);
+	}
+	return stored;
+}
+
+Point smallestDistanceFrom(std::vector<Box*>* boxes, Point origin, Line ray) {
+	Point stored;
+	for (int i = 0; i < boxes->size(); i++) {
+		stored = smallerDistance(origin, (*boxes)[i]->collideLine(ray), stored);
+	}
+	return stored;
+}
+
+Point smallestDistanceFrom(std::vector<Box>* boxes, Point origin, Line ray) {
+	Point stored;
+	for (int i = 0; i < boxes->size(); i++) {
+		stored = smallerDistance(origin, (*boxes)[i].collideLine(ray), stored);
 	}
 	return stored;
 }
 
 
-Point collideTestVectorToRay(std::vector<Box> &boxes, Line ray) {
+Point collideTestVectorToRay(std::vector<Box*> boxes, Line ray) {
+	return smallestDistanceFrom(boxes, ray.getOrigin(), ray);
+}
+
+Point collideTestVectorToRay(std::vector<Box*>* boxes, Line ray) {
+	return smallestDistanceFrom(boxes, ray.getOrigin(), ray);
+}
+
+Point collideTestVectorToRay(std::vector<Box>* boxes, Line ray) {
 	return smallestDistanceFrom(boxes, ray.getOrigin(), ray);
 }
