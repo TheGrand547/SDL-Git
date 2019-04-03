@@ -4,7 +4,7 @@ class Texture {
 	protected:
 		int *width, *height;
 		int *xpos, *ypos;
-		SDL_Texture *texture;
+		SDL_Texture *texture = NULL;
 	public:
 		Texture() {
 			texture = NULL;
@@ -79,7 +79,7 @@ class Texture {
 		
 		void render(SDL_Renderer *renderer, SDL_Rect* clip=NULL, double angle=0, 
 					SDL_Point* center=NULL, SDL_RendererFlip flip = SDL_FLIP_NONE) {
-			render(*(this->xpos), *(this->ypos), renderer, clip, angle, center, flip);
+			render(*(this->xpos)-1, *(this->ypos)-1, renderer, clip, angle, center, flip);
 		}
 		
 		bool isLoaded() {
@@ -117,7 +117,6 @@ class Texture {
 		}
 		
 		void loadFromFile(std::string path, SDL_Renderer* renderer, int xSize, int ySize, Uint8 r = 0x00, Uint8 g = 0x00, Uint8 b = 0x00) {
-			free();
 			SDL_Texture *newTexture = NULL;
 			SDL_Surface *tempSurface = IMG_Load(path.c_str());	
 			SDL_Texture *tempTexture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_TARGET, 100, 100);
@@ -138,6 +137,7 @@ class Texture {
 				}
 				SDL_SetRenderTarget(renderer, tempTexture);
 				SDL_Rect e = {0, 0, tempSurface->w, tempSurface->h};
+				SDL_RenderCopy(renderer, this->texture, NULL, NULL);
 				SDL_RenderCopy(renderer, newTexture, NULL, &e);
 				SDL_SetRenderTarget(renderer, NULL);
 			}

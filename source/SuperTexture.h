@@ -33,16 +33,16 @@ class SuperTexture : public Texture, public MyBase {
 		}
 		
 		void reBound() {
-			this->width = clipX;
-			this->height = clipY;
+			*this->width = *clipX+1;
+			*this->height = *clipY+1;
 		}
 		
 		SDL_Texture* getBlank(SDL_Renderer* renderer) {
-			return SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_TARGET, 100, 100);
+			return SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_TARGET, *clipX+1, *clipY+1);
 		}
 		
 		Point getOffset() {
-			return Point(*this->xpos, *this->ypos);
+			return Point(*this->xpos-1, *this->ypos-1);
 		}
 		
 		void drawRect(SDL_Renderer* renderer, Rect* rect) {
@@ -59,7 +59,7 @@ class SuperTexture : public Texture, public MyBase {
 			SDL_SetRenderTarget(renderer, tempTexture);
 			SDL_RenderCopy(renderer, this->texture, NULL, NULL);
 			//TEMPORARY LINE BEWARE
-			boxRGBA(renderer, *rect->getTopLeft()-this->getOffset(), *rect->getBottomRight()-this->getOffset(), 0xFF, 0x00, 0x00, 0xFF);
+			boxRGBA(renderer, Point(0, 0), *rect->getBottomRight()-this->getOffset(), 0xFF, 0x00, 0x00, 0xFF);
 			SDL_SetRenderTarget(renderer, NULL);
 			this->texture = tempTexture;
 		}
