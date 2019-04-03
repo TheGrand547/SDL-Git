@@ -63,6 +63,10 @@ class Rect: public MyBase{
 							rChannel, bChannel, gChannel, aChannel);
 		}
 		
+		void draw(SDL_Renderer* renderer, Point offset) {
+			rectangleRGBA(renderer, *tL - offset, *bR - offset, rChannel, bChannel, gChannel, aChannel);
+		}
+		
 		Point collideLine(Line &ray) {
 			//No way for a single straight line to intersect a line in more than
 			//two points *except with the stupid inline ones that i'm changing

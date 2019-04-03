@@ -176,7 +176,11 @@ class Line: public MyBase{
 		
 		void drawLine(SDL_Renderer* renderer) {
 			aalineRGBA(renderer, originPoint, endingPoint, rChannel, gChannel, bChannel, aChannel);
-		}					
+		}		
+		
+		void drawLine(SDL_Renderer* renderer, Point offset) {
+			aalineRGBA(renderer, originPoint, endingPoint, rChannel, gChannel, bChannel, aChannel, offset);
+		}				
 		
 		void setColor(Uint8 red, Uint8 green, Uint8 blue, Uint8 alpha) {
 			setColorChannels(red, green, blue, alpha);

@@ -6,6 +6,7 @@
 #include "Rect.h"	
 #include "Texture.h"
 #include "CollideBase.h"
+#include "SuperTexture.h"
 
 typedef Uint32 uint32_t;
 class Box : public CollideBase{
@@ -17,24 +18,24 @@ class Box : public CollideBase{
 		
 		Point *inPointLeft, *inPointRight;
 		Rect *outerRect, *innerRect;
-		Texture *mTexture;
+		SuperTexture *mTexture;
 	public:
 		Box() {
 			outerRect = new Rect();
 			inPointLeft = new Point();
 			inPointRight = new Point();
 			innerRect = new Rect();
-			mTexture = new Texture();
+			mTexture = new SuperTexture();
 		}
 		Box(Point position) {
 			//All boxes are of the same size
-			outerRect = new Rect(position, this->width+1, this->height+1);
+			outerRect = new Rect(position, this->width, this->height);
 			inPointLeft = new Point(position);
-			inPointRight = new Point(position.x() + this->width, position.y() + this->height * outdent);
+			inPointRight = new Point(position.x() + this->width, position.y() + (this->height * outdent));
 			innerRect = new Rect(inPointLeft, inPointRight);
 			innerRect->setColorChannels(0x30, 0x30, 0x30, 0xFF);
 			outerRect->setColorChannels(0x00, 0x00, 0x00, 0xFF);
-			mTexture = new Texture();
+			mTexture = new SuperTexture(0xFF, 0x00, 0x00, 0xFF);
 			mTexture->setPos(innerRect->getTopLeft());
 		}
 		
@@ -54,7 +55,7 @@ class Box : public CollideBase{
 			innerRect = new Rect(inPointLeft, inPointRight);
 			innerRect->setColorChannels(0x30, 0x30, 0x30, 0xFF);
 			outerRect->setColorChannels(0x00, 0x00, 0x00, 0xFF);
-			mTexture = new Texture();
+			mTexture = new SuperTexture();
 			mTexture->setPos(innerRect->getTopLeft());
 		}
 		
@@ -66,18 +67,24 @@ class Box : public CollideBase{
 			innerRect = new Rect(inPointLeft, inPointRight);
 			innerRect->setColorChannels(0x30, 0x30, 0x30, 0xFF);
 			outerRect->setColorChannels(0x00, 0x00, 0x00, 0xFF);
-			mTexture = new Texture();
+			mTexture = new SuperTexture();
 			mTexture->setPos(innerRect->getTopLeft());
 			return *this;
 		}
 			
 				
 		void loadTexture(SDL_Renderer* renderer, std::string path = "resources/missingTexture.jpg") {
+			mTexture->setClip(100, 100);
+			
+			mTexture->drawBox(renderer, outerRect);
 			mTexture->loadFromFile(path.c_str(), renderer, innerRect->getWidth(), innerRect->getHeight());
 			mTexture->setPos(innerRect->getTopLeft());
+			mTexture->drawRect(renderer, outerRect);
+			mTexture->drawRect(renderer, innerRect);
 		}
-			
-		void draw(SDL_Renderer* renderer) {		
+		
+		void draw(SDL_Renderer* renderer) {
+			/*
 			boxRGBA(renderer, outerRect->getTopLeft(), outerRect->getBottomRight(), 0xFF, 0x00, 0x00, 0xFF);
 			if (mTexture->isLoaded() == true) {
 				mTexture->render(renderer);
@@ -85,7 +92,12 @@ class Box : public CollideBase{
 				loadTexture(renderer);
 			}
 			outerRect->draw(renderer);
-			innerRect->draw(renderer);
+			innerRect->draw(renderer);*/
+			if (mTexture->isLoaded() == true) {
+				mTexture->render(renderer);
+			} else {
+				loadTexture(renderer);
+			}
 		}
 		
 		Point collideLine(Line &ray) {

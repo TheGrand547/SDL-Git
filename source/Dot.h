@@ -7,8 +7,8 @@
 
 class Dot: public MyBase {
 	private:
-		static const int DOT_X_DIMENSION = 10;
-		static const int DOT_Y_DIMENSION = 10;
+		static const int DOT_X_DIMENSION = 11;
+		static const int DOT_Y_DIMENSION = 11;
 		float *angle;
 		Point *position;
 		Rect *myRect;
@@ -30,8 +30,9 @@ class Dot: public MyBase {
 		}
 		
 		void evalAngle(Point delta) {
-			if(delta.y() != 0 || delta.x() != 0)
+			if(int(delta.y()) != 0 || int(delta.x()) != 0) {
 				*(this->angle) = atan2(0-delta.y(), delta.x());
+			}
 		}
 		
 		float calcAngle(Point point) {
@@ -44,7 +45,7 @@ class Dot: public MyBase {
 			Point temp = Point(delta);
 			if (delta.getMagnitude() > delta.getMaxMagnitude()) {
 				float tempFloat = calcAngle(delta);
-				temp = Point(delta.getXMin() * cos(tempFloat), -delta.getXMin() * sin(tempFloat));
+				temp = Point(delta.getXMin() * cos(tempFloat), -delta.getYMin() * sin(tempFloat));
 			}
 			*myRect -= temp;
 			evalAngle(temp);
@@ -54,10 +55,10 @@ class Dot: public MyBase {
 			Point temp = Point(delta);
 			if (delta.getMagnitude() > delta.getMaxMagnitude()) {
 				float tempFloat = calcAngle(delta);
-				temp = Point(delta.getXMin() * cos(tempFloat), -delta.getXMin() * sin(tempFloat));
+				temp = Point(delta.getXMin() * cos(tempFloat), -delta.getYMin() * sin(tempFloat));
 			}
-			*myRect += delta;
-			evalAngle(delta);
+			*myRect += temp;
+			evalAngle(temp);
 		}
 		
 		Point getPos() {

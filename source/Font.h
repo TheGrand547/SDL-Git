@@ -1,4 +1,5 @@
 #pragma once
+#include<iostream>
 #include<SDL2_ttf/SDL_ttf.h>
 class Font {
 	private:

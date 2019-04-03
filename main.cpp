@@ -122,13 +122,10 @@ int main(int argc, char *argv[]) {
 			
 			SDL_Rect IOP = {0,0,SCREEN_WIDTH,SCREEN_HEIGHT};
 			Font gFont = Font();
-			Box *test = new Box(Point(50, 50));
-			Box *te = new Box(Point(200, 200));
 			
-			gnar->push_back(test);
-			gnar->push_back(te);
-			gnar->push_back(new Box(Point(350, 300)));
-		
+			gnar->push_back(new Box(Point(50, 50)));
+			gnar->push_back(new Box(Point(200, 200)));
+			gnar->push_back(new Box(Point(350, 200)));
 		
 			//Timer Stuff
 			Timer time;
@@ -146,8 +143,7 @@ int main(int argc, char *argv[]) {
 			HeldKey shift(SDLK_LSHIFT, 30);
 			time.start();
 			while(!quit) {
-				//Handle events on queue
-				if (countedFrames > 1000) {
+				if (countedFrames > 100) {
 					time.start();
 					countedFrames = 1;
 				}
@@ -206,29 +202,31 @@ int main(int argc, char *argv[]) {
 								shift.set(false);
 							}
 							break;
-						}
 					}
+				}
 				shift.tick();
 				SDL_GetMouseState(&mousePosX, &mousePosY);
 				//Clear screen
                 SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
                 SDL_RenderClear(gRenderer);
 				//gFont.renderTextWrapped(200, 100, "andrew did a good :D but sam did the red bar and lets be real thats more important lul", gRenderer, red, 250);
+                
                 float avgFPS = countedFrames / (time.getTicks() / 1000.f);
                 fpsStr.str("");
                 fpsStr << "FPS: " << avgFPS;
-				
                 
                 gFont.renderText(100, 0, fpsStr.str(), gRenderer, red);
-                if (!collideRect(dot.getRect()+dx, gnar)) {
-					dot += dx;
-				} else if (!collideRect(dot.getRect()+dx/3, gnar)) {
-					dot += dx/3;
-				} else if (!collideRect(dot.getRect()+dx/4, gnar)) {
-					dot += dx/4;
-				} else if (!collideRect(dot.getRect()+dx/5, gnar)) {
-					dot += dx/5;
-				}
+                if (dx.getNonZero()) {
+					if (!collideRect(dot.getRect()+dx, gnar)) {
+						dot += dx;
+					} else if (!collideRect(dot.getRect()+dx/3, gnar)) {
+						dot += dx/3;
+					} else if (!collideRect(dot.getRect()+dx/4, gnar)) {
+						dot += dx/4;
+					} else if (!collideRect(dot.getRect()+dx/5, gnar)) {
+						dot += dx/5;
+					}
+				} 
 				for (int i = 0; i < gnar->size(); i++) {
 					(*gnar)[i]->draw(gRenderer);
 				}
@@ -236,7 +234,7 @@ int main(int argc, char *argv[]) {
 				
                 //Line aabc(dot.getPos(), dot.getRay().getEnd());
 				Line aabc(dot.getRay());
-                //aabc.drawLine(gRenderer);
+                aabc.drawLine(gRenderer);
                 newPoint = collideTestVectorToRay(gnar, aabc);
                 if (!newPoint.isNull()) {
 					newLine = Line(dot.getCenter(), newPoint.copy());
@@ -249,11 +247,6 @@ int main(int argc, char *argv[]) {
 				SDL_RenderPresent(gRenderer);
 				SDL_UpdateWindowSurface(gWindow);
 				countedFrames++;
-				ticks = frameCap.getTicks();
-				if (ticks < TICKS_PER_FRAME) {
-					//SDL_Delay(TICKS_PER_FRAME - ticks);
-				}
-				
 			}
 		}
 	}

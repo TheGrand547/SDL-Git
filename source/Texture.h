@@ -1,7 +1,7 @@
 #pragma once
 typedef Uint8 uint8_t;
 class Texture {
-	private:
+	protected:
 		int *width, *height;
 		int *xpos, *ypos;
 		SDL_Texture *texture;
@@ -119,7 +119,8 @@ class Texture {
 		void loadFromFile(std::string path, SDL_Renderer* renderer, int xSize, int ySize, Uint8 r = 0x00, Uint8 g = 0x00, Uint8 b = 0x00) {
 			free();
 			SDL_Texture *newTexture = NULL;
-			SDL_Surface *tempSurface = IMG_Load(path.c_str());
+			SDL_Surface *tempSurface = IMG_Load(path.c_str());	
+			SDL_Texture *tempTexture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_TARGET, 100, 100);
 			if (tempSurface == NULL) {
 				printf("Unable to load image %s! SDL_image Error: %s\n", path.c_str(), IMG_GetError());
 			} else {
@@ -128,14 +129,19 @@ class Texture {
 					tempSurface = scaleToCoords(tempSurface, xSize, ySize);
 				}
 				newTexture = SDL_CreateTextureFromSurface(renderer, tempSurface);
+				
 				if (newTexture == NULL) {
 					printf( "Unable to create texture from %s! SDL Error: %s\n", path.c_str(), SDL_GetError() );
 				} else {
-					*width = tempSurface->w;
-					*height = tempSurface->h;
+					width = new int(tempSurface->w);
+					height = new int(tempSurface->h);
 				}
+				SDL_SetRenderTarget(renderer, tempTexture);
+				SDL_Rect e = {0, 0, tempSurface->w, tempSurface->h};
+				SDL_RenderCopy(renderer, newTexture, NULL, &e);
+				SDL_SetRenderTarget(renderer, NULL);
 			}
 			SDL_FreeSurface(tempSurface);
-			texture = newTexture;
+			this->texture = tempTexture;
 		}
 };

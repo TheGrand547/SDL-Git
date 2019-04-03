@@ -24,25 +24,23 @@ class PointDelta : public Point {
 			delete this->xmin;
 			delete this->ymin;
 		}
+		
 		float calcAngle(Point point) {
 			if(point.y() != 0 || point.x() != 0)
 				 return atan2(0-point.y(), point.x());
 			return 0;
 		}
 		
-		void reduceToBounds() {
-			if (*xval > *xmin) 
-				*xval = *xmin;
-			if (*xval < -*xmin)
-				*xval = -*xmin;
-			if (*yval > *ymin) 
-				*yval = *ymin;
-			if (*yval < -*ymin)
-				*yval = -*ymin;
+		void reduceToBounds() {			
+			if (this->getMagnitude() > this->getMaxMagnitude()) {
+				float tempFloat = calcAngle(*this);
+				*this->xval = this->getXMin() * cos(tempFloat);
+				*this->yval = -this->getYMin() * sin(tempFloat);
+			}
 		}
 		
 		float getMaxMagnitude() {
-			return sqrt(pow((*xmin+*ymin)/2, 2));
+			return sqrt((pow(*xmin, 2) + pow(*ymin, 2)));
 		}
 		
 		float getXMin() {

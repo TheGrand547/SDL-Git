@@ -24,6 +24,7 @@ class Point {
 		float distanceToPoint(float x, float y);
 		bool isNull();
 		bool isReal();
+		bool getNonZero();
 		void operator-=(Point delta);
 		void operator+=(Point delta);
 		void xZero();

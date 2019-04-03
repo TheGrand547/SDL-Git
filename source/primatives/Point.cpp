@@ -33,14 +33,14 @@ float Point::originDistance() {
 
 Point Point::operator-(const Point &point) {
 	Point temp;
-	*(temp.xval) = *(this->xval) - *(point.xval);
-	*(temp.yval) = *(this->yval) - *(point.yval);
+	(temp.xval) = new float( *(this->xval) - *(point.xval));
+	(temp.yval) = new float (*(this->yval) - *(point.yval));
 	return temp;
 }
 Point Point::operator+(const Point &point) {
 	Point temp;
-	*(temp.xval) = *(this->xval) + *(point.xval);
-	*(temp.yval) = *(this->yval) + *(point.yval);
+	(temp.xval) = new float(*(this->xval) + *(point.xval));
+	(temp.yval) = new float(*(this->yval) + *(point.yval));
 	return temp;
 }
 
@@ -99,4 +99,8 @@ void Point::yZero() {
 
 float Point::getMagnitude() {
 	return sqrt(pow(*xval, 2) + pow(*yval, 2));
+}
+
+bool Point::getNonZero() {
+	return (*this->xval != 0 || *this->yval != 0);
 }
