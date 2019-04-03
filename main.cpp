@@ -143,7 +143,7 @@ int main(int argc, char *argv[]) {
 			HeldKey shift(SDLK_LSHIFT, 30);
 			time.start();
 			while(!quit) {
-				if (countedFrames > 100) {
+				if (countedFrames > 1000) {
 					time.start();
 					countedFrames = 1;
 				}
@@ -213,7 +213,7 @@ int main(int argc, char *argv[]) {
                 
                 float avgFPS = countedFrames / (time.getTicks() / 1000.f);
                 fpsStr.str("");
-                fpsStr << "FPS:" << avgFPS;
+                fpsStr << "FPS: " << avgFPS;
                 
                 gFont.renderText(100, 0, fpsStr.str(), gRenderer, red);
                 if (dx.getNonZero()) {
@@ -234,7 +234,7 @@ int main(int argc, char *argv[]) {
 				
                 //Line aabc(dot.getPos(), dot.getRay().getEnd());
 				Line aabc(dot.getRay());
-                aabc.drawLine(gRenderer);
+                //aabc.drawLine(gRenderer);
                 newPoint = collideTestVectorToRay(gnar, aabc);
                 if (!newPoint.isNull()) {
 					newLine = Line(dot.getCenter(), newPoint.copy());

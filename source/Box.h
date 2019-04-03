@@ -75,7 +75,6 @@ class Box : public CollideBase{
 				
 		void loadTexture(SDL_Renderer* renderer, std::string path = "resources/missingTexture.jpg") {
 			mTexture->setClip(100, 100);
-			//mTexture->createBlank(renderer, 100, 100, 0xFF0000FF);
 			mTexture->drawBox(renderer, outerRect);
 			mTexture->loadFromFile(path.c_str(), renderer, innerRect->getWidth(), innerRect->getHeight());
 			mTexture->setPos(innerRect->getTopLeft());

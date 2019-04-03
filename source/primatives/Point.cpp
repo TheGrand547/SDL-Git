@@ -102,5 +102,5 @@ float Point::getMagnitude() {
 }
 
 bool Point::getNonZero() {
-	return (*this->xval != 0 || *this->yval != 0);
+	return (int(*this->xval) != 0 || int(*this->yval) != 0);
 }
