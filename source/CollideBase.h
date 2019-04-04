@@ -1,5 +1,5 @@
 #pragma once
-#include "Rect.h"
+#include "primatives/Rect.h"
 #include "primatives/Line.h"
 /*
  * Base class to handle everything in the world that can interat with other

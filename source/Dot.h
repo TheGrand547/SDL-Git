@@ -1,6 +1,6 @@
 #pragma once
 #include<SDL2/SDL.h>
-#include "Rect.h"
+#include "primatives/Rect.h"
 #include "PointDelta.h"
 
 #define PI 3.14159265

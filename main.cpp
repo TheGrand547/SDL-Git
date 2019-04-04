@@ -12,14 +12,14 @@
 #include<vector>
 #include "source/primatives/Line.h"
 #include "source/primatives/Point.h"
+#include "source/wrappers/Font.h"
+#include "source/primatives/Rect.h"
+#include "source/wrappers/Timer.h"
+#include "source/wrappers/Texture.h"
 #include "source/util.h"
 #include "source/MyBase.h"
 #include "source/Dot.h"
-#include "source/Rect.h"
 #include "source/Box.h"
-#include "source/Font.h"
-#include "source/Texture.h"
-#include "source/Timer.h"
 #include "source/PointDelta.h"
 #include "source/HeldKey.h"
 #include "source/CollideBase.h"
@@ -126,7 +126,8 @@ int main(int argc, char *argv[]) {
 			gnar->push_back(new Box(Point(50, 50)));
 			gnar->push_back(new Box(Point(200, 200)));
 			gnar->push_back(new Box(Point(350, 200)));
-		
+			//gnar->push_back(new Box(Point(700, 500)));
+			
 			//Timer Stuff
 			Timer time;
 			int countedFrames = 0;

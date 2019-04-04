@@ -4,12 +4,12 @@
 #include<SDL2/SDL2_rotozoom.h>
 #include<SDL2_ttf/SDL_ttf.h>
 #include<SDL2_image/SDL_image.h>
-#include "primatives/Line.h"
-#include "primatives/Point.h"
-#include "Rect.h"
-#include "util.h"
+#include "../primatives/Line.h"
+#include "../primatives/Point.h"
+#include "../primatives/Rect.h"
+#include "../util.h"
+#include "../MyBase.h"
 #include "Texture.h"
-#include "MyBase.h"
 
 typedef Uint8 uint8_t;
 class SuperTexture : public Texture, public MyBase {

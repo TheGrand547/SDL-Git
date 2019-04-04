@@ -3,10 +3,10 @@
 #include<SDL2/SDL.h>
 #include<vector>
 #include "primatives/Point.h"
-#include "Rect.h"	
-#include "Texture.h"
+#include "primatives/Rect.h"	
+#include "wrappers/Texture.h"
+#include "wrappers/SuperTexture.h"
 #include "CollideBase.h"
-#include "SuperTexture.h"
 
 typedef Uint32 uint32_t;
 class Box : public CollideBase{
