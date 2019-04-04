@@ -90,6 +90,14 @@ class Box : public CollideBase{
 			}
 		}
 		
+		void draw(SDL_Renderer* renderer, Point offset) {
+			if (mTexture->isLoaded()) {
+				mTexture->render(renderer, offset);
+			} else {
+				loadTexture(renderer);
+			}
+		}
+		
 		Point collideLine(Line &ray) {
 			return outerRect->collideLine(ray);
 		}

@@ -82,6 +82,10 @@ class Texture {
 			render(*(this->xpos)-1, *(this->ypos)-1, renderer, clip, angle, center, flip);
 		}
 		
+		void render(SDL_Renderer* renderer, Point offset) {
+			render(*(this->xpos)-offset.x()-1, *(this->ypos)-offset.y()-1, renderer);
+		}
+		
 		bool isLoaded() {
 			return texture != NULL;
 		}

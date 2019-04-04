@@ -88,4 +88,9 @@ class SuperTexture : public Texture, public MyBase {
 			reBound();
 			Texture::render(renderer);
 		}
+		
+		void render(SDL_Renderer* renderer, Point offset) {
+			reBound();
+			Texture::render(renderer, offset);
+		}
 };
