@@ -10,7 +10,7 @@ bool valueInRange(int value, int min, int max);
 
 
 class Rect: public MyBase{
-	private:
+	protected:
 		static const int arrayLength = 4;
 		Line* lines[arrayLength];
 		Point *tL, *tR, *bL, *bR;
@@ -111,7 +111,6 @@ class Rect: public MyBase{
 		Point* getBottomRight() const {
 			return this->bR;
 		}
-		
 		
 		float getWidth() {
 			return bR->x() - tL->x();

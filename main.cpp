@@ -24,6 +24,7 @@
 #include "source/BoundedPoint.h"
 #include "source/HeldKey.h"
 #include "source/CollideBase.h"
+#include "source/BoundedRect.h"
 
 #define PI 3.14159265
 
@@ -110,6 +111,7 @@ int main(int argc, char *argv[]) {
 	dot.setColorChannels(0xFF);
 	
 	std::vector<Box*>* gnar = new std::vector<Box*>;
+	
 	
 	if(!init()) {
 		printf( "Failed to initialize!\n" );
@@ -226,14 +228,17 @@ int main(int argc, char *argv[]) {
 					if (!collideRect(dot.getRect()+dx, gnar, screenPos.negate())) {
 						dot += dx;
 						screenPos += dx;
-					} /*else if (!collideRect(dot.getRect()+dx/3, gnar)) {
+					} else if (!collideRect(dot.getRect()+dx/3, gnar, screenPos.negate())) {
 						dot += dx/3;
-					} else if (!collideRect(dot.getRect()+dx/4, gnar)) {
+						screenPos += dx/3;
+					} else if (!collideRect(dot.getRect()+dx/4, gnar, screenPos.negate())) {
 						dot += dx/4;
-					} else if (!collideRect(dot.getRect()+dx/5, gnar)) {
+						screenPos += dx/4;
+					} else if (!collideRect(dot.getRect()+dx/5, gnar, screenPos.negate())) {
 						dot += dx/5;
-					}*/
-				} 
+						screenPos += dx/5;
+					}
+				}
 				for (int i = 0; i < gnar->size(); i++) {
 					(*gnar)[i]->draw(gRenderer, screenPos);
 				}

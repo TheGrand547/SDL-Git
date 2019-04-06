@@ -2,6 +2,7 @@
 #include<SDL2/SDL.h>
 #include "primatives/Rect.h"
 #include "PointDelta.h"
+#include "BoundedRect.h"
 
 #define PI 3.14159265
 
@@ -10,19 +11,16 @@ class Dot: public MyBase {
 		static const int DOT_X_DIMENSION = 11;
 		static const int DOT_Y_DIMENSION = 11;
 		float *angle;
-		Point *position;
-		Rect *myRect;
+		BoundedRect *myRect;
 	public:
 		Dot(Point startingCoordinate) {
 			angle = new float(0);
-			position = new Point(startingCoordinate);
-			myRect = new Rect(startingCoordinate, startingCoordinate + Point(DOT_X_DIMENSION, DOT_Y_DIMENSION));
+			myRect = new BoundedRect(startingCoordinate, startingCoordinate + Point(DOT_X_DIMENSION, DOT_Y_DIMENSION), 50, 50, 500, 300);
 		}
 		
 		~Dot() {
-			delete angle;
-			delete position;
-			delete myRect;
+			delete this->angle;
+			delete this->myRect;
 		}
 		
 		Point getCenter() {
@@ -62,7 +60,7 @@ class Dot: public MyBase {
 		}
 		
 		Point getPos() {
-			return myRect->getTopLeft();
+			return this->myRect->getTopLeft();
 		}
 		
 		Rect getRect() {
