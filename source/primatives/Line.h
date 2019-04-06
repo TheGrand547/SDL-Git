@@ -146,7 +146,7 @@ class Line: public MyBase{
 		Line operator+(Point b) {
 			*originPoint += b;
 			*endingPoint += b;
-			return Line(originPoint, endingPoint);
+			return Line(*originPoint, *endingPoint);
 		}
 			
 		float getAx() { 
@@ -187,7 +187,7 @@ class Line: public MyBase{
 		}
 };
 
-Point intersectionTest(Line &line1, Line &line2) {
+Point intersectionTest(Line line1, Line &line2) {
 	float delta = (line1.getAx() * line2.getBy()) - (line1.getBy() * line2.getAx());
 	if (delta == 0) 
 		return Point();
@@ -201,17 +201,17 @@ Point intersectionTest(Line &line1, Line &line2) {
 }
 
 bool xBetweenAandB(float x, float a, float b) {
-		float larger, smaller;
-		if (a > b) {
-			larger = a;
-			smaller = b;
-		} else {
-			larger = b;
-			smaller = a;
-		}
-		if (larger >= x && smaller <= x) {
-	
-			return true;
-		}
-		return false;
+	float larger, smaller;
+	if (a > b) {
+		larger = a;
+		smaller = b;
+	} else {
+		larger = b;
+		smaller = a;
+	}
+	if (larger >= x && smaller <= x) {
+
+		return true;
+	}
+	return false;
 }

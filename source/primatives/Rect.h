@@ -67,7 +67,7 @@ class Rect: public MyBase{
 			rectangleRGBA(renderer, *tL - offset, *bR - offset, rChannel, bChannel, gChannel, aChannel);
 		}
 		
-		Point collideLine(Line &ray) {
+		Point collideLine(Line &ray, Point offset = Point(0, 0)) {
 			//No way for a single straight line to intersect a line in more than
 			//two points *except with the stupid inline ones that i'm changing
 			//the whole thing for
@@ -75,7 +75,7 @@ class Rect: public MyBase{
 			Point tempPoint;
 			int index = 0;
 			for (int i = 0; i < arrayLength; i++) {
-				tempPoint = intersectionTest(*(lines[i]), ray);
+				tempPoint = intersectionTest(*(lines[i])+offset, ray);
 				if (tempPoint.isReal()) {
 					intersect[index] = tempPoint;
 					index++;
@@ -84,11 +84,9 @@ class Rect: public MyBase{
 			if (intersect[0].isReal() && intersect[1].isNull() && intersect[2].isNull()) {
 				return intersect[0];
 			} else if(intersect[0].isReal() && intersect[1].isReal() && intersect[2].isNull()) {
-				return smallerDistance(ray.getOrigin(), intersect[0], 
-										intersect[1]);
+				return smallerDistance(ray.getOrigin(), intersect[0], intersect[1]);
 			} else if(intersect[0].isReal() && intersect[1].isReal() && intersect[2].isReal()) {
-				return smallerDistance(ray.getOrigin(),intersect[2], smallerDistance(ray.getOrigin(), intersect[0], 
-										intersect[1]));
+				return smallerDistance(ray.getOrigin(),intersect[2], smallerDistance(ray.getOrigin(), intersect[0], intersect[1]));
 			}
 			return intersect[0]; //If index 0-2 are null, 0 with always be null
 			
@@ -127,6 +125,18 @@ class Rect: public MyBase{
 						 valueInRange(other.tL->x(), this->tL->x(), this->bR->x());
 			bool yOver = valueInRange(this->tL->y(), other.tL->y(), other.tL->y()+other.getHeight()) || 
 						 valueInRange(other.tL->y(), this->tL->y(), this->bR->y());
+			return xOver && yOver;
+		}
+		
+		bool overlap(Rect &other, Point offset) {
+			float tempTLX = this->tL->x() + offset.x();
+			float tempTLY = this->tL->y() + offset.y();
+			float tempBRX = this->bR->x() + offset.x();
+			float tempBRY = this->bR->y() + offset.y();
+			bool xOver = valueInRange(tempTLX, other.tL->x(), other.tL->x()+other.getWidth()) || 
+						 valueInRange(other.tL->x(), tempTLX, tempBRX);
+			bool yOver = valueInRange(tempTLY, other.tL->y(), other.tL->y()+other.getHeight()) || 
+						 valueInRange(other.tL->y(), tempTLY, tempBRY);
 			return xOver && yOver;
 		}
 		

@@ -104,3 +104,7 @@ float Point::getMagnitude() {
 bool Point::getNonZero() {
 	return (int(*this->xval) != 0 || int(*this->yval) != 0);
 }
+
+Point Point::negate() {
+	return Point(-(*this->xval),-(*this->yval));
+}

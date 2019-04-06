@@ -81,8 +81,7 @@ class Dot: public MyBase {
 		
 		void draw(SDL_Renderer *renderer) {
 			setColorChannels(0x00, 0xFF, 0x00, 0xFF);
-			SDL_SetRenderDrawColor(renderer, rChannel, gChannel, 
-									bChannel, aChannel);
+			SDL_SetRenderDrawColor(renderer, rChannel, gChannel, bChannel, aChannel);
 			SDL_Rect temp = this->myRect->getSDLRect();
 			SDL_RenderFillRect(renderer, &temp);
 		}

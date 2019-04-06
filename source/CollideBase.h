@@ -14,6 +14,10 @@ class CollideBase{
 			return false;
 		}
 		
+		bool overlap(Rect &other, Point offset) {
+			return false;
+		}
+		
 		Point collideLine(Line &ray) {
 			return Point();
 		}

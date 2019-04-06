@@ -21,6 +21,7 @@
 #include "source/Dot.h"
 #include "source/Box.h"
 #include "source/PointDelta.h"
+#include "source/BoundedPoint.h"
 #include "source/HeldKey.h"
 #include "source/CollideBase.h"
 
@@ -139,6 +140,10 @@ int main(int argc, char *argv[]) {
 			//Event handler
 			SDL_Event e;
 			PointDelta dx = PointDelta(0, 0, 4, 4);
+			
+			
+			BoundedPoint screenPos = BoundedPoint(0, 0, 0, 640, 0, 480);
+			
 			//While application is running
 			
 			HeldKey shift(SDLK_LSHIFT, 30);
@@ -218,24 +223,25 @@ int main(int argc, char *argv[]) {
                 
                 gFont.renderText(100, 0, fpsStr.str(), gRenderer, red);
                 if (dx.getNonZero()) {
-					if (!collideRect(dot.getRect()+dx, gnar)) {
+					if (!collideRect(dot.getRect()+dx, gnar, screenPos.negate())) {
 						dot += dx;
-					} else if (!collideRect(dot.getRect()+dx/3, gnar)) {
+						screenPos += dx;
+					} /*else if (!collideRect(dot.getRect()+dx/3, gnar)) {
 						dot += dx/3;
 					} else if (!collideRect(dot.getRect()+dx/4, gnar)) {
 						dot += dx/4;
 					} else if (!collideRect(dot.getRect()+dx/5, gnar)) {
 						dot += dx/5;
-					}
+					}*/
 				} 
 				for (int i = 0; i < gnar->size(); i++) {
-					(*gnar)[i]->draw(gRenderer);
+					(*gnar)[i]->draw(gRenderer, screenPos);
 				}
 				dot.draw(gRenderer);
 				
                 //Line aabc(dot.getPos(), dot.getRay().getEnd());
 				Line aabc(dot.getRay());
-                //aabc.drawLine(gRenderer);
+                aabc.drawLine(gRenderer);
                 newPoint = collideTestVectorToRay(gnar, aabc);
                 if (!newPoint.isNull()) {
 					newLine = Line(dot.getCenter(), newPoint.copy());
