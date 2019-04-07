@@ -228,7 +228,7 @@ int main(int argc, char *argv[]) {
 					if (!collideRect(dot.getRect()+dx, gnar, screenPos.negate())) {
 						dot += dx;
 						screenPos += dx;
-					} else if (!collideRect(dot.getRect()+dx/3, gnar, screenPos.negate())) {
+					} /*else if (!collideRect(dot.getRect()+dx/3, gnar, screenPos.negate())) {
 						dot += dx/3;
 						screenPos += dx/3;
 					} else if (!collideRect(dot.getRect()+dx/4, gnar, screenPos.negate())) {
@@ -237,7 +237,7 @@ int main(int argc, char *argv[]) {
 					} else if (!collideRect(dot.getRect()+dx/5, gnar, screenPos.negate())) {
 						dot += dx/5;
 						screenPos += dx/5;
-					}
+					}*/
 				}
 				for (int i = 0; i < gnar->size(); i++) {
 					(*gnar)[i]->draw(gRenderer, screenPos);

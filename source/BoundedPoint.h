@@ -27,10 +27,10 @@ class BoundedPoint : public Point {
 		}
 		
 		void reduce() {
-			*this->xval = (*this->xval < *this->xMin) ? *this->xMin : *this->xval;
-			*this->xval = (*this->xval > *this->xMax) ? *this->xMax : *this->xval;
-			*this->yval = (*this->yval < *this->yMin) ? *this->yMin : *this->yval;
-			*this->yval = (*this->yval > *this->yMax) ? *this->yMax : *this->yval;
+			*this->xval = (*this->xval <= *this->xMin) ? *this->xMin : *this->xval;
+			*this->xval = (*this->xval >= *this->xMax) ? *this->xMax : *this->xval;
+			*this->yval = (*this->yval <= *this->yMin) ? *this->yMin : *this->yval;
+			*this->yval = (*this->yval >= *this->yMax) ? *this->yMax : *this->yval;
 		}
 		
 		void operator+=(Point delta) {
