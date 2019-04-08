@@ -1,3 +1,4 @@
+#pragma once
 #include "primatives/Point.h"
 
 class BoundedPoint : public Point {
@@ -5,6 +6,12 @@ class BoundedPoint : public Point {
 		float *xMin, *xMax;
 		float *yMin, *yMax;
 	public:
+		BoundedPoint() : Point() {
+			this->xMin = new float(0);
+			this->xMax = new float(0);
+			this->yMin = new float(0);
+			this->yMax = new float(0);
+		}
 		BoundedPoint(float xpos, float ypos, float xMin, float xMax, float yMin, float yMax) : Point(xpos, ypos) {
 			this->xMin = new float(xMin);
 			this->xMax = new float(xMax);
@@ -19,7 +26,24 @@ class BoundedPoint : public Point {
 			this->yMax = new float(yMax);
 		}
 		
-		~BoundedPoint() {
+		BoundedPoint(const BoundedPoint &other) : Point(*other.xval,*other.yval){
+			this->xMin = new float(*other.xMin);
+			this->xMax = new float(*other.xMax);
+			this->yMin = new float(*other.yMin);
+			this->yMax = new float(*other.yMax);
+		}
+		
+		BoundedPoint &operator=(BoundedPoint &other){
+			this->xval = new float(*other.xval);
+			this->yval = new float(*other.yval);
+			this->xMin = new float(*other.xMin);
+			this->xMax = new float(*other.xMax);
+			this->yMin = new float(*other.yMin);
+			this->yMax = new float(*other.yMax);
+			return *this;
+		}
+		
+		~BoundedPoint() {	
 			delete this->xMin;
 			delete this->xMax;
 			delete this->yMin;

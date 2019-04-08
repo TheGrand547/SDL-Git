@@ -15,7 +15,16 @@ class Rect: public MyBase{
 		Line* lines[arrayLength];
 		Point *tL, *tR, *bL, *bR;
 	public:
-		Rect() {}
+		Rect() {
+			this->tL = NULL;
+			this->tR = NULL;
+			this->bL = NULL;
+			this->bR = NULL;
+			this->lines[0] = NULL;
+			this->lines[1] = NULL;
+			this->lines[2] = NULL;
+			this->lines[3] = NULL;
+		}
 		Rect(Point topLeft, Point bottomRight) {
 			Point *topRight = new Point(bottomRight.x(), topLeft.y());
 			Point *bottomLeft = new Point(topLeft.x(), bottomRight.y());
@@ -49,7 +58,7 @@ class Rect: public MyBase{
 		}
 		
 		~Rect() {
-			for (Line* line: this->lines) {
+ 			for (Line* line: this->lines) {
 				delete line;
 			}
 			delete this->tL;

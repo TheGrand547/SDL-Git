@@ -225,19 +225,13 @@ int main(int argc, char *argv[]) {
                 
                 gFont.renderText(100, 0, fpsStr.str(), gRenderer, red);
                 if (dx.getNonZero()) {
-					if (!collideRect(dot.getRect()+dx, gnar, screenPos.negate())) {
-						dot += dx;
-						screenPos += dx;
-					} /*else if (!collideRect(dot.getRect()+dx/3, gnar, screenPos.negate())) {
-						dot += dx/3;
-						screenPos += dx/3;
-					} else if (!collideRect(dot.getRect()+dx/4, gnar, screenPos.negate())) {
-						dot += dx/4;
-						screenPos += dx/4;
-					} else if (!collideRect(dot.getRect()+dx/5, gnar, screenPos.negate())) {
-						dot += dx/5;
-						screenPos += dx/5;
-					}*/
+					for (int i = 1; i < 5; i++) {
+						if (collideRectPlusExtras(dot.getRect(), gnar, dx/i, screenPos)) {
+							dot += dx/i;
+							screenPos += dx/i;
+							break;
+						}
+					}
 				}
 				for (int i = 0; i < gnar->size(); i++) {
 					(*gnar)[i]->draw(gRenderer, screenPos);

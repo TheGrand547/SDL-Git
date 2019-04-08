@@ -6,6 +6,8 @@
 class BoundedRect : public Rect {
 	public: 
 		float *xMin, *yMin, *xMax, *yMax;
+		
+		
 		BoundedRect(Point pointA, Point pointB, float xMin, float yMin, float xMax, float yMax) : Rect(pointA, pointB) {
 			this->xMin = new float(xMin);
 			this->xMax = new float(xMax);
@@ -58,8 +60,4 @@ class BoundedRect : public Rect {
 			}
 			Rect::operator+=(delta);
 		}
-		/*
-		void operator-=(Point delta) {
-			this->operator+=(delta.negate());
-		}*/
 };

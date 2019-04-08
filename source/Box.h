@@ -6,6 +6,7 @@
 #include "primatives/Rect.h"	
 #include "wrappers/Texture.h"
 #include "wrappers/SuperTexture.h"
+#include "BoundedPoint.h"
 #include "CollideBase.h"
 
 typedef Uint32 uint32_t;
@@ -159,3 +160,6 @@ Point collideTestVectorToRay(std::vector<Box*>* boxes, Line ray, Point point = P
 	return smallestDistanceFrom(boxes, ray.getOrigin(), ray, point);
 }
 
+bool collideRectPlusExtras(Rect rect, std::vector<Box*>* vec, Point dydx, BoundedPoint screen) {
+	return !collideRect(rect+dydx, vec, screen.negate()) && !collideRect(rect+dydx, vec, screen.negate()-dydx);
+}
