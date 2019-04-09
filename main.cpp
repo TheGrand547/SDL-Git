@@ -25,7 +25,6 @@
 #include "source/HeldKey.h"
 #include "source/CollideBase.h"
 #include "source/BoundedRect.h"
-
 #define PI 3.14159265
 
 const int SCREEN_WIDTH = 640;
@@ -109,9 +108,7 @@ int main(int argc, char *argv[]) {
 	Point newPoint;
 	Dot dot = Dot(Point(300, 150));
 	dot.setColorChannels(0xFF);
-	
 	std::vector<Box*>* gnar = new std::vector<Box*>;
-	
 	
 	if(!init()) {
 		printf( "Failed to initialize!\n" );
@@ -126,9 +123,19 @@ int main(int argc, char *argv[]) {
 			SDL_Rect IOP = {0,0,SCREEN_WIDTH,SCREEN_HEIGHT};
 			Font gFont = Font();
 			
+			SuperTexture* mTexture = new SuperTexture();
+			mTexture->setClip(100, 100);
+			mTexture->drawBox(gRenderer, Rect(Point(0, 0), Point(100, 100)));
+			mTexture->loadFromFile("resources/missingTexture.jpg", gRenderer, 100, 50);
+			mTexture->drawRect(gRenderer, Rect(Point(0, 0), Point(100, 100)));
+			mTexture->drawRect(gRenderer, Rect(Point(0, 0), Point(100, 50)));
+	
 			gnar->push_back(new Box(Point(50, 50)));
 			gnar->push_back(new Box(Point(200, 200)));
 			gnar->push_back(new Box(Point(350, 200)));
+			(*gnar)[0]->setTexture(mTexture);
+			(*gnar)[1]->setTexture(mTexture);
+			(*gnar)[2]->setTexture(mTexture);
 			//gnar->push_back(new Box(Point(700, 500)));
 			
 			//Timer Stuff
@@ -225,7 +232,7 @@ int main(int argc, char *argv[]) {
                 
                 gFont.renderText(100, 0, fpsStr.str(), gRenderer, red);
                 if (dx.getNonZero()) {
-					for (int i = 1; i < 5; i++) {
+					for (int i = 1; i < 6; i++) {
 						if (collideRectPlusExtras(dot.getRect(), gnar, dx/i, screenPos)) {
 							dot += dx/i;
 							screenPos += dx/i;

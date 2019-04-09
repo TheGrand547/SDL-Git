@@ -26,8 +26,9 @@ class Box : public CollideBase{
 			inPointLeft = new Point();
 			inPointRight = new Point();
 			innerRect = new Rect();
-			mTexture = new SuperTexture();
+			//mTexture = new SuperTexture();
 		}
+		
 		Box(Point position) {
 			//All boxes are of the same size
 			outerRect = new Rect(position, this->width, this->height);
@@ -36,8 +37,8 @@ class Box : public CollideBase{
 			innerRect = new Rect(inPointLeft, inPointRight);
 			innerRect->setColorChannels(0x30, 0x30, 0x30, 0xFF);
 			outerRect->setColorChannels(0x00, 0x00, 0x00, 0xFF);
-			mTexture = new SuperTexture(0xFF, 0x00, 0x00, 0xFF);
-			mTexture->setPos(innerRect->getTopLeft());
+			//mTexture = new SuperTexture(0xFF, 0x00, 0x00, 0xFF);
+			//mTexture->setPos(innerRect->getTopLeft());
 		}
 		
 		~Box() {
@@ -56,8 +57,8 @@ class Box : public CollideBase{
 			innerRect = new Rect(inPointLeft, inPointRight);
 			innerRect->setColorChannels(0x30, 0x30, 0x30, 0xFF);
 			outerRect->setColorChannels(0x00, 0x00, 0x00, 0xFF);
-			mTexture = new SuperTexture();
-			mTexture->setPos(innerRect->getTopLeft());
+			//mTexture = new SuperTexture();
+			//mTexture->setPos(innerRect->getTopLeft());
 		}
 		
 		Box &operator=(const Box &that) {
@@ -68,13 +69,14 @@ class Box : public CollideBase{
 			innerRect = new Rect(inPointLeft, inPointRight);
 			innerRect->setColorChannels(0x30, 0x30, 0x30, 0xFF);
 			outerRect->setColorChannels(0x00, 0x00, 0x00, 0xFF);
-			mTexture = new SuperTexture();
-			mTexture->setPos(innerRect->getTopLeft());
+			//mTexture = new SuperTexture();
+			//mTexture->setPos(innerRect->getTopLeft());
 			return *this;
 		}
 			
 				
 		void loadTexture(SDL_Renderer* renderer, std::string path = "resources/missingTexture.jpg") {
+			std::cout << "D:" << std::endl;
 			mTexture->setClip(100, 100);
 			mTexture->drawBox(renderer, outerRect);
 			mTexture->loadFromFile(path.c_str(), renderer, innerRect->getWidth(), innerRect->getHeight());
@@ -93,6 +95,7 @@ class Box : public CollideBase{
 		
 		void draw(SDL_Renderer* renderer, Point offset) {
 			if (mTexture->isLoaded()) {
+				mTexture->setPos(this->outerRect->getTopLeft());
 				mTexture->render(renderer, offset);
 			} else {
 				loadTexture(renderer);
@@ -117,6 +120,10 @@ class Box : public CollideBase{
 		
 		bool overlap(Rect &other, Point offset) {
 			return outerRect->overlap(other, offset);
+		}
+		
+		void setTexture(SuperTexture* texture) {
+			this->mTexture = texture;
 		}
 };
 
