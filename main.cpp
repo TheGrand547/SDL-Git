@@ -1,11 +1,11 @@
 #include<iostream>
 #include<math.h>
 #include<SDL2/SDL.h>
+#include<SDL2_image/SDL_image.h>
 #include<SDL2/SDL2_gfxPrimitives.h>
 #include<SDL2/SDL2_rotozoom.h>
 #include<SDL2/SDL2_framerate.h>
 #include<SDL2_ttf/SDL_ttf.h>
-#include<SDL2_image/SDL_image.h>
 #include<SDL2/SDL_thread.h>
 #include<stdio.h>
 #include<sstream>
@@ -248,7 +248,7 @@ int main(int argc, char *argv[]) {
                 //Line aabc(dot.getPos(), dot.getRay().getEnd());
 				Line aabc(dot.getRay());
                 aabc.drawLine(gRenderer);
-                newPoint = collideTestVectorToRay(gnar, aabc);
+                newPoint = collideTestVectorToRay(gnar, aabc, screenPos.negate());
                 if (!newPoint.isNull()) {
 					newLine = Line(dot.getCenter(), newPoint.copy());
 					newLine.setColorChannels(0x00, 0xFF, 0xFF);

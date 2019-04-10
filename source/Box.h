@@ -3,9 +3,9 @@
 #include<SDL2/SDL.h>
 #include<vector>
 #include "primatives/Point.h"
-#include "primatives/Rect.h"	
+#include "primatives/Rect.h"
+#include "wrappers/SuperTexture.h"	
 #include "wrappers/Texture.h"
-#include "wrappers/SuperTexture.h"
 #include "BoundedPoint.h"
 #include "CollideBase.h"
 
@@ -26,7 +26,6 @@ class Box : public CollideBase{
 			inPointLeft = new Point();
 			inPointRight = new Point();
 			innerRect = new Rect();
-			//mTexture = new SuperTexture();
 		}
 		
 		Box(Point position) {
@@ -37,14 +36,11 @@ class Box : public CollideBase{
 			innerRect = new Rect(inPointLeft, inPointRight);
 			innerRect->setColorChannels(0x30, 0x30, 0x30, 0xFF);
 			outerRect->setColorChannels(0x00, 0x00, 0x00, 0xFF);
-			//mTexture = new SuperTexture(0xFF, 0x00, 0x00, 0xFF);
-			//mTexture->setPos(innerRect->getTopLeft());
 		}
 		
 		~Box() {
 			delete outerRect;
 			delete innerRect;
-			delete mTexture;
 			delete inPointLeft;
 			delete inPointRight;
 		}
@@ -57,8 +53,6 @@ class Box : public CollideBase{
 			innerRect = new Rect(inPointLeft, inPointRight);
 			innerRect->setColorChannels(0x30, 0x30, 0x30, 0xFF);
 			outerRect->setColorChannels(0x00, 0x00, 0x00, 0xFF);
-			//mTexture = new SuperTexture();
-			//mTexture->setPos(innerRect->getTopLeft());
 		}
 		
 		Box &operator=(const Box &that) {
@@ -69,36 +63,17 @@ class Box : public CollideBase{
 			innerRect = new Rect(inPointLeft, inPointRight);
 			innerRect->setColorChannels(0x30, 0x30, 0x30, 0xFF);
 			outerRect->setColorChannels(0x00, 0x00, 0x00, 0xFF);
-			//mTexture = new SuperTexture();
-			//mTexture->setPos(innerRect->getTopLeft());
 			return *this;
 		}
-			
-				
+		
 		void loadTexture(SDL_Renderer* renderer, std::string path = "resources/missingTexture.jpg") {
-			std::cout << "D:" << std::endl;
-			mTexture->setClip(100, 100);
-			mTexture->drawBox(renderer, outerRect);
-			mTexture->loadFromFile(path.c_str(), renderer, innerRect->getWidth(), innerRect->getHeight());
-			mTexture->setPos(innerRect->getTopLeft());
-			mTexture->drawRect(renderer, outerRect);
-			mTexture->drawRect(renderer, innerRect);
+			
 		}
 		
-		void draw(SDL_Renderer* renderer) {
-			if (mTexture->isLoaded() == true) {
-				mTexture->render(renderer);
-			} else {
-				loadTexture(renderer);
-			}
-		}
-		
-		void draw(SDL_Renderer* renderer, Point offset) {
+		void draw(SDL_Renderer* renderer, Point offset = Point(0, 0)) {
 			if (mTexture->isLoaded()) {
-				mTexture->setPos(this->outerRect->getTopLeft());
-				mTexture->render(renderer, offset);
-			} else {
-				loadTexture(renderer);
+				this->mTexture->setPos(this->outerRect->getTopLeft());
+				this->mTexture->render(renderer, offset);
 			}
 		}
 		

@@ -144,9 +144,7 @@ class Line: public MyBase{
 		}
 		
 		Line operator+(Point b) {
-			*originPoint += b;
-			*endingPoint += b;
-			return Line(*originPoint, *endingPoint);
+			return Line(*originPoint+b, *endingPoint+b);
 		}
 			
 		float getAx() { 
