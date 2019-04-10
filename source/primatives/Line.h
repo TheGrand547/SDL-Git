@@ -146,6 +146,10 @@ class Line: public MyBase{
 		Line operator+(Point b) {
 			return Line(*originPoint+b, *endingPoint+b);
 		}
+		
+		Line operator-(Point b){
+			return Line(*originPoint-b, *endingPoint-b);
+		}
 			
 		float getAx() { 
 			return *ax; 

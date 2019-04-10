@@ -32,16 +32,10 @@ float Point::originDistance() {
 }
 
 Point Point::operator-(const Point &point) {
-	Point temp;
-	(temp.xval) = new float( *(this->xval) - *(point.xval));
-	(temp.yval) = new float (*(this->yval) - *(point.yval));
-	return temp;
+	return Point(*xval-*point.xval, *yval-*point.yval);
 }
 Point Point::operator+(const Point &point) {
-	Point temp;
-	(temp.xval) = new float(*(this->xval) + *(point.xval));
-	(temp.yval) = new float(*(this->yval) + *(point.yval));
-	return temp;
+	return Point(*xval+*point.xval, *yval+*point.yval);
 }
 
 void Point::operator-=(Point delta) {
