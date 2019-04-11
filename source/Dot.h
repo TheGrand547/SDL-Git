@@ -15,7 +15,7 @@ class Dot: public MyBase {
 	public:
 		Dot(Point startingCoordinate) {
 			angle = new float(0);
-			myRect = new BoundedRect(startingCoordinate, startingCoordinate + Point(DOT_X_DIMENSION, DOT_Y_DIMENSION), 50, 50, 500, 300);
+			myRect = new BoundedRect(startingCoordinate, startingCoordinate + Point(DOT_X_DIMENSION, DOT_Y_DIMENSION), 0, 0, 500, 300);
 		}
 		
 		~Dot() {

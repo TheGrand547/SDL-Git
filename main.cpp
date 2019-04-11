@@ -109,9 +109,10 @@ int main(int argc, char *argv[]) {
 	Dot dot = Dot(Point(300, 150));
 	dot.setColorChannels(0xFF);
 	
-	//std::vector<std::vector<Box*>*>* holy = new std::vector<std::vector<Box*>*>;
+	//std::vector<std::vector<CollideBase*>*>* holy = new std::vector<std::vector<CollideBase*>*>;
 	
 	std::vector<Box*>* boxes = new std::vector<Box*>;
+	std::vector<BackElement*>* ground = new std::vector<BackElement*>;
 	
 	if(!init()) {
 		printf( "Failed to initialize!\n" );
@@ -126,7 +127,8 @@ int main(int argc, char *argv[]) {
 			SDL_Rect IOP = {0,0,SCREEN_WIDTH,SCREEN_HEIGHT};
 			SDL_Color red = {255, 0, 0, 255};
 			
-			/* TODO: Add method for initializing everything on sccreen to clean up main() */
+			/* TODO: Add method for initializing everything on sccreen to clean up main() and help smooth the transition to
+			 * using 'Screen' as the base class for the project */
 			
 			/* Initializes the pointer to the single texture shared by all
 			 * Box objects, then creates the boxes and assigns the pointer to them */
@@ -136,8 +138,17 @@ int main(int argc, char *argv[]) {
 			boxes->push_back(new Box(Point(350, 200)));
 			setTexture(boxes, mTexture);
 			
-			BackElement test = BackElement(Point(300, 50));
-			test.loadTexture(gRenderer);
+			
+			Texture* groundTexture = BackElement::createGroundTexture(gRenderer);
+			for (int x = 0; x <= SCREEN_WIDTH; x += 100) {
+				for (int y = 0; y <= SCREEN_HEIGHT; y += 100) {
+					ground->push_back(new BackElement(Point(x, y)));
+				}
+			}
+			Texture::distortTexture(gRenderer, groundTexture, mTexture);
+			for (BackElement* oink: *ground) {
+				oink->setTexture(groundTexture);
+			}
 			
 			//String for rendering text to the screen
 			std::stringstream fpsStr;
@@ -224,17 +235,6 @@ int main(int argc, char *argv[]) {
 				shift.tick();
 				SDL_GetMouseState(&mousePosX, &mousePosY);
 				//gFont.renderTextWrapped(200, 100, "andrew did a good :D but sam did the red bar and lets be real thats more important lul", gRenderer, red, 250);
-                
-                /* Framerate related Calculations */
-                if (countedFrames > 1000) {
-					time.start();
-					countedFrames = 1;
-				}
-                float avgFPS = countedFrames / (time.getTicks() / 1000.f);
-                fpsStr.str("");
-                fpsStr << "FPS: " << avgFPS;
-				gFont.renderText(100, 0, fpsStr.str(), gRenderer, red);
-				/* End of framerate related Calculations */
 				
 				/* Collision Detection 
 				 * Only does detection if dx 
@@ -261,15 +261,27 @@ int main(int argc, char *argv[]) {
 				}
 				/* End of Raycasting */
 				
-				
 				/* Drawing things onto the screen */
-				test.draw(gRenderer, screenPos);
+				for (BackElement* oink: *ground) {
+					oink->draw(gRenderer, screenPos);
+				}
 				
 				for (Box* box: *boxes) {
 					box->draw(gRenderer, screenPos);
 				}
 				dot.draw(gRenderer);
 				/* End of Drawing */
+				
+				 /* Framerate related Calculations */
+                if (countedFrames > 1000) {
+					time.start();
+					countedFrames = 1;
+				}
+                float avgFPS = countedFrames / (time.getTicks() / 1000.f);
+                fpsStr.str("");
+                fpsStr << "FPS: " << avgFPS;
+				gFont.renderText(100, 0, fpsStr.str(), gRenderer, red);
+				/* End of framerate related Calculations */
 			
 				
 				/* Render all changes onto the window */

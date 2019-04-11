@@ -41,6 +41,10 @@ class Rect: public MyBase{
 			delete bottomLeft;
 		}
 		
+		Rect(float x, float y, int width, int height) {
+			*this = Rect(Point(x, y), width, height);
+		}
+		
 		Rect(Point position, int width, int height) {
 			Point *topRight = new Point(position.x() + width, position.y());
 			Point *bottomLeft = new Point(position.x(), position.y() + height);
