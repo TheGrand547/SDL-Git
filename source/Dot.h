@@ -1,8 +1,8 @@
 #pragma once
 #include<SDL2/SDL.h>
 #include "primatives/Rect.h"
-#include "PointDelta.h"
 #include "BoundedRect.h"
+#include "PointDelta.h"
 
 #define PI 3.14159265
 
@@ -77,7 +77,7 @@ class Dot: public MyBase {
 			return *(this->angle) * 180/PI;
 		}
 		
-		void draw(SDL_Renderer *renderer) {
+		void draw(SDL_Renderer* renderer) {
 			setColorChannels(0x00, 0xFF, 0x00, 0xFF);
 			SDL_SetRenderDrawColor(renderer, rChannel, gChannel, bChannel, aChannel);
 			SDL_Rect temp = this->myRect->getSDLRect();

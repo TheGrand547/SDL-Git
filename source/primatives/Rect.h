@@ -77,9 +77,9 @@ class Rect: public MyBase{
 		}
 		
 		Point collideLine(Line &ray, Point offset = Point(0, 0)) {
-			//No way for a single straight line to intersect a line in more than
-			//two points *except with the stupid inline ones that i'm changing
-			//the whole thing for
+			/* No way for a single straight line to intersect a line in more than
+			 * two points *except with the stupid inline ones that i'm changing
+			 * the whole thing for */
 			Point intersect[4] = {Point(), Point(), Point(), Point()};
 			Point tempPoint;
 			int index = 0;
@@ -97,7 +97,7 @@ class Rect: public MyBase{
 			} else if(intersect[0].isReal() && intersect[1].isReal() && intersect[2].isReal()) {
 				return smallerDistance(ray.getOrigin(),intersect[2], smallerDistance(ray.getOrigin(), intersect[0], intersect[1]));
 			}
-			return intersect[0]; //If index 0-2 are null, 0 with always be null
+			return Point(); 
 			
 		}
 		

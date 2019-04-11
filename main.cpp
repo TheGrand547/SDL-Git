@@ -27,11 +27,12 @@
 #include "source/BoundedRect.h"
 #define PI 3.14159265
 
+
+/* Temporary globals before the eventually switch to game instances being tracked in seperate Objects. */
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
-const int IDEAL_FPS = 100;
-const int TICKS_PER_FRAME = 1000 / (IDEAL_FPS + 10); //Please do not even ask
 
+/* TODO: Remove & rework copy-pasted starting code */
 //Starts up SDL and creates window
 bool init();
 
@@ -80,6 +81,12 @@ bool loadMedia() {
 	return true;
 }
 
+void setTexture(std::vector<Box*>* vec, SuperTexture* texture) {
+	for (Box* box: *vec) {
+		box->setTexture(texture);
+	}
+}
+
 void close() {
 	//Deallocate surface
 	SDL_FreeSurface(gXOut);
@@ -93,22 +100,15 @@ void close() {
 	SDL_Quit();
 }
 int main(int argc, char *argv[]) {
-	//Start up SDL and create window
-	Point a = Point(0,0);
-	Point b = Point(200,200);
-	
-	Line c = Line(a, b);
-	c.setColorChannels();
-	
-	const char* message = "this is random test message for testing purposes";
-	SDL_Color red = {255,0,0,255};
-	
 	int mousePosX, mousePosY;
-	Line newLine;
+	Line tempLine;
+	tempLine.setColorChannels(0x00, 0xFF, 0xFF);
 	Point newPoint;
+	
 	Dot dot = Dot(Point(300, 150));
 	dot.setColorChannels(0xFF);
-	std::vector<Box*>* gnar = new std::vector<Box*>;
+	
+	std::vector<Box*>* boxes = new std::vector<Box*>;
 	
 	if(!init()) {
 		printf( "Failed to initialize!\n" );
@@ -121,49 +121,43 @@ int main(int argc, char *argv[]) {
 			bool quit = false;
 			
 			SDL_Rect IOP = {0,0,SCREEN_WIDTH,SCREEN_HEIGHT};
-			Font gFont = Font();
+			SDL_Color red = {255, 0, 0, 255};
 			
-			SuperTexture* mTexture = new SuperTexture();
-			mTexture->setClip(100, 100);
-			mTexture->drawBox(gRenderer, Rect(Point(0, 0), Point(100, 100)));
-			mTexture->loadFromFile("resources/missingTexture.jpg", gRenderer, 100, 50);
-			mTexture->drawRect(gRenderer, Rect(Point(0, 0), Point(100, 100)));
-			mTexture->drawRect(gRenderer, Rect(Point(0, 0), Point(100, 50)));
-	
-			gnar->push_back(new Box(Point(50, 50)));
-			gnar->push_back(new Box(Point(200, 200)));
-			gnar->push_back(new Box(Point(350, 200)));
-			(*gnar)[0]->setTexture(mTexture);
-			(*gnar)[1]->setTexture(mTexture);
-			(*gnar)[2]->setTexture(mTexture);
-			//gnar->push_back(new Box(Point(700, 500)));
+			/* Initializes the pointer to the single texture shared by all
+			 * Box objects, then creates the boxes and assigns the pointer to them */
+			SuperTexture* mTexture = Box::createBoxTexture(gRenderer);
+			boxes->push_back(new Box(Point(50, 50)));
+			boxes->push_back(new Box(Point(200, 200)));
+			boxes->push_back(new Box(Point(350, 200)));
+			setTexture(boxes, mTexture);
+			
+			//String for rendering text to the screen
+			std::stringstream fpsStr;
+			
+			//Event handler
+			SDL_Event e;
 			
 			//Timer Stuff
 			Timer time;
 			int countedFrames = 0;
 			
-			Timer frameCap;
-			int ticks = 0;
-			
-			std::stringstream fpsStr;
-			//Event handler
-			SDL_Event e;
 			PointDelta dx = PointDelta(0, 0, 4, 4);
 			
+			Font gFont = Font();
 			
-			BoundedPoint screenPos = BoundedPoint(0, 0, 0, 640, 0, 480);
+			BoundedPoint screenPos = BoundedPoint(0, 0, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 			
-			//While application is running
 			
 			HeldKey shift(SDLK_LSHIFT, 30);
 			time.start();
+			
 			while(!quit) {
-				if (countedFrames > 1000) {
-					time.start();
-					countedFrames = 1;
-				}
-				frameCap.start();
+				//Clear screen
+                SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
+                SDL_RenderClear(gRenderer);
+                /* Event Handling */
 				while(SDL_PollEvent(&e) != 0) {
+					/* TODO make this a method to clean up main method */
 					switch(e.type) {
 						case SDL_QUIT:
 							quit = true;
@@ -221,49 +215,63 @@ int main(int argc, char *argv[]) {
 				}
 				shift.tick();
 				SDL_GetMouseState(&mousePosX, &mousePosY);
-				//Clear screen
-                SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
-                SDL_RenderClear(gRenderer);
 				//gFont.renderTextWrapped(200, 100, "andrew did a good :D but sam did the red bar and lets be real thats more important lul", gRenderer, red, 250);
                 
+                /* Framerate related Calculations */
+                if (countedFrames > 1000) {
+					time.start();
+					countedFrames = 1;
+				}
                 float avgFPS = countedFrames / (time.getTicks() / 1000.f);
                 fpsStr.str("");
                 fpsStr << "FPS: " << avgFPS;
-                
-                gFont.renderText(100, 0, fpsStr.str(), gRenderer, red);
+				gFont.renderText(100, 0, fpsStr.str(), gRenderer, red);
+				/* End of framerate related Calculations */
+				
+				/* Collision Detection 
+				 * Only does detection if dx 
+				 * Exists to improve performance */
                 if (dx.getNonZero()) {
 					for (int i = 1; i < 6; i++) {
-						if (collideRectPlusExtras(dot.getRect(), gnar, dx/i, screenPos)) {
+						if (collideRectPlusExtras(dot.getRect(), boxes, dx/i, screenPos)) {
 							dot += dx/i;
 							screenPos += dx/i;
 							break;
 						}
 					}
 				}
-				for (int i = 0; i < gnar->size(); i++) {
-					(*gnar)[i]->draw(gRenderer, screenPos);
+				/* End of Collision Detection */
+				
+				/* Raycasting */
+				if (shift.getHeld()) {
+					Line ray(dot.getRay());
+					newPoint = collideTestVectorToRay(boxes, ray, screenPos.negate());
+					if (!newPoint.isNull()) {
+						tempLine = Line(dot.getCenter(), newPoint.copy());
+						tempLine.drawLine(gRenderer);
+					}
+				}
+				/* End of Raycasting */
+				
+				
+				/* Drawing things onto the screen */
+				for (Box* box: *boxes) {
+					box->draw(gRenderer, screenPos);
 				}
 				dot.draw(gRenderer);
+				/* End of Drawing */
+			
 				
-                //Line aabc(dot.getPos(), dot.getRay().getEnd());
-				Line aabc(dot.getRay());
-                aabc.drawLine(gRenderer);
-                newPoint = collideTestVectorToRay(gnar, aabc, screenPos.negate());
-                if (!newPoint.isNull()) {
-					newLine = Line(dot.getCenter(), newPoint.copy());
-					newLine.setColorChannels(0x00, 0xFF, 0xFF);
-					newLine.drawLine(gRenderer);
-				}
-				lineColor(gRenderer, 200, 200, 300, 300, 0xFFFF00FF);
-				
-				//Update the surface
+				/* Render all changes onto the window */
 				SDL_RenderPresent(gRenderer);
 				SDL_UpdateWindowSurface(gWindow);
-				countedFrames++;
+				
+				//Necessary to keep up approximate framerate estimation
+				countedFrames++; 
 			}
 		}
 	}
 	close();
-	delete gnar;
+	delete boxes;
 	return 0;
 }

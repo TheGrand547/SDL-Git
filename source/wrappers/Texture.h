@@ -1,5 +1,11 @@
 #pragma once
+#include<iostream>
+#include<SDL2/SDL.h>
+#include<SDL2/SDL2_rotozoom.h>
+#include<SDL2_image/SDL_image.h>
+#include "../primatives/Point.h"
 typedef Uint8 uint8_t;
+
 class Texture {
 	protected:
 		int *width, *height;
@@ -140,9 +146,9 @@ class Texture {
 					height = new int(tempSurface->h);
 				}
 				SDL_SetRenderTarget(renderer, tempTexture);
-				SDL_Rect e = {0, 0, tempSurface->w, tempSurface->h};
+				SDL_Rect tempRect = {0, 0, tempSurface->w, tempSurface->h};
 				SDL_RenderCopy(renderer, this->texture, NULL, NULL);
-				SDL_RenderCopy(renderer, newTexture, NULL, &e);
+				SDL_RenderCopy(renderer, newTexture, NULL, &tempRect);
 				SDL_SetRenderTarget(renderer, NULL);
 			}
 			SDL_FreeSurface(tempSurface);

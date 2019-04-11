@@ -100,6 +100,16 @@ class Box : public CollideBase{
 		void setTexture(SuperTexture* texture) {
 			this->mTexture = texture;
 		}
+		
+		static SuperTexture* createBoxTexture(SDL_Renderer* renderer) {
+			SuperTexture* texture = new SuperTexture();
+			texture->setClip(100, 100);
+			texture->drawBox(renderer, Rect(Point(0, 0), Point(100, 100)));
+			texture->loadFromFile("resources/missingTexture.jpg", renderer, 100, 50);
+			texture->drawRect(renderer, Rect(Point(0, 0), Point(100, 100)));
+			texture->drawRect(renderer, Rect(Point(0, 0), Point(100, 50)));
+			return texture;
+		}
 };
 
 bool collideRect(Rect rect, std::vector<Box*> vec) {

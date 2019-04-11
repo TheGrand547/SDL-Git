@@ -9,7 +9,7 @@ typedef Uint8 uint8_t;
 bool xBetweenAandB(float x, float a, float b);
 
 class Line: public MyBase{
-	//Represents a line in the form, ax+by=c, bounded by the points A and B
+	/* Represents a line in the form, ax+by=c, bounded by the points A and B */
 	private:
 		float *ax, *by, *c;
 		float *minX, *maxX, *minY, *maxY;

@@ -1,4 +1,7 @@
 #pragma once
+
+/* TODO: Rewrite class based on SDL_GetTicks so its not framerate dependent */
+
 class HeldKey {
 	private:
 		bool *down, *toggle;
@@ -44,10 +47,13 @@ class HeldKey {
 			return *(this->toggle);
 		}
 		
+		
+		/* Returns number of frames it has been held down */
 		int getFrames() {
 			return *(this->framesHeld);
 		}
 		
+		/* Returns true if the key has been held down past its threshold */
 		bool getHeld() {
 			return *(this->toggle);
 		}

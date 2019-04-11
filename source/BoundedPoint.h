@@ -12,14 +12,14 @@ class BoundedPoint : public Point {
 			this->yMin = new float(0);
 			this->yMax = new float(0);
 		}
-		BoundedPoint(float xpos, float ypos, float xMin, float xMax, float yMin, float yMax) : Point(xpos, ypos) {
+		BoundedPoint(float xpos, float ypos, float xMin, float yMin, float xMax, float yMax) : Point(xpos, ypos) {
 			this->xMin = new float(xMin);
 			this->xMax = new float(xMax);
 			this->yMin = new float(yMin);
 			this->yMax = new float(yMax);
 		}
 		
-		BoundedPoint(Point pos, float xMin, float xMax, float yMin, float yMax) : Point(pos) {
+		BoundedPoint(Point pos, float xMin, float yMin, float xMax, float yMax) : Point(pos) {
 			this->xMin = new float(xMin);
 			this->xMax = new float(xMax);
 			this->yMin = new float(yMin);
