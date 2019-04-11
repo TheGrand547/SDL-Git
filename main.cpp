@@ -25,6 +25,7 @@
 #include "source/HeldKey.h"
 #include "source/CollideBase.h"
 #include "source/BoundedRect.h"
+#include "source/BackgroundElement.h"
 #define PI 3.14159265
 
 
@@ -108,6 +109,8 @@ int main(int argc, char *argv[]) {
 	Dot dot = Dot(Point(300, 150));
 	dot.setColorChannels(0xFF);
 	
+	//std::vector<std::vector<Box*>*>* holy = new std::vector<std::vector<Box*>*>;
+	
 	std::vector<Box*>* boxes = new std::vector<Box*>;
 	
 	if(!init()) {
@@ -123,6 +126,8 @@ int main(int argc, char *argv[]) {
 			SDL_Rect IOP = {0,0,SCREEN_WIDTH,SCREEN_HEIGHT};
 			SDL_Color red = {255, 0, 0, 255};
 			
+			/* TODO: Add method for initializing everything on sccreen to clean up main() */
+			
 			/* Initializes the pointer to the single texture shared by all
 			 * Box objects, then creates the boxes and assigns the pointer to them */
 			SuperTexture* mTexture = Box::createBoxTexture(gRenderer);
@@ -130,6 +135,9 @@ int main(int argc, char *argv[]) {
 			boxes->push_back(new Box(Point(200, 200)));
 			boxes->push_back(new Box(Point(350, 200)));
 			setTexture(boxes, mTexture);
+			
+			BackElement test = BackElement(Point(300, 50));
+			test.loadTexture(gRenderer);
 			
 			//String for rendering text to the screen
 			std::stringstream fpsStr;
@@ -157,7 +165,7 @@ int main(int argc, char *argv[]) {
                 SDL_RenderClear(gRenderer);
                 /* Event Handling */
 				while(SDL_PollEvent(&e) != 0) {
-					/* TODO make this a method to clean up main method */
+					/* TODO: Make this a method to clean up main method */
 					switch(e.type) {
 						case SDL_QUIT:
 							quit = true;
@@ -255,6 +263,8 @@ int main(int argc, char *argv[]) {
 				
 				
 				/* Drawing things onto the screen */
+				test.draw(gRenderer, screenPos);
+				
 				for (Box* box: *boxes) {
 					box->draw(gRenderer, screenPos);
 				}

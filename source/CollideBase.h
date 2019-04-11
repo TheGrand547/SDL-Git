@@ -9,17 +9,13 @@
  * Everything is either a pointer or pass-by-reference to be more efficent */
 class CollideBase{
 	public:
-		bool overlap(Rect &other) {
-			return false;
-		}
-		
 		bool overlap(Rect &other, Point offset) {
 			return false;
 		}
 		
-		Point collideLine(Line &ray) {
+		Point collideLine(Line &ray, Point offset) {
 			return Point();
 		}
 		
-		void draw(SDL_Renderer* renderer) {}
+		void draw(SDL_Renderer* renderer, Point offset) {}
 };
