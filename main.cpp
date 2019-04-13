@@ -10,6 +10,8 @@
 #include<stdio.h>
 #include<sstream>
 #include<vector>
+#include "source/game_entities/Box.h"
+#include "source/game_entities/BackgroundElement.h"
 #include "source/primatives/Line.h"
 #include "source/primatives/Point.h"
 #include "source/wrappers/Font.h"
@@ -19,20 +21,16 @@
 #include "source/util.h"
 #include "source/MyBase.h"
 #include "source/Dot.h"
-#include "source/Box.h"
 #include "source/PointDelta.h"
 #include "source/BoundedPoint.h"
 #include "source/HeldKey.h"
 #include "source/CollideBase.h"
 #include "source/BoundedRect.h"
-#include "source/BackgroundElement.h"
+
 #define PI 3.14159265
 
 
 /* Temporary globals before the eventually switch to game instances being tracked in seperate Objects. */
-const int SCREEN_WIDTH = 640;
-const int SCREEN_HEIGHT = 480;
-
 /* TODO: Remove & rework copy-pasted starting code */
 //Starts up SDL and creates window
 bool init();
@@ -45,12 +43,6 @@ void close();
 
 //The window we'll be rendering to
 SDL_Window* gWindow = NULL;
-	
-//The surface contained by the window
-SDL_Surface* gScreenSurface = NULL;
-
-//The image we will load and show on the screen
-SDL_Surface* gXOut = NULL;
 
 SDL_Renderer* gRenderer = NULL;
 
@@ -64,7 +56,7 @@ bool init() {
 		success = false;
 	} else {
 		//Create window
-		gWindow = SDL_CreateWindow("SDL Experimenting", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+		gWindow = SDL_CreateWindow("SDL Experimenting", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, Screen::SCREEN_WIDTH, Screen::SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 		if(gWindow == NULL) {
 			printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
 			success = false;
@@ -72,7 +64,6 @@ bool init() {
 			TTF_Init();
 			//Get window surface
 			gRenderer = SDL_CreateRenderer(gWindow, -1, SDL_RENDERER_ACCELERATED);
-			gScreenSurface = SDL_GetWindowSurface(gWindow);
 		}
 	}
 	return success;
@@ -89,10 +80,6 @@ void setTexture(std::vector<Box*>* vec, SuperTexture* texture) {
 }
 
 void close() {
-	//Deallocate surface
-	SDL_FreeSurface(gXOut);
-	gXOut = NULL;
-
 	//Destroy window
 	SDL_DestroyWindow(gWindow);
 	gWindow = NULL;
@@ -100,6 +87,7 @@ void close() {
 	//Quit SDL subsystems
 	SDL_Quit();
 }
+
 int main(int argc, char *argv[]) {
 	int mousePosX, mousePosY;
 	Line tempLine;
@@ -124,7 +112,7 @@ int main(int argc, char *argv[]) {
 			//Main loop flag
 			bool quit = false;
 			
-			SDL_Rect IOP = {0,0,SCREEN_WIDTH,SCREEN_HEIGHT};
+			SDL_Rect IOP = {0, 0, Screen::SCREEN_WIDTH, Screen::SCREEN_HEIGHT};
 			SDL_Color red = {255, 0, 0, 255};
 			
 			/* TODO: Add method for initializing everything on sccreen to clean up main() and help smooth the transition to
@@ -136,16 +124,14 @@ int main(int argc, char *argv[]) {
 			boxes->push_back(new Box(Point(50, 50)));
 			boxes->push_back(new Box(Point(200, 200)));
 			boxes->push_back(new Box(Point(350, 200)));
-			setTexture(boxes, mTexture);
-			
+			setTexture(boxes, mTexture);s
 			
 			Texture* groundTexture = BackElement::createGroundTexture(gRenderer);
-			for (int x = 0; x <= SCREEN_WIDTH; x += 100) {
-				for (int y = 0; y <= SCREEN_HEIGHT; y += 100) {
+			for (int x = 0; x <= Screen::SCREEN_WIDTH; x += 100) {
+				for (int y = 0; y <= Screen::SCREEN_HEIGHT; y += 100) {
 					ground->push_back(new BackElement(Point(x, y)));
 				}
 			}
-			Texture::distortTexture(gRenderer, groundTexture, mTexture);
 			for (BackElement* oink: *ground) {
 				oink->setTexture(groundTexture);
 			}
@@ -164,7 +150,7 @@ int main(int argc, char *argv[]) {
 			
 			Font gFont = Font();
 			
-			BoundedPoint screenPos = BoundedPoint(0, 0, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+			BoundedPoint screenPos = BoundedPoint(0, 0, 0, 0, Screen::SCREEN_WIDTH, Screen::SCREEN_HEIGHT);
 			
 			
 			HeldKey shift(SDLK_LSHIFT, 30);
@@ -294,6 +280,7 @@ int main(int argc, char *argv[]) {
 		}
 	}
 	close();
+	delete ground;
 	delete boxes;
 	return 0;
 }

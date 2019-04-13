@@ -3,19 +3,18 @@
 #include "primatives/Rect.h"
 #include "BoundedRect.h"
 #include "PointDelta.h"
+#include "constants.h"
 
 #define PI 3.14159265
 
 class Dot: public MyBase {
 	private:
-		static const int DOT_X_DIMENSION = 11;
-		static const int DOT_Y_DIMENSION = 11;
 		float *angle;
 		BoundedRect *myRect;
 	public:
 		Dot(Point startingCoordinate) {
 			angle = new float(0);
-			myRect = new BoundedRect(startingCoordinate, startingCoordinate + Point(DOT_X_DIMENSION, DOT_Y_DIMENSION), 0, 0, 500, 300);
+			myRect = new BoundedRect(startingCoordinate, startingCoordinate + Point(Player::PLAYER_X_DIMENSION, Player::PLAYER_Y_DIMENSION), 0, 0, 500, 300);
 		}
 		
 		~Dot() {

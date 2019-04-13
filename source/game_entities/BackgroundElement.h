@@ -3,27 +3,15 @@
 #include<SDL2/SDL.h>
 #include<SDL2/SDL2_rotozoom.h>
 #include<SDL2_image/SDL_image.h>
-#include "primatives/Point.h"
-#include "primatives/Rect.h"
-#include "wrappers/Texture.h"
-#include "CollideBase.h"
-
-/* Enumeration to get rid of overhead on my end 
- * as all background elements are fundamentally the same*/
-namespace Ground {
-	enum Type {
-		GRASS = 0, METAL = 1
-	};
-	std::string filenames[2] = {"resources/grass.png", "missingTexture.jpg"};
-}
+#include "../primatives/Point.h"
+#include "../primatives/Rect.h"
+#include "../wrappers/Texture.h"
+#include "../constants.h"
 
 /* Background element of the map, notably the ground
  * Various types are supported based on the enum passed to it */
-class BackElement : public CollideBase{
+class BackElement {
 	private:
-		/* TODO: Create a constants file */
-		static const int DEFAULT_WIDTH = 100; 
-		static const int DEFAULT_HEIGHT = 100;
 		Texture *texture;
 		Rect *myRect;
 		Ground::Type type;
@@ -36,7 +24,7 @@ class BackElement : public CollideBase{
 		
 		BackElement(Point position, Ground::Type type = Ground::GRASS) {
 			this->texture = new Texture();
-			this->myRect = new Rect(position, DEFAULT_WIDTH, DEFAULT_HEIGHT);
+			this->myRect = new Rect(position, Ground::DEFAULT_WIDTH, Ground::DEFAULT_HEIGHT);
 			this->type = type;
 		}
 		
@@ -60,7 +48,8 @@ class BackElement : public CollideBase{
 			this->texture->render(renderer, offset);
 		}
 		
-		static Texture* createGroundTexture(SDL_Renderer* renderer, int width = DEFAULT_WIDTH, int height = DEFAULT_HEIGHT, Ground::Type type = Ground::GRASS) {
+		static Texture* createGroundTexture(SDL_Renderer* renderer, int width = Ground::DEFAULT_WIDTH, int height = Ground::DEFAULT_HEIGHT, 
+											Ground::Type type = Ground::GRASS) {
 			Texture* temp = new Texture();
 			temp->loadFromFile(Ground::filenames[type], renderer, width, height);
 			return temp;
