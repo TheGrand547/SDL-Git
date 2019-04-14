@@ -124,7 +124,7 @@ int main(int argc, char *argv[]) {
 			boxes->push_back(new Box(Point(50, 50)));
 			boxes->push_back(new Box(Point(200, 200)));
 			boxes->push_back(new Box(Point(350, 200)));
-			setTexture(boxes, mTexture);s
+			setTexture(boxes, mTexture);
 			
 			Texture* groundTexture = BackElement::createGroundTexture(gRenderer);
 			for (int x = 0; x <= Screen::SCREEN_WIDTH; x += 100) {
@@ -150,6 +150,8 @@ int main(int argc, char *argv[]) {
 			
 			Font gFont = Font();
 			
+			
+			/* TODO: Write functionality to attempt to keep the player in the center of the screen at all times */
 			BoundedPoint screenPos = BoundedPoint(0, 0, 0, 0, Screen::SCREEN_WIDTH, Screen::SCREEN_HEIGHT);
 			
 			
@@ -230,6 +232,17 @@ int main(int argc, char *argv[]) {
 						if (collideRectPlusExtras(dot.getRect(), boxes, dx/i, screenPos)) {
 							dot += dx/i;
 							screenPos += dx/i;
+							/* WIP
+							if (dx.x() < 0 && screenPos.x() > Screen::SCREEN_WIDTH) {
+								if (dx.y() < 0 && screenPos.y() > Screen::SCREEN_HEIGHT) {
+									screenPos += dx/i;
+								}
+							}
+							if (dx.x() > 0 && screenPos.x() < Screen::SCREEN_WIDTH) {
+								if (dx.y() > 0 && screenPos.y() < Screen::SCREEN_HEIGHT) {
+									screenPos += dx/i;
+								}
+							}*/
 							break;
 						}
 					}
@@ -247,6 +260,7 @@ int main(int argc, char *argv[]) {
 				}
 				/* End of Raycasting */
 				
+				
 				/* Drawing things onto the screen */
 				for (BackElement* oink: *ground) {
 					oink->draw(gRenderer, screenPos);
@@ -255,7 +269,8 @@ int main(int argc, char *argv[]) {
 				for (Box* box: *boxes) {
 					box->draw(gRenderer, screenPos);
 				}
-				dot.draw(gRenderer);
+				
+				dot.draw(gRenderer); // Player must always be drawn onto the upper most layer for best visibility
 				/* End of Drawing */
 				
 				 /* Framerate related Calculations */

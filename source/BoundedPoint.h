@@ -66,5 +66,13 @@ class BoundedPoint : public Point {
 			Point::operator-=(delta);
 			reduce();
 		}
-	
+		
+		void zeroX() {
+			*this->xval = 0;
+		}
+		
+		void zeroY() {
+			*this->yval = 0;
+		}
+		
 };
