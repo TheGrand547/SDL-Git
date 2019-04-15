@@ -43,7 +43,6 @@ void close();
 
 //The window we'll be rendering to
 SDL_Window* gWindow = NULL;
-
 SDL_Renderer* gRenderer = NULL;
 
 bool init() {
