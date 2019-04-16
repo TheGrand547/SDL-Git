@@ -2,6 +2,12 @@
 /* File to store all constants */
 
 
+namespace Box {
+	const int BOX_WIDTH = 100;
+	const int BOX_HEIGHT = 100;
+	const float BOX_OUTDENT = .5;
+}
+
 /* Enumeration to get rid of overhead on my end 
  * as all background elements are fundamentally the same */
 namespace Ground {

@@ -149,7 +149,6 @@ int main(int argc, char *argv[]) {
 			
 			Font gFont = Font();
 			
-			
 			BoundedPoint screenPos = BoundedPoint(0, 0, 0, 0, Screen::MAX_WIDTH-Screen::SCREEN_WIDTH, Screen::MAX_HEIGHT-Screen::SCREEN_HEIGHT);
 			
 			
@@ -275,8 +274,7 @@ int main(int argc, char *argv[]) {
 				}
                 float avgFPS = countedFrames / (time.getTicks() / 1000.f);
                 fpsStr.str("");
-                //fpsStr << "FPS: " << avgFPS
-                fpsStr << dot.getPos() << " " << screenPos;
+                fpsStr << "FPS: " << avgFPS;
 				gFont.renderText(100, 0, fpsStr.str(), gRenderer, red);
 				/* End of framerate related Calculations */
 			

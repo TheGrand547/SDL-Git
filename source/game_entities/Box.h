@@ -13,10 +13,6 @@ typedef Uint32 uint32_t;
 class Box : public CollideBase{
 	//Class for boxes
 	private:
-		const float outdent = .5;
-		const int width = 100;
-		const int height = 100;
-		
 		Point *inPointLeft, *inPointRight;
 		Rect *outerRect, *innerRect;
 		SuperTexture *mTexture;
@@ -30,9 +26,9 @@ class Box : public CollideBase{
 		
 		Box(Point position) {
 			//All boxes are of the same size
-			outerRect = new Rect(position, this->width, this->height);
+			outerRect = new Rect(position, Box::BOX_WIDTH, Box::BOX_HEIGHT);
 			inPointLeft = new Point(position);
-			inPointRight = new Point(position.x() + this->width, position.y() + (this->height * outdent));
+			inPointRight = new Point(position.x() + Box::BOX_WIDTH, position.y() + (Box::BOX_HEIGHT * Box::BOX_OUTDENT));
 			innerRect = new Rect(inPointLeft, inPointRight);
 			innerRect->setColorChannels(0x30, 0x30, 0x30, 0xFF);
 			outerRect->setColorChannels(0x00, 0x00, 0x00, 0xFF);
@@ -66,10 +62,6 @@ class Box : public CollideBase{
 			return *this;
 		}
 		
-		void loadTexture(SDL_Renderer* renderer, std::string path = "resources/missingTexture.jpg") {
-			
-		}
-		
 		void draw(SDL_Renderer* renderer, Point offset = Point(0, 0)) {
 			if (mTexture->isLoaded()) {
 				this->mTexture->setPos(this->outerRect->getTopLeft());
@@ -77,23 +69,11 @@ class Box : public CollideBase{
 			}
 		}
 		
-		Point collideLine(Line &ray) {
-			return outerRect->collideLine(ray);
-		}
-		
-		Point collideLine(Line &ray, Point point) {
+		Point collideLine(Line &ray, Point point = Point(0, 0)) {
 			return outerRect->collideLine(ray, point);
 		}
 		
-		void fill(SDL_Renderer *renderer, Uint32 color = 0x000000FF) {
-			mTexture->createBlank(renderer, innerRect->getWidth(), innerRect->getHeight(), color);
-		}
-		
-		bool overlap(Rect &test) {
-			return outerRect->overlap(test);
-		}
-		
-		bool overlap(Rect &other, Point offset) {
+		bool overlap(Rect &other, Point offset = Point(0, 0)) {
 			return outerRect->overlap(other, offset);
 		}
 		
@@ -103,11 +83,11 @@ class Box : public CollideBase{
 		
 		static SuperTexture* createBoxTexture(SDL_Renderer* renderer) {
 			SuperTexture* texture = new SuperTexture();
-			texture->setClip(100, 100);
-			texture->drawBox(renderer, Rect(Point(0, 0), Point(100, 100)));
-			texture->loadFromFile("resources/missingTexture.jpg", renderer, 100, 50);
-			texture->drawRect(renderer, Rect(Point(0, 0), Point(100, 100)));
-			texture->drawRect(renderer, Rect(Point(0, 0), Point(100, 50)));
+			texture->setClip(Box::BOX_WIDTH, Box::BOX_HEIGHT);
+			texture->drawBox(renderer, Rect(Point(0, 0), Point(Box::BOX_WIDTH, Box::BOX_HEIGHT)));
+			texture->loadFromFile("resources/missingTexture.jpg", renderer, Box::BOX_WIDTH, Box::BOX_OUTDENT * Box::BOX_HEIGHT);
+			texture->drawRect(renderer, Rect(Point(0, 0), Point(Box::BOX_WIDTH, Box::BOX_HEIGHT)));
+			texture->drawRect(renderer, Rect(Point(0, 0), Point(Box::BOX_WIDTH, Box::BOX_OUTDENT * Box::BOX_HEIGHT)));
 			return texture;
 		}
 };
@@ -153,5 +133,5 @@ Point collideTestVectorToRay(std::vector<Box*>* boxes, Line ray, Point point = P
 }
 
 bool collideRectPlusExtras(Rect rect, std::vector<Box*>* vec, Point dydx, BoundedPoint screen) {
-	return !collideRect(rect+dydx, vec, Point(0,0)) && !collideRect(rect+dydx, vec, Point(0,0)-dydx);
+	return !collideRect(rect+dydx, vec, Point(0,0));
 }
