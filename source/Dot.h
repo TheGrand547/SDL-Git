@@ -14,7 +14,8 @@ class Dot: public MyBase {
 	public:
 		Dot(Point startingCoordinate) {
 			angle = new float(0);
-			myRect = new BoundedRect(startingCoordinate, startingCoordinate + Point(Player::PLAYER_X_DIMENSION, Player::PLAYER_Y_DIMENSION), 0, 0, 500, 300);
+			myRect = new BoundedRect(startingCoordinate, startingCoordinate + Point(Player::PLAYER_X_DIMENSION, Player::PLAYER_Y_DIMENSION), 
+									0, 0, 500, 500);
 		}
 		
 		~Dot() {

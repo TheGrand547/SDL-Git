@@ -21,4 +21,6 @@ namespace Player {
 namespace Screen {
 	const int SCREEN_WIDTH = 640;
 	const int SCREEN_HEIGHT = 480;
+	const int MAX_WIDTH = 1280;
+	const int MAX_HEIGHT = 960;
 }

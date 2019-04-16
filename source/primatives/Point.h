@@ -14,8 +14,11 @@ class Point {
 		Point operator-(const Point &point);
 		Point operator+(const Point &point);
 		Point &operator=(const Point &that);
+		Point operator/(const float &num);
 		Point copy() const;
 		Point negate();
+		Point onlyX();
+		Point onlyY();
 		bool getNonZero();
 		bool isNull();
 		bool isReal();

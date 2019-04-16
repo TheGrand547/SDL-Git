@@ -30,7 +30,7 @@
 #define PI 3.14159265
 
 
-/* Temporary globals before the eventually switch to game instances being tracked in seperate Objects. */
+/* Temporary globals before the eventual switch to game instances being tracked in seperate Objects. */
 /* TODO: Remove & rework copy-pasted starting code */
 //Starts up SDL and creates window
 bool init();
@@ -41,7 +41,6 @@ bool loadMedia();
 //Frees media and shuts down SDL
 void close();
 
-//The window we'll be rendering to
 SDL_Window* gWindow = NULL;
 SDL_Renderer* gRenderer = NULL;
 
@@ -125,6 +124,7 @@ int main(int argc, char *argv[]) {
 			boxes->push_back(new Box(Point(350, 200)));
 			setTexture(boxes, mTexture);
 			
+			/* TODO: Create functionality to belnd all groundtextures into one big texture for the performance boost */
 			Texture* groundTexture = BackElement::createGroundTexture(gRenderer);
 			for (int x = 0; x <= Screen::SCREEN_WIDTH; x += 100) {
 				for (int y = 0; y <= Screen::SCREEN_HEIGHT; y += 100) {
@@ -224,29 +224,27 @@ int main(int argc, char *argv[]) {
 				//gFont.renderTextWrapped(200, 100, "andrew did a good :D but sam did the red bar and lets be real thats more important lul", gRenderer, red, 250);
 				
 				/* Collision Detection 
-				 * Only does detection if dx 
-				 * Exists to improve performance */
+				 * Only does detection if dx exists to improve performance */
                 if (dx.getNonZero()) {
 					for (int i = 1; i < 6; i++) {
 						if (collideRectPlusExtras(dot.getRect(), boxes, dx/i, screenPos)) {
 							dot += dx/i;
 							screenPos += dx/i;
-							/* WIP
-							if (dx.x() < 0 && screenPos.x() > Screen::SCREEN_WIDTH) {
-								if (dx.y() < 0 && screenPos.y() > Screen::SCREEN_HEIGHT) {
-									screenPos += dx/i;
-								}
+							/* Good Start, but its really convuluted, plus has many problems
+							Point dotTest = dot.getPos();
+							if (dotTest.x() > (Screen::SCREEN_WIDTH / 2) && dotTest.x() < (Screen::MAX_WIDTH - Screen::SCREEN_WIDTH / 2)) { 
+								screenPos += dx.onlyX()/i;
 							}
-							if (dx.x() > 0 && screenPos.x() < Screen::SCREEN_WIDTH) {
-								if (dx.y() > 0 && screenPos.y() < Screen::SCREEN_HEIGHT) {
-									screenPos += dx/i;
-								}
-							}*/
+							
+							if (dotTest.y() > (Screen::SCREEN_HEIGHT / 2) && dotTest.y() < (Screen::MAX_HEIGHT - Screen::SCREEN_HEIGHT / 2)) {
+								screenPos += dx.onlyY()/i;
+							} */
 							break;
 						}
 					}
 				}
 				/* End of Collision Detection */
+				
 				
 				/* Raycasting */
 				if (shift.getHeld()) {
@@ -269,6 +267,7 @@ int main(int argc, char *argv[]) {
 					box->draw(gRenderer, screenPos);
 				}
 				
+				/* TODO: Add offset rendering for the dot */
 				dot.draw(gRenderer); // Player must always be drawn onto the upper most layer for best visibility
 				/* End of Drawing */
 				
@@ -279,7 +278,7 @@ int main(int argc, char *argv[]) {
 				}
                 float avgFPS = countedFrames / (time.getTicks() / 1000.f);
                 fpsStr.str("");
-                fpsStr << "FPS: " << avgFPS;
+                fpsStr << "FPS: " << avgFPS
 				gFont.renderText(100, 0, fpsStr.str(), gRenderer, red);
 				/* End of framerate related Calculations */
 			

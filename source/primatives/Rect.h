@@ -25,6 +25,7 @@ class Rect: public MyBase{
 			this->lines[2] = NULL;
 			this->lines[3] = NULL;
 		}
+		
 		Rect(Point topLeft, Point bottomRight) {
 			Point *topRight = new Point(bottomRight.x(), topLeft.y());
 			Point *bottomLeft = new Point(topLeft.x(), bottomRight.y());

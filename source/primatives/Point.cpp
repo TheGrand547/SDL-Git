@@ -102,3 +102,15 @@ bool Point::getNonZero() {
 Point Point::negate() {
 	return Point(-(*this->xval),-(*this->yval));
 }
+
+Point Point::onlyX() {
+	return Point(*this->xval, 0);
+}
+
+Point Point::onlyY() {
+	return Point(0, *this->yval);
+}
+
+Point Point::operator/(const float &num) {
+	return Point((*this->xval)/num, (*this->yval)/num);
+}
