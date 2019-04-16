@@ -153,5 +153,5 @@ Point collideTestVectorToRay(std::vector<Box*>* boxes, Line ray, Point point = P
 }
 
 bool collideRectPlusExtras(Rect rect, std::vector<Box*>* vec, Point dydx, BoundedPoint screen) {
-	return !collideRect(rect+dydx, vec, screen.negate()) && !collideRect(rect+dydx, vec, screen.negate()-dydx);
+	return !collideRect(rect+dydx, vec, Point(0,0)) && !collideRect(rect+dydx, vec, Point(0,0)-dydx);
 }

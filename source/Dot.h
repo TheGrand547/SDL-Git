@@ -15,7 +15,7 @@ class Dot: public MyBase {
 		Dot(Point startingCoordinate) {
 			angle = new float(0);
 			myRect = new BoundedRect(startingCoordinate, startingCoordinate + Point(Player::PLAYER_X_DIMENSION, Player::PLAYER_Y_DIMENSION), 
-									0, 0, 500, 500);
+									0, 0, 1280, 900);
 		}
 		
 		~Dot() {
@@ -77,10 +77,10 @@ class Dot: public MyBase {
 			return *(this->angle) * 180/PI;
 		}
 		
-		void draw(SDL_Renderer* renderer) {
+		void draw(SDL_Renderer* renderer, Point offset = Point(0, 0)) {
 			setColorChannels(0x00, 0x00, 0xFF, 0xFF);
 			SDL_SetRenderDrawColor(renderer, rChannel, gChannel, bChannel, aChannel);
-			SDL_Rect temp = this->myRect->getSDLRect();
+			SDL_Rect temp = (BoundedRect(*this->myRect) + offset).getSDLRect();
 			SDL_RenderFillRect(renderer, &temp);
 		}
 };

@@ -163,7 +163,10 @@ class Rect: public MyBase{
 		}
 		
 		Rect operator+(const Point &point) {
-			return Rect(*(this->tL) + point, *(this->bR) + point);
+			return Rect(this->tL->copy() + point, this->bR->copy() + point);
+		}
+		Rect operator-(const Point &point) {
+			return Rect(this->tL->copy() - point, this->bR->copy() - point);
 		}
 		
 		void operator+=(Point &point) {

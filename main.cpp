@@ -150,8 +150,7 @@ int main(int argc, char *argv[]) {
 			Font gFont = Font();
 			
 			
-			/* TODO: Write functionality to attempt to keep the player in the center of the screen at all times */
-			BoundedPoint screenPos = BoundedPoint(0, 0, 0, 0, Screen::SCREEN_WIDTH, Screen::SCREEN_HEIGHT);
+			BoundedPoint screenPos = BoundedPoint(0, 0, 0, 0, Screen::MAX_WIDTH-Screen::SCREEN_WIDTH, Screen::MAX_HEIGHT-Screen::SCREEN_HEIGHT);
 			
 			
 			HeldKey shift(SDLK_LSHIFT, 30);
@@ -229,16 +228,14 @@ int main(int argc, char *argv[]) {
 					for (int i = 1; i < 6; i++) {
 						if (collideRectPlusExtras(dot.getRect(), boxes, dx/i, screenPos)) {
 							dot += dx/i;
-							screenPos += dx/i;
-							/* Good Start, but its really convuluted, plus has many problems
-							Point dotTest = dot.getPos();
-							if (dotTest.x() > (Screen::SCREEN_WIDTH / 2) && dotTest.x() < (Screen::MAX_WIDTH - Screen::SCREEN_WIDTH / 2)) { 
+							Point dotTest = dot.getPos().copy();
+							if (dotTest.x() > (Screen::SCREEN_WIDTH / 2) && dotTest.x() < (Screen::MAX_WIDTH - (Screen::SCREEN_WIDTH / 2))) { 
 								screenPos += dx.onlyX()/i;
 							}
 							
-							if (dotTest.y() > (Screen::SCREEN_HEIGHT / 2) && dotTest.y() < (Screen::MAX_HEIGHT - Screen::SCREEN_HEIGHT / 2)) {
+							if (dotTest.y() > (Screen::SCREEN_HEIGHT / 2) && dotTest.y() < (Screen::MAX_HEIGHT - (Screen::SCREEN_HEIGHT / 2))) {
 								screenPos += dx.onlyY()/i;
-							} */
+							}
 							break;
 						}
 					}
@@ -267,8 +264,8 @@ int main(int argc, char *argv[]) {
 					box->draw(gRenderer, screenPos);
 				}
 				
-				/* TODO: Add offset rendering for the dot */
-				dot.draw(gRenderer); // Player must always be drawn onto the upper most layer for best visibility
+				dot.draw(gRenderer, screenPos.negate()); // Player must always be drawn onto the upper most layer for best visibility
+				
 				/* End of Drawing */
 				
 				 /* Framerate related Calculations */
@@ -278,7 +275,8 @@ int main(int argc, char *argv[]) {
 				}
                 float avgFPS = countedFrames / (time.getTicks() / 1000.f);
                 fpsStr.str("");
-                fpsStr << "FPS: " << avgFPS
+                //fpsStr << "FPS: " << avgFPS
+                fpsStr << dot.getPos() << " " << screenPos;
 				gFont.renderText(100, 0, fpsStr.str(), gRenderer, red);
 				/* End of framerate related Calculations */
 			

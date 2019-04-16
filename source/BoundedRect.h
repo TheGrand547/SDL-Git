@@ -20,6 +20,13 @@ class BoundedRect : public Rect {
 			this->yMax = new float(yMax);
 		}
 		
+		BoundedRect(BoundedRect &rect) : Rect(rect) {
+			this->xMin = new float(*rect.xMin);
+			this->xMax = new float(*rect.xMax);
+			this->yMin = new float(*rect.yMin);
+			this->yMax = new float(*rect.yMax);
+		}
+		
 		~BoundedRect() {
 			delete this->xMin;
 			delete this->xMax;
@@ -27,7 +34,8 @@ class BoundedRect : public Rect {
 			delete this->yMax;
 		}
 		
-		Rect operator+(Point &delta) {
+		Rect operator+(Point &point) {
+			Point delta = Point(point);
 			if ((int(this->tL->x() + delta.x()) < int(*this->xMin)) || (int(this->bR->x() + delta.x()) > int(*this->xMax))) {
 				delta.xZero();
 			}
@@ -38,7 +46,8 @@ class BoundedRect : public Rect {
 			return newRect;
 		}
 		
-		Rect operator+(PointDelta &delta) {
+		Rect operator+(PointDelta &point) {
+			Point delta = Point(point);
 			if ((int(this->tL->x() + delta.x()) < int(*this->xMin)) || (int(this->bR->x() + delta.x()) > int(*this->xMax))) {
 				delta.xZero();
 			}
@@ -49,7 +58,8 @@ class BoundedRect : public Rect {
 			return newRect;
 		}
 		
-		void operator+=(Point &delta) {
+		void operator+=(Point &point) {
+			Point delta = Point(point);
 			if ((int(this->tL->x() + delta.x()) < int(*this->xMin)) || (int(this->bR->x() + delta.x()) > int(*this->xMax))) {
 				delta.xZero();
 			}
