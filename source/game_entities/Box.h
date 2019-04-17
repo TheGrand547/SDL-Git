@@ -8,73 +8,50 @@
 #include "../wrappers/Texture.h"
 #include "../BoundedPoint.h"
 #include "../CollideBase.h"
+#include "../constants.h"
+#include "../util.h"
 
 typedef Uint32 uint32_t;
 class Box : public CollideBase{
 	//Class for boxes
 	private:
-		Point *inPointLeft, *inPointRight;
-		Rect *outerRect, *innerRect;
-		SuperTexture *mTexture;
+		Rect *myRect;
+		SuperTexture *mTexture = NULL;
 	public:
 		Box() {
-			outerRect = new Rect();
-			inPointLeft = new Point();
-			inPointRight = new Point();
-			innerRect = new Rect();
+			myRect = new Rect();
 		}
 		
 		Box(Point position) {
-			//All boxes are of the same size
-			outerRect = new Rect(position, Box::BOX_WIDTH, Box::BOX_HEIGHT);
-			inPointLeft = new Point(position);
-			inPointRight = new Point(position.x() + Box::BOX_WIDTH, position.y() + (Box::BOX_HEIGHT * Box::BOX_OUTDENT));
-			innerRect = new Rect(inPointLeft, inPointRight);
-			innerRect->setColorChannels(0x30, 0x30, 0x30, 0xFF);
-			outerRect->setColorChannels(0x00, 0x00, 0x00, 0xFF);
+			myRect = new Rect(position, cBox::BOX_WIDTH, cBox::BOX_HEIGHT);
 		}
 		
 		~Box() {
-			delete outerRect;
-			delete innerRect;
-			delete inPointLeft;
-			delete inPointRight;
+			delete this->myRect;
 		}
 		
 		Box(const Box &that) {
-			outerRect = new Rect(*that.outerRect);
-			inPointLeft = new Point(*that.inPointLeft);
-			inPointRight = new Point(*that.inPointRight);
-			
-			innerRect = new Rect(inPointLeft, inPointRight);
-			innerRect->setColorChannels(0x30, 0x30, 0x30, 0xFF);
-			outerRect->setColorChannels(0x00, 0x00, 0x00, 0xFF);
+			myRect = new Rect(*that.myRect);
 		}
 		
 		Box &operator=(const Box &that) {
-			outerRect = new Rect(*that.outerRect);
-			inPointLeft = new Point(*that.inPointLeft);
-			inPointRight = new Point(*that.inPointRight);
-			
-			innerRect = new Rect(inPointLeft, inPointRight);
-			innerRect->setColorChannels(0x30, 0x30, 0x30, 0xFF);
-			outerRect->setColorChannels(0x00, 0x00, 0x00, 0xFF);
+			myRect = new Rect(*that.myRect);
 			return *this;
 		}
 		
 		void draw(SDL_Renderer* renderer, Point offset = Point(0, 0)) {
-			if (mTexture->isLoaded()) {
-				this->mTexture->setPos(this->outerRect->getTopLeft());
+			if (mTexture != NULL) {
+				this->mTexture->setPos(this->myRect->getTopLeft());
 				this->mTexture->render(renderer, offset);
 			}
 		}
 		
 		Point collideLine(Line &ray, Point point = Point(0, 0)) {
-			return outerRect->collideLine(ray, point);
+			return this->myRect->collideLine(ray, point);
 		}
 		
 		bool overlap(Rect &other, Point offset = Point(0, 0)) {
-			return outerRect->overlap(other, offset);
+			return this->myRect->overlap(other, offset);
 		}
 		
 		void setTexture(SuperTexture* texture) {
@@ -83,11 +60,13 @@ class Box : public CollideBase{
 		
 		static SuperTexture* createBoxTexture(SDL_Renderer* renderer) {
 			SuperTexture* texture = new SuperTexture();
-			texture->setClip(Box::BOX_WIDTH, Box::BOX_HEIGHT);
-			texture->drawBox(renderer, Rect(Point(0, 0), Point(Box::BOX_WIDTH, Box::BOX_HEIGHT)));
-			texture->loadFromFile("resources/missingTexture.jpg", renderer, Box::BOX_WIDTH, Box::BOX_OUTDENT * Box::BOX_HEIGHT);
-			texture->drawRect(renderer, Rect(Point(0, 0), Point(Box::BOX_WIDTH, Box::BOX_HEIGHT)));
-			texture->drawRect(renderer, Rect(Point(0, 0), Point(Box::BOX_WIDTH, Box::BOX_OUTDENT * Box::BOX_HEIGHT)));
+			texture->setClip(cBox::BOX_WIDTH, cBox::BOX_HEIGHT);
+			texture->drawBox(renderer, Rect(Point(0, 0), Point(cBox::BOX_WIDTH, cBox::BOX_HEIGHT)));
+			texture->loadFromFile("resources/missingTexture.jpg", renderer, cBox::BOX_WIDTH, cBox::BOX_OUTDENT * cBox::BOX_HEIGHT);
+			setRenderColors(renderer, cBox::BOX_OUTER_BORDER_COLOR);
+			texture->drawRect(renderer, Rect(Point(0, 0), Point(cBox::BOX_WIDTH, cBox::BOX_HEIGHT)));
+			setRenderColors(renderer, cBox::BOX_INNER_BORDER_COLOR);
+			texture->drawRect(renderer, Rect(Point(0, 0), Point(cBox::BOX_WIDTH, cBox::BOX_OUTDENT * cBox::BOX_HEIGHT)));
 			return texture;
 		}
 };

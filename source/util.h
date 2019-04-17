@@ -22,4 +22,8 @@ void aalineRGBA(SDL_Renderer *renderer, Point *pointA, Point *pointB, uint8_t r,
 void boxRGBA(SDL_Renderer *renderer, Point pointA, Point pointB, uint8_t r, uint8_t g, uint8_t b, uint8_t a) {
 	boxRGBA(renderer, pointA.x()-1, pointA.y()-1, pointB.x()-1, pointB.y()-1, r, g, b, a);
 }
+
+void setRenderColors(SDL_Renderer* renderer, SDL_Color rect) {
+	SDL_SetRenderDrawColor(renderer, rect.r, rect.g, rect.b, rect.a);
+}
 	

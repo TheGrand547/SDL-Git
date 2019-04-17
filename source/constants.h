@@ -1,11 +1,14 @@
 #pragma once
+#include<SDL2/SDL.h>
 /* File to store all constants */
 
 
-namespace Box {
+namespace cBox {
 	const int BOX_WIDTH = 100;
 	const int BOX_HEIGHT = 100;
 	const float BOX_OUTDENT = .5;
+	const SDL_Color BOX_INNER_BORDER_COLOR = {0x30, 0x30, 0x30, 0xFF};
+	const SDL_Color BOX_OUTER_BORDER_COLOR = {0x00, 0x00, 0x00, 0xFF};
 }
 
 /* Enumeration to get rid of overhead on my end 
