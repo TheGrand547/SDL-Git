@@ -15,7 +15,7 @@ template<class T>
 bool lValueInRange(T value, T min, T max){ 
 	//The -2 and +2 are to correct for fringe cases
 	/* Removed the +/- 2 on 4/16/19 */
-	return ((int(value) > int(min)) && (int(value) < int(max))); 
+	return ((int(value) >= int(min)) && (int(value) <= int(max))); 
 }
 
 bool lValueInRange(float value, float *min, float *max){ 

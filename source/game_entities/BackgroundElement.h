@@ -12,31 +12,22 @@
  * Various types are supported based on the enum passed to it */
 class BackElement {
 	private:
-		Texture *texture;
-		Rect *myRect;
+		Texture *texture = NULL;
+		Point *position;
 		Ground::Type type;
 	public:
 		BackElement(Rect rect, Ground::Type type = Ground::GRASS) {
-			this->texture = new Texture();
-			this->myRect = new Rect(rect);
+			this->position = new Point(rect.getTopLeft());
 			this->type = type;
 		}
 		
 		BackElement(Point position, Ground::Type type = Ground::GRASS) {
-			this->texture = new Texture();
-			this->myRect = new Rect(position, Ground::DEFAULT_WIDTH, Ground::DEFAULT_HEIGHT);
+			this->position = new Point(position);
 			this->type = type;
 		}
 		
 		~BackElement() {
-			delete this->texture;
-			delete this->myRect;
-		}
-		
-		void loadTexture(SDL_Renderer* renderer) {
-			this->texture->loadFromFile(Ground::filenames[this->type], renderer, this->myRect->getWidth(), this->myRect->getHeight());
-			this->texture->setPos(this->myRect->getTopLeft());
-			this->texture->setAlpha(0xF0);
+			delete this->position;
 		}
 		
 		void setTexture(Texture* texture) {
@@ -44,14 +35,19 @@ class BackElement {
 		}
 		
 		void draw(SDL_Renderer* renderer, Point offset = Point(0, 0)) {
-			this->texture->setPos(this->myRect->getTopLeft());
-			this->texture->render(renderer, offset);
+			if (this->texture != NULL) {
+				this->texture->setPos(this->position);
+				this->texture->render(renderer, offset);
+			}
 		}
 		
-		static Texture* createGroundTexture(SDL_Renderer* renderer, int width = Ground::DEFAULT_WIDTH, int height = Ground::DEFAULT_HEIGHT, 
-											Ground::Type type = Ground::GRASS) {
+		static Texture* createGroundTexture(SDL_Renderer* renderer, Ground::Type type = Ground::GRASS, int width = Ground::DEFAULT_WIDTH, int height = Ground::DEFAULT_HEIGHT) {
 			Texture* temp = new Texture();
 			temp->loadFromFile(Ground::filenames[type], renderer, width, height);
 			return temp;
+		}
+		
+		static void createGroundTexture(SDL_Renderer* renderer, Texture* texture, Ground::Type type = Ground::GRASS, int width = Ground::DEFAULT_WIDTH, int height = Ground::DEFAULT_HEIGHT) {
+			texture->loadFromFile(Ground::filenames[type], renderer, width, height);
 		}
 };

@@ -32,4 +32,6 @@ namespace Screen {
 	const int SCREEN_HEIGHT = 480;
 	const int MAX_WIDTH = 1280;
 	const int MAX_HEIGHT = 960;
+	const int DEFAULT_POS = SDL_WINDOWPOS_UNDEFINED;
+	const char* WINDOW_TITLE = "SDL Testing";
 }

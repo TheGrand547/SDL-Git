@@ -69,6 +69,12 @@ class Box : public CollideBase{
 			texture->drawRect(renderer, Rect(Point(0, 0), Point(cBox::BOX_WIDTH, cBox::BOX_OUTDENT * cBox::BOX_HEIGHT)));
 			return texture;
 		}
+		
+		static void setTexture(std::vector<Box*>* vec, SuperTexture* texture) {
+			for (Box* box: *vec) {
+				box->setTexture(texture);
+			}
+		}
 };
 
 bool collideRect(Rect rect, std::vector<Box*> vec) {
@@ -95,10 +101,10 @@ Point smallestDistanceFrom(std::vector<Box*> boxes, Point origin, Line ray) {
 	return stored;
 }
 
-Point smallestDistanceFrom(std::vector<Box*>* boxes, Point origin, Line ray, Point point) {
+Point smallestDistanceFrom(std::vector<Box*>* boxes, Point origin, Line ray) {
 	Point stored;
 	for (int i = 0; i < boxes->size(); i++) {
-		stored = smallerDistance(origin, (*boxes)[i]->collideLine(ray, point), stored);
+		stored = smallerDistance(origin, (*boxes)[i]->collideLine(ray), stored);
 	}
 	return stored;
 }
@@ -107,8 +113,8 @@ Point collideTestVectorToRay(std::vector<Box*> boxes, Line ray) {
 	return smallestDistanceFrom(boxes, ray.getOrigin(), ray);
 }
 
-Point collideTestVectorToRay(std::vector<Box*>* boxes, Line ray, Point point = Point(0, 0)) {
-	return smallestDistanceFrom(boxes, ray.getOrigin(), ray, point);
+Point collideTestVectorToRay(std::vector<Box*>* boxes, Line ray) {
+	return smallestDistanceFrom(boxes, ray.getOrigin(), ray);
 }
 
 bool collideRectPlusExtras(Rect rect, std::vector<Box*>* vec, Point dydx, BoundedPoint screen) {

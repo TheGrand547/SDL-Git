@@ -7,6 +7,14 @@ class HeldKey {
 		bool *down, *toggle;
 		int *framesHeld, *keySignature, *maxHeld;
 	public:
+		HeldKey() {
+			this->down = new bool(false);
+			this->toggle = new bool(false);
+			this->keySignature = new int(0);
+			this->framesHeld = new int(0);
+			this->maxHeld = new int(0);
+		}
+		
 		HeldKey(int keySignature, int maxHeld) {
 			this->down = new bool(false);
 			this->toggle = new bool(false);
@@ -39,14 +47,15 @@ class HeldKey {
 		
 		bool tick() {
 			if (*(this->down)) {
+				/* If '+=' is replaced with ++ it gives segmentation fault, odd */
 				*(this->framesHeld) += 1;
 				if (*(this->framesHeld) >= *(this->maxHeld)) {
+					std::cout << *framesHeld << std::endl;
 					*(this->toggle) = true;
 				} 
 			}
 			return *(this->toggle);
 		}
-		
 		
 		/* Returns number of frames it has been held down */
 		int getFrames() {

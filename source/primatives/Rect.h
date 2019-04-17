@@ -89,7 +89,7 @@ class Rect: public MyBase{
 			Point tempPoint;
 			int index = 0;
 			for (int i = 0; i < arrayLength; i++) {
-				tempPoint = intersectionTest(*(lines[i])+offset, ray);
+				tempPoint = intersectionTest(*(lines[i]), ray);
 				if (tempPoint.isReal()) {
 					intersect[index] = tempPoint;
 					index++;
