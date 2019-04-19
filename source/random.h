@@ -1,4 +1,4 @@
-//Misc functions with no dependencies
+/* Misc functions with no dependencies */
 //Guess that technically means this is in C, not c++ but w/e
 template<class T>
 void mMax(T numA, T numB, T &iMin, T &iMax) {

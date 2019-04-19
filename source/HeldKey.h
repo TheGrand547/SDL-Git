@@ -50,7 +50,6 @@ class HeldKey {
 				/* If '+=' is replaced with ++ it gives segmentation fault, odd */
 				*(this->framesHeld) += 1;
 				if (*(this->framesHeld) >= *(this->maxHeld)) {
-					std::cout << *framesHeld << std::endl;
 					*(this->toggle) = true;
 				} 
 			}

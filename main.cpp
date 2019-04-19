@@ -59,9 +59,6 @@ int main(int argc, char *argv[]) {
 	//Main loop flag
 	bool quit = false;
 	
-	SDL_Rect IOP = {0, 0, Screen::SCREEN_WIDTH, Screen::SCREEN_HEIGHT};
-	SDL_Color red = {255, 0, 0, 255};
-	
 	/* TODO: Add method for initializing everything on screen to clean up main() and help smooth the transition to
 	 * using 'Screen' as the base class for the project */
 	
@@ -75,8 +72,8 @@ int main(int argc, char *argv[]) {
 	
 	/* TODO: Create functionality to belnd all groundtextures into one big texture for the performance boost */
 	Texture* groundTexture = BackElement::createGroundTexture(gRenderer);
-	for (int x = 0; x <= Screen::SCREEN_WIDTH; x += 100) {
-		for (int y = 0; y <= Screen::SCREEN_HEIGHT; y += 100) {
+	for (int x = 0; x <= Screen::MAX_WIDTH; x += 100) {
+		for (int y = 0; y <= Screen::MAX_HEIGHT; y += 100) {
 			ground->push_back(new BackElement(Point(x, y)));
 		}
 	}
@@ -102,7 +99,6 @@ int main(int argc, char *argv[]) {
 	
 	HeldKey shift(SDLK_LSHIFT, 30);
 	time.start();
-	
 	while(!quit) {
 		/* Clear the rendering screen */
 		SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
@@ -190,8 +186,6 @@ int main(int argc, char *argv[]) {
 		}
 		/* End of Collision Detection */
 		
-		
-		
 		/* Drawing things onto the screen */
 		for (BackElement* oink: *ground) {
 			oink->draw(gRenderer, screenPos);
@@ -226,7 +220,7 @@ int main(int argc, char *argv[]) {
 		float avgFPS = countedFrames / (time.getTicks() / 1000.f);
 		fpsStr.str("");
 		fpsStr << "FPS: " << avgFPS;
-		gFont.renderText(100, 0, fpsStr.str(), gRenderer, red);
+		gFont.renderText(100, 0, fpsStr.str(), gRenderer, COLORS::RED);
 		/* End of framerate related Calculations */
 	
 		
