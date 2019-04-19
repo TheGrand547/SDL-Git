@@ -12,6 +12,7 @@
 #include<vector>
 #include "source/game_entities/Box.h"
 #include "source/game_entities/BackgroundElement.h"
+#include "source/game_entities/BackgroundMesh.h"
 #include "source/primatives/Line.h"
 #include "source/primatives/Point.h"
 #include "source/wrappers/Font.h"
@@ -70,16 +71,13 @@ int main(int argc, char *argv[]) {
 	boxes->push_back(new Box(Point(350, 200)));
 	Box::setTexture(boxes, mTexture);
 	
-	/* TODO: Create functionality to belnd all groundtextures into one big texture for the performance boost */
-	Texture* groundTexture = BackElement::createGroundTexture(gRenderer);
+	
 	for (int x = 0; x <= Screen::MAX_WIDTH; x += 100) {
 		for (int y = 0; y <= Screen::MAX_HEIGHT; y += 100) {
 			ground->push_back(new BackElement(Point(x, y)));
 		}
 	}
-	for (BackElement* oink: *ground) {
-		oink->setTexture(groundTexture);
-	}
+	BackgroundMesh background = BackgroundMesh(ground, gRenderer);
 	
 	//String for rendering text to the screen
 	std::stringstream fpsStr;
@@ -187,9 +185,7 @@ int main(int argc, char *argv[]) {
 		/* End of Collision Detection */
 		
 		/* Drawing things onto the screen */
-		for (BackElement* oink: *ground) {
-			oink->draw(gRenderer, screenPos);
-		}
+		background.render(gRenderer, screenPos);
 		
 		for (Box* box: *boxes) {
 			box->draw(gRenderer, screenPos);
@@ -232,7 +228,6 @@ int main(int argc, char *argv[]) {
 		countedFrames++; 
 	}
 	close();
-	delete ground;
 	delete boxes;
 	return 0;
 }

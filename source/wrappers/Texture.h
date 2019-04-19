@@ -4,6 +4,7 @@
 #include<SDL2/SDL2_rotozoom.h>
 #include<SDL2_image/SDL_image.h>
 #include "../primatives/Point.h"
+#include "../constants.h"
 typedef Uint8 uint8_t;
 
 class Texture {
@@ -96,19 +97,27 @@ class Texture {
 			return texture != NULL;
 		}
 		
-		void createBlank(SDL_Renderer *renderer, int w, int h, uint32_t color) {
-			free();
+		void createBlank(SDL_Renderer *renderer, int w, int h) {
+			SDL_Texture *toReturn = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_TARGET, w, h);
 			SDL_Texture *tempText = NULL;
 			SDL_Surface *tempSurf = SDL_CreateRGBSurface(0, w, h, 32, 0, 0, 0, 0);
 			if (tempSurf != NULL) {
-				SDL_FillRect(tempSurf, NULL, color);
+				SDL_FillRect(tempSurf, NULL, 0x000000FF);
+				SDL_SetRenderTarget(renderer, toReturn);
 				tempText = SDL_CreateTextureFromSurface(renderer, tempSurf);
-				*width = tempSurf->w;
-				*height = tempSurf->h;
-			
-				texture = tempText;
+				SDL_RenderCopy(renderer, tempText, NULL, NULL);
+				SDL_SetRenderTarget(renderer, NULL);
+				
+				SDL_DestroyTexture(tempText);
+				*this->width = tempSurf->w;
+				*this->height = tempSurf->h;
+				this->texture = toReturn;
 			}
 			SDL_FreeSurface(tempSurf);
+		}
+		
+		SDL_Texture* getTexture() {
+			return this->texture;
 		}
 		
 		void setPos(int x = 0, int y = 0) {
