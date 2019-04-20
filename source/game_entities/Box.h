@@ -2,14 +2,14 @@
 #include<iostream>
 #include<SDL2/SDL.h>
 #include<vector>
+#include "../essential/constants.h"
 #include "../primatives/Point.h"
 #include "../primatives/Rect.h"
 #include "../wrappers/SuperTexture.h"	
 #include "../wrappers/Texture.h"
 #include "../BoundedPoint.h"
 #include "../CollideBase.h"
-#include "../constants.h"
-#include "../util.h"
+#include "../essential/util.h"
 
 typedef Uint32 uint32_t;
 class Box : public CollideBase{

@@ -12,14 +12,13 @@
 #include<vector>
 #include "source/game_entities/Box.h"
 #include "source/game_entities/BackgroundElement.h"
-#include "source/game_entities/BackgroundMesh.h"
 #include "source/primatives/Line.h"
 #include "source/primatives/Point.h"
 #include "source/wrappers/Font.h"
 #include "source/primatives/Rect.h"
 #include "source/wrappers/Timer.h"
 #include "source/wrappers/Texture.h"
-#include "source/util.h"
+#include "source/essential/util.h"
 #include "source/MyBase.h"
 #include "source/Dot.h"
 #include "source/PointDelta.h"
@@ -71,13 +70,17 @@ int main(int argc, char *argv[]) {
 	boxes->push_back(new Box(Point(350, 200)));
 	Box::setTexture(boxes, mTexture);
 	
+	Texture* groundTexture = BackElement::createGroundTexture(gRenderer);
 	
 	for (int x = 0; x <= Screen::MAX_WIDTH; x += 100) {
 		for (int y = 0; y <= Screen::MAX_HEIGHT; y += 100) {
 			ground->push_back(new BackElement(Point(x, y)));
 		}
 	}
-	BackgroundMesh background = BackgroundMesh(ground, gRenderer);
+	for (BackElement* floor: *ground) {
+		floor->setTexture(groundTexture);
+	}
+	//BackgroundMesh background = BackgroundMesh(ground, gRenderer);
 	
 	//String for rendering text to the screen
 	std::stringstream fpsStr;
@@ -185,7 +188,10 @@ int main(int argc, char *argv[]) {
 		/* End of Collision Detection */
 		
 		/* Drawing things onto the screen */
-		background.render(gRenderer, screenPos);
+		//background.render(gRenderer, screenPos);
+		for (BackElement* back: *ground) {
+			back->draw(gRenderer, screenPos);
+		}
 		
 		for (Box* box: *boxes) {
 			box->draw(gRenderer, screenPos);

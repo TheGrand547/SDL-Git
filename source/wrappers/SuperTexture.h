@@ -8,7 +8,7 @@
 #include "../primatives/Point.h"
 #include "../primatives/Rect.h"
 #include "../MyBase.h"
-#include "../util.h"
+#include "../essential/util.h"
 #include "Texture.h"
 
 typedef Uint8 uint8_t;

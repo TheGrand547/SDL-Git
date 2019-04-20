@@ -4,7 +4,7 @@
 #include<SDL2/SDL2_rotozoom.h>
 #include<SDL2_image/SDL_image.h>
 #include "../primatives/Point.h"
-#include "../constants.h"
+#include "../essential/constants.h"
 typedef Uint8 uint8_t;
 
 class Texture {
@@ -90,7 +90,11 @@ class Texture {
 		}
 		
 		void render(SDL_Renderer* renderer, Point offset) {
-			this->render(*(this->xpos)-offset.x()-1, *(this->ypos)-offset.y()-1, renderer);
+			Rect temp = Rect(Point(*this->xpos, *this->ypos), *this->width, *this->height);
+			Rect tempScreen = Rect(offset, Screen::SCREEN_WIDTH, Screen::SCREEN_HEIGHT);
+			if (temp.overlap(tempScreen)){
+				this->render(*(this->xpos)-offset.x()-1, *(this->ypos)-offset.y()-1, renderer);
+			}
 		}
 		
 		bool isLoaded() {

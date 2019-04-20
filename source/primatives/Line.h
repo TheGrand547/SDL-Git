@@ -3,8 +3,8 @@
 #include<SDL2/SDL2_gfxPrimitives.h>
 #include "Point.h"
 #include "../MyBase.h"
-#include "../random.h"
-#include "../util.h"
+#include "../essential/random.h"
+#include "../essential/util.h"
 typedef Uint8 uint8_t;
 bool xBetweenAandB(float x, float a, float b);
 

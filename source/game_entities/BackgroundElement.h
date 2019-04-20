@@ -6,7 +6,7 @@
 #include "../primatives/Point.h"
 #include "../primatives/Rect.h"
 #include "../wrappers/Texture.h"
-#include "../constants.h"
+#include "../essential/constants.h"
 
 /* Background element of the map, notably the ground
  * Various types are supported based on the enum passed to it */
