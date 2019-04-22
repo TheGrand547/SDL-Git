@@ -80,7 +80,6 @@ int main(int argc, char *argv[]) {
 	for (BackElement* floor: *ground) {
 		floor->setTexture(groundTexture);
 	}
-	//BackgroundMesh background = BackgroundMesh(ground, gRenderer);
 	
 	//String for rendering text to the screen
 	std::stringstream fpsStr;
@@ -100,7 +99,9 @@ int main(int argc, char *argv[]) {
 	
 	HeldKey shift(SDLK_LSHIFT, 30);
 	time.start();
+	float avgFPS = 100;
 	while(!quit) {
+		dx.setBounds(4, 4);
 		/* Clear the rendering screen */
 		SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
 		SDL_RenderClear(gRenderer);
@@ -170,6 +171,8 @@ int main(int argc, char *argv[]) {
 		/* Collision Detection 
 		 * Only does detection if dx exists to improve performance */
 		if (dx.getNonZero()) {
+			/* Added to attempt to  */
+			dx * (Screen::INTENDED_FRAME_RATE / avgFPS);
 			for (int i = 1; i < 6; i++) {
 				if (collideRectPlusExtras(dot.getRect(), boxes, dx/i, screenPos)) {
 					dot += dx/i;
@@ -188,7 +191,6 @@ int main(int argc, char *argv[]) {
 		/* End of Collision Detection */
 		
 		/* Drawing things onto the screen */
-		//background.render(gRenderer, screenPos);
 		for (BackElement* back: *ground) {
 			back->draw(gRenderer, screenPos);
 		}
@@ -219,13 +221,13 @@ int main(int argc, char *argv[]) {
 			time.start();
 			countedFrames = 1;
 		}
-		float avgFPS = countedFrames / (time.getTicks() / 1000.f);
+		avgFPS = countedFrames / (time.getTicks() / 1000.f);
 		fpsStr.str("");
 		fpsStr << "FPS: " << avgFPS;
 		gFont.renderText(100, 0, fpsStr.str(), gRenderer, COLORS::RED);
 		/* End of framerate related Calculations */
 	
-		
+	
 		/* Render all changes onto the window */
 		SDL_RenderPresent(gRenderer);
 		SDL_UpdateWindowSurface(gWindow);
@@ -234,6 +236,7 @@ int main(int argc, char *argv[]) {
 		countedFrames++; 
 	}
 	close();
+	delete ground;
 	delete boxes;
 	return 0;
 }

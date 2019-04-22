@@ -90,11 +90,7 @@ class Texture {
 		}
 		
 		void render(SDL_Renderer* renderer, Point offset) {
-			Rect temp = Rect(Point(*this->xpos, *this->ypos), *this->width, *this->height);
-			Rect tempScreen = Rect(offset, Screen::SCREEN_WIDTH, Screen::SCREEN_HEIGHT);
-			if (temp.overlap(tempScreen)){
-				this->render(*(this->xpos)-offset.x()-1, *(this->ypos)-offset.y()-1, renderer);
-			}
+			this->render(*(this->xpos)-offset.x()-1, *(this->ypos)-offset.y()-1, renderer);
 		}
 		
 		bool isLoaded() {

@@ -68,4 +68,13 @@ class PointDelta : public Point {
 		PointDelta operator/(const float &num) {
 			return PointDelta((*this->xval)/num, (*this->yval)/num, *this->xmin, *this->ymin);
 		}
+		
+		PointDelta operator*(const float &num) {
+			return PointDelta((*this->xval)*num, (*this->yval)*num, *this->xmin * num, *this->ymin * num);
+		}
+		
+		void setBounds(float xMax, float yMax) {
+			this->xmin = new float(xMax);
+			this->ymin = new float(yMax);
+		}
 };
