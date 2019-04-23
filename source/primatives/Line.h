@@ -11,14 +11,10 @@ bool xBetweenAandB(float x, float a, float b);
 class Line: public MyBase{
 	/* Represents a line in the form, ax+by=c, bounded by the points A and B */
 	private:
-		float *ax, *by, *c;
 		float *minX, *maxX, *minY, *maxY;
 		Point *originPoint, *endingPoint;
 	public:	
 		Line() {
-			ax = new float(0);
-			by = new float(0);
-			c = new float(0);
 			originPoint = new Point();
 			endingPoint = new Point();
 			minX = new float(0);
@@ -29,9 +25,6 @@ class Line: public MyBase{
 
 		Line(Point pointA, Point pointB, uint8_t r = 0x00, uint8_t g = 0x00, 
 							uint8_t b = 0xFF, uint8_t a = 0xFF) {
-			ax = new float(pointB.y() - pointA.y());
-			by = new float(pointA.x() - pointB.x());
-			c = new float((*ax * pointA.x()) + (*by * pointA.y()));
 			originPoint = new Point(pointA);
 			endingPoint = new Point(pointB);
 			minX = new float(0.0f);
@@ -44,9 +37,6 @@ class Line: public MyBase{
 		}
 		
 		Line(Point *pointA, Point *pointB) {
-			ax = new float(pointB->y() - pointA->y());
-			by = new float(pointA->x() - pointB->x());
-			c = new float((*ax * pointA->x()) + (*by * pointA->y()));
 			originPoint = new Point(pointA);
 			endingPoint = new Point(pointB);
 			minX = new float(0.0f);
@@ -58,9 +48,6 @@ class Line: public MyBase{
 		}
 		
 		~Line() {
-			delete ax;
-			delete by;
-			delete c;
 			delete originPoint;
 			delete endingPoint;
 			delete minX;
@@ -70,9 +57,6 @@ class Line: public MyBase{
 		}
 		
 		Line(const Line &line) {
-			ax = new float(*line.ax);
-			by = new float(*line.by);
-			c = new float(*line.c);
 			originPoint = new Point(*line.originPoint);
 			endingPoint = new Point(*line.endingPoint);
 			minX = new float(0.0f);
@@ -84,9 +68,6 @@ class Line: public MyBase{
 		}
 		
 		Line &operator=(const Line &that) {
-			ax = new float(*that.ax);
-			by = new float (*that.by);
-			c = new float (*that.c);
 			originPoint = new Point(*that.originPoint);
 			endingPoint = new Point(*that.endingPoint);
 			minX = new float(0.0f);
@@ -122,9 +103,6 @@ class Line: public MyBase{
 		void operator+=(Point b) {
 			*originPoint += b;
 			*endingPoint += b;
-			*ax = endingPoint->y() - originPoint->y();
-			*by = originPoint->x() - endingPoint->x();
-			*c = (*ax * originPoint->x()) + (*by * originPoint->y());
 			*minX += b.x();
 			*maxX += b.x();
 			*minY += b.y();
@@ -134,9 +112,6 @@ class Line: public MyBase{
 		void operator-=(Point b) {
 			*originPoint -= b;
 			*endingPoint -= b;
-			*ax = endingPoint->y() - originPoint->y();
-			*by = originPoint->x() - endingPoint->x();
-			*c = (*ax * originPoint->x()) + (*by * originPoint->y());
 			*minX -= b.x();
 			*maxX -= b.x();
 			*minY -= b.y();
@@ -151,16 +126,16 @@ class Line: public MyBase{
 			return Line(*originPoint-b, *endingPoint-b);
 		}
 			
-		float getAx() { 
-			return *ax; 
+		float getAx() const { 
+			return float(this->endingPoint->y() - this->originPoint->y());
 		}
 		
-		float getBy() { 
-			return *by; 
+		float getBy() const { 
+			return float(this->endingPoint->x() - this->originPoint->x());
 		}
 		
-		float getC() { 
-			return *c; 
+		float getC() const { 
+			return float((this->getAx() * originPoint->x()) + (this->getBy() * originPoint->y()));
 		}
 		
 		Point getOrigin() {
@@ -172,7 +147,7 @@ class Line: public MyBase{
 		}
 		
 		friend std::ostream &operator<<(std::ostream &output, const Line &line) {
-			output << line.ax << "x + " << line.by << "y = " << line.c;
+			output << line.getAx() << "x + " << line.getBy() << "y = " << line.getC();
 			return output;
 		}
 		

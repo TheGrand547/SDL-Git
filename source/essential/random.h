@@ -1,3 +1,4 @@
+#pragma once
 /* Misc functions with no dependencies */
 //Guess that technically means this is in C, not c++ but w/e
 template<class T>
@@ -8,7 +9,7 @@ void mMax(T numA, T numB, T &iMin, T &iMax) {
 
 template<class T>
 bool valueInRange(T value, T min, T max){ 
-	return (value >= min) && (value <= max); 
+	return (int(value) >= int(min)) && (int(value) <= int(max)); 
 }
 
 template<class T>
@@ -18,6 +19,7 @@ bool lValueInRange(T value, T min, T max){
 	return ((int(value) >= int(min)) && (int(value) <= int(max))); 
 }
 
-bool lValueInRange(float value, float *min, float *max){ 
+template<class T>
+bool lValueInRange(T value, T *min, T *max){ 
 	return lValueInRange(int(value), int(*min), int(*max));
 }

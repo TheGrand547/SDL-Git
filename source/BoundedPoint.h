@@ -83,4 +83,12 @@ class BoundedPoint : public Point {
 			*this->yval = 0;
 		}
 		
+		void maxX() {
+			*this->xval = *this->xMax;
+		}
+		
+		void maxY() {
+			*this->yval = *this->yMax;
+		}
+		
 };

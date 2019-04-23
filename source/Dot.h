@@ -14,7 +14,8 @@ class Dot: public MyBase {
 	public:
 		Dot(Point startingCoordinate) {
 			angle = new float(0);
-			myRect = new BoundedRect(startingCoordinate, startingCoordinate + Point(Player::PLAYER_X_DIMENSION, Player::PLAYER_Y_DIMENSION), 0, 0, Screen::MAX_WIDTH, Screen::MAX_HEIGHT);
+			myRect = new BoundedRect(startingCoordinate, startingCoordinate + Point(Player::PLAYER_X_DIMENSION, Player::PLAYER_Y_DIMENSION), 
+									0, 0, Screen::MAX_WIDTH, Screen::MAX_HEIGHT);
 		}
 		
 		~Dot() {
@@ -59,7 +60,7 @@ class Dot: public MyBase {
 		}
 		
 		Point getPos() {
-			return this->myRect->getTopLeft();
+			return *this->myRect->getTopLeft();
 		}
 		
 		Rect getRect() {

@@ -42,11 +42,4 @@ class MyBase {
 			this->bChannel = other.bChannel;
 			this->aChannel = other.aChannel;
 		}
-		
-		void setColorChannels(int r, int g, int b, int a) {
-			rChannel = r;
-			gChannel = g;
-			bChannel = b;
-			aChannel = a;
-		}
 };

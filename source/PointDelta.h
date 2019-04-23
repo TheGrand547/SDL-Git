@@ -6,8 +6,8 @@ class PointDelta : public Point {
 		float *xmin, *ymin;
 	public:
 		PointDelta() {
-			this->xmin = NULL;
-			this->ymin = NULL;
+			this->xmin = new float(0);
+			this->ymin = new float(0);
 		}
 		PointDelta(float xval, float yval, float xMin, float yMin) : Point(xval, yval) {
 			this->xmin = new float(xMin);

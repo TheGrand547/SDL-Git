@@ -19,6 +19,7 @@
 #include "source/wrappers/Timer.h"
 #include "source/wrappers/Texture.h"
 #include "source/essential/util.h"
+#include "source/essential/random.h"
 #include "source/MyBase.h"
 #include "source/Dot.h"
 #include "source/PointDelta.h"
@@ -90,6 +91,7 @@ int main(int argc, char *argv[]) {
 	//Timer Stuff
 	Timer time;
 	int countedFrames = 0;
+	
 	
 	PointDelta dx = PointDelta(0, 0, 4, 4);
 	
@@ -176,19 +178,28 @@ int main(int argc, char *argv[]) {
 			for (int i = 1; i < 6; i++) {
 				if (collideRectPlusExtras(dot.getRect(), boxes, dx/i, screenPos)) {
 					dot += dx/i;
+					screenPos += dx/i;
 					Point dotTest = dot.getPos().copy();
-					if (dotTest.x() > (Screen::SCREEN_WIDTH / 2) && dotTest.x() < (Screen::MAX_WIDTH - (Screen::SCREEN_WIDTH / 2))) { 
-						screenPos += dx.onlyX()/i;
+					/* TODO: Make this not look like shit */
+					if (dotTest.x() < Screen::SCREEN_WIDTH / 2) {
+						screenPos.xZero();
+					}
+					if (dotTest.y() < Screen::SCREEN_HEIGHT / 2) {
+						screenPos.yZero();
+					}
+					if (dotTest.y() > (Screen::MAX_HEIGHT - (Screen::SCREEN_HEIGHT / 2))) {
+						screenPos.maxY();
+					}
+					if (dotTest.x() > (Screen::MAX_WIDTH - (Screen::SCREEN_WIDTH / 2))) {
+						screenPos.maxX();
 					}
 					
-					if (dotTest.y() > (Screen::SCREEN_HEIGHT / 2) && dotTest.y() < (Screen::MAX_HEIGHT - (Screen::SCREEN_HEIGHT / 2))) {
-						screenPos += dx.onlyY()/i;
-					}
 					break;
 				}
 			}
 		}
 		/* End of Collision Detection */
+		
 		
 		/* Drawing things onto the screen */
 		for (BackElement* back: *ground) {
