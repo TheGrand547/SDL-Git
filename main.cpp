@@ -27,6 +27,7 @@
 #include "source/HeldKey.h"
 #include "source/CollideBase.h"
 #include "source/BoundedRect.h"
+#include "source/essential/Configuration.h"
 
 #define PI 3.14159265
 
@@ -47,6 +48,8 @@ int main(int argc, char *argv[]) {
 	
 	Dot dot = Dot(Point(300, 150));
 	dot.setColorChannels(0xFF);
+	
+	Configuration config;
 	
 	//std::vector<std::vector<CollideBase*>*>* holy = new std::vector<std::vector<CollideBase*>*>;
 	
@@ -91,6 +94,7 @@ int main(int argc, char *argv[]) {
 	//Timer Stuff
 	Timer time;
 	int countedFrames = 0;
+	int help;
 	
 	
 	PointDelta dx = PointDelta(0, 0, 4, 4);
@@ -107,7 +111,6 @@ int main(int argc, char *argv[]) {
 		/* Clear the rendering screen */
 		SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
 		SDL_RenderClear(gRenderer);
-		
 		/* Event Handling */
 		while(SDL_PollEvent(&e) != 0) {
 			/* TODO: Make this a method to clean up main method */
@@ -116,51 +119,42 @@ int main(int argc, char *argv[]) {
 					quit = true;
 					break;
 				case SDL_KEYDOWN:
+					help = keyCodeFromEvent(e);
 					if (e.key.repeat == 0) {
-						switch (e.key.keysym.sym) {
-							case SDLK_UP: 
-								dx -= Point(0, 10);
-								break;
-							case SDLK_DOWN:
-								dx += Point(0, 10);
-								break;
-							case SDLK_LEFT:
-								dx -= Point(10, 0);
-								break;
-							case SDLK_RIGHT:
-								dx += Point(10, 0);
-								break;
-							case SDLK_LSHIFT:
-								
-								break;
+						if (help == config["Right"]) {
+							dx += Point(10, 0);
+						}
+						if (help == config["Left"]) {
+							dx += Point(-10, 0);
+						}
+						if (help == config["Up"]) {
+							dx += Point(0, -10);
+						}
+						if (help == config["Down"]) {
+							dx += Point(0, 10);
 						}
 					}
-					if (e.key.keysym.sym == SDLK_LSHIFT) {
+					if (e.key.keysym.sym == config["Ray"]) {
 						shift.set(true);
 					}
 					break;
 				case SDL_KEYUP:
 					if (e.key.repeat == 0) {
-						switch (e.key.keysym.sym) {
-							case SDLK_UP: 
-								if (dx.y() < 0) 
-									dx.yZero();
-								break;
-							case SDLK_DOWN:
-								if (dx.y() > 0) 
-									dx.yZero();
-								break;
-							case SDLK_LEFT:
-								if (dx.x() < 0) 
-									dx.xZero();
-								break;
-							case SDLK_RIGHT:
-								if (dx.x() > 0) 
-									dx.xZero();
-								break;
+						help = keyCodeFromEvent(e);
+						if (help == config["Right"] && dx.x() > 0) {
+							dx.xZero();
+						}
+						if (help == config["Left"] && dx.x() < 0) {
+							dx.xZero();
+						}
+						if (help == config["Up"] && dx.y() < 0) {
+							dx.yZero();
+						}
+						if (help == config["Down"] && dx.y() > 0) {
+							dx.yZero();
 						}
 					}
-					if (e.key.keysym.sym == SDLK_LSHIFT) {
+					if (e.key.keysym.sym == config["Ray"]) {
 						shift.set(false);
 					}
 					break;
@@ -168,13 +162,11 @@ int main(int argc, char *argv[]) {
 		}
 		shift.tick();
 		SDL_GetMouseState(&mousePosX, &mousePosY);
-		//gFont.renderTextWrapped(200, 100, "andrew did a good :D but sam did the red bar and lets be real thats more important lul", gRenderer, red, 250);
-		
 		/* Collision Detection 
 		 * Only does detection if dx exists to improve performance */
 		if (dx.getNonZero()) {
-			/* Added to attempt to  */
-			dx * (Screen::INTENDED_FRAME_RATE / avgFPS);
+			
+			/* TODO: Make movement independent of framerate */
 			for (int i = 1; i < 6; i++) {
 				if (collideRectPlusExtras(dot.getRect(), boxes, dx/i, screenPos)) {
 					dot += dx/i;

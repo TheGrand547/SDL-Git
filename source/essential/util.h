@@ -1,4 +1,5 @@
 #pragma once
+#include<SDl2/SDL.h>
 #include<SDL2/SDL2_gfxPrimitives.h>
 #include "../primatives/Point.cpp"
 #include "../MyBase.h"
@@ -25,5 +26,9 @@ void boxRGBA(SDL_Renderer *renderer, Point pointA, Point pointB, uint8_t r, uint
 
 void setRenderColors(SDL_Renderer* renderer, SDL_Color rect) {
 	SDL_SetRenderDrawColor(renderer, rect.r, rect.g, rect.b, rect.a);
+}
+
+int keyCodeFromEvent(SDL_Event event) {
+	return event.key.keysym.sym;
 }
 	

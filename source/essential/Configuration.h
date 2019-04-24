@@ -43,12 +43,13 @@ class Configuration {
 			file.close();
 		}
 		
-		std::string& operator[](std::string key) {
-			return configMap[key];
+		int operator[](std::string key) {
+			return SDL_GetKeyFromName(configMap[key].c_str());
 		}
-		
+
 		void output() {
-			for (std::map<std::string, std::string>::iterator iter = configMap.begin(); iter != configMap.end(); iter++)
-			  std::cout << iter->first << " = " << iter->second << std::endl;
+			for (std::map<std::string, std::string>::iterator iter = configMap.begin(); iter != configMap.end(); iter++) {
+				std::cout << iter->first << " = " << iter->second << std::endl;
+			}
 		}
 };

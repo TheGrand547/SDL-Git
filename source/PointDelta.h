@@ -65,6 +65,14 @@ class PointDelta : public Point {
 			reduceToBounds();
 		}
 		
+		PointDelta& operator=(const PointDelta &that){
+			this->xval = new float(*that.xval);
+			this->yval = new float(*that.yval);
+			this->xmin = new float(*that.xmin);
+			this->ymin = new float(*that.ymin);
+			return *this;
+		}
+		
 		PointDelta operator/(const float &num) {
 			return PointDelta((*this->xval)/num, (*this->yval)/num, *this->xmin, *this->ymin);
 		}

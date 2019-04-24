@@ -1,5 +1,6 @@
 #pragma once
 #include<SDL2/SDL.h>
+#include<string>
 /* File to store all constants */
 
 namespace COLORS {
