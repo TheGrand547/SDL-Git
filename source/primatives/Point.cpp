@@ -55,7 +55,7 @@ Point& Point::operator=(const Point &that) {
 }
 
 std::ostream& operator<<(std::ostream &output, const Point &point) {
-	output << "(" << int(point.x()) << ", " << int(point.y()) << ")";
+	output << "(" << float(point.x()) << ", " << float(point.y()) << ")";
 	return output;
 }
 
@@ -96,7 +96,7 @@ float Point::getMagnitude() {
 }
 
 bool Point::getNonZero() {
-	return (int(*this->xval) != 0 || int(*this->yval) != 0);
+	return (float(*this->xval) != 0 || float(*this->yval) != 0);
 }
 
 Point Point::negate() {

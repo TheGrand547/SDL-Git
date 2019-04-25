@@ -63,16 +63,6 @@ class SuperTexture : public Texture, public MyBase {
 			this->texture = tempTexture;
 		}
 		
-		void drawBox(SDL_Renderer* renderer, Rect* rect) {
-			SDL_Texture* tempTexture = this->getBlank(renderer);
-			SDL_SetRenderTarget(renderer, tempTexture);
-			SDL_RenderCopy(renderer, this->texture, NULL, NULL);
-			//TEMPORARY LINE BEWARE
-			boxRGBA(renderer, Point(0, 0), *rect->getBottomRight()-this->getOffset(), 0xFF, 0x00, 0x00, 0xFF);
-			SDL_SetRenderTarget(renderer, NULL);
-			this->texture = tempTexture;
-		}
-		
 		void drawBox(SDL_Renderer* renderer, Rect rect) {
 			SDL_Texture* tempTexture = this->getBlank(renderer);
 			SDL_SetRenderTarget(renderer, tempTexture);
@@ -81,6 +71,10 @@ class SuperTexture : public Texture, public MyBase {
 			boxRGBA(renderer, Point(0, 0), *rect.getBottomRight()-this->getOffset(), 0xFF, 0x00, 0x00, 0xFF);
 			SDL_SetRenderTarget(renderer, NULL);
 			this->texture = tempTexture;
+		}
+		
+		void drawBox(SDL_Renderer* renderer, Rect* rect) {
+			drawBox(renderer, *rect);
 		}
 		
 		void drawLine(SDL_Renderer* renderer, Line* line) {

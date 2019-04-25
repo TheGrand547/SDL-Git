@@ -29,7 +29,7 @@
 #include "source/BoundedRect.h"
 #include "source/essential/Configuration.h"
 
-#define PI 3.14159265
+//const double PI = 3.14159265;
 
 
 /* Removed TODO on 4/17/19, previously copied code was a necessary evil to ensure proper functionality */
@@ -41,6 +41,7 @@ SDL_Window* gWindow = NULL;
 SDL_Renderer* gRenderer = NULL;
 
 int main(int argc, char *argv[]) {
+	
 	int mousePosX, mousePosY;
 	Line tempLine;
 	tempLine.setColorChannels(0x00, 0xFF, 0xFF);
@@ -122,16 +123,16 @@ int main(int argc, char *argv[]) {
 					help = keyCodeFromEvent(e);
 					if (e.key.repeat == 0) {
 						if (help == config["Right"]) {
-							dx += Point(10, 0);
+							dx += Point(dx.getXMin(), 0);
 						}
 						if (help == config["Left"]) {
-							dx += Point(-10, 0);
+							dx += Point(-dx.getXMin(), 0);
 						}
 						if (help == config["Up"]) {
-							dx += Point(0, -10);
+							dx += Point(0, -dx.getYMin());
 						}
 						if (help == config["Down"]) {
-							dx += Point(0, 10);
+							dx += Point(0, dx.getYMin());
 						}
 					}
 					if (e.key.keysym.sym == config["Ray"]) {
@@ -164,32 +165,55 @@ int main(int argc, char *argv[]) {
 		SDL_GetMouseState(&mousePosX, &mousePosY);
 		/* Collision Detection 
 		 * Only does detection if dx exists to improve performance */
+		
+		
 		if (dx.getNonZero()) {
-			
 			/* TODO: Make movement independent of framerate */
+			bool xflag = false;
+			bool yflag = false;
+			/*
+			if (isnan(dx.x())) {
+				dx.xZero();
+			}
+			if (isnan(dx.y())) {
+				dx.yZero();
+			}*/
+			PointDelta px = dx * (Screen::INTENDED_FRAME_RATE / avgFPS);
 			for (int i = 1; i < 6; i++) {
-				if (collideRectPlusExtras(dot.getRect(), boxes, dx/i, screenPos)) {
-					dot += dx/i;
-					screenPos += dx/i;
-					Point dotTest = dot.getPos().copy();
-					/* TODO: Make this not look like shit */
-					if (dotTest.x() < Screen::SCREEN_WIDTH / 2) {
-						screenPos.xZero();
+				/* TODO: Make this not look like shit */
+				if (!yflag) {
+					if (!collideRect(dot.getRect() + px.onlyX()/i, boxes)) {
+						dot += px.onlyX()/i;
+						screenPos += px.onlyX()/i;
+						yflag = true;
 					}
-					if (dotTest.y() < Screen::SCREEN_HEIGHT / 2) {
-						screenPos.yZero();
+				}
+				if (!xflag) {
+					if (!collideRect(dot.getRect() + px.onlyY()/i, boxes)) {
+						dot += px.onlyY()/i;
+						screenPos += px.onlyY()/i;					
+						xflag = true;
 					}
-					if (dotTest.y() > (Screen::MAX_HEIGHT - (Screen::SCREEN_HEIGHT / 2))) {
-						screenPos.maxY();
-					}
-					if (dotTest.x() > (Screen::MAX_WIDTH - (Screen::SCREEN_WIDTH / 2))) {
-						screenPos.maxX();
-					}
-					
+				}
+				if (xflag && yflag) {
 					break;
 				}
 			}
-		}
+			Point dotTest = dot.getPos().copy();
+			/* TODO: Make this not look like shit */
+			if (dotTest.x() < Screen::SCREEN_WIDTH / 2) {
+				screenPos.xZero();
+			}
+			if (dotTest.y() < Screen::SCREEN_HEIGHT / 2) {
+				screenPos.yZero();
+			}
+			if (dotTest.y() > (Screen::MAX_HEIGHT - (Screen::SCREEN_HEIGHT / 2))) {
+				screenPos.maxY();
+			}
+			if (dotTest.x() > (Screen::MAX_WIDTH - (Screen::SCREEN_WIDTH / 2))) {
+				screenPos.maxX();
+			}
+		} 
 		/* End of Collision Detection */
 		
 		

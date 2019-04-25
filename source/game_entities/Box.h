@@ -51,7 +51,7 @@ class Box : public CollideBase{
 		}
 		
 		bool overlap(Rect &other, Point offset = Point(0, 0)) {
-			return this->myRect->overlap(other, offset);
+			return this->myRect->overlap(other);
 		}
 		
 		void setTexture(SuperTexture* texture) {

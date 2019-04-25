@@ -72,11 +72,6 @@ class Rect: public MyBase{
 			delete this->bR;
 		}
 		
-		void draw(SDL_Renderer* renderer) {
-			rectangleRGBA(renderer, *tL, *bR, 
-							rChannel, bChannel, gChannel, aChannel);
-		}
-		
 		void draw(SDL_Renderer* renderer, Point offset) {
 			rectangleRGBA(renderer, *tL - offset, *bR - offset, rChannel, bChannel, gChannel, aChannel);
 		}
@@ -138,18 +133,6 @@ class Rect: public MyBase{
 						 valueInRange(other.tL->x(), this->tL->x(), this->bR->x());
 			bool yOver = valueInRange(this->tL->y(), other.tL->y(), other.tL->y()+other.getHeight()) || 
 						 valueInRange(other.tL->y(), this->tL->y(), this->bR->y());
-			return xOver && yOver;
-		}
-		
-		bool overlap(Rect &other, Point offset) {
-			float tempTLX = this->tL->x() + offset.x();
-			float tempTLY = this->tL->y() + offset.y();
-			float tempBRX = this->bR->x() + offset.x();
-			float tempBRY = this->bR->y() + offset.y();
-			bool xOver = valueInRange(tempTLX, other.tL->x(), other.tL->x()+other.getWidth()) || 
-						 valueInRange(other.tL->x(), tempTLX, tempBRX);
-			bool yOver = valueInRange(tempTLY, other.tL->y(), other.tL->y()+other.getHeight()) || 
-						 valueInRange(other.tL->y(), tempTLY, tempBRY);
 			return xOver && yOver;
 		}
 		

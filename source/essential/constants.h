@@ -26,7 +26,7 @@ namespace Ground {
 	enum Type {
 		GRASS = 0, METAL = 1
 	};
-	const std::string filenames[2] = {"resources/grass.png", "missingTexture.jpg"};
+	const std::string filenames[] = {"resources/grass.png", "missingTexture.jpg"};
 	const int DEFAULT_WIDTH = 100; 
 	const int DEFAULT_HEIGHT = 100;
 }
