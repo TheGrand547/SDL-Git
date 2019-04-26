@@ -26,7 +26,7 @@ namespace Ground {
 	enum Type {
 		GRASS = 0, METAL = 1
 	};
-	const std::string filenames[] = {"resources/grass.png", "missingTexture.jpg"};
+	const std::string filenames[] = {"resources/grass.png", "resources/missingTexture.jpg"};
 	const int DEFAULT_WIDTH = 100; 
 	const int DEFAULT_HEIGHT = 100;
 }
@@ -43,5 +43,5 @@ namespace Screen {
 	const int MAX_HEIGHT = 960;
 	const int DEFAULT_POS = SDL_WINDOWPOS_UNDEFINED;
 	const float INTENDED_FRAME_RATE = 100.0;
-	const char* WINDOW_TITLE = "SDL Testing";
+	const char* WINDOW_TITLE = "Testing";
 }

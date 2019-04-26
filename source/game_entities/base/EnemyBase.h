@@ -1,16 +1,17 @@
 #pragma once
 #include<SDL2/SDL.h>
-#include "../essential/constants.h">
-#include "../wrappers/Texture.h"
+#include "../../essential/constants.h">
+#include "../../wrappers/Texture.h"
 
 
 class EnemyBase {
-	private:
+	protected:
 		Texture* texture;
 		Point* position;
 	public:
 		EnemyBase(Point position) {
 			this->position = new Point(position);
+			this->texture = new Texture();
 		}
 		
 		~EnemyBase() {
@@ -20,7 +21,10 @@ class EnemyBase {
 		virtual void update() = 0;
 		
 		void render(SDL_Renderer* renderer, Point offset) {
-			this->texture->setPos(this->position);
-			this->texture->render(renderer, offset);
+			if (this->texture->isLoaded()) {
+				this->update();
+				this->texture->setPos(this->position);
+				this->texture->render(renderer, offset);
+			}
 		}
 };

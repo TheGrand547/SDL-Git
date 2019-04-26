@@ -50,4 +50,10 @@ class BackElement {
 		static void createGroundTexture(SDL_Renderer* renderer, Texture* texture, Ground::Type type = Ground::GRASS, int width = Ground::DEFAULT_WIDTH, int height = Ground::DEFAULT_HEIGHT) {
 			texture->loadFromFile(Ground::filenames[type], renderer, width, height);
 		}
+		
+		static void setGroundTextures(std::vector<BackElement*>* vec, Texture* texture) {
+			for (BackElement* back: *vec) {
+				back->setTexture(texture);
+			}
+		}
 };

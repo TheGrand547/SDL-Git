@@ -28,6 +28,7 @@
 #include "source/CollideBase.h"
 #include "source/BoundedRect.h"
 #include "source/essential/Configuration.h"
+#include "source/game_entities/BadTest.h"
 
 /* Removed TODO on 4/17/19, previously copied code was a necessary evil to ensure proper functionality */
 /* Handles initializing and de-initializing nicely */
@@ -63,6 +64,8 @@ int main(int argc, char *argv[]) {
 	
 	/* TODO: Add method for initializing everything on screen to clean up main() and help smooth the transition to
 	 * using 'Screen' as the base class for the project */
+	 
+	/* TODO: Create a file structure for containing level data so its not hardcoded */
 	
 	/* Initializes the pointer to the single texture shared by all
 	 * Box objects, then creates the boxes and assigns the pointer to them */
@@ -72,16 +75,14 @@ int main(int argc, char *argv[]) {
 	boxes->push_back(new Box(Point(350, 200)));
 	Box::setTexture(boxes, mTexture);
 	
-	Texture* groundTexture = BackElement::createGroundTexture(gRenderer);
+	Texture* groundTexture = BackElement::createGroundTexture(gRenderer, Ground::Type::GRASS);
 	
 	for (int x = 0; x <= Screen::MAX_WIDTH; x += 100) {
 		for (int y = 0; y <= Screen::MAX_HEIGHT; y += 100) {
 			ground->push_back(new BackElement(Point(x, y)));
 		}
 	}
-	for (BackElement* floor: *ground) {
-		floor->setTexture(groundTexture);
-	}
+	BackElement::setGroundTextures(ground, groundTexture);
 	
 	//String for rendering text to the screen
 	std::stringstream fpsStr;
@@ -94,6 +95,8 @@ int main(int argc, char *argv[]) {
 	int countedFrames = 0;
 	int help;
 	
+	BadTest small(Point(400, 400));
+	small.set(gRenderer);
 	
 	PointDelta dx = PointDelta(0, 0, 4, 4);
 	
@@ -104,6 +107,12 @@ int main(int argc, char *argv[]) {
 	HeldKey shift(SDLK_LSHIFT, 30);
 	time.start();
 	float avgFPS = 100;
+	
+	
+	int flag = 1;
+	std::stringstream temp;
+	std::string foo = "nathan is short, andrew is short, must raise average height of programmers muahahahah";
+	
 	while(!quit) {
 		dx.setBounds(4, 4);
 		/* Clear the rendering screen */
@@ -163,7 +172,6 @@ int main(int argc, char *argv[]) {
 		/* Collision Detection 
 		 * Only does detection if dx exists to improve performance */
 		
-		
 		if (dx.getNonZero()) {
 			/* TODO: Make this not look like shit */
 			bool xflag = false;
@@ -204,8 +212,8 @@ int main(int argc, char *argv[]) {
 			}
 		} 
 		/* End of Collision Detection */
-		
-		
+
+
 		/* Drawing things onto the screen */
 		for (BackElement* back: *ground) {
 			back->draw(gRenderer, screenPos);
@@ -214,6 +222,7 @@ int main(int argc, char *argv[]) {
 		for (Box* box: *boxes) {
 			box->draw(gRenderer, screenPos);
 		}
+		small.render(gRenderer, screenPos);
 		
 		dot.draw(gRenderer, screenPos.negate()); // Player must always be drawn onto the top layer for best visibility
 		/* End of Drawing */
@@ -230,12 +239,22 @@ int main(int argc, char *argv[]) {
 		}
 		/* End of Raycasting */
 		
+		if (countedFrames % 15 == 0 && flag < foo.length()) {
+			flag++;
+		}
+		
+		temp.str("");
+		for (int i = 0; i < flag; i++) {
+			temp << foo.at(i);
+		}
+		gFont.renderTextWrapped(200, 10, temp.str(), gRenderer, COLORS::RED, 300);
 		
 		/* Framerate related Calculations */
 		if (countedFrames > 1000) {
 			time.start();
 			countedFrames = 1;
 		}
+		
 		avgFPS = countedFrames / (time.getTicks() / 1000.f);
 		fpsStr.str("");
 		fpsStr << "FPS: " << avgFPS;
