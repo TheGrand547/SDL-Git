@@ -4,8 +4,7 @@
 #include "BoundedRect.h"
 #include "PointDelta.h"
 #include "essential/constants.h"
-
-#define PI 3.14159265
+#include<math.h>
 
 class Dot: public MyBase {
 	private:
@@ -69,12 +68,12 @@ class Dot: public MyBase {
 		
 		Line getRay() {
 			Point temp = Point(this->myRect->getCenter());
-			temp += Point(300*cos(*angle), 300*sin(PI+*angle));
+			temp += Point(300*cos(*angle), 300*sin(M_PI+*angle));
 			return Line(this->myRect->getCenter(), temp);
 		}
 		
 		float getAngle() {
-			return *(this->angle) * 180/PI;
+			return *(this->angle) * 180/M_PI;
 		}
 		
 		void draw(SDL_Renderer* renderer, Point offset = Point(0, 0)) {

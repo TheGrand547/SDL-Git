@@ -2,6 +2,7 @@
 #define POINT_H
 #include<math.h>
 #include<iostream>
+
 class Point {
 	protected:
 		float *xval = NULL;

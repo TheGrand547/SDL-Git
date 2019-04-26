@@ -1,6 +1,7 @@
 #pragma once
 #include<math.h>
 #include "primatives/Point.h"
+
 class PointDelta : public Point {
 	private:
 		float *xmin, *ymin;

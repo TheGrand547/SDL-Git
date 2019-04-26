@@ -23,7 +23,8 @@ class Box : public CollideBase{
 		}
 		
 		Box(Point position) {
-			myRect = new Rect(position, cBox::BOX_WIDTH, cBox::BOX_HEIGHT);
+			/* This hurts me phyiscally */
+			myRect = new Rect(position, cBox::BOX_WIDTH - 1, cBox::BOX_HEIGHT - 1);
 		}
 		
 		~Box() {
@@ -67,6 +68,7 @@ class Box : public CollideBase{
 			texture->drawRect(renderer, Rect(Point(0, 0), Point(cBox::BOX_WIDTH, cBox::BOX_HEIGHT)));
 			setRenderColors(renderer, cBox::BOX_INNER_BORDER_COLOR);
 			texture->drawRect(renderer, Rect(Point(0, 0), Point(cBox::BOX_WIDTH, cBox::BOX_OUTDENT * cBox::BOX_HEIGHT)));
+			texture->reBound();
 			return texture;
 		}
 		

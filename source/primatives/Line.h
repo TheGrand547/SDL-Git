@@ -94,10 +94,7 @@ class Line: public MyBase{
 		}
 		
 		bool collidePoint(Point *point) {
-			if (lValueInRange(point->x(), minX, maxX) && lValueInRange(point->y(), minY, maxY)) {
-				return true;
-			}
-			return false;
+			return this->isPointOnThisLine(*point);
 		}
 		
 		void operator+=(Point b) {
@@ -110,12 +107,7 @@ class Line: public MyBase{
 		}
 		
 		void operator-=(Point b) {
-			*originPoint -= b;
-			*endingPoint -= b;
-			*minX -= b.x();
-			*maxX -= b.x();
-			*minY -= b.y();
-			*maxY -= b.y();
+			*this += b.negate();
 		}
 		
 		Line operator+(Point b) {

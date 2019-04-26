@@ -29,9 +29,6 @@
 #include "source/BoundedRect.h"
 #include "source/essential/Configuration.h"
 
-//const double PI = 3.14159265;
-
-
 /* Removed TODO on 4/17/19, previously copied code was a necessary evil to ensure proper functionality */
 /* Handles initializing and de-initializing nicely */
 bool init();
@@ -168,19 +165,11 @@ int main(int argc, char *argv[]) {
 		
 		
 		if (dx.getNonZero()) {
-			/* TODO: Make movement independent of framerate */
+			/* TODO: Make this not look like shit */
 			bool xflag = false;
 			bool yflag = false;
-			/*
-			if (isnan(dx.x())) {
-				dx.xZero();
-			}
-			if (isnan(dx.y())) {
-				dx.yZero();
-			}*/
 			PointDelta px = dx * (Screen::INTENDED_FRAME_RATE / avgFPS);
 			for (int i = 1; i < 6; i++) {
-				/* TODO: Make this not look like shit */
 				if (!yflag) {
 					if (!collideRect(dot.getRect() + px.onlyX()/i, boxes)) {
 						dot += px.onlyX()/i;
@@ -226,8 +215,7 @@ int main(int argc, char *argv[]) {
 			box->draw(gRenderer, screenPos);
 		}
 		
-		dot.draw(gRenderer, screenPos.negate()); // Player must always be drawn onto the upper most layer for best visibility
-		
+		dot.draw(gRenderer, screenPos.negate()); // Player must always be drawn onto the top layer for best visibility
 		/* End of Drawing */
 		
 		
@@ -243,7 +231,7 @@ int main(int argc, char *argv[]) {
 		/* End of Raycasting */
 		
 		
-		 /* Framerate related Calculations */
+		/* Framerate related Calculations */
 		if (countedFrames > 1000) {
 			time.start();
 			countedFrames = 1;

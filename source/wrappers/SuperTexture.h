@@ -45,15 +45,6 @@ class SuperTexture : public Texture, public MyBase {
 			return Point(*this->xpos-1, *this->ypos-1);
 		}
 		
-		void drawRect(SDL_Renderer* renderer, Rect* rect) {
-			SDL_Texture* tempTexture = this->getBlank(renderer);
-			SDL_SetRenderTarget(renderer, tempTexture);
-			SDL_RenderCopy(renderer, this->texture, NULL, NULL);
-			rect->draw(renderer, this->getOffset());
-			SDL_SetRenderTarget(renderer, NULL);
-			this->texture = tempTexture;
-		}
-		
 		void drawRect(SDL_Renderer* renderer, Rect rect) {
 			SDL_Texture* tempTexture = this->getBlank(renderer);
 			SDL_SetRenderTarget(renderer, tempTexture);
@@ -61,6 +52,10 @@ class SuperTexture : public Texture, public MyBase {
 			rect.draw(renderer, this->getOffset());
 			SDL_SetRenderTarget(renderer, NULL);
 			this->texture = tempTexture;
+		}
+		
+		void drawRect(SDL_Renderer* renderer, Rect* rect) {
+			this->drawRect(renderer, *rect);
 		}
 		
 		void drawBox(SDL_Renderer* renderer, Rect rect) {
@@ -74,7 +69,7 @@ class SuperTexture : public Texture, public MyBase {
 		}
 		
 		void drawBox(SDL_Renderer* renderer, Rect* rect) {
-			drawBox(renderer, *rect);
+			this->drawBox(renderer, *rect);
 		}
 		
 		void drawLine(SDL_Renderer* renderer, Line* line) {
@@ -97,13 +92,7 @@ class SuperTexture : public Texture, public MyBase {
 			this->texture = tempTexture;
 		}
 		
-		void render(SDL_Renderer* renderer){
-			reBound();
-			Texture::render(renderer);
-		}
-		
-		void render(SDL_Renderer* renderer, Point offset) {
-			reBound();
+		void render(SDL_Renderer* renderer, Point offset = Point(0, 0)) {
 			Texture::render(renderer, offset);
 		}
 };
