@@ -39,6 +39,33 @@ SDL_Window* gWindow = NULL;
 SDL_Renderer* gRenderer = NULL;
 
 int main(int argc, char *argv[]) {
+	//* We have system args
+	std::string NO;
+	std::map<std::string, std::string> PL;
+	for (int i = 1; i < argc; i++) {
+		NO = argv[i];
+		/* Pairs arguments with their value */
+		if (NO.find("-") != -1) {
+			if (NO.find("=") == -1) {
+				if(i != argc-1) {
+					PL[NO.substr(NO.find("-")+1)] = argv[i+1];
+					i++;
+					continue;
+				} else {
+					PL[NO.substr(NO.find("-")+1)] = "1";
+				}
+			} else {
+				if (NO.find("=") != -1) {
+					PL[NO.substr(NO.find("-")+1, NO.find("="))] = NO.substr(NO.find("=")+1);
+					continue;
+				} 
+			}
+		}
+		PL[NO] = "0";
+	}
+	for (std::map<std::string, std::string>::iterator iter = PL.begin(); iter != PL.end(); iter++) {
+		std::cout << iter->first << " = " << iter->second << std::endl;
+	}
 	
 	int mousePosX, mousePosY;
 	Line tempLine;
@@ -95,7 +122,7 @@ int main(int argc, char *argv[]) {
 	int countedFrames = 0;
 	int help;
 	
-	BadTest small(Point(400, 400));
+	BadTest small(Point(300, 300));
 	small.set(gRenderer);
 	
 	PointDelta dx = PointDelta(0, 0, 4, 4);
@@ -247,7 +274,7 @@ int main(int argc, char *argv[]) {
 		for (int i = 0; i < flag; i++) {
 			temp << foo.at(i);
 		}
-		gFont.renderTextWrapped(200, 10, temp.str(), gRenderer, COLORS::RED, 300);
+		gFont.renderTextWrapped(200, 10, temp.str(), gRenderer, COLORS::RED, 300, NULL, 50);
 		
 		/* Framerate related Calculations */
 		if (countedFrames > 1000) {

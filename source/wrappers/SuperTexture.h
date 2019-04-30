@@ -11,6 +11,8 @@
 #include "../essential/util.h"
 #include "Texture.h"
 
+/* TODO: Add support for rendering another image onto this one, from file, texture or supertexture */
+
 typedef Uint8 uint8_t;
 class SuperTexture : public Texture, public MyBase {
 	protected:
