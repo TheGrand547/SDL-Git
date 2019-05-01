@@ -16,21 +16,29 @@ class CirclePath : public Path<Point> {
 		 * dy = r / a * cos(t / a)
 		 * Where r is the intended radius and 2pi * a is the period */
 		float outsideMult, periodModify;
-		int maxTicks;
+		int maxTicks, plot;
 	public:
 		CirclePath() : Path<Point>(NULL) {
 			this->outsideMult = 0;
 			this->periodModify = 0;
 		}
 	
-		CirclePath(Point* target, int radius = 10, float periodModify = .5, int maxTicks = Path::SINGLE_LOOP) : Path<Point>(target) {
+		CirclePath(Point* target, int radius = 10, float periodModify = .5, int maxTicks = Path::SINGLE_LOOP, int startingTicks = 0, bool clockwise = true) : Path<Point>(target) {
 			this->outsideMult = radius * periodModify;
 			this->periodModify = periodModify;
 			if (maxTicks == Path::SINGLE_LOOP) {
 				this->maxTicks = 2 * M_PI / periodModify;
 			} else if (maxTicks == Path::REPEAT) {
-				this->maxTicks = maxTicks;
+				this->maxTicks = Path::REPEAT;
+			} else {
+				this->maxTicks = maxTicks + startingTicks;
 			}
+			if (!clockwise) {
+				this->plot = -1;
+			} else {
+				this->plot = 1;
+			}
+			this->ticksDone += startingTicks;
 		};
 		
 		~CirclePath() {};
@@ -43,8 +51,8 @@ class CirclePath : public Path<Point> {
 		}
 		
 		void modify() {
-			float tempdx = -this->outsideMult * sin(this->ticksDone * this->periodModify);
-			float tempdy = this->outsideMult * cos(this->ticksDone * this->periodModify);
+			float tempdx = (-this->outsideMult) * sin(this->ticksDone * this->periodModify);
+			float tempdy = (this->plot * this->outsideMult) * cos(this->ticksDone * this->periodModify);
 			*this->target += Point(tempdx, tempdy);
 		}
 		

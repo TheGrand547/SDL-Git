@@ -53,12 +53,13 @@ int main(int argc, char *argv[]) {
 					continue;
 				} else {
 					PL[NO.substr(NO.find("-")+1)] = "1";
+					continue;
 				}
 			} else {
 				if (NO.find("=") != -1) {
 					PL[NO.substr(NO.find("-")+1, NO.find("=")-1)] = NO.substr(NO.find("=")+1);
 					continue;
-				} 
+				}
 			}
 		}
 		PL[NO] = "0";

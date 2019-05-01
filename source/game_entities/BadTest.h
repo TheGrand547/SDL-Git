@@ -15,7 +15,7 @@ class BadTest : public EnemyBase {
 		BadTest(Point position) : EnemyBase(position) {
 			this->count = new int(0);
 			this->c = new PathManager<Point>();
-			this->c->AddPath(new CirclePath(this->position, 40, .5, Path<Point>::REPEAT));
+			this->c->AddPath(new CirclePath(this->position, 40, .125, Path<Point>::REPEAT, 30 ,false));
 		}
 		
 		~BadTest() {
