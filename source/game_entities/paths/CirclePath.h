@@ -15,20 +15,32 @@ class CirclePath : public Path<Point> {
 		 * dx = r / a * -sin(t / a)
 		 * dy = r / a * cos(t / a)
 		 * Where r is the intended radius and 2pi * a is the period */
-		float outsideMult;
-		float periodModify;
+		float outsideMult, periodModify;
+		int maxTicks;
 	public:
 		CirclePath() : Path<Point>(NULL) {
 			this->outsideMult = 0;
 			this->periodModify = 0;
 		}
 	
-		CirclePath(Point* target, int radius = 10, float periodModify = .5) : Path<Point>(target) {
+		CirclePath(Point* target, int radius = 10, float periodModify = .5, int maxTicks = Path::SINGLE_LOOP) : Path<Point>(target) {
 			this->outsideMult = radius * periodModify;
 			this->periodModify = periodModify;
+			if (maxTicks == Path::SINGLE_LOOP) {
+				this->maxTicks = 2 * M_PI / periodModify;
+			} else if (maxTicks == Path::REPEAT) {
+				this->maxTicks = maxTicks;
+			}
 		};
 		
 		~CirclePath() {};
+		
+		bool isFinished() {
+			if (this->ticksDone > this->maxTicks && this->maxTicks != Path::REPEAT) {
+				return true;
+			}
+			return false;
+		}
 		
 		void modify() {
 			float tempdx = -this->outsideMult * sin(this->ticksDone * this->periodModify);

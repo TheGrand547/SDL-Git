@@ -8,6 +8,9 @@ class Path {
 		int ticksDone, ticksOver;
 		T* target;
 	public:
+		static const int REPEAT = 0;
+		static const int SINGLE_LOOP = -2;
+		
 		Path(T* target) {
 			this->timer = new Timer();
 			this->ticksDone = 0;
@@ -22,6 +25,8 @@ class Path {
 		void start() {
 			this->timer->start();
 		}
+		
+		virtual bool isFinished() = 0;
 		
 		virtual void modify() = 0;
 		
