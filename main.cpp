@@ -56,7 +56,7 @@ int main(int argc, char *argv[]) {
 				}
 			} else {
 				if (NO.find("=") != -1) {
-					PL[NO.substr(NO.find("-")+1, NO.find("="))] = NO.substr(NO.find("=")+1);
+					PL[NO.substr(NO.find("-")+1, NO.find("=")-1)] = NO.substr(NO.find("=")+1);
 					continue;
 				} 
 			}
@@ -242,6 +242,7 @@ int main(int argc, char *argv[]) {
 
 
 		/* Drawing things onto the screen */
+		
 		for (BackElement* back: *ground) {
 			back->draw(gRenderer, screenPos);
 		}
@@ -249,6 +250,7 @@ int main(int argc, char *argv[]) {
 		for (Box* box: *boxes) {
 			box->draw(gRenderer, screenPos);
 		}
+		
 		small.render(gRenderer, screenPos);
 		
 		dot.draw(gRenderer, screenPos.negate()); // Player must always be drawn onto the top layer for best visibility
@@ -266,6 +268,9 @@ int main(int argc, char *argv[]) {
 		}
 		/* End of Raycasting */
 		
+		
+		/* Experimental Code */
+		/* TODO: Write a class for slowly appearing text */
 		if (countedFrames % 15 == 0 && flag < foo.length()) {
 			flag++;
 		}
@@ -274,7 +279,7 @@ int main(int argc, char *argv[]) {
 		for (int i = 0; i < flag; i++) {
 			temp << foo.at(i);
 		}
-		gFont.renderTextWrapped(200, 10, temp.str(), gRenderer, COLORS::RED, 300, NULL, 50);
+		gFont.renderTextWrapped(200, 10, temp.str(), gRenderer, COLORS::RED, 300);
 		
 		/* Framerate related Calculations */
 		if (countedFrames > 1000) {
