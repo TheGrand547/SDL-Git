@@ -291,6 +291,7 @@ int main(int argc, char *argv[]) {
 		avgFPS = countedFrames / (time.getTicks() / 1000.f);
 		fpsStr.str("");
 		fpsStr << "FPS: " << avgFPS;
+		//fpsStr << small.getPos();
 		gFont.renderText(100, 0, fpsStr.str(), gRenderer, COLORS::RED);
 		/* End of framerate related Calculations */
 	

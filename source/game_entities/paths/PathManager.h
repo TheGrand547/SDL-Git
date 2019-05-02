@@ -31,6 +31,5 @@ class PathManager {
 				}
 				(*paths)[0]->update();
 			}
-		}
-		
+		}	
 };

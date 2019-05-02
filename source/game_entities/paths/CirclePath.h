@@ -23,11 +23,12 @@ class CirclePath : public Path<Point> {
 			this->periodModify = 0;
 		}
 	
-		CirclePath(Point* target, int radius = 10, float periodModify = .5, int maxTicks = Path::SINGLE_LOOP, int startingTicks = 0, bool clockwise = true) : Path<Point>(target) {
-			this->outsideMult = radius * periodModify;
+		CirclePath(Point* target, int radius = 10, float periodModify = .5, int maxTicks = Path::SINGLE_LOOP, bool clockwise = true, int startingTicks = 0) : Path<Point>(target) {
+			this->outsideMult = sqrt(radius * periodModify);
 			this->periodModify = periodModify;
+			
 			if (maxTicks == Path::SINGLE_LOOP) {
-				this->maxTicks = 2 * M_PI / periodModify;
+				this->maxTicks = 360 / periodModify;
 			} else if (maxTicks == Path::REPEAT) {
 				this->maxTicks = Path::REPEAT;
 			} else {
@@ -51,9 +52,9 @@ class CirclePath : public Path<Point> {
 		}
 		
 		void modify(float t) {
-			float tempdx = (-this->outsideMult) * sin(this->ticksDone * this->periodModify);
-			float tempdy = (this->plot * this->outsideMult) * cos(this->ticksDone * this->periodModify);
+			float tempdx = t * (-this->outsideMult) * sin(this->ticksDone * M_PI / 180.f * this->periodModify);
+			float tempdy = t * (this->plot * this->outsideMult) * cos(this->ticksDone * M_PI / 180.f * this->periodModify);
 			*this->target += Point(tempdx, tempdy);
+			this->ticksDone += 5; //This is stupidly sloppy and i don't know why it has to be this way ahhhh
 		}
-		
 };

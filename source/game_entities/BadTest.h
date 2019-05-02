@@ -10,12 +10,12 @@
 class BadTest : public EnemyBase {
 	protected:
 		int* count;
-		PathManager<Point>* c;
 	public:
+		PathManager<Point>* c;
 		BadTest(Point position) : EnemyBase(position) {
 			this->count = new int(0);
 			this->c = new PathManager<Point>();
-			this->c->AddPath(new CirclePath(this->position, 40, .125, Path<Point>::SINGLE_LOOP, 0, false));
+			this->c->AddPath(new CirclePath(this->position, 40, 1, Path<Point>::REPEAT, false));
 		}
 		
 		~BadTest() {
@@ -28,5 +28,9 @@ class BadTest : public EnemyBase {
 		
 		void set(SDL_Renderer* renderer) {
 			this->texture->createBlank(renderer, 50, 50, 0xFF0000FF);
+		}
+		
+		Point getPos() {
+			return Point(*this->position);
 		}
 };
