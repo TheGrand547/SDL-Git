@@ -50,7 +50,7 @@ class CirclePath : public Path<Point> {
 			return false;
 		}
 		
-		void modify() {
+		void modify(float t) {
 			float tempdx = (-this->outsideMult) * sin(this->ticksDone * this->periodModify);
 			float tempdy = (this->plot * this->outsideMult) * cos(this->ticksDone * this->periodModify);
 			*this->target += Point(tempdx, tempdy);

@@ -139,7 +139,7 @@ int main(int argc, char *argv[]) {
 	
 	int flag = 1;
 	std::stringstream temp;
-	std::string foo = "nathan is short, andrew is short, must raise average height of programmers muahahahah";
+	std::string foo = "if cy were a cheeto he would not be food mans favorite cheeto, because he couldn't eat him :(";
 	
 	while(!quit) {
 		dx.setBounds(4, 4);

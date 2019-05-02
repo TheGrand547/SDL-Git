@@ -24,11 +24,13 @@ class PathManager {
 		}
 		
 		void update() {
-			if ((*paths)[0]->isFinished()) {
-				paths->erase(paths->begin());
-				(*paths)[0]->start();
+			if (paths->size() > 0) {
+				if ((*paths)[0]->isFinished()) {
+					paths->erase(paths->begin());
+					(*paths)[0]->start();
+				}
+				(*paths)[0]->update();
 			}
-			(*paths)[0]->update();
 		}
 		
 };
