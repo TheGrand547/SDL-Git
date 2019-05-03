@@ -9,47 +9,32 @@ typedef Uint8 uint8_t;
 
 class Texture {
 	protected:
-		int *width, *height;
 		int *xpos, *ypos;
 		SDL_Texture *texture = NULL;
 	public:
 		Texture() {
 			texture = NULL;
-			width = new int(0);
-			height = new int(0);
 			xpos = new int(0);
 			ypos = new int(0);
 		}
 		
 		~Texture() {
 			free();
-			delete this->width;
-			delete this->height;
 			delete this->xpos;
 			delete this->ypos;
 		}
 		
 		Texture &operator=(const Texture &that) {
-			width = new int(0);
-			height = new int(0);
 			xpos = new int(0);
 			ypos = new int(0);
-			*height = *(that.height);
-			*width = *(that.width);
 			*xpos = *(that.xpos);
 			*ypos = *(that.ypos);
 			texture = NULL;
 		}
 		
 		Texture (const Texture &that) {
-			width = new int(0);
-			height = new int(0);
-			xpos = new int(0);
-			ypos = new int(0);
-			*height = *(that.height);
-			*width = *(that.width);
-			*xpos = *(that.xpos);
-			*ypos = *(that.ypos);
+			xpos = new int(*that.xpos);
+			ypos = new int(*that.ypos);
 			texture = NULL;
 		}
 		
@@ -76,7 +61,12 @@ class Texture {
 		
 		void render(int x, int y, SDL_Renderer *renderer, SDL_Rect* clip=NULL, double angle=0, 
 					SDL_Point* center=NULL, SDL_RendererFlip flip = SDL_FLIP_NONE) {
+			int *width = new int(0);
+			int *height = new int(0);
+			SDL_QueryTexture(this->texture, NULL, NULL, width, height);
 			SDL_Rect renderQuad = {x, y, *width, *height};
+			delete width;
+			delete height;
 			if( clip != NULL ) {
 				renderQuad.w = clip->w;
 				renderQuad.h = clip->h;
@@ -110,8 +100,8 @@ class Texture {
 				SDL_SetRenderTarget(renderer, NULL);
 				
 				SDL_DestroyTexture(tempText);
-				this->width = new int(tempSurf->w);
-				this->height = new int(tempSurf->h);
+				//this->width = new int(tempSurf->w);
+				//this->height = new int(tempSurf->h);
 				this->texture = toReturn;
 			}
 			SDL_FreeSurface(tempSurf);
@@ -151,9 +141,6 @@ class Texture {
 				
 				if (newTexture == NULL) {
 					printf( "Unable to create texture from %s! SDL Error: %s\n", path.c_str(), SDL_GetError() );
-				} else {
-					width = new int(tempSurface->w);
-					height = new int(tempSurface->h);
 				}
 				SDL_SetRenderTarget(renderer, tempTexture);
 				SDL_Rect tempRect = {0, 0, tempSurface->w, tempSurface->h};

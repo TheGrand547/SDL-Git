@@ -33,11 +33,13 @@ class SuperTexture : public Texture, public MyBase {
 			this->clipX = new int(xClip);
 			this->clipY = new int(yClip);
 		}
-		
+		/*
 		void reBound() {
 			*this->width = *clipX+1;
 			*this->height = *clipY+1;
 		}
+		*/
+		void reBound() {}
 		
 		SDL_Texture* getBlank(SDL_Renderer* renderer) {
 			return SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_TARGET, *clipX+1, *clipY+1);

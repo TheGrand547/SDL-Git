@@ -207,14 +207,14 @@ int main(int argc, char *argv[]) {
 			PointDelta px = dx * (Screen::INTENDED_FRAME_RATE / avgFPS);
 			for (int i = 1; i < 6; i++) {
 				if (!yflag) {
-					if (!collideRect(dot.getRect() + px.onlyX()/i, boxes)) {
+					if (collideRectTest(dot.getRect() + px.onlyX()/i, boxes)) {
 						dot += px.onlyX()/i;
 						screenPos += px.onlyX()/i;
 						yflag = true;
 					}
 				}
 				if (!xflag) {
-					if (!collideRect(dot.getRect() + px.onlyY()/i, boxes)) {
+					if (collideRectTest(dot.getRect() + px.onlyY()/i, boxes)) {
 						dot += px.onlyY()/i;
 						screenPos += px.onlyY()/i;					
 						xflag = true;

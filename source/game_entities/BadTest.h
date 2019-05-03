@@ -8,19 +8,14 @@
 #include "paths/PathManager.h"
 
 class BadTest : public EnemyBase {
-	protected:
-		int* count;
 	public:
 		PathManager<Point>* c;
 		BadTest(Point position) : EnemyBase(position) {
-			this->count = new int(0);
 			this->c = new PathManager<Point>();
 			this->c->AddPath(new CirclePath(this->position, 40, 1, Path<Point>::REPEAT, false));
 		}
 		
-		~BadTest() {
-			delete this->count;
-		}
+		~BadTest() {}
 		
 		void update() {
 			this->c->update();

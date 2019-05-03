@@ -47,11 +47,11 @@ class Box : public CollideBase{
 			}
 		}
 		
-		Point collideLine(Line &ray, Point point = Point(0, 0)) {
-			return this->myRect->collideLine(ray, point);
+		Point collideLine(Line &ray) {
+			return this->myRect->collideLine(ray);
 		}
 		
-		bool overlap(Rect &other, Point offset = Point(0, 0)) {
+		bool overlap(Rect &other) {
 			return this->myRect->overlap(other);
 		}
 		
@@ -68,7 +68,7 @@ class Box : public CollideBase{
 			texture->drawRect(renderer, Rect(Point(0, 0), Point(cBox::BOX_WIDTH, cBox::BOX_HEIGHT)));
 			setRenderColors(renderer, cBox::BOX_INNER_BORDER_COLOR);
 			texture->drawRect(renderer, Rect(Point(0, 0), Point(cBox::BOX_WIDTH, cBox::BOX_OUTDENT * cBox::BOX_HEIGHT)));
-			texture->reBound();
+			//texture->reBound();
 			return texture;
 		}
 		
@@ -79,28 +79,12 @@ class Box : public CollideBase{
 		}
 };
 
-bool collideRect(Rect rect, std::vector<Box*> vec) {
-	bool result = false;
-	for (int i = 0; i < (&vec)->size(); i++) {
-		result = result || ((vec[i])->overlap(rect));
-	}
-	return result;
-}
-
-bool collideRect(Rect rect, std::vector<Box*>* vec, Point offset = Point(0, 0)) {
+bool collideRect(Rect rect, std::vector<Box*>* vec) {
 	bool result = false;
 	for (int i = 0; i < vec->size(); i++) {
-		result = result || (*vec)[i]->overlap(rect, offset);
+		result = result || (*vec)[i]->overlap(rect);
 	}
 	return result;
-}
-
-Point smallestDistanceFrom(std::vector<Box*> boxes, Point origin, Line ray) {
-	Point stored;
-	for (int i = 0; i < (boxes).size(); i++) {
-		stored = smallerDistance(origin, (boxes[i])->collideLine(ray), stored);
-	}
-	return stored;
 }
 
 Point smallestDistanceFrom(std::vector<Box*>* boxes, Point origin, Line ray) {
@@ -111,14 +95,10 @@ Point smallestDistanceFrom(std::vector<Box*>* boxes, Point origin, Line ray) {
 	return stored;
 }
 
-Point collideTestVectorToRay(std::vector<Box*> boxes, Line ray) {
-	return smallestDistanceFrom(boxes, ray.getOrigin(), ray);
-}
-
 Point collideTestVectorToRay(std::vector<Box*>* boxes, Line ray) {
 	return smallestDistanceFrom(boxes, ray.getOrigin(), ray);
 }
 
-bool collideRectPlusExtras(Rect rect, std::vector<Box*>* vec, Point dydx, BoundedPoint screen) {
-	return !collideRect(rect+dydx, vec, Point(0,0));
+bool collideRectTest(Rect rect, std::vector<Box*>* vec) {
+	return !collideRect(rect, vec);
 }
