@@ -11,8 +11,8 @@ bool valueInRange(int value, int min, int max);
 
 class Rect: public MyBase{
 	protected:
+		/* TODO: Continue Optimizations */
 		static const int arrayLength = 4;
-		Line* lines[arrayLength];
 		Point *tL, *tR, *bL, *bR;
 	public:
 		Rect() {
@@ -20,10 +20,6 @@ class Rect: public MyBase{
 			this->tR = NULL;
 			this->bL = NULL;
 			this->bR = NULL;
-			this->lines[0] = NULL;
-			this->lines[1] = NULL;
-			this->lines[2] = NULL;
-			this->lines[3] = NULL;
 		}
 		
 		Rect(Point topLeft, Point bottomRight) {
@@ -33,11 +29,6 @@ class Rect: public MyBase{
 			this->tR = new Point(*topRight);
 			this->bL = new Point(*bottomLeft);
 			this->bR = new Point(bottomRight);
-			lines[0] =  new Line(topLeft, *topRight); //Top
-			lines[1] = new Line(*bottomLeft, bottomRight); //Bottom
-			lines[2] = new Line(topLeft, *bottomLeft); //Left
-			lines[3] = new Line(*topRight, bottomRight); //Right
-			_setColorChannels(0x00, 0x00, 0x00, 0xFF);
 			delete topRight;
 			delete bottomLeft;
 		}
@@ -53,19 +44,11 @@ class Rect: public MyBase{
 			this->tR = new Point(*topRight);
 			this->bL = new Point(*bottomLeft);
 			this->bR = new Point(position + Point(width, height));
-			lines[0] =  new Line(position, *topRight); //Top
-			lines[1] = new Line(*bottomLeft, *bR); //Bottom
-			lines[2] = new Line(position, *bottomLeft); //Left
-			lines[3] = new Line(*topRight, *bR); //Right
-			_setColorChannels(0x00, 0x00, 0x00, 0xFF);
 			delete topRight;
 			delete bottomLeft;
 		}
 		
 		~Rect() {
- 			for (Line* line: this->lines) {
-				delete line;
-			}
 			delete this->tL;
 			delete this->tR;
 			delete this->bL;
@@ -81,10 +64,11 @@ class Rect: public MyBase{
 			 * two points *except with the stupid inline ones that i'm changing
 			 * the whole thing for */
 			Point intersect[4] = {Point(), Point(), Point(), Point()};
+			Line temp[] = {Line(*this->tL, *this->tR), Line(*this->tR, *this->bR), Line(*this->bR, *this->bL), Line(*this->bL, *this->tL)};
 			Point tempPoint;
 			int index = 0;
 			for (int i = 0; i < arrayLength; i++) {
-				tempPoint = intersectionTest(*(lines[i]), ray);
+				tempPoint = intersectionTest(temp[i], ray);
 				if (tempPoint.isReal()) {
 					intersect[index] = tempPoint;
 					index++;
@@ -157,9 +141,6 @@ class Rect: public MyBase{
 			*(this->bR) += point;
 			*(this->tR) += point;
 			*(this->bL) += point;
-			for (Line *line: lines) {
-				*line += point;
-			}
 		}
 		
 		void operator-=(Point &point) {
@@ -167,9 +148,6 @@ class Rect: public MyBase{
 			*(this->bR) -= point;
 			*(this->tR) -= point;
 			*(this->bL) -= point;
-			for (Line *line: lines) {
-				*line -= point;
-			}
 		}
 		
 		void operator+=(PointDelta &point) {
@@ -177,19 +155,14 @@ class Rect: public MyBase{
 			*(this->bR) += point;
 			*(this->tR) += point;
 			*(this->bL) += point;
-			for (Line *line: lines) {
-				*line += point;
-			}
 		}
 		
 		void operator-=(PointDelta &point) {
+			
 			*(this->tL) -= point;
 			*(this->bR) -= point;
 			*(this->tR) -= point;
 			*(this->bL) -= point;
-			for (Line *line: lines) {
-				*line -= point;
-			}
 		}
 		
 		Rect &operator=(const Rect &that) {
@@ -199,11 +172,6 @@ class Rect: public MyBase{
 			tR = new Point(*that.tR);
 			bL = new Point(*that.bL);
 			bR = new Point(*that.bR);
-			lines[0] =  new Line(tL, tR); //Top
-			lines[1] = new Line(bL, bR); //Bottom
-			lines[2] = new Line(tL, bL); //Left
-			lines[3] = new Line(tR, bR); //Right
-			_setColorChannels(0x00, 0x00, 0x00, 0xFF);
 			return *this;
 		}
 		
@@ -214,11 +182,6 @@ class Rect: public MyBase{
 			tR = new Point(*that.tR);
 			bL = new Point(*that.bL);
 			bR = new Point(*that.bR);
-			lines[0] = new Line(tL, tR); //Top
-			lines[1] = new Line(bL, bR); //Bottom
-			lines[2] = new Line(tL, bL); //Left
-			lines[3] = new Line(tR, bR); //Right
-			_setColorChannels(0x00, 0x00, 0x00, 0xFF);
 		}
 		
 		Point getCenter() {
