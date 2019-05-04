@@ -29,17 +29,14 @@ class MyBase {
 			aChannel = a;
 		}
 		
-		void setColorChannels(MyBase* other) {
-			this->rChannel = other->rChannel;
-			this->gChannel = other->gChannel;
-			this->bChannel = other->bChannel;
-			this->aChannel = other->aChannel;
-		}
-		
 		void setColorChannels(MyBase other) {
 			this->rChannel = other.rChannel;
 			this->gChannel = other.gChannel;
 			this->bChannel = other.bChannel;
 			this->aChannel = other.aChannel;
+		}
+		
+		void setColorChannels(MyBase* other) {
+			this->setColorChannels(*other);
 		}
 };

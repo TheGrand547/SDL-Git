@@ -33,12 +33,7 @@ class SuperTexture : public Texture, public MyBase {
 			this->clipX = new int(xClip);
 			this->clipY = new int(yClip);
 		}
-		/*
-		void reBound() {
-			*this->width = *clipX+1;
-			*this->height = *clipY+1;
-		}
-		*/
+		
 		void reBound() {}
 		
 		SDL_Texture* getBlank(SDL_Renderer* renderer) {
@@ -53,7 +48,7 @@ class SuperTexture : public Texture, public MyBase {
 			SDL_Texture* tempTexture = this->getBlank(renderer);
 			SDL_SetRenderTarget(renderer, tempTexture);
 			SDL_RenderCopy(renderer, this->texture, NULL, NULL);
-			rect.draw(renderer, this->getOffset());
+			rect.superDraw(renderer, this->getOffset());
 			SDL_SetRenderTarget(renderer, NULL);
 			this->texture = tempTexture;
 		}

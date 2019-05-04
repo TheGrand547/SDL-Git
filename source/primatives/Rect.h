@@ -55,6 +55,20 @@ class Rect: public MyBase{
 			delete this->bR;
 		}
 		
+		void superDraw(SDL_Renderer* renderer, Point offset) {
+			uint8_t* r = new uint8_t(0);
+			uint8_t* g = new uint8_t(0);
+			uint8_t* b = new uint8_t(0);
+			uint8_t* a = new uint8_t(0);
+			SDL_GetRenderDrawColor(renderer, r, g, b, a);
+			this->setColorChannels(*r, *g, *b, *a);
+			this->draw(renderer, offset);
+			delete r;
+			delete g;
+			delete b;
+			delete a;
+		}
+		
 		void draw(SDL_Renderer* renderer, Point offset) {
 			rectangleRGBA(renderer, *tL - offset, *bR - offset, rChannel, bChannel, gChannel, aChannel);
 		}
