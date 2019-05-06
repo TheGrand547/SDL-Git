@@ -35,6 +35,8 @@
 bool init();
 void close();
 
+/* TODO: FIX THE MEMORY LEAK FFS ITS PISSING ME OFF */
+
 SDL_Window* gWindow = NULL;
 SDL_Renderer* gRenderer = NULL;
 
