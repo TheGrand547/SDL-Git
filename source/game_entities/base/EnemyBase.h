@@ -9,7 +9,8 @@ class EnemyBase {
 		Texture* texture;
 		Point* position;
 	public:
-		EnemyBase(Point position) {
+	
+		EnemyBase(Point position = Point(0, 0)) {
 			this->position = new Point(position);
 			this->texture = new Texture();
 		}

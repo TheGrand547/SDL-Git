@@ -12,8 +12,8 @@ class PathManager {
 		}
 		
 		~PathManager() {
-			for (Path<T>* path: paths) {
-				delete path;
+			for (int i = 0; i < paths->size() - 1; i++) {
+				delete (*paths)[0];
 			}
 			paths->clear();
 			delete paths;

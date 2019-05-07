@@ -15,7 +15,9 @@ class BadTest : public EnemyBase {
 			this->c->AddPath(new CirclePath(this->position, 40, 1, Path<Point>::REPEAT, false));
 		}
 		
-		~BadTest() {}
+		~BadTest() {
+			delete this->c;
+		}
 		
 		void update() {
 			this->c->update();

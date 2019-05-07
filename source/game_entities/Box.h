@@ -83,6 +83,8 @@ bool collideRect(Rect rect, std::vector<Box*>* vec) {
 	bool result = false;
 	for (int i = 0; i < vec->size(); i++) {
 		result = result || (*vec)[i]->overlap(rect);
+		if (result)
+			break;
 	}
 	return result;
 }

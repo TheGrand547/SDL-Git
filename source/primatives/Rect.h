@@ -16,10 +16,10 @@ class Rect: public MyBase{
 		Point *tL, *tR, *bL, *bR;
 	public:
 		Rect() {
-			this->tL = NULL;
-			this->tR = NULL;
-			this->bL = NULL;
-			this->bR = NULL;
+			this->tL = new Point();
+			this->tR = new Point();
+			this->bL = new Point();
+			this->bR = new Point();
 		}
 		
 		Rect(Point topLeft, Point bottomRight) {
@@ -180,8 +180,6 @@ class Rect: public MyBase{
 		}
 		
 		Rect &operator=(const Rect &that) {
-			Point topRight = Point(that.bR->x(), that.tL->y());
-			Point bottomLeft = Point(that.tL->x(), that.bR->y());
 			tL = new Point(*that.tL);
 			tR = new Point(*that.tR);
 			bL = new Point(*that.bL);
@@ -190,8 +188,6 @@ class Rect: public MyBase{
 		}
 		
 		Rect(const Rect &that) {
-			Point topRight = Point(that.bR->x(), that.tL->y());
-			Point bottomLeft = Point(that.tL->x(), that.bR->y());
 			tL = new Point(*that.tL);
 			tR = new Point(*that.tR);
 			bL = new Point(*that.bL);

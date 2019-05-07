@@ -138,7 +138,7 @@ int main(int argc, char *argv[]) {
 	time.start();
 	float avgFPS = 100;
 	
-	
+	PointDelta px;
 	int flag = 1;
 	std::stringstream temp;
 	std::string foo = "if cy were a cheeto he would not be food mans favorite cheeto, because he couldn't eat him :(";
@@ -206,7 +206,7 @@ int main(int argc, char *argv[]) {
 			/* TODO: Make this not look like shit */
 			bool xflag = false;
 			bool yflag = false;
-			PointDelta px = dx * (Screen::INTENDED_FRAME_RATE / avgFPS);
+			px = dx * (Screen::INTENDED_FRAME_RATE / avgFPS);
 			for (int i = 1; i < 6; i++) {
 				if (!yflag) {
 					if (collideRectTest(dot.getRect() + px.onlyX()/i, boxes)) {
@@ -293,7 +293,6 @@ int main(int argc, char *argv[]) {
 		avgFPS = countedFrames / (time.getTicks() / 1000.f);
 		fpsStr.str("");
 		fpsStr << "FPS: " << avgFPS;
-		//fpsStr << small.getPos();
 		gFont.renderText(100, 0, fpsStr.str(), gRenderer, COLORS::RED);
 		/* End of framerate related Calculations */
 	
@@ -306,6 +305,8 @@ int main(int argc, char *argv[]) {
 		countedFrames++; 
 	}
 	close();
+	delete groundTexture;
+	delete mTexture;
 	delete ground;
 	delete boxes;
 	return 0;

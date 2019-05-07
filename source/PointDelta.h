@@ -67,12 +67,18 @@ class PointDelta : public Point {
 		}
 		
 		PointDelta& operator=(const PointDelta &that){
+			this->xval = NULL;
+			this->yval = NULL;
+			this->xmin = NULL;
+			this->ymin = NULL;
 			this->xval = new float(*that.xval);
 			this->yval = new float(*that.yval);
 			this->xmin = new float(*that.xmin);
 			this->ymin = new float(*that.ymin);
 			return *this;
 		}
+		
+		/* Maybe the memory leak is here? */
 		
 		PointDelta operator/(const float &num) {
 			return PointDelta((*this->xval) / num, (*this->yval) / num, *this->xmin, *this->ymin);
