@@ -66,15 +66,11 @@ class PointDelta : public Point {
 			reduceToBounds();
 		}
 		
-		PointDelta& operator=(const PointDelta &that){
-			this->xval = NULL;
-			this->yval = NULL;
-			this->xmin = NULL;
-			this->ymin = NULL;
-			this->xval = new float(*that.xval);
-			this->yval = new float(*that.yval);
-			this->xmin = new float(*that.xmin);
-			this->ymin = new float(*that.ymin);
+		PointDelta& operator=(const PointDelta &that) {
+			*this->xval = *that.xval;
+			*this->yval = *that.yval;
+			*this->xmin = *that.xmin;
+			*this->ymin = *that.ymin;
 			return *this;
 		}
 		
@@ -89,8 +85,8 @@ class PointDelta : public Point {
 		}
 		
 		void setBounds(float xMax, float yMax) {
-			this->xmin = new float(xMax);
-			this->ymin = new float(yMax);
+			*this->xmin = xMax;
+			*this->ymin = yMax;
 			this->reduceToBounds();
 		}
 		

@@ -23,14 +23,10 @@ class Rect: public MyBase{
 		}
 		
 		Rect(Point topLeft, Point bottomRight) {
-			Point *topRight = new Point(bottomRight.x(), topLeft.y());
-			Point *bottomLeft = new Point(topLeft.x(), bottomRight.y());
 			this->tL = new Point(topLeft);
-			this->tR = new Point(*topRight);
-			this->bL = new Point(*bottomLeft);
+			this->tR = new Point(bottomRight.x(), topLeft.y());
+			this->bL = new Point(topLeft.x(), bottomRight.y());
 			this->bR = new Point(bottomRight);
-			delete topRight;
-			delete bottomLeft;
 		}
 		
 		Rect(float x, float y, int width, int height) {
@@ -38,14 +34,10 @@ class Rect: public MyBase{
 		}
 		
 		Rect(Point position, int width, int height) {
-			Point *topRight = new Point(position.x() + width, position.y());
-			Point *bottomLeft = new Point(position.x(), position.y() + height);
 			this->tL = new Point(position);
-			this->tR = new Point(*topRight);
-			this->bL = new Point(*bottomLeft);
+			this->tR = new Point(position.x() + width, position.y());
+			this->bL = new Point(position.x(), position.y() + height);
 			this->bR = new Point(position + Point(width, height));
-			delete topRight;
-			delete bottomLeft;
 		}
 		
 		~Rect() {
@@ -180,10 +172,10 @@ class Rect: public MyBase{
 		}
 		
 		Rect &operator=(const Rect &that) {
-			tL = new Point(*that.tL);
-			tR = new Point(*that.tR);
-			bL = new Point(*that.bL);
-			bR = new Point(*that.bR);
+			*tL = *that.tL;
+			*tR = *that.tR;
+			*bL = *that.bL;
+			*bR = *that.bR;
 			return *this;
 		}
 		
