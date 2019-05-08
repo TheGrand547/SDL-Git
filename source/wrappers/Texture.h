@@ -10,7 +10,7 @@ typedef Uint8 uint8_t;
 class Texture {
 	protected:
 		int *xpos, *ypos;
-		SDL_Texture *texture = NULL;
+		SDL_Texture *texture;
 	public:
 		Texture() {
 			texture = NULL;
@@ -30,6 +30,7 @@ class Texture {
 			*xpos = *(that.xpos);
 			*ypos = *(that.ypos);
 			texture = NULL;
+			return *this;
 		}
 		
 		Texture (const Texture &that) {

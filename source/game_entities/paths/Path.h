@@ -18,7 +18,7 @@ class Path {
 			this->target = target;
 		}
 		
-		~Path() {
+		virtual ~Path() {
 			delete this->timer;
 		}
 		
@@ -28,13 +28,13 @@ class Path {
 		
 		virtual bool isFinished() = 0;
 		
-		virtual void modify(float delta = 0) = 0;
+		virtual void modify() = 0;
 		
 		void update() {
 			this->ticksOver += this->timer->getTicks();
 			this->timer->start();
 			for (int i = 10; i <= this->ticksOver; i += 10) {
-				this->modify(1);
+				this->modify();
 				this->ticksDone++;
 			}
 			this->ticksOver %= 10;

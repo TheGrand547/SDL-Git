@@ -16,8 +16,8 @@
 typedef Uint8 uint8_t;
 class SuperTexture : public Texture, public MyBase {
 	protected:
-		int* clipX = NULL;
-		int* clipY = NULL;
+		int* clipX;
+		int* clipY;
 	public:
 		SuperTexture(Uint8 r = 0x00, Uint8 g = 0x00, Uint8 b = 0x00, Uint8 a = 0xFF) : Texture(), MyBase(r, g, b, a) {
 			this->clipX = new int(0);

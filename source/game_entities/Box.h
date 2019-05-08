@@ -16,7 +16,7 @@ class Box : public CollideBase{
 	//Class for boxes
 	private:
 		Rect *myRect;
-		SuperTexture *mTexture = NULL;
+		SuperTexture *mTexture;
 	public:
 		Box() {
 			myRect = new Rect();
@@ -36,7 +36,7 @@ class Box : public CollideBase{
 		}
 		
 		Box &operator=(const Box &that) {
-			myRect = new Rect(*that.myRect);
+			myRect = that.myRect;
 			return *this;
 		}
 		

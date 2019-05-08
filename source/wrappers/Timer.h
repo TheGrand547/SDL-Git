@@ -20,6 +20,7 @@ class Timer {
 			mPaused = false;
 			mStarted = false;
 		}
+		~Timer() {}
 
 		//The various clock actions
 		void start() {

@@ -12,18 +12,20 @@
  * Various types are supported based on the enum passed to it */
 class BackElement {
 	private:
-		Texture *texture = NULL;
+		Texture *texture;
 		Point *position;
 		Ground::Type type;
 	public:
 		BackElement(Rect rect, Ground::Type type = Ground::GRASS) {
 			this->position = new Point(rect.getTopLeft());
 			this->type = type;
+			this->texture = NULL;
 		}
 		
 		BackElement(Point position, Ground::Type type = Ground::GRASS) {
 			this->position = new Point(position);
 			this->type = type;
+			this->texture = NULL;
 		}
 		
 		~BackElement() {

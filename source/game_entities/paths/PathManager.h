@@ -12,8 +12,11 @@ class PathManager {
 		}
 		
 		~PathManager() {
-			for (int i = 0; i < paths->size() - 1; i++) {
-				delete (*paths)[0];
+			
+			typename std::vector<Path<T>*>::iterator it = this->paths->begin();
+			while (it != this->paths->end()) {
+				delete this->paths->front();
+				it = this->paths->erase(it);
 			}
 			paths->clear();
 			delete paths;
@@ -26,7 +29,8 @@ class PathManager {
 		void update() {
 			if (paths->size() > 0) {
 				if ((*paths)[0]->isFinished()) {
-					paths->erase(paths->begin());
+					delete this->paths->front();
+					this->paths->erase(this->paths->begin());
 					(*paths)[0]->start();
 				}
 				(*paths)[0]->update();

@@ -5,8 +5,8 @@
 
 class Point {
 	protected:
-		float *xval = NULL;
-		float *yval = NULL;
+		float *xval;
+		float *yval;
 	public:
 		Point(float xCoordinate=-1, float yCoordinate=-1);
 		Point(const Point &point);

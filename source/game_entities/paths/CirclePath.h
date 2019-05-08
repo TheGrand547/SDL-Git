@@ -51,9 +51,9 @@ class CirclePath : public Path<Point> {
 			return false;
 		}
 		
-		void modify(float t) {
-			float tempdx = t * (-this->outsideMult) * sin(this->ticksDone * M_PI / 180.f * this->periodModify);
-			float tempdy = t * (this->plot * this->outsideMult) * cos(this->ticksDone * M_PI / 180.f * this->periodModify);
+		void modify() {
+			float tempdx = (-this->outsideMult) * sin(this->ticksDone * M_PI / 180.f * this->periodModify);
+			float tempdy = (this->plot * this->outsideMult) * cos(this->ticksDone * M_PI / 180.f * this->periodModify);
 			*this->target += Point(tempdx, tempdy);
 			this->ticksDone += 5; //This is stupidly sloppy and i don't know why it has to be this way ahhhh
 		}

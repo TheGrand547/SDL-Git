@@ -42,12 +42,12 @@ class BoundedPoint : public Point {
 		}
 		
 		BoundedPoint &operator=(BoundedPoint &other){
-			this->xval = new float(*other.xval);
-			this->yval = new float(*other.yval);
-			this->xMin = new float(*other.xMin);
-			this->xMax = new float(*other.xMax);
-			this->yMin = new float(*other.yMin);
-			this->yMax = new float(*other.yMax);
+			*this->xval = *other.xval;
+			*this->yval = *other.yval;
+			*this->xMin = *other.xMin;
+			*this->xMax = *other.xMax;
+			*this->yMin = *other.yMin;
+			*this->yMax =*other.yMax;
 			return *this;
 		}
 		

@@ -40,6 +40,13 @@ class Rect: public MyBase{
 			this->bR = new Point(position + Point(width, height));
 		}
 		
+		Rect(const Rect &that) {
+			tL = new Point(*that.tL);
+			tR = new Point(*that.tR);
+			bL = new Point(*that.bL);
+			bR = new Point(*that.bR);
+		}
+		
 		~Rect() {
 			delete this->tL;
 			delete this->tR;
@@ -177,13 +184,6 @@ class Rect: public MyBase{
 			*bL = *that.bL;
 			*bR = *that.bR;
 			return *this;
-		}
-		
-		Rect(const Rect &that) {
-			tL = new Point(*that.tL);
-			tR = new Point(*that.tR);
-			bL = new Point(*that.bL);
-			bR = new Point(*that.bR);
 		}
 		
 		Point getCenter() {

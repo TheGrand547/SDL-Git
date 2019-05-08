@@ -74,8 +74,6 @@ class PointDelta : public Point {
 			return *this;
 		}
 		
-		/* Maybe the memory leak is here? */
-		
 		PointDelta operator/(const float &num) {
 			return PointDelta((*this->xval) / num, (*this->yval) / num, *this->xmin, *this->ymin);
 		}

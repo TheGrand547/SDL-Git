@@ -105,7 +105,7 @@ int main(int argc, char *argv[]) {
 	boxes->push_back(new Box(Point(350, 200)));
 	Box::setTexture(boxes, mTexture);
 	
-	Texture* groundTexture = BackElement::createGroundTexture(gRenderer, Ground::Type::GRASS);
+	Texture* groundTexture = BackElement::createGroundTexture(gRenderer, Ground::GRASS);
 	
 	for (int x = 0; x <= Screen::MAX_WIDTH; x += 100) {
 		for (int y = 0; y <= Screen::MAX_HEIGHT; y += 100) {
@@ -139,6 +139,7 @@ int main(int argc, char *argv[]) {
 	float avgFPS = 100;
 	
 	PointDelta px;
+	Line ray;
 	int flag = 1;
 	std::stringstream temp;
 	std::string foo = "if cy were a cheeto he would not be food mans favorite cheeto, because he couldn't eat him :(";
@@ -262,7 +263,7 @@ int main(int argc, char *argv[]) {
 		
 		/* Raycasting */
 		if (shift.getHeld()) {
-			Line ray = dot.getRay();
+			ray = dot.getRay();
 			newPoint = collideTestVectorToRay(boxes, ray);
 			if (!newPoint.isNull()) {
 				tempLine = Line(dot.getCenter(), newPoint.copy());
@@ -292,7 +293,7 @@ int main(int argc, char *argv[]) {
 		
 		avgFPS = countedFrames / (time.getTicks() / 1000.f);
 		fpsStr.str("");
-		fpsStr << "FPS: " << avgFPS;
+		fpsStr << "FPS: " << int(avgFPS);
 		gFont.renderText(100, 0, fpsStr.str(), gRenderer, COLORS::RED);
 		/* End of framerate related Calculations */
 	
