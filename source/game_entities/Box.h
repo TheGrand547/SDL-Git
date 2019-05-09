@@ -24,7 +24,7 @@ class Box : public CollideBase{
 		
 		Box(Point position) {
 			/* This hurts me phyiscally */
-			myRect = new Rect(position, cBox::BOX_WIDTH - 1, cBox::BOX_HEIGHT - 1);
+			myRect = new Rect(position, BOX::BOX_WIDTH - 1, BOX::BOX_HEIGHT - 1);
 		}
 		
 		~Box() {
@@ -61,13 +61,13 @@ class Box : public CollideBase{
 		
 		static SuperTexture* createBoxTexture(SDL_Renderer* renderer) {
 			SuperTexture* texture = new SuperTexture();
-			texture->setClip(cBox::BOX_WIDTH, cBox::BOX_HEIGHT);
-			texture->drawBox(renderer, Rect(Point(0, 0), Point(cBox::BOX_WIDTH, cBox::BOX_HEIGHT)));
-			texture->loadFromFile("resources/missingTexture.jpg", renderer, cBox::BOX_WIDTH, cBox::BOX_OUTDENT * cBox::BOX_HEIGHT);
-			setRenderColors(renderer, cBox::BOX_OUTER_BORDER_COLOR);
-			texture->drawRect(renderer, Rect(Point(0, 0), Point(cBox::BOX_WIDTH, cBox::BOX_HEIGHT)));
-			setRenderColors(renderer, cBox::BOX_INNER_BORDER_COLOR);
-			texture->drawRect(renderer, Rect(Point(0, 0), Point(cBox::BOX_WIDTH, cBox::BOX_OUTDENT * cBox::BOX_HEIGHT)));
+			texture->setClip(BOX::BOX_WIDTH, BOX::BOX_HEIGHT);
+			texture->drawBox(renderer, Rect(Point(0, 0), Point(BOX::BOX_WIDTH, BOX::BOX_HEIGHT)));
+			texture->loadFromFile("resources/missingTexture.jpg", renderer, BOX::BOX_WIDTH, BOX::BOX_OUTDENT * BOX::BOX_HEIGHT);
+			setRenderColors(renderer, BOX::BOX_OUTER_BORDER_COLOR);
+			texture->drawRect(renderer, Rect(Point(0, 0), Point(BOX::BOX_WIDTH, BOX::BOX_HEIGHT)));
+			setRenderColors(renderer, BOX::BOX_INNER_BORDER_COLOR);
+			texture->drawRect(renderer, Rect(Point(0, 0), Point(BOX::BOX_WIDTH, BOX::BOX_OUTDENT * BOX::BOX_HEIGHT)));
 			//texture->reBound();
 			return texture;
 		}

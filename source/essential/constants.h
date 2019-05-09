@@ -11,7 +11,7 @@ namespace COLORS {
 }
 
 
-namespace cBox {
+namespace BOX {
 	const int BOX_WIDTH = 100;
 	const int BOX_HEIGHT = 100;
 	const float BOX_OUTDENT = .5;

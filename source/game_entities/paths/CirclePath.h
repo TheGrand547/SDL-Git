@@ -17,6 +17,10 @@ class CirclePath : public Path<Point> {
 		 * Where r is the intended radius and 2pi * a is the period */
 		float outsideMult, periodModify;
 		int maxTicks, plot;
+		
+		/* Messy stuff for proper looping */
+		int startingTicks = 0;
+		int startingMaxTicks = 0;
 	public:
 		CirclePath() : Path<Point>(NULL) {
 			this->outsideMult = 0;
@@ -40,9 +44,19 @@ class CirclePath : public Path<Point> {
 				this->plot = 1;
 			}
 			this->ticksDone += startingTicks;
+			
+			/* Kind of messy stuff for looping */
+			this->startingTicks = int(startingTicks);
+			this->startingMaxTicks = int(this->maxTicks);
 		};
 		
 		~CirclePath() {};
+		
+		void stop() {
+			this->maxTicks = this->startingMaxTicks;
+			this->ticksDone = this->startingTicks;
+			this->timer->stop();
+		}
 		
 		bool isFinished() {
 			if (this->ticksDone > this->maxTicks && this->maxTicks != Path::REPEAT) {

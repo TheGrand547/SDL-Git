@@ -22,6 +22,11 @@ class Path {
 			delete this->timer;
 		}
 		
+		virtual void stop() {
+			this->timer->stop();
+			this->ticksDone = 0;
+		}
+		
 		void start() {
 			this->timer->start();
 		}

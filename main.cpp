@@ -142,7 +142,7 @@ int main(int argc, char *argv[]) {
 	Line ray;
 	int flag = 1;
 	std::stringstream temp;
-	std::string foo = "if cy were a cheeto he would not be food mans favorite cheeto, because he couldn't eat him :(";
+	std::string foo = "don't die yet, that was only a warning shot";
 	
 	while(!quit) {
 		dx.setBounds(4, 4);

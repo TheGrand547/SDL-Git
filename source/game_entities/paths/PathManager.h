@@ -6,13 +6,16 @@ template<class T>
 class PathManager {
 	protected:
 		std::vector<Path<T>*>* paths;
+		bool repeat;
+		int index;
 	public:
 		PathManager() {
 			this->paths = new std::vector<Path<T>*>;
+			this->index = 0;
+			this->repeat = false;
 		}
 		
 		~PathManager() {
-			
 			typename std::vector<Path<T>*>::iterator it = this->paths->begin();
 			while (it != this->paths->end()) {
 				delete this->paths->front();
@@ -26,14 +29,22 @@ class PathManager {
 			this->paths->push_back(path);
 		}
 		
+		void setRepeat(bool val) {
+			this->repeat = val;
+		}
+		
 		void update() {
-			if (paths->size() > 0) {
-				if ((*paths)[0]->isFinished()) {
-					delete this->paths->front();
-					this->paths->erase(this->paths->begin());
-					(*paths)[0]->start();
+			if (this->index < this->paths->size()) {
+				if ((*paths)[this->index]->isFinished()) {
+					(*paths)[this->index]->stop();
+					this->index++;
+					if (this->index >= this->paths->size() && this->repeat == true) {
+						this->index = 0;
+					}	
+					(*paths)[this->index]->start();
 				}
-				(*paths)[0]->update();
-			}
+				(*paths)[this->index]->update();
+				
+			} 
 		}	
 };
