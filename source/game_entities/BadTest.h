@@ -14,10 +14,11 @@ class BadTest : public EnemyBase {
 		PathManager<Point>* c;
 		BadTest(Point position) : EnemyBase(position) {
 			this->c = new PathManager<Point>();
+			
 			this->c->AddPath(new LinePath(this->position, Point(200, -200), toTicks(1)));
-			//this->c->AddPath(new CirclePath(this->position, 40, 1, Path<Point>::SINGLE_LOOP, false));
+			this->c->AddPath(new CirclePath(this->position, 40, 1, Path<Point>::SINGLE_LOOP, false));
 			this->c->AddPath(new LinePath(this->position, Point(-200, 200), toTicks(1)));
-			//this->c->AddPath(new CirclePath(this->position, 40, 1, Path<Point>::SINGLE_LOOP, false));
+			this->c->AddPath(new CirclePath(this->position, 40, 1, Path<Point>::SINGLE_LOOP, false));
 			this->c->setRepeat(true);
 		}
 		

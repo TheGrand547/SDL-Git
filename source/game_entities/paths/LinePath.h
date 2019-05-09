@@ -37,7 +37,7 @@ class LinePath : public Path<Point> {
 		}
 		
 		bool isFinished() {
-			if (this->ticksDone > this->maxTicks && this->maxTicks != Path::REPEAT) {
+			if (this->ticksDone >= this->maxTicks && this->maxTicks != Path::REPEAT) {
 				return true;
 			}
 			return false;
