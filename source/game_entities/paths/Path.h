@@ -11,11 +11,12 @@ class Path {
 		static const int REPEAT = 0;
 		static const int SINGLE_LOOP = -2;
 		
-		Path(T* target) {
+		Path() {
 			this->timer = new Timer();
 			this->ticksDone = 0;
 			this->ticksOver = 0;
-			this->target = target;
+			this->target = NULL;
+			//this->target = target;
 		}
 		
 		virtual ~Path() {
@@ -34,6 +35,10 @@ class Path {
 		virtual bool isFinished() = 0;
 		
 		virtual void modify() = 0;
+		
+		void setTarget(T* target) {
+			this->target = target;
+		}
 		
 		void update() {
 			this->ticksOver += this->timer->getTicks();

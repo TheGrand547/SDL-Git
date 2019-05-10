@@ -5,20 +5,20 @@
 float toTicks(float seconds) {
 	return seconds * 1000.f;
 }
-
-class LinePath : public Path<Point> {
+template<class T>
+class LinePath : public Path<T> {
 	private:
 		Point delta;
 		int maxTicks;
 	public:
-		LinePath() : Path<Point>(NULL) {
+		LinePath() : Path<T>() {
 			this->delta = Point(0, 0);
 			this->maxTicks = 1;
 		}
 		
-		LinePath(Point* target, Point vector, float tickTime, int repeatCount = Path::SINGLE_LOOP) : Path<Point>(target) {
+		LinePath(Point vector, float tickTime, int repeatCount = Path<T>::SINGLE_LOOP) : Path<T>() {
 			this->delta = vector / (tickTime / 10);
-			if (repeatCount == Path::SINGLE_LOOP) {
+			if (repeatCount == Path<T>::SINGLE_LOOP) {
 				this->maxTicks = tickTime / 10;
 			} else {
 				this->maxTicks = repeatCount * tickTime / 10;
@@ -27,8 +27,8 @@ class LinePath : public Path<Point> {
 		
 		/* Tick time is the duration in milliseconds, which must be adjusted for the refresh rate of paths */
 		
-		LinePath(Point* target, Point startingPos, Point endingPos, int tickTime, int repeatCount = Path::SINGLE_LOOP) : Path<Point>(target) {
-			*this = LinePath(target, endingPos-startingPos, tickTime, repeatCount);
+		LinePath(Point startingPos, Point endingPos, int tickTime, int repeatCount = Path<T>::SINGLE_LOOP) : Path<T>() {
+			*this = LinePath<T>(endingPos-startingPos, tickTime, repeatCount);
 		}
 		
 		void stop() {
@@ -37,7 +37,7 @@ class LinePath : public Path<Point> {
 		}
 		
 		bool isFinished() {
-			if (this->ticksDone >= this->maxTicks && this->maxTicks != Path::REPEAT) {
+			if (this->ticksDone >= this->maxTicks && this->maxTicks != Path<T>::REPEAT) {
 				return true;
 			}
 			return false;

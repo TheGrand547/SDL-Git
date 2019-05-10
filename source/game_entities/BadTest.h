@@ -11,14 +11,18 @@
 
 class BadTest : public EnemyBase {
 	public:
-		PathManager<Point>* c;
-		BadTest(Point position) : EnemyBase(position) {
-			this->c = new PathManager<Point>();
-			
+		//PathManager<Point>* c; // Feels wrong to have a public member for some reason
+		PathManager<EnemyBase>* c;
+		
+		BadTest(Point position, std::vector<Box*>* collide) : EnemyBase(collide, position) {
+			this->c = new PathManager<EnemyBase>(this);
+			/*
 			this->c->AddPath(new LinePath(this->position, Point(200, -200), toTicks(1)));
 			this->c->AddPath(new CirclePath(this->position, 40, 1, Path<Point>::SINGLE_LOOP, false));
 			this->c->AddPath(new LinePath(this->position, Point(-200, 200), toTicks(1)));
 			this->c->AddPath(new CirclePath(this->position, 40, 1, Path<Point>::SINGLE_LOOP, false));
+			*/
+			this->c->AddPath(new LinePath<EnemyBase>(Point(200, -200), toTicks(1)));
 			this->c->setRepeat(true);
 		}
 		

@@ -25,7 +25,7 @@
 #include "source/PointDelta.h"
 #include "source/BoundedPoint.h"
 #include "source/HeldKey.h"
-#include "source/CollideBase.h"
+#include "source/game_entities/base/CollideBase.h"
 #include "source/BoundedRect.h"
 #include "source/essential/Configuration.h"
 #include "source/game_entities/BadTest.h"
@@ -125,7 +125,7 @@ int main(int argc, char *argv[]) {
 	int countedFrames = 0;
 	int help;
 	
-	BadTest small(Point(300, 300));
+	BadTest small(Point(300, 350), boxes);
 	small.set(gRenderer);
 	
 	PointDelta dx = PointDelta(0, 0, 4, 4);

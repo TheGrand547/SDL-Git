@@ -3,7 +3,8 @@
 #include "../../wrappers/Timer.h"
 #include "Path.h"
 
-class CirclePath : public Path<Point> {
+template<class T>
+class CirclePath : public Path<T> {
 	protected:
 		/* Standard Parametric Equation for a Cirle
 		 * x = r * cos(t / a)
@@ -22,19 +23,19 @@ class CirclePath : public Path<Point> {
 		int startingTicks = 0;
 		int startingMaxTicks = 0;
 	public:
-		CirclePath() : Path<Point>(NULL) {
+		CirclePath() : Path<T>(NULL) {
 			this->outsideMult = 0;
 			this->periodModify = 0;
 		}
 	
-		CirclePath(Point* target, int radius = 10, float periodModify = .5, int maxTicks = Path::SINGLE_LOOP, bool clockwise = true, int startingTicks = 0) : Path<Point>(target) {
+		CirclePath(int radius = 10, float periodModify = .5, int maxTicks = Path<T>::SINGLE_LOOP, bool clockwise = true, int startingTicks = 0) : Path<T>() {
 			this->outsideMult = sqrt(radius * periodModify);
 			this->periodModify = periodModify;
 			
-			if (maxTicks == Path::SINGLE_LOOP) {
+			if (maxTicks == Path<T>::SINGLE_LOOP) {
 				this->maxTicks = 360 / periodModify;
-			} else if (maxTicks == Path::REPEAT) {
-				this->maxTicks = Path::REPEAT;
+			} else if (maxTicks == Path<T>::REPEAT) {
+				this->maxTicks = Path<T>::REPEAT;
 			} else {
 				this->maxTicks = maxTicks + startingTicks;
 			}
@@ -59,7 +60,7 @@ class CirclePath : public Path<Point> {
 		}
 		
 		bool isFinished() {
-			if (this->ticksDone >= this->maxTicks && this->maxTicks != Path::REPEAT) {
+			if (this->ticksDone >= this->maxTicks && this->maxTicks != Path<T>::REPEAT) {
 				return true;
 			}
 			return false;

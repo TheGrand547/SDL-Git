@@ -8,8 +8,8 @@
 #include "../wrappers/SuperTexture.h"	
 #include "../wrappers/Texture.h"
 #include "../BoundedPoint.h"
-#include "../CollideBase.h"
 #include "../essential/util.h"
+#include "base/CollideBase.h"
 
 typedef Uint32 uint32_t;
 class Box : public CollideBase{

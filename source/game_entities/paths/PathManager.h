@@ -6,11 +6,13 @@ template<class T>
 class PathManager {
 	protected:
 		std::vector<Path<T>*>* paths;
+		T* target;
 		bool repeat;
 		int index;
 	public:
-		PathManager() {
+		PathManager(T* target = NULL) {
 			this->paths = new std::vector<Path<T>*>;
+			this->target = target;
 			this->index = 0;
 			this->repeat = false;
 		}
@@ -26,7 +28,9 @@ class PathManager {
 		}
 		
 		void AddPath(Path<T>* path) {
+			/** TODO: Make PathManagers have their own given type which is directly passed to all added Paths to clean up code **/
 			this->paths->push_back(path);
+			this->paths->back()->setTarget(this->target);
 		}
 		
 		void setRepeat(bool val) {
@@ -44,7 +48,6 @@ class PathManager {
 					(*paths)[this->index]->start();
 				}
 				(*paths)[this->index]->update();
-				
 			} 
 		}	
 };
