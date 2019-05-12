@@ -29,6 +29,7 @@
 #include "source/BoundedRect.h"
 #include "source/essential/Configuration.h"
 #include "source/game_entities/BadTest.h"
+#include "source/Controller.h"
 
 /* Removed TODO on 4/17/19, previously copied code was a necessary evil to ensure proper functionality */
 /* Handles initializing and de-initializing nicely */
@@ -142,7 +143,7 @@ int main(int argc, char *argv[]) {
 	Line ray;
 	int flag = 1;
 	std::stringstream temp;
-	std::string foo = "don't die yet, that was only a warning shot";
+	std::string foo = "mani is pretty smart sometimes, but kotlin is a dumb language cause it has no semi-colons iirc";
 	
 	while(!quit) {
 		dx.setBounds(4, 4);

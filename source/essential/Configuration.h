@@ -6,7 +6,7 @@
 #include<map>
 
 
-/* Modified from http://www.cplusplus.com/forum/general/21115/ */
+/* Modified -lightly- from http://www.cplusplus.com/forum/general/21115/ */
 class Configuration {
 	private:
 		std::map<std::string, std::string> configMap;

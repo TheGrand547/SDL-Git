@@ -36,7 +36,7 @@ class EnemyBase {
 			}
 		}
 		
-		void operator+=(Point &delta) {
+		void operator+=(Point delta) {
 			bool xflag = false;
 			bool yflag = false;
 			Point px = delta;

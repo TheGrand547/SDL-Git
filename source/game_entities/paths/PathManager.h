@@ -42,7 +42,7 @@ class PathManager {
 				if ((*paths)[this->index]->isFinished()) {
 					(*paths)[this->index]->stop();
 					this->index++;
-					if (this->index >= this->paths->size() && this->repeat == true) {
+					if (this->index >= this->paths->size() && this->repeat) {
 						this->index = 0;
 					}	
 					(*paths)[this->index]->start();
