@@ -4,7 +4,7 @@
 #include "../primatives/Point.cpp"
 #include "../MyBase.h"
 
-/* TODO: Investigate if all the stupid off by one errots are caused by me making fixes to fake problems */
+/* TODO: Investigate if all the stupid off by one errors are caused by me making fixes to fake problems */
 
 //Basic wrapper for parts of sdl2_gfx so I don't have to do work
 void rectangleRGBA(SDL_Renderer *renderer, Point pointA, Point pointB, uint8_t r, uint8_t g, uint8_t b, uint8_t a) {

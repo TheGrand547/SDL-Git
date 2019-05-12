@@ -11,7 +11,6 @@ bool valueInRange(int value, int min, int max);
 
 class Rect: public MyBase{
 	protected:
-		/* TODO: Continue Optimizations */
 		static const int arrayLength = 4;
 		Point *tL, *tR, *bL, *bR;
 	public:
