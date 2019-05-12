@@ -5,19 +5,25 @@ template<class T, class U> // SLOPPY, YOU SHOULD BE SAD
 class ControllerCommand {
 	private:
 		T* target;
-		// TODO: Write the 'method' class, or just use lambdas
 		void (*function)(T*, U);
+		U param;
 	public:
-		ControllerCommand(void(*function)(T*, U), T* target) {
+		ControllerCommand(void(*function)(T*, U), T* target, U param) {
 			this->function = function;
 			this->target = target;
+			this->param = param;
 		}
 		
-		~ControllerCommand() {
-			delete this->function;
+		~ControllerCommand() {}
+		
+		ControllerCommand& operator=(const ControllerCommand& that) {
+			this->target = that.target;
+			this->function = that.function;
+			this->param = that.param;
+			return *this;
 		}
 		
-		void execute(U x) {
-			this->function(this->target, x);
+		void execute() {
+			this->function(this->target, this->param);
 		}
 };

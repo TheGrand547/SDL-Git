@@ -36,8 +36,6 @@
 bool init();
 void close();
 
-/* TODO: FIX THE MEMORY LEAK FFS ITS PISSING ME OFF */
-
 SDL_Window* gWindow = NULL;
 SDL_Renderer* gRenderer = NULL;
 
@@ -124,7 +122,6 @@ int main(int argc, char *argv[]) {
 	//Timer Stuff
 	Timer time;
 	int countedFrames = 0;
-	int help;
 	
 	BadTest small(Point(300, 350), boxes);
 	small.set(gRenderer);
@@ -145,6 +142,9 @@ int main(int argc, char *argv[]) {
 	std::stringstream temp;
 	std::string foo = "mani is pretty smart sometimes, but kotlin is a dumb language cause it has no semi-colons iirc";
 	
+	PointDelta* popo = new PointDelta(0,0,4,4);
+	Controller contra(config, popo);
+	
 	while(!quit) {
 		dx.setBounds(4, 4);
 		/* Clear the rendering screen */
@@ -153,10 +153,12 @@ int main(int argc, char *argv[]) {
 		/* Event Handling */
 		while(SDL_PollEvent(&e) != 0) {
 			/* TODO: Make this a method to clean up main method */
+			contra.handleEvents(e);
 			switch(e.type) {
 				case SDL_QUIT:
 					quit = true;
 					break;
+				/*
 				case SDL_KEYDOWN:
 					help = keyCodeFromEvent(e);
 					if (e.key.repeat == 0) {
@@ -197,6 +199,7 @@ int main(int argc, char *argv[]) {
 						shift.set(false);
 					}
 					break;
+					*/
 			}
 		}
 		shift.tick();
@@ -204,11 +207,11 @@ int main(int argc, char *argv[]) {
 		/* Collision Detection 
 		 * Only does detection if dx exists to improve performance */
 		
-		if (dx.getNonZero()) {
+		if (popo->getNonZero()) {
 			/* TODO: Make this not look like shit */
 			bool xflag = false;
 			bool yflag = false;
-			px = dx * (Screen::INTENDED_FRAME_RATE / avgFPS);
+			px = (*popo) * (Screen::INTENDED_FRAME_RATE / avgFPS);
 			for (int i = 1; i < 6; i++) {
 				if (!yflag) {
 					if (collideRectTest(dot.getRect() + px.onlyX()/i, boxes)) {

@@ -95,4 +95,26 @@ class PointDelta : public Point {
 		PointDelta onlyY() {
 			return PointDelta(0, *this->yval, *this->xmin, *this->ymin);
 		}
+		
+		Point getXPoint() {
+			return Point(*this->xmin, 0);
+		}
+		
+		Point getYPoint() {
+			return Point(0, *this->ymin);
+		}
+		
+		bool operator>(const int &val) {
+			if (*this->xval > val || *this->yval > val) {
+				return true;
+			}
+			return false;
+		}
+		
+		bool operator<(const int &val) {
+			if (*this->xval < val || *this->yval < val) {
+				return true;
+			}
+			return false;
+		}
 };
