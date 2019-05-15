@@ -130,16 +130,17 @@ class Line: public MyBase{
 			return float((this->getAx() * originPoint->x()) + (this->getBy() * originPoint->y()));
 		}
 		
-		Point getOrigin() {
+		Point getOrigin() const {
 			return *originPoint;
 		}
 		
-		Point getEnd() {
+		Point getEnd() const {
 			return *endingPoint;
 		}
 		
 		friend std::ostream &operator<<(std::ostream &output, const Line &line) {
-			output << line.getAx() << "x + " << line.getBy() << "y = " << line.getC();
+			//output << line.getAx() << "x + " << line.getBy() << "y = " << line.getC();
+			output << line.getOrigin() << "->" << line.getEnd();
 			return output;
 		}
 		
@@ -163,7 +164,7 @@ Point intersectionTest(Line line1, Line &line2) {
 	float x = ((line1.getC() * line2.getBy()) - (line1.getBy() * line2.getC())) / delta;
 	float y = ((line1.getAx() * line2.getC()) - (line1.getC() * line2.getAx())) / delta;
 	Point newPoint = Point(x, y);
-	if (line1.collidePoint(newPoint) && line2.collidePoint(newPoint)) {
+	if (line1.collidePoint(newPoint)){// && line2.collidePoint(newPoint)) {
 		return newPoint;
 	}
 	return Point();

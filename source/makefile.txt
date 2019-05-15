@@ -1,0 +1,28 @@
+CC=gcc
+CXX=g++
+RM=rm -f
+CPPFLAGS=-g -std=c++17
+LDFLAGS=-g
+LDLIBS=-lSDL2 -lSDL2_gfx -lSDL2_image -lSDL2_ttf
+
+SRCS=../main.cpp HeldKey.cpp wrappers/control/Controller.cpp
+OBJS=$(subst .cpp,.o,$(SRCS))
+
+all: tool
+
+tool: $(OBJS)
+	$(CXX) $(LDFLAGS) -o "../Main" $(OBJS) $(LDLIBS) 
+
+depend: .depend
+
+.depend: $(SRCS)
+	$(RM) ./.depend
+	$(CXX) $(CPPFLAGS) -MM $^>>./.depend;
+
+clean:
+	$(RM) $(OBJS)
+
+distclean: clean
+	$(RM) *~ .depend
+
+include .depend

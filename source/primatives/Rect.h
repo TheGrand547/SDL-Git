@@ -1,6 +1,6 @@
 #pragma once
 #include<iostream>
-#include "util.h"
+#include "../essential/util.h"
 #include "../MyBase.h"
 #include "../primatives/Point.h"
 #include "../primatives/Line.h"

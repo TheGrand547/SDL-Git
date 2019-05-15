@@ -1,5 +1,5 @@
 #pragma once
-#include<SDl2/SDL.h>
+#include<SDL2/SDL.h>
 #include<SDL2/SDL2_gfxPrimitives.h>
 #include "../primatives/Point.cpp"
 #include "../MyBase.h"
@@ -31,4 +31,3 @@ void setRenderColors(SDL_Renderer* renderer, SDL_Color rect) {
 int keyCodeFromEvent(SDL_Event event) {
 	return event.key.keysym.sym;
 }
-	

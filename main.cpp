@@ -29,7 +29,7 @@
 #include "source/BoundedRect.h"
 #include "source/essential/Configuration.h"
 #include "source/game_entities/BadTest.h"
-#include "source/Controller.h"
+#include "source/wrappers/control/Controller.h"
 
 /* Removed TODO on 4/17/19, previously copied code was a necessary evil to ensure proper functionality */
 /* Handles initializing and de-initializing nicely */
@@ -119,6 +119,8 @@ int main(int argc, char *argv[]) {
 	//Event handler
 	SDL_Event e;
 	
+	
+	/** DANGER AREA **/
 	//Timer Stuff
 	Timer time;
 	int countedFrames = 0;
@@ -141,7 +143,7 @@ int main(int argc, char *argv[]) {
 	int flag = 1;
 	std::stringstream temp;
 	std::string foo = "mani is pretty smart sometimes, but kotlin is a dumb language cause it has no semi-colons iirc";
-	
+		
 	PointDelta* popo = new PointDelta(0,0,4,4);
 	Controller contra(config, popo);
 	
@@ -158,6 +160,17 @@ int main(int argc, char *argv[]) {
 				case SDL_QUIT:
 					quit = true;
 					break;
+				case SDL_KEYDOWN:
+					if (e.key.keysym.sym == config["Ray"]) {
+						shift.set(true);
+					}
+					break;
+				case SDL_KEYUP:
+					if (e.key.keysym.sym == config["Ray"]) {
+						shift.set(false);
+					}
+					break;
+					
 				/*
 				case SDL_KEYDOWN:
 					help = keyCodeFromEvent(e);
@@ -209,28 +222,31 @@ int main(int argc, char *argv[]) {
 		
 		if (popo->getNonZero()) {
 			/* TODO: Make this not look like shit */
-			bool xflag = false;
-			bool yflag = false;
+			//bool xflag = false;
+			//bool yflag = false;
 			px = (*popo) * (Screen::INTENDED_FRAME_RATE / avgFPS);
+			
+			float xDelta = 0;
+			float yDelta = 0;
+			
 			for (int i = 1; i < 6; i++) {
-				if (!yflag) {
+				if (!xDelta) {
 					if (collideRectTest(dot.getRect() + px.onlyX()/i, boxes)) {
-						dot += px.onlyX()/i;
-						screenPos += px.onlyX()/i;
-						yflag = true;
+						xDelta = px.x() / i;
+						screenPos += px.onlyX() / i;
 					}
 				}
-				if (!xflag) {
+				if (!yDelta) {
 					if (collideRectTest(dot.getRect() + px.onlyY()/i, boxes)) {
-						dot += px.onlyY()/i;
-						screenPos += px.onlyY()/i;					
-						xflag = true;
+						yDelta = px.y() / i;
+						screenPos += px.onlyY() / i;					
 					}
 				}
-				if (xflag && yflag) {
+				if (xDelta && yDelta) {
 					break;
 				}
 			}
+			dot += PointDelta(xDelta, yDelta, px.getXMin(), px.getYMin());
 			Point dotTest = dot.getPos().copy();
 			/* TODO: Make this not look like shit */
 			if (dotTest.x() < Screen::SCREEN_WIDTH / 2) {
@@ -266,6 +282,7 @@ int main(int argc, char *argv[]) {
 		
 		
 		/* Raycasting */
+		
 		if (shift.getHeld()) {
 			ray = dot.getRay();
 			newPoint = collideTestVectorToRay(boxes, ray);
@@ -282,6 +299,7 @@ int main(int argc, char *argv[]) {
 		if (countedFrames % 15 == 0 && flag < foo.length()) {
 			flag++;
 		}
+		
 		
 		temp.str("");
 		for (int i = 0; i < flag; i++) {

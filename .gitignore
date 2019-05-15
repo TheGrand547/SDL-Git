@@ -5,3 +5,6 @@ projects
 resources/cat.jpg
 source/wrappers/NonRepeatTexture.h
 main
+*.ipch
+*.bin
+*.json

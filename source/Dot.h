@@ -8,17 +8,16 @@
 
 class Dot: public MyBase {
 	private:
-		float *angle;
+		float angle;
 		BoundedRect *myRect;
 	public:
 		Dot(Point startingCoordinate) {
-			angle = new float(0);
+			angle = 0;
 			myRect = new BoundedRect(startingCoordinate, startingCoordinate + Point(Player::PLAYER_X_DIMENSION, Player::PLAYER_Y_DIMENSION), 
 									0, 0, Screen::MAX_WIDTH, Screen::MAX_HEIGHT);
 		}
 		
 		~Dot() {
-			delete this->angle;
 			delete this->myRect;
 		}
 		
@@ -28,7 +27,10 @@ class Dot: public MyBase {
 		
 		void evalAngle(Point delta) {
 			if(int(delta.y()) != 0 || int(delta.x()) != 0) {
-				*(this->angle) = atan2(0-delta.y(), delta.x());
+				this->angle = atan2(0-delta.y(), delta.x());
+				if (delta.x() < 0) {
+					this->angle += M_PI;
+				}
 			}
 		}
 		
@@ -68,12 +70,12 @@ class Dot: public MyBase {
 		
 		Line getRay() {
 			Point temp = Point(this->myRect->getCenter());
-			temp += Point(300*cos(*angle), 300*sin(M_PI+*angle));
+			temp += Point(300 * cos(this->angle), 300 * sin(this->angle));
 			return Line(this->myRect->getCenter(), temp);
 		}
 		
 		float getAngle() {
-			return *(this->angle) * 180/M_PI;
+			return this->angle * 180 / M_PI;
 		}
 		
 		void draw(SDL_Renderer* renderer, Point offset = Point(0, 0)) {
