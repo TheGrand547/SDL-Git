@@ -87,7 +87,7 @@ class Line: public MyBase{
 		}
 		
 		bool collidePoint(Point &point) {
-			if (lValueInRange(point.x(), minX, maxX) && lValueInRange(point.y(), minY, maxY))  {
+			if (valueInRange(point.x(), *minX, *maxX) && valueInRange(point.y(), *minY, *maxY))  {
 				return true;
 			}
 			return false;
@@ -111,11 +111,11 @@ class Line: public MyBase{
 		}
 		
 		Line operator+(Point b) {
-			return Line(*originPoint+b, *endingPoint+b);
+			return Line(*originPoint + b, *endingPoint + b);
 		}
 		
 		Line operator-(Point b){
-			return Line(*originPoint-b, *endingPoint-b);
+			return Line(*originPoint - b, *endingPoint - b);
 		}
 			
 		float getAx() const { 
@@ -123,7 +123,7 @@ class Line: public MyBase{
 		}
 		
 		float getBy() const { 
-			return float(this->endingPoint->x() - this->originPoint->x());
+			return float(this->originPoint->x() - this->endingPoint->x());
 		}
 		
 		float getC() const { 
@@ -139,7 +139,6 @@ class Line: public MyBase{
 		}
 		
 		friend std::ostream &operator<<(std::ostream &output, const Line &line) {
-			//output << line.getAx() << "x + " << line.getBy() << "y = " << line.getC();
 			output << line.getOrigin() << "->" << line.getEnd();
 			return output;
 		}
@@ -157,14 +156,14 @@ class Line: public MyBase{
 		}
 };
 
-Point intersectionTest(Line line1, Line &line2) {
+Point intersectionTest(Line line1, Line line2) {
 	float delta = (line1.getAx() * line2.getBy()) - (line1.getBy() * line2.getAx());
 	if (delta == 0) 
 		return Point();
 	float x = ((line1.getC() * line2.getBy()) - (line1.getBy() * line2.getC())) / delta;
 	float y = ((line1.getAx() * line2.getC()) - (line1.getC() * line2.getAx())) / delta;
 	Point newPoint = Point(x, y);
-	if (line1.collidePoint(newPoint)){// && line2.collidePoint(newPoint)) {
+	if (line1.collidePoint(newPoint) && line2.collidePoint(newPoint)) {
 		return newPoint;
 	}
 	return Point();

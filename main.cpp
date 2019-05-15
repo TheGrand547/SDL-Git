@@ -222,10 +222,7 @@ int main(int argc, char *argv[]) {
 		
 		if (popo->getNonZero()) {
 			/* TODO: Make this not look like shit */
-			//bool xflag = false;
-			//bool yflag = false;
 			px = (*popo) * (Screen::INTENDED_FRAME_RATE / avgFPS);
-			
 			float xDelta = 0;
 			float yDelta = 0;
 			

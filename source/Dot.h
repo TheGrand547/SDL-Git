@@ -26,12 +26,10 @@ class Dot: public MyBase {
 		}
 		
 		void evalAngle(Point delta) {
-			if(int(delta.y()) != 0 || int(delta.x()) != 0) {
-				this->angle = atan2(0-delta.y(), delta.x());
-				if (delta.x() < 0) {
-					this->angle += M_PI;
-				}
-			}
+			/** TODO: Fix this dumbass shit **/
+			//if(int(delta.y()) != 0 || int(delta.x()) != 0) {
+				this->angle = atan2(delta.y(), delta.x());
+			//}
 		}
 		
 		float calcAngle(Point point) {
