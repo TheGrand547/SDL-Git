@@ -26,10 +26,7 @@ class Dot: public MyBase {
 		}
 		
 		void evalAngle(Point delta) {
-			/** TODO: Fix this dumbass shit **/
-			//if(int(delta.y()) != 0 || int(delta.x()) != 0) {
-				this->angle = atan2(delta.y(), delta.x());
-			//}
+			this->angle = atan2(delta.y(), delta.x());
 		}
 		
 		float calcAngle(Point point) {
@@ -59,7 +56,7 @@ class Dot: public MyBase {
 		}
 		
 		Point getPos() {
-			return *this->myRect->getTopLeft();
+			return this->myRect->getTopLeft();
 		}
 		
 		Rect getRect() {

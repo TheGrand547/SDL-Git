@@ -39,6 +39,7 @@ void close();
 SDL_Window* gWindow = NULL;
 SDL_Renderer* gRenderer = NULL;
 
+
 int main(int argc, char *argv[]) {
 	//* We have system args
 	std::string NO;
@@ -80,6 +81,7 @@ int main(int argc, char *argv[]) {
 	Configuration config;
 	
 	//std::vector<std::vector<CollideBase*>*>* holy = new std::vector<std::vector<CollideBase*>*>;
+	
 	
 	std::vector<Box*>* boxes = new std::vector<Box*>;
 	std::vector<BackElement*>* ground = new std::vector<BackElement*>;

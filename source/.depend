@@ -58,3 +58,11 @@ Controller.o: wrappers/control/Controller.cpp \
   wrappers/control/../../PointDelta.h \
   wrappers/control/../../primatives/Point.h \
   wrappers/control/ControllerCommand.h
+PointDelta.o: PointDelta.cpp PointDelta.h primatives/Point.h
+Rect.o: primatives/Rect.cpp primatives/Rect.h \
+  primatives/../essential/util.h \
+  primatives/../essential/../primatives/Point.cpp primatives/Point.h \
+  primatives/../essential/../MyBase.h primatives/../MyBase.h \
+  primatives/../primatives/Point.h primatives/../primatives/Line.h \
+  primatives/../essential/random.h primatives/../PointDelta.h \
+  primatives/../essential/../primatives/Point.h

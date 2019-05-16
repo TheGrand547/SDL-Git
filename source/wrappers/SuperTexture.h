@@ -62,7 +62,7 @@ class SuperTexture : public Texture, public MyBase {
 			SDL_SetRenderTarget(renderer, tempTexture);
 			SDL_RenderCopy(renderer, this->texture, NULL, NULL);
 			//TEMPORARY LINE BEWARE
-			boxRGBA(renderer, Point(0, 0), *rect.getBottomRight()-this->getOffset(), 0xFF, 0x00, 0x00, 0xFF);
+			boxRGBA(renderer, Point(0, 0), rect.getBottomRight() - this->getOffset(), 0xFF, 0x00, 0x00, 0xFF);
 			SDL_SetRenderTarget(renderer, NULL);
 			this->texture = tempTexture;
 		}

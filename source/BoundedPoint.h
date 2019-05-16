@@ -34,7 +34,7 @@ class BoundedPoint : public Point {
 			this->yMax = new float(yMax);
 		}
 		
-		BoundedPoint(const BoundedPoint &other) : Point(*other.xval,*other.yval){
+		BoundedPoint(const BoundedPoint &other) : Point(other.xval, other.yval){
 			this->xMin = new float(*other.xMin);
 			this->xMax = new float(*other.xMax);
 			this->yMin = new float(*other.yMin);
@@ -42,8 +42,8 @@ class BoundedPoint : public Point {
 		}
 		
 		BoundedPoint &operator=(BoundedPoint &other){
-			*this->xval = *other.xval;
-			*this->yval = *other.yval;
+			this->xval = other.xval;
+			this->yval = other.yval;
 			*this->xMin = *other.xMin;
 			*this->xMax = *other.xMax;
 			*this->yMin = *other.yMin;
@@ -59,10 +59,10 @@ class BoundedPoint : public Point {
 		}
 		
 		void reduce() {
-			*this->xval = (*this->xval <= *this->xMin) ? *this->xMin : *this->xval;
-			*this->xval = (*this->xval >= *this->xMax) ? *this->xMax : *this->xval;
-			*this->yval = (*this->yval <= *this->yMin) ? *this->yMin : *this->yval;
-			*this->yval = (*this->yval >= *this->yMax) ? *this->yMax : *this->yval;
+			this->xval = (this->xval <= *this->xMin) ? *this->xMin : this->xval;
+			this->xval = (this->xval >= *this->xMax) ? *this->xMax : this->xval;
+			this->yval = (this->yval <= *this->yMin) ? *this->yMin : this->yval;
+			this->yval = (this->yval >= *this->yMax) ? *this->yMax : this->yval;
 		}
 		
 		void operator+=(Point delta) {
@@ -76,19 +76,19 @@ class BoundedPoint : public Point {
 		}
 		
 		void zeroX() {
-			*this->xval = 0;
+			this->xval = 0;
 		}
 		
 		void zeroY() {
-			*this->yval = 0;
+			this->yval = 0;
 		}
 		
 		void maxX() {
-			*this->xval = *this->xMax;
+			this->xval = *this->xMax;
 		}
 		
 		void maxY() {
-			*this->yval = *this->yMax;
+			this->yval = *this->yMax;
 		}
 		
 };

@@ -36,34 +36,34 @@ class BoundedRect : public Rect {
 		
 		Rect operator+(Point &point) {
 			Point delta = Point(point);
-			if ((int(this->tL->x() + delta.x()) < int(*this->xMin)) || (int(this->bR->x() + delta.x()) > int(*this->xMax))) {
+			if ((int(this->tL.x() + delta.x()) < int(*this->xMin)) || (int(this->bR.x() + delta.x()) > int(*this->xMax))) {
 				delta.xZero();
 			}
-			if ((int(this->tL->y() + delta.y()) < int(*this->yMin)) || (int(this->bR->y() + delta.y()) > int(*this->yMax))) {
+			if ((int(this->tL.y() + delta.y()) < int(*this->yMin)) || (int(this->bR.y() + delta.y()) > int(*this->yMax))) {
 				delta.yZero();
 			}
-			Rect newRect = Rect(*(this->tL) + delta, *(this->bR) + delta);
+			Rect newRect = Rect(this->tL + delta, this->bR + delta);
 			return newRect;
 		}
 		
 		Rect operator+(PointDelta &point) {
 			Point delta = Point(point);
-			if ((int(this->tL->x() + delta.x()) < int(*this->xMin)) || (int(this->bR->x() + delta.x()) > int(*this->xMax))) {
+			if ((int(this->tL.x() + delta.x()) < int(*this->xMin)) || (int(this->bR.x() + delta.x()) > int(*this->xMax))) {
 				delta.xZero();
 			}
-			if ((int(this->tL->y() + delta.y()) < int(*this->yMin)) || (int(this->bR->y() + delta.y()) > int(*this->yMax))) {
+			if ((int(this->tL.y() + delta.y()) < int(*this->yMin)) || (int(this->bR.y() + delta.y()) > int(*this->yMax))) {
 				delta.yZero();
 			}
-			Rect newRect = Rect(*(this->tL) + delta, *(this->bR) + delta);
+			Rect newRect = Rect(this->tL + delta, this->bR + delta);
 			return newRect;
 		}
 		
 		void operator+=(Point &point) {
 			Point delta = Point(point);
-			if ((int(this->tL->x() + delta.x()) < int(*this->xMin)) || (int(this->bR->x() + delta.x()) > int(*this->xMax))) {
+			if ((int(this->tL.x() + delta.x()) < int(*this->xMin)) || (int(this->bR.x() + delta.x()) > int(*this->xMax))) {
 				delta.xZero();
 			}
-			if ((int(this->tL->y() + delta.y()) < int(*this->yMin)) || (int(this->bR->y() + delta.y()) > int(*this->yMax))) {
+			if ((int(this->tL.y() + delta.y()) < int(*this->yMin)) || (int(this->bR.y() + delta.y()) > int(*this->yMax))) {
 				delta.yZero();
 			}
 			Rect::operator+=(delta);

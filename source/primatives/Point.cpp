@@ -1,30 +1,27 @@
 #include "Point.h"
 
 Point::Point(float xCoordinate, float yCoordinate) {
-	xval = new float(xCoordinate);
-	yval = new float(yCoordinate);
+	xval = xCoordinate;
+	yval = yCoordinate;
 }
 
-Point::~Point() {
-	delete this->xval;
-	delete this->yval;
-}
+Point::~Point() {}
 
 Point::Point(const Point &point) {
-	this->xval = new float(*point.xval);
-	this->yval = new float(*point.yval);
+	this->xval = point.xval;
+	this->yval = point.yval;
 }
 Point::Point(const Point *point) {
-	xval = new float(*(point->xval));
-	yval = new float(*(point->yval));
+	xval = point->xval;
+	yval = point->yval;
 }
 
 float Point::x() const {
-	return *xval;
+	return this->xval;
 }
 
 float Point::y() const {
-	return *yval;
+	return this->yval;
 }
 
 float Point::originDistance() {
@@ -32,25 +29,24 @@ float Point::originDistance() {
 }
 
 Point Point::operator-(const Point &point) {
-	return Point(*xval-*point.xval, *yval-*point.yval);
+	return Point(this->xval - point.xval, this->yval - point.yval);
 }
 Point Point::operator+(const Point &point) {
-	return Point(*xval+*point.xval, *yval+*point.yval);
+	return Point(this->xval + point.xval, this->yval + point.yval);
 }
 
 void Point::operator-=(Point delta) {
-	*(this->xval) -= delta.x();
-	*(this->yval) -= delta.y();
+	*this += delta.negate();
 }
 
 void Point::operator+=(Point delta) {
-	*(this->xval) += delta.x();
-	*(this->yval) += delta.y();
+	this->xval += delta.xval;
+	this->yval += delta.yval;
 }
 
 Point& Point::operator=(const Point &that) {
-	*xval = that.x();
-	*yval = that.y();
+	xval = that.xval;
+	yval = that.yval;
 	return *this;
 }
 
@@ -60,19 +56,17 @@ std::ostream& operator<<(std::ostream &output, const Point &point) {
 }
 
 float Point::distanceToPoint(Point point) {
-	float dx = *xval - point.x();
-	float dy = *yval - point.y();
+	float dx = this->xval - point.x();
+	float dy = this->yval - point.y();
 	return sqrt(dx*dx + dy*dy);
 }
 
 float Point::distanceToPoint(float x, float y) {
-	float dx = *xval - x;
-	float dy = *yval - y;
-	return sqrt(dx * dx + dy * dy);
+	return this->distanceToPoint(Point(x, y));
 }
 
 bool Point::isNull() {
-	if (*xval == -1 && *yval == -1)
+	if (this->xval == -1 && this->yval == -1)
 		return true;
 	return false;
 }
@@ -82,35 +76,37 @@ bool Point::isReal() {
 }
 
 Point Point::copy() const {
-	return Point(*(this->xval),*(this->yval));
+	return Point(this->xval,this->yval);
 }
+
 void Point::xZero() {
-	*xval = 0;
+	this->xval = 0;
 }
+
 void Point::yZero() {
-	*yval = 0;
+	this->yval = 0;
 }
 
 float Point::getMagnitude() {
-	return sqrt(pow(*xval, 2) + pow(*yval, 2));
+	return sqrt(pow(this->xval, 2) + pow(this->yval, 2));
 }
 
 bool Point::getNonZero() {
-	return (float(*this->xval) != 0 || float(*this->yval) != 0);
+	return (float(this->xval) != 0 || float(this->yval) != 0);
 }
 
 Point Point::negate() {
-	return Point(-(*this->xval),-(*this->yval));
+	return Point(-this->xval,-this->yval);
 }
 
 Point Point::onlyX() {
-	return Point(*this->xval, 0);
+	return Point(this->xval, 0);
 }
 
 Point Point::onlyY() {
-	return Point(0, *this->yval);
+	return Point(0, this->yval);
 }
 
 Point Point::operator/(const float &num) {
-	return Point((*this->xval)/num, (*this->yval)/num);
+	return Point(this->xval / num, this->yval / num);
 }

@@ -6,112 +6,26 @@ class PointDelta : public Point {
 	private:
 		float xmin, ymin;
 	public:
-		PointDelta() {
-			this->xmin = 0;
-			this->ymin = 0;
-		}
-		PointDelta(float xval, float yval, float xMin, float yMin) : Point(xval, yval) {
-			this->xmin = xMin;
-			this->ymin = yMin;
-		}
-		
-		PointDelta(Point point, float xMin, float yMin) : Point(point)  {
-			this->xmin = xMin;
-			this->ymin = yMin;
-		}
-		
-		PointDelta(const PointDelta &that) : Point(&that){
-			this->xmin = that.xmin;
-			this->ymin = that.ymin;
-		}
-		
-		~PointDelta() {}
-		
-		float calcAngle(Point point) {
-			if(point.y() != 0 || point.x() != 0)
-				 return atan2(0-point.y(), point.x());
-			return 0;
-		}
-		
-		void reduceToBounds() {			
-			if (this->getMagnitude() > this->getMaxMagnitude()) {
-				float tempFloat = calcAngle(*this);
-				*this->xval = this->getXMin() * cos(tempFloat);
-				*this->yval = -this->getYMin() * sin(tempFloat);
-			}
-		}
-		
-		float getMaxMagnitude() {
-			return sqrt((pow(this->xmin, 2) + pow(this->ymin, 2)));
-		}
-		
-		float getXMin() {
-			return this->xmin;
-		}
-		
-		float getYMin() {
-			return this->ymin;
-		}
-		
-		void operator-=(Point delta) {
-			Point::operator-=(delta);
-			reduceToBounds();
-		}
-		
-		void operator+=(Point delta) {
-			Point::operator+=(delta);
-			reduceToBounds();
-		}
-		
-		PointDelta& operator=(const PointDelta &that) {
-			*this->xval = *that.xval;
-			*this->yval = *that.yval;
-			this->xmin = that.xmin;
-			this->ymin = that.ymin;
-			return *this;
-		}
-		
-		PointDelta operator/(const float &num) {
-			return PointDelta((*this->xval) / num, (*this->yval) / num, this->xmin, this->ymin);
-		}
-		
-		PointDelta operator*(const float &num) {
-			return PointDelta((*this->xval) * num, (*this->yval) * num, this->xmin * num, this->ymin * num);
-		}
-		
-		void setBounds(float xMax, float yMax) {
-			this->xmin = xMax;
-			this->ymin = yMax;
-			this->reduceToBounds();
-		}
-		
-		PointDelta onlyX() {
-			return PointDelta(*this->xval, 0, this->xmin, this->ymin);
-		}
-		
-		PointDelta onlyY() {
-			return PointDelta(0, *this->yval, this->xmin, this->ymin);
-		}
-		
-		Point getXPoint() {
-			return Point(this->xmin, 0);
-		}
-		
-		Point getYPoint() {
-			return Point(0, this->ymin);
-		}
-		
-		bool operator>(const int &val) {
-			if (*this->xval > val || *this->yval > val) {
-				return true;
-			}
-			return false;
-		}
-		
-		bool operator<(const int &val) {
-			if (*this->xval < val || *this->yval < val) {
-				return true;
-			}
-			return false;
-		}
+		PointDelta();
+		PointDelta(float xval, float yval, float xMin, float yMin);
+		PointDelta(Point point, float xMin, float yMin);
+		PointDelta(const PointDelta &that);
+		~PointDelta();
+		PointDelta& operator=(const PointDelta &that);
+		PointDelta operator/(const float &num);
+		PointDelta operator*(const float &num);
+		PointDelta onlyX();
+		PointDelta onlyY();
+		bool operator>(const int &val);
+		bool operator<(const int &val);
+		float calcAngle(Point point);
+		float getMaxMagnitude();
+		float getXMin();
+		float getYMin();
+		Point getXPoint();
+		Point getYPoint();
+		void reduceToBounds();
+		void operator-=(Point delta);
+		void operator+=(Point delta);
+		void setBounds(float xMax, float yMax);
 };
