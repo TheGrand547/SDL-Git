@@ -66,3 +66,9 @@ Controller.o: wrappers/control/Controller.cpp \
   wrappers/control/../../primatives/Point.h \
   wrappers/control/ControllerCommand.h
 PointDelta.o: PointDelta.cpp PointDelta.h primatives/Point.h
+Line.o: primatives/Line.cpp primatives/Line.h primatives/Point.h \
+  primatives/../MyBase.h primatives/../essential/random.h \
+  primatives/../essential/util.h \
+  primatives/../essential/../primatives/Point.cpp \
+  primatives/../essential/../MyBase.h
+Timer.o: wrappers/Timer.cpp wrappers/Timer.h

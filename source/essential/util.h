@@ -11,8 +11,12 @@ inline void rectangleRGBA(SDL_Renderer *renderer, Point pointA, Point pointB, ui
 	rectangleRGBA(renderer, pointA.x() - 1, pointA.y() - 1, pointB.x(), pointB.y(), r, g, b, a);
 }
 
+inline void aalineRGBA(SDL_Renderer* renderer, Point pointA, Point pointB, uint8_t r, uint8_t g, uint8_t b, uint8_t a) {
+	aalineRGBA(renderer, pointA.x(), pointA.y(), pointB.x(), pointB.y(), r, g, b, a);
+}
+
 inline void aalineRGBA(SDL_Renderer *renderer, Point *pointA, Point *pointB, uint8_t r, uint8_t g, uint8_t b, uint8_t a) {
-	aalineRGBA(renderer, pointA->x(), pointA->y(), pointB->x(), pointB->y(), r, g, b, a);
+	aalineRGBA(renderer, *pointA, *pointA, r, g, b, a);
 }
 
 inline void aalineRGBA(SDL_Renderer *renderer, Point *pointA, Point *pointB, uint8_t r, uint8_t g, uint8_t b, uint8_t a, Point offset) {

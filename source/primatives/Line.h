@@ -11,149 +11,30 @@ bool xBetweenAandB(float x, float a, float b);
 class Line: public MyBase{
 	/* Represents a line in the form, ax+by=c, bounded by the points A and B */
 	private:
-		float *minX, *maxX, *minY, *maxY;
-		Point *originPoint, *endingPoint;
+		float minX, maxX, minY, maxY;
+		Point originPoint, endingPoint;
 	public:	
-		Line() {
-			originPoint = new Point();
-			endingPoint = new Point();
-			minX = new float(0);
-			maxX = new float(0);
-			minY = new float(0);
-			maxY = new float(0);
-		}
-
-		Line(Point pointA, Point pointB, uint8_t r = 0x00, uint8_t g = 0x00, 
-							uint8_t b = 0xFF, uint8_t a = 0xFF) {
-			originPoint = new Point(pointA);
-			endingPoint = new Point(pointB);
-			minX = new float(0.0f);
-			maxX = new float(0.0f);
-			minY = new float(0.0f);
-			maxY = new float(0.0f);
-			mMax(pointA.x(), pointB.x(), *minX, *maxX);
-			mMax(pointA.y(), pointB.y(), *minY, *maxY);
-			setColorChannels(r, g, b, a);
-		}
-		
-		Line(Point *pointA, Point *pointB) {
-			originPoint = new Point(pointA);
-			endingPoint = new Point(pointB);
-			minX = new float(0.0f);
-			maxX = new float(0.0f);
-			minY = new float(0.0f);
-			maxY = new float(0.0f);
-			mMax(pointA->x(), pointB->x(), *minX, *maxX);
-			mMax(pointA->y(), pointB->y(), *minY, *maxY);
-		}
-		
-		~Line() {
-			delete originPoint;
-			delete endingPoint;
-			delete minX;
-			delete minY;
-			delete maxX;
-			delete maxY;
-		}
-		
-		Line(const Line &line) {
-			originPoint = new Point(*line.originPoint);
-			endingPoint = new Point(*line.endingPoint);
-			minX = new float(0.0f);
-			maxX = new float(0.0f);
-			minY = new float(0.0f);
-			maxY = new float(0.0f);
-			mMax(originPoint->x(), endingPoint->x(), *minX, *maxX);
-			mMax(originPoint->y(), endingPoint->y(), *minY, *maxY);
-		}
-		
-		Line &operator=(const Line &that) {
-			originPoint = new Point(*that.originPoint);
-			endingPoint = new Point(*that.endingPoint);
-			minX = new float(0.0f);
-			maxX = new float(0.0f);
-			minY = new float(0.0f);
-			maxY = new float(0.0f);
-			mMax(originPoint->x(), endingPoint->x(), *minX, *maxX);
-			mMax(originPoint->y(), endingPoint->y(), *minY, *maxY);
-			return *this;
-		}
-		
-		
-		bool isPointOnThisLine(Point point) {
-			if (lValueInRange(point.x(), minX, maxX) && lValueInRange(point.y(), minY, maxY))
-				return true;
-			return false;
-		}
-		
-		bool collidePoint(Point &point) {
-			if (valueInRange(point.x(), *minX, *maxX) && valueInRange(point.y(), *minY, *maxY))  {
-				return true;
-			}
-			return false;
-		}
-		
-		bool collidePoint(Point *point) {
-			return this->isPointOnThisLine(*point);
-		}
-		
-		void operator+=(Point b) {
-			*originPoint += b;
-			*endingPoint += b;
-			*minX += b.x();
-			*maxX += b.x();
-			*minY += b.y();
-			*maxY += b.y();
-		}
-		
-		void operator-=(Point b) {
-			*this += b.negate();
-		}
-		
-		Line operator+(Point b) {
-			return Line(*originPoint + b, *endingPoint + b);
-		}
-		
-		Line operator-(Point b){
-			return Line(*originPoint - b, *endingPoint - b);
-		}
-			
-		float getAx() const { 
-			return float(this->endingPoint->y() - this->originPoint->y());
-		}
-		
-		float getBy() const { 
-			return float(this->originPoint->x() - this->endingPoint->x());
-		}
-		
-		float getC() const { 
-			return float((this->getAx() * originPoint->x()) + (this->getBy() * originPoint->y()));
-		}
-		
-		Point getOrigin() const {
-			return *originPoint;
-		}
-		
-		Point getEnd() const {
-			return *endingPoint;
-		}
-		
-		friend std::ostream &operator<<(std::ostream &output, const Line &line) {
-			output << line.getOrigin() << "->" << line.getEnd();
-			return output;
-		}
-		
-		void drawLine(SDL_Renderer* renderer) {
-			aalineRGBA(renderer, originPoint, endingPoint, rChannel, gChannel, bChannel, aChannel);
-		}		
-		
-		void drawLine(SDL_Renderer* renderer, Point offset) {
-			aalineRGBA(renderer, originPoint, endingPoint, rChannel, gChannel, bChannel, aChannel, offset);
-		}				
-		
-		void setColor(Uint8 red, Uint8 green, Uint8 blue, Uint8 alpha) {
-			setColorChannels(red, green, blue, alpha);
-		}
+		Line(Point pointA = Point(), Point pointB = Point(), uint8_t r = 0x00, uint8_t g = 0x00, uint8_t b = 0xFF, uint8_t a = 0xFF);
+		Line(Point *pointA, Point *pointB);
+		~Line();
+		Line(const Line &line);
+		Line &operator=(const Line &that);
+		bool isPointOnThisLine(Point point);
+		bool collidePoint(Point &point);
+		bool collidePoint(Point *point);
+		void operator+=(Point b);
+		void operator-=(Point b);
+		Line operator+(Point b);
+		Line operator-(Point b);
+		float getAx() const;
+		float getBy() const;
+		float getC() const;
+		Point getOrigin() const;
+		Point getEnd() const;
+		friend std::ostream &operator<<(std::ostream &output, const Line &line);
+		void drawLine(SDL_Renderer* renderer);
+		void drawLine(SDL_Renderer* renderer, Point offset);
+		void setColor(Uint8 red, Uint8 green, Uint8 blue, Uint8 alpha);
 };
 
 inline Point intersectionTest(Line line1, Line line2) {

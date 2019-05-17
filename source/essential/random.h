@@ -13,11 +13,11 @@ bool valueInRange(T value, T min, T max){
 }
 
 template<class T>
-bool lValueInRange(T value, T min, T max){ 
-	return ((int(value) >= int(min)) && (int(value) <= int(max))); 
+bool thresholdValueInRange(T value, T min, T max){ 
+	return ((int(value) >= int(min) - 2) && (int(value) <= int(max) + 2)); 
 }
 
 template<class T>
-bool lValueInRange(T value, T *min, T *max){ 
-	return lValueInRange(int(value), int(*min), int(*max));
+bool thresholdValueInRange(T value, T *min, T *max){ 
+	return thresholdValueInRange(int(value), int(*min), int(*max));
 }

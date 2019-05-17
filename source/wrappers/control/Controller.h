@@ -19,16 +19,13 @@ class Controller {
 		std::map<int, ControllerCommand<PointDelta, void(*)(PointDelta*)>*> keyup;
 		Configuration config;
 		PointDelta* target;
-		//static const auto constexpr ADD = [](PointDelta* p, Point g) {(*p) += g;};
-		//static const auto constexpr SUBTRACT = [](PointDelta* p, Point g) {(*p) -= g;};
-		//static const auto constexpr X_ZERO = [](PointDelta* p) {p->xZero();};
-		//static const auto constexpr Y_ZERO = [](PointDelta* p) {p->yZero();};
-		//static const auto constexpr GREATER_ZERO = [](PointDelta* p,  void(*g)(PointDelta*)) {if (*p > 0) g(p);};
-		//static const auto constexpr LESSER_ZERO = [](PointDelta* p,  void(*g)(PointDelta*)) {if (*p < 0) g(p);};
 	public:
 		Controller(Configuration config, PointDelta* target);
 		~Controller();
 		void handleEvents(SDL_Event e);
+		void addKey(std::string key, void(*keyDownCommand)(PointDelta*, Point), Point keyDownArgument, void(*keyUpCommand)(PointDelta*, void(*)(PointDelta*)), void(*keyUpArgument)(PointDelta*));
+		void addKey(int key, void(*keyDownCommand)(PointDelta*, Point), Point keyDownArgument, void(*keyUpCommand)(PointDelta*, void(*)(PointDelta*)), void(*keyUpArgument)(PointDelta*));
+
 		
 		static void ADD(PointDelta* p, Point g) {(*p) += g;}
 		static void SUBTRACT(PointDelta* p, Point g) {(*p) -= g;}

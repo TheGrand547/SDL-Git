@@ -1,5 +1,7 @@
 #include "Controller.h"
+#include "ControllerCommand.h"
 #include<iostream>
+#include<SDL2/SDL.h>
 
 int myKeyCodeFromEvent(SDL_Event event) {
 	return event.key.keysym.sym;
@@ -9,17 +11,11 @@ int myKeyCodeFromEvent(SDL_Event event) {
 Controller::Controller(Configuration config, PointDelta* target) {
 	this->config = config;
 	this->target = target;
-	
-	this->keydown[config["Right"]] = new ControllerCommand<PointDelta, Point>(Controller::ADD, this->target, this->target->getXPoint());
-	this->keydown[config["Left"]] = new ControllerCommand<PointDelta, Point>(Controller::SUBTRACT, this->target, this->target->getXPoint());
-	this->keydown[config["Up"]] = new ControllerCommand<PointDelta, Point>(Controller::SUBTRACT, this->target, this->target->getYPoint());
-	this->keydown[config["Down"]] = new ControllerCommand<PointDelta, Point>(Controller::ADD, this->target, this->target->getYPoint());
-
-
-	this->keyup[config["Right"]] = new ControllerCommand<PointDelta, void(*)(PointDelta*)>(Controller::GREATER_ZERO, this->target, Controller::X_ZERO);
-	this->keyup[config["Left"]] = new ControllerCommand<PointDelta, void(*)(PointDelta*)>(Controller::LESSER_ZERO, this->target, Controller::X_ZERO);
-	this->keyup[config["Up"]] = new ControllerCommand<PointDelta, void(*)(PointDelta*)>(Controller::LESSER_ZERO, this->target, Controller::Y_ZERO);
-	this->keyup[config["Down"]] = new ControllerCommand<PointDelta, void(*)(PointDelta*)>(Controller::GREATER_ZERO, this->target, Controller::Y_ZERO);
+	/** TODO: Make this less awful **/
+	this->addKey("Right", Controller::ADD, this->target->getXPoint(), Controller::GREATER_ZERO, Controller::X_ZERO);
+	this->addKey("Left", Controller::SUBTRACT, this->target->getXPoint(), Controller::LESSER_ZERO, Controller::X_ZERO);
+	this->addKey("Down", Controller::ADD, this->target->getYPoint(), Controller::GREATER_ZERO, Controller::Y_ZERO);
+	this->addKey("Up", Controller::SUBTRACT, this->target->getYPoint(), Controller::LESSER_ZERO, Controller::Y_ZERO);
 }
 
 Controller::~Controller() {}
@@ -39,4 +35,17 @@ void Controller::handleEvents(SDL_Event e) {
 			}
 			break;
 	}
+}
+
+void Controller::addKey(int key, void(*keyDownCommand)(PointDelta*, Point), Point keyDownArgument, void(*keyUpCommand)(PointDelta*, void(*)(PointDelta*)), void(*keyUpArgument)(PointDelta*)) {
+	this->keydown[key] = new ControllerCommand<PointDelta, Point>(keyDownCommand, this->target, keyDownArgument);
+	this->keyup[key] = new ControllerCommand<PointDelta, void(*)(PointDelta*)>(keyUpCommand, this->target, keyUpArgument);
+}
+
+void Controller::addKey(std::string key, void(*keyDownCommand)(PointDelta*, Point), Point keyDownArgument, void(*keyUpCommand)(PointDelta*, void(*)(PointDelta*)), void(*keyUpArgument)(PointDelta*)) {
+	if (this->config[key] != 0) {
+		this->addKey(this->config[key], keyDownCommand, keyDownArgument, keyUpCommand, keyUpArgument);
+		return;
+	}
+	this->addKey(SDL_GetKeyFromName(key.c_str()), keyDownCommand, keyDownArgument, keyUpCommand, keyUpArgument);
 }

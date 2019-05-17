@@ -150,7 +150,7 @@ int main(int argc, char *argv[]) {
 		
 	PointDelta* popo = new PointDelta(0,0,4,4);
 	Controller contra(config, popo);
-	
+		
 	while(!quit) {
 		dx.setBounds(4, 4);
 		/* Clear the rendering screen */
