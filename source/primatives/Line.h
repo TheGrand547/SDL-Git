@@ -156,7 +156,7 @@ class Line: public MyBase{
 		}
 };
 
-Point intersectionTest(Line line1, Line line2) {
+inline Point intersectionTest(Line line1, Line line2) {
 	float delta = (line1.getAx() * line2.getBy()) - (line1.getBy() * line2.getAx());
 	if (delta == 0) 
 		return Point();
@@ -169,7 +169,7 @@ Point intersectionTest(Line line1, Line line2) {
 	return Point();
 }
 
-bool xBetweenAandB(float x, float a, float b) {
+inline bool xBetweenAandB(float x, float a, float b) {
 	float larger, smaller;
 	if (a > b) {
 		larger = a;

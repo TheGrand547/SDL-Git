@@ -51,6 +51,13 @@ main.o: ../main.cpp ../source/game_entities/Box.h \
   ../source/wrappers/control/../../essential/Configuration.h \
   ../source/wrappers/control/../../PointDelta.h \
   ../source/wrappers/control/ControllerCommand.h
+Rect.o: primatives/Rect.cpp primatives/Rect.h \
+  primatives/../essential/util.h \
+  primatives/../essential/../primatives/Point.cpp primatives/Point.h \
+  primatives/../essential/../MyBase.h primatives/../MyBase.h \
+  primatives/../primatives/Point.h primatives/../primatives/Line.h \
+  primatives/../essential/random.h primatives/../PointDelta.h \
+  primatives/../essential/../primatives/Point.h
 HeldKey.o: HeldKey.cpp HeldKey.h
 Controller.o: wrappers/control/Controller.cpp \
   wrappers/control/Controller.h \
@@ -59,10 +66,3 @@ Controller.o: wrappers/control/Controller.cpp \
   wrappers/control/../../primatives/Point.h \
   wrappers/control/ControllerCommand.h
 PointDelta.o: PointDelta.cpp PointDelta.h primatives/Point.h
-Rect.o: primatives/Rect.cpp primatives/Rect.h \
-  primatives/../essential/util.h \
-  primatives/../essential/../primatives/Point.cpp primatives/Point.h \
-  primatives/../essential/../MyBase.h primatives/../MyBase.h \
-  primatives/../primatives/Point.h primatives/../primatives/Line.h \
-  primatives/../essential/random.h primatives/../PointDelta.h \
-  primatives/../essential/../primatives/Point.h

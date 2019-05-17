@@ -65,6 +65,8 @@ int main(int argc, char *argv[]) {
 			}
 		}
 		PL[NO] = "0";
+		
+		
 	}
 	for (std::map<std::string, std::string>::iterator iter = PL.begin(); iter != PL.end(); iter++) {
 		std::cout << iter->first << " = " << iter->second << std::endl;
@@ -173,48 +175,6 @@ int main(int argc, char *argv[]) {
 					}
 					break;
 					
-				/*
-				case SDL_KEYDOWN:
-					help = keyCodeFromEvent(e);
-					if (e.key.repeat == 0) {
-						if (help == config["Right"]) {
-							dx += Point(dx.getXMin(), 0);
-						}
-						if (help == config["Left"]) {
-							dx += Point(-dx.getXMin(), 0);
-						}
-						if (help == config["Up"]) {
-							dx += Point(0, -dx.getYMin());
-						}
-						if (help == config["Down"]) {
-							dx += Point(0, dx.getYMin());
-						}
-					}
-					if (e.key.keysym.sym == config["Ray"]) {
-						shift.set(true);
-					}
-					break;
-				case SDL_KEYUP:
-					if (e.key.repeat == 0) {
-						help = keyCodeFromEvent(e);
-						if (help == config["Right"] && dx.x() > 0) {
-							dx.xZero();
-						}
-						if (help == config["Left"] && dx.x() < 0) {
-							dx.xZero();
-						}
-						if (help == config["Up"] && dx.y() < 0) {
-							dx.yZero();
-						}
-						if (help == config["Down"] && dx.y() > 0) {
-							dx.yZero();
-						}
-					}
-					if (e.key.keysym.sym == config["Ray"]) {
-						shift.set(false);
-					}
-					break;
-					*/
 			}
 		}
 		shift.tick();
