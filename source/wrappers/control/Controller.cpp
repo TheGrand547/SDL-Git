@@ -11,6 +11,8 @@ int myKeyCodeFromEvent(SDL_Event event) {
 Controller::Controller(Configuration config, PointDelta* target) {
 	this->config = config;
 	this->target = target;
+	
+	/** TODO: Rewrite code based around some class that can handle more than just Point/PointDelta based methods **/
 	/** TODO: Make this less awful **/
 	this->addKey("Right", Controller::ADD, this->target->getXPoint(), Controller::GREATER_ZERO, Controller::X_ZERO);
 	this->addKey("Left", Controller::SUBTRACT, this->target->getXPoint(), Controller::LESSER_ZERO, Controller::X_ZERO);

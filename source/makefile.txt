@@ -5,7 +5,7 @@ CPPFLAGS=-g -std=c++17
 LDFLAGS=-g
 LDLIBS=-lSDL2 -lSDL2_gfx -lSDL2_image -lSDL2_ttf
 
-SRCS=../main.cpp primatives/Rect.cpp HeldKey.cpp wrappers/control/Controller.cpp PointDelta.cpp primatives/Line.cpp wrappers/Timer.cpp
+SRCS=../main.cpp primatives/Rect.cpp HeldKey.cpp wrappers/control/Controller.cpp PointDelta.cpp primatives/Line.cpp wrappers/Timer.cpp wrappers/control/CommandBase.cpp
 OBJS=$(subst .cpp,.o,$(SRCS))
 
 all: tool
