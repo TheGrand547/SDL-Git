@@ -4,15 +4,13 @@
 HeldKey::HeldKey() {
 	this->down = false;
 	this->toggle = false;
-	this->keySignature = 0;
 	this->framesHeld = 0;
 	this->maxHeld = 0;
 }
 
-HeldKey::HeldKey(int keySignature, int maxHeld) {
+HeldKey::HeldKey(int maxHeld) {
 	this->down = false;
 	this->toggle = false;
-	this->keySignature = keySignature;
 	this->framesHeld = 0;
 	this->maxHeld = maxHeld;
 }

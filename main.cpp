@@ -135,11 +135,11 @@ int main(int argc, char *argv[]) {
 	PointDelta dx = PointDelta(0, 0, 4, 4);
 	
 	Font gFont = Font();
-	
 	BoundedPoint screenPos = BoundedPoint(Screen::MAX_WIDTH - Screen::SCREEN_WIDTH, Screen::MAX_HEIGHT - Screen::SCREEN_HEIGHT);
 	
-	HeldKey shift(SDLK_LSHIFT, 30);
+	HeldKey shift(30);
 	time.start();
+	
 	float avgFPS = 100;
 	
 	PointDelta px;
@@ -150,7 +150,7 @@ int main(int argc, char *argv[]) {
 		
 	PointDelta* popo = new PointDelta(0,0,4,4);
 	Controller contra(config, popo);
-		
+	
 	while(!quit) {
 		dx.setBounds(4, 4);
 		/* Clear the rendering screen */

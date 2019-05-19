@@ -11,7 +11,7 @@ OBJS=$(subst .cpp,.o,$(SRCS))
 all: tool
 
 tool: $(OBJS)
-	$(CXX) $(LDFLAGS) -o "../Main" $(OBJS) $(LDLIBS) 
+	$(CXX) $(LDFLAGS) -o "../Main" $(OBJS) $(LDLIBS)
 
 depend: .depend
 

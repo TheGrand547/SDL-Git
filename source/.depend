@@ -50,7 +50,8 @@ main.o: ../main.cpp ../source/game_entities/Box.h \
   ../source/wrappers/control/Controller.h \
   ../source/wrappers/control/../../essential/Configuration.h \
   ../source/wrappers/control/../../PointDelta.h \
-  ../source/wrappers/control/ControllerCommand.h
+  ../source/wrappers/control/ControllerCommand.h \
+  ../source/wrappers/control/CommandBase.h
 Rect.o: primatives/Rect.cpp primatives/Rect.h \
   primatives/../essential/util.h \
   primatives/../essential/../primatives/Point.cpp primatives/Point.h \
@@ -64,7 +65,8 @@ Controller.o: wrappers/control/Controller.cpp \
   wrappers/control/../../essential/Configuration.h \
   wrappers/control/../../PointDelta.h \
   wrappers/control/../../primatives/Point.h \
-  wrappers/control/ControllerCommand.h
+  wrappers/control/ControllerCommand.h wrappers/control/CommandBase.h \
+  wrappers/control/BasicCommands.h
 PointDelta.o: PointDelta.cpp PointDelta.h primatives/Point.h
 Line.o: primatives/Line.cpp primatives/Line.h primatives/Point.h \
   primatives/../MyBase.h primatives/../essential/random.h \
@@ -72,3 +74,5 @@ Line.o: primatives/Line.cpp primatives/Line.h primatives/Point.h \
   primatives/../essential/../primatives/Point.cpp \
   primatives/../essential/../MyBase.h
 Timer.o: wrappers/Timer.cpp wrappers/Timer.h
+CommandBase.o: wrappers/control/CommandBase.cpp \
+  wrappers/control/CommandBase.h

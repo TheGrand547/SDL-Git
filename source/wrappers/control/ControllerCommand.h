@@ -1,29 +1,42 @@
 #pragma once
+#include "CommandBase.h"
 
 /** Who doesn't love long class names :D **/
-template<class T, class U> // SLOPPY, YOU SHOULD BE SAD
-class ControllerCommand {
+template<class T>
+class ControllerCommand : public CommandBase {
 	private:
 		T* target;
-		void (*function)(T*, U);
-		U param;
+		void (*down)(T*);
+		void (*up)(T*);
 	public:
-		ControllerCommand(void(*function)(T*, U), T* target, U param) {
-			this->function = function;
+		ControllerCommand() {
+			this->down = [](T*){std::cout << "shit";};
+			this->up = [](T*){std::cout << "goddammit";};
+			this->target = NULL;
+		}
+		
+		ControllerCommand(void(*downCommand)(T*), void(*upCommand)(T*), T* target) {
+			this->down = downCommand;
+			this->up= upCommand;
 			this->target = target;
-			this->param = param;
 		}
 		
 		~ControllerCommand() {}
 		
 		ControllerCommand& operator=(const ControllerCommand& that) {
 			this->target = that.target;
-			this->function = that.function;
-			this->param = that.param;
+			this->down = that.down;;
+			this->up = that.up;
 			return *this;
 		}
 		
-		void execute() {
-			this->function(this->target, this->param);
+		void keyDownCommand() {
+			std::cout << "D" << std::endl;
+			this->down(this->target);
+		}
+		
+		void keyUpCommand() {
+			std::cout << "e" << std::endl;
+			this->up(this->target);
 		}
 };

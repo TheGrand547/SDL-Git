@@ -5,10 +5,10 @@
 class HeldKey {
 	private:
 		bool down, toggle;
-		int framesHeld, keySignature, maxHeld;
+		int framesHeld, maxHeld;
 	public:
 		HeldKey();
-		HeldKey(int keySignature, int maxHeld);
+		HeldKey(int maxHeld);
 		~HeldKey() {}
 		void reset();
 		void set(bool to);
