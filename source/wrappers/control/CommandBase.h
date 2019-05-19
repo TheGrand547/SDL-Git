@@ -6,7 +6,6 @@ class CommandBase {
 		CommandBase();
 		virtual ~CommandBase();
 		virtual CommandBase& operator=(const CommandBase &other) {
-			std::cout << "dammit";
 			return *this;
 		}
 		virtual void keyDownCommand() {std::cout << "f";} 

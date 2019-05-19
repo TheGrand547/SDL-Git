@@ -147,7 +147,6 @@ int main(int argc, char *argv[]) {
 	int flag = 1;
 	std::stringstream temp;
 	std::string foo = "mani is pretty smart sometimes, but kotlin is a dumb language cause it has no semi-colons iirc";
-		
 	PointDelta* popo = new PointDelta(0,0,4,4);
 	Controller contra(config, popo);
 	

@@ -10,8 +10,8 @@ class ControllerCommand : public CommandBase {
 		void (*up)(T*);
 	public:
 		ControllerCommand() {
-			this->down = [](T*){std::cout << "shit";};
-			this->up = [](T*){std::cout << "goddammit";};
+			this->down = [](T*){};
+			this->up = [](T*){};
 			this->target = NULL;
 		}
 		
@@ -31,12 +31,10 @@ class ControllerCommand : public CommandBase {
 		}
 		
 		void keyDownCommand() {
-			std::cout << "D" << std::endl;
 			this->down(this->target);
 		}
 		
 		void keyUpCommand() {
-			std::cout << "e" << std::endl;
 			this->up(this->target);
 		}
 };
