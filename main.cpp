@@ -105,8 +105,6 @@ int main(int argc, char *argv[]) {
 	Line ray;
 	int flag = 1;
 	std::stringstream temp;
-	
-	
 	std::string foo = "mani is pretty smart sometimes, but kotlin is a dumb language cause it has no semi-colons iirc";
 	
 	PointDelta* popo = new PointDelta(0, 0, 4);
@@ -140,13 +138,13 @@ int main(int argc, char *argv[]) {
 			float yDelta = 0;
 			for (int i = 1; i < 6; i++) {
 				if (!xDelta) {
-					if (collideRectTest(dot.getRect() + px.onlyX()/i, boxes)) {
+					if (collideRectTest(dot.getRect() + px.onlyX() / i, boxes)) {
 						xDelta = px.x() / i;
 						screenPos += px.onlyX() / i;
 					}
 				}
 				if (!yDelta) {
-					if (collideRectTest(dot.getRect() + px.onlyY()/i, boxes)) {
+					if (collideRectTest(dot.getRect() + px.onlyY() / i, boxes)) {
 						yDelta = px.y() / i;
 						screenPos += px.onlyY() / i;					
 					}
