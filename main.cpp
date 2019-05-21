@@ -149,7 +149,7 @@ int main(int argc, char *argv[]) {
 	std::string foo = "mani is pretty smart sometimes, but kotlin is a dumb language cause it has no semi-colons iirc";
 	PointDelta* popo = new PointDelta(0,0,4,4);
 	Controller contra(config, popo);
-	
+	contra.addListener(config["Ray"], 120);
 	while(!quit) {
 		dx.setBounds(4, 4);
 		/* Clear the rendering screen */
@@ -163,20 +163,10 @@ int main(int argc, char *argv[]) {
 				case SDL_QUIT:
 					quit = true;
 					break;
-				case SDL_KEYDOWN:
-					if (e.key.keysym.sym == config["Ray"]) {
-						shift.set(true);
-					}
-					break;
-				case SDL_KEYUP:
-					if (e.key.keysym.sym == config["Ray"]) {
-						shift.set(false);
-					}
-					break;
-					
 			}
 		}
-		shift.tick();
+		contra.tickListeners();
+		
 		SDL_GetMouseState(&mousePosX, &mousePosY);
 		/* Collision Detection 
 		 * Only does detection if dx exists to improve performance */
@@ -241,7 +231,7 @@ int main(int argc, char *argv[]) {
 		
 		/* Raycasting */
 		
-		if (shift.getHeld()) {
+		if (contra.checkListener(config["Ray"]).getHeld()) {
 			ray = dot.getRay();
 			newPoint = collideTestVectorToRay(boxes, ray);
 			if (!newPoint.isNull()) {

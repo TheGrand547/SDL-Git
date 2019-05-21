@@ -4,25 +4,26 @@
 HeldKey::HeldKey() {
 	this->down = false;
 	this->toggle = false;
-	this->framesHeld = 0;
-	this->maxHeld = 0;
+	this->maxHeld = 1;
 }
 
 HeldKey::HeldKey(int maxHeld) {
 	this->down = false;
 	this->toggle = false;
-	this->framesHeld = 0;
 	this->maxHeld = maxHeld;
 }
 
 void HeldKey::reset() {
 	this->toggle = false;
-	this->framesHeld = 0;
+	this->timer.stop();
 }
 
 void HeldKey::set(bool to) {
 	this->down = to;
 	if (to) {
+		if (this->timer.getTicks() == 0) {
+			this->timer.start();
+		}
 		tick();
 	} else {
 		reset();
@@ -31,17 +32,11 @@ void HeldKey::set(bool to) {
 
 bool HeldKey::tick() {
 	if (this->down) {
-		this->framesHeld++;
-		if (this->framesHeld >= this->maxHeld) {
+		if (this->timer.getTicks() >= this->maxHeld) {
 			this->toggle = true;
 		} 
 	}
 	return this->toggle;
-}
-
-
-int HeldKey::getFrames() {
-	return this->framesHeld;
 }
 
 bool HeldKey::getHeld() {

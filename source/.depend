@@ -35,6 +35,7 @@ main.o: ../main.cpp ../source/game_entities/Box.h \
   ../source/game_entities/../essential/../PointDelta.h \
   ../source/game_entities/../essential/../essential/constants.h \
   ../source/PointDelta.h ../source/BoundedPoint.h ../source/HeldKey.h \
+  ../source/game_entities/../essential/../wrappers/Timer.h \
   ../source/BoundedRect.h ../source/essential/Configuration.h \
   ../source/game_entities/BadTest.h \
   ../source/game_entities/base/EnemyBase.h \
@@ -50,6 +51,7 @@ main.o: ../main.cpp ../source/game_entities/Box.h \
   ../source/wrappers/control/Controller.h \
   ../source/wrappers/control/../../essential/Configuration.h \
   ../source/wrappers/control/../../PointDelta.h \
+  ../source/wrappers/control/../../HeldKey.h \
   ../source/wrappers/control/ControllerCommand.h \
   ../source/wrappers/control/CommandBase.h
 Rect.o: primatives/Rect.cpp primatives/Rect.h \
@@ -59,14 +61,19 @@ Rect.o: primatives/Rect.cpp primatives/Rect.h \
   primatives/../primatives/Point.h primatives/../primatives/Line.h \
   primatives/../essential/random.h primatives/../PointDelta.h \
   primatives/../essential/../primatives/Point.h
-HeldKey.o: HeldKey.cpp HeldKey.h
+HeldKey.o: HeldKey.cpp HeldKey.h wrappers/Timer.h
 Controller.o: wrappers/control/Controller.cpp \
   wrappers/control/Controller.h \
   wrappers/control/../../essential/Configuration.h \
   wrappers/control/../../PointDelta.h \
   wrappers/control/../../primatives/Point.h \
+  wrappers/control/../../HeldKey.h \
+  wrappers/control/../../wrappers/Timer.h \
   wrappers/control/ControllerCommand.h wrappers/control/CommandBase.h \
-  wrappers/control/BasicCommands.h
+  wrappers/control/BasicCommands.h \
+  wrappers/control/../../essential/util.h \
+  wrappers/control/../../essential/../primatives/Point.cpp \
+  wrappers/control/../../essential/../MyBase.h
 PointDelta.o: PointDelta.cpp PointDelta.h primatives/Point.h
 Line.o: primatives/Line.cpp primatives/Line.h primatives/Point.h \
   primatives/../MyBase.h primatives/../essential/random.h \

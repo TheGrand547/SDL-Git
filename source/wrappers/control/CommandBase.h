@@ -8,7 +8,7 @@ class CommandBase {
 		virtual CommandBase& operator=(const CommandBase &other) {
 			return *this;
 		}
-		virtual void keyDownCommand() {std::cout << "f";} 
-		virtual void keyUpCommand() {std::cout << "fe";}
+		virtual void keyDownCommand() {} 
+		virtual void keyUpCommand() {}
 };
 #endif

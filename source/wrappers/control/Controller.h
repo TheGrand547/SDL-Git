@@ -5,6 +5,7 @@
 #include<SDL2/SDL2_gfxPrimitives.h>
 #include "../../essential/Configuration.h"
 #include "../../PointDelta.h"
+#include "../../HeldKey.h"
 #include "ControllerCommand.h"
 #include "CommandBase.h"
 #include<map>
@@ -20,11 +21,15 @@ class Controller {
 	private:
 		/** TODO: Add controller support **/
 		std::map<int, CommandBase*> keys;
+		std::map<int, HeldKey> listeners;
 		Configuration config;
-		PointDelta* target;
 	public:
 		Controller(Configuration config, PointDelta* target);
 		~Controller();
 		void handleEvents(SDL_Event e);
+		void addKey(int value, CommandBase* command);
+		void addListener(int key, int threshold = 150);
+		void tickListeners();
+		HeldKey& checkListener(int key);
 };
 #endif

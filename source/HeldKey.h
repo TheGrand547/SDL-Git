@@ -1,19 +1,22 @@
 #ifndef HELD_KEY_H
 #define HELD_KEY_H
+#include "wrappers/Timer.h"
 /* TODO: Rewrite class based on SDL_GetTicks so its not framerate dependent */
 
 class HeldKey {
 	private:
 		bool down, toggle;
-		int framesHeld, maxHeld;
+		Timer timer;
 	public:
+		int maxHeld;
 		HeldKey();
 		HeldKey(int maxHeld);
 		~HeldKey() {}
+		//Add '=' operator
+		//HeldKey& operator=(const HeldKey &other);
 		void reset();
 		void set(bool to);
 		bool tick();
-		int getFrames(); /* Returns number of frames it has been held down */
 		bool getHeld(); /* Returns true if the key has been held down past its threshold */
 };
 #endif
