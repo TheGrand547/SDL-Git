@@ -13,6 +13,8 @@ HeldKey::HeldKey(int maxHeld) {
 	this->maxHeld = maxHeld;
 }
 
+HeldKey::~HeldKey() {}
+
 void HeldKey::reset() {
 	this->toggle = false;
 	this->timer.stop();

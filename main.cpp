@@ -31,7 +31,6 @@
 #include "source/game_entities/BadTest.h"
 #include "source/wrappers/control/Controller.h"
 
-/* Removed TODO on 4/17/19, previously copied code was a necessary evil to ensure proper functionality */
 /* Handles initializing and de-initializing nicely */
 bool init();
 void close();
@@ -39,37 +38,7 @@ void close();
 SDL_Window* gWindow = NULL;
 SDL_Renderer* gRenderer = NULL;
 
-
 int main(int argc, char *argv[]) {
-	//* We have system args
-	std::string NO;
-	std::map<std::string, std::string> PL;
-	for (int i = 1; i < argc; i++) {
-		NO = argv[i];
-		/* Pairs arguments with their value */
-		if (NO.find("-") != -1) {
-			if (NO.find("=") == -1) {
-				if(i != argc-1) {
-					PL[NO.substr(NO.find("-")+1)] = argv[i+1];
-					i++;
-					continue;
-				} else {
-					PL[NO.substr(NO.find("-")+1)] = "1";
-					continue;
-				}
-			} else {
-				if (NO.find("=") != -1) {
-					PL[NO.substr(NO.find("-")+1, NO.find("=")-1)] = NO.substr(NO.find("=")+1);
-					continue;
-				}
-			}
-		}
-		PL[NO] = "0";
-	}
-	for (std::map<std::string, std::string>::iterator iter = PL.begin(); iter != PL.end(); iter++) {
-		std::cout << iter->first << " = " << iter->second << std::endl;
-	}
-	
 	int mousePosX, mousePosY;
 	Line tempLine;
 	tempLine.setColorChannels(0x00, 0xFF, 0xFF);
@@ -79,7 +48,6 @@ int main(int argc, char *argv[]) {
 	dot.setColorChannels(0xFF);
 	
 	Configuration config;
-		
 	
 	std::vector<Box*>* boxes = new std::vector<Box*>;
 	std::vector<BackElement*>* ground = new std::vector<BackElement*>;
@@ -127,20 +95,18 @@ int main(int argc, char *argv[]) {
 	BadTest small(Point(300, 350), boxes);
 	small.set(gRenderer);
 	
-	PointDelta dx = PointDelta(0, 0, 4);
-	
 	Font gFont = Font();
 	BoundedPoint screenPos = BoundedPoint(Screen::MAX_WIDTH - Screen::SCREEN_WIDTH, Screen::MAX_HEIGHT - Screen::SCREEN_HEIGHT);
 	
-	HeldKey shift(30);
 	time.start();
-	
 	float avgFPS = 100;
 	
 	PointDelta px;
 	Line ray;
 	int flag = 1;
 	std::stringstream temp;
+	
+	
 	std::string foo = "mani is pretty smart sometimes, but kotlin is a dumb language cause it has no semi-colons iirc";
 	
 	PointDelta* popo = new PointDelta(0, 0, 4);
@@ -149,13 +115,12 @@ int main(int argc, char *argv[]) {
 	contra.addPlayerKeys(popo);
 	
 	while(!quit) {
-		dx.setMagnitude(4);
 		/* Clear the rendering screen */
 		SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
 		SDL_RenderClear(gRenderer);
 		/* Event Handling */
 		while(SDL_PollEvent(&e) != 0) {
-			/* TODO: Make this a method to clean up main method */
+			/* TODO: Figure out how to make this not in the main loop */
 			contra.handleEvents(e);
 			switch(e.type) {
 				case SDL_QUIT:
@@ -163,18 +128,16 @@ int main(int argc, char *argv[]) {
 					break;
 			}
 		}
-		contra.tickListeners();
-		
+		contra.tickListeners();	
 		SDL_GetMouseState(&mousePosX, &mousePosY);
+	
 		/* Collision Detection 
-		 * Only does detection if dx exists to improve performance */
-		
+		 * Only does detection if the Player Movement Vector exists to improve performance */
 		if (popo->getNonZero()) {
 			/* TODO: Make this not look like shit */
 			px = (*popo) * (Screen::INTENDED_FRAME_RATE / avgFPS);
 			float xDelta = 0;
 			float yDelta = 0;
-			
 			for (int i = 1; i < 6; i++) {
 				if (!xDelta) {
 					if (collideRectTest(dot.getRect() + px.onlyX()/i, boxes)) {
@@ -227,7 +190,6 @@ int main(int argc, char *argv[]) {
 		
 		
 		/* Raycasting */
-		
 		if (contra.checkListener(config["Ray"]).getHeld()) {
 			ray = dot.getRay();
 			newPoint = collideTestVectorToRay(boxes, ray);
@@ -245,19 +207,19 @@ int main(int argc, char *argv[]) {
 			flag++;
 		}
 		
-		
 		temp.str("");
 		for (int i = 0; i < flag; i++) {
 			temp << foo.at(i);
 		}
 		gFont.renderTextWrapped(200, 10, temp.str(), gRenderer, COLORS::RED, 300);
 		
-		/* Framerate related Calculations */
+		
+		/* TODO: Write a class for this */
+		/* Framerate related Calculations */ 
 		if (countedFrames > 1000) {
 			time.start();
 			countedFrames = 1;
 		}
-		
 		avgFPS = countedFrames / (time.getTicks() / 1000.f);
 		fpsStr.str("");
 		fpsStr << "FPS: " << int(avgFPS);

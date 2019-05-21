@@ -16,32 +16,28 @@
 typedef Uint8 uint8_t;
 class SuperTexture : public Texture, public MyBase {
 	protected:
-		int* clipX;
-		int* clipY;
+		int clipX, clipY;
 	public:
 		SuperTexture(Uint8 r = 0x00, Uint8 g = 0x00, Uint8 b = 0x00, Uint8 a = 0xFF) : Texture(), MyBase(r, g, b, a) {
-			this->clipX = new int(0);
-			this->clipY = new int(0);
+			this->clipX = 0;
+			this->clipY = 0;
 		}
 		
-		~SuperTexture() {
-			delete this->clipX;
-			delete this->clipY;
-		}
+		~SuperTexture() {}
 		
 		void setClip(int xClip, int yClip) {
-			this->clipX = new int(xClip);
-			this->clipY = new int(yClip);
+			this->clipX = xClip;
+			this->clipY = yClip;
 		}
 		
 		void reBound() {}
 		
 		SDL_Texture* getBlank(SDL_Renderer* renderer) {
-			return SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_TARGET, *clipX+1, *clipY+1);
+			return SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_TARGET, this->clipX + 1, this->clipY + 1);
 		}
 		
 		Point getOffset() {
-			return Point(*this->xpos-1, *this->ypos-1);
+			return Point();
 		}
 		
 		void drawRect(SDL_Renderer* renderer, Rect rect) {
@@ -62,7 +58,7 @@ class SuperTexture : public Texture, public MyBase {
 			SDL_SetRenderTarget(renderer, tempTexture);
 			SDL_RenderCopy(renderer, this->texture, NULL, NULL);
 			//TEMPORARY LINE BEWARE
-			boxRGBA(renderer, Point(0, 0), rect.getBottomRight() - this->getOffset(), 0xFF, 0x00, 0x00, 0xFF);
+			boxRGBA(renderer, Point(0, 0), rect.getBottomRight(), 0xFF, 0x00, 0x00, 0xFF);
 			SDL_SetRenderTarget(renderer, NULL);
 			this->texture = tempTexture;
 		}

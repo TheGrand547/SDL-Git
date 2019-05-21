@@ -11,9 +11,7 @@ class HeldKey {
 		int maxHeld;
 		HeldKey();
 		HeldKey(int maxHeld);
-		~HeldKey() {}
-		//Add '=' operator
-		//HeldKey& operator=(const HeldKey &other);
+		~HeldKey();
 		void reset();
 		void set(bool to);
 		bool tick();

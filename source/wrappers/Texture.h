@@ -9,34 +9,28 @@ typedef Uint8 uint8_t;
 
 class Texture {
 	protected:
-		int *xpos, *ypos;
+		int xpos, ypos;
 		SDL_Texture *texture;
 	public:
 		Texture() {
 			texture = NULL;
-			xpos = new int(0);
-			ypos = new int(0);
 		}
 		
 		~Texture() {
 			free();
-			delete this->xpos;
-			delete this->ypos;
 		}
 		
 		Texture &operator=(const Texture &that) {
-			xpos = new int(0);
-			ypos = new int(0);
-			*xpos = *(that.xpos);
-			*ypos = *(that.ypos);
-			texture = NULL;
+			this->xpos = that.xpos;
+			this->ypos = that.ypos;
+			this->texture = that.texture;
 			return *this;
 		}
 		
-		Texture (const Texture &that) {
-			xpos = new int(*that.xpos);
-			ypos = new int(*that.ypos);
-			texture = NULL;
+		Texture(const Texture &that) {
+			this->xpos = that.xpos;
+			this->ypos = that.ypos;
+			this->texture = that.texture;
 		}
 		
 		void free() {
@@ -77,11 +71,11 @@ class Texture {
 		
 		void render(SDL_Renderer *renderer, SDL_Rect* clip=NULL, double angle=0, 
 					SDL_Point* center=NULL, SDL_RendererFlip flip = SDL_FLIP_NONE) {
-			render(*(this->xpos)-1, *(this->ypos)-1, renderer, clip, angle, center, flip);
+			render(this->xpos - 1, this->ypos - 1, renderer, clip, angle, center, flip);
 		}
 		
 		void render(SDL_Renderer* renderer, Point offset) {
-			this->render(*(this->xpos)-offset.x()-1, *(this->ypos)-offset.y()-1, renderer);
+			this->render(this->xpos - offset.x() - 1, this->ypos - offset.y() - 1, renderer);
 		}
 		
 		bool isLoaded() {
@@ -93,7 +87,6 @@ class Texture {
 			SDL_Texture *tempText = NULL;
 			SDL_Surface *tempSurf = SDL_CreateRGBSurface(0, w, h, 32, 0, 0, 0, 0);
 			if (tempSurf != NULL) {
-
 				SDL_FillRect(tempSurf, NULL, color);
 				SDL_SetRenderTarget(renderer, toReturn);
 				tempText = SDL_CreateTextureFromSurface(renderer, tempSurf);
@@ -101,8 +94,6 @@ class Texture {
 				SDL_SetRenderTarget(renderer, NULL);
 				
 				SDL_DestroyTexture(tempText);
-				//this->width = new int(tempSurf->w);
-				//this->height = new int(tempSurf->h);
 				this->texture = toReturn;
 			}
 			SDL_FreeSurface(tempSurf);
@@ -113,18 +104,13 @@ class Texture {
 		}
 		
 		void setPos(int x = 0, int y = 0) {
-			*(this->xpos) = x;
-			*(this->ypos) = y;
+			this->xpos = x;
+			this->ypos = y;
 		}
 		
 		void setPos(Point point) {
-			*(this->xpos) = point.x();
-			*(this->ypos) = point.y();
-		}
-		
-		void setPos(Point *point) {
-			*(this->xpos) = point->x();
-			*(this->ypos) = point->y();
+			this->xpos = point.x();
+			this->ypos = point.y();
 		}
 		
 		void loadFromFile(std::string path, SDL_Renderer* renderer, int xSize, int ySize, Uint8 r = 0x00, Uint8 g = 0x00, Uint8 b = 0x00) {

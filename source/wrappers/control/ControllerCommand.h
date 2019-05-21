@@ -1,7 +1,6 @@
 #pragma once
 #include "CommandBase.h"
 
-/** Who doesn't love long class names :D **/
 template<class T>
 class ControllerCommand : public CommandBase {
 	private:

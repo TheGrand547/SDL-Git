@@ -68,7 +68,6 @@ class Box : public CollideBase{
 			texture->drawRect(renderer, Rect(Point(0, 0), Point(BOX::BOX_WIDTH, BOX::BOX_HEIGHT)));
 			setRenderColors(renderer, BOX::BOX_INNER_BORDER_COLOR);
 			texture->drawRect(renderer, Rect(Point(0, 0), Point(BOX::BOX_WIDTH, BOX::BOX_OUTDENT * BOX::BOX_HEIGHT)));
-			//texture->reBound();
 			return texture;
 		}
 		

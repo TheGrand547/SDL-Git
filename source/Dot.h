@@ -54,7 +54,7 @@ class Dot: public MyBase {
 		
 		Line getRay() {
 			Point temp = Point(this->myRect->getCenter());
-			temp += Point(300 * cos(this->angle), 300 * sin(this->angle));
+			temp += Point(Player::PLAYER_RAY_CAST_LENGTH * cos(this->angle), Player::PLAYER_RAY_CAST_LENGTH * sin(this->angle));
 			return Line(this->myRect->getCenter(), temp);
 		}
 		
