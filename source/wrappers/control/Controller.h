@@ -24,12 +24,14 @@ class Controller {
 		std::map<int, HeldKey> listeners;
 		Configuration config;
 	public:
-		Controller(Configuration config, PointDelta* target);
+		Controller(Configuration config);
 		~Controller();
 		void handleEvents(SDL_Event e);
 		void addKey(int value, CommandBase* command);
 		void addListener(int key, int threshold = 150);
+		void addListener(std::string key, int threshold = 150);
 		void tickListeners();
 		HeldKey& checkListener(int key);
+		void addPlayerKeys(PointDelta* target);
 };
 #endif

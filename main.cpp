@@ -65,8 +65,6 @@ int main(int argc, char *argv[]) {
 			}
 		}
 		PL[NO] = "0";
-		
-		
 	}
 	for (std::map<std::string, std::string>::iterator iter = PL.begin(); iter != PL.end(); iter++) {
 		std::cout << iter->first << " = " << iter->second << std::endl;
@@ -81,9 +79,7 @@ int main(int argc, char *argv[]) {
 	dot.setColorChannels(0xFF);
 	
 	Configuration config;
-	
-	//std::vector<std::vector<CollideBase*>*>* holy = new std::vector<std::vector<CollideBase*>*>;
-	
+		
 	
 	std::vector<Box*>* boxes = new std::vector<Box*>;
 	std::vector<BackElement*>* ground = new std::vector<BackElement*>;
@@ -124,7 +120,6 @@ int main(int argc, char *argv[]) {
 	SDL_Event e;
 	
 	
-	/** DANGER AREA **/
 	//Timer Stuff
 	Timer time;
 	int countedFrames = 0;
@@ -132,7 +127,7 @@ int main(int argc, char *argv[]) {
 	BadTest small(Point(300, 350), boxes);
 	small.set(gRenderer);
 	
-	PointDelta dx = PointDelta(0, 0, 4, 4);
+	PointDelta dx = PointDelta(0, 0, 4);
 	
 	Font gFont = Font();
 	BoundedPoint screenPos = BoundedPoint(Screen::MAX_WIDTH - Screen::SCREEN_WIDTH, Screen::MAX_HEIGHT - Screen::SCREEN_HEIGHT);
@@ -147,11 +142,14 @@ int main(int argc, char *argv[]) {
 	int flag = 1;
 	std::stringstream temp;
 	std::string foo = "mani is pretty smart sometimes, but kotlin is a dumb language cause it has no semi-colons iirc";
-	PointDelta* popo = new PointDelta(0,0,4,4);
-	Controller contra(config, popo);
-	contra.addListener(config["Ray"], 120);
+	
+	PointDelta* popo = new PointDelta(0, 0, 4);
+	Controller contra(config);
+	contra.addListener("Ray", 120);
+	contra.addPlayerKeys(popo);
+	
 	while(!quit) {
-		dx.setBounds(4, 4);
+		dx.setMagnitude(4);
 		/* Clear the rendering screen */
 		SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
 		SDL_RenderClear(gRenderer);
@@ -194,7 +192,7 @@ int main(int argc, char *argv[]) {
 					break;
 				}
 			}
-			dot += PointDelta(xDelta, yDelta, px.getXMin(), px.getYMin());
+			dot += PointDelta(xDelta, yDelta, px.getMagnitude());
 			Point dotTest = dot.getPos().copy();
 			/* TODO: Make this not look like shit */
 			if (dotTest.x() < Screen::SCREEN_WIDTH / 2) {
@@ -214,7 +212,6 @@ int main(int argc, char *argv[]) {
 
 
 		/* Drawing things onto the screen */
-		
 		for (BackElement* back: *ground) {
 			back->draw(gRenderer, screenPos);
 		}

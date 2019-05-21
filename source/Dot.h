@@ -35,24 +35,13 @@ class Dot: public MyBase {
 			return 0;
 		}
 		
-		void operator-=(PointDelta delta) {
-			Point temp = Point(delta);
-			if (delta.getMagnitude() > delta.getMaxMagnitude()) {
-				float tempFloat = calcAngle(delta);
-				temp = Point(delta.getXMin() * cos(tempFloat), -delta.getYMin() * sin(tempFloat));
-			}
-			*myRect -= temp;
-			evalAngle(temp);
+		void operator+=(PointDelta delta) {
+			*myRect += delta;
+			evalAngle(delta);
 		}
 		
-		void operator+=(PointDelta delta) {
-			Point temp = Point(delta);
-			if (delta.getMagnitude() > delta.getMaxMagnitude()) {
-				float tempFloat = calcAngle(delta);
-				temp = Point(delta.getXMin() * cos(tempFloat), -delta.getYMin() * sin(tempFloat));
-			}
-			*myRect += temp;
-			evalAngle(temp);
+		void operator-=(PointDelta delta) {
+			*this += delta.negate();
 		}
 		
 		Point getPos() {

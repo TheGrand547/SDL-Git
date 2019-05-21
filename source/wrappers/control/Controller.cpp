@@ -10,14 +10,8 @@ int myKeyCodeFromEvent(SDL_Event event) {
 }
 
 
-Controller::Controller(Configuration config, PointDelta* target) {
+Controller::Controller(Configuration config) {
 	this->config = config;
-	
-	/* TODO: Make this not /that/ bad code less bad */
-	this->keys[config["Right"]] = new ControllerCommand<PointDelta>(BASIC::PLAYER_RIGHT_KEYDOWN, BASIC::PLAYER_RIGHT_KEYUP, target);
-	this->keys[config["Left"]] = new ControllerCommand<PointDelta>(BASIC::PLAYER_LEFT_KEYDOWN, BASIC::PLAYER_LEFT_KEYUP, target);
-	this->keys[config["Up"]] = new ControllerCommand<PointDelta>(BASIC::PLAYER_UP_KEYDOWN, BASIC::PLAYER_UP_KEYUP, target);
-	this->keys[config["Down"]] = new ControllerCommand<PointDelta>(BASIC::PLAYER_DOWN_KEYDOWN, BASIC::PLAYER_DOWN_KEYUP, target);
 }
 
 
@@ -60,6 +54,10 @@ void Controller::addListener(int key, int threshold) {
 	this->listeners[key] = HeldKey(threshold);
 }
 
+void Controller::addListener(std::string key, int threshold) {
+	this->addListener(config[key], threshold);
+}
+
 void Controller::tickListeners() {
 	for(std::map<int, HeldKey>::iterator iterator = this->listeners.begin(); iterator != listeners.end(); iterator++) {
 		iterator->second.tick();
@@ -68,4 +66,11 @@ void Controller::tickListeners() {
 
 HeldKey& Controller::checkListener(int key) {
 	return this->listeners[key];
+}
+
+void Controller::addPlayerKeys(PointDelta* target) {
+	this->addKey(config["Right"], new ControllerCommand<PointDelta>(BASIC::PLAYER_RIGHT_KEYDOWN, BASIC::PLAYER_RIGHT_KEYUP, target));
+	this->addKey(config["Left"], new ControllerCommand<PointDelta>(BASIC::PLAYER_LEFT_KEYDOWN, BASIC::PLAYER_LEFT_KEYUP, target));
+	this->addKey(config["Up"], new ControllerCommand<PointDelta>(BASIC::PLAYER_UP_KEYDOWN, BASIC::PLAYER_UP_KEYUP, target));
+	this->addKey(config["Down"], new ControllerCommand<PointDelta>(BASIC::PLAYER_DOWN_KEYDOWN, BASIC::PLAYER_DOWN_KEYUP, target));
 }
