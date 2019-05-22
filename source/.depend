@@ -53,7 +53,8 @@ main.o: ../main.cpp ../source/game_entities/Box.h \
   ../source/wrappers/control/../../PointDelta.h \
   ../source/wrappers/control/../../HeldKey.h \
   ../source/wrappers/control/ControllerCommand.h \
-  ../source/wrappers/control/CommandBase.h
+  ../source/wrappers/control/CommandBase.h ../source/AppearingText.h \
+  ../source/game_entities/../essential/../wrappers/Font.h
 Rect.o: primatives/Rect.cpp primatives/Rect.h \
   primatives/../essential/util.h \
   primatives/../essential/../primatives/Point.cpp primatives/Point.h \
@@ -80,6 +81,8 @@ Line.o: primatives/Line.cpp primatives/Line.h primatives/Point.h \
   primatives/../essential/util.h \
   primatives/../essential/../primatives/Point.cpp \
   primatives/../essential/../MyBase.h
+AppearingText.o: AppearingText.cpp AppearingText.h wrappers/Font.h \
+  wrappers/Timer.h primatives/Point.h essential/constants.h
 Timer.o: wrappers/Timer.cpp wrappers/Timer.h
 CommandBase.o: wrappers/control/CommandBase.cpp \
   wrappers/control/CommandBase.h

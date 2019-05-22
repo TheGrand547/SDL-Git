@@ -30,6 +30,7 @@
 #include "source/essential/Configuration.h"
 #include "source/game_entities/BadTest.h"
 #include "source/wrappers/control/Controller.h"
+#include "source/AppearingText.h"
 
 /* Handles initializing and de-initializing nicely */
 bool init();
@@ -107,6 +108,8 @@ int main(int argc, char *argv[]) {
 	std::stringstream temp;
 	std::string foo = "mani is pretty smart sometimes, but kotlin is a dumb language cause it has no semi-colons iirc";
 	
+	AppearingText ap(foo, 5, 0, 20, "resources/Font.ttf", COLORS::RED, Point(0, 0), 300);
+	
 	PointDelta* popo = new PointDelta(0, 0, 4);
 	Controller contra(config);
 	contra.addListener("Ray", 120);
@@ -183,6 +186,8 @@ int main(int argc, char *argv[]) {
 		
 		small.render(gRenderer, screenPos);
 		
+	
+		ap.update(gRenderer);
 		dot.draw(gRenderer, screenPos.negate()); // Player must always be drawn onto the top layer for best visibility
 		/* End of Drawing */
 		
@@ -197,19 +202,6 @@ int main(int argc, char *argv[]) {
 			}
 		}
 		/* End of Raycasting */
-		
-		
-		/* Experimental Code */
-		/* TODO: Write a class for slowly appearing text */
-		if (countedFrames % 15 == 0 && flag < foo.length()) {
-			flag++;
-		}
-		
-		temp.str("");
-		for (int i = 0; i < flag; i++) {
-			temp << foo.at(i);
-		}
-		gFont.renderTextWrapped(200, 10, temp.str(), gRenderer, COLORS::RED, 300);
 		
 		
 		/* TODO: Write a class for this */
@@ -251,7 +243,7 @@ bool init() {
 		success = false;
 	} else {
 		//Create window
-		gWindow = SDL_CreateWindow(Screen::WINDOW_TITLE, Screen::DEFAULT_POS, Screen::DEFAULT_POS, Screen::SCREEN_WIDTH, Screen::SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+		gWindow = SDL_CreateWindow(Screen::WINDOW_TITLE.c_str(), Screen::DEFAULT_POS, Screen::DEFAULT_POS, Screen::SCREEN_WIDTH, Screen::SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 		if(gWindow == NULL) {
 			printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
 			success = false;

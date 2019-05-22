@@ -29,6 +29,7 @@ class Box : public CollideBase{
 		
 		~Box() {
 			delete this->myRect;
+			delete this->mTexture;
 		}
 		
 		Box(const Box &that) {

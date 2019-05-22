@@ -7,6 +7,7 @@ class Font {
 		TTF_Font *fontRenderer;
 	public:
 		Font(int size = 20, const char *filename = "resources/font.ttf") {
+			std::cout << "FONT MADE SIR" << std::endl;
 			fontSize = new int(size);
 			fontRenderer = TTF_OpenFont(filename, size);
 			if (fontRenderer == NULL) {
@@ -46,8 +47,8 @@ class Font {
 								SDL_Rect* clip = NULL, double angle = 0.0, 
 								SDL_Point* center = NULL, 
 								SDL_RendererFlip flip = SDL_FLIP_NONE) {
-			SDL_Surface *surface = TTF_RenderText_Blended_Wrapped(fontRenderer, text.c_str(), color, maxWidth);
-			if (!(surface == NULL)) {
+			SDL_Surface* surface = TTF_RenderText_Blended_Wrapped(fontRenderer, text.c_str(), color, maxWidth);
+			if (surface != NULL) {
 				SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
 				if (!(texture == NULL)) {
 					SDL_FreeSurface(surface);

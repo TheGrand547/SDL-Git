@@ -46,5 +46,6 @@ namespace Screen {
 	const int MAX_HEIGHT = 960;
 	const int DEFAULT_POS = SDL_WINDOWPOS_UNDEFINED;
 	const float INTENDED_FRAME_RATE = 100.0;
-	const char* WINDOW_TITLE = "Testing";
+	//const char* WINDOW_TITLE = "Testing";
+	const std::string WINDOW_TITLE = "Testing";
 }
