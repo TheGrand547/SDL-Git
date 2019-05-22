@@ -1,6 +1,6 @@
 #pragma once
 #include<SDL2/SDL.h>
-#include "primatives/Rect.h"
+#include "primitives/Rect.h"
 #include "BoundedRect.h"
 #include "PointDelta.h"
 #include "essential/constants.h"

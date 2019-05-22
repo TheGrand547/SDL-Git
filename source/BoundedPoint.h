@@ -1,6 +1,7 @@
 #pragma once
-#include "primatives/Point.h"
+#include "primitives/Point.h"
 
+/* TODO: Fix this dumpster fire */
 class BoundedPoint : public Point {
 	private:
 		float *xMin, *xMax;

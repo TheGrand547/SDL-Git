@@ -4,9 +4,9 @@
 #include<SDL2/SDL2_rotozoom.h>
 #include<SDL2_image/SDL_image.h>
 #include<SDL2_ttf/SDL_ttf.h>
-#include "../primatives/Line.h"
-#include "../primatives/Point.h"
-#include "../primatives/Rect.h"
+#include "../primitives/Line.h"
+#include "../primitives/Point.h"
+#include "../primitives/Rect.h"
 #include "../MyBase.h"
 #include "../essential/util.h"
 #include "Texture.h"

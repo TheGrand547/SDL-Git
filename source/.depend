@@ -1,20 +1,18 @@
 main.o: ../main.cpp ../source/game_entities/Box.h \
   ../source/game_entities/../essential/constants.h \
-  ../source/game_entities/../primatives/Point.h \
-  ../source/game_entities/../primatives/Rect.h \
-  ../source/game_entities/../primatives/../essential/util.h \
-  ../source/game_entities/../essential/../primatives/Point.cpp \
+  ../source/game_entities/../primitives/Point.h \
+  ../source/game_entities/../primitives/Rect.h \
+  ../source/game_entities/../primitives/../essential/util.h \
+  ../source/game_entities/../essential/../primitives/Point.h \
   ../source/game_entities/../essential/../MyBase.h \
-  ../source/game_entities/../primatives/../MyBase.h \
-  ../source/game_entities/../primatives/../primatives/Point.h \
-  ../source/game_entities/../primatives/../primatives/Line.h \
-  ../source/game_entities/../primatives/../essential/random.h \
-  ../source/game_entities/../primatives/../PointDelta.h \
-  ../source/game_entities/../essential/../primatives/Point.h \
+  ../source/game_entities/../primitives/../PointDelta.h \
+  ../source/game_entities/../primitives/../MyBase.h \
+  ../source/game_entities/../primitives/Line.h \
+  ../source/game_entities/../primitives/../essential/random.h \
   ../source/game_entities/../wrappers/SuperTexture.h \
-  ../source/game_entities/../wrappers/../primatives/Line.h \
-  ../source/game_entities/../wrappers/../primatives/Point.h \
-  ../source/game_entities/../wrappers/../primatives/Rect.h \
+  ../source/game_entities/../wrappers/../primitives/Line.h \
+  ../source/game_entities/../wrappers/../primitives/Point.h \
+  ../source/game_entities/../wrappers/../primitives/Rect.h \
   ../source/game_entities/../wrappers/../MyBase.h \
   ../source/game_entities/../wrappers/../essential/util.h \
   ../source/game_entities/../wrappers/Texture.h \
@@ -22,15 +20,15 @@ main.o: ../main.cpp ../source/game_entities/Box.h \
   ../source/game_entities/../BoundedPoint.h \
   ../source/game_entities/../essential/util.h \
   ../source/game_entities/base/CollideBase.h \
-  ../source/game_entities/base/../../primatives/Rect.h \
-  ../source/game_entities/base/../../primatives/Line.h \
+  ../source/game_entities/base/../../primitives/Rect.h \
+  ../source/game_entities/base/../../primitives/Line.h \
   ../source/game_entities/BackgroundElement.h \
-  ../source/primatives/Line.h ../source/primatives/Point.h \
-  ../source/wrappers/Font.h ../source/primatives/Rect.h \
+  ../source/primitives/Line.h ../source/primitives/Point.h \
+  ../source/wrappers/Font.h ../source/primitives/Rect.h \
   ../source/wrappers/Timer.h ../source/wrappers/Texture.h \
   ../source/essential/util.h ../source/essential/random.h \
   ../source/MyBase.h ../source/Dot.h \
-  ../source/game_entities/../essential/../primatives/Rect.h \
+  ../source/game_entities/../essential/../primitives/Rect.h \
   ../source/game_entities/../essential/../BoundedRect.h \
   ../source/game_entities/../essential/../PointDelta.h \
   ../source/game_entities/../essential/../essential/constants.h \
@@ -47,42 +45,46 @@ main.o: ../main.cpp ../source/game_entities/Box.h \
   ../source/game_entities/paths/Path.h \
   ../source/game_entities/paths/PathManager.h \
   ../source/game_entities/paths/LinePath.h \
-  ../source/game_entities/paths/../../primatives/Point.h \
+  ../source/game_entities/paths/../../primitives/Point.h \
   ../source/wrappers/control/Controller.h \
   ../source/wrappers/control/../../essential/Configuration.h \
   ../source/wrappers/control/../../PointDelta.h \
   ../source/wrappers/control/../../HeldKey.h \
   ../source/wrappers/control/ControllerCommand.h \
   ../source/wrappers/control/CommandBase.h ../source/AppearingText.h \
-  ../source/game_entities/../essential/../wrappers/Font.h
-Rect.o: primatives/Rect.cpp primatives/Rect.h \
-  primatives/../essential/util.h \
-  primatives/../essential/../primatives/Point.cpp primatives/Point.h \
-  primatives/../essential/../MyBase.h primatives/../MyBase.h \
-  primatives/../primatives/Point.h primatives/../primatives/Line.h \
-  primatives/../essential/random.h primatives/../PointDelta.h \
-  primatives/../essential/../primatives/Point.h
+  ../source/game_entities/../essential/../wrappers/Font.h \
+  ../source/wrappers/FpsText.h \
+  ../source/game_entities/../wrappers/Font.h
+Rect.o: primitives/Rect.cpp primitives/Rect.h \
+  primitives/../essential/util.h \
+  primitives/../essential/../primitives/Point.h \
+  primitives/../essential/../MyBase.h primitives/../PointDelta.h \
+  primitives/../MyBase.h primitives/Point.h primitives/Line.h \
+  primitives/../essential/random.h
 HeldKey.o: HeldKey.cpp HeldKey.h wrappers/Timer.h
 Controller.o: wrappers/control/Controller.cpp \
   wrappers/control/Controller.h \
   wrappers/control/../../essential/Configuration.h \
   wrappers/control/../../PointDelta.h \
-  wrappers/control/../../primatives/Point.h \
+  wrappers/control/../../primitives/Point.h \
   wrappers/control/../../HeldKey.h \
   wrappers/control/../../wrappers/Timer.h \
   wrappers/control/ControllerCommand.h wrappers/control/CommandBase.h \
   wrappers/control/BasicCommands.h \
   wrappers/control/../../essential/util.h \
-  wrappers/control/../../essential/../primatives/Point.cpp \
+  wrappers/control/../../essential/../primitives/Point.h \
   wrappers/control/../../essential/../MyBase.h
-PointDelta.o: PointDelta.cpp PointDelta.h primatives/Point.h
-Line.o: primatives/Line.cpp primatives/Line.h primatives/Point.h \
-  primatives/../MyBase.h primatives/../essential/random.h \
-  primatives/../essential/util.h \
-  primatives/../essential/../primatives/Point.cpp \
-  primatives/../essential/../MyBase.h
+PointDelta.o: PointDelta.cpp PointDelta.h primitives/Point.h
+Line.o: primitives/Line.cpp primitives/Line.h primitives/Point.h \
+  primitives/../MyBase.h primitives/../essential/random.h \
+  primitives/../essential/util.h \
+  primitives/../essential/../primitives/Point.h \
+  primitives/../essential/../MyBase.h
 AppearingText.o: AppearingText.cpp AppearingText.h wrappers/Font.h \
-  wrappers/Timer.h primatives/Point.h essential/constants.h
+  wrappers/Timer.h primitives/Point.h essential/constants.h
 Timer.o: wrappers/Timer.cpp wrappers/Timer.h
 CommandBase.o: wrappers/control/CommandBase.cpp \
   wrappers/control/CommandBase.h
+FpsText.o: wrappers/FpsText.cpp wrappers/FpsText.h wrappers/Font.h \
+  wrappers/Timer.h wrappers/../primitives/Point.h \
+  wrappers/../essential/constants.h

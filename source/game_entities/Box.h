@@ -3,8 +3,8 @@
 #include<SDL2/SDL.h>
 #include<vector>
 #include "../essential/constants.h"
-#include "../primatives/Point.h"
-#include "../primatives/Rect.h"
+#include "../primitives/Point.h"
+#include "../primitives/Rect.h"
 #include "../wrappers/SuperTexture.h"	
 #include "../wrappers/Texture.h"
 #include "../BoundedPoint.h"

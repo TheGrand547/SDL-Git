@@ -7,7 +7,7 @@
 #include "paths/CirclePath.h"
 #include "paths/PathManager.h"
 #include "paths/LinePath.h"
-#include "../primatives/Point.h"
+#include "../primitives/Point.h"
 
 class BadTest : public EnemyBase {
 	public:

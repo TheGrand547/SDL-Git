@@ -1,10 +1,10 @@
 #pragma once
 #include<iostream>
 #include "../essential/util.h"
-#include "../MyBase.h"
-#include "../primatives/Point.h"
-#include "../primatives/Line.h"
 #include "../PointDelta.h"
+#include "../MyBase.h"
+#include "Point.h"
+#include "Line.h"
 
 Point smallerDistance(Point distanceFrom, Point pointA, Point pointB);
 class Rect: public MyBase{

@@ -3,8 +3,8 @@
 #include<SDL2/SDL.h>
 #include<SDL2/SDL2_rotozoom.h>
 #include<SDL2_image/SDL_image.h>
-#include "../primatives/Point.h"
-#include "../primatives/Rect.h"
+#include "../primitives/Point.h"
+#include "../primitives/Rect.h"
 #include "../wrappers/Texture.h"
 #include "../essential/constants.h"
 

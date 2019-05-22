@@ -5,7 +5,7 @@
 #include<SDL2_ttf/SDL_ttf.h>
 #include "wrappers/Font.h"
 #include "wrappers/Timer.h"
-#include "primatives/Point.h"
+#include "primitives/Point.h"
 #include "essential/constants.h"
 
 class AppearingText {

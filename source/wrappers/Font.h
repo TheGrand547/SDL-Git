@@ -3,12 +3,11 @@
 #include<SDL2_ttf/SDL_ttf.h>
 class Font {
 	private:
-		int *fontSize;
+		int fontSize;
 		TTF_Font *fontRenderer;
 	public:
 		Font(int size = 20, const char *filename = "resources/font.ttf") {
-			std::cout << "FONT MADE SIR" << std::endl;
-			fontSize = new int(size);
+			fontSize = size;
 			fontRenderer = TTF_OpenFont(filename, size);
 			if (fontRenderer == NULL) {
 				printf("Failed to load font\n");
@@ -18,7 +17,6 @@ class Font {
 		~Font() {
 			TTF_CloseFont(fontRenderer);
 			fontRenderer = NULL;
-			delete fontSize;
 		}
 		
 		void drawTexture(SDL_Renderer *renderer, SDL_Texture *texture, SDL_Rect rect, 

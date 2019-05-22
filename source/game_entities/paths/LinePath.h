@@ -1,6 +1,6 @@
 #pragma once
 #include "Path.h"
-#include "../../primatives/Point.h"
+#include "../../primitives/Point.h"
 
 float toTicks(float seconds) {
 	return seconds * 1000.f;

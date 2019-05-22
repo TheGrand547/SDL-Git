@@ -1,6 +1,6 @@
 #pragma once
-#include "../../primatives/Rect.h"
-#include "../../primatives/Line.h"
+#include "../../primitives/Rect.h"
+#include "../../primitives/Line.h"
 
 /* Base class to handle everything in the world that can interat with other
  * things in the world, such as projectiles, walls, enemies, ect.

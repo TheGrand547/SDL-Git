@@ -1,7 +1,7 @@
 #pragma once
 #include<SDL2/SDL.h>
 #include<SDL2/SDL2_gfxPrimitives.h>
-#include "../primatives/Point.cpp"
+#include "../primitives/Point.h"
 #include "../MyBase.h"
 
 /* TODO: Investigate if all the stupid off by one errors are caused by me making fixes to fake problems */

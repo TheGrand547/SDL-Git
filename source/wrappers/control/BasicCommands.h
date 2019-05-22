@@ -1,5 +1,5 @@
 #include "../../PointDelta.h"
-#include "../../primatives/Point.h"
+#include "../../primitives/Point.h"
 
 namespace BASIC {
 	auto constexpr PLAYER_UP_KEYDOWN = [](PointDelta* p){*p -= p->getYPoint();};

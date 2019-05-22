@@ -12,10 +12,10 @@
 #include<vector>
 #include "source/game_entities/Box.h"
 #include "source/game_entities/BackgroundElement.h"
-#include "source/primatives/Line.h"
-#include "source/primatives/Point.h"
+#include "source/primitives/Line.h"
+#include "source/primitives/Point.h"
 #include "source/wrappers/Font.h"
-#include "source/primatives/Rect.h"
+#include "source/primitives/Rect.h"
 #include "source/wrappers/Timer.h"
 #include "source/wrappers/Texture.h"
 #include "source/essential/util.h"
@@ -31,6 +31,7 @@
 #include "source/game_entities/BadTest.h"
 #include "source/wrappers/control/Controller.h"
 #include "source/AppearingText.h"
+#include "source/wrappers/FpsText.h"
 
 /* Handles initializing and de-initializing nicely */
 bool init();
@@ -115,6 +116,8 @@ int main(int argc, char *argv[]) {
 	contra.addListener("Ray", 120);
 	contra.addPlayerKeys(popo);
 	
+	FpsText text(new Font(), Point(100, 10), COLORS::RED);
+	
 	while(!quit) {
 		/* Clear the rendering screen */
 		SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
@@ -132,11 +135,10 @@ int main(int argc, char *argv[]) {
 		contra.tickListeners();	
 		SDL_GetMouseState(&mousePosX, &mousePosY);
 	
-		/* Collision Detection 
-		 * Only does detection if the Player Movement Vector exists to improve performance */
+		/* Collision Detection: Only does detection if the Player Movement Vector exists to improve performance */
 		if (popo->getNonZero()) {
 			/* TODO: Make this not look like shit */
-			px = (*popo) * (Screen::INTENDED_FRAME_RATE / avgFPS);
+			px = (*popo) * (Screen::INTENDED_FRAME_RATE / text.getFps());
 			float xDelta = 0;
 			float yDelta = 0;
 			for (int i = 1; i < 6; i++) {
@@ -179,14 +181,10 @@ int main(int argc, char *argv[]) {
 		for (BackElement* back: *ground) {
 			back->draw(gRenderer, screenPos);
 		}
-		
 		for (Box* box: *boxes) {
 			box->draw(gRenderer, screenPos);
 		}
-		
 		small.render(gRenderer, screenPos);
-		
-	
 		ap.update(gRenderer);
 		dot.draw(gRenderer, screenPos.negate()); // Player must always be drawn onto the top layer for best visibility
 		/* End of Drawing */
@@ -203,20 +201,8 @@ int main(int argc, char *argv[]) {
 		}
 		/* End of Raycasting */
 		
+		text.draw(gRenderer); // Draw FPS on screen
 		
-		/* TODO: Write a class for this */
-		/* Framerate related Calculations */ 
-		if (countedFrames > 1000) {
-			time.start();
-			countedFrames = 1;
-		}
-		avgFPS = countedFrames / (time.getTicks() / 1000.f);
-		fpsStr.str("");
-		fpsStr << "FPS: " << int(avgFPS);
-		gFont.renderText(100, 0, fpsStr.str(), gRenderer, COLORS::RED);
-		/* End of framerate related Calculations */
-	
-	
 		/* Render all changes onto the window */
 		SDL_RenderPresent(gRenderer);
 		SDL_UpdateWindowSurface(gWindow);

@@ -1,6 +1,6 @@
 #pragma once
 #include<math.h>
-#include "primatives/Point.h"
+#include "primitives/Point.h"
 
 class PointDelta : public Point {
 	private:

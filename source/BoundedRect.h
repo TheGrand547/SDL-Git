@@ -1,6 +1,6 @@
 #pragma once
-#include "primatives/Point.h"
-#include "primatives/Rect.h"
+#include "primitives/Point.h"
+#include "primitives/Rect.h"
 #include "PointDelta.h"
 
 class BoundedRect : public Rect {
