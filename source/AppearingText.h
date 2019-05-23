@@ -8,6 +8,7 @@
 #include "primitives/Point.h"
 #include "essential/constants.h"
 
+/* TODO: Make the Constructor not a massive mistake */
 class AppearingText {
 	private:
 		Point position;

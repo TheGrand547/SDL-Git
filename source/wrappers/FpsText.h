@@ -17,6 +17,7 @@ class FpsText {
 		FpsText(Font* font, Point position, SDL_Color color);
 		~FpsText();
 		float getFps();
+		float getRatio();
 		void draw(SDL_Renderer* renderer);
 };
 #endif

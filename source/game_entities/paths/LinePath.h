@@ -26,7 +26,6 @@ class LinePath : public Path<T> {
 		}
 		
 		/* Tick time is the duration in milliseconds, which must be adjusted for the refresh rate of paths */
-		
 		LinePath(Point startingPos, Point endingPos, int tickTime, int repeatCount = Path<T>::SINGLE_LOOP) : Path<T>() {
 			*this = LinePath<T>(endingPos-startingPos, tickTime, repeatCount);
 		}

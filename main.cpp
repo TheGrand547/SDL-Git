@@ -138,7 +138,7 @@ int main(int argc, char *argv[]) {
 		/* Collision Detection: Only does detection if the Player Movement Vector exists to improve performance */
 		if (popo->getNonZero()) {
 			/* TODO: Make this not look like shit */
-			px = (*popo) * (Screen::INTENDED_FRAME_RATE / text.getFps());
+			px = (*popo) * text.getRatio();
 			float xDelta = 0;
 			float yDelta = 0;
 			for (int i = 1; i < 6; i++) {
@@ -202,7 +202,6 @@ int main(int argc, char *argv[]) {
 		/* End of Raycasting */
 		
 		text.draw(gRenderer); // Draw FPS on screen
-		
 		/* Render all changes onto the window */
 		SDL_RenderPresent(gRenderer);
 		SDL_UpdateWindowSurface(gWindow);

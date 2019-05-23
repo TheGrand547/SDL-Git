@@ -1,5 +1,4 @@
 #include "Rect.h"
-//#include "Point.h"
 
 Rect::Rect() {
 	this->tL = Point();
@@ -53,7 +52,7 @@ void Rect::draw(SDL_Renderer* renderer, Point offset) {
 	rectangleRGBA(renderer, this->tL - offset, this->bR - offset, rChannel, bChannel, gChannel, aChannel);
 }
 
-Point Rect::collideLine(Line &ray, Point offset) {
+Point Rect::collideLine(Line &ray) {
 	/* No way for a single straight line to intersect a line in more than
 	 * two points *except with the stupid inline ones that i'm changing
 	 * the whole thing for */

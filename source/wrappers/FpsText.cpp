@@ -32,3 +32,7 @@ void FpsText::draw(SDL_Renderer* renderer) {
 	this->font->renderText(this->position.x(), this->position.y(), fpsStr.str(), renderer, this->color);
 	
 }
+
+float FpsText::getRatio() {
+	return Screen::INTENDED_FRAME_RATE / this->averageFps;
+}

@@ -57,7 +57,6 @@ class SuperTexture : public Texture, public MyBase {
 			SDL_Texture* tempTexture = this->getBlank(renderer);
 			SDL_SetRenderTarget(renderer, tempTexture);
 			SDL_RenderCopy(renderer, this->texture, NULL, NULL);
-			//TEMPORARY LINE BEWARE
 			boxRGBA(renderer, Point(0, 0), rect.getBottomRight(), color.r, color.g, color.b, color.a);
 			SDL_SetRenderTarget(renderer, NULL);
 			this->texture = tempTexture;

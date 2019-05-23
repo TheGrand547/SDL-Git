@@ -28,7 +28,6 @@ class PathManager {
 		}
 		
 		void AddPath(Path<T>* path) {
-			/** TODO: Make PathManagers have their own given type which is directly passed to all added Paths to clean up code **/
 			this->paths->push_back(path);
 			this->paths->back()->setTarget(this->target);
 		}

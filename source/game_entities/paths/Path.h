@@ -16,7 +16,6 @@ class Path {
 			this->ticksDone = 0;
 			this->ticksOver = 0;
 			this->target = NULL;
-			//this->target = target;
 		}
 		
 		virtual ~Path() {

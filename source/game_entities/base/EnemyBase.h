@@ -8,7 +8,7 @@
 class EnemyBase {
 	protected:
 		Texture* texture;
-		Point* position;
+		Point position;
 		
 		int width = 50;
 		int height = 50;
@@ -17,13 +17,13 @@ class EnemyBase {
 		std::vector<Box*>* collide;
 	public:
 		EnemyBase(std::vector<Box*>* collision, Point position = Point(0, 0)) {
-			this->position = new Point(position);
+			this->position = position;
 			this->texture = new Texture();
 			this->collide = collision;
 		}
 		
 		~EnemyBase() {
-			delete this->position;
+			delete this->texture;
 		}
 		
 		virtual void update() = 0;
@@ -43,13 +43,13 @@ class EnemyBase {
 			for (int i = 1; i < 6; i++) {
 				if (!yflag) {
 					if (collideRectTest(Rect(this->position, this->width, this->height) + px.onlyX()/i, this->collide)) {
-						*this->position += px.onlyX()/i;
+						this->position += px.onlyX()/i;
 						yflag = true;
 					}
 				}
 				if (!xflag) {
 					if (collideRectTest(Rect(this->position, this->width, this->height) + px.onlyY()/i, this->collide)) {
-						*this->position += px.onlyY()/i;					
+						this->position += px.onlyY()/i;					
 						xflag = true;
 					}
 				}

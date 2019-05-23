@@ -22,8 +22,7 @@ namespace BOX {
 }
 
 
-/* Enumeration to get rid of overhead on my end 
- * as all background elements are fundamentally the same */
+/* Enumeration to get rid of overhead on my end, as all background elements are fundamentally the same */
 namespace Ground {
 	enum Type {
 		GRASS = 0, METAL = 1
@@ -46,6 +45,5 @@ namespace Screen {
 	const int MAX_HEIGHT = 960;
 	const int DEFAULT_POS = SDL_WINDOWPOS_UNDEFINED;
 	const float INTENDED_FRAME_RATE = 100.0;
-	//const char* WINDOW_TITLE = "Testing";
 	const std::string WINDOW_TITLE = "Testing";
 }

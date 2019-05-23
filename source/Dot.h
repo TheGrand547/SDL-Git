@@ -30,17 +30,18 @@ class Dot: public MyBase {
 		}
 		
 		float calcAngle(Point point) {
-			if(point.y() != 0 || point.x() != 0)
+			if(point.y() != 0 || point.x() != 0) {
 				 return atan2(0-point.y(), point.x());
+			 }
 			return 0;
 		}
 		
-		void operator+=(PointDelta delta) {
+		void operator+=(Point delta) {
 			*myRect += delta;
 			evalAngle(delta);
 		}
 		
-		void operator-=(PointDelta delta) {
+		void operator-=(Point delta) {
 			*this += delta.negate();
 		}
 		

@@ -9,14 +9,17 @@ PointDelta::PointDelta() : Point(0, 0) {
 
 PointDelta::PointDelta(float xval, float yval, float magnitude) : Point(xval, yval) {
 	this->magnitude = magnitude;
+	this->reduceToBounds();
 }
 
 PointDelta::PointDelta(Point point, float magnitude) : Point(point) {
 	this->magnitude = magnitude;
+	this->reduceToBounds();
 }
 
 PointDelta::PointDelta(const PointDelta &that) : Point(that){
 	this->magnitude = that.magnitude;
+	this->reduceToBounds();
 }
 
 float PointDelta::calcAngle(Point point) {
