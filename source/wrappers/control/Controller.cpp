@@ -23,6 +23,9 @@ Controller::~Controller() {
 
 void Controller::handleEvents(SDL_Event e) {
 	switch(e.type) {
+		case SDL_QUIT:
+			this->quit = true;
+			break;
 		case SDL_KEYDOWN:
 			if (e.key.repeat == 0) {
 				if (this->keys[keyCodeFromEvent(e)] != NULL) {

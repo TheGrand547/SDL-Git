@@ -61,6 +61,7 @@ Rect.o: primitives/Rect.cpp primitives/Rect.h \
   primitives/../essential/../MyBase.h primitives/../PointDelta.h \
   primitives/../MyBase.h primitives/Point.h primitives/Line.h \
   primitives/../essential/random.h
+Point.o: primitives/Point.cpp primitives/Point.h
 HeldKey.o: HeldKey.cpp HeldKey.h wrappers/Timer.h
 Controller.o: wrappers/control/Controller.cpp \
   wrappers/control/Controller.h \

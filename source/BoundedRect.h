@@ -59,7 +59,7 @@ class BoundedRect : public Rect {
 			if ((int(this->tL.x() + delta.x()) < int(this->xMin)) || (int(this->bR.x() + delta.x()) > int(this->xMax))) {
 				delta.xZero();
 			}
-			if ((int(this->tL.y() + delta.y()) < int(*this->yMin)) || (int(this->bR.y() + delta.y()) > int(*this->yMax))) {
+			if ((int(this->tL.y() + delta.y()) < int(this->yMin)) || (int(this->bR.y() + delta.y()) > int(this->yMax))) {
 				delta.yZero();
 			}
 			Rect::operator+=(delta);

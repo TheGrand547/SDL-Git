@@ -1,3 +1,4 @@
+/* TODO: Write a header file to include all these headers */
 #include<iostream>
 #include<math.h>
 #include<SDL2/SDL.h>
@@ -58,9 +59,6 @@ int main(int argc, char *argv[]) {
 		printf( "Failed to initialize!\n" );
 		return 0;
 	}
-	//Main loop flag
-	bool quit = false;
-	
 	/* TODO: Add method for initializing everything on screen to clean up main() and help smooth the transition to
 	 * using 'Screen' as the base class for the project */
 	 
@@ -89,23 +87,14 @@ int main(int argc, char *argv[]) {
 	//Event handler
 	SDL_Event e;
 	
-	
-	//Timer Stuff
-	Timer time;
-	int countedFrames = 0;
-	
 	BadTest small(Point(300, 350), boxes);
 	small.set(gRenderer);
 	
 	Font gFont = Font();
 	BoundedPoint screenPos = BoundedPoint(Screen::MAX_WIDTH - Screen::SCREEN_WIDTH, Screen::MAX_HEIGHT - Screen::SCREEN_HEIGHT);
 	
-	time.start();
-	float avgFPS = 100;
-	
 	PointDelta px;
 	Line ray;
-	int flag = 1;
 	std::stringstream temp;
 	std::string foo = "mani is pretty smart sometimes, but kotlin is a dumb language cause it has no semi-colons iirc";
 	
@@ -118,19 +107,13 @@ int main(int argc, char *argv[]) {
 	
 	FpsText text(new Font(), Point(100, 10), COLORS::RED);
 	
-	while(!quit) {
+	while(!contra.quit) {
 		/* Clear the rendering screen */
 		SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
 		SDL_RenderClear(gRenderer);
 		/* Event Handling */
 		while(SDL_PollEvent(&e) != 0) {
-			/* TODO: Figure out how to make this not in the main loop */
 			contra.handleEvents(e);
-			switch(e.type) {
-				case SDL_QUIT:
-					quit = true;
-					break;
-			}
 		}
 		contra.tickListeners();	
 		SDL_GetMouseState(&mousePosX, &mousePosY);
@@ -205,9 +188,6 @@ int main(int argc, char *argv[]) {
 		/* Render all changes onto the window */
 		SDL_RenderPresent(gRenderer);
 		SDL_UpdateWindowSurface(gWindow);
-		
-		//Necessary to keep up approximate framerate estimation
-		countedFrames++; 
 	}
 	close();
 	delete groundTexture;

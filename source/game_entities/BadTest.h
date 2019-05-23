@@ -37,6 +37,6 @@ class BadTest : public EnemyBase {
 		}
 		
 		Point getPos() {
-			return Point(*this->position);
+			return this->position;
 		}
 };

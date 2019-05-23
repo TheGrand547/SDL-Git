@@ -24,6 +24,7 @@ class Controller {
 		std::map<int, HeldKey> listeners;
 		Configuration config;
 	public:
+		bool quit = false;
 		Controller(Configuration config);
 		~Controller();
 		void handleEvents(SDL_Event e);

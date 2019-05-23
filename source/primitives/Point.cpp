@@ -31,15 +31,16 @@ inline float Point::originDistance() {
 inline Point Point::operator-(const Point &point) {
 	return Point(this->xval - point.xval, this->yval - point.yval);
 }
+
 inline Point Point::operator+(const Point &point) {
 	return Point(this->xval + point.xval, this->yval + point.yval);
 }
 
-inline void Point::operator-=(Point delta) {
+void Point::operator-=(Point delta) {
 	*this += delta.negate();
 }
 
-inline void Point::operator+=(Point delta) {
+void Point::operator+=(Point delta) {
 	this->xval += delta.xval;
 	this->yval += delta.yval;
 }
@@ -55,7 +56,7 @@ inline std::ostream& operator<<(std::ostream &output, const Point &point) {
 	return output;
 }
 
-inline float Point::distanceToPoint(Point point) {
+float Point::distanceToPoint(Point point) {
 	float dx = this->xval - point.x();
 	float dy = this->yval - point.y();
 	return sqrt(dx*dx + dy*dy);
@@ -65,25 +66,26 @@ inline float Point::distanceToPoint(float x, float y) {
 	return this->distanceToPoint(Point(x, y));
 }
 
-inline bool Point::isNull() {
-	if (this->xval == -1 && this->yval == -1)
+bool Point::isNull() {
+	if (this->xval == -1 && this->yval == -1) {
 		return true;
+	}
 	return false;
 }
 
-inline bool Point::isReal() {
+bool Point::isReal() {
 	return !isNull();
 }
 
-inline Point Point::copy() const {
-	return Point(this->xval,this->yval);
+Point Point::copy() const {
+	return Point(this->xval, this->yval);
 }
 
-inline void Point::xZero() {
+void Point::xZero() {
 	this->xval = 0;
 }
 
-inline void Point::yZero() {
+void Point::yZero() {
 	this->yval = 0;
 }
 
@@ -91,22 +93,22 @@ inline float Point::getMagnitude() {
 	return sqrt(pow(this->xval, 2) + pow(this->yval, 2));
 }
 
-inline bool Point::getNonZero() {
-	return (float(this->xval) != 0 || float(this->yval) != 0);
+bool Point::getNonZero() {
+	return (int(this->xval) != 0 || int(this->yval) != 0);
 }
 
 inline Point Point::negate() {
 	return Point(-this->xval,-this->yval);
 }
 
-inline Point Point::onlyX() {
+Point Point::onlyX() {
 	return Point(this->xval, 0);
 }
 
-inline Point Point::onlyY() {
+Point Point::onlyY() {
 	return Point(0, this->yval);
 }
 
-inline Point Point::operator/(const float &num) {
+Point Point::operator/(const float &num) {
 	return Point(this->xval / num, this->yval / num);
 }
