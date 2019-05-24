@@ -20,14 +20,16 @@ class Controller {
 	 * Listeners are an extention of HeldKey for more complicated external usage */
 	private:
 		/** TODO: Add controller support **/
+		/** TODO: Rewrite with Scancode Keyboard State **/
 		std::map<int, CommandBase*> keys;
 		std::map<int, HeldKey> listeners;
 		Configuration config;
+		const Uint8* stuff = SDL_GetKeyboardState(NULL);
 	public:
 		bool quit = false;
 		Controller(Configuration config);
 		~Controller();
-		void handleEvents(SDL_Event e);
+		void handleEvents();
 		void addKey(int value, CommandBase* command);
 		void addListener(int key, int threshold = 150);
 		void addListener(std::string key, int threshold = 150);

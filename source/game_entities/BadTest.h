@@ -16,7 +16,6 @@ class BadTest : public EnemyBase {
 		
 		BadTest(Point position, std::vector<Box*>* collide) : EnemyBase(collide, position) {
 			this->c = new PathManager<EnemyBase>(this);
-			
 			this->c->AddPath(new LinePath<EnemyBase>(Point(200, -200), toTicks(1)));
 			this->c->AddPath(new CirclePath<EnemyBase>(40, 1, Path<Point>::SINGLE_LOOP, false));
 			this->c->AddPath(new LinePath<EnemyBase>(Point(-200, 200), toTicks(1)));

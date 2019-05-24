@@ -51,7 +51,7 @@ class CirclePath : public Path<T> {
 			this->startingMaxTicks = int(this->maxTicks);
 		};
 		
-		~CirclePath() {};
+		~CirclePath() {}
 		
 		void stop() {
 			this->maxTicks = this->startingMaxTicks;

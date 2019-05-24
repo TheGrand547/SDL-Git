@@ -5,8 +5,8 @@
 #include<SDL2/SDL.h>
 #include "../../essential/util.h"
 
-int myKeyCodeFromEvent(SDL_Event event) {
-	return event.key.keysym.sym;
+int scanCodeFromEvent(SDL_Event event) {
+	return event.key.keysym.scancode;
 }
 
 
@@ -21,32 +21,49 @@ Controller::~Controller() {
 	}
 }
 
-void Controller::handleEvents(SDL_Event e) {
-	switch(e.type) {
-		case SDL_QUIT:
-			this->quit = true;
-			break;
-		case SDL_KEYDOWN:
-			if (e.key.repeat == 0) {
-				if (this->keys[keyCodeFromEvent(e)] != NULL) {
-					this->keys[keyCodeFromEvent(e)]->keyDownCommand();
+void Controller::handleEvents() {
+	SDL_Event e;
+	SDL_PumpEvents();
+	while(SDL_PollEvent(&e) != 0) {
+		switch(e.type) {
+			case SDL_QUIT:
+				this->quit = true;
+				break;
+			case SDL_KEYDOWN:
+				if (e.key.repeat == 0) {
+					/*
+					if (this->keys[scanCodeFromEvent(e)] != NULL) {
+						this->keys[scanCodeFromEvent(e)]->keyDownCommand();
+					}*/
+					if (this->listeners[scanCodeFromEvent(e)].maxHeld > 0) {
+						this->listeners[scanCodeFromEvent(e)].set(true);
+					}
 				}
-				if (this->listeners[keyCodeFromEvent(e)].maxHeld > 0) {
-					this->listeners[keyCodeFromEvent(e)].set(true);
+				break;
+			case SDL_KEYUP:
+				if (e.key.repeat == 0) {
+					/*
+					if (this->keys[scanCodeFromEvent(e)] != NULL) {
+						this->keys[scanCodeFromEvent(e)]->keyUpCommand();
+					}*/
+					if (this->listeners[scanCodeFromEvent(e)].maxHeld > 0) {
+						this->listeners[scanCodeFromEvent(e)].set(false);
+					}
 				}
-			}
-			break;
-		case SDL_KEYUP:
-			if (e.key.repeat == 0) {
-				if (this->keys[myKeyCodeFromEvent(e)] != NULL) {
-					this->keys[myKeyCodeFromEvent(e)]->keyUpCommand();
-				}
-				if (this->listeners[keyCodeFromEvent(e)].maxHeld > 0) {
-					this->listeners[keyCodeFromEvent(e)].set(false);
-				}
-			}
-			break;
+				break;
+		}
 	}
+	for(std::map<int, CommandBase*>::iterator iterator = keys.begin(); iterator != keys.end(); iterator++) {
+		iterator->second->keyUpCommand();
+	}
+	for(std::map<int, CommandBase*>::iterator iterator = keys.begin(); iterator != keys.end(); iterator++) {
+		if (this->stuff[iterator->first]) {
+			if (iterator->second != NULL) {
+				iterator->second->keyDownCommand();
+			}
+		}
+	}
+	this->tickListeners();	
 }
 
 void Controller::addKey(int value, CommandBase* command) {

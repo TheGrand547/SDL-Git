@@ -22,7 +22,7 @@ class EnemyBase {
 			this->collide = collision;
 		}
 		
-		~EnemyBase() {
+		virtual ~EnemyBase() {
 			delete this->texture;
 		}
 		

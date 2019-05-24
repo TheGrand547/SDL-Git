@@ -81,12 +81,6 @@ int main(int argc, char *argv[]) {
 	}
 	BackElement::setGroundTextures(ground, groundTexture);
 	
-	//String for rendering text to the screen
-	std::stringstream fpsStr;
-	
-	//Event handler
-	SDL_Event e;
-	
 	BadTest small(Point(300, 350), boxes);
 	small.set(gRenderer);
 	
@@ -94,8 +88,6 @@ int main(int argc, char *argv[]) {
 	BoundedPoint screenPos = BoundedPoint(Screen::MAX_WIDTH - Screen::SCREEN_WIDTH, Screen::MAX_HEIGHT - Screen::SCREEN_HEIGHT);
 	
 	PointDelta px;
-	Line ray;
-	std::stringstream temp;
 	std::string foo = "mani is pretty smart sometimes, but kotlin is a dumb language cause it has no semi-colons iirc";
 	
 	AppearingText ap(foo, 5, 0, 20, "resources/Font.ttf", COLORS::RED, Point(0, 0), 300);
@@ -112,12 +104,9 @@ int main(int argc, char *argv[]) {
 		SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
 		SDL_RenderClear(gRenderer);
 		/* Event Handling */
-		while(SDL_PollEvent(&e) != 0) {
-			contra.handleEvents(e);
-		}
-		contra.tickListeners();	
+		contra.handleEvents();
 		SDL_GetMouseState(&mousePosX, &mousePosY);
-	
+		
 		/* Collision Detection: Only does detection if the Player Movement Vector exists to improve performance */
 		if (popo->getNonZero()) {
 			/* TODO: Make this not look like shit */
@@ -172,17 +161,17 @@ int main(int argc, char *argv[]) {
 		dot.draw(gRenderer, screenPos.negate()); // Player must always be drawn onto the top layer for best visibility
 		/* End of Drawing */
 		
-		
 		/* Raycasting */
 		if (contra.checkListener(config["Ray"]).getHeld()) {
-			ray = dot.getRay();
-			newPoint = collideTestVectorToRay(boxes, ray);
+			newPoint = collideTestVectorToRay(boxes, dot.getRay());
 			if (!newPoint.isNull()) {
 				tempLine = Line(dot.getCenter(), newPoint.copy());
 				tempLine.drawLine(gRenderer, screenPos);
 			}
+			
 		}
 		/* End of Raycasting */
+		
 		
 		text.draw(gRenderer); // Draw FPS on screen
 		/* Render all changes onto the window */
@@ -190,6 +179,7 @@ int main(int argc, char *argv[]) {
 		SDL_UpdateWindowSurface(gWindow);
 	}
 	close();
+	delete popo;
 	delete groundTexture;
 	delete mTexture;
 	delete ground;

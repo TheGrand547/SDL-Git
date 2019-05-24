@@ -44,7 +44,7 @@ class Configuration {
 		}
 		
 		int operator[](std::string key) {
-			return SDL_GetKeyFromName(configMap[key].c_str());
+			return SDL_GetScancodeFromName(configMap[key].c_str());
 		}
 
 		void output() {

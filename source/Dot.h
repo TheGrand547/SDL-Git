@@ -9,7 +9,7 @@
 class Dot: public MyBase {
 	private:
 		float angle;
-		BoundedRect *myRect;
+		BoundedRect *myRect; // Don't think this needs to be a pointer
 	public:
 		Dot(Point startingCoordinate) {
 			angle = 0;

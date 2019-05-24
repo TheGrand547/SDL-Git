@@ -28,7 +28,9 @@ class BackElement {
 			this->texture = NULL;
 		}
 		
-		~BackElement() {}
+		~BackElement() {
+			delete this->texture;
+		}
 		
 		void setTexture(Texture* texture) {
 			this->texture = texture;
