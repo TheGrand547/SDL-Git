@@ -50,6 +50,7 @@ main.o: ../main.cpp ../source/game_entities/Box.h \
   ../source/wrappers/control/../../essential/Configuration.h \
   ../source/wrappers/control/../../PointDelta.h \
   ../source/wrappers/control/../../HeldKey.h \
+  ../source/wrappers/control/ButtonCommand.h \
   ../source/wrappers/control/ControllerCommand.h \
   ../source/wrappers/control/CommandBase.h ../source/AppearingText.h \
   ../source/game_entities/../essential/../wrappers/Font.h \
@@ -70,8 +71,9 @@ Controller.o: wrappers/control/Controller.cpp \
   wrappers/control/../../primitives/Point.h \
   wrappers/control/../../HeldKey.h \
   wrappers/control/../../wrappers/Timer.h \
-  wrappers/control/ControllerCommand.h wrappers/control/CommandBase.h \
-  wrappers/control/BasicCommands.h \
+  wrappers/control/ButtonCommand.h wrappers/control/ControllerCommand.h \
+  wrappers/control/CommandBase.h wrappers/control/BasicCommands.h \
+  wrappers/control/PlayerMoveCommand.h \
   wrappers/control/../../essential/util.h \
   wrappers/control/../../essential/../primitives/Point.h \
   wrappers/control/../../essential/../MyBase.h
@@ -89,3 +91,7 @@ CommandBase.o: wrappers/control/CommandBase.cpp \
 FpsText.o: wrappers/FpsText.cpp wrappers/FpsText.h wrappers/Font.h \
   wrappers/Timer.h wrappers/../primitives/Point.h \
   wrappers/../essential/constants.h
+PlayerMoveCommand.o: wrappers/control/PlayerMoveCommand.cpp \
+  wrappers/control/PlayerMoveCommand.h wrappers/control/ButtonCommand.h \
+  wrappers/control/../../PointDelta.h \
+  wrappers/control/../../primitives/Point.h

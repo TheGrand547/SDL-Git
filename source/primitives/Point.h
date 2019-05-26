@@ -34,5 +34,6 @@ class Point {
 		void operator-=(Point delta);
 		void xZero();
 		void yZero();
+		void zero();
 };
 #endif

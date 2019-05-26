@@ -37,6 +37,7 @@
 /* Handles initializing and de-initializing nicely */
 bool init();
 void close();
+void clearScreen(SDL_Renderer* renderer);
 
 SDL_Window* gWindow = NULL;
 SDL_Renderer* gRenderer = NULL;
@@ -100,9 +101,9 @@ int main(int argc, char *argv[]) {
 	FpsText text(new Font(), Point(100, 10), COLORS::RED);
 	
 	while(!contra.quit) {
+		popo->zero(); // THERE MUST BE A BETTER WAY
 		/* Clear the rendering screen */
-		SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
-		SDL_RenderClear(gRenderer);
+		clearScreen(gRenderer);
 		/* Event Handling */
 		contra.handleEvents();
 		SDL_GetMouseState(&mousePosX, &mousePosY);
@@ -172,7 +173,6 @@ int main(int argc, char *argv[]) {
 		}
 		/* End of Raycasting */
 		
-		
 		text.draw(gRenderer); // Draw FPS on screen
 		/* Render all changes onto the window */
 		SDL_RenderPresent(gRenderer);
@@ -215,4 +215,9 @@ bool init() {
 void close() {
 	SDL_DestroyWindow(gWindow);
 	SDL_Quit();
+}
+
+void clearScreen(SDL_Renderer* renderer) {
+	SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
+	SDL_RenderClear(gRenderer);
 }

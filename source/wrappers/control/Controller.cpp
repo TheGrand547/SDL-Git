@@ -1,6 +1,7 @@
 #include "Controller.h"
 #include "ControllerCommand.h"
 #include "BasicCommands.h"
+#include "PlayerMoveCommand.h"
 #include<iostream>
 #include<SDL2/SDL.h>
 #include "../../essential/util.h"
@@ -31,10 +32,9 @@ void Controller::handleEvents() {
 				break;
 			case SDL_KEYDOWN:
 				if (e.key.repeat == 0) {
-					/*
 					if (this->keys[scanCodeFromEvent(e)] != NULL) {
 						this->keys[scanCodeFromEvent(e)]->keyDownCommand();
-					}*/
+					}
 					if (this->listeners[scanCodeFromEvent(e)].maxHeld > 0) {
 						this->listeners[scanCodeFromEvent(e)].set(true);
 					}
@@ -42,10 +42,9 @@ void Controller::handleEvents() {
 				break;
 			case SDL_KEYUP:
 				if (e.key.repeat == 0) {
-					/*
 					if (this->keys[scanCodeFromEvent(e)] != NULL) {
 						this->keys[scanCodeFromEvent(e)]->keyUpCommand();
-					}*/
+					}
 					if (this->listeners[scanCodeFromEvent(e)].maxHeld > 0) {
 						this->listeners[scanCodeFromEvent(e)].set(false);
 					}
@@ -53,17 +52,18 @@ void Controller::handleEvents() {
 				break;
 		}
 	}
-	for(std::map<int, CommandBase*>::iterator iterator = keys.begin(); iterator != keys.end(); iterator++) {
-		iterator->second->keyUpCommand();
-	}
-	for(std::map<int, CommandBase*>::iterator iterator = keys.begin(); iterator != keys.end(); iterator++) {
+	for(std::map<int, ButtonCommand*>::iterator iterator = buttons.begin(); iterator != buttons.end(); iterator++) {
 		if (this->stuff[iterator->first]) {
 			if (iterator->second != NULL) {
-				iterator->second->keyDownCommand();
+				iterator->second->execute();
 			}
 		}
 	}
 	this->tickListeners();	
+}
+
+void Controller::addButton(int value, ButtonCommand* button) {
+	this->buttons[value] = button;
 }
 
 void Controller::addKey(int value, CommandBase* command) {
@@ -89,8 +89,8 @@ HeldKey& Controller::checkListener(int key) {
 }
 
 void Controller::addPlayerKeys(PointDelta* target) {
-	this->addKey(config["Right"], new ControllerCommand<PointDelta>(BASIC::PLAYER_RIGHT_KEYDOWN, BASIC::PLAYER_RIGHT_KEYUP, target));
-	this->addKey(config["Left"], new ControllerCommand<PointDelta>(BASIC::PLAYER_LEFT_KEYDOWN, BASIC::PLAYER_LEFT_KEYUP, target));
-	this->addKey(config["Up"], new ControllerCommand<PointDelta>(BASIC::PLAYER_UP_KEYDOWN, BASIC::PLAYER_UP_KEYUP, target));
-	this->addKey(config["Down"], new ControllerCommand<PointDelta>(BASIC::PLAYER_DOWN_KEYDOWN, BASIC::PLAYER_DOWN_KEYUP, target));
+	this->addButton(config["Right"], new PlayerMoveCommand(BASIC::PLAYER_RIGHT_KEYDOWN, target));
+	this->addButton(config["Left"], new PlayerMoveCommand(BASIC::PLAYER_LEFT_KEYDOWN, target));
+	this->addButton(config["Up"], new PlayerMoveCommand(BASIC::PLAYER_UP_KEYDOWN, target));
+	this->addButton(config["Down"], new PlayerMoveCommand(BASIC::PLAYER_DOWN_KEYDOWN, target));
 }
