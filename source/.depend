@@ -23,7 +23,7 @@ main.o: ../main.cpp ../source/headers.h ../source/game_entities/Box.h \
   ../source/game_entities/base/CollideBase.h \
   ../source/game_entities/base/../../primitives/Rect.h \
   ../source/game_entities/base/../../primitives/Line.h \
-  ../source/game_entities/base/../../wrappers/Texture.h \
+  ../source/game_entities/base/../../wrappers/SuperTexture.h \
   ../source/game_entities/BackgroundElement.h \
   ../source/primitives/Line.h ../source/wrappers/Font.h \
   ../source/primitives/Rect.h ../source/wrappers/Timer.h \
@@ -35,6 +35,7 @@ main.o: ../main.cpp ../source/headers.h ../source/game_entities/Box.h \
   ../source/game_entities/BadTest.h \
   ../source/game_entities/base/EnemyBase.h \
   ../source/game_entities/base/../../essential/constants.h \
+  ../source/game_entities/base/../../wrappers/Texture.h \
   ../source/game_entities/../wrappers/Timer.h \
   ../source/game_entities/paths/CirclePath.h \
   ../source/game_entities/paths/../../wrappers/Timer.h \
@@ -105,11 +106,12 @@ CollideBaseGroup.o: game_entities/CollideBaseGroup.cpp \
   game_entities/../primitives/Line.h \
   game_entities/../primitives/../essential/random.h \
   game_entities/base/../../primitives/Line.h \
-  game_entities/base/../../wrappers/Texture.h \
-  game_entities/base/../../wrappers/../primitives/Point.h \
-  game_entities/base/../../wrappers/../essential/constants.h \
-  game_entities/../wrappers/SuperTexture.h \
+  game_entities/base/../../wrappers/SuperTexture.h \
   game_entities/base/../../wrappers/../primitives/Line.h \
+  game_entities/base/../../wrappers/../primitives/Point.h \
   game_entities/base/../../wrappers/../primitives/Rect.h \
   game_entities/base/../../wrappers/../MyBase.h \
-  game_entities/base/../../wrappers/../essential/util.h
+  game_entities/base/../../wrappers/../essential/util.h \
+  game_entities/base/../../wrappers/Texture.h \
+  game_entities/base/../../wrappers/../essential/constants.h \
+  game_entities/../wrappers/SuperTexture.h

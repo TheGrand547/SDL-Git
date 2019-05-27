@@ -29,7 +29,7 @@ class Box : public CollideBase{
 		
 		~Box() {
 			delete this->myRect;
-			delete this->mTexture;
+			this->mTexture = NULL;
 		}
 		
 		Box(const Box &that) {
@@ -65,8 +65,7 @@ class Box : public CollideBase{
 			texture->setClip(BOX::BOX_WIDTH, BOX::BOX_HEIGHT);
 			texture->drawBox(renderer, Rect(Point(0, 0), Point(BOX::BOX_WIDTH, BOX::BOX_HEIGHT)), COLORS::BLUE);
 			texture->loadFromFile("resources/missingTexture.jpg", renderer, BOX::BOX_WIDTH, BOX::BOX_OUTDENT * BOX::BOX_HEIGHT);
-			//setRenderColors(renderer, BOX::BOX_OUTER_BORDER_COLOR);
-			setRenderColors(renderer, COLORS::RED);
+			setRenderColors(renderer, BOX::BOX_OUTER_BORDER_COLOR);
 			texture->drawRect(renderer, Rect(Point(0, 0), Point(BOX::BOX_WIDTH, BOX::BOX_HEIGHT)));
 			setRenderColors(renderer, BOX::BOX_INNER_BORDER_COLOR);
 			texture->drawRect(renderer, Rect(Point(0, 0), Point(BOX::BOX_WIDTH, BOX::BOX_OUTDENT * BOX::BOX_HEIGHT)));

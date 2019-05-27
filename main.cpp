@@ -38,7 +38,6 @@ int main(int argc, char *argv[]) {
 	boxes.push_back(new Box(Point(350, 200)));
 	boxes.push_back(new Box(Point(500, 200))); /* Investigate the off by 2 pixel visual not smiley */
 	boxes.setTexture(mTexture);
-	//Box::setTexture(boxes, mTexture);
 	
 	Texture* groundTexture = BackElement::createGroundTexture(gRenderer, Ground::GRASS);
 	
@@ -99,6 +98,7 @@ int main(int argc, char *argv[]) {
 			
 		}
 		/* End of Raycasting */
+		
 		
 		text.draw(gRenderer); // Draw FPS on screen
 		/* Render all changes onto the window */
