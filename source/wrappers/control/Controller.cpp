@@ -25,6 +25,7 @@ Controller::~Controller() {
 void Controller::handleEvents() {
 	SDL_Event e;
 	SDL_PumpEvents();
+	SDL_GetMouseState(&mouseX, &mouseY);
 	while(SDL_PollEvent(&e) != 0) {
 		switch(e.type) {
 			case SDL_QUIT:

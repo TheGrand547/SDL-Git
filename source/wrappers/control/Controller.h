@@ -29,6 +29,7 @@ class Controller {
 		Configuration config;
 		const Uint8* stuff = SDL_GetKeyboardState(NULL);
 	public:
+		int mouseX, mouseY;
 		bool quit = false;
 		Controller(Configuration config);
 		~Controller();

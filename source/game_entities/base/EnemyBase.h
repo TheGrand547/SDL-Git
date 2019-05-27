@@ -14,9 +14,9 @@ class EnemyBase {
 		int height = 50;
 		
 		/* Experimental */
-		std::vector<Box*>* collide;
+		std::vector<CollideBase*>* collide;
 	public:
-		EnemyBase(std::vector<Box*>* collision, Point position = Point(0, 0)) {
+		EnemyBase(std::vector<CollideBase*>* collision, Point position = Point(0, 0)) {
 			this->position = position;
 			this->texture = new Texture();
 			this->collide = collision;
@@ -42,13 +42,13 @@ class EnemyBase {
 			Point px = delta;
 			for (int i = 1; i < 6; i++) {
 				if (!yflag) {
-					if (collideRectTest(Rect(this->position, this->width, this->height) + px.onlyX()/i, this->collide)) {
+					if (collideRectTest(Rect(this->position, this->width, this->height) + px.onlyX() / i, this->collide)) {
 						this->position += px.onlyX()/i;
 						yflag = true;
 					}
 				}
 				if (!xflag) {
-					if (collideRectTest(Rect(this->position, this->width, this->height) + px.onlyY()/i, this->collide)) {
+					if (collideRectTest(Rect(this->position, this->width, this->height) + px.onlyY() / i, this->collide)) {
 						this->position += px.onlyY()/i;					
 						xflag = true;
 					}

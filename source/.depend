@@ -1,4 +1,4 @@
-main.o: ../main.cpp ../source/game_entities/Box.h \
+main.o: ../main.cpp ../source/headers.h ../source/game_entities/Box.h \
   ../source/game_entities/../essential/constants.h \
   ../source/game_entities/../primitives/Point.h \
   ../source/game_entities/../primitives/Rect.h \
@@ -6,6 +6,7 @@ main.o: ../main.cpp ../source/game_entities/Box.h \
   ../source/game_entities/../essential/../primitives/Point.h \
   ../source/game_entities/../essential/../MyBase.h \
   ../source/game_entities/../primitives/../PointDelta.h \
+  ../source/primitives/Point.h \
   ../source/game_entities/../primitives/../MyBase.h \
   ../source/game_entities/../primitives/Line.h \
   ../source/game_entities/../primitives/../essential/random.h \
@@ -22,23 +23,18 @@ main.o: ../main.cpp ../source/game_entities/Box.h \
   ../source/game_entities/base/CollideBase.h \
   ../source/game_entities/base/../../primitives/Rect.h \
   ../source/game_entities/base/../../primitives/Line.h \
+  ../source/game_entities/base/../../wrappers/Texture.h \
   ../source/game_entities/BackgroundElement.h \
-  ../source/primitives/Line.h ../source/primitives/Point.h \
-  ../source/wrappers/Font.h ../source/primitives/Rect.h \
-  ../source/wrappers/Timer.h ../source/wrappers/Texture.h \
-  ../source/essential/util.h ../source/essential/random.h \
-  ../source/MyBase.h ../source/Dot.h \
-  ../source/game_entities/../essential/../primitives/Rect.h \
-  ../source/game_entities/../essential/../BoundedRect.h \
-  ../source/game_entities/../essential/../PointDelta.h \
-  ../source/game_entities/../essential/../essential/constants.h \
-  ../source/PointDelta.h ../source/BoundedPoint.h ../source/HeldKey.h \
-  ../source/game_entities/../essential/../wrappers/Timer.h \
-  ../source/BoundedRect.h ../source/essential/Configuration.h \
+  ../source/primitives/Line.h ../source/wrappers/Font.h \
+  ../source/primitives/Rect.h ../source/wrappers/Timer.h \
+  ../source/wrappers/Texture.h ../source/essential/util.h \
+  ../source/essential/random.h ../source/MyBase.h ../source/Dot.h \
+  ../source/BoundedRect.h ../source/PointDelta.h \
+  ../source/essential/constants.h ../source/BoundedPoint.h \
+  ../source/HeldKey.h ../source/essential/Configuration.h \
   ../source/game_entities/BadTest.h \
   ../source/game_entities/base/EnemyBase.h \
   ../source/game_entities/base/../../essential/constants.h \
-  ../source/game_entities/base/../../wrappers/Texture.h \
   ../source/game_entities/../wrappers/Timer.h \
   ../source/game_entities/paths/CirclePath.h \
   ../source/game_entities/paths/../../wrappers/Timer.h \
@@ -53,9 +49,10 @@ main.o: ../main.cpp ../source/game_entities/Box.h \
   ../source/wrappers/control/ButtonCommand.h \
   ../source/wrappers/control/ControllerCommand.h \
   ../source/wrappers/control/CommandBase.h ../source/AppearingText.h \
-  ../source/game_entities/../essential/../wrappers/Font.h \
   ../source/wrappers/FpsText.h \
-  ../source/game_entities/../wrappers/Font.h
+  ../source/game_entities/../wrappers/Font.h \
+  ../source/game_entities/DrawGroup.h \
+  ../source/game_entities/CollideBaseGroup.h
 Rect.o: primitives/Rect.cpp primitives/Rect.h \
   primitives/../essential/util.h \
   primitives/../essential/../primitives/Point.h \
@@ -95,3 +92,24 @@ PlayerMoveCommand.o: wrappers/control/PlayerMoveCommand.cpp \
   wrappers/control/PlayerMoveCommand.h wrappers/control/ButtonCommand.h \
   wrappers/control/../../PointDelta.h \
   wrappers/control/../../primitives/Point.h
+CollideBaseGroup.o: game_entities/CollideBaseGroup.cpp \
+  game_entities/CollideBaseGroup.h game_entities/DrawGroup.h \
+  game_entities/../BoundedPoint.h game_entities/../primitives/Point.h \
+  game_entities/base/CollideBase.h \
+  game_entities/base/../../primitives/Rect.h \
+  game_entities/../primitives/../essential/util.h \
+  game_entities/../primitives/../essential/../primitives/Point.h \
+  game_entities/../primitives/../essential/../MyBase.h \
+  game_entities/../primitives/../PointDelta.h \
+  game_entities/../primitives/../MyBase.h \
+  game_entities/../primitives/Line.h \
+  game_entities/../primitives/../essential/random.h \
+  game_entities/base/../../primitives/Line.h \
+  game_entities/base/../../wrappers/Texture.h \
+  game_entities/base/../../wrappers/../primitives/Point.h \
+  game_entities/base/../../wrappers/../essential/constants.h \
+  game_entities/../wrappers/SuperTexture.h \
+  game_entities/base/../../wrappers/../primitives/Line.h \
+  game_entities/base/../../wrappers/../primitives/Rect.h \
+  game_entities/base/../../wrappers/../MyBase.h \
+  game_entities/base/../../wrappers/../essential/util.h

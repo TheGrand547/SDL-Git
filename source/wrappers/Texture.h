@@ -62,7 +62,7 @@ class Texture {
 			SDL_Rect renderQuad = {x, y, *width, *height};
 			delete width;
 			delete height;
-			if( clip != NULL ) {
+			if( clip != NULL) {
 				renderQuad.w = clip->w;
 				renderQuad.h = clip->h;
 			}

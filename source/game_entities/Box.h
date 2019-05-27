@@ -65,7 +65,7 @@ class Box : public CollideBase{
 			texture->setClip(BOX::BOX_WIDTH, BOX::BOX_HEIGHT);
 			texture->drawBox(renderer, Rect(Point(0, 0), Point(BOX::BOX_WIDTH, BOX::BOX_HEIGHT)), COLORS::BLUE);
 			texture->loadFromFile("resources/missingTexture.jpg", renderer, BOX::BOX_WIDTH, BOX::BOX_OUTDENT * BOX::BOX_HEIGHT);
-			//setRenderColors(renderer, BOX::BOX_OUTER_BORDER_COLOR);s
+			//setRenderColors(renderer, BOX::BOX_OUTER_BORDER_COLOR);
 			setRenderColors(renderer, COLORS::RED);
 			texture->drawRect(renderer, Rect(Point(0, 0), Point(BOX::BOX_WIDTH, BOX::BOX_HEIGHT)));
 			setRenderColors(renderer, BOX::BOX_INNER_BORDER_COLOR);
@@ -80,7 +80,7 @@ class Box : public CollideBase{
 		}
 };
 
-bool collideRect(Rect rect, std::vector<Box*>* vec) {
+bool collideRect(Rect rect, std::vector<CollideBase*>* vec) {
 	bool result = false;
 	for (int i = 0; i < vec->size(); i++) {
 		result = result || (*vec)[i]->overlap(rect);
@@ -90,7 +90,7 @@ bool collideRect(Rect rect, std::vector<Box*>* vec) {
 	return result;
 }
 
-Point smallestDistanceFrom(std::vector<Box*>* boxes, Point origin, Line ray) {
+Point smallestDistanceFrom(std::vector<CollideBase*>* boxes, Point origin, Line ray) {
 	Point stored;
 	for (int i = 0; i < boxes->size(); i++) {
 		stored = smallerDistance(origin, (*boxes)[i]->collideLine(ray), stored);
@@ -98,10 +98,10 @@ Point smallestDistanceFrom(std::vector<Box*>* boxes, Point origin, Line ray) {
 	return stored;
 }
 
-Point collideTestVectorToRay(std::vector<Box*>* boxes, Line ray) {
+Point collideTestVectorToRay(std::vector<CollideBase*>* boxes, Line ray) {
 	return smallestDistanceFrom(boxes, ray.getOrigin(), ray);
 }
 
-bool collideRectTest(Rect rect, std::vector<Box*>* vec) {
+bool collideRectTest(Rect rect, std::vector<CollideBase*>* vec) {
 	return !collideRect(rect, vec);
 }

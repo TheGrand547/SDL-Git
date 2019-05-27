@@ -71,4 +71,41 @@ class Dot: public MyBase {
 			temp.h = Player::PLAYER_Y_DIMENSION;
 			SDL_RenderFillRect(renderer, &temp);
 		}
+		
+		void collideTest(PointDelta delta, std::vector<CollideBase*>* boxes, BoundedPoint& screen) {
+			/* TODO: Make this not look like shit */
+			float xDelta = 0;
+			float yDelta = 0;
+			for (int i = 1; i < 6; i++) {
+				if (!xDelta) {
+					if (collideRectTest(this->getRect() + delta.onlyX() / i, boxes)) {
+						xDelta = delta.x() / i;
+						screen += delta.onlyX() / i;
+					}
+				}
+				if (!yDelta) {
+					if (collideRectTest(this->getRect() + delta.onlyY() / i, boxes)) {
+						yDelta = delta.y() / i;
+						screen += delta.onlyY() / i;					
+					}
+				}
+				if (xDelta && yDelta) {
+					break;
+				}
+			}
+			*this += PointDelta(xDelta, yDelta, delta.getMagnitude());
+			/* TODO: Make this not look like shit */
+			if (this->getPos().x() < Screen::SCREEN_WIDTH / 2) {
+				screen.xZero();
+			}
+			if (this->getPos().y() < Screen::SCREEN_HEIGHT / 2) {
+				screen.yZero();
+			}
+			if (this->getPos().y() > (Screen::MAX_HEIGHT - (Screen::SCREEN_HEIGHT / 2))) {
+				screen.maxY();
+			}
+			if (this->getPos().x() > (Screen::MAX_WIDTH - (Screen::SCREEN_WIDTH / 2))) {
+				screen.maxX();
+			}
+		} 
 };

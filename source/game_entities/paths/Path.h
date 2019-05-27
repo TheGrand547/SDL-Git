@@ -20,7 +20,7 @@ class Path {
 		
 		virtual ~Path() {
 			delete this->timer;
-			//this->target = NULL;
+			this->target = NULL;
 		}
 		
 		virtual void stop() {

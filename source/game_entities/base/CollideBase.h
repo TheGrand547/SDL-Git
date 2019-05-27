@@ -1,6 +1,7 @@
 #pragma once
 #include "../../primitives/Rect.h"
 #include "../../primitives/Line.h"
+#include "../../wrappers/Texture.h"
 
 /* Base class to handle everything in the world that can interat with other
  * things in the world, such as projectiles, walls, enemies, ect.
@@ -10,12 +11,13 @@
  
 class CollideBase {
 	public:
-		bool overlap(Rect &other, Point offset) {
+		bool overlap(Rect &other) {
 			return false;
 		}
-		Point collideLine(Line &ray, Point offset) {
+		Point collideLine(Line &ray) {
 			return Point();
 		}
 		
 		void draw(SDL_Renderer* renderer, Point offset) {}
+		void setTexture(Texture* texture) {}
 };
