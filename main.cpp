@@ -71,6 +71,7 @@ int main(int argc, char *argv[]) {
 	boxes->push_back(new Box(Point(50, 50)));
 	boxes->push_back(new Box(Point(200, 200)));
 	boxes->push_back(new Box(Point(350, 200)));
+	boxes->push_back(new Box(Point(500, 200))); /* Investigate the off by 2 pixel visual not smiley */
 	Box::setTexture(boxes, mTexture);
 	
 	Texture* groundTexture = BackElement::createGroundTexture(gRenderer, Ground::GRASS);

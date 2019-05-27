@@ -20,7 +20,6 @@ float FpsText::getFps() {
 }
 
 void FpsText::draw(SDL_Renderer* renderer) {
-	this->countedFrames++;
 	if (this->countedFrames > 1000) {
 		this->countedFrames = 1;
 		this->timer.start();
@@ -30,6 +29,7 @@ void FpsText::draw(SDL_Renderer* renderer) {
 	fpsStr.str("");
 	fpsStr << "FPS: " << int(this->averageFps);
 	this->font->renderText(this->position.x(), this->position.y(), fpsStr.str(), renderer, this->color);
+	this->countedFrames++;
 	
 }
 
