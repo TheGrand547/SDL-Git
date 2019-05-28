@@ -10,6 +10,7 @@
 #include "../BoundedPoint.h"
 #include "../essential/util.h"
 #include "base/CollideBase.h"
+#include "CollideBaseGroup.h"
 
 typedef Uint32 uint32_t;
 class Box : public CollideBase{
@@ -63,7 +64,7 @@ class Box : public CollideBase{
 		static SuperTexture* createBoxTexture(SDL_Renderer* renderer) {
 			SuperTexture* texture = new SuperTexture();
 			texture->setClip(BOX::BOX_WIDTH, BOX::BOX_HEIGHT);
-			texture->drawBox(renderer, Rect(Point(0, 0), Point(BOX::BOX_WIDTH, BOX::BOX_HEIGHT)), COLORS::BLUE);
+			texture->drawBox(renderer, Rect(Point(0, 0), Point(BOX::BOX_WIDTH, BOX::BOX_HEIGHT)), BOX::BOX_INNER_COLOR);
 			texture->loadFromFile("resources/missingTexture.jpg", renderer, BOX::BOX_WIDTH, BOX::BOX_OUTDENT * BOX::BOX_HEIGHT);
 			setRenderColors(renderer, BOX::BOX_OUTER_BORDER_COLOR);
 			texture->drawRect(renderer, Rect(Point(0, 0), Point(BOX::BOX_WIDTH, BOX::BOX_HEIGHT)));
@@ -79,17 +80,17 @@ class Box : public CollideBase{
 		}
 };
 
-bool collideRect(Rect rect, std::vector<CollideBase*>* vec) {
+bool collideRect(Rect rect, CollideBaseGroup* boxes) {
 	bool result = false;
-	for (int i = 0; i < vec->size(); i++) {
-		result = result || (*vec)[i]->overlap(rect);
+	for (int i = 0; i < boxes->size(); i++) {
+		result = result || (*boxes)[i]->overlap(rect);
 		if (result)
 			break;
 	}
 	return result;
 }
 
-Point smallestDistanceFrom(std::vector<CollideBase*>* boxes, Point origin, Line ray) {
+Point smallestDistanceFrom(CollideBaseGroup* boxes, Point origin, Line ray) {
 	Point stored;
 	for (int i = 0; i < boxes->size(); i++) {
 		stored = smallerDistance(origin, (*boxes)[i]->collideLine(ray), stored);
@@ -97,10 +98,10 @@ Point smallestDistanceFrom(std::vector<CollideBase*>* boxes, Point origin, Line 
 	return stored;
 }
 
-Point collideTestVectorToRay(std::vector<CollideBase*>* boxes, Line ray) {
+Point collideTestVectorToRay(CollideBaseGroup* boxes, Line ray) {
 	return smallestDistanceFrom(boxes, ray.getOrigin(), ray);
 }
 
-bool collideRectTest(Rect rect, std::vector<CollideBase*>* vec) {
+bool collideRectTest(Rect rect, CollideBaseGroup* vec) {
 	return !collideRect(rect, vec);
 }

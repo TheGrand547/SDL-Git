@@ -10,6 +10,7 @@ namespace COLORS {
 	const SDL_Color CYAN = {0x00, 0xFF, 0xFF, 0xFF};
 	const SDL_Color BLACK = {0x00, 0x00, 0x00, 0xFF};
 	const SDL_Color DARK_GRAY = {0x30, 0x30, 0x30, 0xFF};
+	const SDL_Color LIGHT_GRAY = {0xC0, 0xC0, 0xC0, 0xFF};
 }
 
 
@@ -19,6 +20,7 @@ namespace BOX {
 	const float BOX_OUTDENT = .5;
 	const SDL_Color BOX_INNER_BORDER_COLOR = COLORS::DARK_GRAY;
 	const SDL_Color BOX_OUTER_BORDER_COLOR = COLORS::BLACK;
+	const SDL_Color BOX_INNER_COLOR = COLORS::LIGHT_GRAY;
 }
 
 

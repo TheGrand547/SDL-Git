@@ -8,13 +8,14 @@
 #include "paths/PathManager.h"
 #include "paths/LinePath.h"
 #include "../primitives/Point.h"
+#include "CollideBaseGroup.h"
 
 class BadTest : public EnemyBase {
 	public:
 		// Feels wrong to have a public member for some reason <- Maybe change this later
 		PathManager<EnemyBase>* c;
 		
-		BadTest(Point position, std::vector<CollideBase*>* collide) : EnemyBase(collide, position) {
+		BadTest(Point position, CollideBaseGroup* collide) : EnemyBase(collide, position) {
 			this->c = new PathManager<EnemyBase>(this);
 			this->c->AddPath(new LinePath<EnemyBase>(Point(200, -200), toTicks(1)));
 			this->c->AddPath(new CirclePath<EnemyBase>(40, 1, Path<Point>::SINGLE_LOOP, false));

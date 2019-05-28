@@ -33,3 +33,11 @@ void CollideBaseGroup::setTexture(SuperTexture* texture) {
 std::vector<CollideBase*>* CollideBaseGroup::get() {
 	return this->group;
 }
+
+CollideBase* CollideBaseGroup::operator[](int index) {
+	return (*this->group)[index];
+}
+
+int CollideBaseGroup::size() {
+	return this->group->size();
+}

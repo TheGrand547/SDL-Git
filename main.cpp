@@ -19,11 +19,11 @@ int main(int argc, char *argv[]) {
 	Configuration config;
 	
 	//std::vector<Box*>* boxes = new std::vector<Box*>;
-	CollideBaseGroup boxes;
+	CollideBaseGroup* boxes = new CollideBaseGroup;
 	std::vector<BackElement*>* ground = new std::vector<BackElement*>;
 	
 	if(!init()) {
-		printf( "Failed to initialize!\n" );
+		printf("Failed to initialize!\n");
 		return 0;
 	}
 	/* TODO: Add method for initializing everything on screen to clean up main() and help smooth the transition to
@@ -33,11 +33,11 @@ int main(int argc, char *argv[]) {
 	/* Initializes the pointer to the single texture shared by all
 	 * Box objects, then creates the boxes and assigns the pointer to them */
 	SuperTexture* mTexture = Box::createBoxTexture(gRenderer);
-	boxes.push_back(new Box(Point(50, 50)));
-	boxes.push_back(new Box(Point(200, 200)));
-	boxes.push_back(new Box(Point(350, 200)));
-	boxes.push_back(new Box(Point(500, 200))); /* Investigate the off by 2 pixel visual not smiley */
-	boxes.setTexture(mTexture);
+	boxes->push_back(new Box(Point(50, 50)));
+	boxes->push_back(new Box(Point(200, 200)));
+	boxes->push_back(new Box(Point(350, 200)));
+	boxes->push_back(new Box(Point(500, 200))); /* Investigate the off by 2 pixel visual not smiley */
+	boxes->setTexture(mTexture);
 	
 	Texture* groundTexture = BackElement::createGroundTexture(gRenderer, Ground::GRASS);
 	
@@ -48,7 +48,7 @@ int main(int argc, char *argv[]) {
 	}
 	BackElement::setGroundTextures(ground, groundTexture);
 	
-	BadTest small(Point(300, 350), boxes.get());
+	BadTest small(Point(300, 350), boxes);
 	small.set(gRenderer);
 	
 	Font gFont = Font();
@@ -57,13 +57,12 @@ int main(int argc, char *argv[]) {
 	PointDelta px;
 	std::string foo = "mani is pretty smart sometimes, but kotlin is a dumb language cause it has no semi-colons iirc";
 	
-	AppearingText ap(foo, 5, 0, 20, "resources/Font.ttf", COLORS::RED, Point(0, 0), 300);
+	AppearingText ap(foo, 10, 0, 20, "resources/Font.ttf", COLORS::RED, Point(0, 0), 300);
 	
 	PointDelta* popo = new PointDelta(0, 0, 4);
 	Controller contra(config);
 	contra.addListener("Ray", 120);
 	contra.addPlayerKeys(popo);
-	
 	
 	FpsText text(new Font(), Point(100, 10), COLORS::RED);
 	while(!contra.quit) {
@@ -76,13 +75,13 @@ int main(int argc, char *argv[]) {
 		
 		/* Collision Detection */
 		if (popo->getNonZero()) {
-			dot.collideTest((*popo) * text.getRatio() , boxes.get(), screenPos);
+			dot.collideTest((*popo) * text.getRatio() , boxes, screenPos);
 		}
 		/* Drawing things onto the screen */
 		for (BackElement* back: *ground) {
 			back->draw(gRenderer, screenPos);
 		}
-		boxes.drawGroup(gRenderer, screenPos);
+		boxes->drawGroup(gRenderer, screenPos);
 		small.render(gRenderer, screenPos);
 		ap.update(gRenderer);
 		dot.draw(gRenderer, screenPos.negate()); // Player must always be drawn onto the top layer for best visibility
@@ -90,7 +89,7 @@ int main(int argc, char *argv[]) {
 		
 		/* Raycasting */
 		if (contra.checkListener(config["Ray"]).getHeld()) {
-			newPoint = collideTestVectorToRay(boxes.get(), dot.getRay());
+			newPoint = collideTestVectorToRay(boxes, dot.getRay());
 			if (!newPoint.isNull()) {
 				tempLine = Line(dot.getCenter(), newPoint.copy());
 				tempLine.drawLine(gRenderer, screenPos);
@@ -98,7 +97,6 @@ int main(int argc, char *argv[]) {
 			
 		}
 		/* End of Raycasting */
-		
 		
 		text.draw(gRenderer); // Draw FPS on screen
 		/* Render all changes onto the window */
@@ -109,6 +107,7 @@ int main(int argc, char *argv[]) {
 	delete groundTexture;
 	delete mTexture;
 	delete ground;
+	delete boxes;
 	return 0;
 }
 

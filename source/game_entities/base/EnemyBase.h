@@ -3,6 +3,7 @@
 #include "../../essential/constants.h"
 #include "../../wrappers/Texture.h"
 #include "CollideBase.h"
+#include "../CollideBaseGroup.h"
 #include<vector>
 
 class EnemyBase {
@@ -14,9 +15,9 @@ class EnemyBase {
 		int height = 50;
 		
 		/* Experimental */
-		std::vector<CollideBase*>* collide;
+		CollideBaseGroup* collide;
 	public:
-		EnemyBase(std::vector<CollideBase*>* collision, Point position = Point(0, 0)) {
+		EnemyBase(CollideBaseGroup* collision, Point position = Point(0, 0)) {
 			this->position = position;
 			this->texture = new Texture();
 			this->collide = collision;
@@ -24,6 +25,7 @@ class EnemyBase {
 		
 		virtual ~EnemyBase() {
 			delete this->texture;
+			this->collide = NULL;
 		}
 		
 		virtual void update() = 0;
