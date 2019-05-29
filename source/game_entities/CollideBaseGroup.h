@@ -16,7 +16,7 @@ class CollideBaseGroup : public DrawGroup {
 		CollideBase* operator[](int index);
 		std::vector<CollideBase*>* get();
 		int size();
-		void drawGroup(SDL_Renderer* renderer, BoundedPoint& screenPosition);
+		void drawGroup(BoundedPoint& screenPosition);
 		void push_back(CollideBase* collision);
 		void setTexture(SuperTexture* texture);
 };

@@ -54,7 +54,8 @@ main.o: ../main.cpp ../source/headers.h ../source/game_entities/Box.h \
   ../source/wrappers/control/ControllerCommand.h \
   ../source/wrappers/control/CommandBase.h ../source/AppearingText.h \
   ../source/wrappers/FpsText.h \
-  ../source/game_entities/../wrappers/Font.h
+  ../source/game_entities/../wrappers/Font.h \
+  ../source/game_entities/BackgroundGroup.h
 Rect.o: primitives/Rect.cpp primitives/Rect.h \
   primitives/../essential/util.h \
   primitives/../essential/../primitives/Point.h \
@@ -116,3 +117,18 @@ CollideBaseGroup.o: game_entities/CollideBaseGroup.cpp \
   game_entities/base/../../wrappers/Texture.h \
   game_entities/base/../../wrappers/../essential/constants.h \
   game_entities/../wrappers/SuperTexture.h
+BackgroundGroup.o: game_entities/BackgroundGroup.cpp \
+  game_entities/BackgroundGroup.h game_entities/DrawGroup.h \
+  game_entities/../BoundedPoint.h game_entities/../primitives/Point.h \
+  game_entities/../wrappers/Texture.h \
+  game_entities/../wrappers/../primitives/Point.h \
+  game_entities/../wrappers/../essential/constants.h \
+  game_entities/../essential/constants.h \
+  game_entities/BackgroundElement.h game_entities/../primitives/Rect.h \
+  game_entities/../primitives/../essential/util.h \
+  game_entities/../wrappers/../essential/../primitives/Point.h \
+  game_entities/../wrappers/../essential/../MyBase.h \
+  game_entities/../primitives/../PointDelta.h \
+  game_entities/../primitives/../MyBase.h \
+  game_entities/../primitives/Line.h \
+  game_entities/../primitives/../essential/random.h

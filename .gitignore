@@ -8,3 +8,5 @@ main
 *.ipch
 *.bin
 *.json
+Main.dSYM/Contents/Info.plist
+s.supp.txt

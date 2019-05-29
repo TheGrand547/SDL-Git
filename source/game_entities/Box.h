@@ -14,27 +14,23 @@
 
 typedef Uint32 uint32_t;
 class Box : public CollideBase{
-	//Class for boxes
 	private:
-		Rect *myRect;
+		Rect myRect;
 		SuperTexture *mTexture;
 	public:
-		Box() {
-			myRect = new Rect();
-		}
+		Box() {}
 		
 		Box(Point position) {
 			/* This hurts me phyiscally */
-			myRect = new Rect(position, BOX::BOX_WIDTH - 1, BOX::BOX_HEIGHT - 1);
+			myRect = Rect(position, BOX::BOX_WIDTH - 1, BOX::BOX_HEIGHT - 1);
 		}
 		
 		~Box() {
-			delete this->myRect;
 			this->mTexture = NULL;
 		}
 		
 		Box(const Box &that) {
-			myRect = new Rect(*that.myRect);
+			myRect = that.myRect;
 		}
 		
 		Box &operator=(const Box &that) {
@@ -44,17 +40,17 @@ class Box : public CollideBase{
 		
 		void draw(SDL_Renderer* renderer, Point offset = Point(0, 0)) {
 			if (mTexture != NULL) {
-				this->mTexture->setPos(this->myRect->getTopLeft());
+				this->mTexture->setPos(this->myRect.getTopLeft());
 				this->mTexture->render(renderer, offset);
 			}
 		}
 		
 		Point collideLine(Line &ray) {
-			return this->myRect->collideLine(ray);
+			return this->myRect.collideLine(ray);
 		}
 		
 		bool overlap(Rect &other) {
-			return this->myRect->overlap(other);
+			return this->myRect.overlap(other);
 		}
 		
 		void setTexture(SuperTexture* texture) {

@@ -16,6 +16,12 @@ class BackElement {
 		Point position;
 		Ground::Type type;
 	public:
+		BackElement() {
+			this->position = Point();
+			this->type = Ground::GRASS;
+			this->texture = NULL;
+		}
+		
 		BackElement(Rect rect, Ground::Type type = Ground::GRASS) {
 			this->position = Point(rect.getTopLeft());
 			this->type = type;
@@ -28,8 +34,27 @@ class BackElement {
 			this->texture = NULL;
 		}
 		
+		BackElement(const BackElement& other) {
+			this->position = other.position;
+			if (this->texture != NULL) {
+				delete this->texture;
+			}
+			this->texture = other.texture;
+			this->type = other.type;
+		}
+		
 		~BackElement() {
-			delete this->texture;
+			this->texture = NULL;
+		}
+		
+		BackElement operator=(BackElement &other) {
+			this->position = other.position;
+			this->type = other.type;
+			if (this->texture != NULL) {
+				delete this->texture;
+			}
+			this->texture = other.texture;
+			return *this;
 		}
 		
 		void setTexture(Texture* texture) {
@@ -51,11 +76,5 @@ class BackElement {
 		
 		static void createGroundTexture(SDL_Renderer* renderer, Texture* texture, Ground::Type type = Ground::GRASS, int width = Ground::DEFAULT_WIDTH, int height = Ground::DEFAULT_HEIGHT) {
 			texture->loadFromFile(Ground::filenames[type], renderer, width, height);
-		}
-		
-		static void setGroundTextures(std::vector<BackElement*>* vec, Texture* texture) {
-			for (BackElement* back: *vec) {
-				back->setTexture(texture);
-			}
 		}
 };

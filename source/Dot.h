@@ -72,7 +72,7 @@ class Dot: public MyBase {
 			SDL_RenderFillRect(renderer, &temp);
 		}
 		
-		void collideTest(PointDelta delta,CollideBaseGroup* boxes, BoundedPoint& screen) {
+		void collideTest(PointDelta delta, CollideBaseGroup* boxes, BoundedPoint& screen) {
 			/* TODO: Make this not look like shit */
 			float xDelta = 0;
 			float yDelta = 0;

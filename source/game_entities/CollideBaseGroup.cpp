@@ -14,9 +14,9 @@ CollideBaseGroup::~CollideBaseGroup() {
 	delete group;
 }
 
-void CollideBaseGroup::drawGroup(SDL_Renderer* renderer, BoundedPoint& screenPosition) {
+void CollideBaseGroup::drawGroup(BoundedPoint& screenPosition) {
 	for (CollideBase* collision: *this->group) {
-		collision->draw(renderer, screenPosition);
+		collision->draw(DrawGroup::renderer, screenPosition);
 	}
 }
 
