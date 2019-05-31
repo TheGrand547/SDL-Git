@@ -3,6 +3,7 @@ bool init(SDL_Renderer*& renderer, SDL_Window*& window); // TODO: Write methods 
 void close(SDL_Window* window);
 void clearScreen(SDL_Renderer* renderer);
 void renderChanges(SDL_Renderer* renderer, SDL_Window* window);
+
 SDL_Renderer* DrawGroup::renderer = NULL;
 
 int main(int argc, char *argv[]) {
@@ -12,24 +13,17 @@ int main(int argc, char *argv[]) {
 		printf("Failed to initialize!\n");
 		return 0;
 	}
-	Line tempLine;
-	tempLine.setColorChannels(0x00, 0xFF, 0xFF);
-	Point newPoint;
-	
 	Dot dot = Dot(Point(300, 150));
 	dot.setColorChannels(0xFF);
 	
 	Configuration config;
-	
 	DrawGroup::SET_RENDERER(gRenderer);
-	
-	CollideBaseGroup* boxes = new CollideBaseGroup; // TODO: Try and get rid of raw pointers where possible
-	std::vector<BackElement*>* ground = new std::vector<BackElement*>;
+	CollideBaseGroup* boxes = new CollideBaseGroup; // TODO: Make this not need to be a pointer
 	/* TODO: Add method for initializing everything on screen to clean up main() and help smooth the transition to using 'Screen' as the base class for the project */
 	 
 	/* TODO: Create a file structure for containing level data so its not hardcoded */
 	/* Initializes the pointer to the single texture shared by all Box objects, then creates the boxes and assigns the pointer to them */
-	SuperTexture* mTexture = Box::createBoxTexture(gRenderer);
+	SuperTexture* mTexture = Box::createBoxTexture(gRenderer); // TODO: Add CollideBaseFactory -> remove all references to pointers in main if possible
 	boxes->push_back(new Box(Point(50, 50)));
 	boxes->push_back(new Box(Point(200, 200)));
 	boxes->push_back(new Box(Point(350, 200)));
@@ -42,13 +36,11 @@ int main(int argc, char *argv[]) {
 			groundGroup.add(Point(x, y), Ground::GRASS);
 		}
 	}
-	
-	
 	BadTest small(Point(300, 350), boxes);
 	small.set(gRenderer);
 	
 	Font gFont = Font();
-	BoundedPoint screenPos = BoundedPoint(Screen::MAX_WIDTH - Screen::SCREEN_WIDTH, Screen::MAX_HEIGHT - Screen::SCREEN_HEIGHT);
+	BoundedPoint screenPos = BoundedPoint(Screen::MAX_SCREEN_X_POS, Screen::MAX_SCREEN_Y_POS);
 	
 	PointDelta px;
 	std::string foo = "mani is pretty smart sometimes, but kotlin is a dumb language cause it has no semi-colons iirc";
@@ -62,7 +54,7 @@ int main(int argc, char *argv[]) {
 	while(!contra.quit) {
 		clearScreen(gRenderer); /* Clear the screen */
 		/* Event Handling */
-		popo->zero(); // Find a cleaner way
+		popo->zero(); // TODO: Find a cleaner way, hopefully involving less raw pointers in main
 		contra.handleEvents();
 		
 		/* Collision Detection */
@@ -77,31 +69,29 @@ int main(int argc, char *argv[]) {
 		ap.update(gRenderer); // TODO: Seperate the upating and the drawing of entities
 		dot.draw(gRenderer, screenPos.negate()); // Player must always be drawn onto the top layer for best visibility
 		
-		
 		/* Raycasting */
-		if (contra.checkListener(config["Ray"]).getHeld()) {
-			newPoint = collideTestVectorToRay(boxes, dot.getRay());
+		if (contra.checkListener(config["Ray"]).getHeld()) { // TODO: put this elsewhere
+			Point newPoint = collideTestVectorToRay(boxes, dot.getRay());
 			if (!newPoint.isNull()) {
-				tempLine = Line(dot.getCenter(), newPoint.copy());
+				Line tempLine = Line(dot.getCenter(), newPoint.copy());
+				tempLine.setColorChannels(COLORS::CYAN);
 				tempLine.drawLine(gRenderer, screenPos);
 			}
 		}
 		
 		text.draw(gRenderer); // Draw FPS on screen
-		renderChanges(gRenderer, gWindow); /* Render all changes onto the window */
+		renderChanges(gRenderer, gWindow); // Render all changes onto the window
 	}
 	close(gWindow);
 	delete popo;
 	delete mTexture;
-	delete ground;
 	delete boxes;
 	return 0;
 }
 
 
 bool init(SDL_Renderer*& renderer, SDL_Window*& gWindow) {
-	//Initialization flag
-	bool success = true;
+	bool success = true; //Initialization flag
 	
 	//Initialize SDL
 	if(SDL_Init(SDL_INIT_EVERYTHING) < 0) {
@@ -115,10 +105,8 @@ bool init(SDL_Renderer*& renderer, SDL_Window*& gWindow) {
 			printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
 			success = false;
 		} else {
-			/* Initialize true-type font */
-			TTF_Init();
-			/* Create renderer */
-			renderer = SDL_CreateRenderer(gWindow, -1, SDL_RENDERER_ACCELERATED);
+			TTF_Init(); //Initialize true-type font
+			renderer = SDL_CreateRenderer(gWindow, -1, SDL_RENDERER_ACCELERATED); //Create rendererer
 		}
 	}
 	return success;

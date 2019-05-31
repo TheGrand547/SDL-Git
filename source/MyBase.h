@@ -1,5 +1,6 @@
 #pragma once
 #include<iostream>
+#include<SDL2/SDL.h>
 
 /* Really simple class to base any type of object that needs to have color channels defined. */ 
 class MyBase {
@@ -18,6 +19,7 @@ class MyBase {
 			this->bChannel = b;
 			this->aChannel = a;
 		}
+		
 		void _setColorChannels(uint8_t r = 0x00, uint8_t g = 0x00, uint8_t b = 0xFF, uint8_t a = 0xFF) { 
 			rChannel = r;
 			gChannel = g;
@@ -34,5 +36,12 @@ class MyBase {
 		
 		void setColorChannels(MyBase* other) {
 			this->setColorChannels(*other);
+		}
+		
+		void setColorChannels(SDL_Color color) {
+			this->rChannel = color.r;
+			this->gChannel = color.g;
+			this->bChannel = color.b;
+			this->aChannel = color.a;
 		}
 };

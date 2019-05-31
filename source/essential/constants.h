@@ -48,4 +48,7 @@ namespace Screen {
 	const int DEFAULT_POS = SDL_WINDOWPOS_UNDEFINED;
 	const float INTENDED_FRAME_RATE = 100.0;
 	const std::string WINDOW_TITLE = "Testing";
+	/* Stupider Constants */
+	const int MAX_SCREEN_X_POS = MAX_WIDTH - SCREEN_WIDTH;
+	const int MAX_SCREEN_Y_POS = MAX_HEIGHT - SCREEN_HEIGHT;
 }

@@ -12,7 +12,7 @@
 class BackgroundGroup : public DrawGroup {
 	private:
 		std::map<Ground::Type, Texture*> textures;
-		std::vector<BackElement*> elements; //AHHHHHHHHHHHH
+		std::vector<BackElement*> elements;
 	public:
 		BackgroundGroup();
 		~BackgroundGroup();

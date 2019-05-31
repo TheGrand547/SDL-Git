@@ -6,6 +6,10 @@ BackgroundGroup::~BackgroundGroup() {
 	for (std::map<Ground::Type, Texture*>::iterator iter = this->textures.begin(); iter != this->textures.end(); iter++) {
 		delete iter->second;
 	}
+	for (std::vector<BackElement*>::iterator iter = this->elements.begin(); iter != this->elements.end(); iter++) {
+		delete *iter;
+	}
+	this->elements.clear();
 }
 
 void BackgroundGroup::add(Point position, Ground::Type type) {
