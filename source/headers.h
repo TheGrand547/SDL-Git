@@ -38,4 +38,5 @@
 #include "game_entities/DrawGroup.h"
 #include "game_entities/CollideBaseGroup.h"
 #include "game_entities/BackgroundGroup.h"
+#include "game_entities/CollideBaseFactory.h"
 #endif

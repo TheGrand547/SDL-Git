@@ -10,13 +10,16 @@
 class CollideBaseGroup : public DrawGroup {
 	private:
 		std::vector<CollideBase*>* group;
+		BoundedPoint* offset;
 	public:
 		CollideBaseGroup();
 		~CollideBaseGroup();
 		CollideBase* operator[](int index);
 		std::vector<CollideBase*>* get();
 		int size();
-		void drawGroup(BoundedPoint& screenPosition);
+		void drawGroup();
+		void drawGroup(BoundedPoint& offset) {}
+		void setOffset(BoundedPoint* offset);
 		void push_back(CollideBase* collision);
 		void setTexture(SuperTexture* texture);
 };

@@ -12,11 +12,12 @@ CollideBaseGroup::~CollideBaseGroup() {
 	}
 	this->group->clear();
 	delete group;
+	this->offset = NULL;
 }
 
-void CollideBaseGroup::drawGroup(BoundedPoint& screenPosition) {
+void CollideBaseGroup::drawGroup() {
 	for (CollideBase* collision: *this->group) {
-		collision->draw(DrawGroup::renderer, screenPosition);
+		collision->draw(DrawGroup::renderer, this->offset);
 	}
 }
 
@@ -41,3 +42,8 @@ CollideBase* CollideBaseGroup::operator[](int index) {
 int CollideBaseGroup::size() {
 	return this->group->size();
 }
+
+void CollideBaseGroup::setOffset(BoundedPoint* offset) {
+	this->offset = offset;
+}
+

@@ -13,8 +13,7 @@
 #include<vector>
 
 
-/* Class to handle event handling(haha) less messily
- * with easier functionality to implement new events */ 
+/* Class to handle event handling(haha) less messily and with easier functionality to implement new events */ 
 class Controller {
 	/* There are three types of events the Controller will handle; Keys, Buttons, and Listeners 
 	 * Keys are for commands that have distinct states of down and up

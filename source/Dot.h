@@ -8,21 +8,30 @@
 
 class Dot: public MyBase {
 	private:
+		// TODO: Make this two files
+		SDL_Renderer* renderer;
+		BoundedPoint* offset;
+		
 		float angle;
-		BoundedRect *myRect; // Don't think this needs to be a pointer
+		BoundedPoint position;
 	public:
 		Dot(Point startingCoordinate) {
-			angle = 0;
-			myRect = new BoundedRect(startingCoordinate, startingCoordinate + Point(Player::PLAYER_X_DIMENSION, Player::PLAYER_Y_DIMENSION), 
-									0, 0, Screen::MAX_WIDTH, Screen::MAX_HEIGHT);
+			this->angle = 0;
+			this->position = BoundedPoint(startingCoordinate, 0, 0, Screen::MAX_WIDTH - Player::PLAYER_X_DIMENSION, Screen::MAX_HEIGHT - Player::PLAYER_Y_DIMENSION);
 		}
 		
 		~Dot() {
-			delete this->myRect;
+			this->renderer = NULL;
+			this->offset = NULL;
+		}
+		
+		void setRenderingValues(SDL_Renderer* renderer, BoundedPoint* offset) {
+			this->renderer = renderer;
+			this->offset = offset;
 		}
 		
 		Point getCenter() {
-			return this->myRect->getCenter();
+			return this->position + Point(Player::PLAYER_X_DIMENSION / 2, Player::PLAYER_Y_DIMENSION / 2);
 		}
 		
 		void evalAngle(Point delta) {
@@ -37,7 +46,7 @@ class Dot: public MyBase {
 		}
 		
 		void operator+=(Point delta) {
-			*myRect += delta;
+			this->position += delta;
 			evalAngle(delta);
 		}
 		
@@ -46,50 +55,48 @@ class Dot: public MyBase {
 		}
 		
 		Point getPos() {
-			return this->myRect->getTopLeft();
+			return this->position;
 		}
 		
 		Rect getRect() {
-			return *myRect;
+			return Rect(this->position, Player::PLAYER_X_DIMENSION, Player::PLAYER_Y_DIMENSION);
 		}
 		
 		Line getRay() {
-			Point temp = Point(this->myRect->getCenter());
+			Point temp = Point(this->getCenter());
 			temp += Point(Player::PLAYER_RAY_CAST_LENGTH * cos(this->angle), Player::PLAYER_RAY_CAST_LENGTH * sin(this->angle));
-			return Line(this->myRect->getCenter(), temp);
+			return Line(this->getCenter(), temp);
 		}
 		
 		float getAngle() {
 			return this->angle * 180 / M_PI;
 		}
 		
-		void draw(SDL_Renderer* renderer, Point offset = Point(0, 0)) {
-			setColorChannels(0x00, 0x00, 0xFF, 0xFF);
-			SDL_SetRenderDrawColor(renderer, rChannel, gChannel, bChannel, aChannel);
-			SDL_Rect temp = (BoundedRect(*this->myRect) + offset).getSDLRect();
+		void draw() {
+			SDL_SetRenderDrawColor(this->renderer, rChannel, gChannel, bChannel, aChannel);
+			SDL_Rect temp = (Rect(this->position, Player::PLAYER_X_DIMENSION, Player::PLAYER_Y_DIMENSION) - *this->offset).getSDLRect();
 			temp.w = Player::PLAYER_X_DIMENSION;
 			temp.h = Player::PLAYER_Y_DIMENSION;
-			SDL_RenderFillRect(renderer, &temp);
+			SDL_RenderFillRect(this->renderer, &temp);
 		}
 		
-		void collideTest(PointDelta delta, CollideBaseGroup* boxes, BoundedPoint& screen) {
+		void collideTest(PointDelta delta, CollideBaseGroup* boxes) {
 			if (!delta.getNonZero()) {
 				return;
 			}
-			/* TODO: Make this not look like shit */
 			float xDelta = 0;
 			float yDelta = 0;
 			for (int i = 1; i < 6; i++) {
 				if (!xDelta) {
 					if (collideRectTest(this->getRect() + delta.onlyX() / i, boxes)) {
 						xDelta = delta.x() / i;
-						screen += delta.onlyX() / i;
+						*this->offset += delta.onlyX() / i;
 					}
 				}
 				if (!yDelta) {
 					if (collideRectTest(this->getRect() + delta.onlyY() / i, boxes)) {
 						yDelta = delta.y() / i;
-						screen += delta.onlyY() / i;					
+						*this->offset += delta.onlyY() / i;					
 					}
 				}
 				if (xDelta && yDelta) {
@@ -97,18 +104,26 @@ class Dot: public MyBase {
 				}
 			}
 			*this += PointDelta(xDelta, yDelta, delta.getMagnitude());
-			/* TODO: Make this not look like shit */
 			if (this->getPos().x() < Screen::SCREEN_WIDTH / 2) {
-				screen.xZero();
+				this->offset->xZero();
 			}
 			if (this->getPos().y() < Screen::SCREEN_HEIGHT / 2) {
-				screen.yZero();
+				this->offset->yZero();
 			}
-			if (this->getPos().y() > (Screen::MAX_HEIGHT - (Screen::SCREEN_HEIGHT / 2))) {
-				screen.maxY();
+			if (this->getPos().y() > Screen::MAX_Y_SCROLL_DISTANCE) {
+				this->offset->maxY();
 			}
-			if (this->getPos().x() > (Screen::MAX_WIDTH - (Screen::SCREEN_WIDTH / 2))) {
-				screen.maxX();
+			if (this->getPos().x() > Screen::MAX_X_SCROLL_DISTANCE) {
+				this->offset->maxX();
 			}
 		} 
+		
+		void rayCast(CollideBaseGroup* boxes, SDL_Renderer* renderer, BoundedPoint& screenPos) {
+			Point newPoint = collideTestVectorToRay(boxes, this->getRay());
+			if (!newPoint.isNull()) {
+				Line tempLine = Line(this->getCenter(), newPoint.copy());
+				tempLine.setColorChannels(COLORS::CYAN);
+				tempLine.drawLine(renderer, screenPos);
+			}
+		}
 };

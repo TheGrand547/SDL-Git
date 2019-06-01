@@ -37,7 +37,7 @@ namespace Ground {
 namespace Player {
 	const int PLAYER_X_DIMENSION = 10;
 	const int PLAYER_Y_DIMENSION = 10;
-	const int PLAYER_RAY_CAST_LENGTH = 300;
+	const int PLAYER_RAY_CAST_LENGTH = 100;
 }
 
 namespace Screen {
@@ -51,4 +51,6 @@ namespace Screen {
 	/* Stupider Constants */
 	const int MAX_SCREEN_X_POS = MAX_WIDTH - SCREEN_WIDTH;
 	const int MAX_SCREEN_Y_POS = MAX_HEIGHT - SCREEN_HEIGHT;
+	const int MAX_X_SCROLL_DISTANCE = MAX_WIDTH - SCREEN_WIDTH / 2;
+	const int MAX_Y_SCROLL_DISTANCE = MAX_HEIGHT - SCREEN_HEIGHT / 2;
 }

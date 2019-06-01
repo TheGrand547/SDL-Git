@@ -41,7 +41,7 @@ class BoundedPoint : public Point {
 			this->yMax = other.yMax;
 		}
 		
-		BoundedPoint &operator=(BoundedPoint &other){
+		BoundedPoint &operator=(BoundedPoint other){
 			this->xval = other.xval;
 			this->yval = other.yval;
 			this->xMin = other.xMin;

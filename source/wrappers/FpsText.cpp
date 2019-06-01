@@ -24,7 +24,7 @@ void FpsText::draw(SDL_Renderer* renderer) {
 		this->countedFrames = 1;
 		this->timer.start();
 	}
-	this->averageFps = this->countedFrames / (this->timer.getTicks() / 1000.f);
+	this->averageFps = this->countedFrames / ((this->timer.getTicks() + 1) / 1000.f);
 	std::stringstream fpsStr;
 	fpsStr.str("");
 	fpsStr << "FPS: " << int(this->averageFps);

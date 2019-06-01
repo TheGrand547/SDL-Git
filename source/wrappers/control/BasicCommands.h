@@ -1,4 +1,4 @@
-#include "../../PointDelta.h"
+#include "../../primitives/PointDelta.h"
 #include "../../primitives/Point.h"
 
 namespace BASIC {

@@ -7,6 +7,13 @@
 class BoundedRect : public Rect {
 	public: 
 		float xMin, yMin, xMax, yMax;
+		BoundedRect() : Rect() {
+			this->xMin = 0;
+			this->xMax = 0;
+			this->yMin = 0;
+			this->yMax = 0;
+		}
+		
 		BoundedRect(Point pointA, Point pointB, float xMin, float yMin, float xMax, float yMax) : Rect(pointA, pointB) {
 			this->xMin = xMin;
 			this->xMax = xMax;
