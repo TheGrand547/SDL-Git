@@ -1,7 +1,7 @@
 #pragma once
 #include<iostream>
 #include "../essential/util.h"
-#include "../PointDelta.h"
+#include "PointDelta.h"
 #include "../MyBase.h"
 #include "Point.h"
 #include "Line.h"

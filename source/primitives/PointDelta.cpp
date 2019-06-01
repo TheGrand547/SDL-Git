@@ -1,5 +1,5 @@
 #include "PointDelta.h"
-#include "primitives/Point.h"
+#include "Point.h"
 
 PointDelta::~PointDelta() {}
 

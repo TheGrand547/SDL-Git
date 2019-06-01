@@ -1,7 +1,7 @@
 #pragma once
 #include "primitives/Point.h"
 #include "primitives/Rect.h"
-#include "PointDelta.h"
+#include "primitives/PointDelta.h"
 
 /* TODO: Check if this class even needs to exsist */
 class BoundedRect : public Rect {

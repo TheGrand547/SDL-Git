@@ -13,7 +13,7 @@ FpsText::FpsText(Font* font, Point position, SDL_Color color) {
 }
 
 FpsText::~FpsText() {
-	delete this->font;
+	this->font = NULL;
 }
 float FpsText::getFps() {
 	return this->averageFps;

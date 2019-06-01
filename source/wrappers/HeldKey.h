@@ -1,7 +1,6 @@
 #ifndef HELD_KEY_H
 #define HELD_KEY_H
-#include "wrappers/Timer.h"
-/* TODO: Rewrite class based on SDL_GetTicks so its not framerate dependent */
+#include "Timer.h"
 
 class HeldKey {
 	private:

@@ -4,8 +4,8 @@
 #include<SDL2/SDL.h>
 #include<SDL2/SDL2_gfxPrimitives.h>
 #include "../../essential/Configuration.h"
-#include "../../PointDelta.h"
-#include "../../HeldKey.h"
+#include "../../primitives/PointDelta.h"
+#include "../HeldKey.h"
 #include "ButtonCommand.h"
 #include "ControllerCommand.h"
 #include "CommandBase.h"

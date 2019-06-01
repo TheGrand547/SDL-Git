@@ -25,7 +25,7 @@ AppearingText::AppearingText(std::string text, float lettersPerSecond, int start
 }
 
 AppearingText::~AppearingText() {
-	delete this->font;
+	this->font = NULL;
 }
 
 void AppearingText::update(SDL_Renderer* renderer) {

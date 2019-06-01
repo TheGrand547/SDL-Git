@@ -18,17 +18,18 @@ int main(int argc, char *argv[]) {
 	
 	Configuration config;
 	DrawGroup::SET_RENDERER(gRenderer);
-	CollideBaseGroup* boxes = new CollideBaseGroup; // TODO: Make this not need to be a pointer
+	CollideBaseGroup boxes;
 	/* TODO: Add method for initializing everything on screen to clean up main() and help smooth the transition to using 'Screen' as the base class for the project */
 	 
 	/* TODO: Create a file structure for containing level data so its not hardcoded */
 	/* Initializes the pointer to the single texture shared by all Box objects, then creates the boxes and assigns the pointer to them */
-	SuperTexture* mTexture = Box::createBoxTexture(gRenderer); // TODO: Add CollideBaseFactory -> remove all references to pointers in main if possible
-	boxes->push_back(new Box(Point(50, 50)));
-	boxes->push_back(new Box(Point(200, 200)));
-	boxes->push_back(new Box(Point(350, 200)));
-	boxes->push_back(new Box(Point(500, 200)));
-	boxes->setTexture(mTexture);
+	SuperTexture* mTexture = Box::createBoxTexture(gRenderer); 
+	// TODO: Add CollideBaseFactory -> remove all references to pointers in main if possible
+	boxes.push_back(new Box(Point(50, 50)));
+	boxes.push_back(new Box(Point(200, 200)));
+	boxes.push_back(new Box(Point(350, 200)));
+	boxes.push_back(new Box(Point(500, 200)));
+	boxes.setTexture(mTexture);
 	
 	BackgroundGroup groundGroup;
 	for (int x = 0; x <= Screen::MAX_WIDTH; x += 100) {
@@ -36,7 +37,7 @@ int main(int argc, char *argv[]) {
 			groundGroup.add(Point(x, y), Ground::GRASS);
 		}
 	}
-	BadTest small(Point(300, 350), boxes);
+	BadTest small(Point(300, 350), &boxes);
 	small.set(gRenderer);
 	
 	Font gFont = Font();
@@ -46,53 +47,42 @@ int main(int argc, char *argv[]) {
 	std::string foo = "mani is pretty smart sometimes, but kotlin is a dumb language cause it has no semi-colons iirc";
 	AppearingText ap(foo, 10, 0, 20, "resources/Font.ttf", COLORS::RED, Point(0, 0), 300);
 	
-	PointDelta* popo = new PointDelta(0, 0, 4);
+	PointDelta popo = PointDelta(0, 0, 4);
 	Controller contra(config);
 	contra.addListener("Ray", 120);
-	contra.addPlayerKeys(popo);
-	FpsText text(new Font(), Point(100, 10), COLORS::RED);
+	contra.addPlayerKeys(&popo);
+	FpsText fps(&gFont, Point(100, 10), COLORS::RED);
 	while(!contra.quit) {
-		clearScreen(gRenderer); /* Clear the screen */
-		/* Event Handling */
-		popo->zero(); // TODO: Find a cleaner way, hopefully involving less raw pointers in main
+		clearScreen(gRenderer);
+		popo.zero(); // >:(
 		contra.handleEvents();
-		
-		/* Collision Detection */
-		if (popo->getNonZero()) {
-			dot.collideTest((*popo) * text.getRatio(), boxes, screenPos);
-		}
-		
-		/* Drawing things onto the screen */
+		dot.collideTest(popo * fps.getRatio(), &boxes, screenPos); // Player collision detection
+		/* Drawing */
 		groundGroup.drawGroup(screenPos);
-		boxes->drawGroup(screenPos);
+		boxes.drawGroup(screenPos);
 		small.render(gRenderer, screenPos);
 		ap.update(gRenderer); // TODO: Seperate the upating and the drawing of entities
 		dot.draw(gRenderer, screenPos.negate()); // Player must always be drawn onto the top layer for best visibility
-		
 		/* Raycasting */
 		if (contra.checkListener(config["Ray"]).getHeld()) { // TODO: put this elsewhere
-			Point newPoint = collideTestVectorToRay(boxes, dot.getRay());
+			Point newPoint = collideTestVectorToRay(&boxes, dot.getRay());
 			if (!newPoint.isNull()) {
 				Line tempLine = Line(dot.getCenter(), newPoint.copy());
 				tempLine.setColorChannels(COLORS::CYAN);
 				tempLine.drawLine(gRenderer, screenPos);
 			}
 		}
-		
-		text.draw(gRenderer); // Draw FPS on screen
+		fps.draw(gRenderer);
 		renderChanges(gRenderer, gWindow); // Render all changes onto the window
 	}
 	close(gWindow);
-	delete popo;
 	delete mTexture;
-	delete boxes;
 	return 0;
 }
 
 
 bool init(SDL_Renderer*& renderer, SDL_Window*& gWindow) {
 	bool success = true; //Initialization flag
-	
 	//Initialize SDL
 	if(SDL_Init(SDL_INIT_EVERYTHING) < 0) {
 		printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());

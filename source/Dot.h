@@ -2,7 +2,7 @@
 #include<SDL2/SDL.h>
 #include "primitives/Rect.h"
 #include "BoundedRect.h"
-#include "PointDelta.h"
+#include "primitives/PointDelta.h"
 #include "essential/constants.h"
 #include<math.h>
 
@@ -73,6 +73,9 @@ class Dot: public MyBase {
 		}
 		
 		void collideTest(PointDelta delta, CollideBaseGroup* boxes, BoundedPoint& screen) {
+			if (!delta.getNonZero()) {
+				return;
+			}
 			/* TODO: Make this not look like shit */
 			float xDelta = 0;
 			float yDelta = 0;

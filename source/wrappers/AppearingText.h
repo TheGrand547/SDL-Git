@@ -3,10 +3,10 @@
 #define APPEARING_TEXT_H
 #include<SDL2/SDL.h>
 #include<SDL2_ttf/SDL_ttf.h>
-#include "wrappers/Font.h"
-#include "wrappers/Timer.h"
-#include "primitives/Point.h"
-#include "essential/constants.h"
+#include "Font.h"
+#include "Timer.h"
+#include "../primitives/Point.h"
+#include "../essential/constants.h"
 
 /* TODO: Make the Constructor not a massive mistake */
 class AppearingText {

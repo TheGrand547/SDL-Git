@@ -2,7 +2,7 @@
 #ifndef PLAYER_MOVE_COMMAND_H
 #define PLAYER_MOVE_COMMAND_H
 #include "ButtonCommand.h"
-#include "../../PointDelta.h"
+#include "../../primitives/PointDelta.h"
 class PlayerMoveCommand : public ButtonCommand {
 	private:
 		PointDelta* target;
