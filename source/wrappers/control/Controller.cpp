@@ -11,13 +11,15 @@ int scanCodeFromEvent(SDL_Event event) {
 }
 
 
-Controller::Controller(Configuration config) {
-	this->config = config;
+Controller::Controller() {
 }
 
 
 Controller::~Controller() {
-	for(std::map<int, CommandBase*>::iterator iterator = keys.begin(); iterator != keys.end(); iterator++) {
+	for (std::map<int, CommandBase*>::iterator iterator = keys.begin(); iterator != keys.end(); iterator++) {
+		delete iterator->second;
+	}
+	for (std::map<int, ButtonCommand*>::iterator iterator = buttons.begin(); iterator != buttons.end(); iterator++) {
 		delete iterator->second;
 	}
 }
@@ -53,7 +55,7 @@ void Controller::handleEvents() {
 				break;
 		}
 	}
-	for(std::map<int, ButtonCommand*>::iterator iterator = buttons.begin(); iterator != buttons.end(); iterator++) {
+	for (std::map<int, ButtonCommand*>::iterator iterator = buttons.begin(); iterator != buttons.end(); iterator++) {
 		if (this->stuff[iterator->first]) {
 			if (iterator->second != NULL) {
 				iterator->second->execute();

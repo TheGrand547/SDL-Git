@@ -5,6 +5,9 @@ class ButtonCommand {
 	public:
 		ButtonCommand() {}
 		virtual ~ButtonCommand() {}
-		virtual void execute() = 0;
+		virtual void execute() {}
+		virtual int DEFAULT() {
+			return -1;
+		}
 };
 #endif

@@ -10,5 +10,6 @@ class CommandBase {
 		}
 		virtual void keyDownCommand() {} 
 		virtual void keyUpCommand() {}
+		virtual int DEFAULT();
 };
 #endif

@@ -21,8 +21,7 @@ class Controller {
 	 * Listeners are an extention of HeldKey for more complicated external usage */
 	private:
 		/** TODO: Add controller support **/
-		/* TODO: Make these not pointers */
-		std::map<int, CommandBase*> keys;
+		std::map<int, CommandBase*> keys; // Sadly have to be pointers :(, otherwise everything breaks
 		std::map<int, ButtonCommand*> buttons;
 		std::map<int, HeldKey> listeners;
 		Configuration config;
@@ -30,7 +29,7 @@ class Controller {
 	public:
 		int mouseX, mouseY;
 		bool quit = false;
-		Controller(Configuration config);
+		Controller();
 		~Controller();
 		void handleEvents();
 		void addButton(int value, ButtonCommand* button);

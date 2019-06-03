@@ -118,12 +118,12 @@ class Dot: public MyBase {
 			}
 		} 
 		
-		void rayCast(CollideBaseGroup* boxes, SDL_Renderer* renderer, BoundedPoint& screenPos) {
+		void rayCast(CollideBaseGroup* boxes) {
 			Point newPoint = collideTestVectorToRay(boxes, this->getRay());
 			if (!newPoint.isNull()) {
 				Line tempLine = Line(this->getCenter(), newPoint.copy());
 				tempLine.setColorChannels(COLORS::CYAN);
-				tempLine.drawLine(renderer, screenPos);
+				tempLine.drawLine(this->renderer, this->offset);
 			}
 		}
 };

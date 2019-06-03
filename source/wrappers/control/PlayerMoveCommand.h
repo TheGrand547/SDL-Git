@@ -10,6 +10,8 @@ class PlayerMoveCommand : public ButtonCommand {
 	public:
 		PlayerMoveCommand(void(*command)(PointDelta*), PointDelta* target);
 		~PlayerMoveCommand();
-		void execute();
+		PlayerMoveCommand& operator=(const PlayerMoveCommand other);
+		void execute() override;
+		int DEFAULT() override;
 };
 #endif

@@ -36,4 +36,8 @@ class ControllerCommand : public CommandBase {
 		void keyUpCommand() {
 			this->up(this->target);
 		}
+		
+		int DEFAULT() {
+			return 0;
+		}
 };

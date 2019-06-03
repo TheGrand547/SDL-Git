@@ -44,10 +44,10 @@ int main(int argc, char *argv[]) {
 	
 	std::string foo = "mani is pretty smart sometimes, but kotlin is a dumb language cause it has no semi-colons iirc";
 	AppearingText ap(foo, 10, 0, 20, "resources/Font.ttf", COLORS::RED, Point(0, 0), 300); 
-	// TODO: Rewrite the constructor for AppearingText and add proper constuctors
+	// TODO: Rewrite the constructor for AppearingText and add proper constuctor
 	
 	PointDelta popo = PointDelta(0, 0, 4);
-	Controller contra(config); // TODO: Write proper consturctors
+	Controller contra;
 	contra.addListener("Ray", 120);
 	contra.addPlayerKeys(&popo);
 	FpsText fps(&gFont, Point(100, 10), COLORS::RED);
@@ -64,7 +64,7 @@ int main(int argc, char *argv[]) {
 		ap.update(gRenderer);
 		dot.draw(); // Player must always be drawn onto the top layer for best visibility, for the time being
 		if (contra.checkListener(config["Ray"]).getHeld()) { // Raycasting
-			dot.rayCast(&boxes, gRenderer, screenPos); 
+			dot.rayCast(&boxes); 
 		} 
 		fps.draw(gRenderer);
 		renderChanges(gRenderer, gameWindow);
