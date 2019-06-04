@@ -4,7 +4,11 @@ void close(SDL_Window* window);
 void clearScreen(SDL_Renderer* renderer);
 void renderChanges(SDL_Renderer* renderer, SDL_Window* window);
 
+/* TODO: Add a super simple "base" class to handle this shit for me */
 SDL_Renderer* DrawGroup::renderer = NULL;
+BoundedPoint* DrawGroup::offset = NULL;
+SDL_Renderer* EnemyBase::renderer = NULL;
+BoundedPoint* EnemyBase::offset = NULL;
 
 int main(int argc, char *argv[]) {
 	/* TODO: Add Method/Class for initializing everything on screen to clean up main() and help smooth the transition to using 'Screen' as the base class for the project */
@@ -14,13 +18,14 @@ int main(int argc, char *argv[]) {
 		printf("Failed to initialize!\n");
 		return 0;
 	}
-	BoundedPoint screenPos = BoundedPoint(Screen::MAX_SCREEN_X_POS, Screen::MAX_SCREEN_Y_POS);
+	BoundedPoint screenPosition = BoundedPoint(Screen::MAX_SCREEN_X_POS, Screen::MAX_SCREEN_Y_POS);
 	Dot dot = Dot(Point(300, 150));
 	dot.setColorChannels(0xFF);
-	dot.setRenderingValues(gRenderer, &screenPos);
+	dot.setRenderingValues(gRenderer, &screenPosition);
 	
 	Configuration config;
 	DrawGroup::SET_RENDERER(gRenderer);
+	DrawGroup::SET_OFFSET(&screenPosition);
 	CollideBaseGroup boxes;
 	/* TODO: Create a file structure for containing level data so its not hardcoded */
 	/* Initializes the pointer to the single texture shared by all Box objects, then creates the boxes and assigns the pointer to them */
@@ -38,9 +43,9 @@ int main(int argc, char *argv[]) {
 		}
 	}
 	BadTest small(Point(300, 350), &boxes); // Temporary lines until I get around to EnemyDrawGroup
-	small.set(gRenderer); 
+	small.set(); 
 	
-	Font gFont = Font();
+	Font gFont;
 	
 	std::string foo = "mani is pretty smart sometimes, but kotlin is a dumb language cause it has no semi-colons iirc";
 	AppearingText ap(foo, 10, 0, 20, "resources/Font.ttf", COLORS::RED, Point(0, 0), 300); 
@@ -51,16 +56,17 @@ int main(int argc, char *argv[]) {
 	contra.addListener("Ray", 120);
 	contra.addPlayerKeys(&popo);
 	FpsText fps(&gFont, Point(100, 10), COLORS::RED);
-	boxes.setOffset(&screenPos);
+	boxes.setOffset(&screenPosition);
 	while(!contra.quit) {
 		clearScreen(gRenderer);
 		popo.zero(); // >:(
 		contra.handleEvents();
 		dot.collideTest(popo * fps.getRatio(), &boxes); // Player collision detection
+		small.update(); // Write enemy draw group or something idk
 		/* Drawing */
-		groundGroup.drawGroup(screenPos);
+		groundGroup.drawGroup();
 		boxes.drawGroup();
-		small.render(gRenderer, screenPos); // TODO: Seperate the upating and the drawing of entities
+		small.render();
 		ap.update(gRenderer);
 		dot.draw(); // Player must always be drawn onto the top layer for best visibility, for the time being
 		if (contra.checkListener(config["Ray"]).getHeld()) { // Raycasting

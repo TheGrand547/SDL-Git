@@ -17,6 +17,6 @@ class BackgroundGroup : public DrawGroup {
 		BackgroundGroup();
 		~BackgroundGroup();
 		void add(Point position, Ground::Type type);
-		void drawGroup(BoundedPoint& screenPosition);
+		void drawGroup();
 };
 #endif

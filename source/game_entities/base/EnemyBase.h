@@ -17,6 +17,8 @@ class EnemyBase {
 		/* Experimental */
 		CollideBaseGroup* collide;
 	public:
+		static SDL_Renderer* renderer;
+		static BoundedPoint* offset;
 		EnemyBase(CollideBaseGroup* collision, Point position = Point(0, 0)) {
 			this->position = position;
 			this->texture = new Texture();
@@ -30,11 +32,10 @@ class EnemyBase {
 		
 		virtual void update() = 0;
 		
-		void render(SDL_Renderer* renderer, Point offset) {
+		void render() {
 			if (this->texture->isLoaded()) {
-				this->update();
 				this->texture->setPos(this->position);
-				this->texture->render(renderer, offset);
+				this->texture->render(EnemyBase::renderer, EnemyBase::offset);
 			}
 		}
 		

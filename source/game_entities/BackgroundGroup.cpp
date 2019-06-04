@@ -21,8 +21,8 @@ void BackgroundGroup::add(Point position, Ground::Type type) {
 	
 }
 
-void BackgroundGroup::drawGroup(BoundedPoint& screenPosition) {
+void BackgroundGroup::drawGroup() {
 	for (BackElement* element: this->elements) {
-		element->draw(DrawGroup::renderer, screenPosition);
+		element->draw(DrawGroup::renderer, DrawGroup::offset);
 	}
 }
