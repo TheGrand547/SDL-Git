@@ -1,5 +1,5 @@
 #include "source/headers.h"
-bool init(SDL_Renderer*& renderer, SDL_Window*& window); // TODO: Write methods for initializing individual renderers, windows, ect
+bool init(SDL_Renderer*& renderer, SDL_Window*& window);
 void close(SDL_Window* window);
 void clearScreen(SDL_Renderer* renderer);
 void renderChanges(SDL_Renderer* renderer, SDL_Window* window);
@@ -46,10 +46,8 @@ int main(int argc, char *argv[]) {
 	small.set(); 
 	
 	Font gFont;
-	
 	std::string foo = "mani is pretty smart sometimes, but kotlin is a dumb language cause it has no semi-colons iirc";
-	AppearingText ap(foo, 10, 0, 20, "resources/Font.ttf", COLORS::RED, Point(0, 0), 300); 
-	// TODO: Rewrite the constructor for AppearingText and add proper constuctor
+	AppearingText ap(foo, &gFont, Point(0, 0), 15, COLORS::RED, 300); // Still needs some work
 	
 	PointDelta popo = PointDelta(0, 0, 4);
 	Controller contra;

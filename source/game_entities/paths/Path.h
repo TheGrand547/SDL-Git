@@ -43,6 +43,8 @@ class Path {
 		void update() {
 			this->ticksOver += this->timer->getTicks();
 			this->timer->start();
+			// TODO: Make this not base on ticks to smooth out animation
+			// TODO: Seperate classes into multiple files
 			for (int i = 10; i <= this->ticksOver; i += 10) {
 				this->modify();
 				this->ticksDone++;

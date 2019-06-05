@@ -18,9 +18,9 @@ class AppearingText {
 		Timer timer;
 		Font* font;
 	public:
-		AppearingText(std::string text, float lettersPerSecond, int startingIndex = 0, int fontSize = 20, std::string fileName = "resources/Font.ttf", SDL_Color color = COLORS::RED, Point position = Point(0, 0), int charWrap = 0);
-		AppearingText(std::string text, float lettersPerSecond, int startingIndex, Point position, SDL_Color color, Font* font, int charWrap);
+		AppearingText(std::string text, Font* font, Point position, float lettersPerSecond, SDL_Color color, int startingIndex = 0, int charWrap = 0);
 		~AppearingText();
 		void update(SDL_Renderer* renderer);
+		void setCharacterWrap(int wrap);
 };
 #endif
