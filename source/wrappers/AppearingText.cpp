@@ -2,7 +2,7 @@
 #include<string>
 #include<sstream>
 
-AppearingText::AppearingText(std::string text, Font* font, Point position, float lettersPerSecond, SDL_Color color, int startingIndex, int charWrap) {
+AppearingText::AppearingText(std::string text, Font* font, Point position, float lettersPerSecond, SDL_Color color, int charWrap, int startingIndex) {
 	this->font = font;
 	this->text = text;
 	this->charWrap = charWrap;

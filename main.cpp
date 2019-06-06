@@ -47,7 +47,7 @@ int main(int argc, char *argv[]) {
 	
 	Font gFont;
 	std::string foo = "mani is pretty smart sometimes, but kotlin is a dumb language cause it has no semi-colons iirc";
-	AppearingText ap(foo, &gFont, Point(0, 0), 15, COLORS::RED, 300); // Still needs some work
+	AppearingText ap(foo, &gFont, Point(0, 0), 15, COLORS::RED, 300);
 	
 	PointDelta popo = PointDelta(0, 0, 4);
 	Controller contra;
