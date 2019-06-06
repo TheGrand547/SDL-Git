@@ -6,6 +6,7 @@
 template<class T>
 class PathManager {
 	protected:
+		// Don't think this needs to be a pointer
 		std::vector<Path<T>*>* paths;
 		T* target;
 		bool repeat;

@@ -1,3 +1,60 @@
+main.o: ../main.cpp ../source/headers.h ../source/game_entities/Box.h \
+  ../source/game_entities/../essential/constants.h \
+  ../source/game_entities/../primitives/Point.h \
+  ../source/game_entities/../primitives/Rect.h \
+  ../source/game_entities/../primitives/../essential/util.h \
+  ../source/game_entities/../essential/../primitives/Point.h \
+  ../source/game_entities/../essential/../MyBase.h \
+  ../source/game_entities/../primitives/PointDelta.h \
+  ../source/game_entities/../primitives/../MyBase.h \
+  ../source/game_entities/../primitives/Line.h \
+  ../source/game_entities/../primitives/../essential/random.h \
+  ../source/game_entities/../wrappers/SuperTexture.h \
+  ../source/game_entities/../wrappers/../primitives/Line.h \
+  ../source/game_entities/../wrappers/../primitives/Point.h \
+  ../source/game_entities/../wrappers/../primitives/Rect.h \
+  ../source/game_entities/../wrappers/../MyBase.h \
+  ../source/game_entities/../wrappers/../essential/util.h \
+  ../source/game_entities/../wrappers/Texture.h \
+  ../source/game_entities/../wrappers/../essential/constants.h \
+  ../source/game_entities/../BoundedPoint.h ../source/primitives/Point.h \
+  ../source/game_entities/../essential/util.h \
+  ../source/game_entities/base/CollideBase.h \
+  ../source/game_entities/base/../../primitives/Rect.h \
+  ../source/game_entities/base/../../primitives/Line.h \
+  ../source/game_entities/base/../../wrappers/SuperTexture.h \
+  ../source/game_entities/CollideBaseGroup.h \
+  ../source/game_entities/DrawGroup.h \
+  ../source/game_entities/BackgroundElement.h \
+  ../source/primitives/Line.h ../source/wrappers/Font.h \
+  ../source/primitives/Rect.h ../source/wrappers/Timer.h \
+  ../source/wrappers/Texture.h ../source/essential/util.h \
+  ../source/essential/random.h ../source/MyBase.h ../source/Dot.h \
+  ../source/primitives/PointDelta.h ../source/essential/constants.h \
+  ../source/wrappers/HeldKey.h \
+  ../source/game_entities/../wrappers/Timer.h \
+  ../source/essential/Configuration.h ../source/game_entities/BadTest.h \
+  ../source/game_entities/base/EnemyBase.h \
+  ../source/game_entities/base/../../essential/constants.h \
+  ../source/game_entities/base/../../wrappers/Texture.h \
+  ../source/game_entities/base/../CollideBaseGroup.h \
+  ../source/game_entities/paths/CirclePath.h \
+  ../source/game_entities/paths/../../wrappers/Timer.h \
+  ../source/game_entities/paths/Path.h \
+  ../source/game_entities/paths/PathManager.h \
+  ../source/game_entities/paths/LinePath.h \
+  ../source/game_entities/paths/../../primitives/Point.h \
+  ../source/wrappers/control/Controller.h \
+  ../source/wrappers/control/../../essential/Configuration.h \
+  ../source/wrappers/control/../../primitives/PointDelta.h \
+  ../source/wrappers/control/../HeldKey.h \
+  ../source/wrappers/control/ButtonCommand.h \
+  ../source/wrappers/control/ControllerCommand.h \
+  ../source/wrappers/control/CommandBase.h \
+  ../source/wrappers/AppearingText.h \
+  ../source/game_entities/../wrappers/Font.h \
+  ../source/wrappers/FpsText.h ../source/game_entities/BackgroundGroup.h \
+  ../source/game_entities/CollideBaseFactory.h
 Rect.o: primitives/Rect.cpp primitives/Rect.h \
   primitives/../essential/util.h \
   primitives/../essential/../primitives/Point.h \

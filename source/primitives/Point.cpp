@@ -113,6 +113,10 @@ Point Point::operator/(const float &num) {
 	return Point(this->xval / num, this->yval / num);
 }
 
+Point Point::operator*(const float &num) {
+	return Point(this->xval * num, this->yval * num);
+}
+
 void Point::zero() {
 	this->xval = 0;
 	this->yval = 0;

@@ -27,7 +27,7 @@ class Screen {
 		void correctPostion() {
 			if (this->cameraPosX > this->levelSizeX - CAMERA_WIDTH) {
 				//If the camera is too far right, make it not too far right
-				this->cameraPosX = *this->levelSizeX - CAMERA_WIDTH;
+				this->cameraPosX = this->levelSizeX - CAMERA_WIDTH;
 			}
 			if (this->cameraPosY > this->levelSizeY - CAMERA_HEIGHT) {
 				this->cameraPosY = this->levelSizeY - CAMERA_HEIGHT;

@@ -18,14 +18,17 @@ int main(int argc, char *argv[]) {
 		printf("Failed to initialize!\n");
 		return 0;
 	}
+	
 	BoundedPoint screenPosition = BoundedPoint(Screen::MAX_SCREEN_X_POS, Screen::MAX_SCREEN_Y_POS);
 	Dot dot = Dot(Point(300, 150));
 	dot.setColorChannels(0xFF);
 	dot.setRenderingValues(gRenderer, &screenPosition);
-	
 	Configuration config;
 	DrawGroup::SET_RENDERER(gRenderer);
 	DrawGroup::SET_OFFSET(&screenPosition);
+	EnemyBase::renderer = gRenderer;
+	EnemyBase::offset = &screenPosition;
+	
 	CollideBaseGroup boxes;
 	/* TODO: Create a file structure for containing level data so its not hardcoded */
 	/* Initializes the pointer to the single texture shared by all Box objects, then creates the boxes and assigns the pointer to them */
@@ -43,7 +46,7 @@ int main(int argc, char *argv[]) {
 		}
 	}
 	BadTest small(Point(300, 350), &boxes); // Temporary lines until I get around to EnemyDrawGroup
-	small.set(); 
+	small.set();
 	
 	Font gFont;
 	std::string foo = "mani is pretty smart sometimes, but kotlin is a dumb language cause it has no semi-colons iirc";
@@ -66,6 +69,7 @@ int main(int argc, char *argv[]) {
 		boxes.drawGroup();
 		small.render();
 		ap.update(gRenderer);
+		
 		dot.draw(); // Player must always be drawn onto the top layer for best visibility, for the time being
 		if (contra.checkListener(config["Ray"]).getHeld()) { // Raycasting
 			dot.rayCast(&boxes); 

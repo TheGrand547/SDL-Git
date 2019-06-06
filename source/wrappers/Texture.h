@@ -83,6 +83,7 @@ class Texture {
 		}
 		
 		void createBlank(SDL_Renderer *renderer, int w, int h, uint32_t color = 0x0000000FF) {
+			SDL_DestroyTexture(this->texture);
 			SDL_Texture *toReturn = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_TARGET, w, h);
 			SDL_Texture *tempText = NULL;
 			SDL_Surface *tempSurf = SDL_CreateRGBSurface(0, w, h, 32, 0, 0, 0, 0);
@@ -92,7 +93,6 @@ class Texture {
 				tempText = SDL_CreateTextureFromSurface(renderer, tempSurf);
 				SDL_RenderCopy(renderer, tempText, NULL, NULL);
 				SDL_SetRenderTarget(renderer, NULL);
-				
 				SDL_DestroyTexture(tempText);
 				this->texture = toReturn;
 			}

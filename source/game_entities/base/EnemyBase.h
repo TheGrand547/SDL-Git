@@ -46,13 +46,13 @@ class EnemyBase {
 			for (int i = 1; i < 6; i++) {
 				if (!yflag) {
 					if (collideRectTest(Rect(this->position, this->width, this->height) + px.onlyX() / i, this->collide)) {
-						this->position += px.onlyX()/i;
+						this->position += px.onlyX() / i;
 						yflag = true;
 					}
 				}
 				if (!xflag) {
 					if (collideRectTest(Rect(this->position, this->width, this->height) + px.onlyY() / i, this->collide)) {
-						this->position += px.onlyY()/i;					
+						this->position += px.onlyY() / i;					
 						xflag = true;
 					}
 				}
@@ -60,5 +60,9 @@ class EnemyBase {
 					break;
 				}
 			}
+		}
+		friend std::ostream& operator<<(std::ostream &output, const EnemyBase& base) {
+			output << base.position;
+			return output;
 		}
 };

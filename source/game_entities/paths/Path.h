@@ -5,7 +5,7 @@ template<class T>
 class Path {
 	protected:
 		Timer* timer;
-		int ticksDone, ticksOver;
+		float ticksDone, ticksOver;
 		T* target;
 	public:
 		static const int REPEAT = 0;
@@ -34,21 +34,16 @@ class Path {
 		
 		virtual bool isFinished() = 0;
 		
-		virtual void modify() = 0;
+		virtual void modify(float time) = 0;
 		
 		void setTarget(T* target) {
 			this->target = target;
 		}
 		
 		void update() {
-			this->ticksOver += this->timer->getTicks();
+			this->ticksOver = this->timer->getTicks();
 			this->timer->start();
-			// TODO: Make this not base on ticks to smooth out animation
+			this->modify(this->ticksOver / 10);
 			// TODO: Seperate classes into multiple files
-			for (int i = 10; i <= this->ticksOver; i += 10) {
-				this->modify();
-				this->ticksDone++;
-			}
-			this->ticksOver %= 10;
 		}
 };
