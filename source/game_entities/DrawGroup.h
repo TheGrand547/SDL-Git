@@ -4,9 +4,6 @@
 #include<SDL2/SDL.h>
 #include "../BoundedPoint.h"
 class DrawGroup {
-	/*
-	protected:
-		static SDL_Renderer* renderer;*/
 	public:
 		static SDL_Renderer* renderer;
 		static BoundedPoint* offset;

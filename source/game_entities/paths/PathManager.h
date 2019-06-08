@@ -6,32 +6,29 @@
 template<class T>
 class PathManager {
 	protected:
-		// Don't think this needs to be a pointer
-		std::vector<Path<T>*>* paths;
+		std::vector<Path<T>*> paths;
 		T* target;
 		bool repeat;
 		int index;
 	public:
 		PathManager(T* target = NULL) {
-			this->paths = new std::vector<Path<T>*>;
 			this->target = target;
 			this->index = 0;
 			this->repeat = false;
 		}
 		
 		~PathManager() {
-			typename std::vector<Path<T>*>::iterator it = this->paths->begin();
-			while (it != this->paths->end()) {
-				delete this->paths->front();
-				it = this->paths->erase(it);
+			typename std::vector<Path<T>*>::iterator it = this->paths.begin();
+			while (it != this->paths.end()) {
+				delete this->paths.front();
+				it = this->paths.erase(it);
 			}
-			paths->clear();
-			delete paths;
+			paths.clear();
 		}
 		
 		void AddPath(Path<T>* path) {
-			this->paths->push_back(path);
-			this->paths->back()->setTarget(this->target);
+			this->paths.push_back(path);
+			this->paths.back()->setTarget(this->target);
 		}
 		
 		void setRepeat(bool val) {
@@ -39,16 +36,16 @@ class PathManager {
 		}
 		
 		void update() {
-			if (this->index < this->paths->size()) {
-				if ((*paths)[this->index]->isFinished()) {
-					(*paths)[this->index]->stop();
+			if (this->index < this->paths.size()) {
+				if (this->paths[this->index]->isFinished()) {
+					this->paths[this->index]->stop();
 					this->index++;
-					if (this->index >= this->paths->size() && this->repeat) {
+					if (this->index >= this->paths.size() && this->repeat) {
 						this->index = 0;
 					}	
-					(*paths)[this->index]->start();
+					this->paths[this->index]->start();
 				}
-				(*paths)[this->index]->update();
+				this->paths[this->index]->update();
 			} 
 		}	
 };

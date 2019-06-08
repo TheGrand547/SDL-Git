@@ -11,6 +11,7 @@ SDL_Renderer* EnemyBase::renderer = NULL;
 BoundedPoint* EnemyBase::offset = NULL;
 
 int main(int argc, char *argv[]) {
+	
 	/* TODO: Add Method/Class for initializing everything on screen to clean up main() and help smooth the transition to using 'Screen' as the base class for the project */
 	SDL_Window* gameWindow = NULL;
 	SDL_Renderer* gRenderer = NULL;
@@ -18,7 +19,6 @@ int main(int argc, char *argv[]) {
 		printf("Failed to initialize!\n");
 		return 0;
 	}
-	
 	BoundedPoint screenPosition = BoundedPoint(Screen::MAX_SCREEN_X_POS, Screen::MAX_SCREEN_Y_POS);
 	Dot dot = Dot(Point(300, 150));
 	dot.setColorChannels(0xFF);
@@ -63,7 +63,7 @@ int main(int argc, char *argv[]) {
 		popo.zero(); // >:(
 		contra.handleEvents();
 		dot.collideTest(popo * fps.getRatio(), &boxes); // Player collision detection
-		small.update(); // Write enemy draw group or something idk
+		small.update(); // TODO: Write enemy draw group or something idk
 		/* Drawing */
 		groundGroup.drawGroup();
 		boxes.drawGroup();
