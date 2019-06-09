@@ -4,7 +4,7 @@
 template<class T>
 class Path {
 	protected:
-		Timer* timer;
+		Timer timer;
 		float ticksDone, ticksOver;
 		T* target;
 	public:
@@ -12,24 +12,22 @@ class Path {
 		static const int SINGLE_LOOP = -2;
 		
 		Path() {
-			this->timer = new Timer();
 			this->ticksDone = 0;
 			this->ticksOver = 0;
 			this->target = NULL;
 		}
 		
 		virtual ~Path() {
-			delete this->timer;
 			this->target = NULL;
 		}
 		
 		virtual void stop() {
-			this->timer->stop();
+			this->timer.stop();
 			this->ticksDone = 0;
 		}
 		
 		void start() {
-			this->timer->start();
+			this->timer.start();
 		}
 		
 		virtual bool isFinished() = 0;
@@ -41,9 +39,16 @@ class Path {
 		}
 		
 		void update() {
-			this->ticksOver = this->timer->getTicks();
-			this->timer->start();
+			this->ticksOver = this->timer.getTicks();
+			this->timer.start();
 			this->modify(this->ticksOver / 10);
-			// TODO: Seperate classes into multiple files
+		}
+		
+		void pause() {
+			this->timer.pause();
+		}
+		
+		void unpause() {
+			this->timer.unpause();
 		}
 };

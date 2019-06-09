@@ -34,7 +34,7 @@ class LinePath : public Path<T> {
 		
 		void stop() {
 			this->ticksDone = 0;
-			this->timer->stop();
+			this->timer.stop();
 		}
 		
 		bool isFinished() {

@@ -11,7 +11,6 @@ SDL_Renderer* EnemyBase::renderer = NULL;
 BoundedPoint* EnemyBase::offset = NULL;
 
 int main(int argc, char *argv[]) {
-	
 	/* TODO: Add Method/Class for initializing everything on screen to clean up main() and help smooth the transition to using 'Screen' as the base class for the project */
 	SDL_Window* gameWindow = NULL;
 	SDL_Renderer* gRenderer = NULL;

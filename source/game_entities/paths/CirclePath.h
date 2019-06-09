@@ -56,7 +56,7 @@ class CirclePath : public Path<T> {
 		void stop() {
 			this->maxTicks = this->startingMaxTicks;
 			this->ticksDone = this->startingTicks;
-			this->timer->stop();
+			this->timer.stop();
 		}
 		
 		bool isFinished() {
