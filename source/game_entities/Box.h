@@ -75,29 +75,3 @@ class Box : public CollideBase{
 			}
 		}
 };
-
-bool collideRect(Rect rect, CollideBaseGroup* boxes) {
-	bool result = false;
-	for (int i = 0; i < boxes->size(); i++) {
-		result = result || (*boxes)[i]->overlap(rect);
-		if (result)
-			break;
-	}
-	return result;
-}
-
-Point smallestDistanceFrom(CollideBaseGroup* boxes, Point origin, Line ray) {
-	Point stored;
-	for (int i = 0; i < boxes->size(); i++) {
-		stored = smallerDistance(origin, (*boxes)[i]->collideLine(ray), stored);
-	}
-	return stored;
-}
-
-Point collideTestVectorToRay(CollideBaseGroup* boxes, Line ray) {
-	return smallestDistanceFrom(boxes, ray.getOrigin(), ray);
-}
-
-bool collideRectTest(Rect rect, CollideBaseGroup* vec) {
-	return !collideRect(rect, vec);
-}

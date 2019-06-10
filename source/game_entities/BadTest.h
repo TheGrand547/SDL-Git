@@ -28,12 +28,15 @@ class BadTest : public EnemyBase {
 			delete this->c;
 		}
 		
-		void update() {
-			this->c->update();
+		void set() {
+			this->texture->createBlank(MegaBase::renderer, 50, 50, 0xFF0000FF);
 		}
 		
-		void set() {
-			this->texture->createBlank(EnemyBase::renderer, 50, 50, 0xFF0000FF);
+		void update() {
+			if (!this->texture->isLoaded()) {
+				this->set();
+			}
+			this->c->update();
 		}
 		
 		Point getPos() {

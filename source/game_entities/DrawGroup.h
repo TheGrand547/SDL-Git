@@ -3,18 +3,11 @@
 #define DRAW_GROUP_H
 #include<SDL2/SDL.h>
 #include "../BoundedPoint.h"
-class DrawGroup {
+#include "../essential/MegaBase.h"
+class DrawGroup : public MegaBase {
 	public:
-		static SDL_Renderer* renderer;
-		static BoundedPoint* offset;
 		DrawGroup() {}
 		virtual ~DrawGroup() {}
 		virtual void drawGroup() = 0;
-		static void SET_RENDERER(SDL_Renderer* renderer) {
-			DrawGroup::renderer = renderer;
-		}
-		static void SET_OFFSET(BoundedPoint* screenPosition) {
-			DrawGroup::offset = screenPosition;
-		}
 };
 #endif

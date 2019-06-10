@@ -37,4 +37,5 @@
 #include "game_entities/CollideBaseGroup.h"
 #include "game_entities/BackgroundGroup.h"
 #include "game_entities/CollideBaseFactory.h"
+#include "game_entities/EnemyDrawGroup.h"
 #endif
