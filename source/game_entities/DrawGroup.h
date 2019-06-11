@@ -4,7 +4,7 @@
 #include<SDL2/SDL.h>
 #include "../BoundedPoint.h"
 #include "../essential/MegaBase.h"
-class DrawGroup : public MegaBase {
+class DrawGroup {
 	public:
 		DrawGroup() {}
 		virtual ~DrawGroup() {}

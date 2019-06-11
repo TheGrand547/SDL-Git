@@ -12,12 +12,11 @@ CollideBaseGroup::~CollideBaseGroup() {
 	}
 	this->group->clear();
 	delete group;
-	this->offset = NULL;
 }
 
 void CollideBaseGroup::drawGroup() {
 	for (CollideBase* collision: *this->group) {
-		collision->draw(this->renderer, this->offset);
+		collision->draw(MegaBase::renderer, MegaBase::offset);
 	}
 }
 
@@ -31,20 +30,12 @@ void CollideBaseGroup::setTexture(SuperTexture* texture) {
 	}
 }
 
-std::vector<CollideBase*>* CollideBaseGroup::get() {
-	return this->group;
-}
-
 CollideBase* CollideBaseGroup::operator[](int index) {
 	return (*this->group)[index];
 }
 
 int CollideBaseGroup::size() {
 	return this->group->size();
-}
-
-void CollideBaseGroup::setOffset(BoundedPoint* offset) {
-	this->offset = offset;
 }
 
 bool collideRect(Rect rect, CollideBaseGroup* boxes) {

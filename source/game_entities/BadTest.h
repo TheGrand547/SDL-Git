@@ -24,6 +24,10 @@ class BadTest : public EnemyBase {
 			this->c->setRepeat(true);
 		}
 		
+		BadTest(const BadTest& that) : EnemyBase(that.collide, that.position) {
+			*this = BadTest(that.position, that.collide);
+		}
+		
 		~BadTest() {
 			delete this->c;
 		}

@@ -35,16 +35,14 @@ int main(int argc, char *argv[]) {
 	boxes.push_back(CollideBaseFactory::CreateBox(Point(350, 200)));
 	boxes.push_back(CollideBaseFactory::CreateBox(Point(500, 200)));
 	boxes.setTexture(mTexture);
-	
+	EnemyDrawGroup bads;
 	BackgroundGroup groundGroup;
 	for (int x = 0; x <= Screen::MAX_WIDTH; x += 100) {
 		for (int y = 0; y <= Screen::MAX_HEIGHT; y += 100) {
 			groundGroup.add(Point(x, y), Ground::GRASS);
+			bads.add(new BadTest(Point(x, y), &boxes)); // TODO: Add wall collision to the DrawGroup instead of each individual one
 		}
 	}
-	EnemyDrawGroup bads;
-	bads.add(new BadTest(Point(300, 350), &boxes));
-	
 	Font gFont;
 	std::string foo = "mani is pretty smart sometimes, but kotlin is a dumb language cause it has no semi-colons iirc";
 	AppearingText ap(foo, &gFont, Point(0, 0), 15, COLORS::RED, 300);
@@ -54,7 +52,6 @@ int main(int argc, char *argv[]) {
 	contra.addListener("Ray", 120);
 	contra.addPlayerKeys(&popo);
 	FpsText fps(&gFont, Point(100, 10), COLORS::RED);
-	boxes.setOffset(&screenPosition);
 	while(!contra.quit) {
 		clearScreen(gRenderer);
 		popo.zero(); // >:(
@@ -69,7 +66,7 @@ int main(int argc, char *argv[]) {
 		dot.draw(); // Player must always be drawn onto the top layer for best visibility, for the time being
 		if (contra.checkListener(config["Ray"]).getHeld()) { // Raycasting
 			dot.rayCast(&boxes); 
-		} 
+		}
 		fps.draw(gRenderer);
 		renderChanges(gRenderer, gameWindow);
 	}
