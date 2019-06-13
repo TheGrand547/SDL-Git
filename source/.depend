@@ -65,7 +65,6 @@ Rect.o: primitives/Rect.cpp primitives/Rect.h \
   primitives/../essential/../MyBase.h primitives/PointDelta.h \
   primitives/Point.h primitives/../MyBase.h primitives/Line.h \
   primitives/../essential/random.h
-Point.o: primitives/Point.cpp primitives/Point.h
 HeldKey.o: wrappers/HeldKey.cpp wrappers/HeldKey.h wrappers/Timer.h
 Controller.o: wrappers/control/Controller.cpp \
   wrappers/control/Controller.h \
@@ -171,3 +170,4 @@ EnemyDrawGroup.o: game_entities/EnemyDrawGroup.cpp \
   game_entities/base/../../Dot.h game_entities/../primitives/Rect.h \
   game_entities/../game_entities/CollideBaseGroup.h \
   game_entities/../essential/constants.h
+Point.o: primitives/Point.cpp primitives/Point.h

@@ -31,11 +31,19 @@ class PathManager {
 			this->paths.back()->setTarget(this->target);
 		}
 		
+		void removePath(int index) {
+			if (index < this->paths.size()) {
+				delete this->paths.at(index);
+				this->paths.erase(this->paths.begin() + index);
+			}
+		}
+		
 		void setRepeat(bool val) {
 			this->repeat = val;
 		}
 		
 		void update() {
+			//std::cout << this->paths.size() << std::endl;// << "->" << this->index << std::endl;
 			if (this->index < this->paths.size()) {
 				if (this->paths[this->index]->isFinished()) {
 					this->paths[this->index]->stop();

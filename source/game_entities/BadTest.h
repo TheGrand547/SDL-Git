@@ -17,11 +17,12 @@ class BadTest : public EnemyBase {
 		
 		BadTest(Point position, CollideBaseGroup* collide) : EnemyBase(collide, position) {
 			this->c = new PathManager<EnemyBase>(this);
+			/*
 			this->c->AddPath(new LinePath<EnemyBase>(Point(200, -200), toTicks(1)));
 			this->c->AddPath(new CirclePath<EnemyBase>(40, 1, Path<Point>::SINGLE_LOOP, false));
 			this->c->AddPath(new LinePath<EnemyBase>(Point(-200, 200), toTicks(1)));
 			this->c->AddPath(new CirclePath<EnemyBase>(40, 1, Path<Point>::SINGLE_LOOP, false));			
-			this->c->setRepeat(true);
+			this->c->setRepeat(true);*/
 		}
 		
 		BadTest(const BadTest& that) : EnemyBase(that.collide, that.position) {
@@ -42,13 +43,25 @@ class BadTest : public EnemyBase {
 				this->texture->render(MegaBase::renderer, MegaBase::offset);
 			}
 			// "AI"
-			std::cout << this->position << std::endl;
+			Point center = this->position + Point() + Point(this->width / 2, this->height / 2);
+			bool flag = false;
 			for (int i = -10; i < 10; i++){
-				Point pTemp = Point(this->position);
+				Point pTemp = Point(center);
 				pTemp += Point(300 * cos(this->angle + (i * M_PI / 180.0)), 300 * sin(this->angle + (i * M_PI / 180.0)));
-				Line temp = Line(this->position, pTemp);
+				Line temp = Line(center, pTemp);
 				Point newTemp = dot->getRect().collideLine(temp);
-				temp.setColorChannels(COLORS::CYAN);
+				if (newTemp.isReal() && !flag) {
+					/*
+					Point AHHH = Point(100 * cos(this->angle + (i * M_PI / 180.0)), 100 * sin(this->angle + (i * M_PI / 180.0)));
+					this->c->AddPath(new LinePath<EnemyBase>(AHHH, toTicks(2)));*/
+					*this += Point(5 * cos(this->angle + (i * M_PI / 180.0)), 5 * sin(this->angle + (i * M_PI / 180.0)));
+					Line newTempLine = Line(center, newTemp);
+					newTempLine.setColorChannels(COLORS::CYAN);
+					newTempLine.drawLine(MegaBase::renderer, MegaBase::offset);
+					flag = !flag;
+					continue;
+				}
+				temp.setColorChannels(COLORS::BLACK);
 				temp.drawLine(MegaBase::renderer, MegaBase::offset);
 			}
 			

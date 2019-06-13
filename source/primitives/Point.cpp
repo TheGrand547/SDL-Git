@@ -1,38 +1,38 @@
 #include "Point.h"
 
-inline Point::Point(float xCoordinate, float yCoordinate) {
+Point::Point(float xCoordinate, float yCoordinate) {
 	xval = xCoordinate;
 	yval = yCoordinate;
 }
 
-inline Point::~Point() {}
+Point::~Point() {}
 
-inline Point::Point(const Point &point) {
+Point::Point(const Point &point) {
 	this->xval = point.xval;
 	this->yval = point.yval;
 }
-inline Point::Point(const Point *point) {
+Point::Point(const Point *point) {
 	xval = point->xval;
 	yval = point->yval;
 }
 
-inline float Point::x() const {
+float Point::x() const {
 	return this->xval;
 }
 
-inline float Point::y() const {
+float Point::y() const {
 	return this->yval;
 }
 
-inline float Point::originDistance() {
+float Point::originDistance() {
 	return distanceToPoint(0,0);
 }
 
-inline Point Point::operator-(const Point &point) {
+Point Point::operator-(const Point &point) {
 	return Point(this->xval - point.xval, this->yval - point.yval);
 }
 
-inline Point Point::operator+(const Point &point) {
+Point Point::operator+(const Point &point) {
 	return Point(this->xval + point.xval, this->yval + point.yval);
 }
 
@@ -45,13 +45,13 @@ void Point::operator+=(Point delta) {
 	this->yval += delta.yval;
 }
 
-inline Point& Point::operator=(const Point &that) {
+Point& Point::operator=(const Point &that) {
 	xval = that.xval;
 	yval = that.yval;
 	return *this;
 }
 
-inline std::ostream& operator<<(std::ostream &output, const Point &point) {
+std::ostream& operator<<(std::ostream &output, const Point &point) {
 	output << "(" << float(point.x()) << ", " << float(point.y()) << ")";
 	return output;
 }

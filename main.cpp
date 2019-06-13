@@ -35,7 +35,7 @@ int main(int argc, char *argv[]) {
 			groundGroup.add(Point(x, y), Ground::GRASS);
 			//bads.add(new BadTest(Point(x, y), &boxes)); // TODO: Add wall collision to the DrawGroup instead of each individual one
 			if (x == 0 || y == 0 || x >= Screen::MAX_WIDTH - 100 || y >= Screen::MAX_HEIGHT - 100) {
-				boxes.push_back(CollideBaseFactory::CreateBox(Point(x, y)));
+				//boxes.push_back(CollideBaseFactory::CreateBox(Point(x, y)));
 			}
 		}
 	}
@@ -48,6 +48,7 @@ int main(int argc, char *argv[]) {
 	boxes.push_back(CollideBaseFactory::CreateBox(Point(500, 200)));
 	boxes.setTexture(mTexture);
 	Font gFont;
+	
 	std::string foo = "mani is pretty smart sometimes, but kotlin is a dumb language cause it has no semi-colons iirc";
 	AppearingText ap(foo, &gFont, Point(0, 0), 15, COLORS::RED, 300);
 	PointDelta popo = PointDelta(0, 0, 4);

@@ -1,5 +1,6 @@
 #pragma once
 #include<SDL2/SDL.h>
+#include "primitives/Point.h"
 #include "primitives/Rect.h"
 #include "primitives/PointDelta.h"
 #include "game_entities/CollideBaseGroup.h"

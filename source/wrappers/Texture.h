@@ -75,7 +75,7 @@ class Texture {
 		}
 		
 		void render(SDL_Renderer* renderer, Point offset) {
-			this->render(this->xpos - offset.x() - 1, this->ypos - offset.y() - 1, renderer);
+			this->render((this->xpos - offset.x()) - 1, (this->ypos - offset.y()) - 1, renderer);
 		}
 		
 		bool isLoaded() {
