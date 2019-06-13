@@ -2,15 +2,14 @@
 #include<SDL2/SDL.h>
 #include "primitives/Rect.h"
 #include "primitives/PointDelta.h"
+#include "game_entities/CollideBaseGroup.h"
 #include "essential/constants.h"
+#include "essential/MegaBase.h"
 #include<math.h>
 
 class Dot: public MyBase {
 	private:
 		// TODO: Make this two files
-		SDL_Renderer* renderer;
-		BoundedPoint* offset;
-		
 		float angle;
 		BoundedPoint position;
 	public:
@@ -19,15 +18,8 @@ class Dot: public MyBase {
 			this->position = BoundedPoint(startingCoordinate, 0, 0, Screen::MAX_WIDTH - Player::PLAYER_X_DIMENSION, Screen::MAX_HEIGHT - Player::PLAYER_Y_DIMENSION);
 		}
 		
-		~Dot() {
-			this->renderer = NULL;
-			this->offset = NULL;
-		}
+		~Dot() {}
 		
-		void setRenderingValues(SDL_Renderer* renderer, BoundedPoint* offset) {
-			this->renderer = renderer;
-			this->offset = offset;
-		}
 		
 		Point getCenter() {
 			return this->position + Point(Player::PLAYER_X_DIMENSION / 2, Player::PLAYER_Y_DIMENSION / 2);
@@ -72,11 +64,11 @@ class Dot: public MyBase {
 		}
 		
 		void draw() {
-			SDL_SetRenderDrawColor(this->renderer, rChannel, gChannel, bChannel, aChannel);
-			SDL_Rect temp = (Rect(this->position, Player::PLAYER_X_DIMENSION, Player::PLAYER_Y_DIMENSION) - *this->offset).getSDLRect();
+			SDL_SetRenderDrawColor(MegaBase::renderer, rChannel, gChannel, bChannel, aChannel);
+			SDL_Rect temp = (Rect(this->position, Player::PLAYER_X_DIMENSION, Player::PLAYER_Y_DIMENSION) - MegaBase::offset).getSDLRect();
 			temp.w = Player::PLAYER_X_DIMENSION;
 			temp.h = Player::PLAYER_Y_DIMENSION;
-			SDL_RenderFillRect(this->renderer, &temp);
+			SDL_RenderFillRect(MegaBase::renderer, &temp);
 		}
 		
 		void collideTest(PointDelta delta, CollideBaseGroup* boxes) {
@@ -89,13 +81,13 @@ class Dot: public MyBase {
 				if (!xDelta) {
 					if (collideRectTest(this->getRect() + delta.onlyX() / i, boxes)) {
 						xDelta = delta.x() / i;
-						*this->offset += delta.onlyX() / i;
+						*MegaBase::offset += delta.onlyX() / i;
 					}
 				}
 				if (!yDelta) {
 					if (collideRectTest(this->getRect() + delta.onlyY() / i, boxes)) {
 						yDelta = delta.y() / i;
-						*this->offset += delta.onlyY() / i;					
+						*MegaBase::offset += delta.onlyY() / i;					
 					}
 				}
 				if (xDelta && yDelta) {
@@ -103,17 +95,18 @@ class Dot: public MyBase {
 				}
 			}
 			*this += PointDelta(xDelta, yDelta, delta.getMagnitude());
+			// PUT THIS ELSEWHERE
 			if (this->getPos().x() < Screen::SCREEN_WIDTH / 2) {
-				this->offset->xZero();
+				MegaBase::offset->xZero();
 			}
 			if (this->getPos().y() < Screen::SCREEN_HEIGHT / 2) {
-				this->offset->yZero();
+				MegaBase::offset->yZero();
 			}
 			if (this->getPos().y() > Screen::MAX_Y_SCROLL_DISTANCE) {
-				this->offset->maxY();
+				MegaBase::offset->maxY();
 			}
 			if (this->getPos().x() > Screen::MAX_X_SCROLL_DISTANCE) {
-				this->offset->maxX();
+				MegaBase::offset->maxX();
 			}
 		} 
 		
@@ -122,7 +115,7 @@ class Dot: public MyBase {
 			if (!newPoint.isNull()) {
 				Line tempLine = Line(this->getCenter(), newPoint.copy());
 				tempLine.setColorChannels(COLORS::CYAN);
-				tempLine.drawLine(this->renderer, this->offset);
+				tempLine.drawLine(MegaBase::renderer, MegaBase::offset);
 			}
 		}
 };

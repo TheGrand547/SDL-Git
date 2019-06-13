@@ -6,7 +6,7 @@ EnemyDrawGroup::~EnemyDrawGroup() {
 	for (std::vector<EnemyBase*>::iterator iter = this->vector.begin(); iter != this->vector.end(); iter++) {
 		delete *iter;
 	}
-	
+	this->dot = NULL;
 }
 
 void EnemyDrawGroup::add(EnemyBase* entity) {
@@ -21,6 +21,10 @@ void EnemyDrawGroup::update() {
 
 void EnemyDrawGroup::drawGroup() {
 	for (EnemyBase* entity: this->vector) {
-		entity->render();
+		entity->render(this->dot);
 	}
+}
+
+void EnemyDrawGroup::setDot(Dot* dot) {
+	this->dot = dot;
 }

@@ -16,37 +16,40 @@ int main(int argc, char *argv[]) {
 		printf("Failed to initialize!\n");
 		return 0;
 	}
-	
 	BoundedPoint screenPosition = BoundedPoint(Screen::MAX_SCREEN_X_POS, Screen::MAX_SCREEN_Y_POS);
 	Dot dot = Dot(Point(300, 150));
 	dot.setColorChannels(0xFF);
-	dot.setRenderingValues(gRenderer, &screenPosition);
 	Configuration config;
 	
 	MegaBase::setOffset(&screenPosition);
 	MegaBase::setRenderer(gRenderer);
 
 	CollideBaseGroup boxes;
-	/* TODO: Create a file structure for containing level data so its not hardcoded */
-	/* Initializes the pointer to the single texture shared by all Box objects, then creates the boxes and assigns the pointer to them */
+	// TODO: Create a file structure for containing level data so its not hardcoded 
+	EnemyDrawGroup bads;
+	bads.setDot(&dot);
+	BackgroundGroup groundGroup;
+	int count = 0;
+	for (int x = 0; x <= Screen::MAX_WIDTH; x += 100) {
+		for (int y = 0; y <= Screen::MAX_HEIGHT; y += 100) {
+			groundGroup.add(Point(x, y), Ground::GRASS);
+			//bads.add(new BadTest(Point(x, y), &boxes)); // TODO: Add wall collision to the DrawGroup instead of each individual one
+			if (x == 0 || y == 0 || x >= Screen::MAX_WIDTH - 100 || y >= Screen::MAX_HEIGHT - 100) {
+				boxes.push_back(CollideBaseFactory::CreateBox(Point(x, y)));
+			}
+		}
+	}
+	bads.add(new BadTest(Point(400, 500), &boxes));
+	// Initializes the pointer to the single texture shared by all Box objects, then creates the boxes and assigns the pointer to them
 	SuperTexture* mTexture = Box::createBoxTexture(gRenderer); // TODO: KILL THIS WITH FIRE
 	boxes.push_back(CollideBaseFactory::CreateBox(Point(50, 50)));
 	boxes.push_back(CollideBaseFactory::CreateBox(Point(200, 200)));
 	boxes.push_back(CollideBaseFactory::CreateBox(Point(350, 200)));
 	boxes.push_back(CollideBaseFactory::CreateBox(Point(500, 200)));
 	boxes.setTexture(mTexture);
-	EnemyDrawGroup bads;
-	BackgroundGroup groundGroup;
-	for (int x = 0; x <= Screen::MAX_WIDTH; x += 100) {
-		for (int y = 0; y <= Screen::MAX_HEIGHT; y += 100) {
-			groundGroup.add(Point(x, y), Ground::GRASS);
-			bads.add(new BadTest(Point(x, y), &boxes)); // TODO: Add wall collision to the DrawGroup instead of each individual one
-		}
-	}
 	Font gFont;
 	std::string foo = "mani is pretty smart sometimes, but kotlin is a dumb language cause it has no semi-colons iirc";
 	AppearingText ap(foo, &gFont, Point(0, 0), 15, COLORS::RED, 300);
-	
 	PointDelta popo = PointDelta(0, 0, 4);
 	Controller contra;
 	contra.addListener("Ray", 120);

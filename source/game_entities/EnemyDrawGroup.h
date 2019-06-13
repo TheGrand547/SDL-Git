@@ -7,11 +7,13 @@
 class EnemyDrawGroup : public DrawGroup {
 	private:
 		std::vector<EnemyBase*> vector;
+		Dot* dot;
 	public:
 		EnemyDrawGroup();
 		~EnemyDrawGroup();
 		void add(EnemyBase* entity);
 		void update();
 		void drawGroup();
+		void setDot(Dot* dot);
 };
 #endif

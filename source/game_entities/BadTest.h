@@ -9,11 +9,11 @@
 #include "paths/LinePath.h"
 #include "../primitives/Point.h"
 #include "CollideBaseGroup.h"
+#include "../primitives/Line.h"
 
 class BadTest : public EnemyBase {
 	public:
-		// Feels wrong to have a public member for some reason <- Maybe change this later
-		PathManager<EnemyBase>* c;
+		PathManager<EnemyBase>* c; // <- Figure out why this is a pointer
 		
 		BadTest(Point position, CollideBaseGroup* collide) : EnemyBase(collide, position) {
 			this->c = new PathManager<EnemyBase>(this);
@@ -36,10 +36,38 @@ class BadTest : public EnemyBase {
 			this->texture->createBlank(MegaBase::renderer, 50, 50, 0xFF0000FF);
 		}
 		
+		virtual void render(Dot* dot) {
+			if (this->texture->isLoaded()) {
+				this->texture->setPos(this->position);
+				this->texture->render(MegaBase::renderer, MegaBase::offset);
+			}
+			// "AI"
+			std::cout << this->position << std::endl;
+			for (int i = -10; i < 10; i++){
+				Point pTemp = Point(this->position);
+				pTemp += Point(300 * cos(this->angle + (i * M_PI / 180.0)), 300 * sin(this->angle + (i * M_PI / 180.0)));
+				Line temp = Line(this->position, pTemp);
+				Point newTemp = dot->getRect().collideLine(temp);
+				temp.setColorChannels(COLORS::CYAN);
+				temp.drawLine(MegaBase::renderer, MegaBase::offset);
+			}
+			
+			//temp.drawLine(MegaBase::renderer, MegaBase::offset);
+			/*
+			if (newTemp.isReal()) {
+				//std::cout << "holy shit it worked" << std::endl;
+				Line newTempLine = Line(this->position, newTemp);
+				newTempLine.setColorChannels(COLORS::CYAN);
+				newTempLine.drawLine(MegaBase::renderer, MegaBase::offset);
+			}*/
+		}
+		
 		void update() {
 			if (!this->texture->isLoaded()) {
 				this->set();
 			}
+			// Basic AI(hopefully)
+			
 			this->c->update();
 		}
 		

@@ -4,7 +4,9 @@
 #include "../../wrappers/Texture.h"
 #include "CollideBase.h"
 #include "../CollideBaseGroup.h"
+#include "../../Dot.h"
 #include<vector>
+#include<math.h>
 
 class EnemyBase {
 	protected:
@@ -13,6 +15,7 @@ class EnemyBase {
 		
 		int width = 50;
 		int height = 50;
+		float angle = 0;
 		
 		/* Experimental */
 		CollideBaseGroup* collide;
@@ -30,7 +33,7 @@ class EnemyBase {
 		
 		virtual void update() = 0;
 		
-		void render() {
+		virtual void render(Dot* dot) {
 			if (this->texture->isLoaded()) {
 				this->texture->setPos(this->position);
 				this->texture->render(MegaBase::renderer, MegaBase::offset);
@@ -38,26 +41,26 @@ class EnemyBase {
 		}
 		
 		void operator+=(Point delta) {
-			bool xflag = false;
-			bool yflag = false;
+			float xflag = 0;
+			float yflag = 0;
 			Point px = delta;
 			for (int i = 1; i < 6; i++) {
-				if (!yflag) {
+				if (!xflag) {
 					if (collideRectTest(Rect(this->position, this->width, this->height) + px.onlyX() / i, this->collide)) {
-						this->position += px.onlyX() / i;
-						yflag = true;
+						xflag = px.x() / i;
 					}
 				}
-				if (!xflag) {
+				if (!yflag) {
 					if (collideRectTest(Rect(this->position, this->width, this->height) + px.onlyY() / i, this->collide)) {
-						this->position += px.onlyY() / i;					
-						xflag = true;
+						yflag = px.y() / i;					
 					}
 				}
 				if (xflag && yflag) {
 					break;
 				}
 			}
+			this->position += Point(xflag, yflag);
+			this->angle = atan2(yflag, xflag);
 		}
 		
 		friend std::ostream& operator<<(std::ostream &output, const EnemyBase& base) {

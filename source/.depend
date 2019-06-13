@@ -33,13 +33,14 @@ main.o: ../main.cpp ../source/headers.h ../source/game_entities/Box.h \
   ../source/wrappers/Texture.h ../source/essential/util.h \
   ../source/essential/random.h ../source/MyBase.h ../source/Dot.h \
   ../source/primitives/PointDelta.h ../source/essential/constants.h \
-  ../source/wrappers/HeldKey.h \
+  ../source/essential/MegaBase.h ../source/wrappers/HeldKey.h \
   ../source/game_entities/../wrappers/Timer.h \
   ../source/essential/Configuration.h ../source/game_entities/BadTest.h \
   ../source/game_entities/base/EnemyBase.h \
   ../source/game_entities/base/../../essential/constants.h \
   ../source/game_entities/base/../../wrappers/Texture.h \
   ../source/game_entities/base/../CollideBaseGroup.h \
+  ../source/game_entities/base/../../Dot.h \
   ../source/game_entities/paths/CirclePath.h \
   ../source/game_entities/paths/../../wrappers/Timer.h \
   ../source/game_entities/paths/Path.h \
@@ -166,4 +167,7 @@ EnemyDrawGroup.o: game_entities/EnemyDrawGroup.cpp \
   game_entities/base/../../wrappers/../MyBase.h \
   game_entities/base/../../wrappers/../essential/util.h \
   game_entities/base/../CollideBaseGroup.h \
-  game_entities/../wrappers/SuperTexture.h
+  game_entities/../wrappers/SuperTexture.h \
+  game_entities/base/../../Dot.h game_entities/../primitives/Rect.h \
+  game_entities/../game_entities/CollideBaseGroup.h \
+  game_entities/../essential/constants.h
