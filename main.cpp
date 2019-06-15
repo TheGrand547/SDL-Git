@@ -48,7 +48,6 @@ int main(int argc, char *argv[]) {
 	boxes.push_back(CollideBaseFactory::CreateBox(Point(500, 200)));
 	boxes.setTexture(mTexture);
 	Font gFont;
-	
 	std::string foo = "mani is pretty smart sometimes, but kotlin is a dumb language cause it has no semi-colons iirc";
 	AppearingText ap(foo, &gFont, Point(0, 0), 15, COLORS::RED, 300);
 	PointDelta popo = PointDelta(0, 0, 4);

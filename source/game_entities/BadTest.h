@@ -45,16 +45,17 @@ class BadTest : public EnemyBase {
 			// "AI"
 			Point center = this->position + Point() + Point(this->width / 2, this->height / 2);
 			bool flag = false;
-			for (int i = -10; i < 10; i++){
+			for (int i = -10; i < 10; i++) {
 				Point pTemp = Point(center);
 				pTemp += Point(300 * cos(this->angle + (i * M_PI / 180.0)), 300 * sin(this->angle + (i * M_PI / 180.0)));
 				Line temp = Line(center, pTemp);
 				Point newTemp = dot->getRect().collideLine(temp);
 				if (newTemp.isReal() && !flag) {
-					/*
-					Point AHHH = Point(100 * cos(this->angle + (i * M_PI / 180.0)), 100 * sin(this->angle + (i * M_PI / 180.0)));
-					this->c->AddPath(new LinePath<EnemyBase>(AHHH, toTicks(2)));*/
-					*this += Point(5 * cos(this->angle + (i * M_PI / 180.0)), 5 * sin(this->angle + (i * M_PI / 180.0)));
+					if (center.distanceToPoint(newTemp) < 50) {
+						flag = !flag;
+						continue;
+					}
+					*this += Point(2 * cos(this->angle + (i * M_PI / 180.0)), 2 * sin(this->angle + (i * M_PI / 180.0)));
 					Line newTempLine = Line(center, newTemp);
 					newTempLine.setColorChannels(COLORS::CYAN);
 					newTempLine.drawLine(MegaBase::renderer, MegaBase::offset);
@@ -64,15 +65,6 @@ class BadTest : public EnemyBase {
 				temp.setColorChannels(COLORS::BLACK);
 				temp.drawLine(MegaBase::renderer, MegaBase::offset);
 			}
-			
-			//temp.drawLine(MegaBase::renderer, MegaBase::offset);
-			/*
-			if (newTemp.isReal()) {
-				//std::cout << "holy shit it worked" << std::endl;
-				Line newTempLine = Line(this->position, newTemp);
-				newTempLine.setColorChannels(COLORS::CYAN);
-				newTempLine.drawLine(MegaBase::renderer, MegaBase::offset);
-			}*/
 		}
 		
 		void update() {
