@@ -4,7 +4,6 @@ void close(SDL_Window* window);
 void clearScreen(SDL_Renderer* renderer);
 void renderChanges(SDL_Renderer* renderer, SDL_Window* window);
 
-/* TODO: Add a super simple "base" class to handle this shit for me */
 SDL_Renderer* MegaBase::renderer = NULL;
 BoundedPoint* MegaBase::offset = NULL;
 
@@ -55,6 +54,7 @@ int main(int argc, char *argv[]) {
 	contra.addListener("Ray", 120);
 	contra.addPlayerKeys(&popo);
 	FpsText fps(&gFont, Point(100, 10), COLORS::RED);
+	AlertText test("this shouldn't last long", Point(300, 150), COLORS::RED, 20, 2500, "Roboto.ttf");
 	while(!contra.quit) {
 		clearScreen(gRenderer);
 		popo.zero(); // >:(
@@ -66,6 +66,7 @@ int main(int argc, char *argv[]) {
 		boxes.drawGroup();
 		bads.drawGroup();
 		ap.update(gRenderer);
+		test.render();
 		dot.draw(); // Player must always be drawn onto the top layer for best visibility, for the time being
 		if (contra.checkListener(config["Ray"]).getHeld()) { // Raycasting
 			dot.rayCast(&boxes); 

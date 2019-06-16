@@ -60,7 +60,7 @@ class EnemyBase {
 				}
 			}
 			this->position += Point(xflag, yflag);
-			this->angle = atan2(yflag, xflag);
+			this->angle = atan2(delta.y(), delta.x());
 		}
 		
 		friend std::ostream& operator<<(std::ostream &output, const EnemyBase& base) {

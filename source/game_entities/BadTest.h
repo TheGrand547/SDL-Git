@@ -10,6 +10,7 @@
 #include "../primitives/Point.h"
 #include "CollideBaseGroup.h"
 #include "../primitives/Line.h"
+#include "../essential/random.h"
 
 class BadTest : public EnemyBase {
 	public:
@@ -45,21 +46,19 @@ class BadTest : public EnemyBase {
 			// "AI"
 			Point center = this->position + Point() + Point(this->width / 2, this->height / 2);
 			bool flag = false;
-			for (int i = -10; i < 10; i++) {
+			for (int i = -20; i <= 20; i++) {
 				Point pTemp = Point(center);
-				pTemp += Point(300 * cos(this->angle + (i * M_PI / 180.0)), 300 * sin(this->angle + (i * M_PI / 180.0)));
+				pTemp += Point(300 * cos(this->angle + radians(i)), 300 * sin(this->angle + radians(i)));
 				Line temp = Line(center, pTemp);
 				Point newTemp = dot->getRect().collideLine(temp);
-				if (newTemp.isReal() && !flag) {
-					if (center.distanceToPoint(newTemp) < 50) {
+				if (newTemp.isReal()) {
+					if (!flag && center.distanceToPoint(newTemp) > 50) {
+						*this += Point(2 * cos(this->angle + radians(i)), 2 * sin(this->angle + radians(i)));
 						flag = !flag;
-						continue;
 					}
-					*this += Point(2 * cos(this->angle + (i * M_PI / 180.0)), 2 * sin(this->angle + (i * M_PI / 180.0)));
 					Line newTempLine = Line(center, newTemp);
 					newTempLine.setColorChannels(COLORS::CYAN);
 					newTempLine.drawLine(MegaBase::renderer, MegaBase::offset);
-					flag = !flag;
 					continue;
 				}
 				temp.setColorChannels(COLORS::BLACK);

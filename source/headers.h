@@ -27,6 +27,7 @@
 #include "Dot.h"
 #include "primitives/PointDelta.h"
 #include "wrappers/HeldKey.h"
+#include "wrappers/AlertText.h"
 #include "game_entities/base/CollideBase.h"
 #include "essential/Configuration.h"
 #include "game_entities/BadTest.h"

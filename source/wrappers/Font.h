@@ -5,10 +5,12 @@ class Font {
 	private:
 		int fontSize;
 		TTF_Font *fontRenderer;
+		std::string filename;
 	public:
-		Font(int size = 20, const char *filename = "resources/font.ttf") {
+		Font(int size = 20, std::string filename = "font.ttf") {
+			this->filename = "/resources/" + filename;
 			fontSize = size;
-			fontRenderer = TTF_OpenFont(filename, size);
+			fontRenderer = TTF_OpenFont(this->filename.c_str(), size);
 			if (fontRenderer == NULL) {
 				printf("Failed to load font\n");
 			}
@@ -17,6 +19,15 @@ class Font {
 		~Font() {
 			TTF_CloseFont(fontRenderer);
 			fontRenderer = NULL;
+		}
+		
+		void operator=(const Font& font) {
+			this->fontSize = font.fontSize;
+			if (this->fontRenderer != NULL) {
+				TTF_CloseFont(fontRenderer);
+			fontRenderer = NULL;
+			}
+			this->fontRenderer = TTF_OpenFont(font.filename.c_str(), font.fontSize);
 		}
 		
 		void drawTexture(SDL_Renderer *renderer, SDL_Texture *texture, SDL_Rect rect, 

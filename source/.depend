@@ -35,6 +35,8 @@ main.o: ../main.cpp ../source/headers.h ../source/game_entities/Box.h \
   ../source/primitives/PointDelta.h ../source/essential/constants.h \
   ../source/essential/MegaBase.h ../source/wrappers/HeldKey.h \
   ../source/game_entities/../wrappers/Timer.h \
+  ../source/wrappers/AlertText.h \
+  ../source/game_entities/../wrappers/Font.h \
   ../source/essential/Configuration.h ../source/game_entities/BadTest.h \
   ../source/game_entities/base/EnemyBase.h \
   ../source/game_entities/base/../../essential/constants.h \
@@ -47,6 +49,7 @@ main.o: ../main.cpp ../source/headers.h ../source/game_entities/Box.h \
   ../source/game_entities/paths/PathManager.h \
   ../source/game_entities/paths/LinePath.h \
   ../source/game_entities/paths/../../primitives/Point.h \
+  ../source/game_entities/../essential/random.h \
   ../source/wrappers/control/Controller.h \
   ../source/wrappers/control/../../essential/Configuration.h \
   ../source/wrappers/control/../../primitives/PointDelta.h \
@@ -54,9 +57,8 @@ main.o: ../main.cpp ../source/headers.h ../source/game_entities/Box.h \
   ../source/wrappers/control/ButtonCommand.h \
   ../source/wrappers/control/ControllerCommand.h \
   ../source/wrappers/control/CommandBase.h \
-  ../source/wrappers/AppearingText.h \
-  ../source/game_entities/../wrappers/Font.h \
-  ../source/wrappers/FpsText.h ../source/game_entities/BackgroundGroup.h \
+  ../source/wrappers/AppearingText.h ../source/wrappers/FpsText.h \
+  ../source/game_entities/BackgroundGroup.h \
   ../source/game_entities/CollideBaseFactory.h \
   ../source/game_entities/EnemyDrawGroup.h
 Rect.o: primitives/Rect.cpp primitives/Rect.h \
@@ -171,3 +173,8 @@ EnemyDrawGroup.o: game_entities/EnemyDrawGroup.cpp \
   game_entities/../game_entities/CollideBaseGroup.h \
   game_entities/../essential/constants.h
 Point.o: primitives/Point.cpp primitives/Point.h
+AlertText.o: wrappers/AlertText.cpp wrappers/AlertText.h wrappers/Font.h \
+  wrappers/Timer.h wrappers/../primitives/Point.h \
+  wrappers/../essential/MegaBase.h \
+  wrappers/../essential/../BoundedPoint.h \
+  wrappers/../essential/../primitives/Point.h
