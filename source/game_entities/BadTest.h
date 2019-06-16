@@ -71,8 +71,6 @@ class BadTest : public EnemyBase {
 			if (!this->texture->isLoaded()) {
 				this->set();
 			}
-			// Basic AI(hopefully)
-			
 			this->c->update();
 		}
 		
