@@ -58,6 +58,7 @@ void Controller::handleEvents() {
 				break;
 		}
 	}
+	
 	if (this->myq.size() > 5) {
 		this->myq.erase(this->myq.begin());
 		std::stringstream tmp;

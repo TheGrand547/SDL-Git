@@ -10,7 +10,7 @@ BoundedPoint* MegaBase::offset = NULL;
 std::vector<AlertText> myTemp;
 
 void addMsg() {
-	myTemp.push_back(AlertText("no u", Point(250, 250), COLORS::RED));
+	myTemp.push_back(AlertText("no u", Point(250, 250), COLORS::RED, 20, 100000));
 }
 
 int main(int argc, char *argv[]) {
@@ -46,6 +46,7 @@ int main(int argc, char *argv[]) {
 			}
 		}
 	}
+	
 	bads.add(new BadTest(Point(400, 500), &boxes));
 	// Initializes the pointer to the single texture shared by all Box objects, then creates the boxes and assigns the pointer to them
 	SuperTexture* mTexture = Box::createBoxTexture(gRenderer); // TODO: KILL THIS WITH FIRE
@@ -64,8 +65,6 @@ int main(int argc, char *argv[]) {
 	contra.addCheat("IDKFA", addMsg);
 	FpsText fps(&gFont, Point(100, 10), COLORS::RED);
 	AlertText test("this shouldn't last long", Point(300, 150), COLORS::RED, 20, 2500);
-	std::cout << "F232" << std::endl;
-	
 	while(!contra.quit) {
 		clearScreen(gRenderer);
 		popo.zero(); // >:(
@@ -77,13 +76,10 @@ int main(int argc, char *argv[]) {
 		boxes.drawGroup();
 		bads.drawGroup();
 		ap.update(gRenderer);
-		test.render();
 		// TEMP
-		for (AlertText t: myTemp) {
-			std::cout << "CALLED" << std::endl;
-			t.render();
+		for (int i = 0; i < myTemp.size(); i++) {
+			myTemp[i].render();
 		}
-		
 		dot.draw(); // Player must always be drawn onto the top layer for best visibility, for the time being
 		if (contra.checkListener(config["Ray"]).getHeld()) { // Raycasting
 			dot.rayCast(&boxes); 
