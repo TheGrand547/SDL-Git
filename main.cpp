@@ -1,5 +1,5 @@
 #include "source/headers.h"
-bool init(SDL_Renderer*& renderer, SDL_Window*& window);
+bool init(SDL_Renderer** renderer, SDL_Window** window); //TODO fucking kill this
 void close(SDL_Window* window);
 void clearScreen(SDL_Renderer* renderer);
 void renderChanges(SDL_Renderer* renderer, SDL_Window* window);
@@ -11,10 +11,11 @@ int main(int argc, char *argv[]) {
 	/* TODO: Add Method/Class for initializing everything on screen to clean up main() and help smooth the transition to using 'Screen' as the base class for the project */
 	SDL_Window* gameWindow = NULL;
 	SDL_Renderer* gRenderer = NULL;
-	if(!init(gRenderer, gameWindow)) {
+	if(!init(&gRenderer, &gameWindow)) {
 		printf("Failed to initialize!\n");
 		return 0;
 	}
+	
 	BoundedPoint screenPosition = BoundedPoint(Screen::MAX_SCREEN_X_POS, Screen::MAX_SCREEN_Y_POS);
 	Dot dot = Dot(Point(300, 150));
 	dot.setColorChannels(0xFF);
@@ -54,7 +55,7 @@ int main(int argc, char *argv[]) {
 	contra.addListener("Ray", 120);
 	contra.addPlayerKeys(&popo);
 	FpsText fps(&gFont, Point(100, 10), COLORS::RED);
-	AlertText test("this shouldn't last long", Point(300, 150), COLORS::RED, 20, 2500, "Roboto.ttf");
+	AlertText test("this shouldn't last long", Point(300, 150), COLORS::RED, 20, 2500);
 	while(!contra.quit) {
 		clearScreen(gRenderer);
 		popo.zero(); // >:(
@@ -80,7 +81,7 @@ int main(int argc, char *argv[]) {
 }
 
 
-bool init(SDL_Renderer*& renderer, SDL_Window*& gWindow) {
+bool init(SDL_Renderer** renderer, SDL_Window** gWindow) {
 	bool success = true; //Initialization flag
 	//Initialize SDL
 	if(SDL_Init(SDL_INIT_EVERYTHING) < 0) {
@@ -88,13 +89,13 @@ bool init(SDL_Renderer*& renderer, SDL_Window*& gWindow) {
 		success = false;
 	} else {
 		SDL_Init(SDL_INIT_VIDEO);
-		gWindow = SDL_CreateWindow(Screen::WINDOW_TITLE.c_str(), Screen::DEFAULT_POS, Screen::DEFAULT_POS, Screen::SCREEN_WIDTH, Screen::SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+		*gWindow = SDL_CreateWindow(Screen::WINDOW_TITLE.c_str(), Screen::DEFAULT_POS, Screen::DEFAULT_POS, Screen::SCREEN_WIDTH, Screen::SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 		if(gWindow == NULL) {
 			printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
 			success = false;
 		} else {
 			TTF_Init();
-			renderer = SDL_CreateRenderer(gWindow, -1, SDL_RENDERER_ACCELERATED);
+			*renderer = SDL_CreateRenderer(*gWindow, -1, SDL_RENDERER_ACCELERATED);
 		}
 	}
 	return success;

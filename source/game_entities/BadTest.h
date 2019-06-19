@@ -18,12 +18,12 @@ class BadTest : public EnemyBase {
 		
 		BadTest(Point position, CollideBaseGroup* collide) : EnemyBase(collide, position) {
 			this->c = new PathManager<EnemyBase>(this);
-			/*
+			
 			this->c->AddPath(new LinePath<EnemyBase>(Point(200, -200), toTicks(1)));
 			this->c->AddPath(new CirclePath<EnemyBase>(40, 1, Path<Point>::SINGLE_LOOP, false));
 			this->c->AddPath(new LinePath<EnemyBase>(Point(-200, 200), toTicks(1)));
 			this->c->AddPath(new CirclePath<EnemyBase>(40, 1, Path<Point>::SINGLE_LOOP, false));			
-			this->c->setRepeat(true);*/
+			this->c->setRepeat(true);
 		}
 		
 		BadTest(const BadTest& that) : EnemyBase(that.collide, that.position) {
@@ -44,6 +44,7 @@ class BadTest : public EnemyBase {
 				this->texture->render(MegaBase::renderer, MegaBase::offset);
 			}
 			// "AI"
+			/*
 			Point center = this->position + Point() + Point(this->width / 2, this->height / 2);
 			bool flag = false;
 			for (int i = -20; i <= 20; i++) {
@@ -63,7 +64,7 @@ class BadTest : public EnemyBase {
 				}
 				temp.setColorChannels(COLORS::BLACK);
 				temp.drawLine(MegaBase::renderer, MegaBase::offset);
-			}
+			}*/
 		}
 		
 		void update() {

@@ -13,6 +13,7 @@
 #include<stdio.h>
 #include<sstream>
 #include<vector>
+#include<queue>
 #include "game_entities/Box.h"
 #include "game_entities/BackgroundElement.h"
 #include "primitives/Line.h"

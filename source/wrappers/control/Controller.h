@@ -12,7 +12,6 @@
 #include<map>
 #include<vector>
 
-
 /* Class to handle event handling(haha) less messily and with easier functionality to implement new events */ 
 class Controller {
 	/* There are three types of events the Controller will handle; Keys, Buttons, and Listeners 
@@ -24,6 +23,7 @@ class Controller {
 		std::map<int, CommandBase*> keys; // Sadly have to be pointers :(, otherwise everything breaks
 		std::map<int, ButtonCommand*> buttons;
 		std::map<int, HeldKey> listeners;
+		std::vector<char> myq;
 		Configuration config;
 		const Uint8* stuff = SDL_GetKeyboardState(NULL);
 	public:

@@ -43,7 +43,6 @@ class PathManager {
 		}
 		
 		void update() {
-			//std::cout << this->paths.size() << std::endl;// << "->" << this->index << std::endl;
 			if (this->index < this->paths.size()) {
 				if (this->paths[this->index]->isFinished()) {
 					this->paths[this->index]->stop();

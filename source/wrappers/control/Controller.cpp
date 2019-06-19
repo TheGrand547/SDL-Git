@@ -4,6 +4,8 @@
 #include "PlayerMoveCommand.h"
 #include<iostream>
 #include<SDL2/SDL.h>
+#include<string>
+#include<sstream>
 #include "../../essential/util.h"
 
 int scanCodeFromEvent(SDL_Event event) {
@@ -35,6 +37,7 @@ void Controller::handleEvents() {
 				break;
 			case SDL_KEYDOWN:
 				if (e.key.repeat == 0) {
+					this->myq.push_back(*SDL_GetKeyName(e.key.keysym.sym));
 					if (this->keys[scanCodeFromEvent(e)] != NULL) {
 						this->keys[scanCodeFromEvent(e)]->keyDownCommand();
 					}
@@ -53,6 +56,17 @@ void Controller::handleEvents() {
 					}
 				}
 				break;
+		}
+	}
+	if (this->myq.size() >= 5) {
+		this->myq.erase(this->myq.begin());
+		std::stringstream tmp;
+		tmp.str("");
+		for (int i = 0; i < 5; i++) {
+			tmp << this->myq[i];
+		}
+		if (tmp.str() == "IDKFA") {
+			std::cout << "reeee idkfa" << std::endl;
 		}
 	}
 	for (std::map<int, ButtonCommand*>::iterator iterator = buttons.begin(); iterator != buttons.end(); iterator++) {
