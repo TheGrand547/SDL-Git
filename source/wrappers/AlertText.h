@@ -18,6 +18,7 @@ class AlertText {
 	public:
 		AlertText(std::string text, Point position, SDL_Color color, int textSize = 20, float milliseconds = 1000, std::string filename = "font.ttf");
 		~AlertText();
+		AlertText& operator=(const AlertText& other);
 		bool isDone();
 		void render();
 };

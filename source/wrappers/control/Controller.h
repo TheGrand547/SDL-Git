@@ -23,7 +23,10 @@ class Controller {
 		std::map<int, CommandBase*> keys; // Sadly have to be pointers :(, otherwise everything breaks
 		std::map<int, ButtonCommand*> buttons;
 		std::map<int, HeldKey> listeners;
+		// TEMP
 		std::vector<char> myq;
+		std::map<std::string, void(*)()> mymp;
+		
 		Configuration config;
 		const Uint8* stuff = SDL_GetKeyboardState(NULL);
 	public:
@@ -39,5 +42,6 @@ class Controller {
 		void tickListeners();
 		HeldKey& checkListener(int key);
 		void addPlayerKeys(PointDelta* target);
+		void addCheat(std::string key, void(*func)());
 };
 #endif

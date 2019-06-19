@@ -7,6 +7,12 @@ void renderChanges(SDL_Renderer* renderer, SDL_Window* window);
 SDL_Renderer* MegaBase::renderer = NULL;
 BoundedPoint* MegaBase::offset = NULL;
 
+std::vector<AlertText> myTemp;
+
+void addMsg() {
+	myTemp.push_back(AlertText("no u", Point(250, 250), COLORS::RED));
+}
+
 int main(int argc, char *argv[]) {
 	/* TODO: Add Method/Class for initializing everything on screen to clean up main() and help smooth the transition to using 'Screen' as the base class for the project */
 	SDL_Window* gameWindow = NULL;
@@ -23,6 +29,7 @@ int main(int argc, char *argv[]) {
 	
 	MegaBase::setOffset(&screenPosition);
 	MegaBase::setRenderer(gRenderer);
+
 
 	CollideBaseGroup boxes;
 	// TODO: Create a file structure for containing level data so its not hardcoded 
@@ -54,8 +61,11 @@ int main(int argc, char *argv[]) {
 	Controller contra;
 	contra.addListener("Ray", 120);
 	contra.addPlayerKeys(&popo);
+	contra.addCheat("IDKFA", addMsg);
 	FpsText fps(&gFont, Point(100, 10), COLORS::RED);
 	AlertText test("this shouldn't last long", Point(300, 150), COLORS::RED, 20, 2500);
+	std::cout << "F232" << std::endl;
+	
 	while(!contra.quit) {
 		clearScreen(gRenderer);
 		popo.zero(); // >:(
@@ -68,6 +78,12 @@ int main(int argc, char *argv[]) {
 		bads.drawGroup();
 		ap.update(gRenderer);
 		test.render();
+		// TEMP
+		for (AlertText t: myTemp) {
+			std::cout << "CALLED" << std::endl;
+			t.render();
+		}
+		
 		dot.draw(); // Player must always be drawn onto the top layer for best visibility, for the time being
 		if (contra.checkListener(config["Ray"]).getHeld()) { // Raycasting
 			dot.rayCast(&boxes); 

@@ -17,17 +17,26 @@ class Font {
 		}
 		
 		~Font() {
-			TTF_CloseFont(fontRenderer);
+			std::cout << "FONT -> " << this->fontRenderer << std::endl;
+			if (this->fontRenderer != NULL) {
+				TTF_CloseFont(this->fontRenderer);
+			}
 			fontRenderer = NULL;
 		}
 		
-		void operator=(const Font& font) {
+		Font& operator=(const Font& font) {
+			std::cout << "OPERATOR= E" << std::endl;
 			this->fontSize = font.fontSize;
+			std::cout << "BEFORE -> " << this->fontRenderer << std::endl;
+			std::cout << "OTHERS -> " << font.fontRenderer << std::endl;
 			if (this->fontRenderer != NULL) {
 				TTF_CloseFont(fontRenderer);
-			fontRenderer = NULL;
+				fontRenderer = NULL;
 			}
+			
 			this->fontRenderer = TTF_OpenFont(font.filename.c_str(), font.fontSize);
+			std::cout << "AFTER -> " << this->fontRenderer << std::endl;
+			return *this;
 		}
 		
 		void drawTexture(SDL_Renderer *renderer, SDL_Texture *texture, SDL_Rect rect, 

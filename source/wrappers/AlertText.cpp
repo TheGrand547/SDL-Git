@@ -9,7 +9,19 @@ AlertText::AlertText(std::string text, Point position, SDL_Color color, int text
 	this->maxMilliseconds = milliseconds;
 }
 
-AlertText::~AlertText() {}
+AlertText::~AlertText() {
+	std::cout << this->message << std::endl;
+}
+
+AlertText& AlertText::operator=(const AlertText& other) {
+	this->message = other.message;
+	this->position = other.position;
+	this->color = other.color;
+	this->font = other.font;
+	this->finished = other.finished;
+	this->maxMilliseconds = other.maxMilliseconds;
+	return *this;
+}
 
 void AlertText::render() {
 	if (!this->timer.isStarted()) {
@@ -17,6 +29,7 @@ void AlertText::render() {
 		return;
 	}
 	if (this->timer.getTicks() >= this->maxMilliseconds) {
+		std::cout << "WE DONE BOYS" << std::endl;
 		this->finished = true;
 		return;
 	}

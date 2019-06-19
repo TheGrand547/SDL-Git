@@ -6,7 +6,7 @@
 #include<SDL2/SDL.h>
 #include<string>
 #include<sstream>
-#include "../../essential/util.h"
+#include "../../essential/util.h"  
 
 int scanCodeFromEvent(SDL_Event event) {
 	return event.key.keysym.scancode;
@@ -58,15 +58,20 @@ void Controller::handleEvents() {
 				break;
 		}
 	}
-	if (this->myq.size() >= 5) {
+	if (this->myq.size() > 5) {
 		this->myq.erase(this->myq.begin());
 		std::stringstream tmp;
 		tmp.str("");
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < this->myq.size(); i++) {
 			tmp << this->myq[i];
 		}
-		if (tmp.str() == "IDKFA") {
-			std::cout << "reeee idkfa" << std::endl;
+		for (std::map<std::string, void(*)()>::iterator iterator = this->mymp.begin(); iterator != this->mymp.end(); iterator++) {
+			if (iterator->first == tmp.str()) {
+				if (iterator->second != NULL) {
+					iterator->second();
+					break;
+				}
+			}
 		}
 	}
 	for (std::map<int, ButtonCommand*>::iterator iterator = buttons.begin(); iterator != buttons.end(); iterator++) {
@@ -110,4 +115,8 @@ void Controller::addPlayerKeys(PointDelta* target) {
 	this->addButton(config["Left"], new PlayerMoveCommand(BASIC::PLAYER_LEFT_KEYDOWN, target));
 	this->addButton(config["Up"], new PlayerMoveCommand(BASIC::PLAYER_UP_KEYDOWN, target));
 	this->addButton(config["Down"], new PlayerMoveCommand(BASIC::PLAYER_DOWN_KEYDOWN, target));
+}
+
+void Controller::addCheat(std::string key, void(*func)()) {
+	this->mymp[key] = func;
 }
