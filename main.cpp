@@ -10,7 +10,7 @@ BoundedPoint* MegaBase::offset = NULL;
 std::vector<AlertText> myTemp;
 
 void addMsg() {
-	myTemp.push_back(AlertText("no u", Point(250, 250), COLORS::RED, 20, 100000));
+	myTemp.push_back(AlertText("God Mode Activated", Point(250, 250), COLORS::RED, 20, 1000));
 }
 
 int main(int argc, char *argv[]) {
@@ -62,9 +62,9 @@ int main(int argc, char *argv[]) {
 	Controller contra;
 	contra.addListener("Ray", 120);
 	contra.addPlayerKeys(&popo);
-	contra.addCheat("IDKFA", addMsg);
+	contra.addCheat("idkfa", addMsg);
 	FpsText fps(&gFont, Point(100, 10), COLORS::RED);
-	AlertText test("this shouldn't last long", Point(300, 150), COLORS::RED, 20, 2500);
+	myTemp.push_back(AlertText("this shouldn't last long", Point(300, 150), COLORS::RED, 20, 2500));
 	while(!contra.quit) {
 		clearScreen(gRenderer);
 		popo.zero(); // >:(
@@ -76,9 +76,14 @@ int main(int argc, char *argv[]) {
 		boxes.drawGroup();
 		bads.drawGroup();
 		ap.update(gRenderer);
-		// TEMP
+		// TODO: Class this - Also why doesn't it work with a range based for
+		
 		for (int i = 0; i < myTemp.size(); i++) {
 			myTemp[i].render();
+			if (myTemp[i].isDone()) {
+				myTemp.erase(myTemp.begin() + i);
+				i--;
+			}
 		}
 		dot.draw(); // Player must always be drawn onto the top layer for best visibility, for the time being
 		if (contra.checkListener(config["Ray"]).getHeld()) { // Raycasting

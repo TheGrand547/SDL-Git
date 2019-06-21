@@ -59,18 +59,18 @@ void Controller::handleEvents() {
 		}
 	}
 	
-	if (this->myq.size() > 5) {
-		this->myq.erase(this->myq.begin());
+	if (this->myq.size() >= 1) {
 		std::stringstream tmp;
 		tmp.str("");
 		for (int i = 0; i < this->myq.size(); i++) {
-			tmp << this->myq[i];
-		}
-		for (std::map<std::string, void(*)()>::iterator iterator = this->mymp.begin(); iterator != this->mymp.end(); iterator++) {
-			if (iterator->first == tmp.str()) {
-				if (iterator->second != NULL) {
-					iterator->second();
-					break;
+			tmp << char(tolower(this->myq[i]));
+			for (std::map<std::string, void(*)()>::iterator iterator = this->mymp.begin(); iterator != this->mymp.end(); iterator++) {
+				if (iterator->first == tmp.str()) {
+					if (iterator->second != NULL) {
+						iterator->second();
+						this->myq.clear();
+						break;
+					}
 				}
 			}
 		}
