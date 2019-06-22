@@ -16,7 +16,7 @@ class BadTest : public EnemyBase {
 	public:
 		PathManager<EnemyBase>* c; // <- Figure out why this is a pointer
 		
-		BadTest(Point position, CollideBaseGroup* collide) : EnemyBase(collide, position) {
+		BadTest(Point position) : EnemyBase(position) {
 			this->c = new PathManager<EnemyBase>(this);
 			
 			this->c->AddPath(new LinePath<EnemyBase>(Point(200, -200), toTicks(1)));
@@ -26,8 +26,8 @@ class BadTest : public EnemyBase {
 			this->c->setRepeat(true);
 		}
 		
-		BadTest(const BadTest& that) : EnemyBase(that.collide, that.position) {
-			*this = BadTest(that.position, that.collide);
+		BadTest(const BadTest& that) : EnemyBase(that.position) {
+			*this = BadTest(that.position);
 		}
 		
 		~BadTest() {

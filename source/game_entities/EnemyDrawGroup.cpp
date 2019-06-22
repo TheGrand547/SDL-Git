@@ -10,6 +10,7 @@ EnemyDrawGroup::~EnemyDrawGroup() {
 }
 
 void EnemyDrawGroup::add(EnemyBase* entity) {
+	entity->setCollision(this->collide);
 	this->vector.push_back(entity);
 }
 
@@ -27,4 +28,8 @@ void EnemyDrawGroup::drawGroup() {
 
 void EnemyDrawGroup::setDot(Dot* dot) {
 	this->dot = dot;
+}
+
+void EnemyDrawGroup::setCollision(CollideBaseGroup* collision) {
+	this->collide = collision;
 }

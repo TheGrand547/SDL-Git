@@ -13,6 +13,10 @@ void addMsg() {
 	myTemp.push_back(AlertText("God Mode Activated", Point(250, 250), COLORS::RED, 20, 1000));
 }
 
+void t2() {
+	myTemp.push_back(AlertText("REEEEE", Point(350, 250), COLORS::RED, 20, 1000));
+}
+
 int main(int argc, char *argv[]) {
 	/* TODO: Add Method/Class for initializing everything on screen to clean up main() and help smooth the transition to using 'Screen' as the base class for the project */
 	SDL_Window* gameWindow = NULL;
@@ -35,19 +39,20 @@ int main(int argc, char *argv[]) {
 	// TODO: Create a file structure for containing level data so its not hardcoded 
 	EnemyDrawGroup bads;
 	bads.setDot(&dot);
+	bads.setCollision(&boxes);
 	BackgroundGroup groundGroup;
 	int count = 0;
 	for (int x = 0; x <= Screen::MAX_WIDTH; x += 100) {
 		for (int y = 0; y <= Screen::MAX_HEIGHT; y += 100) {
 			groundGroup.add(Point(x, y), Ground::GRASS);
-			//bads.add(new BadTest(Point(x, y), &boxes)); // TODO: Add wall collision to the DrawGroup instead of each individual one
+			//bads.add(new BadTest(Point(x, y));
 			if (x == 0 || y == 0 || x >= Screen::MAX_WIDTH - 100 || y >= Screen::MAX_HEIGHT - 100) {
 				//boxes.push_back(CollideBaseFactory::CreateBox(Point(x, y)));
 			}
 		}
 	}
 	
-	bads.add(new BadTest(Point(400, 500), &boxes));
+	bads.add(new BadTest(Point(400, 500)));
 	// Initializes the pointer to the single texture shared by all Box objects, then creates the boxes and assigns the pointer to them
 	SuperTexture* mTexture = Box::createBoxTexture(gRenderer); // TODO: KILL THIS WITH FIRE
 	boxes.push_back(CollideBaseFactory::CreateBox(Point(50, 50)));
@@ -63,6 +68,7 @@ int main(int argc, char *argv[]) {
 	contra.addListener("Ray", 120);
 	contra.addPlayerKeys(&popo);
 	contra.addCheat("idkfa", addMsg);
+	contra.addCheat("tg547", t2);
 	FpsText fps(&gFont, Point(100, 10), COLORS::RED);
 	myTemp.push_back(AlertText("this shouldn't last long", Point(300, 150), COLORS::RED, 20, 2500));
 	while(!contra.quit) {
@@ -77,7 +83,6 @@ int main(int argc, char *argv[]) {
 		bads.drawGroup();
 		ap.update(gRenderer);
 		// TODO: Class this - Also why doesn't it work with a range based for
-		
 		for (int i = 0; i < myTemp.size(); i++) {
 			myTemp[i].render();
 			if (myTemp[i].isDone()) {

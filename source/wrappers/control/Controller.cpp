@@ -65,7 +65,7 @@ void Controller::handleEvents() {
 		for (int i = 0; i < this->myq.size(); i++) {
 			tmp << char(tolower(this->myq[i]));
 			for (std::map<std::string, void(*)()>::iterator iterator = this->mymp.begin(); iterator != this->mymp.end(); iterator++) {
-				if (iterator->first == tmp.str()) {
+				if (tmp.str().find(iterator->first) != std::string::npos) {
 					if (iterator->second != NULL) {
 						iterator->second();
 						this->myq.clear();
