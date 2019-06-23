@@ -7,14 +7,14 @@ void renderChanges(SDL_Renderer* renderer, SDL_Window* window);
 SDL_Renderer* MegaBase::renderer = NULL;
 BoundedPoint* MegaBase::offset = NULL;
 
-std::vector<AlertText> myTemp;
+AlertTextHandler handler;
 
 void addMsg() {
-	myTemp.push_back(AlertText("God Mode Activated", Point(250, 250), COLORS::RED, 20, 1000));
+	handler.addMessage(AlertText("God Mode Activated", Point(250, 250), COLORS::RED, 20, 1000));
 }
 
 void t2() {
-	myTemp.push_back(AlertText("REEEEE", Point(350, 250), COLORS::RED, 20, 1000));
+	handler.addMessage(AlertText("REEEEE", Point(350, 250), COLORS::RED, 20, 1000));
 }
 
 int main(int argc, char *argv[]) {
@@ -67,10 +67,11 @@ int main(int argc, char *argv[]) {
 	Controller contra;
 	contra.addListener("Ray", 120);
 	contra.addPlayerKeys(&popo);
-	contra.addCheat("idkfa", addMsg);
+	contra.addCheat("idkfa", addMsg); // TODO: Make this not dependent on function pointers
 	contra.addCheat("tg547", t2);
 	FpsText fps(&gFont, Point(100, 10), COLORS::RED);
-	myTemp.push_back(AlertText("this shouldn't last long", Point(300, 150), COLORS::RED, 20, 2500));
+	handler.addMessage(AlertText("this shouldn't last long", Point(300, 150), COLORS::RED, 20, 2500));
+	// TODO: Standardize between draw and render, ie pick one you indecisive fuck
 	while(!contra.quit) {
 		clearScreen(gRenderer);
 		popo.zero(); // >:(
@@ -82,14 +83,7 @@ int main(int argc, char *argv[]) {
 		boxes.drawGroup();
 		bads.drawGroup();
 		ap.update(gRenderer);
-		// TODO: Class this - Also why doesn't it work with a range based for
-		for (int i = 0; i < myTemp.size(); i++) {
-			myTemp[i].render();
-			if (myTemp[i].isDone()) {
-				myTemp.erase(myTemp.begin() + i);
-				i--;
-			}
-		}
+		handler.render();
 		dot.draw(); // Player must always be drawn onto the top layer for best visibility, for the time being
 		if (contra.checkListener(config["Ray"]).getHeld()) { // Raycasting
 			dot.rayCast(&boxes); 
