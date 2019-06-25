@@ -48,7 +48,7 @@ class EnemyBase {
 			float yflag = 0;
 			Point px = delta;
 			if (this->collide != NULL) {
- 				for (int i = 1; i < 6; i++) {
+ 				for (int i = 1; i < 3; i++) {
 					if (!xflag) {
 						if (collideRectTest(Rect(this->position, this->width, this->height) + px.onlyX() / i, this->collide)) {
 							xflag = px.x() / i;

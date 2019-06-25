@@ -34,7 +34,6 @@ int main(int argc, char *argv[]) {
 	MegaBase::setOffset(&screenPosition);
 	MegaBase::setRenderer(gRenderer);
 
-
 	CollideBaseGroup boxes;
 	// TODO: Create a file structure for containing level data so its not hardcoded 
 	EnemyDrawGroup bads;
