@@ -94,7 +94,7 @@ inline float Point::getMagnitude() {
 }
 
 bool Point::getNonZero() {
-	return ((int(this->xval) != 0 || int(this->yval) != 0) && (this->xval == this->xval || this->yval == this->yval));
+	return ((std::abs(this->xval) > .05 || std::abs(this->yval) > .05) && (this->xval == this->xval || this->yval == this->yval));
 }
 
 inline Point Point::negate() {

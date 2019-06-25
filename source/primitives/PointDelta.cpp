@@ -25,7 +25,7 @@ PointDelta::PointDelta(const PointDelta &that) : Point(that){
 float PointDelta::calcAngle(Point point) {
 	if(point.y() != 0 || point.x() != 0) {
 		 return atan2(0-point.y(), point.x());
-	 }
+	}
 	return 0;
 }
 
