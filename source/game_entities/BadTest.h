@@ -1,5 +1,6 @@
 #pragma once
 #include<SDL2/SDL.h>
+#include<cmath>
 #include<math.h>
 #include "base/EnemyBase.h"
 #include "../wrappers/Texture.h"
@@ -44,27 +45,29 @@ class BadTest : public EnemyBase {
 				this->texture->render(MegaBase::renderer, MegaBase::offset);
 			}
 			// "AI"
-			/*
 			Point center = this->position + Point() + Point(this->width / 2, this->height / 2);
-			bool flag = false;
-			for (int i = -20; i <= 20; i++) {
-				Point pTemp = Point(center);
-				pTemp += Point(300 * cos(this->angle + radians(i)), 300 * sin(this->angle + radians(i)));
-				Line temp = Line(center, pTemp);
-				Point newTemp = dot->getRect().collideLine(temp);
-				if (newTemp.isReal()) {
-					if (!flag && center.distanceToPoint(newTemp) > 50) {
-						*this += Point(2 * cos(this->angle + radians(i)), 2 * sin(this->angle + radians(i)));
-						flag = !flag;
+			float ange = atan2(dot->getCenter().y() - center.y(), dot->getCenter().x() - center.x());
+			if (std::abs(ange - this->angle) < M_PI_2) {
+				bool flag = false;
+				for (int i = -20; i <= 20; i++) {
+					Point pTemp = Point(center);
+					pTemp += Point(300 * cos(this->angle + radians(i)), 300 * sin(this->angle + radians(i)));
+					Line temp = Line(center, pTemp);
+					Point newTemp = dot->getRect().collideLine(temp);
+					if (newTemp.isReal()) {
+						if (!flag && center.distanceToPoint(newTemp) > 50) {
+							//*this += Point(2 * cos(this->angle + radians(i)), 2 * sin(this->angle + radians(i)));
+							flag = !flag;
+						}
+						Line newTempLine = Line(center, newTemp);
+						newTempLine.setColorChannels(COLORS::CYAN);
+						newTempLine.drawLine(MegaBase::renderer, MegaBase::offset);
+						continue;
 					}
-					Line newTempLine = Line(center, newTemp);
-					newTempLine.setColorChannels(COLORS::CYAN);
-					newTempLine.drawLine(MegaBase::renderer, MegaBase::offset);
-					continue;
+					temp.setColorChannels(COLORS::BLACK);
+					temp.drawLine(MegaBase::renderer, MegaBase::offset);
 				}
-				temp.setColorChannels(COLORS::BLACK);
-				temp.drawLine(MegaBase::renderer, MegaBase::offset);
-			}*/
+			}
 		}
 		
 		void update() {
