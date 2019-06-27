@@ -12,7 +12,7 @@
  * Various types are supported based on the enum passed to it */
 class BackElement {
 	private:
-		Texture *texture;
+		Texture* texture;
 		Point position;
 		Ground::Type type;
 	public:
@@ -47,7 +47,7 @@ class BackElement {
 			this->texture = NULL;
 		}
 		
-		BackElement operator=(BackElement &other) {
+		BackElement operator=(BackElement& other) {
 			this->position = other.position;
 			this->type = other.type;
 			if (this->texture != NULL) {

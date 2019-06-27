@@ -47,6 +47,7 @@ class EnemyBase {
 			float xflag = 0;
 			float yflag = 0;
 			Point px = delta;
+			// Seems really inefficent, investigate it
 			if (this->collide != NULL) {
  				for (int i = 1; i < 3; i++) {
 					if (!xflag) {

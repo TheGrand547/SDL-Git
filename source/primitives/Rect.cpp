@@ -35,17 +35,10 @@ Rect::Rect(const Rect &that) {
 Rect::~Rect() {}
 
 void Rect::superDraw(SDL_Renderer* renderer, Point offset) {
-	uint8_t* r = new uint8_t(0);
-	uint8_t* g = new uint8_t(0);
-	uint8_t* b = new uint8_t(0);
-	uint8_t* a = new uint8_t(0);
-	SDL_GetRenderDrawColor(renderer, r, g, b, a);
-	this->setColorChannels(*r, *g, *b, *a);
+	uint8_t r, g, b, a;
+	SDL_GetRenderDrawColor(renderer, &r, &g, &b, &a);
+	this->setColorChannels(r, g, b, a);
 	this->draw(renderer, offset);
-	delete r;
-	delete g;
-	delete b;
-	delete a;
 }
 
 void Rect::draw(SDL_Renderer* renderer, Point offset) {

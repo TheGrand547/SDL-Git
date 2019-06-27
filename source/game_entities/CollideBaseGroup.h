@@ -9,7 +9,7 @@
 #include "../wrappers/SuperTexture.h"
 class CollideBaseGroup : public DrawGroup {
 	private:
-		std::vector<CollideBase*>* group;
+		std::vector<CollideBase*> group;
 	public:
 		CollideBaseGroup();
 		~CollideBaseGroup();

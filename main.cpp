@@ -25,7 +25,6 @@ int main(int argc, char *argv[]) {
 		printf("Failed to initialize!\n");
 		return 0;
 	}
-	
 	BoundedPoint screenPosition = BoundedPoint(Screen::MAX_SCREEN_X_POS, Screen::MAX_SCREEN_Y_POS);
 	Dot dot = Dot(Point(300, 150));
 	dot.setColorChannels(0xFF);

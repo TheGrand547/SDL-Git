@@ -21,7 +21,6 @@ class Dot: public MyBase {
 		
 		~Dot() {}
 		
-		
 		Point getCenter() {
 			return this->position + Point(Player::PLAYER_X_DIMENSION / 2, Player::PLAYER_Y_DIMENSION / 2);
 		}
@@ -99,7 +98,7 @@ class Dot: public MyBase {
 				}
 			}
 			*this += PointDelta(xDelta, yDelta, delta.getMagnitude());
-			// PUT THIS ELSEWHERE
+			// PUT THIS ELSEWHERE <- Will be handled when implementation is changed to being based around the Screen Class
 			if (this->getPos().x() < Screen::SCREEN_WIDTH / 2) {
 				MegaBase::offset->xZero();
 			}

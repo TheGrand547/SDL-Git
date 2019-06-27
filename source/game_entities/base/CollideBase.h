@@ -18,7 +18,6 @@ class CollideBase {
 		virtual Point collideLine(Line &ray) {
 			return Point();
 		}
-		
 		virtual void draw(SDL_Renderer* renderer, Point offset) {}
 		virtual void setTexture(SuperTexture* texture) = 0;
 };

@@ -12,9 +12,7 @@ int scanCodeFromEvent(SDL_Event event) {
 	return event.key.keysym.scancode;
 }
 
-
-Controller::Controller() {
-}
+Controller::Controller() {}
 
 
 Controller::~Controller() {

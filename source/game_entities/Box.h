@@ -16,7 +16,7 @@ typedef Uint32 uint32_t;
 class Box : public CollideBase{
 	private:
 		Rect myRect;
-		SuperTexture *mTexture;
+		SuperTexture* mTexture;
 	public:
 		Box() {}
 		
@@ -33,7 +33,7 @@ class Box : public CollideBase{
 			myRect = that.myRect;
 		}
 		
-		Box &operator=(const Box &that) {
+		Box &operator=(const Box& that) {
 			myRect = that.myRect;
 			return *this;
 		}
@@ -45,11 +45,11 @@ class Box : public CollideBase{
 			}
 		}
 		
-		Point collideLine(Line &ray) {
+		Point collideLine(Line& ray) {
 			return this->myRect.collideLine(ray);
 		}
 		
-		bool overlap(Rect &other) {
+		bool overlap(Rect& other) {
 			return this->myRect.overlap(other);
 		}
 		
