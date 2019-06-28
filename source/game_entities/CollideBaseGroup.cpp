@@ -38,11 +38,8 @@ int CollideBaseGroup::size() {
 
 bool collideRect(Rect rect, CollideBaseGroup* boxes) {
 	bool result = false;
-	for (int i = 0; i < boxes->size(); i++) {
-		result = result || (*boxes)[i]->overlap(rect);
-		if (result) {
-			break;
-		}
+	for (int i = 0; i < boxes->size() && !result; i++) {
+		result = (*boxes)[i]->overlap(rect);
 	}
 	return result;
 }

@@ -1,17 +1,17 @@
 #include "Rect.h"
 
 Rect::Rect() {
-	this->tL = Point();
-	this->tR = Point();
-	this->bL = Point();
-	this->bR = Point();
+	this->xpos = 0;
+	this->ypos = 0;
+	this->width = 0;
+	this->height = 0;
 }
 
 Rect::Rect(Point topLeft, Point bottomRight) {
-	this->tL = Point(topLeft);
-	this->tR = Point(bottomRight.x(), topLeft.y());
-	this->bL = Point(topLeft.x(), bottomRight.y());
-	this->bR = Point(bottomRight);
+	this->xpos = topLeft.x();
+	this->ypos = topLeft.y();
+	this->width = bottomRight.x() - topLeft.x();
+	this->height = bottomRight.y() - topLeft.y();
 }
 
 Rect::Rect(float x, float y, int width, int height) {
@@ -19,17 +19,14 @@ Rect::Rect(float x, float y, int width, int height) {
 }
 
 Rect::Rect(Point position, int width, int height) {
-	this->tL = Point(position);
-	this->tR = Point(position.x() + width, position.y());
-	this->bL = Point(position.x(), position.y() + height);
-	this->bR = Point(position + Point(width, height));
+	*this = Rect(position, position + Point(width, height));
 }
 
 Rect::Rect(const Rect &that) {
-	tL = Point(that.tL);
-	tR = Point(that.tR);
-	bL = Point(that.bL);
-	bR = Point(that.bR);
+	this->xpos = that.xpos;
+	this->ypos = that.ypos;
+	this->width = that.width;
+	this->height = that.height;
 }
 
 Rect::~Rect() {}
@@ -42,18 +39,22 @@ void Rect::superDraw(SDL_Renderer* renderer, Point offset) {
 }
 
 void Rect::draw(SDL_Renderer* renderer, Point offset) {
-	rectangleRGBA(renderer, this->tL - offset, this->bR - offset, rChannel, bChannel, gChannel, aChannel);
+	rectangleRGBA(renderer, Point(this->xpos, this->ypos) - offset, Point(this->xpos + this->width, this->ypos + this->height) - offset, rChannel, bChannel, gChannel, aChannel);
 }
 
-Point Rect::collideLine(Line &ray) {
+Point Rect::collideLine(Line& ray) {
 	/* No way for a single straight line to intersect a line in more than
 	 * two points *except with the stupid inline ones that i'm changing
 	 * the whole thing for */
-	Point intersect[4] = {Point(), Point(), Point(), Point()};
-	Line temp[] = {Line(this->tL, this->tR), Line(this->tR, this->bR), Line(this->bR, this->bL), Line(this->bL, this->tL)};
+	Point intersect[] = {Point(), Point(), Point(), Point()};
+	Point topleft = Point(this->xpos, this->ypos);
+	Point topright = Point(this->xpos + this->width, this->ypos);
+	Point bottomleft = Point(this->xpos, this->ypos + this->height);
+	Point bottomright = Point(this->xpos + this->width, this->ypos + this->height);
+	Line temp[] = {Line(topleft, topright), Line(topright, bottomright), Line(bottomright, bottomleft), Line(bottomleft, bottomright)};
 	Point tempPoint;
 	int index = 0;
-	for (int i = 0; i < arrayLength; i++) {
+	for (int i = 0; i < Rect::arrayLength; i++) {
 		tempPoint = intersectionTest(temp[i], ray);
 		if (tempPoint.isReal()) {
 			intersect[index] = tempPoint;
@@ -76,73 +77,66 @@ void Rect::setColorChannels(int r, int g, int b, int a) {
 }
 
 Point Rect::getTopLeft() const {
-	return this->tL;
+	return Point(this->xpos, this->ypos);
 }
 
 Point Rect::getTopRight() const {
-	return this->tR;
+	return Point(this->xpos + this->width, this->ypos);
 }
 
 Point Rect::getBottomLeft() const {
-	return this->bL;
+	return Point(this->xpos, this->ypos + this->height);
 }
 
 Point Rect::getBottomRight() const {
-	return this->bR;
+	return this->getTopLeft() + Point(this->width, this->height);
 }
 
 float Rect::getWidth() {
-	return bR.x() - tL.x();
+	return this->width;
 }
 float Rect::getHeight() {
-	return bR.y() - tL.y();
+	return this->height;
 }
 
-bool Rect::overlap(Rect &other) {
-	bool xOver = valueInRange(this->tL.x(), other.tL.x(), other.tL.x() + other.getWidth()) || 
-				 valueInRange(other.tL.x(), this->tL.x(), this->bR.x());
-	bool yOver = valueInRange(this->tL.y(), other.tL.y(), other.tL.y() + other.getHeight()) || 
-				 valueInRange(other.tL.y(), this->tL.y(), this->bR.y());
+bool Rect::overlap(Rect& other) {
+	bool xOver = valueInRange(this->xpos, other.xpos, other.xpos + other.width) || valueInRange(other.xpos, this->xpos, this->xpos + this->width);
+	bool yOver = valueInRange(this->ypos, other.ypos, other.ypos + other.height) || valueInRange(other.ypos, this->ypos, this->ypos + this->height);
 	return xOver && yOver;
 }
 
 SDL_Rect Rect::getSDLRect() {
-	SDL_Rect tempRect;
-	tempRect.x = tL.x();
-	tempRect.y = tL.y();
-	tempRect.w = getWidth();
-	tempRect.h = getHeight();
+	SDL_Rect tempRect = {int(this->xpos), int(this->ypos), int(this->width), int(this->height)};
 	return tempRect;
 }
 
-Rect Rect::operator+(const Point &point) {
-	return Rect(this->tL + point, this->bR + point);
+Rect Rect::operator+(const Point& point) {
+	return Rect(Point(this->xpos, this->ypos) + point, Point(this->xpos + this->width, this->ypos + this->height) + point);
 }
-Rect Rect::operator-(const Point &point) {
-	return Rect(this->tL - point, this->bR - point);
+
+Rect Rect::operator-(const Point& point) {
+	return *this + point.negate();
 }
 
 void Rect::operator+=(Point point) {
-	this->tL += point;
-	this->bR += point;
-	this->tR += point;
-	this->bL += point;
+	this->xpos += point.x();
+	this->ypos += point.y();
 }
 
 void Rect::operator-=(Point point) {
 	*this += point.negate();
 }
 
-Rect& Rect::operator=(const Rect &that) {
-	tL = that.tL;
-	tR = that.tR;
-	bL = that.bL;
-	bR = that.bR;
+Rect& Rect::operator=(const Rect& that) {
+	this->xpos = that.xpos;
+	this->ypos = that.ypos;
+	this->width = that.width;
+	this->height = that.height;
 	return *this;
 }
 
 Point Rect::getCenter() {
-	return this->tL + Point(this->getWidth() / 2, this->getHeight() / 2);
+	return Point(this->xpos, this->ypos) + (Point(this->width, this->height) / 2);
 }
 
 Point smallerDistance(Point distanceFrom, Point pointA, Point pointB) {

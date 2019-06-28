@@ -71,10 +71,13 @@ class BadTest : public EnemyBase {
 		}
 		
 		void update() {
+			std::cout << "BEGIN" << std::endl;
 			if (!this->texture->isLoaded()) {
 				this->set();
 			}
+			std::cout << "MIDDLE" << std::endl;
 			this->c->update();
+			std::cout << "END" << std::endl;
 		}
 		
 		Point getPos() {

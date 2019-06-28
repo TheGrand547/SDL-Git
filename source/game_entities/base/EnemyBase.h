@@ -17,7 +17,7 @@ class EnemyBase {
 		int height = 50;
 		float angle = 0;
 		
-		/* Experimental */
+		/* Experimental - Maybe remove this in favor of a pointer to its container? */
 		CollideBaseGroup* collide;
 	public:
 		EnemyBase(Point position = Point(0, 0)) {
@@ -49,7 +49,7 @@ class EnemyBase {
 			Point px = delta;
 			// Seems really inefficent, investigate it
 			if (this->collide != NULL) {
- 				for (int i = 1; i < 3; i++) {
+  				for (int i = 1; i < 3; i++) {
 					if (!xflag) {
 						if (collideRectTest(Rect(this->position, this->width, this->height) + px.onlyX() / i, this->collide)) {
 							xflag = px.x() / i;

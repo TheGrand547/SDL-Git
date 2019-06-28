@@ -69,7 +69,8 @@ int main(int argc, char *argv[]) {
 	contra.addCheat("tg547", t2);
 	FpsText fps(&gFont, Point(100, 10), COLORS::RED);
 	handler.addMessage(AlertText("this shouldn't last long", Point(300, 150), COLORS::RED, 20, 2500));
-	// TODO: Standardize between draw and render, ie pick one you indecisive fuck
+	// TODO: Standardize between draw and render, ie pick one you indecisive fuckk
+	std::cout << "wtf" << std::endl;
 	while(!contra.quit) {
 		clearScreen(gRenderer);
 		popo.zero(); // >:(

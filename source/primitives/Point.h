@@ -18,7 +18,7 @@ class Point {
 		Point operator/(const float &num);
 		Point operator*(const float &num);
 		Point copy() const;
-		Point negate();
+		Point negate() const;
 		Point onlyX();
 		Point onlyY();
 		bool getNonZero();
