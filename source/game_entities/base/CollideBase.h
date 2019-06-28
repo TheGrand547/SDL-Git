@@ -12,12 +12,8 @@
 class CollideBase {
 	public:
 		virtual ~CollideBase() {}
-		virtual bool overlap(Rect &other) {
-			return false;
-		}
-		virtual Point collideLine(Line &ray) {
-			return Point();
-		}
-		virtual void draw(SDL_Renderer* renderer, Point offset) {}
+		virtual bool overlap(Rect& other) = 0;
+		virtual Point collideLine(Line& ray) = 0;
+		virtual void draw(SDL_Renderer* renderer, Point offset) = 0;
 		virtual void setTexture(SuperTexture* texture) = 0;
 };

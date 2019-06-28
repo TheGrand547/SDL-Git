@@ -22,7 +22,7 @@ Rect::Rect(Point position, int width, int height) {
 	*this = Rect(position, position + Point(width, height));
 }
 
-Rect::Rect(const Rect &that) {
+Rect::Rect(const Rect& that) {
 	this->xpos = that.xpos;
 	this->ypos = that.ypos;
 	this->width = that.width;

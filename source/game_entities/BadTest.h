@@ -44,7 +44,7 @@ class BadTest : public EnemyBase {
 				this->texture->setPos(this->position);
 				this->texture->render(MegaBase::renderer, MegaBase::offset);
 			}
-			// "AI" - also clean up this dumpster fire
+			// "AI" - also -> TODO: clean up this dumpster fire
 			Point center = this->position + Point() + Point(this->width / 2, this->height / 2);
 			float ange = atan2(dot->getCenter().y() - center.y(), dot->getCenter().x() - center.x());
 			if (std::abs(ange - this->angle) < M_PI_2) {
@@ -71,13 +71,10 @@ class BadTest : public EnemyBase {
 		}
 		
 		void update() {
-			std::cout << "BEGIN" << std::endl;
 			if (!this->texture->isLoaded()) {
 				this->set();
 			}
-			std::cout << "MIDDLE" << std::endl;
 			this->c->update();
-			std::cout << "END" << std::endl;
 		}
 		
 		Point getPos() {

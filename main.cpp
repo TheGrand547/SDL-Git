@@ -49,7 +49,6 @@ int main(int argc, char *argv[]) {
 			}
 		}
 	}
-	
 	bads.add(new BadTest(Point(400, 500)));
 	// Initializes the pointer to the single texture shared by all Box objects, then creates the boxes and assigns the pointer to them
 	SuperTexture* mTexture = Box::createBoxTexture(gRenderer); // TODO: KILL THIS WITH FIRE
@@ -69,8 +68,7 @@ int main(int argc, char *argv[]) {
 	contra.addCheat("tg547", t2);
 	FpsText fps(&gFont, Point(100, 10), COLORS::RED);
 	handler.addMessage(AlertText("this shouldn't last long", Point(300, 150), COLORS::RED, 20, 2500));
-	// TODO: Standardize between draw and render, ie pick one you indecisive fuckk
-	std::cout << "wtf" << std::endl;
+	// TODO: Standardize between draw and render, ie pick one you indecisive fuck
 	while(!contra.quit) {
 		clearScreen(gRenderer);
 		popo.zero(); // >:(

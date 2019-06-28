@@ -18,8 +18,6 @@ class CirclePath : public Path<T> {
 		 * Where r is the intended radius and 2pi * a is the period */
 		float outsideMult, periodModify;
 		int maxTicks, plot;
-		
-		/* Messy stuff for proper looping */
 		int startingTicks = 0;
 		int startingMaxTicks = 0;
 	public:

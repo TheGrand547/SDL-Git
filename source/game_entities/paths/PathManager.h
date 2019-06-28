@@ -30,18 +30,17 @@ class PathManager {
 			this->paths.push_back(path);
 			this->paths.back()->setTarget(this->target);
 		}
-		
 		void removePath(int index) {
 			if (index < this->paths.size()) {
 				delete this->paths.at(index);
 				this->paths.erase(this->paths.begin() + index);
 			}
 		}
-		
+
 		void setRepeat(bool val) {
 			this->repeat = val;
 		}
-		
+
 		void update() {
 			if (this->index < this->paths.size()) {
 				if (this->paths[this->index]->isFinished()) {
@@ -54,5 +53,5 @@ class PathManager {
 				}
 				this->paths[this->index]->update();
 			} 
-		}	
+		}
 };
