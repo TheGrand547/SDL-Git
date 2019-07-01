@@ -43,8 +43,8 @@ namespace Player {
 namespace Screen {
 	const int SCREEN_WIDTH = 640;
 	const int SCREEN_HEIGHT = 480;
-	const int MAX_WIDTH = 1280;
-	const int MAX_HEIGHT = 960;
+	const int MAX_WIDTH = SCREEN_WIDTH * 2;
+	const int MAX_HEIGHT = SCREEN_HEIGHT * 2;
 	const int DEFAULT_POS = SDL_WINDOWPOS_UNDEFINED;
 	const float INTENDED_FRAME_RATE = 100.0;
 	const std::string WINDOW_TITLE = "Testing";

@@ -52,4 +52,8 @@ class Configuration {
 				std::cout << iter->first << " = " << iter->second << std::endl;
 			}
 		}
+		
+		void reload() {
+			*this = Configuration();
+		}
 };

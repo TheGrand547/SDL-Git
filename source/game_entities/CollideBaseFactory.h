@@ -8,5 +8,10 @@ class CollideBaseFactory {
 		static CollideBase* CreateBox(Point position) {
 			return new Box(position);
 		}
+		static CollideBase* CreateBox(Point position, SuperTexture* texture) {
+			CollideBase* temp = new Box(position);
+			temp->setTexture(texture);
+			return temp;
+		}
 };
 #endif

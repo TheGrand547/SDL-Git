@@ -52,11 +52,10 @@ int main(int argc, char *argv[]) {
 	bads.add(new BadTest(Point(400, 500)));
 	// Initializes the pointer to the single texture shared by all Box objects, then creates the boxes and assigns the pointer to them
 	SuperTexture* mTexture = Box::createBoxTexture(gRenderer); // TODO: KILL THIS WITH FIRE
-	boxes.push_back(CollideBaseFactory::CreateBox(Point(50, 50)));
-	boxes.push_back(CollideBaseFactory::CreateBox(Point(200, 200)));
-	boxes.push_back(CollideBaseFactory::CreateBox(Point(350, 200)));
-	boxes.push_back(CollideBaseFactory::CreateBox(Point(500, 200)));
-	boxes.setTexture(mTexture);
+	Point ar[] = {Point(50, 50), Point(200, 200), Point(350, 200), Point(500, 200)};
+	for (Point point: ar) {
+		boxes.push_back(CollideBaseFactory::CreateBox(point, mTexture));
+	}
 	Font gFont;
 	std::string foo = "mani is pretty smart sometimes, but kotlin is a dumb language cause it has no semi-colons iirc";
 	AppearingText ap(foo, &gFont, Point(0, 0), 15, COLORS::RED, 300);

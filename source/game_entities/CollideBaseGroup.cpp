@@ -22,12 +22,6 @@ void CollideBaseGroup::push_back(CollideBase* collision) {
 	this->group.push_back(collision);
 }
 
-void CollideBaseGroup::setTexture(SuperTexture* texture) {
-	for (CollideBase* collision: this->group) {
-		collision->setTexture(texture);
-	}
-}
-
 CollideBase* CollideBaseGroup::operator[](int index) {
 	return this->group[index];
 }

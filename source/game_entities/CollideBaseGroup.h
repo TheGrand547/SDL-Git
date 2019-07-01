@@ -18,12 +18,10 @@ class CollideBaseGroup : public DrawGroup {
 		void drawGroup();
 		void drawGroup(BoundedPoint& offset) {}
 		void push_back(CollideBase* collision);
-		void setTexture(SuperTexture* texture);
 };
 
 bool collideRect(Rect rect, CollideBaseGroup* boxes);
 Point smallestDistanceFrom(CollideBaseGroup* boxes, Point origin, Line ray);
 Point collideTestVectorToRay(CollideBaseGroup* boxes, Line ray);
 bool collideRectTest(Rect rect, CollideBaseGroup* vec);
-
 #endif

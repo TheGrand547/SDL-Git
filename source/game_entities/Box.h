@@ -23,10 +23,10 @@ class Box : public CollideBase{
 		~Box();
 		Box(const Box& that);
 		Box &operator=(const Box& that);
-		void draw(SDL_Renderer* renderer, Point offset = Point(0, 0));
-		Point collideLine(Line& ray);
 		bool overlap(Rect& other);
-		void setTexture(SuperTexture* texture);
+		Point collideLine(Line& ray);
 		static SuperTexture* createBoxTexture(SDL_Renderer* renderer);
 		static void setTexture(std::vector<Box*>* vec, SuperTexture* texture);
+		void draw(SDL_Renderer* renderer, Point offset = Point(0, 0));
+		void setTexture(SuperTexture* texture);
 };
