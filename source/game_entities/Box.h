@@ -24,6 +24,7 @@ class Box : public CollideBase{
 		Box(const Box& that);
 		Box &operator=(const Box& that);
 		bool overlap(Rect& other);
+		bool checkLineCollision(Line& ray);
 		Point collideLine(Line& ray);
 		static SuperTexture* createBoxTexture(SDL_Renderer* renderer);
 		static void setTexture(std::vector<Box*>* vec, SuperTexture* texture);

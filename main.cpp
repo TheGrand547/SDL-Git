@@ -55,6 +55,7 @@ int main(int argc, char *argv[]) {
 	for (Point point: ar) {
 		boxes.push_back(CollideBaseFactory::CreateBox(point, mTexture));
 	}
+	
 	NodeDrawGroup nodes;
 	for (int x = 0; x <= Screen::MAX_WIDTH; x += 325) {
 		for (int y = 0; y <= Screen::MAX_HEIGHT; y += 325) {

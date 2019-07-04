@@ -55,14 +55,14 @@ bool Line::isPointOnThisLine(Point point) {
 	return false;
 }
 
-bool Line::collidePoint(Point &point) {
+bool Line::collidePoint(Point& point) {
 	if (thresholdValueInRange(point.x(), this->minX, this->maxX) && thresholdValueInRange(point.y(), this->minY, this->maxY))  {
 		return true;
 	}
 	return false;
 }
 
-bool Line::collidePoint(Point *point) {
+bool Line::collidePoint(Point* point) {
 	return this->isPointOnThisLine(*point);
 }
 
@@ -103,7 +103,7 @@ Point Line::getEnd() const {
 }
 
 std::ostream& operator<<(std::ostream &output, const Line &line) {
-	output << line.getOrigin() << "->" << line.getEnd();
+	output << line.getOrigin() << " -> " << line.getEnd();
 	return output;
 }
 

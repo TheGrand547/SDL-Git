@@ -4,9 +4,9 @@
 Node::Node(Point position, NodeDrawGroup* group, CollideBaseGroup* collision) {
 	this->drawnThisFrame = false;
 	this->position = position;
+	
 	for (int i = 0; i < group->size(); i++) {
-		Point foo = collideTestVectorToRay(collision, Line(this->position, (*group)[i]->position));
-		if (foo.isNull()) {
+		if (checkCollisionBetweenLineAndGroup(Line(this->position, (*group)[i]->position), collision)) {
 			this->attached.push_back((*group)[i]);
 			(*group)[i]->addAttached(this);
 		}
@@ -28,6 +28,7 @@ void Node::draw() {
 			tempLine = Line(this->position, node->position);
 			tempLine.setColorChannels(0xFF, 0x00, 0x00, 0xFF);
 			tempLine.drawLine(MegaBase::renderer, MegaBase::offset);
+			// D - KANE
 		}
 	}
 	Point temp = this->position - MegaBase::offset;

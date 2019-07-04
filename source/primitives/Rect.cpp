@@ -42,6 +42,22 @@ void Rect::draw(SDL_Renderer* renderer, Point offset) {
 	rectangleRGBA(renderer, Point(this->xpos, this->ypos) - offset, Point(this->xpos + this->width, this->ypos + this->height) - offset, rChannel, bChannel, gChannel, aChannel);
 }
 
+bool Rect::checkLineCollision(Line& ray) {
+	Point topleft = Point(this->xpos, this->ypos);
+	Point topright = Point(this->xpos + this->width, this->ypos);
+	Point bottomleft = Point(this->xpos, this->ypos + this->height);
+	Point bottomright = Point(this->xpos + this->width, this->ypos + this->height);
+	Line temp[] = {Line(topleft, topright), Line(topright, bottomright), Line(bottomright, bottomleft), Line(bottomleft, topleft)};
+	Point tempPoint;
+	for (int i = 0; i < Rect::arrayLength; i++) {
+		tempPoint = intersectionTest(temp[i], ray);
+		if (tempPoint.isReal()) {
+			return false;
+		}
+	}
+	return true;
+}
+
 Point Rect::collideLine(Line& ray) {
 	/* No way for a single straight line to intersect a line in more than
 	 * two points *except with the stupid inline ones that i'm changing
@@ -51,7 +67,7 @@ Point Rect::collideLine(Line& ray) {
 	Point topright = Point(this->xpos + this->width, this->ypos);
 	Point bottomleft = Point(this->xpos, this->ypos + this->height);
 	Point bottomright = Point(this->xpos + this->width, this->ypos + this->height);
-	Line temp[] = {Line(topleft, topright), Line(topright, bottomright), Line(bottomright, bottomleft), Line(bottomleft, bottomright)};
+	Line temp[] = {Line(topleft, topright), Line(topright, bottomright), Line(bottomright, bottomleft), Line(bottomleft, topleft)};
 	Point tempPoint;
 	int index = 0;
 	for (int i = 0; i < Rect::arrayLength; i++) {

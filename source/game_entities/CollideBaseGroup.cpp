@@ -54,3 +54,11 @@ bool collideRectTest(Rect rect, CollideBaseGroup* vec) {
 	return !collideRect(rect, vec);
 }
 
+bool checkCollisionBetweenLineAndGroup(Line ray, CollideBaseGroup* group) {
+	bool result = true;
+	for (int i = 0; i < group->size() && result; i++) {
+		result = (*group)[i]->checkLineCollision(ray);
+	}
+	return result;
+}
+

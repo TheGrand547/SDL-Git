@@ -56,3 +56,7 @@ void Box::setTexture(std::vector<Box*>* vec, SuperTexture* texture) {
 		box->setTexture(texture);
 	}
 }
+
+bool Box::checkLineCollision(Line& ray) {
+	return this->myRect.checkLineCollision(ray);
+}

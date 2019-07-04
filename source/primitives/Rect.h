@@ -31,6 +31,7 @@ class Rect: public MyBase{
 		Point getTopRight() const;
 		SDL_Rect getSDLRect();
 		bool overlap(Rect& other);
+		bool checkLineCollision(Line& ray);
 		float getHeight();
 		float getWidth();
 		void draw(SDL_Renderer* renderer, Point offset);

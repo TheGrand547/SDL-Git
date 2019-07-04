@@ -24,4 +24,5 @@ bool collideRect(Rect rect, CollideBaseGroup* boxes);
 Point smallestDistanceFrom(CollideBaseGroup* boxes, Point origin, Line ray);
 Point collideTestVectorToRay(CollideBaseGroup* boxes, Line ray);
 bool collideRectTest(Rect rect, CollideBaseGroup* vec);
+bool checkCollisionBetweenLineAndGroup(Line ray, CollideBaseGroup* group);
 #endif
