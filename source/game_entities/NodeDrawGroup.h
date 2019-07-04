@@ -11,7 +11,10 @@ class NodeDrawGroup : public DrawGroup {
 	public:
 		NodeDrawGroup();
 		~NodeDrawGroup();
+		int size();
 		void drawGroup();
+		void add(Node* node);
+		void reset();
 		Node* operator[](int position);
 };
 #endif

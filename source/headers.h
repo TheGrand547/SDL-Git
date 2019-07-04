@@ -40,5 +40,7 @@
 #include "game_entities/BackgroundGroup.h"
 #include "game_entities/CollideBaseFactory.h"
 #include "game_entities/EnemyDrawGroup.h"
+#include "game_entities/Node.h"
+#include "game_entities/NodeDrawGroup.h"
 #include "AlertTextHandler.h"
 #endif

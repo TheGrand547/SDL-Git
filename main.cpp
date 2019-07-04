@@ -51,9 +51,15 @@ int main(int argc, char *argv[]) {
 	bads.add(new BadTest(Point(400, 500)));
 	// Initializes the pointer to the single texture shared by all Box objects, then creates the boxes and assigns the pointer to them
 	SuperTexture* mTexture = Box::createBoxTexture(gRenderer); // TODO: KILL THIS WITH FIRE
-	Point ar[] = {Point(50, 50), Point(200, 200), Point(350, 200), Point(500, 200)};
+	Point ar[] = {Point(50, 50), Point(200, 200), Point(350, 200), Point(500, 200), Point(200, 500), Point(500, 400), Point(700, 600), Point(800, 200)};
 	for (Point point: ar) {
 		boxes.push_back(CollideBaseFactory::CreateBox(point, mTexture));
+	}
+	NodeDrawGroup nodes;
+	for (int x = 0; x <= Screen::MAX_WIDTH; x += 325) {
+		for (int y = 0; y <= Screen::MAX_HEIGHT; y += 325) {
+			nodes.add(new Node(Point(x, y), &nodes, &boxes));
+		}
 	}
 	Font gFont;
 	std::string foo = "mani is pretty smart sometimes, but kotlin is a dumb language cause it has no semi-colons iirc";
@@ -69,6 +75,7 @@ int main(int argc, char *argv[]) {
 	// TODO: Standardize between draw and render, ie pick one you indecisive fuck
 	while(!contra.quit) {
 		clearScreen(gRenderer);
+		nodes.reset();
 		popo.zero(); // >:(
 		contra.handleEvents();
 		dot.collideTest(popo * fps.getRatio(), &boxes); // Player collision detection
@@ -79,6 +86,7 @@ int main(int argc, char *argv[]) {
 		bads.drawGroup();
 		ap.update(gRenderer);
 		handler.render();
+		nodes.drawGroup();
 		dot.draw(); // Player must always be drawn onto the top layer for best visibility, for the time being
 		if (contra.checkListener(config["Ray"]).getHeld()) { // Raycasting
 			dot.rayCast(&boxes); 

@@ -5,7 +5,7 @@ template<class T>
 class Path {
 	protected:
 		Timer timer;
-		float ticksDone, ticksOver;
+		float ticksDone;
 		T* target;
 	public:
 		static const int REPEAT = 0;
@@ -13,7 +13,6 @@ class Path {
 		
 		Path() {
 			this->ticksDone = 0;
-			this->ticksOver = 0;
 			this->target = NULL;
 		}
 		
@@ -39,9 +38,9 @@ class Path {
 		}
 		
 		void update() {
-			this->ticksOver = this->timer.getTicks();
+			float tmp = this->timer.getTicks();
+			this->modify(tmp / 10);
 			this->timer.start();
-			this->modify(this->ticksOver / 10);
 		}
 		
 		void pause() {
