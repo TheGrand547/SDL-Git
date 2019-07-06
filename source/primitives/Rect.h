@@ -11,7 +11,6 @@ class Rect: public MyBase{
 	protected:
 		// TODO: Try and get rid of all stored values except tlx, tly, width, height
 		static const int arrayLength = 4;
-		Point tL, tR, bL, bR;
 		float xpos, ypos, width, height;
 	public:
 		Rect();

@@ -5,6 +5,7 @@
 #include "CollideBase.h"
 #include "../CollideBaseGroup.h"
 #include "../../Dot.h"
+#include "../NodeDrawGroup.h"
 #include<vector>
 #include<math.h>
 
@@ -17,12 +18,14 @@ class EnemyBase {
 		float angle = 0;
 		/* Experimental - Maybe remove this in favor of a pointer to its container? */
 		CollideBaseGroup* collide;
+		NodeDrawGroup* nav;
 	public:
 		EnemyBase(Point position = Point(0, 0));
 		virtual ~EnemyBase();
 		virtual void update() = 0;
 		virtual void render(Dot* dot);
 		void setCollision(CollideBaseGroup* collide);
+		void setNavigation(NodeDrawGroup* nav);
 		void operator+=(Point delta);
 		friend std::ostream& operator<<(std::ostream &output, const EnemyBase& base);
 };

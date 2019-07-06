@@ -4,7 +4,6 @@
 Node::Node(Point position, NodeDrawGroup* group, CollideBaseGroup* collision) {
 	this->drawnThisFrame = false;
 	this->position = position;
-	
 	for (int i = 0; i < group->size(); i++) {
 		if (checkCollisionBetweenLineAndGroup(Line(this->position, (*group)[i]->position), collision)) {
 			this->attached.push_back((*group)[i]);
@@ -14,6 +13,10 @@ Node::Node(Point position, NodeDrawGroup* group, CollideBaseGroup* collision) {
 }
 
 Node::~Node() {}
+
+Point Node::getPosition() {
+	return this->position;
+}
 
 void Node::reset() {
 	this->drawnThisFrame = false;

@@ -55,3 +55,7 @@ std::ostream& operator<<(std::ostream &output, const EnemyBase& base) {
 	output << base.position;
 	return output;
 }
+
+void EnemyBase::setNavigation(NodeDrawGroup* nav) {
+	this->nav = nav;
+}

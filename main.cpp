@@ -33,10 +33,12 @@ int main(int argc, char *argv[]) {
 	MegaBase::setOffset(&screenPosition);
 	MegaBase::setRenderer(gRenderer);
 	CollideBaseGroup boxes;
+	NodeDrawGroup nodes;
 	// TODO: Create a file structure for containing level data so its not hardcoded 
 	EnemyDrawGroup bads;
 	bads.setDot(&dot);
 	bads.setCollision(&boxes);
+	bads.setNavigation(&nodes);
 	BackgroundGroup groundGroup;
 	int count = 0;
 	for (int x = 0; x <= Screen::MAX_WIDTH; x += 100) {
@@ -55,8 +57,6 @@ int main(int argc, char *argv[]) {
 	for (Point point: ar) {
 		boxes.push_back(CollideBaseFactory::CreateBox(point, mTexture));
 	}
-	
-	NodeDrawGroup nodes;
 	for (int x = 0; x <= Screen::MAX_WIDTH; x += 325) {
 		for (int y = 0; y <= Screen::MAX_HEIGHT; y += 325) {
 			nodes.add(new Node(Point(x, y), &nodes, &boxes));

@@ -15,6 +15,7 @@ class Node {
 	public:
 		Node(Point position, NodeDrawGroup* group, CollideBaseGroup* collision);
 		~Node();
+		Point getPosition();
 		void draw();
 		void reset();
 		void addAttached(Node* node);

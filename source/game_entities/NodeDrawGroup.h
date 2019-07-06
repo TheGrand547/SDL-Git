@@ -6,7 +6,6 @@ class NodeDrawGroup;
 #include "Node.h"
 class NodeDrawGroup : public DrawGroup {
 	private:
-		int a;
 		std::vector<Node*> storage;
 	public:
 		NodeDrawGroup();
