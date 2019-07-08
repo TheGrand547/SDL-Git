@@ -14,7 +14,7 @@ BackgroundGroup::~BackgroundGroup() {
 
 void BackgroundGroup::add(Point position, Ground::Type type) {
 	if (this->textures[type] == NULL) {
-		this->textures[type] = BackElement::createGroundTexture(this->renderer, type);
+		this->textures[type] = BackElement::createGroundTexture(MegaBase::renderer, type);
 	}
 	this->elements.push_back(new BackElement(position, type));
 	this->elements.back()->setTexture(this->textures[type]);
@@ -23,6 +23,6 @@ void BackgroundGroup::add(Point position, Ground::Type type) {
 
 void BackgroundGroup::drawGroup() {
 	for (BackElement* element: this->elements) {
-		element->draw(this->renderer, this->offset);
+		element->draw(MegaBase::renderer, MegaBase::offset);
 	}
 }

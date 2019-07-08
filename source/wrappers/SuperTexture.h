@@ -17,76 +17,14 @@ typedef Uint8 uint8_t;
 class SuperTexture : public Texture, public MyBase {
 	protected:
 		int clipX, clipY;
-	public:
-		SuperTexture(Uint8 r = 0x00, Uint8 g = 0x00, Uint8 b = 0x00, Uint8 a = 0xFF) : Texture(), MyBase(r, g, b, a) {
-			this->clipX = 0;
-			this->clipY = 0;
-		}
-		
-		~SuperTexture() {}
-		
-		void setClip(int xClip, int yClip) {
-			this->clipX = xClip;
-			this->clipY = yClip;
-		}
-		
-		void reBound() {}
-		
-		SDL_Texture* getBlank(SDL_Renderer* renderer) {
-			return SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_TARGET, this->clipX + 1, this->clipY + 1);
-		}
-		
-		Point getOffset() {
-			return Point();
-		}
-		
-		void drawRect(SDL_Renderer* renderer, Rect rect) {
-			SDL_Texture* tempTexture = this->getBlank(renderer);
-			SDL_SetRenderTarget(renderer, tempTexture);
-			SDL_RenderCopy(renderer, this->texture, NULL, NULL);
-			rect.superDraw(renderer, this->getOffset());
-			SDL_SetRenderTarget(renderer, NULL);
-			this->texture = tempTexture;
-		}
-		
-		void drawRect(SDL_Renderer* renderer, Rect* rect) {
-			this->drawRect(renderer, *rect);
-		}
-		
-		void drawBox(SDL_Renderer* renderer, Rect rect, SDL_Color color) {
-			SDL_Texture* tempTexture = this->getBlank(renderer);
-			SDL_SetRenderTarget(renderer, tempTexture);
-			SDL_RenderCopy(renderer, this->texture, NULL, NULL);
-			boxRGBA(renderer, Point(0, 0), rect.getBottomRight(), color.r, color.g, color.b, color.a);
-			SDL_SetRenderTarget(renderer, NULL);
-			this->texture = tempTexture;
-		}
-		
-		void drawBox(SDL_Renderer* renderer, Rect* rect, SDL_Color color) {
-			this->drawBox(renderer, *rect, color);
-		}
-		
-		void drawLine(SDL_Renderer* renderer, Line* line) {
-			SDL_Texture* tempTexture = this->getBlank(renderer);
-			SDL_SetRenderTarget(renderer, tempTexture);
-			SDL_RenderCopy(renderer, this->texture, NULL, NULL);
-			line->drawLine(renderer, this->getOffset());
-			SDL_SetRenderTarget(renderer, NULL);
-			this->texture = tempTexture;
-		}
-		
-		void drawLine(SDL_Renderer* renderer, Point pointA, Point pointB) {
-			SDL_Texture* tempTexture = this->getBlank(renderer);
-			SDL_SetRenderTarget(renderer, tempTexture);
-			SDL_RenderCopy(renderer, this->texture, NULL, NULL);
-			Line temp = Line(pointA, pointB);
-			temp.setColorChannels(this);
-			temp.drawLine(renderer, this->getOffset());
-			SDL_SetRenderTarget(renderer, NULL);
-			this->texture = tempTexture;
-		}
-		
-		void render(SDL_Renderer* renderer, Point offset = Point(0, 0)) {
-			Texture::render(renderer, offset);
-		}
+	 public:
+		SuperTexture(Uint8 r = 0x00, Uint8 g = 0x00, Uint8 b = 0x00, Uint8 a = 0xFF);
+		~SuperTexture();
+		void setClip(int xClip, int yClip);
+		SDL_Texture* getBlank(SDL_Renderer* renderer);
+		Point getOffset();
+		void drawRect(SDL_Renderer* renderer, Rect rect);
+		void drawBox(SDL_Renderer* renderer, Rect rect, SDL_Color color);
+		void drawLine(SDL_Renderer* renderer, Point pointA, Point pointB);
+		void render(SDL_Renderer* renderer, Point offset = Point(0, 0));
 };
