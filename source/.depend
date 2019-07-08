@@ -295,3 +295,13 @@ NodeDrawGroup.o: game_entities/NodeDrawGroup.cpp \
   game_entities/base/../../wrappers/Texture.h \
   game_entities/base/../../wrappers/../essential/constants.h \
   game_entities/../wrappers/SuperTexture.h
+SuperTexture.o: wrappers/SuperTexture.cpp wrappers/SuperTexture.h \
+  wrappers/../primitives/Line.h wrappers/../primitives/Point.h \
+  wrappers/../primitives/../MyBase.h \
+  wrappers/../primitives/../essential/random.h \
+  wrappers/../primitives/../essential/util.h \
+  wrappers/../primitives/../essential/../primitives/Point.h \
+  wrappers/../primitives/../essential/../MyBase.h \
+  wrappers/../primitives/Rect.h wrappers/../primitives/PointDelta.h \
+  wrappers/../MyBase.h wrappers/../essential/util.h wrappers/Texture.h \
+  wrappers/../essential/constants.h

@@ -19,12 +19,12 @@ class BadTest : public EnemyBase {
 		
 		BadTest(Point position) : EnemyBase(position) {
 			this->c = new PathManager<EnemyBase>(this);
-			/*
+			
 			this->c->AddPath(new LinePath<EnemyBase>(Point(200, -200), toTicks(1)));
 			this->c->AddPath(new CirclePath<EnemyBase>(40, 1, Path<Point>::SINGLE_LOOP, false));
 			this->c->AddPath(new LinePath<EnemyBase>(Point(-200, 200), toTicks(1)));
 			this->c->AddPath(new CirclePath<EnemyBase>(40, 1, Path<Point>::SINGLE_LOOP, false));			
-			this->c->setRepeat(true);*/
+			this->c->setRepeat(true);
 		}
 		
 		BadTest(const BadTest& that) : EnemyBase(that.position) {
@@ -44,6 +44,7 @@ class BadTest : public EnemyBase {
 				this->texture->setPos(this->position);
 				this->texture->render(MegaBase::renderer, MegaBase::offset);
 			}
+			/*
 			// "AI" - also -> TODO: clean up this dumpster fire
 			if (this->nav != NULL) {
 				std::vector<Node*> temp;
@@ -64,7 +65,7 @@ class BadTest : public EnemyBase {
 				Point center = this->position + Point() + Point(this->width / 2, this->height / 2);
 				float ange = atan2(closest->getPosition().y() - center.y(), closest->getPosition().x() - center.x());
 				*this += Point(2 * cos(ange), 2 * sin(ange));
-			}
+			}*/
 			/*
 			Point center = this->position + Point() + Point(this->width / 2, this->height / 2);
 			float ange = atan2(dot->getCenter().y() - center.y(), dot->getCenter().x() - center.x());
@@ -77,7 +78,7 @@ class BadTest : public EnemyBase {
 					Point newTemp = dot->getRect().collideLine(temp);
 					if (newTemp.isReal()) {
 						if (!flag && center.distanceToPoint(newTemp) > 50) {
-							//*this += Point(2 * cos(this->angle + radians(i)), 2 * sin(this->angle + radians(i)));
+							// *this += Point(2 * cos(this->angle + radians(i)), 2 * sin(this->angle + radians(i)));
 							flag = !flag;
 						}
 						Line newTempLine = Line(center, newTemp);

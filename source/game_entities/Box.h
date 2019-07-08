@@ -13,7 +13,7 @@
 #include "CollideBaseGroup.h"
 
 typedef Uint32 uint32_t;
-class Box : public CollideBase{
+class Box : public CollideBase {
 	private:
 		Rect myRect;
 		SuperTexture* mTexture;
@@ -22,12 +22,11 @@ class Box : public CollideBase{
 		Box(Point position);
 		~Box();
 		Box(const Box& that);
-		Box &operator=(const Box& that);
+		Box& operator=(const Box& that);
 		bool overlap(Rect& other);
 		bool checkLineCollision(Line& ray);
 		Point collideLine(Line& ray);
 		static SuperTexture* createBoxTexture(SDL_Renderer* renderer);
-		static void setTexture(std::vector<Box*>* vec, SuperTexture* texture);
 		void draw(SDL_Renderer* renderer, Point offset = Point(0, 0));
 		void setTexture(SuperTexture* texture);
 };
