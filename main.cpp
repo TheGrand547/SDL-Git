@@ -63,8 +63,8 @@ int main(int argc, char *argv[]) {
 		}
 	}
 	Font gFont;
-	std::string foo = "mani is pretty smart sometimes, but kotlin is a dumb language cause it has no semi-colons iirc";
-	AppearingText ap(foo, &gFont, Point(0, 0), 15, COLORS::RED, 300);
+	std::string foo = "ptr is a tard but not really omegalul get rekt scrub";
+	AppearingText ap(foo, &gFont, Point(250, 0), 15, COLORS::RED, 300);
 	PointDelta popo = PointDelta(0, 0, 4);
 	Controller contra;
 	contra.addListener("Ray", 120);
