@@ -14,6 +14,10 @@ Node::Node(Point position, NodeDrawGroup* group, CollideBaseGroup* collision) {
 
 Node::~Node() {}
 
+Node* Node::randomConnectedNode() {
+	return this->attached[rand() % this->attached.size()];
+}
+
 Point Node::getPosition() {
 	return this->position;
 }
@@ -47,6 +51,6 @@ bool Node::checkLocationValidity(Point position, CollideBaseGroup* collision) {
 	 * False -> invalid location */
 	Rect testRect = Rect(position, 50, 50);
 	testRect -= Point(25, 25);
-	return !collideRectTest(testRect, collision);
+	return collideRectTest(testRect, collision);
 }
 

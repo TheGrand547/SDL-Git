@@ -2,6 +2,7 @@
 #ifndef AI_NODE_H
 #define AI_NODE_H
 #include<vector>
+#include<stdlib.h>
 #include "../primitives/Point.h"
 #include "../primitives/Rect.h"
 #include "CollideBaseGroup.h"
@@ -15,6 +16,7 @@ class Node {
 	public:
 		Node(Point position, NodeDrawGroup* group, CollideBaseGroup* collision);
 		~Node();
+		Node* randomConnectedNode();
 		Point getPosition();
 		void draw();
 		void reset();

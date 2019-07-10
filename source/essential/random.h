@@ -27,3 +27,8 @@ template<class T>
 bool thresholdValueInRange(T value, T *min, T *max){ 
 	return thresholdValueInRange(int(value), int(*min), int(*max));
 }
+
+template<class T>
+T toTicks(T seconds) {
+	return seconds * 1000.f;
+}

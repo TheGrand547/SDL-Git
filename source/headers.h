@@ -14,6 +14,8 @@
 #include<sstream>
 #include<vector>
 #include<queue>
+#include<time.h>
+#include<stdlib.h>
 #include "game_entities/Box.h"
 #include "game_entities/BackgroundElement.h"
 #include "primitives/Line.h"

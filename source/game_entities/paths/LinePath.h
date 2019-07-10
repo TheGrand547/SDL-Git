@@ -1,10 +1,8 @@
 #pragma once
 #include "Path.h"
 #include "../../primitives/Point.h"
+#include "../../essential/random.h"
 
-float toTicks(float seconds) {
-	return seconds * 1000.f;
-}
 template<class T>
 class LinePath : public Path<T> {
 	private:

@@ -10,3 +10,4 @@ main
 *.json
 Main.dSYM/Contents/Info.plist
 s.supp.txt
+source/makefile2.txt

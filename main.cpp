@@ -25,6 +25,7 @@ int main(int argc, char *argv[]) {
 		printf("Failed to initialize!\n");
 		return 0;
 	}
+	srand(time(NULL));
 	BoundedPoint screenPosition = BoundedPoint(Screen::MAX_SCREEN_X_POS, Screen::MAX_SCREEN_Y_POS);
 	Dot dot = Dot(Point(300, 150));
 	dot.setColorChannels(0xFF);
@@ -44,7 +45,6 @@ int main(int argc, char *argv[]) {
 	for (int x = 0; x <= Screen::MAX_WIDTH; x += 100) {
 		for (int y = 0; y <= Screen::MAX_HEIGHT; y += 100) {
 			groundGroup.add(Point(x, y), Ground::GRASS);
-			//bads.add(new BadTest(Point(x, y));
 			if (x == 0 || y == 0 || x >= Screen::MAX_WIDTH - 100 || y >= Screen::MAX_HEIGHT - 100) {
 				//boxes.push_back(CollideBaseFactory::CreateBox(Point(x, y)));
 			}
@@ -53,13 +53,21 @@ int main(int argc, char *argv[]) {
 	bads.add(new BadTest(Point(400, 500)));
 	// Initializes the pointer to the single texture shared by all Box objects, then creates the boxes and assigns the pointer to them
 	SuperTexture* mTexture = Box::createBoxTexture(gRenderer); // TODO: KILL THIS WITH FIRE
-	Point ar[] = {Point(50, 50), Point(200, 200), Point(350, 200), Point(500, 200), Point(200, 500), Point(500, 400), Point(700, 600), Point(800, 200)};
+	Point ar[] = {Point(50, 50), Point(200, 200), Point(400, 200), Point(200, 500), Point(500, 400), Point(700, 600), Point(800, 200)};
 	for (Point point: ar) {
 		boxes.push_back(CollideBaseFactory::CreateBox(point, mTexture));
 	}
+	/*
 	for (int x = 0; x <= Screen::MAX_WIDTH; x += 325) {
 		for (int y = 0; y <= Screen::MAX_HEIGHT; y += 325) {
 			nodes.add(new Node(Point(x, y), &nodes, &boxes));
+		}
+	}*/
+	for (int x = 0; x <= Screen::MAX_WIDTH; x += 100) {
+		for (int y = 0; y <= Screen::MAX_HEIGHT; y += 100) {
+			if (Node::checkLocationValidity(Point(x, y), &boxes)) {
+				nodes.add(new Node(Point(x, y), &nodes, &boxes));
+			}
 		}
 	}
 	Font gFont;
@@ -76,7 +84,6 @@ int main(int argc, char *argv[]) {
 	// TODO: Standardize between draw and render, ie pick one you indecisive fuck
 	while(!contra.quit) {
 		clearScreen(gRenderer);
-		nodes.reset();
 		popo.zero(); // >:(
 		contra.handleEvents();
 		dot.collideTest(popo * fps.getRatio(), &boxes); // Player collision detection
@@ -87,7 +94,6 @@ int main(int argc, char *argv[]) {
 		bads.drawGroup();
 		ap.update(gRenderer);
 		handler.render();
-		nodes.drawGroup();
 		dot.draw(); // Player must always be drawn onto the top layer for best visibility, for the time being
 		if (contra.checkListener(config["Ray"]).getHeld()) { // Raycasting
 			dot.rayCast(&boxes); 
