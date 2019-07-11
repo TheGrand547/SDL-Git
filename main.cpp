@@ -41,15 +41,6 @@ int main(int argc, char *argv[]) {
 	bads.setCollision(&boxes);
 	bads.setNavigation(&nodes);
 	BackgroundGroup groundGroup;
-	int count = 0;
-	for (int x = 0; x <= Screen::MAX_WIDTH; x += 100) {
-		for (int y = 0; y <= Screen::MAX_HEIGHT; y += 100) {
-			groundGroup.add(Point(x, y), Ground::GRASS);
-			if (x == 0 || y == 0 || x >= Screen::MAX_WIDTH - 100 || y >= Screen::MAX_HEIGHT - 100) {
-				//boxes.push_back(CollideBaseFactory::CreateBox(Point(x, y)));
-			}
-		}
-	}
 	bads.add(new BadTest(Point(400, 500)));
 	// Initializes the pointer to the single texture shared by all Box objects, then creates the boxes and assigns the pointer to them
 	SuperTexture* mTexture = Box::createBoxTexture(gRenderer); // TODO: KILL THIS WITH FIRE
@@ -57,16 +48,18 @@ int main(int argc, char *argv[]) {
 	for (Point point: ar) {
 		boxes.push_back(CollideBaseFactory::CreateBox(point, mTexture));
 	}
-	/*
-	for (int x = 0; x <= Screen::MAX_WIDTH; x += 325) {
-		for (int y = 0; y <= Screen::MAX_HEIGHT; y += 325) {
-			nodes.add(new Node(Point(x, y), &nodes, &boxes));
-		}
-	}*/
 	for (int x = 0; x <= Screen::MAX_WIDTH; x += 100) {
 		for (int y = 0; y <= Screen::MAX_HEIGHT; y += 100) {
 			if (Node::checkLocationValidity(Point(x, y), &boxes)) {
 				nodes.add(new Node(Point(x, y), &nodes, &boxes));
+			}
+		}
+	}
+	for (int x = 0; x <= Screen::MAX_WIDTH; x += 100) {
+		for (int y = 0; y <= Screen::MAX_HEIGHT; y += 100) {
+			groundGroup.add(Point(x, y), Ground::GRASS);
+			if (x == y) {
+				bads.add(new BadTest(Point(x, y)));
 			}
 		}
 	}

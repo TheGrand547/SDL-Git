@@ -29,15 +29,16 @@ void Node::reset() {
 void Node::draw() {
 	this->drawnThisFrame = true;
 	Line tempLine;
+	/*
 	for (Node* node: this->attached) {
 		if (!node->drawnThisFrame) {
 			// BREACHING DE GATEZ
 			tempLine = Line(this->position, node->position);
 			tempLine.setColorChannels(0xFF, 0x00, 0x00, 0xFF);
 			tempLine.drawLine(MegaBase::renderer, MegaBase::offset);
-			// D - KANE
+			// D - CANE
 		}
-	}
+	}*/
 	Point temp = this->position - MegaBase::offset;
 	circleColor(MegaBase::renderer, temp.x(), temp.y(), 10, 0xFF0000FF);
 }
@@ -50,7 +51,7 @@ bool Node::checkLocationValidity(Point position, CollideBaseGroup* collision) {
 	/* True -> valid location
 	 * False -> invalid location */
 	Rect testRect = Rect(position, 50, 50);
-	testRect -= Point(25, 25);
+	testRect -= Point(testRect.getWidth() / 2, testRect.getHeight() / 2);
 	return collideRectTest(testRect, collision);
 }
 

@@ -17,14 +17,15 @@ class BadTest : public EnemyBase {
 	private:
 		PathManager<EnemyBase>* c; // <- Figure out why this is a pointer
 		// TEMP FOR AI TESTING
-		bool running = false;
+		bool running = true;
 		Node* stored = NULL;
 	public:
 		BadTest(Point position);
 		BadTest(const BadTest& that);
 		~BadTest();
+		bool checkLocationValidity() override;
 		Point getPos();
-		virtual void render(Dot* dot);
+		void render(Dot* dot) override;
 		void set();
-		void update();
+		void update() override;
 };

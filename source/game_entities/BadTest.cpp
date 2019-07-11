@@ -19,6 +19,12 @@ BadTest::~BadTest() {
 	delete this->c;
 }
 
+bool BadTest::checkLocationValidity() {
+	/* True -> Valid location, no collision
+	 * False -> Invalid location, collision or some other predefined metric doesn't satisfy */
+	return !collideRectTest(Rect(this->position, this->width, this->height), this->collide);
+}
+
 void BadTest::set() {
 	this->texture->createBlank(MegaBase::renderer, 50, 50, 0xFF0000FF);
 }
@@ -31,34 +37,38 @@ void BadTest::render(Dot* dot) {
 	
 	// "AI" - also -> TODO: clean up this dumpster fire
 	if (this->nav != NULL) {
-		Point center = this->position + Point() + Point(this->width / 2, this->height / 2);
-		std::vector<Node*> temp;
-		for (int i = 0; i < this->nav->size(); i++) {
-			if (checkCollisionBetweenLineAndGroup(Line(center, (*this->nav)[i]->getPosition()), this->collide)) {
-				temp.push_back((*this->nav)[i]);
-			}
-		}
-		// Find closest one
-		Node* closest = temp[0];
-		if (temp.size() > 1) {
-			for (int i = 1; i < temp.size(); i++) {
-				if (temp[i]->getPosition().distanceToPoint(center) < closest->getPosition().distanceToPoint(center)) {
-					closest = temp[i];
+		if (this->running) {
+			Point center = this->position + Point() + Point(this->width / 2, this->height / 2);
+			if (this->stored == NULL) {
+				std::vector<Node*> temp;
+				for (int i = 0; i < this->nav->size(); i++) {
+					if (checkCollisionBetweenLineAndGroup(Line(center, (*this->nav)[i]->getPosition()), this->collide)) {
+						temp.push_back((*this->nav)[i]);
+					}
 				}
-			}
-		}
-		if (closest->getPosition().distanceToPoint(center) < 5 || this->running) {
-			if (this->running) {
-				if (this->stored == NULL || (closest->getPosition().distanceToPoint(center) < 5 && this->stored == closest)) {
-					this->stored = closest->randomConnectedNode();
+				if (temp.size() == 0) {
+					// If there are no nodes with a clear line of sight then it should stop
+					this->running = false;
+				} else {
+					// Find closest one, and select it as the current target
+					Node* closest = temp[0];
+					if (temp.size() > 1) {
+						for (int i = 1; i < temp.size(); i++) {
+							if (temp[i]->getPosition().distanceToPoint(center) < closest->getPosition().distanceToPoint(center)) {
+								closest = temp[i];
+							}
+						}
+					}
+					this->stored = closest;
 				}
-				closest = this->stored;
 			} else {
-				this->running = true;
+				if (this->stored->getPosition().distanceToPoint(center) < 5) {
+					this->stored = this->stored->randomConnectedNode();
+				}
+				float ange = atan2(this->stored->getPosition().y() - center.y(), this->stored->getPosition().x() - center.x());
+				*this += Point(1 * cos(ange), 1 * sin(ange));
 			}
-		} 
-		float ange = atan2(closest->getPosition().y() - center.y(), closest->getPosition().x() - center.x());
-		*this += Point(1 * cos(ange), 1 * sin(ange));
+		}
 	}
 	/*
 	Point center = this->position + Point() + Point(this->width / 2, this->height / 2);

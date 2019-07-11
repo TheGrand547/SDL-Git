@@ -1,5 +1,6 @@
 #pragma once
 #include<math.h>
+#include<stdlib.h>
 /* Misc functions with no dependencies */
 
 template<class T>
@@ -31,4 +32,9 @@ bool thresholdValueInRange(T value, T *min, T *max){
 template<class T>
 T toTicks(T seconds) {
 	return seconds * 1000.f;
+}
+
+template<class T>
+T choice(std::vector<T> vector) {
+	return vector[rand() % vector.size()];
 }

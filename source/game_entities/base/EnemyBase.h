@@ -27,5 +27,6 @@ class EnemyBase {
 		void setCollision(CollideBaseGroup* collide);
 		void setNavigation(NodeDrawGroup* nav);
 		void operator+=(Point delta);
+		virtual bool checkLocationValidity() = 0;
 		friend std::ostream& operator<<(std::ostream &output, const EnemyBase& base);
 };

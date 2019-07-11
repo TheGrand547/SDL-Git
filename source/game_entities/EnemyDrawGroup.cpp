@@ -12,6 +12,10 @@ EnemyDrawGroup::~EnemyDrawGroup() {
 void EnemyDrawGroup::add(EnemyBase* entity) {
 	entity->setCollision(this->collide);
 	entity->setNavigation(this->nav);
+	if (entity->checkLocationValidity()) {
+		delete entity;
+		return;
+	}
 	this->vector.push_back(entity);
 }
 
