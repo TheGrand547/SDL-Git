@@ -346,3 +346,27 @@ BadTest.o: game_entities/BadTest.cpp game_entities/BadTest.h \
   game_entities/paths/../../primitives/Point.h \
   game_entities/paths/../../essential/random.h \
   game_entities/../primitives/Line.h game_entities/../essential/random.h
+Texture.o: wrappers/Texture.cpp wrappers/Texture.h \
+  wrappers/../primitives/Point.h wrappers/../essential/constants.h
+Dot.o: Dot.cpp Dot.h primitives/Point.h primitives/Rect.h \
+  primitives/../essential/util.h \
+  primitives/../essential/../primitives/Point.h \
+  primitives/../essential/../MyBase.h primitives/PointDelta.h \
+  primitives/../MyBase.h primitives/Line.h \
+  primitives/../essential/random.h game_entities/CollideBaseGroup.h \
+  game_entities/DrawGroup.h game_entities/../BoundedPoint.h \
+  game_entities/../essential/MegaBase.h \
+  primitives/../essential/../BoundedPoint.h \
+  game_entities/base/CollideBase.h \
+  game_entities/base/../../primitives/Rect.h \
+  game_entities/base/../../primitives/Line.h \
+  game_entities/base/../../wrappers/SuperTexture.h \
+  game_entities/base/../../wrappers/../primitives/Line.h \
+  game_entities/base/../../wrappers/../primitives/Point.h \
+  game_entities/base/../../wrappers/../primitives/Rect.h \
+  game_entities/base/../../wrappers/../MyBase.h \
+  game_entities/base/../../wrappers/../essential/util.h \
+  game_entities/base/../../wrappers/Texture.h \
+  game_entities/base/../../wrappers/../essential/constants.h \
+  game_entities/../wrappers/SuperTexture.h essential/constants.h \
+  essential/MegaBase.h
