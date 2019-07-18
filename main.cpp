@@ -30,7 +30,6 @@ int main(int argc, char *argv[]) {
 	Dot dot = Dot(Point(300, 150));
 	dot.setColorChannels(0xFF);
 	Configuration config;
-	
 	MegaBase::setOffset(&screenPosition);
 	MegaBase::setRenderer(gRenderer);
 	CollideBaseGroup boxes;
@@ -86,7 +85,7 @@ int main(int argc, char *argv[]) {
 		boxes.drawGroup();
 		bads.drawGroup();
 		ap.update(gRenderer);
-		handler.render();
+		handler.draw();
 		dot.draw(); // Player must always be drawn onto the top layer for best visibility, for the time being
 		if (contra.checkListener(config["Ray"]).getHeld()) { // Raycasting
 			dot.rayCast(&boxes); 

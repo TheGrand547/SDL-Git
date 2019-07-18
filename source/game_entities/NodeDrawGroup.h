@@ -10,10 +10,11 @@ class NodeDrawGroup : public DrawGroup {
 	public:
 		NodeDrawGroup();
 		~NodeDrawGroup();
-		int size();
-		void drawGroup();
+		int size() override;
+		Node*& operator[](int position);
+		void clearGroup() override;
+		void drawGroup() override;
 		void add(Node* node);
 		void reset();
-		Node* operator[](int position);
 };
 #endif

@@ -3,10 +3,12 @@
 EnemyDrawGroup::EnemyDrawGroup() {}
 
 EnemyDrawGroup::~EnemyDrawGroup() {
-	for (std::vector<EnemyBase*>::iterator iter = this->vector.begin(); iter != this->vector.end(); iter++) {
-		delete *iter;
-	}
+	this->clearGroup();
 	this->dot = NULL;
+}
+
+int EnemyDrawGroup::size() {
+	return this->vector.size();
 }
 
 void EnemyDrawGroup::add(EnemyBase* entity) {
@@ -17,6 +19,13 @@ void EnemyDrawGroup::add(EnemyBase* entity) {
 		return;
 	}
 	this->vector.push_back(entity);
+}
+
+void EnemyDrawGroup::clearGroup() {
+	for (std::vector<EnemyBase*>::iterator iter = this->vector.begin(); iter != this->vector.end(); iter++) {
+		delete *iter;
+	}
+	this->vector.clear();
 }
 
 void EnemyDrawGroup::update() {

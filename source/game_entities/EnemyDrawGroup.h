@@ -14,9 +14,11 @@ class EnemyDrawGroup : public DrawGroup {
 	public:
 		EnemyDrawGroup();
 		~EnemyDrawGroup();
+		int size() override;
+		void clearGroup() override;
+		void drawGroup() override;
 		void add(EnemyBase* entity);
 		void update();
-		void drawGroup();
 		void setDot(Dot* dot);
 		void setCollision(CollideBaseGroup* collision);
 		void setNavigation(NodeDrawGroup* nav);

@@ -6,6 +6,14 @@ BackgroundGroup::~BackgroundGroup() {
 	for (std::map<Ground::Type, Texture*>::iterator iter = this->textures.begin(); iter != this->textures.end(); iter++) {
 		delete iter->second;
 	}
+	this->clearGroup();
+}
+
+int BackgroundGroup::size() {
+	return this->elements.size();
+}
+
+void BackgroundGroup::clearGroup() {
 	for (std::vector<BackElement*>::iterator iter = this->elements.begin(); iter != this->elements.end(); iter++) {
 		delete *iter;
 	}

@@ -9,7 +9,7 @@ float radians(T degrees) {
 }
 
 template<class T>
-void mMax(T numA, T numB, T &iMin, T &iMax) {
+void mMax(T numA, T numB, T& iMin, T& iMax) {
 	iMin = (numA > numB) ? numB : numA;
 	iMax = (numA > numB) ? numA : numB;
 }

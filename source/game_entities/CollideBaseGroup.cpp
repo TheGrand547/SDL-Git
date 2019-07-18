@@ -4,10 +4,12 @@ CollideBaseGroup::CollideBaseGroup() {
 }
 
 CollideBaseGroup::~CollideBaseGroup() {
-	typename std::vector<CollideBase*>::iterator it = this->group.begin();
-	while (it != this->group.end()) {
-		delete this->group.front();
-		it = this->group.erase(it);
+	this->clearGroup();
+}
+
+void CollideBaseGroup::clearGroup() {
+	for (std::vector<CollideBase*>::iterator iter = this->group.begin(); iter != this->group.end(); iter++) {
+		delete *iter;
 	}
 	this->group.clear();
 }

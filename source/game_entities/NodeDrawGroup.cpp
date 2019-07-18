@@ -2,7 +2,16 @@
 
 NodeDrawGroup::NodeDrawGroup() {}
 
-NodeDrawGroup::~NodeDrawGroup() {}
+NodeDrawGroup::~NodeDrawGroup() {
+	this->clearGroup();
+}
+
+void NodeDrawGroup::clearGroup() {
+	for (std::vector<Node*>::iterator iter = this->storage.begin(); iter != this->storage.end(); iter++) {
+		delete *iter;
+	}
+	this->storage.clear();
+}
 
 void NodeDrawGroup::drawGroup() {
 	for (Node* node: this->storage) {
@@ -10,9 +19,10 @@ void NodeDrawGroup::drawGroup() {
 	}
 }
 
-Node* NodeDrawGroup::operator[](int index) {
+Node*& NodeDrawGroup::operator[](int index) {
 	return this->storage[index];
 }
+
 void NodeDrawGroup::add(Node* node) {
 	this->storage.push_back(node);
 }

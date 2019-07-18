@@ -14,8 +14,9 @@ class CollideBaseGroup : public DrawGroup {
 		CollideBaseGroup();
 		~CollideBaseGroup();
 		CollideBase* operator[](int index);
-		int size();
-		void drawGroup();
+		int size() override;
+		void clearGroup() override;
+		void drawGroup() override;
 		void drawGroup(BoundedPoint& offset) {}
 		void push_back(CollideBase* collision);
 };
