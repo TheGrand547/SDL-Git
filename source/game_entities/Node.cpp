@@ -29,7 +29,6 @@ void Node::reset() {
 void Node::draw() {
 	this->drawnThisFrame = true;
 	Line tempLine;
-	/*
 	for (Node* node: this->attached) {
 		if (!node->drawnThisFrame) {
 			// BREACHING DE GATEZ
@@ -38,7 +37,7 @@ void Node::draw() {
 			tempLine.drawLine(MegaBase::renderer, MegaBase::offset);
 			// D - CANE
 		}
-	}*/
+	}
 	Point temp = this->position - MegaBase::offset;
 	circleColor(MegaBase::renderer, temp.x(), temp.y(), 10, 0xFF0000FF);
 }

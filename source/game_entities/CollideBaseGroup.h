@@ -13,7 +13,7 @@ class CollideBaseGroup : public DrawGroup {
 	public:
 		CollideBaseGroup();
 		~CollideBaseGroup();
-		CollideBase* operator[](int index);
+		CollideBase*& operator[](int index);
 		int size() override;
 		void clearGroup() override;
 		void drawGroup() override;

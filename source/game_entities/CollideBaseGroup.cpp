@@ -24,7 +24,7 @@ void CollideBaseGroup::push_back(CollideBase* collision) {
 	this->group.push_back(collision);
 }
 
-CollideBase* CollideBaseGroup::operator[](int index) {
+CollideBase*& CollideBaseGroup::operator[](int index) {
 	return this->group[index];
 }
 

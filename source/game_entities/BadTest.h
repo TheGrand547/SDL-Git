@@ -2,16 +2,16 @@
 #include<SDL2/SDL.h>
 #include<cmath>
 #include<math.h>
-#include "base/EnemyBase.h"
+#include "../essential/random.h"
+#include "../primitives/Line.h"
+#include "../primitives/Point.h"
 #include "../wrappers/Texture.h"
 #include "../wrappers/Timer.h"
-#include "paths/CirclePath.h"
-#include "paths/PathManager.h"
-#include "paths/LinePath.h"
-#include "../primitives/Point.h"
 #include "CollideBaseGroup.h"
-#include "../primitives/Line.h"
-#include "../essential/random.h"
+#include "base/EnemyBase.h"
+#include "paths/CirclePath.h"
+#include "paths/LinePath.h"
+#include "paths/PathManager.h"
 
 class BadTest : public EnemyBase {
 	private:
