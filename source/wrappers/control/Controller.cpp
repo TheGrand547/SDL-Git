@@ -87,6 +87,10 @@ void Controller::addButton(int value, ButtonCommand* button) {
 	this->buttons[value] = button;
 }
 
+void Controller::addButton(std::string str, ButtonCommand* button) {
+	this->buttons[config[str]] = button;
+}
+
 void Controller::addKey(int value, CommandBase* command) {
 	this->keys[value] = command;
 }

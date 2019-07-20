@@ -37,6 +37,7 @@
 #include "wrappers/control/Controller.h"
 #include "wrappers/AppearingText.h"
 #include "wrappers/FpsText.h"
+#include "wrappers/control/SimpleButtonCommand.h"
 #include "game_entities/DrawGroup.h"
 #include "game_entities/CollideBaseGroup.h"
 #include "game_entities/BackgroundGroup.h"

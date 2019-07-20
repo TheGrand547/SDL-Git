@@ -36,6 +36,7 @@ class Controller {
 		~Controller();
 		void handleEvents();
 		void addButton(int value, ButtonCommand* button);
+		void addButton(std::string str, ButtonCommand* button);
 		void addKey(int value, CommandBase* command);
 		void addListener(int key, int threshold = 150);
 		void addListener(std::string key, int threshold = 150);
