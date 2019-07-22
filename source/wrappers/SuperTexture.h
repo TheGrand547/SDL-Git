@@ -18,6 +18,7 @@ class SuperTexture : public Texture, public MyBase {
 	protected:
 		int clipX, clipY;
 	 public:
+		int modified;
 		SuperTexture(Uint8 r = 0x00, Uint8 g = 0x00, Uint8 b = 0x00, Uint8 a = 0xFF);
 		~SuperTexture();
 		void setClip(int xClip, int yClip);

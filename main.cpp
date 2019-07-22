@@ -8,6 +8,7 @@ void renderChanges(SDL_Renderer* renderer, SDL_Window* window);
 
 SDL_Renderer* MegaBase::renderer = NULL;
 BoundedPoint* MegaBase::offset = NULL;
+SuperTexture Box::mTexture;
 
 int main(int argc, char* argv[]) {
 	if(!init()) {
@@ -35,10 +36,11 @@ int main(int argc, char* argv[]) {
 	bads.setNavigation(&nodes);
 	BackgroundGroup groundGroup;
 	// Initializes the pointer to the single texture shared by all Box objects, then creates the boxes and assigns the pointer to them
-	SuperTexture* mTexture = Box::createBoxTexture(gRenderer); // TODO: KILL THIS WITH FIRE
+	//SuperTexture* mTexture = Box::createBoxTexture(gRenderer);
+	Box::createBoxTexture(gRenderer);
 	Point ar[] = {Point(50, 50), Point(200, 200), Point(400, 200), Point(200, 500), Point(500, 400), Point(700, 600), Point(800, 200)};
 	for (Point point: ar) {
-		boxes.push_back(CollideBaseFactory::CreateBox(point, mTexture));
+		boxes.push_back(CollideBaseFactory::CreateBox(point));
 	}
 	for (int x = 0; x <= Screen::MAX_WIDTH; x += 100) {
 		for (int y = 0; y <= Screen::MAX_HEIGHT; y += 100) {
@@ -82,7 +84,6 @@ int main(int argc, char* argv[]) {
 		renderChanges(gRenderer, gameWindow);
 	}
 	close(gameWindow);
-	delete mTexture;
 	return 0;
 }
 

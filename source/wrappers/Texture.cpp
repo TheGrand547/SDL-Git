@@ -61,6 +61,11 @@ void Texture::render(SDL_Renderer* renderer, Point offset) {
 	this->render((this->xpos - offset.x()) - 1, (this->ypos - offset.y()) - 1, renderer);
 }
 
+void Texture::renderAt(SDL_Renderer* renderer, Point position, Point offset) {
+	this->setPos(position);
+	this->render(renderer, offset);
+}
+
 bool Texture::isLoaded() {
 	return texture != NULL;
 }

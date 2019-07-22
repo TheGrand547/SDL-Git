@@ -14,5 +14,4 @@ class CollideBase {
 		virtual Point collideLine(Line& ray) = 0;
 		virtual bool checkLineCollision(Line& ray) = 0;
 		virtual void draw(SDL_Renderer* renderer, Point offset) = 0;
-		virtual void setTexture(SuperTexture* texture) = 0;
 };

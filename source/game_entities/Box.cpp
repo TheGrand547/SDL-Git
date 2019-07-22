@@ -5,54 +5,47 @@ Box::Box() {}
 		
 Box::Box(Point position) {
 	/* This hurts me phyiscally */
-	this->myRect = Rect(position, BOX::BOX_WIDTH - 1, BOX::BOX_HEIGHT - 1);
-	this->mTexture = NULL;
+	this->rect = Rect(position, BOX::BOX_WIDTH - 1, BOX::BOX_HEIGHT - 1);
 }
 
-Box::~Box() {
-	this->mTexture = NULL;
-}
+Box::~Box() {}
 
 Box::Box(const Box& that) {
-	myRect = that.myRect;
+	rect = that.rect;
 }
 
 Box& Box::operator=(const Box& that) {
-	this->myRect = that.myRect;
+	this->rect = that.rect;
 	return *this;
 }
 
 void Box::draw(SDL_Renderer* renderer, Point offset) {
-	if (mTexture != NULL) {
-		this->mTexture->setPos(this->myRect.getTopLeft());
-		this->mTexture->render(renderer, offset);
-	}
+	Box::drawBox(renderer, this->rect.getTopLeft(), offset);
 }
 
 Point Box::collideLine(Line& ray) {
-	return this->myRect.collideLine(ray);
+	return this->rect.collideLine(ray);
 }
 
 bool Box::overlap(Rect& other) {
-	return this->myRect.overlap(other);
+	return this->rect.overlap(other);
 }
 
-void Box::setTexture(SuperTexture* texture) {
-	this->mTexture = texture;
-}
 
-SuperTexture* Box::createBoxTexture(SDL_Renderer* renderer) {
-	SuperTexture* texture = new SuperTexture();
-	texture->setClip(BOX::BOX_WIDTH, BOX::BOX_HEIGHT);
-	texture->drawBox(renderer, Rect(Point(0, 0), Point(BOX::BOX_WIDTH, BOX::BOX_HEIGHT)), BOX::BOX_INNER_COLOR);
-	texture->loadFromFile("resources/missingTexture.jpg", renderer, BOX::BOX_WIDTH, BOX::BOX_OUTDENT * BOX::BOX_HEIGHT);
+void Box::createBoxTexture(SDL_Renderer* renderer) {
+	Box::mTexture.setClip(BOX::BOX_WIDTH, BOX::BOX_HEIGHT);
+	Box::mTexture.drawBox(renderer, Rect(Point(0, 0), Point(BOX::BOX_WIDTH, BOX::BOX_HEIGHT)), BOX::BOX_INNER_COLOR);
+	Box::mTexture.loadFromFile("resources/missingTexture.jpg", renderer, BOX::BOX_WIDTH, BOX::BOX_OUTDENT * BOX::BOX_HEIGHT);
 	setRenderColors(renderer, BOX::BOX_OUTER_BORDER_COLOR);
-	texture->drawRect(renderer, Rect(Point(0, 0), Point(BOX::BOX_WIDTH, BOX::BOX_HEIGHT)));
+	Box::mTexture.drawRect(renderer, Rect(Point(0, 0), Point(BOX::BOX_WIDTH, BOX::BOX_HEIGHT)));
 	setRenderColors(renderer, BOX::BOX_INNER_BORDER_COLOR);
-	texture->drawRect(renderer, Rect(Point(0, 0), Point(BOX::BOX_WIDTH, BOX::BOX_OUTDENT * BOX::BOX_HEIGHT)));
-	return texture;
+	Box::mTexture.drawRect(renderer, Rect(Point(0, 0), Point(BOX::BOX_WIDTH, BOX::BOX_OUTDENT * BOX::BOX_HEIGHT)));
+}
+
+void Box::drawBox(SDL_Renderer* renderer, Point position, Point offset) {
+	Box::mTexture.renderAt(renderer, position, offset);
 }
 
 bool Box::checkLineCollision(Line& ray) {
-	return this->myRect.checkLineCollision(ray);
+	return this->rect.checkLineCollision(ray);
 }

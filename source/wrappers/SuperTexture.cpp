@@ -3,6 +3,7 @@
 SuperTexture::SuperTexture(Uint8 r, Uint8 g, Uint8 b, Uint8 a) : Texture(), MyBase(r, g, b, a) {
 	this->clipX = 0;
 	this->clipY = 0;
+	this->modified = 0;
 }
 
 SuperTexture::~SuperTexture() {}
@@ -13,6 +14,7 @@ void SuperTexture::setClip(int xClip, int yClip) {
 }
 
 SDL_Texture* SuperTexture::getBlank(SDL_Renderer* renderer) {
+	this->modified++;
 	return SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_TARGET, this->clipX + 1, this->clipY + 1);
 }
 
@@ -21,6 +23,7 @@ Point SuperTexture::getOffset() {
 }
 
 void SuperTexture::drawRect(SDL_Renderer* renderer, Rect rect) {
+	this->modified++;
 	SDL_Texture* tempTexture = this->getBlank(renderer);
 	SDL_SetRenderTarget(renderer, tempTexture);
 	SDL_RenderCopy(renderer, this->texture, NULL, NULL);
@@ -30,6 +33,7 @@ void SuperTexture::drawRect(SDL_Renderer* renderer, Rect rect) {
 }
 
 void SuperTexture::drawBox(SDL_Renderer* renderer, Rect rect, SDL_Color color) {
+	this->modified++;
 	SDL_Texture* tempTexture = this->getBlank(renderer);
 	SDL_SetRenderTarget(renderer, tempTexture);
 	SDL_RenderCopy(renderer, this->texture, NULL, NULL);
@@ -39,6 +43,7 @@ void SuperTexture::drawBox(SDL_Renderer* renderer, Rect rect, SDL_Color color) {
 }
 
 void SuperTexture::drawLine(SDL_Renderer* renderer, Point pointA, Point pointB) {
+	this->modified++;
 	SDL_Texture* tempTexture = this->getBlank(renderer);
 	SDL_SetRenderTarget(renderer, tempTexture);
 	SDL_RenderCopy(renderer, this->texture, NULL, NULL);
@@ -50,5 +55,6 @@ void SuperTexture::drawLine(SDL_Renderer* renderer, Point pointA, Point pointB) 
 }
 
 void SuperTexture::render(SDL_Renderer* renderer, Point offset) {
+	this->modified++;
 	Texture::render(renderer, offset);
 }
