@@ -10,6 +10,6 @@ class AlertTextHandler {
 		AlertTextHandler();
 		~AlertTextHandler();
 		void addMessage(AlertText message);
-		void draw();
+		void drawHandler();
 };
 #endif

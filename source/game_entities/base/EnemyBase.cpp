@@ -11,10 +11,10 @@ EnemyBase::~EnemyBase() {
 }
 
 
-void EnemyBase::render(Dot* dot) {
+void EnemyBase::draw(Dot* dot) {
 	if (this->texture->isLoaded()) {
 		this->texture->setPos(this->position);
-		this->texture->render(MegaBase::renderer, MegaBase::offset);
+		this->texture->draw(MegaBase::renderer, MegaBase::offset);
 	}
 }
 

@@ -1,6 +1,7 @@
 #pragma once
 #include<math.h>
 #include<stdlib.h>
+#include<vector>
 /* Misc functions with no dependencies */
 
 template<class T>

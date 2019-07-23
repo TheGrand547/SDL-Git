@@ -375,3 +375,6 @@ Dot.o: Dot.cpp Dot.h primitives/Point.h primitives/Rect.h \
   game_entities/base/../../wrappers/../essential/constants.h \
   game_entities/../wrappers/SuperTexture.h essential/constants.h \
   essential/MegaBase.h
+SimpleButtonCommand.o: wrappers/control/SimpleButtonCommand.cpp \
+  wrappers/control/SimpleButtonCommand.h \
+  wrappers/control/ButtonCommand.h

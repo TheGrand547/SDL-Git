@@ -29,10 +29,10 @@ void BadTest::set() {
 	this->texture->createBlank(MegaBase::renderer, 50, 50, 0xFF0000FF);
 }
 
-void BadTest::render(Dot* dot) {
+void BadTest::draw(Dot* dot) {
 	if (this->texture->isLoaded()) {
 		this->texture->setPos(this->position);
-		this->texture->render(MegaBase::renderer, MegaBase::offset);
+		this->texture->draw(MegaBase::renderer, MegaBase::offset);
 	}
 	
 	// "AI" - also -> TODO: clean up this dumpster fire

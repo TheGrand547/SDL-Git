@@ -56,5 +56,5 @@ void SuperTexture::drawLine(SDL_Renderer* renderer, Point pointA, Point pointB) 
 
 void SuperTexture::render(SDL_Renderer* renderer, Point offset) {
 	this->modified++;
-	Texture::render(renderer, offset);
+	Texture::draw(renderer, offset);
 }

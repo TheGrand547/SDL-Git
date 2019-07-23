@@ -36,7 +36,7 @@ void EnemyDrawGroup::update() {
 
 void EnemyDrawGroup::drawGroup() {
 	for (EnemyBase* entity: this->vector) {
-		entity->render(this->dot);
+		entity->draw(this->dot);
 	}
 }
 

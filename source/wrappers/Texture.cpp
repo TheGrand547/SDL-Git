@@ -42,7 +42,7 @@ void Texture::setAlpha(Uint8 alpha) {
 	SDL_SetTextureAlphaMod(this->texture, alpha);
 }
 
-void Texture::render(int x, int y, SDL_Renderer* renderer, SDL_Rect* clip, double angle, SDL_Point* center, SDL_RendererFlip flip) {
+void Texture::draw(int x, int y, SDL_Renderer* renderer, SDL_Rect* clip, double angle, SDL_Point* center, SDL_RendererFlip flip) {
 	int width, height;
 	SDL_QueryTexture(this->texture, NULL, NULL, &width, &height);
 	SDL_Rect renderQuad = {x, y, width, height};
@@ -53,17 +53,17 @@ void Texture::render(int x, int y, SDL_Renderer* renderer, SDL_Rect* clip, doubl
 	SDL_RenderCopyEx(renderer, texture, clip, &renderQuad, angle, center, flip);
 }
 
-void Texture::render(SDL_Renderer* renderer, SDL_Rect* clip, double angle, SDL_Point* center, SDL_RendererFlip flip) {
-	render(this->xpos - 1, this->ypos - 1, renderer, clip, angle, center, flip);
+void Texture::draw(SDL_Renderer* renderer, SDL_Rect* clip, double angle, SDL_Point* center, SDL_RendererFlip flip) {
+	this->draw(this->xpos - 1, this->ypos - 1, renderer, clip, angle, center, flip);
 }
 
-void Texture::render(SDL_Renderer* renderer, Point offset) {
-	this->render((this->xpos - offset.x()) - 1, (this->ypos - offset.y()) - 1, renderer);
+void Texture::draw(SDL_Renderer* renderer, Point offset) {
+	this->draw((this->xpos - offset.x()) - 1, (this->ypos - offset.y()) - 1, renderer);
 }
 
-void Texture::renderAt(SDL_Renderer* renderer, Point position, Point offset) {
+void Texture::drawAt(SDL_Renderer* renderer, Point position, Point offset) {
 	this->setPos(position);
-	this->render(renderer, offset);
+	this->draw(renderer, offset);
 }
 
 bool Texture::isLoaded() {

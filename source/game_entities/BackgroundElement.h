@@ -64,7 +64,7 @@ class BackElement {
 		void draw(SDL_Renderer* renderer, Point offset = Point(0, 0)) {
 			if (this->texture != NULL) {
 				this->texture->setPos(this->position);
-				this->texture->render(renderer, offset);
+				this->texture->draw(renderer, offset);
 			}
 		}
 		

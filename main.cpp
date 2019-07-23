@@ -1,5 +1,5 @@
 #include "source/headers.h"
-bool init(); //TODO fucking kill this
+bool init();
 SDL_Renderer* createRenderer(SDL_Window* window);
 SDL_Window* createWindow();
 void close(SDL_Window* window);
@@ -35,8 +35,7 @@ int main(int argc, char* argv[]) {
 	bads.setCollision(&boxes);
 	bads.setNavigation(&nodes);
 	BackgroundGroup groundGroup;
-	// Initializes the pointer to the single texture shared by all Box objects, then creates the boxes and assigns the pointer to them
-	//SuperTexture* mTexture = Box::createBoxTexture(gRenderer);
+	// Box creation
 	Box::createBoxTexture(gRenderer);
 	Point ar[] = {Point(50, 50), Point(200, 200), Point(400, 200), Point(200, 500), Point(500, 400), Point(700, 600), Point(800, 200)};
 	for (Point point: ar) {
@@ -58,7 +57,7 @@ int main(int argc, char* argv[]) {
 	AppearingText ap(foo, &gFont, Point(250, 0), 15, COLORS::RED, 300);
 	PointDelta popo = PointDelta(0, 0, 4);
 	Controller contra;
-	contra.addButton("Exit", new SimpleButtonCommand<bool>([](bool* b) {*b = true;}, &contra.quit));
+	//contra.addButton("Exit", new SimpleButtonCommand(contra.exitProgram())); //Find a way to do this
 	contra.addListener("Ray", 120);
 	contra.addPlayerKeys(&popo);
 	FpsText fps(&gFont, Point(100, 10), COLORS::RED); // Add handler for these things
@@ -75,10 +74,10 @@ int main(int argc, char* argv[]) {
 		boxes.drawGroup();
 		bads.drawGroup();
 		ap.update(gRenderer);
-		handler.draw();
+		handler.drawHandler();
 		dot.draw(); // Player must always be drawn onto the top layer for best visibility, for the time being
 		if (contra.checkListener(config["Ray"]).getHeld()) { // Raycasting
-			dot.rayCast(&boxes); 
+			dot.rayCast(&boxes); // Dot should already have access to this; make it so
 		}
 		fps.draw(gRenderer);
 		renderChanges(gRenderer, gameWindow);
@@ -88,7 +87,7 @@ int main(int argc, char* argv[]) {
 }
 
 bool init() {
-	bool success = true; //Initialization flag
+	bool success = true;
 	//Initialize SDL
 	if(SDL_Init(SDL_INIT_EVERYTHING) < 0) {
 		printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());

@@ -23,7 +23,7 @@ class EnemyBase {
 		EnemyBase(Point position = Point(0, 0));
 		virtual ~EnemyBase();
 		virtual void update() = 0;
-		virtual void render(Dot* dot);
+		virtual void draw(Dot* dot);
 		void setCollision(CollideBaseGroup* collide);
 		void setNavigation(NodeDrawGroup* nav);
 		void operator+=(Point delta);

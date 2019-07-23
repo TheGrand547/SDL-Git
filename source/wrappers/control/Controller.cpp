@@ -123,3 +123,4 @@ void Controller::addPlayerKeys(PointDelta* target) {
 void Controller::addCheat(std::string key, void(*func)()) {
 	this->mymp[key] = func;
 }
+

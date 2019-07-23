@@ -43,7 +43,7 @@ void Box::createBoxTexture(SDL_Renderer* renderer) {
 }
 
 void Box::drawBox(SDL_Renderer* renderer, Point position, Point offset) {
-	Box::mTexture.renderAt(renderer, position, offset);
+	Box::mTexture.drawAt(renderer, position, offset);
 }
 
 bool Box::checkLineCollision(Line& ray) {

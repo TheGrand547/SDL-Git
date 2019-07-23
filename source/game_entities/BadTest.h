@@ -25,7 +25,7 @@ class BadTest : public EnemyBase {
 		~BadTest();
 		bool checkLocationValidity() override;
 		Point getPos();
-		void render(Dot* dot) override;
+		void draw(Dot* dot) override;
 		void set();
 		void update() override;
 };
