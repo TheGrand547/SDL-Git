@@ -6,6 +6,7 @@ void close(SDL_Window* window);
 void clearScreen(SDL_Renderer* renderer);
 void renderChanges(SDL_Renderer* renderer, SDL_Window* window);
 
+// Static Member Variable Initialization -> Should put somewhere less conspicuous
 SDL_Renderer* MegaBase::renderer = NULL;
 BoundedPoint* MegaBase::offset = NULL;
 SuperTexture Box::mTexture;
@@ -23,7 +24,7 @@ int main(int argc, char* argv[]) {
 	Dot dot = Dot(Point(300, 150));
 	dot.setColorChannels(0xFF);
 	Configuration config;
-	// TODO: Get rid of MegaBase, as it's a temporary fix
+	// TODO: Get rid of MegaBase, bad band-aid fix
 	MegaBase::setOffset(&screenPosition);
 	MegaBase::setRenderer(gRenderer);
 	CollideBaseGroup boxes;
@@ -57,10 +58,9 @@ int main(int argc, char* argv[]) {
 	AppearingText ap(foo, &gFont, Point(250, 0), 15, COLORS::RED, 300);
 	PointDelta popo = PointDelta(0, 0, 4);
 	Controller contra;
-	//contra.addButton("Exit", new SimpleButtonCommand(contra.exitProgram())); //Find a way to do this
 	contra.addListener("Ray", 120);
-	contra.addPlayerKeys(&popo);
-	FpsText fps(&gFont, Point(100, 10), COLORS::RED); // Add handler for these things
+	contra.addPlayerKeys(popo); // Maybe allow for multiple bindings of the same command somehow? vectors likely?
+	FpsText fps(gFont, Point(100, 10), COLORS::RED); // Add handler for these things
 	handler.addMessage(AlertText("this shouldn't last long", Point(300, 150), COLORS::RED, 20, 2500));
 	// TODO: Standardize between draw and render, ie pick one you indecisive fuck
 	while(!contra.quit) {

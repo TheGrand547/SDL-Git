@@ -3,7 +3,7 @@
 #include "FpsText.h"
 #include "../essential/constants.h"
 
-FpsText::FpsText(Font* font, Point position, SDL_Color color) {
+FpsText::FpsText(Font& font, Point position, SDL_Color color) {
 	this->font = font;
 	this->position = position;
 	this->color = color;
@@ -12,9 +12,8 @@ FpsText::FpsText(Font* font, Point position, SDL_Color color) {
 	this->timer.start();
 }
 
-FpsText::~FpsText() {
-	this->font = NULL;
-}
+FpsText::~FpsText() {}
+
 float FpsText::getFps() {
 	return this->averageFps;
 }
@@ -28,7 +27,7 @@ void FpsText::draw(SDL_Renderer* renderer) {
 	std::stringstream fpsStr;
 	fpsStr.str("");
 	fpsStr << "FPS: " << int(this->averageFps);
-	this->font->renderText(this->position.x(), this->position.y(), fpsStr.str(), renderer, this->color);
+	this->font.renderText(this->position.x(), this->position.y(), fpsStr.str(), renderer, this->color);
 	this->countedFrames++;
 	
 }

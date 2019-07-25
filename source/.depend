@@ -378,3 +378,4 @@ Dot.o: Dot.cpp Dot.h primitives/Point.h primitives/Rect.h \
 SimpleButtonCommand.o: wrappers/control/SimpleButtonCommand.cpp \
   wrappers/control/SimpleButtonCommand.h \
   wrappers/control/ButtonCommand.h
+Font.o: wrappers/Font.cpp wrappers/Font.h

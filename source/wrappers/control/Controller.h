@@ -19,11 +19,10 @@ class Controller {
 	 * Buttons are for actions that only activate when they key is held down, but don't care when released
 	 * Listeners are an extention of HeldKey for more complicated external usage */
 	private:
-		/* TODO: Add controller support */
+		/* Low Priority TODO: Add controller support */
 		std::map<int, CommandBase*> keys;
 		std::map<int, ButtonCommand*> buttons;
 		std::map<int, HeldKey> listeners;
-		// TEMP
 		std::vector<char> myq;
 		std::map<std::string, void(*)()> mymp;
 		
@@ -42,7 +41,7 @@ class Controller {
 		void addListener(std::string key, int threshold = 150);
 		void tickListeners();
 		HeldKey& checkListener(int key);
-		void addPlayerKeys(PointDelta* target);
+		void addPlayerKeys(PointDelta& target);
 		void addCheat(std::string key, void(*func)()); // TODO: Make this not dependent on function pointers
 };
 #endif

@@ -36,6 +36,6 @@ T toTicks(T seconds) {
 }
 
 template<class T>
-T choice(std::vector<T> vector) {
+T& choice(std::vector<T>& vector) {
 	return vector[rand() % vector.size()];
 }

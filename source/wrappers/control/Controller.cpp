@@ -42,6 +42,9 @@ void Controller::handleEvents() {
 					if (this->listeners[scanCodeFromEvent(e)].maxHeld > 0) {
 						this->listeners[scanCodeFromEvent(e)].set(true);
 					}
+					if (scanCodeFromEvent(e) == this->config["Exit"]) { // Band-aid fix
+						this->quit = true;
+					}
 				}
 				break;
 			case SDL_KEYUP:
@@ -113,14 +116,13 @@ HeldKey& Controller::checkListener(int key) {
 	return this->listeners[key];
 }
 
-void Controller::addPlayerKeys(PointDelta* target) {
-	this->addButton(config["Right"], new PlayerMoveCommand(BASIC::PLAYER_RIGHT_KEYDOWN, target));
-	this->addButton(config["Left"], new PlayerMoveCommand(BASIC::PLAYER_LEFT_KEYDOWN, target));
-	this->addButton(config["Up"], new PlayerMoveCommand(BASIC::PLAYER_UP_KEYDOWN, target));
-	this->addButton(config["Down"], new PlayerMoveCommand(BASIC::PLAYER_DOWN_KEYDOWN, target));
+void Controller::addPlayerKeys(PointDelta& target) {
+	this->addButton(config["Right"], new PlayerMoveCommand(BASIC::PLAYER_RIGHT_KEYDOWN, &target));
+	this->addButton(config["Left"], new PlayerMoveCommand(BASIC::PLAYER_LEFT_KEYDOWN, &target));
+	this->addButton(config["Up"], new PlayerMoveCommand(BASIC::PLAYER_UP_KEYDOWN, &target));
+	this->addButton(config["Down"], new PlayerMoveCommand(BASIC::PLAYER_DOWN_KEYDOWN, &target));
 }
 
 void Controller::addCheat(std::string key, void(*func)()) {
 	this->mymp[key] = func;
 }
-
