@@ -34,16 +34,15 @@ void BadTest::draw(Dot* dot) {
 		this->texture->setPos(this->position);
 		this->texture->draw(MegaBase::renderer, MegaBase::offset);
 	}
-	
 	// "AI" - also -> TODO: clean up this dumpster fire
-	if (this->nav != NULL) {
+	if (this->nav.exists()) {
 		if (this->running) {
 			Point center = this->position + Point() + Point(this->width / 2, this->height / 2);
 			if (this->stored == NULL) {
 				std::vector<Node*> temp;
-				for (int i = 0; i < this->nav->size(); i++) {
-					if (checkCollisionBetweenLineAndGroup(Line(center, (*this->nav)[i]->getPosition()), this->collide)) {
-						temp.push_back((*this->nav)[i]);
+				for (int i = 0; i < this->nav.size(); i++) {
+					if (checkCollisionBetweenLineAndGroup(Line(center, this->nav[i]->getPosition()), this->collide)) {
+						temp.push_back(this->nav[i]);
 					}
 				}
 				if (temp.size() == 0) {

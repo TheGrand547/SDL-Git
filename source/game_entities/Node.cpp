@@ -1,13 +1,13 @@
 #include "Node.h"
 #include "../essential/MegaBase.h"
 
-Node::Node(Point position, NodeDrawGroup* group, CollideBaseGroup* collision) {
+Node::Node(Point position, NodeDrawGroup& group, CollideBaseGroup& collision) {
 	this->drawnThisFrame = false;
 	this->position = position;
-	for (int i = 0; i < group->size(); i++) {
-		if (checkCollisionBetweenLineAndGroup(Line(this->position, (*group)[i]->position), collision)) {
-			this->attached.push_back((*group)[i]);
-			(*group)[i]->addAttached(this);
+	for (int i = 0; i < group.size(); i++) {
+		if (checkCollisionBetweenLineAndGroup(Line(this->position, group[i]->position), collision)) {
+			this->attached.push_back(group[i]);
+			group[i]->addAttached(this);
 		}
 	}
 }
@@ -46,7 +46,7 @@ void Node::addAttached(Node* node) {
 	this->attached.push_back(node);
 }
 
-bool Node::checkLocationValidity(Point position, CollideBaseGroup* collision) {
+bool Node::checkLocationValidity(Point position, CollideBaseGroup& collision) {
 	/* True -> valid location
 	 * False -> invalid location */
 	Rect testRect = Rect(position, 50, 50);

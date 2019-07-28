@@ -11,6 +11,7 @@ class DrawGroup {
 		// TODO: Write with functionality to not use MegaBase for the renderer and offset
 		DrawGroup() {}
 		virtual ~DrawGroup() {}
+		virtual bool exists() = 0;
 		virtual int size() = 0;
 		virtual void clearGroup() = 0;
 		virtual void drawGroup() = 0;

@@ -60,7 +60,7 @@ void Dot::draw() {
 	p.draw(MegaBase::renderer, MegaBase::offset);
 }
 
-void Dot::collideTest(PointDelta delta, CollideBaseGroup* boxes) {
+void Dot::collideTest(PointDelta delta, CollideBaseGroup& boxes) {
 	if (!delta.getNonZero()) {
 		return;
 	}
@@ -99,7 +99,7 @@ void Dot::collideTest(PointDelta delta, CollideBaseGroup* boxes) {
 	}
 } 
 
-void Dot::rayCast(CollideBaseGroup* boxes) {
+void Dot::rayCast(CollideBaseGroup& boxes) {
 	Point newPoint = collideTestVectorToRay(boxes, this->getRay());
 	if (!newPoint.isNull()) {
 		Line tempLine = Line(this->getCenter(), newPoint.copy());

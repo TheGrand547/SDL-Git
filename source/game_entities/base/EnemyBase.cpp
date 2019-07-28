@@ -7,7 +7,6 @@ EnemyBase::EnemyBase(Point position) {
 
 EnemyBase::~EnemyBase() {
 	delete this->texture;
-	this->collide = NULL;
 }
 
 
@@ -18,7 +17,7 @@ void EnemyBase::draw(Dot* dot) {
 	}
 }
 
-void EnemyBase::setCollision(CollideBaseGroup* collide) {
+void EnemyBase::setCollision(CollideBaseGroup& collide) {
 	this->collide = collide;
 }
 
@@ -27,7 +26,7 @@ void EnemyBase::operator+=(Point delta) {
 	float yflag = 0;
 	Point px = delta;
 	// Seems really inefficent, investigate it
-	if (this->collide != NULL) {
+	if (this->collide.exists()) {
 		for (int i = 1; i < 3; i++) {
 			if (!xflag) {
 				if (collideRectTest(Rect(this->position, this->width - 1, this->height - 1) + px.onlyX() / i, this->collide)) {
@@ -56,6 +55,6 @@ std::ostream& operator<<(std::ostream &output, const EnemyBase& base) {
 	return output;
 }
 
-void EnemyBase::setNavigation(NodeDrawGroup* nav) {
+void EnemyBase::setNavigation(NodeDrawGroup& nav) {
 	this->nav = nav;
 }

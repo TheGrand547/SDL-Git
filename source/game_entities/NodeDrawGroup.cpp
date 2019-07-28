@@ -6,6 +6,10 @@ NodeDrawGroup::~NodeDrawGroup() {
 	this->clearGroup();
 }
 
+bool NodeDrawGroup::exists() {
+	return this->storage.size() > 0;
+}
+
 void NodeDrawGroup::clearGroup() {
 	for (std::vector<Node*>::iterator iter = this->storage.begin(); iter != this->storage.end(); iter++) {
 		delete *iter;

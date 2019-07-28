@@ -27,11 +27,11 @@ Font& Font::operator=(const Font& font) {
 	return *this;
 }
 
-void Font::drawTexture(SDL_Renderer *renderer, SDL_Texture *texture, SDL_Rect rect, SDL_Rect* clip, double angle, SDL_Point* center, SDL_RendererFlip flip) {
+void Font::drawTexture(SDL_Renderer* renderer, SDL_Texture* texture, SDL_Rect rect, SDL_Rect* clip, double angle, SDL_Point* center, SDL_RendererFlip flip) {
 	 SDL_RenderCopyEx(renderer, texture, clip, &rect, angle, center, flip);
 }
 
-void Font::renderText(int x, int y, std::string text, SDL_Renderer *renderer, SDL_Color color, SDL_Rect* clip, double angle, SDL_Point* center, SDL_RendererFlip flip) {
+void Font::drawText(int x, int y, std::string text, SDL_Renderer* renderer, SDL_Color color, SDL_Rect* clip, double angle, SDL_Point* center, SDL_RendererFlip flip) {
 	SDL_Surface *surface = TTF_RenderText_Blended(fontRenderer, text.c_str(), color);
 	if (!(surface == NULL)) {
 		SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
@@ -44,7 +44,7 @@ void Font::renderText(int x, int y, std::string text, SDL_Renderer *renderer, SD
 	}
 }
 
-void Font::renderTextWrapped(int x, int y, std::string text, SDL_Renderer *renderer, SDL_Color color, int maxWidth, SDL_Rect* clip, double angle, SDL_Point* center, SDL_RendererFlip flip) {
+void Font::drawTextWrapped(int x, int y, std::string text, SDL_Renderer* renderer, SDL_Color color, int maxWidth, SDL_Rect* clip, double angle, SDL_Point* center, SDL_RendererFlip flip) {
 	SDL_Surface* surface = TTF_RenderText_Blended_Wrapped(fontRenderer, text.c_str(), color, maxWidth);
 	if (surface != NULL) {
 		SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);

@@ -14,13 +14,13 @@ class Node {
 		Point position;
 		bool drawnThisFrame;
 	public:
-		Node(Point position, NodeDrawGroup* group, CollideBaseGroup* collision);
+		Node(Point position, NodeDrawGroup& group, CollideBaseGroup& collision);
 		~Node();
 		Node* randomConnectedNode();
 		Point getPosition();
 		void draw();
 		void reset();
 		void addAttached(Node* node);
-		static bool checkLocationValidity(Point position, CollideBaseGroup* collision);
+		static bool checkLocationValidity(Point position, CollideBaseGroup& collision);
 };
 #endif

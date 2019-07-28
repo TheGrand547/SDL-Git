@@ -25,6 +25,6 @@ class Dot: public MyBase {
 		Line getRay();
 		float getAngle();
 		void draw();
-		void collideTest(PointDelta delta, CollideBaseGroup* boxes);
-		void rayCast(CollideBaseGroup* boxes);
+		void collideTest(PointDelta delta, CollideBaseGroup& boxes);
+		void rayCast(CollideBaseGroup& boxes);
 };

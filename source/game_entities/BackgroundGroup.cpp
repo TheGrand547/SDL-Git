@@ -9,6 +9,10 @@ BackgroundGroup::~BackgroundGroup() {
 	this->clearGroup();
 }
 
+bool BackgroundGroup::exists() {
+	return this->elements.size() > 0;
+}
+
 int BackgroundGroup::size() {
 	return this->elements.size();
 }

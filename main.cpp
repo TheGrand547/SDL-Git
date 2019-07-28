@@ -33,8 +33,8 @@ int main(int argc, char* argv[]) {
 	// TODO: Create a file structure for containing level data so its not hardcoded 
 	EnemyDrawGroup bads;
 	bads.setDot(&dot);
-	bads.setCollision(&boxes);
-	bads.setNavigation(&nodes);
+	bads.setCollision(boxes);
+	bads.setNavigation(nodes);
 	BackgroundGroup groundGroup;
 	// Box creation
 	Box::createBoxTexture(gRenderer);
@@ -44,8 +44,8 @@ int main(int argc, char* argv[]) {
 	}
 	for (int x = 0; x <= Screen::MAX_WIDTH; x += 100) {
 		for (int y = 0; y <= Screen::MAX_HEIGHT; y += 100) {
-			if (Node::checkLocationValidity(Point(x, y), &boxes)) {
-				nodes.add(new Node(Point(x, y), &nodes, &boxes));
+			if (Node::checkLocationValidity(Point(x, y), boxes)) {
+				nodes.add(new Node(Point(x, y), nodes, boxes));
 			}
 			groundGroup.add(Point(x, y), Ground::GRASS); // Consider having Nodes placed based on ground tiles?
 			if (x == y) {
@@ -67,7 +67,7 @@ int main(int argc, char* argv[]) {
 		clearScreen(gRenderer);
 		popo.zero(); // >:(
 		contra.handleEvents();
-		dot.collideTest(popo * fps.getRatio(), &boxes); // Player collision detection
+		dot.collideTest(popo * fps.getRatio(), boxes); // Player collision detection
 		bads.update();
 		/* Drawing */
 		groundGroup.drawGroup();
@@ -77,7 +77,7 @@ int main(int argc, char* argv[]) {
 		handler.drawHandler();
 		dot.draw(); // Player must always be drawn onto the top layer for best visibility, for the time being
 		if (contra.checkListener(config["Ray"]).getHeld()) { // Raycasting
-			dot.rayCast(&boxes); // Dot should already have access to this; make it so
+			dot.rayCast(boxes); // Dot should already have access to this; make it so
 		}
 		fps.draw(gRenderer);
 		renderChanges(gRenderer, gameWindow);

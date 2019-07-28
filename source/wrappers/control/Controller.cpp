@@ -60,7 +60,7 @@ void Controller::handleEvents() {
 		}
 	}
 	
-	if (this->myq.size() >= 1) {
+	if (this->myq.size() > 0) {
 		std::stringstream tmp;
 		tmp.str("");
 		for (int i = 0; i < this->myq.size(); i++) {

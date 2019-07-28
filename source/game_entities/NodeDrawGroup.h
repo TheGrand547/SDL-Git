@@ -10,6 +10,7 @@ class NodeDrawGroup : public DrawGroup {
 	public:
 		NodeDrawGroup();
 		~NodeDrawGroup();
+		bool exists() override;
 		int size() override;
 		Node*& operator[](int position);
 		void clearGroup() override;

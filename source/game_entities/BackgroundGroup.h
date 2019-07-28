@@ -16,6 +16,7 @@ class BackgroundGroup : public DrawGroup {
 	public:
 		BackgroundGroup();
 		~BackgroundGroup();
+		bool exists() override;
 		int size() override;
 		void add(Point position, Ground::Type type);
 		void clearGroup() override;

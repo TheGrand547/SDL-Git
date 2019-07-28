@@ -7,6 +7,10 @@ EnemyDrawGroup::~EnemyDrawGroup() {
 	this->dot = NULL;
 }
 
+bool EnemyDrawGroup::exists() {
+	return this->vector.size() > 0;
+}
+
 int EnemyDrawGroup::size() {
 	return this->vector.size();
 }
@@ -44,10 +48,10 @@ void EnemyDrawGroup::setDot(Dot* dot) {
 	this->dot = dot;
 }
 
-void EnemyDrawGroup::setCollision(CollideBaseGroup* collision) {
+void EnemyDrawGroup::setCollision(CollideBaseGroup& collision) {
 	this->collide = collision;
 }
 
-void EnemyDrawGroup::setNavigation(NodeDrawGroup* nav) {
+void EnemyDrawGroup::setNavigation(NodeDrawGroup& nav) {
 	this->nav = nav;
 }
