@@ -22,9 +22,14 @@ class CollideBaseGroup : public DrawGroup {
 		void push_back(CollideBase* collision);
 };
 
-bool collideRect(Rect rect, CollideBaseGroup& boxes);
-Point smallestDistanceFrom(CollideBaseGroup& boxes, Point origin, Line ray);
+bool checkCollisionBetweenLineAndGroup(CollideBaseGroup& group, Line ray);
+bool checkCollisionBetweenLineAndGroup(CollideBaseGroup* group, Line ray);
+bool collideRect(CollideBaseGroup& boxes, Rect rect);
+bool collideRect(CollideBaseGroup* boxes, Rect rect);
+bool collideRectTest(CollideBaseGroup& vec, Rect rect);
+bool collideRectTest(CollideBaseGroup* vec, Rect rect);
 Point collideTestVectorToRay(CollideBaseGroup& boxes, Line ray);
-bool collideRectTest(Rect rect, CollideBaseGroup& vec);
-bool checkCollisionBetweenLineAndGroup(Line ray, CollideBaseGroup& group);
+Point collideTestVectorToRay(CollideBaseGroup* boxes, Line ray);
+Point smallestDistanceFrom(CollideBaseGroup& boxes, Point origin, Line ray);
+Point smallestDistanceFrom(CollideBaseGroup* boxes, Point origin, Line ray);
 #endif

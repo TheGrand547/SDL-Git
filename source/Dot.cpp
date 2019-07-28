@@ -68,13 +68,13 @@ void Dot::collideTest(PointDelta delta, CollideBaseGroup& boxes) {
 	float yDelta = 0;
 	for (int i = 1; i < 6; i++) {
 		if (!xDelta) {
-			if (collideRectTest(this->getRect() + delta.onlyX() / i, boxes)) {
+			if (collideRectTest(boxes, this->getRect() + delta.onlyX() / i)) {
 				xDelta = delta.x() / i;
 				*MegaBase::offset += delta.onlyX() / i;
 			}
 		}
 		if (!yDelta) {
-			if (collideRectTest(this->getRect() + delta.onlyY() / i, boxes)) {
+			if (collideRectTest(boxes, this->getRect() + delta.onlyY() / i)) {
 				yDelta = delta.y() / i;
 				*MegaBase::offset += delta.onlyY() / i;					
 			}

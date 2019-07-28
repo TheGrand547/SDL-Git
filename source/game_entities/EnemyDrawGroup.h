@@ -9,8 +9,8 @@ class EnemyDrawGroup : public DrawGroup {
 	private:
 		std::vector<EnemyBase*> vector;
 		Dot* dot;
-		CollideBaseGroup collide;
-		NodeDrawGroup nav;
+		CollideBaseGroup* collide;
+		NodeDrawGroup* nav;
 	public:
 		EnemyDrawGroup();
 		~EnemyDrawGroup();

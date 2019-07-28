@@ -11,13 +11,14 @@ bool EnemyDrawGroup::exists() {
 	return this->vector.size() > 0;
 }
 
+
 int EnemyDrawGroup::size() {
 	return this->vector.size();
 }
 
 void EnemyDrawGroup::add(EnemyBase* entity) {
-	entity->setCollision(this->collide);
-	entity->setNavigation(this->nav);
+	entity->setCollision(*this->collide);
+	entity->setNavigation(*this->nav);
 	if (entity->checkLocationValidity()) {
 		delete entity;
 		return;
@@ -49,9 +50,9 @@ void EnemyDrawGroup::setDot(Dot* dot) {
 }
 
 void EnemyDrawGroup::setCollision(CollideBaseGroup& collision) {
-	this->collide = collision;
+	this->collide = &collision;
 }
 
 void EnemyDrawGroup::setNavigation(NodeDrawGroup& nav) {
-	this->nav = nav;
+	this->nav = &nav;
 }

@@ -36,12 +36,16 @@ int CollideBaseGroup::size() {
 	return this->group.size();
 }
 
-bool collideRect(Rect rect, CollideBaseGroup& boxes) {
+bool collideRect(CollideBaseGroup& boxes, Rect rect) {
 	bool result = false;
 	for (int i = 0; i < boxes.size() && !result; i++) {
 		result = boxes[i]->overlap(rect);
 	}
 	return result;
+}
+
+bool collideRect(CollideBaseGroup* boxes, Rect rect) {
+	return collideRect(*boxes, rect);
 }
 
 Point smallestDistanceFrom(CollideBaseGroup& boxes, Point origin, Line ray) {
@@ -52,19 +56,35 @@ Point smallestDistanceFrom(CollideBaseGroup& boxes, Point origin, Line ray) {
 	return stored;
 }
 
+Point smallestDistanceFrom(CollideBaseGroup* boxes, Point origin, Line ray) {
+	return smallestDistanceFrom(*boxes, origin, ray);
+}
+
 Point collideTestVectorToRay(CollideBaseGroup& boxes, Line ray) {
 	return smallestDistanceFrom(boxes, ray.getOrigin(), ray);
 }
 
-bool collideRectTest(Rect rect, CollideBaseGroup& vec) {
-	return !collideRect(rect, vec);
+Point collideTestVectorToRay(CollideBaseGroup* boxes, Line ray) {
+	return collideTestVectorToRay(*boxes, ray);
 }
 
-bool checkCollisionBetweenLineAndGroup(Line ray, CollideBaseGroup& group) {
+bool collideRectTest(CollideBaseGroup& vec, Rect rect) {
+	return !collideRect(vec, rect);
+}
+
+bool collideRectTest(CollideBaseGroup* vec, Rect rect) {
+	return collideRectTest(*vec, rect);
+}
+
+bool checkCollisionBetweenLineAndGroup(CollideBaseGroup& group, Line ray) {
 	bool result = true;
 	for (int i = 0; i < group.size() && result; i++) {
 		result = group[i]->checkLineCollision(ray);
 	}
 	return result;
+}
+
+bool checkCollisionBetweenLineAndGroup(CollideBaseGroup* group, Line ray) {
+	return checkCollisionBetweenLineAndGroup(*group, ray);
 }
 

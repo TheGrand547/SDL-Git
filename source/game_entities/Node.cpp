@@ -5,7 +5,7 @@ Node::Node(Point position, NodeDrawGroup& group, CollideBaseGroup& collision) {
 	this->drawnThisFrame = false;
 	this->position = position;
 	for (int i = 0; i < group.size(); i++) {
-		if (checkCollisionBetweenLineAndGroup(Line(this->position, group[i]->position), collision)) {
+		if (checkCollisionBetweenLineAndGroup(collision, Line(this->position, group[i]->position))) {
 			this->attached.push_back(group[i]);
 			group[i]->addAttached(this);
 		}
@@ -51,6 +51,6 @@ bool Node::checkLocationValidity(Point position, CollideBaseGroup& collision) {
 	 * False -> invalid location */
 	Rect testRect = Rect(position, 50, 50);
 	testRect -= Point(testRect.getWidth() / 2, testRect.getHeight() / 2);
-	return collideRectTest(testRect, collision);
+	return collideRectTest(collision, testRect);
 }
 

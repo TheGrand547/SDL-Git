@@ -22,7 +22,7 @@ BadTest::~BadTest() {
 bool BadTest::checkLocationValidity() {
 	/* True -> Valid location, no collision
 	 * False -> Invalid location, collision or some other predefined metric doesn't satisfy */
-	return !collideRectTest(Rect(this->position, this->width, this->height), this->collide);
+	return !collideRectTest(this->collide, Rect(this->position, this->width, this->height));
 }
 
 void BadTest::set() {
@@ -35,14 +35,14 @@ void BadTest::draw(Dot* dot) {
 		this->texture->draw(MegaBase::renderer, MegaBase::offset);
 	}
 	// "AI" - also -> TODO: clean up this dumpster fire
-	if (this->nav.exists()) {
+	if (this->nav != NULL) {
 		if (this->running) {
 			Point center = this->position + Point() + Point(this->width / 2, this->height / 2);
 			if (this->stored == NULL) {
 				std::vector<Node*> temp;
-				for (int i = 0; i < this->nav.size(); i++) {
-					if (checkCollisionBetweenLineAndGroup(Line(center, this->nav[i]->getPosition()), this->collide)) {
-						temp.push_back(this->nav[i]);
+				for (int i = 0; i < this->nav->size(); i++) {
+					if (checkCollisionBetweenLineAndGroup(this->collide, Line(center, (*this->nav)[i]->getPosition()))) {
+						temp.push_back((*this->nav)[i]);
 					}
 				}
 				if (temp.size() == 0) {
