@@ -27,11 +27,11 @@ void FpsText::draw(SDL_Renderer* renderer) {
 	std::stringstream fpsStr;
 	fpsStr.str("");
 	fpsStr << "FPS: " << int(this->averageFps);
-	this->font.renderText(this->position.x(), this->position.y(), fpsStr.str(), renderer, this->color);
+	this->font.drawText(this->position.x(), this->position.y(), fpsStr.str(), renderer, this->color);
 	this->countedFrames++;
 	
 }
 
 float FpsText::getRatio() {
-	return Screen::INTENDED_FRAME_RATE / this->averageFps;
+	return float(Screen::INTENDED_FRAME_RATE) / float(this->averageFps);
 }

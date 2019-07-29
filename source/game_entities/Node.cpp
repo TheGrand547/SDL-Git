@@ -1,6 +1,12 @@
 #include "Node.h"
 #include "../essential/MegaBase.h"
 
+Node::Node(Point position) {
+	// "Null" node, one that can be placed before collision group is done
+	this->drawnThisFrame = false;
+	this->position = position;
+}
+
 Node::Node(Point position, NodeDrawGroup& group, CollideBaseGroup& collision) {
 	this->drawnThisFrame = false;
 	this->position = position;
