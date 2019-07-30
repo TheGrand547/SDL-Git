@@ -2,6 +2,7 @@
 #include<SDL2/SDL.h>
 #include "../../essential/constants.h"
 #include "../../wrappers/Texture.h"
+#include "../../wrappers/Timer.h"
 #include "CollideBase.h"
 #include "../CollideBaseGroup.h"
 #include "../../Dot.h"
@@ -12,10 +13,12 @@
 class EnemyBase {
 	protected:
 		Texture* texture;
+		Timer timer;
 		Point position;
 		int width = 50;
 		int height = 50;
 		float angle = 0;
+		int countedFrames = 0;
 		/* Experimental - Maybe remove this in favor of a pointer to its container? */
 		CollideBaseGroup* collide;
 		NodeDrawGroup* nav;

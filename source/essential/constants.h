@@ -15,6 +15,7 @@ namespace COLORS {
 
 
 namespace BOX {
+	const std::string BOX_TEXTURE = "resources/missingTexture.jpg";
 	const int BOX_WIDTH = 100;
 	const int BOX_HEIGHT = 100;
 	const float BOX_OUTDENT = .5;

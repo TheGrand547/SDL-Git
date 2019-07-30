@@ -59,7 +59,6 @@ void Controller::handleEvents() {
 				break;
 		}
 	}
-	
 	if (this->myq.size() > 0) {
 		std::stringstream tmp;
 		tmp.str("");

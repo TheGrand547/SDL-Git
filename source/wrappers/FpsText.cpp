@@ -23,13 +23,12 @@ void FpsText::draw(SDL_Renderer* renderer) {
 		this->countedFrames = 1;
 		this->timer.start();
 	}
-	this->averageFps = this->countedFrames / ((this->timer.getTicks() + 1) / 1000.f);
+	this->averageFps = float(this->countedFrames) / (float(this->timer.getTicks() + 1) / 1000.f);
+	this->countedFrames++;
 	std::stringstream fpsStr;
 	fpsStr.str("");
 	fpsStr << "FPS: " << int(this->averageFps);
 	this->font.drawText(this->position.x(), this->position.y(), fpsStr.str(), renderer, this->color);
-	this->countedFrames++;
-	
 }
 
 float FpsText::getRatio() {

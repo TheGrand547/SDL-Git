@@ -5,6 +5,7 @@ EnemyBase::EnemyBase(Point position) {
 	this->texture = new Texture();
 	this->collide = NULL;
 	this->nav = NULL;
+	this->timer.start();
 }
 
 EnemyBase::~EnemyBase() {
@@ -24,6 +25,14 @@ void EnemyBase::setCollision(CollideBaseGroup& collide) {
 }
 
 void EnemyBase::operator+=(Point delta) {
+	// There must be a better way
+	if (this->countedFrames > 1000) {
+		this->countedFrames = 1;
+		this->timer.start();
+	}
+	float avg = float(this->countedFrames) / (float(this->timer.getTicks() + 1) / 1000.f);
+	this->countedFrames++;
+	
 	float xflag = 0;
 	float yflag = 0;
 	Point px = delta;

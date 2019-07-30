@@ -11,7 +11,7 @@ Node::Node(Point position, NodeDrawGroup& group, CollideBaseGroup& collision) {
 	this->drawnThisFrame = false;
 	this->position = position;
 	for (int i = 0; i < group.size(); i++) {
-		if (checkCollisionBetweenLineAndGroup(collision, Line(this->position, group[i]->position))) {
+		if (checkCollisionBetweenLineAndGroup(collision, Line(this->position, group[i]->position)) && this->position.distanceToPoint(group[i]->position) < 300) {
 			this->attached.push_back(group[i]);
 			group[i]->addAttached(this);
 		}

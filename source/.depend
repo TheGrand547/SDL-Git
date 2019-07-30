@@ -42,6 +42,7 @@ main.o: ../main.cpp ../source/headers.h ../source/game_entities/Box.h \
   ../source/game_entities/base/EnemyBase.h \
   ../source/game_entities/base/../../essential/constants.h \
   ../source/game_entities/base/../../wrappers/Texture.h \
+  ../source/game_entities/base/../../wrappers/Timer.h \
   ../source/game_entities/base/../CollideBaseGroup.h \
   ../source/game_entities/base/../../Dot.h \
   ../source/game_entities/base/../NodeDrawGroup.h \
@@ -174,6 +175,7 @@ EnemyDrawGroup.o: game_entities/EnemyDrawGroup.cpp \
   game_entities/../wrappers/SuperTexture.h \
   game_entities/base/EnemyBase.h \
   game_entities/base/../../essential/constants.h \
+  game_entities/base/../../wrappers/Timer.h \
   game_entities/base/../CollideBaseGroup.h \
   game_entities/base/../../Dot.h \
   game_entities/../game_entities/CollideBaseGroup.h \
@@ -194,6 +196,7 @@ EnemyBase.o: game_entities/base/EnemyBase.cpp \
   game_entities/base/../../wrappers/Texture.h \
   game_entities/base/../../wrappers/../primitives/Point.h \
   game_entities/base/../../wrappers/../essential/constants.h \
+  game_entities/base/../../wrappers/Timer.h \
   game_entities/base/CollideBase.h \
   game_entities/base/../../primitives/Rect.h \
   game_entities/base/../../wrappers/../primitives/../essential/util.h \
@@ -336,6 +339,7 @@ BadTest.o: game_entities/BadTest.cpp game_entities/BadTest.h \
   game_entities/base/EnemyBase.h \
   game_entities/base/../../essential/constants.h \
   game_entities/base/../../wrappers/Texture.h \
+  game_entities/base/../../wrappers/Timer.h \
   game_entities/base/../CollideBaseGroup.h \
   game_entities/base/../../Dot.h \
   game_entities/../primitives/../primitives/Rect.h \
