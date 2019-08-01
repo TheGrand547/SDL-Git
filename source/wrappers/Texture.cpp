@@ -42,6 +42,10 @@ void Texture::setAlpha(Uint8 alpha) {
 	SDL_SetTextureAlphaMod(this->texture, alpha);
 }
 
+void Texture::setBlend(SDL_BlendMode mode) {
+	SDL_SetTextureBlendMode(this->texture, mode);
+}
+
 void Texture::draw(int x, int y, SDL_Renderer* renderer, SDL_Rect* clip, double angle, SDL_Point* center, SDL_RendererFlip flip) {
 	int width, height;
 	SDL_QueryTexture(this->texture, NULL, NULL, &width, &height);
@@ -103,11 +107,18 @@ void Texture::setPos(Point point) {
 
 void Texture::loadFromFile(std::string path, SDL_Renderer* renderer, int xSize, int ySize, Uint8 r, Uint8 g, Uint8 b) {
 	SDL_Texture* newTexture = NULL;
+	SDL_Texture* tempTexture = NULL;
 	SDL_Surface* tempSurface = IMG_Load(path.c_str());	
-	SDL_Texture* tempTexture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_TARGET, 100, 100);
 	if (tempSurface == NULL) {
 		printf("Unable to load image %s! SDL_image Error: %s\n", path.c_str(), IMG_GetError());
 	} else {
+		if (this->texture == NULL) {
+			tempTexture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_TARGET, tempSurface->w, tempSurface->h);
+		} else {
+			int width, height;
+			SDL_QueryTexture(this->texture, NULL, NULL, &width, &height);
+			tempTexture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_TARGET, width, height);
+		}
 		SDL_SetColorKey(tempSurface, SDL_TRUE, SDL_MapRGB( tempSurface->format, r, g, b));
 		if (xSize > 0 && ySize > 0) {
 			tempSurface = scaleToCoords(tempSurface, xSize, ySize);

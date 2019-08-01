@@ -24,8 +24,6 @@ namespace BOX {
 	const SDL_Color BOX_INNER_COLOR = COLORS::LIGHT_GRAY;
 }
 
-
-/* Enumeration to get rid of overhead on my end, as all background elements are fundamentally the same */
 namespace Ground {
 	enum Type {
 		GRASS = 0, METAL = 1

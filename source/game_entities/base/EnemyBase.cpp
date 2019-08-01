@@ -5,7 +5,6 @@ EnemyBase::EnemyBase(Point position) {
 	this->texture = new Texture();
 	this->collide = NULL;
 	this->nav = NULL;
-	this->timer.start();
 }
 
 EnemyBase::~EnemyBase() {
@@ -26,7 +25,7 @@ void EnemyBase::setCollision(CollideBaseGroup& collide) {
 
 void EnemyBase::operator+=(Point delta) {
 	// There must be a better way
-	if (this->countedFrames > 1000) {
+	if (this->countedFrames > 1000 || this->countedFrames == 0) {
 		this->countedFrames = 1;
 		this->timer.start();
 	}
@@ -35,7 +34,7 @@ void EnemyBase::operator+=(Point delta) {
 	
 	float xflag = 0;
 	float yflag = 0;
-	Point px = delta;
+	Point px = delta * (float(Screen::INTENDED_FRAME_RATE) / avg);
 	// Seems really inefficent, investigate it
 	if (this->collide != NULL) {
 		for (int i = 1; i < 3; i++) {

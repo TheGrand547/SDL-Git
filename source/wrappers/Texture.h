@@ -20,6 +20,7 @@ class Texture {
 		SDL_Surface* scaleToCoords(SDL_Surface* surf, float desiredWidth, float desiredHeight);
 		void setColor(Uint8 red, Uint8 green, Uint8 blue);
 		void setAlpha(Uint8 alpha);
+		void setBlend(SDL_BlendMode mode);
 		void draw(int x, int y, SDL_Renderer* renderer, SDL_Rect* clip = NULL, double angle = 0, SDL_Point* center = NULL, SDL_RendererFlip flip = SDL_FLIP_NONE);
 		void draw(SDL_Renderer *renderer, SDL_Rect* clip = NULL, double angle = 0, SDL_Point* center = NULL, SDL_RendererFlip flip = SDL_FLIP_NONE);
 		void draw(SDL_Renderer* renderer, Point offset);

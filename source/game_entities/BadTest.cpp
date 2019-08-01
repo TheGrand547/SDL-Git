@@ -65,7 +65,7 @@ void BadTest::draw(Dot* dot) {
 					this->stored = this->stored->randomConnectedNode();
 				}
 				float ange = atan2(this->stored->getPosition().y() - center.y(), this->stored->getPosition().x() - center.x());
-				*this += Point(1 * cos(ange), 1 * sin(ange));
+				*this += Point(3 * cos(ange), 3 * sin(ange));
 			}
 		}
 	}
