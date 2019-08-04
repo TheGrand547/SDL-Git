@@ -19,9 +19,7 @@ Rect::Rect(float x, float y, int width, int height) {
 }
 
 Rect::Rect(Point position, int width, int height) {
-	//std::cout << "Seg fault here?" << std::endl;
 	*this = Rect(position, position + Point(width, height));
-	//std::cout << "Not here" << std::endl;
 }
 
 Rect::Rect(const Rect& that) {

@@ -383,3 +383,17 @@ SimpleButtonCommand.o: wrappers/control/SimpleButtonCommand.cpp \
   wrappers/control/SimpleButtonCommand.h \
   wrappers/control/ButtonCommand.h
 Font.o: wrappers/Font.cpp wrappers/Font.h
+BackgroundElement.o: game_entities/BackgroundElement.cpp \
+  game_entities/BackgroundElement.h game_entities/../primitives/Point.h \
+  game_entities/../primitives/Rect.h \
+  game_entities/../primitives/../essential/util.h \
+  game_entities/../primitives/../essential/../primitives/Point.h \
+  game_entities/../primitives/../essential/../MyBase.h \
+  game_entities/../primitives/PointDelta.h \
+  game_entities/../primitives/../MyBase.h \
+  game_entities/../primitives/Line.h \
+  game_entities/../primitives/../essential/random.h \
+  game_entities/../wrappers/Texture.h \
+  game_entities/../wrappers/../primitives/Point.h \
+  game_entities/../wrappers/../essential/constants.h \
+  game_entities/../essential/constants.h

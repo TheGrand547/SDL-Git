@@ -37,6 +37,7 @@ int main(int argc, char* argv[]) {
 	bads.setNavigation(nodes);
 	BackgroundGroup groundGroup;
 	// Box creation
+	
 	Box::createBoxTexture(gRenderer);
 	Point ar[] = {Point(50, 50), Point(200, 200), Point(400, 200), Point(200, 500), Point(500, 400), Point(700, 600), Point(800, 200)};
 	for (Point point: ar) {
@@ -63,10 +64,6 @@ int main(int argc, char* argv[]) {
 	FpsText fps(gFont, Point(100, 10), COLORS::RED); // Add handler for these things
 	handler.addMessage(AlertText("this shouldn't last long", Point(300, 150), COLORS::RED, 20, 2500));
 	// TODO: Standardize between draw and render, ie pick one you indecisive fuck
-	Texture texture2;
-	texture2.loadFromFile("resources/cat.jpg", gRenderer, 800, 600);
-	texture2.setAlpha(0x80);
-	texture2.setBlend(SDL_BLENDMODE_BLEND);
 	while(!contra.quit) {
 		clearScreen(gRenderer);
 		popo.zero(); // >:(
@@ -80,7 +77,6 @@ int main(int argc, char* argv[]) {
 		ap.update(gRenderer);
 		handler.drawHandler();
 		dot.draw(); // Player must always be drawn onto the top layer for best visibility, for the time being
-		texture2.draw(0, 0, gRenderer);
 		if (contra.checkListener(config["Ray"]).getHeld()) { // Raycasting
 			dot.rayCast(boxes); // Dot should already have access to this; make it so
 		}
