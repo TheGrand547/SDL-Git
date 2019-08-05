@@ -49,6 +49,7 @@ void Texture::setBlend(SDL_BlendMode mode) {
 }
 
 void Texture::setColorKey(Uint8 red, Uint8 green, Uint8 blue) { // Modified from lazyfoo.net
+	// TODO: Write internal(protected) method for doing parts of this
 	this->setBlend(SDL_BLENDMODE_BLEND);
 	void* rawPixels;
 	int pitch, width, height;
@@ -62,10 +63,37 @@ void Texture::setColorKey(Uint8 red, Uint8 green, Uint8 blue) { // Modified from
 	int pixelCount = (pitch / 4) * height;
 	Uint32 colorKey = SDL_MapRGB(mappingFormat, red, green, blue);
 	Uint32 transparent = SDL_MapRGBA(mappingFormat, 0xFF, 0xFF, 0xFF, 0x00);
-	for (int i = 0; i < pixelCount; ++i) {
+	for (int i = 0; i < pixelCount; i++) {
 		if (pixels[i] == colorKey) {
 			pixels[i] = transparent;
 		}
+	}
+	SDL_UnlockTexture(this->texture);
+	SDL_FreeFormat(mappingFormat);
+}
+
+void Texture::dither() {
+	void* rawPixels;
+	int pitch, width, height;
+	Uint32 format;
+	if (SDL_LockTexture(this->texture, NULL, &rawPixels, &pitch) != 0) {
+		return;
+	}
+	Uint8 matrix[2][2] = { {0x40, 0x80},  {0xC0, 0x00} };
+	SDL_QueryTexture(this->texture, &format, NULL, &width, &height);
+	SDL_PixelFormat* mappingFormat = SDL_AllocFormat(format);
+	Uint32* pixels = (Uint32*)rawPixels;
+	int pixelCount = (pitch / 4) * height;
+	Uint32 transparent = SDL_MapRGBA(mappingFormat, 0xFF, 0xFF, 0xFF, 0x00);
+	Uint8 r, g, b, a;
+	Uint8 value;
+	for (int i = 0; i < pixelCount; i++) {
+		SDL_GetRGBA(pixels[i], mappingFormat, &r, &g, &b, &a);
+		value = matrix[(i / width) % 2][(i / height) % 2];
+		r = (r < value) ? 0x00 : 0xFF;
+		g = (g < value) ? 0x00 : 0xFF;
+		b = (b < value) ? 0x00 : 0xFF;
+		pixels[i] = SDL_MapRGBA(mappingFormat, r, g, b, a);
 	}
 	SDL_UnlockTexture(this->texture);
 	SDL_FreeFormat(mappingFormat);
