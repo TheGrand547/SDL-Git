@@ -49,59 +49,46 @@ void Texture::setBlend(SDL_BlendMode mode) {
 }
 
 void Texture::setColorKey(Uint8 red, Uint8 green, Uint8 blue) { // Modified from lazyfoo.net
-	// TODO: Write internal(protected) method for doing parts of this
 	this->setBlend(SDL_BLENDMODE_BLEND);
-	void* rawPixels;
-	int pitch, width, height;
-	Uint32 format;
-	if (SDL_LockTexture(this->texture, NULL, &rawPixels, &pitch) != 0) {
+	PixelMod mod(this->texture);
+	if (mod.unlocked) {
 		return;
 	}
-	SDL_QueryTexture(this->texture, &format, NULL, &width, &height);
-	SDL_PixelFormat* mappingFormat = SDL_AllocFormat(format);
-	Uint32* pixels = (Uint32*)rawPixels;
-	int pixelCount = (pitch / 4) * height;
-	Uint32 colorKey = SDL_MapRGB(mappingFormat, red, green, blue);
-	Uint32 transparent = SDL_MapRGBA(mappingFormat, 0xFF, 0xFF, 0xFF, 0x00);
-	for (int i = 0; i < pixelCount; i++) {
-		if (pixels[i] == colorKey) {
-			pixels[i] = transparent;
+	Uint32 colorKey = SDL_MapRGB(mod.format, red, green, blue);
+	Uint32 transparent = SDL_MapRGBA(mod.format, 0xFF, 0xFF, 0xFF, 0x00);
+	for (int i = 0; i < mod.pixelCount; i++) {
+		if (mod.pixels[i] == colorKey) {
+			mod.pixels[i] = transparent;
 		}
 	}
-	SDL_UnlockTexture(this->texture);
-	SDL_FreeFormat(mappingFormat);
 }
 
 void Texture::dither() {
-	void* rawPixels;
-	int pitch, width, height;
-	Uint32 format;
-	if (SDL_LockTexture(this->texture, NULL, &rawPixels, &pitch) != 0) {
+	PixelMod mod(this->texture);
+	if (mod.unlocked) {
 		return;
 	}
 	Uint8 matrix[2][2] = { {0x40, 0x80},  {0xC0, 0x00} };
-	SDL_QueryTexture(this->texture, &format, NULL, &width, &height);
-	SDL_PixelFormat* mappingFormat = SDL_AllocFormat(format);
-	Uint32* pixels = (Uint32*)rawPixels;
-	int pixelCount = (pitch / 4) * height;
-	Uint32 transparent = SDL_MapRGBA(mappingFormat, 0xFF, 0xFF, 0xFF, 0x00);
+	Uint32 transparent = SDL_MapRGBA(mod.format, 0xFF, 0xFF, 0xFF, 0x00);
 	Uint8 r, g, b, a;
 	Uint8 value;
-	for (int i = 0; i < pixelCount; i++) {
-		SDL_GetRGBA(pixels[i], mappingFormat, &r, &g, &b, &a);
-		value = matrix[(i / width) % 2][(i / height) % 2];
+	for (int i = 0; i < mod.pixelCount; i++) {
+		SDL_GetRGBA(mod.pixels[i], mod.format, &r, &g, &b, &a);
+		value = matrix[(i / mod.width) % 2][(i / mod.height) % 2];
 		r = (r < value) ? 0x00 : 0xFF;
 		g = (g < value) ? 0x00 : 0xFF;
 		b = (b < value) ? 0x00 : 0xFF;
-		pixels[i] = SDL_MapRGBA(mappingFormat, r, g, b, a);
+		mod.pixels[i] = SDL_MapRGBA(mod.format, r, g, b, a);
 	}
-	SDL_UnlockTexture(this->texture);
-	SDL_FreeFormat(mappingFormat);
 }
 
 void Texture::draw(int x, int y, SDL_Renderer* renderer, SDL_Rect* clip, double angle, SDL_Point* center, SDL_RendererFlip flip) {
-	int width, height;
-	SDL_QueryTexture(this->texture, NULL, NULL, &width, &height);
+	int width, height, access;
+	SDL_QueryTexture(this->texture, NULL, &access, &width, &height);
+	// Including this on the off chance it's needed
+	if (access != SDL_TEXTUREACCESS_STREAMING) {
+		this->normalizeTexture(renderer);
+	}
 	SDL_Rect renderQuad = {x, y, width, height};
 	if (clip != NULL) {
 		renderQuad.w = clip->w;
@@ -196,6 +183,7 @@ void Texture::normalizeTexture(SDL_Renderer* renderer) {
 		return;
 	}
 	if (access == SDL_TEXTUREACCESS_STATIC) { // Don't know what to do with it :(
+		std::cout << "Texture was created with the Texture Access of Static -> Fix This" << std::endl;
 		return;
 	}
 	SDL_SetRenderTarget(renderer, this->texture);
@@ -212,6 +200,7 @@ void Texture::normalizeTexture(SDL_Renderer* renderer) {
 	SDL_GetTextureAlphaMod(this->texture, &alpha);
 	SDL_GetTextureBlendMode(this->texture, &blend);
 	SDL_GetTextureColorMod(this->texture, &colorR, &colorG, &colorB);
+	
 	SDL_SetTextureAlphaMod(streamingTexture, alpha);
 	SDL_SetTextureBlendMode(streamingTexture, blend);
 	SDL_SetTextureColorMod(this->texture, colorR, colorG, colorB);

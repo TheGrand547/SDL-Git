@@ -5,6 +5,7 @@
 #include<SDL2_image/SDL_image.h>
 #include "../primitives/Point.h"
 #include "../essential/constants.h"
+#include "PixelMod.h"
 typedef Uint8 uint8_t;
 typedef Uint32 uint32_t;
 class Texture {
