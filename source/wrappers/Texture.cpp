@@ -82,6 +82,29 @@ void Texture::dither() {
 	}
 }
 
+void Texture::testFilter() {
+	PixelMod mod(this->texture);
+	if (mod.unlocked) {
+		return;
+	}
+	Uint8 r, g, b, a;
+	for (int i = 0; i < mod.pixelCoun; i++) {
+		SDL_GetRGBA(mod.pixels[i], mod.format, &r, &g, &b, &a);
+		r *= 7;
+		g *= 7;
+		b *= 7;
+		/*
+		if (r > g || r > b) {
+			r *= 5;
+		} else if (g > r || g > b) {
+			g *= 5;
+		} else {
+			b *= 5;
+		}*/
+		mod.pixels[i] = SDL_MapRGBA(mod.format, r, g, b, a);
+	}
+}
+
 void Texture::draw(int x, int y, SDL_Renderer* renderer, SDL_Rect* clip, double angle, SDL_Point* center, SDL_RendererFlip flip) {
 	int width, height, access;
 	SDL_QueryTexture(this->texture, NULL, &access, &width, &height);
