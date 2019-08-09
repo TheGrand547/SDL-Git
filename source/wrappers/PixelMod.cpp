@@ -20,3 +20,7 @@ PixelMod::~PixelMod() {
 		SDL_FreeFormat(this->format);
 	}
 }
+
+Uint32& PixelMod::at(int x, int y) {
+	return this->pixels[x + (y * height)];
+}

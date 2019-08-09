@@ -10,10 +10,10 @@ class Node;
 #include "NodeDrawGroup.h"
 class Node {
 	private:
-		std::vector<Node*> attached;
 		Point position;
 		bool drawnThisFrame;
 	public:
+		std::vector<Node*> attached;
 		Node(Point position); // This is the constructor for a "null node" aka one that needs to be re-evaluated later
 		Node(Point position, NodeDrawGroup& group, CollideBaseGroup& collision);
 		~Node();

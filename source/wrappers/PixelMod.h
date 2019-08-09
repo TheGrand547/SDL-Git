@@ -14,5 +14,6 @@ class PixelMod {
 		
 		PixelMod(SDL_Texture* texture);
 		~PixelMod();
+		Uint32& at(int x, int y);
 };
 #endif

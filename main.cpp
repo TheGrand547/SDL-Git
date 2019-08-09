@@ -37,12 +37,12 @@ int main(int argc, char* argv[]) {
 	bads.setNavigation(nodes);
 	BackgroundGroup groundGroup;
 	// Box creation
-	
 	Box::createBoxTexture(gRenderer);
-	Point ar[] = {Point(50, 50), Point(200, 200), Point(400, 200), Point(200, 500), Point(500, 400), Point(700, 600), Point(800, 200)};
+	Point ar[] = {Point(200, 200), Point(400, 200), Point(300, 200), Point(500, 200)};//Point(200, 500), Point(500, 400), Point(700, 600), Point(800, 200)};
 	for (Point point: ar) {
 		boxes.push_back(CollideBaseFactory::CreateBox(point));
 	}
+	bads.add(new BadTest(Point(300, 400)));
 	for (int x = 0; x <= Screen::MAX_WIDTH; x += 100) {
 		for (int y = 0; y <= Screen::MAX_HEIGHT; y += 100) {
 			if (Node::checkLocationValidity(Point(x, y), boxes)) {
@@ -50,7 +50,7 @@ int main(int argc, char* argv[]) {
 			}
 			groundGroup.add(Point(x, y), Ground::GRASS); // Consider having Nodes placed based on ground tiles?
 			if (x == y) {
-				bads.add(new BadTest(Point(x, y)));
+				//bads.add(new BadTest(Point(x, y)));
 			}
 		}
 	}

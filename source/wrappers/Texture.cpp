@@ -87,21 +87,17 @@ void Texture::testFilter() {
 	if (mod.unlocked) {
 		return;
 	}
-	Uint8 r, g, b, a;
-	for (int i = 0; i < mod.pixelCoun; i++) {
-		SDL_GetRGBA(mod.pixels[i], mod.format, &r, &g, &b, &a);
-		r *= 7;
-		g *= 7;
-		b *= 7;
-		/*
-		if (r > g || r > b) {
-			r *= 5;
-		} else if (g > r || g > b) {
-			g *= 5;
-		} else {
-			b *= 5;
-		}*/
-		mod.pixels[i] = SDL_MapRGBA(mod.format, r, g, b, a);
+	Uint8 r, g, b, a, r2, g2, b2, r3, g3, b3;
+	for (int x = 1; x < mod.width; x++) {
+		for (int y = 0; y < mod.height; y++) {
+			SDL_GetRGBA(mod.at(x, y), mod.format, &r, &g, &b, &a);
+			SDL_GetRGB(mod.at(x - 1, y), mod.format, &r2, &g2, &b2);
+			SDL_GetRGB(mod.at(x + 1, y), mod.format, &r3, &g3, &b3);
+			r = (r / 3) + (r2 / 3) + (r3 / 3);
+			g = (g / 3) + (g2 / 3) + (g3 / 3);
+			b = (b / 3) + (b2 / 3) + (b3 / 3);
+			mod.at(x, y) = SDL_MapRGBA(mod.format, r, g, b, a);
+		}
 	}
 }
 

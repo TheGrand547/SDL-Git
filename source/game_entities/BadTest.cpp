@@ -53,7 +53,7 @@ void BadTest::draw(Dot* dot) {
 					Node* closest = temp[0];
 					if (temp.size() > 1) {
 						for (int i = 1; i < temp.size(); i++) {
-							if (temp[i]->getPosition().distanceToPoint(center) < closest->getPosition().distanceToPoint(center)) {
+							if (temp[i]->getPosition().distanceToPoint(dot->getPos()) < closest->getPosition().distanceToPoint(dot->getPos())) {
 								closest = temp[i];
 							}
 						}
@@ -62,7 +62,21 @@ void BadTest::draw(Dot* dot) {
 				}
 			} else {
 				if (this->stored->getPosition().distanceToPoint(center) < 5) {
-					this->stored = this->stored->randomConnectedNode();
+					//this->stored = this->stored->randomConnectedNode();
+					Node* tmp = this->stored->attached[0];
+					if (this->stored->attached.size() > 1) {
+						int i = 0;
+						for (Node* node: this->stored->attached) {
+							if (node->getPosition().distanceToPoint(dot->getPos()) < tmp->getPosition().distanceToPoint(dot->getPos())) {
+								tmp = node;
+							}
+							i++;
+						}
+					}
+					this->stored = tmp;
+				}
+				if (center.distanceToPoint(dot->getPos()) < 60) {
+					this->running = false;
 				}
 				float ange = atan2(this->stored->getPosition().y() - center.y(), this->stored->getPosition().x() - center.x());
 				*this += Point(3 * cos(ange), 3 * sin(ange));
