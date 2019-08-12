@@ -38,17 +38,19 @@ int main(int argc, char* argv[]) {
 	BackgroundGroup groundGroup;
 	// Box creation
 	Box::createBoxTexture(gRenderer);
-	Point ar[] = {Point(200, 200), Point(400, 200), Point(300, 200), Point(500, 200)};//Point(200, 500), Point(500, 400), Point(700, 600), Point(800, 200)};
+	Point ar[] = {Point(200, 200), Point(400, 200), Point(300, 200), Point(500, 200), Point(500, 300), Point (500, 400)};//Point(200, 500), Point(500, 400), Point(700, 600), Point(800, 200)};
 	for (Point point: ar) {
 		boxes.push_back(CollideBaseFactory::CreateBox(point));
 	}
 	bads.add(new BadTest(Point(300, 400)));
-	for (int x = 0; x <= Screen::MAX_WIDTH; x += 100) {
-		for (int y = 0; y <= Screen::MAX_HEIGHT; y += 100) {
+	for (int x = 0; x <= Screen::MAX_WIDTH; x += 50) {
+		for (int y = 0; y <= Screen::MAX_HEIGHT; y += 50) {
 			if (Node::checkLocationValidity(Point(x, y), boxes)) {
 				nodes.add(new Node(Point(x, y), nodes, boxes));
 			}
-			groundGroup.add(Point(x, y), Ground::GRASS); // Consider having Nodes placed based on ground tiles?
+			if (x % 100 == 0 && y % 100 == 0) {
+				groundGroup.add(Point(x, y), Ground::GRASS); // Consider having Nodes placed based on ground tiles?
+			}
 			if (x == y) {
 				//bads.add(new BadTest(Point(x, y)));
 			}
@@ -64,6 +66,7 @@ int main(int argc, char* argv[]) {
 	FpsText fps(gFont, Point(100, 10), COLORS::RED); // Add handler for these things
 	handler.addMessage(AlertText("this shouldn't last long", Point(300, 150), COLORS::RED, 20, 2500));
 	// TODO: Standardize between draw and render, ie pick one you indecisive fuck
+	NodePath ahhhh(nodes[0], dot.getPos());
 	while(!contra.quit) {
 		clearScreen(gRenderer);
 		popo.zero(); // >:(
@@ -80,6 +83,7 @@ int main(int argc, char* argv[]) {
 		if (contra.checkListener(config["Ray"]).getHeld()) { // Raycasting
 			dot.rayCast(boxes); // Dot should already have access to this; make it so
 		}
+		ahhhh.draw();
 		fps.draw(gRenderer);
 		renderChanges(gRenderer, gameWindow);
 	}

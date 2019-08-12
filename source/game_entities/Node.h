@@ -19,6 +19,7 @@ class Node {
 		~Node();
 		Node* randomConnectedNode();
 		Point getPosition();
+		float getDistance(Node* other);
 		void draw();
 		void reset();
 		void addAttached(Node* node);

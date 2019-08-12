@@ -45,5 +45,6 @@
 #include "game_entities/EnemyDrawGroup.h"
 #include "game_entities/Node.h"
 #include "game_entities/NodeDrawGroup.h"
+#include "game_entities/NodePath.h"
 #include "AlertTextHandler.h"
 #endif

@@ -11,7 +11,10 @@ Node::Node(Point position, NodeDrawGroup& group, CollideBaseGroup& collision) {
 	this->drawnThisFrame = false;
 	this->position = position;
 	for (int i = 0; i < group.size(); i++) {
-		if (checkCollisionBetweenLineAndGroup(collision, Line(this->position, group[i]->position)) && this->position.distanceToPoint(group[i]->position) < 300) {
+		if (this->position.distanceToPoint(group[i]->position) > 100) {
+			continue;
+		}
+		if (checkCollisionBetweenLineAndGroup(collision, Line(this->position, group[i]->position))) {
 			this->attached.push_back(group[i]);
 			group[i]->addAttached(this);
 		}
@@ -24,6 +27,10 @@ Node* Node::randomConnectedNode() {
 	return this->attached[rand() % this->attached.size()];
 }
 
+float Node::getDistance(Node* other) {
+	return this->position.distanceToPoint(other->getPosition());
+}
+
 Point Node::getPosition() {
 	return this->position;
 }
@@ -33,7 +40,7 @@ void Node::reset() {
 }
 
 void Node::draw() {
-	this->drawnThisFrame = true;
+	//this->drawnThisFrame = true;
 	Line tempLine;
 	for (Node* node: this->attached) {
 		if (!node->drawnThisFrame) {

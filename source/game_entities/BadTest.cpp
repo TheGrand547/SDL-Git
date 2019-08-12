@@ -68,6 +68,9 @@ void BadTest::draw(Dot* dot) {
 						int i = 0;
 						for (Node* node: this->stored->attached) {
 							if (node->getPosition().distanceToPoint(dot->getPos()) < tmp->getPosition().distanceToPoint(dot->getPos())) {
+								if (this->stored == node) {
+									continue;
+								}
 								tmp = node;
 							}
 							i++;
@@ -78,6 +81,7 @@ void BadTest::draw(Dot* dot) {
 				if (center.distanceToPoint(dot->getPos()) < 60) {
 					this->running = false;
 				}
+				this->stored->draw();
 				float ange = atan2(this->stored->getPosition().y() - center.y(), this->stored->getPosition().x() - center.x());
 				*this += Point(3 * cos(ange), 3 * sin(ange));
 			}
