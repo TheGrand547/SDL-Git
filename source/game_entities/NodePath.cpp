@@ -34,13 +34,13 @@ NodePath::NodePath(Node* startingNode, Point target) {
 				current = node;
 			}
 		}
-		if (getValue(current, target) < 20) {
+		if (getValue(current, target) < 40) {
 			std::map<Node*, Node*>::iterator it = path.find(current);
 			while (it != path.end()) {
-				this->MINE.push_back(it->first);
+				this->MINE.push_back(it->first->getPosition());
 				it = path.find(it->second);
 			}
-			return;
+			break;
 		}
 		unused.erase(std::find(unused.begin(), unused.end(), current));
 		closed.push_back(current);
@@ -60,44 +60,6 @@ NodePath::NodePath(Node* startingNode, Point target) {
 			
 		}
 	}
-	
-	/*
-	std::cout << depth << std::endl;
-	depth++;
-	this->end = NULL;
-	this->start = startingNode;
-	if (depth > 2) {
-		this->end = this->start;
-		this->next = NULL;
-		return;
-	}
-	std::vector<NodePath> ohboy;
-	for (Node* node: startingNode->attached) {
-		if (node == previous) {
-			continue;
-		}
-		if (node->getPosition().distanceToPoint(target) < desiredDistance) {
-			// This means we've reached the end, and must go back up the chain
-			std::cout << "GOING UP" << std::endl;
-			this->end = node;
-			break;
-		}
-		std::cout << this->start->getPosition() << std::endl;
-		ohboy.push_back(NodePath(node, target, desiredDistance, startingNode, depth));
-	}
-	std::cout << "Options done at level -> " << depth << std::endl;
-	NodePath min = ohboy[0];
-	if (ohboy.size() > 1) {
-		for (NodePath nodePath: ohboy) {
-			if (nodePath.distance() < min.distance()) {
-				std::cout << ":(" << std::endl;
-				min = nodePath;
-				std::cout << ":D" << std::endl;
-			}
-		}
-	}
-	this->end = min.start;
-	std::cout << "End of this NodePath" << std::endl;*/
 }
 
 NodePath::~NodePath() {}
@@ -108,9 +70,16 @@ NodePath& NodePath::operator=(const NodePath& that) {
 }
 
 void NodePath::draw() {
-	for (int i = 0; i < this->MINE.size() - 1; i++) {
-		Line tmp = Line(this->MINE[i]->getPosition(), this->MINE[i + 1]->getPosition());
+	for (int i = 0; i + 1 < this->MINE.size(); i++) {
+		Line tmp = Line(this->MINE[i], this->MINE[i + 1]);
 		tmp.setColorChannels(0xFF, 0x00, 0x00, 0xFF);
 		tmp.drawLine(MegaBase::renderer, MegaBase::offset);
 	}
+}
+
+Point NodePath::getFirst() {
+	if (this->MINE.size() > 1) {
+		return this->MINE[1];
+	}
+	return Point();
 }

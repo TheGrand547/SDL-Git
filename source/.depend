@@ -55,6 +55,7 @@ main.o: ../main.cpp ../source/headers.h ../source/game_entities/Box.h \
   ../source/game_entities/paths/../../primitives/Point.h \
   ../source/game_entities/paths/../../essential/random.h \
   ../source/game_entities/paths/PathManager.h \
+  ../source/game_entities/NodePath.h \
   ../source/wrappers/control/Controller.h \
   ../source/wrappers/control/../../essential/Configuration.h \
   ../source/wrappers/control/../../primitives/PointDelta.h \
@@ -66,8 +67,7 @@ main.o: ../main.cpp ../source/headers.h ../source/game_entities/Box.h \
   ../source/wrappers/control/SimpleButtonCommand.h \
   ../source/game_entities/BackgroundGroup.h \
   ../source/game_entities/CollideBaseFactory.h \
-  ../source/game_entities/EnemyDrawGroup.h \
-  ../source/game_entities/NodePath.h ../source/AlertTextHandler.h
+  ../source/game_entities/EnemyDrawGroup.h ../source/AlertTextHandler.h
 Rect.o: primitives/Rect.cpp primitives/Rect.h \
   primitives/../essential/util.h \
   primitives/../essential/../primitives/Point.h \
@@ -363,7 +363,7 @@ BadTest.o: game_entities/BadTest.cpp game_entities/BadTest.h \
   game_entities/paths/LinePath.h \
   game_entities/paths/../../primitives/Point.h \
   game_entities/paths/../../essential/random.h \
-  game_entities/paths/PathManager.h
+  game_entities/paths/PathManager.h game_entities/NodePath.h
 Texture.o: wrappers/Texture.cpp wrappers/Texture.h \
   wrappers/../primitives/Point.h wrappers/../essential/constants.h \
   wrappers/PixelMod.h

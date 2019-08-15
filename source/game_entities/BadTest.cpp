@@ -36,6 +36,7 @@ void BadTest::draw(Dot* dot) {
 	}
 	// "AI" - also -> TODO: clean up this dumpster fire
 	if (this->nav != NULL) {
+		/*
 		if (this->running) {
 			Point center = this->position + Point() + Point(this->width / 2, this->height / 2);
 			if (this->stored == NULL) {
@@ -85,7 +86,26 @@ void BadTest::draw(Dot* dot) {
 				float ange = atan2(this->stored->getPosition().y() - center.y(), this->stored->getPosition().x() - center.x());
 				*this += Point(3 * cos(ange), 3 * sin(ange));
 			}
+		}*/
+		Point center = this->position + Point() + Point(this->width / 2, this->height / 2);
+		Node* targ = (*this->nav)[0];
+		if (this->nav->size() > 1) {
+			for (int i = 1; i < this->nav->size(); i++) {
+				if (!checkCollisionBetweenLineAndGroup(this->collide, Line(center, (*this->nav)[i]->getPosition()))) {
+					continue;
+				}
+				if (center.distanceToPoint((*this->nav)[i]->getPosition()) < center.distanceToPoint(targ->getPosition())) {
+					targ = (*this->nav)[i];
+				}
+			}
 		}
+		NodePath ahhhh(targ, dot->getPos());
+		Point temp = ahhhh.getFirst();
+		if (temp.isReal()) {
+			float ange = atan2(temp.y() - center.y(), temp.x() - center.x());
+			*this += Point(3 * cos(ange), 3 * sin(ange));
+			ahhhh.draw();	
+		} 
 	}
 	/*
 	Point center = this->position + Point() + Point(this->width / 2, this->height / 2);

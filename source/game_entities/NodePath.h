@@ -6,12 +6,13 @@
 
 class NodePath {
 	private:
-		std::vector<Node*> MINE;
+		std::vector<Point> MINE;
 	public:
 		NodePath();
 		NodePath(Node* startingNode, Point target);
 		NodePath& operator=(const NodePath& that);
 		~NodePath();
 		void draw();
+		Point getFirst();
 };
 #endif
