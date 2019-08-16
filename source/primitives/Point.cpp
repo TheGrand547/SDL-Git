@@ -97,6 +97,14 @@ bool Point::getNonZero() {
 	return ((std::abs(this->xval) > .05 || std::abs(this->yval) > .05) && (this->xval == this->xval || this->yval == this->yval));
 }
 
+bool Point::operator==(const Point& point) {
+	return point.xval == this->xval && point.yval == this->yval;
+}
+
+bool Point::operator!=(const Point& point) {
+	return !(*this == point);
+}
+
 inline Point Point::negate() const {
 	return Point(-this->xval,-this->yval);
 }

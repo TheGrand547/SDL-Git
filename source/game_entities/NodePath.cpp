@@ -14,7 +14,7 @@ NodePath::NodePath() {
 }
 
 NodePath::NodePath(Node* startingNode, Point target) {
-	this->MINE.clear();
+	this->stored.clear();
 	std::vector<Node*> unused = {startingNode};
 	std::map<Node*, Node*> path;
 	
@@ -37,7 +37,7 @@ NodePath::NodePath(Node* startingNode, Point target) {
 		if (getValue(current, target) < 40) {
 			std::map<Node*, Node*>::iterator it = path.find(current);
 			while (it != path.end()) {
-				this->MINE.push_back(it->first->getPosition());
+				this->stored.push_back(it->first->getPosition());
 				it = path.find(it->second);
 			}
 			break;
@@ -65,21 +65,35 @@ NodePath::NodePath(Node* startingNode, Point target) {
 NodePath::~NodePath() {}
 
 NodePath& NodePath::operator=(const NodePath& that) {
-	this->MINE = that.MINE;
+	this->stored = that.stored;
 	return *this;
 }
 
+float NodePath::distance() {
+	float total = 0;
+	for (int i = 0; i + 1 < this->stored.size(); i++) {
+		total += this->stored[i].distanceToPoint(this->stored[i + 1]);
+	}
+	return total;
+}
+
 void NodePath::draw() {
-	for (int i = 0; i + 1 < this->MINE.size(); i++) {
-		Line tmp = Line(this->MINE[i], this->MINE[i + 1]);
+	for (int i = 0; i + 1 < this->stored.size(); i++) {
+		Line tmp = Line(this->stored[i], this->stored[i + 1]);
 		tmp.setColorChannels(0xFF, 0x00, 0x00, 0xFF);
 		tmp.drawLine(MegaBase::renderer, MegaBase::offset);
 	}
 }
 
+void NodePath::removeLast() {
+	if (this->stored.size() > 0) {
+		this->stored.pop_back();	
+	}
+}
+
 Point NodePath::getFirst() {
-	if (this->MINE.size() > 1) {
-		return this->MINE[1];
+	if (this->stored.size() > 0) {
+		return this->stored.back();
 	}
 	return Point();
 }

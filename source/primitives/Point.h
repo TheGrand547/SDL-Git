@@ -24,6 +24,8 @@ class Point {
 		bool getNonZero();
 		bool isNull();
 		bool isReal();
+		bool operator==(const Point& point);
+		bool operator!=(const Point& point);
 		float distanceToPoint(Point point);
 		float distanceToPoint(float x, float y);
 		float getMagnitude();

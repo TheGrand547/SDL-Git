@@ -17,9 +17,8 @@
 class BadTest : public EnemyBase {
 	private:
 		PathManager<EnemyBase>* c; // <- Figure out why this is a pointer
-		// TEMP FOR AI TESTING
-		bool running = true;
-		Node* stored = NULL;
+		NodePath path;
+		Node* getClosestUnblockedNode();
 	public:
 		BadTest(Point position);
 		BadTest(const BadTest& that);
