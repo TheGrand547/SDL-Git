@@ -55,7 +55,6 @@ void BadTest::draw(Dot* dot) {
 				if (target->getPosition() != this->path.getFirst()) {
 					NodePath temp = NodePath(target, dot->getPos());
 					if (this->path.distance() - temp.distance() > 150) { // If the new path is more than 150 pixels more efficent
-						std::cout << "More Efficent" << std::endl;
 						this->path = temp;
 					}
 				} else { // As the distance is less than 5, we should instead remove the last element
