@@ -39,14 +39,15 @@ int main(int argc, char* argv[]) {
 	BackgroundGroup groundGroup;
 	// Box creation
 	Box::createBoxTexture(gRenderer);
-	Point ar[] = {Point(200, 200), Point(400, 200), Point(300, 200), Point(500, 200), Point(500, 300), Point (500, 400)};
+	Point ar[] = {Point(200, 200), Point(400, 200), Point(300, 200), Point(500, 200), Point(500, 300), Point (500, 400), 
+				  Point(500, 500), Point(600, 600), Point(600, 500)};
 	for (Point point: ar) {
 		boxes.push_back(CollideBaseFactory::CreateBox(point));
 	}
 	bads.add(new BadTest(Point(300, 400)));
-	for (int x = 0; x <= Screen::MAX_WIDTH; x += 50) {
-		for (int y = 0; y <= Screen::MAX_HEIGHT; y += 50) {
-			nodes.add(Point(x, y));
+	for (int x = 0; x <= Screen::MAX_WIDTH; x += 25) {
+		for (int y = 0; y <= Screen::MAX_HEIGHT; y += 25) {
+			nodes.addNodeAt(Point(x, y));
 			if (x % 100 == 0 && y % 100 == 0) {
 				groundGroup.add(Point(x, y), Ground::GRASS); // Consider having Nodes placed based on ground tiles?
 			}

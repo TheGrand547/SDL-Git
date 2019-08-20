@@ -31,5 +31,5 @@ class EnemyBase {
 		void setNavigation(NodeDrawGroup& nav);
 		void operator+=(Point delta);
 		virtual bool checkLocationValidity() = 0;
-		friend std::ostream& operator<<(std::ostream &output, const EnemyBase& base);
+		friend std::ostream& operator<<(std::ostream& output, const EnemyBase& base);
 };

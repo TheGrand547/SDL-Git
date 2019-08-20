@@ -2,7 +2,7 @@
 #include "../essential/MegaBase.h"
 
 Node::Node(Point position) {
-	// "Null" node, one that can be placed before collision group is done
+	// "Null" node, one that can be placed before collision group is fully created
 	this->drawnThisFrame = false;
 	this->position = position;
 }
@@ -15,8 +15,10 @@ Node::Node(Point position, NodeDrawGroup& group, CollideBaseGroup& collision) {
 			continue;
 		}
 		if (checkCollisionBetweenLineAndGroup(collision, Line(this->position, group[i]->position))) {
-			this->attached.push_back(group[i]);
-			group[i]->addAttached(this);
+			if (Node::checkLocationValidity(Line(this->position, group[i]->position).midPoint(), collision)) {
+				this->attached.push_back(group[i]);
+				group[i]->addAttached(this);
+			}
 		}
 	}
 }
@@ -63,7 +65,7 @@ bool Node::checkLocationValidity(Point position, CollideBaseGroup& collision) {
 	/* True -> valid location
 	 * False -> invalid location */
 	Rect testRect = Rect(position, 50, 50);
-	testRect -= Point(testRect.getWidth() / 2, testRect.getHeight() / 2);
+	testRect -= Point(testRect.getWidth(), testRect.getHeight()) / 2.0;
 	return collideRectTest(collision, testRect);
 }
 

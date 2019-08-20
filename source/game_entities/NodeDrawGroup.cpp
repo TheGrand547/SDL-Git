@@ -29,7 +29,7 @@ Node*& NodeDrawGroup::operator[](int index) {
 	return this->storage[index];
 }
 
-void NodeDrawGroup::add(Point point) {
+void NodeDrawGroup::addNodeAt(Point point) {
 	if (Node::checkLocationValidity(point, *this->collision)) {
 		Node* node = NULL;
 		if (this->collision != NULL) {

@@ -102,6 +102,10 @@ Point Line::getEnd() const {
 	return this->endingPoint;
 }
 
+Point Line::midPoint() {
+	return Point(this->originPoint.x() + this->endingPoint.x(), this->originPoint.y() + this->endingPoint.y()) / 2;
+}
+
 std::ostream& operator<<(std::ostream &output, const Line &line) {
 	output << line.getOrigin() << " -> " << line.getEnd();
 	return output;

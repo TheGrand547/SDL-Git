@@ -31,6 +31,7 @@ class Line: public MyBase{
 		float getC() const;
 		Point getOrigin() const;
 		Point getEnd() const;
+		Point midPoint();
 		friend std::ostream &operator<<(std::ostream &output, const Line &line);
 		void drawLine(SDL_Renderer* renderer);
 		void drawLine(SDL_Renderer* renderer, Point offset);

@@ -33,10 +33,10 @@ NodePath::NodePath(Node* startingNode, Point target) {
 				current = node;
 			}
 		}
-		if (getValue(current, target) < 40) {
+		if (getValue(current, target) < 50) {
 			std::map<Node*, Node*>::iterator it = path.find(current);
 			while (it != path.end()) {
-				this->stored.push_back(it->first->getPosition());
+				this->stored.push_back(it->first);
 				it = path.find(it->second);
 			}
 			break;
@@ -70,14 +70,14 @@ NodePath& NodePath::operator=(const NodePath& that) {
 float NodePath::distance() {
 	float total = 0;
 	for (int i = 0; i + 1 < this->stored.size(); i++) {
-		total += this->stored[i].distanceToPoint(this->stored[i + 1]);
+		total += this->stored[i]->getPosition().distanceToPoint(this->stored[i + 1]->getPosition());
 	}
 	return total;
 }
 
 void NodePath::draw() {
 	for (int i = 0; i + 1 < this->stored.size(); i++) {
-		Line tmp = Line(this->stored[i], this->stored[i + 1]);
+		Line tmp = Line(this->stored[i]->getPosition(), this->stored[i + 1]->getPosition());
 		tmp.setColorChannels(0xFF, 0x00, 0x00, 0xFF);
 		tmp.drawLine(MegaBase::renderer, MegaBase::offset);
 	}
@@ -89,9 +89,47 @@ void NodePath::removeLast() {
 	}
 }
 
-Point NodePath::getFirst() {
+Node* NodePath::firstNode() {
 	if (this->stored.size() > 0) {
 		return this->stored.back();
 	}
+	return NULL;
+}
+
+Node* NodePath::lastNode() {
+	if (this->stored.size() > 0) {
+		return this->stored.front();
+	}
+	return NULL;
+}
+
+Point NodePath::getLast() {
+	if (this->stored.size() > 0) {
+		return this->stored.front()->getPosition();
+	}
 	return Point();
+}
+
+Point NodePath::getFirst() {
+	if (this->stored.size() > 0) {
+		return this->stored.back()->getPosition();
+	}
+	return Point();
+}
+
+Point NodePath::operator[](int index) {
+	if (this->stored.size() > 0) {
+		if (index < this->stored.size()) {
+			return this->stored[this->stored.size() - index]->getPosition();	
+		}
+	}
+	return Point();
+}
+
+void NodePath::combinePath(NodePath& other) {
+	for (std::vector<Node*>::reverse_iterator it = other.stored.rbegin(); it != other.stored.rend(); it++) {
+		if (std::find(this->stored.begin(), this->stored.end(), *it) == this->stored.end()) { // Function this
+			this->stored.insert(this->stored.begin(), *it);	
+		}
+	}
 }

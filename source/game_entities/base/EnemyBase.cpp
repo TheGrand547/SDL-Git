@@ -36,7 +36,7 @@ void EnemyBase::operator+=(Point delta) {
 	Point px = delta * (float(Screen::INTENDED_FRAME_RATE) / avg);
 	// Seems really inefficent, investigate it
 	if (this->collide != NULL) {
-		for (int i = 1; i < 3; i++) {
+		for (int i = 1; i <= 3; i++) {
 			if (!xflag) {
 				if (collideRectTest(this->collide, Rect(this->position, this->width - 1, this->height - 1) + px.onlyX() / i)) {
 					xflag = px.x() / i;

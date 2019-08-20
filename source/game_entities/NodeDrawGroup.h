@@ -17,7 +17,7 @@ class NodeDrawGroup : public DrawGroup {
 		Node*& operator[](int position);
 		void clearGroup() override;
 		void drawGroup() override;
-		void add(Point point);
+		void addNodeAt(Point point);
 		void reset();
 		void setCollision(CollideBaseGroup& collision);
 		void setCollision(CollideBaseGroup* collision);

@@ -19,7 +19,7 @@ float FpsText::getFps() {
 }
 
 void FpsText::draw(SDL_Renderer* renderer) {
-	if (this->countedFrames > 1000) {
+	if (this->countedFrames > 100) {
 		this->countedFrames = 1;
 		this->timer.start();
 	}
