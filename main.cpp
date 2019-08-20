@@ -29,6 +29,7 @@ int main(int argc, char* argv[]) {
 	MegaBase::setRenderer(gRenderer);
 	CollideBaseGroup boxes;
 	NodeDrawGroup nodes;
+	nodes.setCollision(boxes);
 	AlertTextHandler handler;
 	// TODO: Create a file structure for containing level data so its not hardcoded 
 	EnemyDrawGroup bads;
@@ -38,21 +39,16 @@ int main(int argc, char* argv[]) {
 	BackgroundGroup groundGroup;
 	// Box creation
 	Box::createBoxTexture(gRenderer);
-	Point ar[] = {Point(200, 200), Point(400, 200), Point(300, 200), Point(500, 200), Point(500, 300), Point (500, 400)};//Point(200, 500), Point(500, 400), Point(700, 600), Point(800, 200)};
+	Point ar[] = {Point(200, 200), Point(400, 200), Point(300, 200), Point(500, 200), Point(500, 300), Point (500, 400)};
 	for (Point point: ar) {
 		boxes.push_back(CollideBaseFactory::CreateBox(point));
 	}
 	bads.add(new BadTest(Point(300, 400)));
 	for (int x = 0; x <= Screen::MAX_WIDTH; x += 50) {
 		for (int y = 0; y <= Screen::MAX_HEIGHT; y += 50) {
-			if (Node::checkLocationValidity(Point(x, y), boxes)) {
-				nodes.add(new Node(Point(x, y), nodes, boxes));
-			}
+			nodes.add(Point(x, y));
 			if (x % 100 == 0 && y % 100 == 0) {
 				groundGroup.add(Point(x, y), Ground::GRASS); // Consider having Nodes placed based on ground tiles?
-			}
-			if (x == y) {
-				//bads.add(new BadTest(Point(x, y)));
 			}
 		}
 	}
@@ -63,7 +59,7 @@ int main(int argc, char* argv[]) {
 	Controller contra;
 	contra.addListener("Ray", 120);
 	contra.addPlayerKeys(popo); // Maybe allow for multiple bindings of the same command somehow? vectors likely? Also remove this dumb fix
-	FpsText fps(gFont, Point(100, 10), COLORS::RED); // Add handler for these things
+	FpsText fps(gFont, Point(100, 10), COLORS::RED); // Add handler for these things, also have this singular timer passed to all "groups" for consistency
 	handler.addMessage(AlertText("this shouldn't last long", Point(300, 150), COLORS::RED, 20, 2500));
 	// TODO: Standardize between draw and render, ie pick one you indecisive fuck
 	while(!contra.quit) {

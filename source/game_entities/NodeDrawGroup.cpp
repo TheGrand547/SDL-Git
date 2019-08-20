@@ -1,6 +1,8 @@
 #include "NodeDrawGroup.h"
 
-NodeDrawGroup::NodeDrawGroup() {}
+NodeDrawGroup::NodeDrawGroup() {
+	this->collision = NULL;
+}
 
 NodeDrawGroup::~NodeDrawGroup() {
 	this->clearGroup();
@@ -27,8 +29,16 @@ Node*& NodeDrawGroup::operator[](int index) {
 	return this->storage[index];
 }
 
-void NodeDrawGroup::add(Node* node) {
-	this->storage.push_back(node);
+void NodeDrawGroup::add(Point point) {
+	if (Node::checkLocationValidity(point, *this->collision)) {
+		Node* node = NULL;
+		if (this->collision != NULL) {
+			node = new Node(point, *this, *this->collision);	
+		} else {
+			node = new Node(point);
+		}
+		this->storage.push_back(node);	
+	}
 }
 
 int NodeDrawGroup::size() {
@@ -39,4 +49,12 @@ void NodeDrawGroup::reset() {
 	for (Node* node: this->storage) {
 		node->reset();
 	}
+}
+
+void NodeDrawGroup::setCollision(CollideBaseGroup& collision) {
+	this->setCollision(&collision);
+}
+
+void NodeDrawGroup::setCollision(CollideBaseGroup* collision) {
+	this->collision = collision;
 }

@@ -10,8 +10,7 @@ float getValue(Node* node, Point target) {
 	return target.distanceToPoint(node->getPosition());
 }
 
-NodePath::NodePath() {
-}
+NodePath::NodePath() {}
 
 NodePath::NodePath(Node* startingNode, Point target) {
 	this->stored.clear();
@@ -57,7 +56,6 @@ NodePath::NodePath(Node* startingNode, Point target) {
 				cost[node].value = general;
 				currentCost[node].value = cost[node].value + getValue(node, target);
 			}
-			
 		}
 	}
 }
