@@ -35,9 +35,13 @@ NodePath::NodePath(Node* startingNode, Point target) {
 		}
 		if (getValue(current, target) < 50) {
 			std::map<Node*, Node*>::iterator it = path.find(current);
+			std::vector<Node*> temp;
 			while (it != path.end()) {
-				this->stored.push_back(it->first);
+				temp.push_back(it->first);
 				it = path.find(it->second);
+			}
+			for (std::vector<Node*>::reverse_iterator it = temp.rbegin(); it != temp.rend(); it++) {
+				this->stored.push_back(*it);
 			}
 			break;
 		}
@@ -67,6 +71,15 @@ NodePath& NodePath::operator=(const NodePath& that) {
 	return *this;
 }
 
+float NodePath::distanceFrom(Node* node) {
+	float total = 0;
+	std::vector<Node*>::iterator i = std::find(this->stored.begin(), this->stored.end(), node);
+	for (; i + 1 != this->stored.end(); i++) {
+		total += i[0]->getPosition().distanceToPoint(i[1]->getPosition());
+	}
+	return total;
+}
+
 float NodePath::distance() {
 	float total = 0;
 	for (int i = 0; i + 1 < this->stored.size(); i++) {
@@ -85,51 +98,59 @@ void NodePath::draw() {
 
 void NodePath::removeLast() {
 	if (this->stored.size() > 0) {
-		this->stored.pop_back();	
+		this->stored.erase(this->stored.begin());	
 	}
 }
 
 Node* NodePath::firstNode() {
-	if (this->stored.size() > 0) {
-		return this->stored.back();
-	}
-	return NULL;
-}
-
-Node* NodePath::lastNode() {
 	if (this->stored.size() > 0) {
 		return this->stored.front();
 	}
 	return NULL;
 }
 
-Point NodePath::getLast() {
+Node* NodePath::lastNode() {
 	if (this->stored.size() > 0) {
-		return this->stored.front()->getPosition();
+		return this->stored.back();
 	}
-	return Point();
+	return NULL;
 }
 
-Point NodePath::getFirst() {
+Point NodePath::getLast() {
 	if (this->stored.size() > 0) {
 		return this->stored.back()->getPosition();
 	}
 	return Point();
 }
 
-Point NodePath::operator[](int index) {
+Point NodePath::getFirst() {
 	if (this->stored.size() > 0) {
-		if (index < this->stored.size()) {
-			return this->stored[this->stored.size() - index]->getPosition();	
-		}
+		return this->stored.front()->getPosition();
 	}
 	return Point();
 }
 
-void NodePath::combinePath(NodePath& other) {
-	for (std::vector<Node*>::reverse_iterator it = other.stored.rbegin(); it != other.stored.rend(); it++) {
-		if (std::find(this->stored.begin(), this->stored.end(), *it) == this->stored.end()) { // Function this
-			this->stored.insert(this->stored.begin(), *it);	
+Node* NodePath::operator[](int index) {
+	if (this->stored.size() > 0) {
+		if (index < this->stored.size()) {
+			return this->stored[index];	
 		}
 	}
+	return NULL;
+}
+
+void NodePath::combinePath(NodePath& other) {
+	for (Node* node: other.stored) {
+		if (std::find(this->stored.begin(), this->stored.end(), node) == this->stored.end()) { // Function this
+			this->stored.push_back(node);	
+		}
+	}
+}
+
+int NodePath::size() {
+	return this->stored.size();
+}
+
+void NodePath::eraseFrom(Node* node) {
+	this->stored.erase(std::find(this->stored.begin(), this->stored.end(), node) + 1, this->stored.end());
 }

@@ -59,6 +59,21 @@ void BadTest::draw(Dot* dot) {
 						NodePath temp = NodePath(this->path.lastNode(), dot->getPos());
 						this->path.combinePath(temp);
 					} else { // As the distance is less than 5, and the the target is not far too far away from the end point of the path
+						Node* store = this->path.lastNode();
+						if (this->path.size() > 1) {
+							for (int i = 0; i + 1 < this->path.size(); i++) {
+								if (this->path.distanceFrom(this->path[i]) < store->getPosition().distanceToPoint(dot->getPos())) {
+									if (checkCollisionBetweenLineAndGroup(this->collide, Line(this->path[i]->getPosition(), dot->getPos()))) {
+										store = this->path[i];
+									}
+								}
+							}
+						}
+						if (store != this->path.lastNode()) {
+							this->path.eraseFrom(store);
+							NodePath tmp(store, dot->getPos());
+							this->path.combinePath(tmp);
+						}
 						this->path.removeLast();
 					}
 				}
