@@ -34,14 +34,14 @@ Node* BadTest::getClosestUnblockedNode() {
 	Point center = this->position + Point() + (Point(this->width, this->height) / 2);
 	if (this->nav->size() > 1) {
 		for (int i = 1; i < this->nav->size(); i++) {
-			if (center.distanceToPoint((*this->nav)[i]->getPosition()) > 100) {
+			float distance = center.distanceToPoint((*this->nav)[i]->getPosition());
+			if (distance > 100) {
 				continue;
 			}
-			if (!checkCollisionBetweenLineAndGroup(this->collide, Line(center, (*this->nav)[i]->getPosition()))) {
-				continue;
-			}
-			if (center.distanceToPoint((*this->nav)[i]->getPosition()) < center.distanceToPoint(targ->getPosition())) {
-				targ = (*this->nav)[i];
+			if (distance < center.distanceToPoint(targ->getPosition())) {
+				if (checkCollisionBetweenLineAndGroup(this->collide, Line(center, (*this->nav)[i]->getPosition()))) {
+					targ = (*this->nav)[i];
+				}
 			}
 		}
 	}
@@ -59,21 +59,18 @@ void BadTest::draw(Dot* dot) {
 						NodePath temp = NodePath(this->path.lastNode(), dot->getPos());
 						this->path.combinePath(temp);
 					} else { // As the distance is less than 5, and the the target is not far too far away from the end point of the path
-						Node* store = this->path.lastNode();
+						Node* store = this->path.firstNode();
 						if (this->path.size() > 1) {
 							for (int i = 0; i + 1 < this->path.size(); i++) {
-								if (this->path.distanceFrom(this->path[i]) < store->getPosition().distanceToPoint(dot->getPos())) {
-									if (checkCollisionBetweenLineAndGroup(this->collide, Line(this->path[i]->getPosition(), dot->getPos()))) {
+								if (this->path.distanceFromWithPoint(store, dot->getPos()) > this->path[i]->getPosition().distanceToPoint(dot->getPos())) {
 										store = this->path[i];
-									}
+										break; // leave the loop as any further nodes will result in a dumb looking path
 								}
 							}
 						}
-						if (store != this->path.lastNode()) {
-							this->path.eraseFrom(store);
-							NodePath tmp(store, dot->getPos());
-							this->path.combinePath(tmp);
-						}
+						this->path.eraseFrom(store);
+						NodePath tmp(store, dot->getPos());
+						this->path.combinePath(tmp);
 						this->path.removeLast();
 					}
 				}
@@ -85,7 +82,7 @@ void BadTest::draw(Dot* dot) {
 		Point temp = this->path.getFirst();
 		if (temp.isReal()) {
 			float ange = atan2(temp.y() - center.y(), temp.x() - center.x());
-			*this += Point(3 * cos(ange), 3 * sin(ange));
+			*this += Point(1.5 * cos(ange), 1.5 * sin(ange));
 			this->path.draw();
 		} 
 	}

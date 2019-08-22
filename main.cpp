@@ -54,7 +54,7 @@ int main(int argc, char* argv[]) {
 		}
 	}
 	Font gFont;
-	std::string foo = "ptr is a tard but not really omegalul get rekt scrub";
+	std::string foo = "praise david oshry";
 	AppearingText ap(foo, &gFont, Point(250, 0), 15, COLORS::RED, 300);
 	PointDelta popo = PointDelta(0, 0, 4);
 	Controller contra;

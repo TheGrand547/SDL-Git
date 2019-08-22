@@ -6,7 +6,8 @@
 
 class NodePath {
 	private:
-		std::vector<Node*> stored; 
+		std::vector<Node*> stored;
+		float storedDistance;
 	public:
 		NodePath();
 		NodePath(Node* startingNode, Point target);
@@ -15,6 +16,7 @@ class NodePath {
 		int size();
 		float distance();
 		float distanceFrom(Node* start);
+		float distanceFromWithPoint(Node* start, Point target);
 		Point getLast();
 		Point getFirst();
 		Node* operator[](int index);

@@ -13,6 +13,7 @@ float getValue(Node* node, Point target) {
 NodePath::NodePath() {}
 
 NodePath::NodePath(Node* startingNode, Point target) {
+	this->storedDistance = 0;
 	this->stored.clear();
 	std::vector<Node*> unused = {startingNode};
 	std::map<Node*, Node*> path;
@@ -41,7 +42,7 @@ NodePath::NodePath(Node* startingNode, Point target) {
 				it = path.find(it->second);
 			}
 			for (std::vector<Node*>::reverse_iterator it = temp.rbegin(); it != temp.rend(); it++) {
-				this->stored.push_back(*it);
+				this->stored.push_back(it[0]);
 			}
 			break;
 		}
@@ -68,6 +69,7 @@ NodePath::~NodePath() {}
 
 NodePath& NodePath::operator=(const NodePath& that) {
 	this->stored = that.stored;
+	this->storedDistance = that.storedDistance;
 	return *this;
 }
 
@@ -80,12 +82,18 @@ float NodePath::distanceFrom(Node* node) {
 	return total;
 }
 
+float NodePath::distanceFromWithPoint(Node* node, Point target) {
+	return this->distanceFrom(node) + this->lastNode()->getPosition().distanceToPoint(target);
+}
+
 float NodePath::distance() {
-	float total = 0;
-	for (int i = 0; i + 1 < this->stored.size(); i++) {
-		total += this->stored[i]->getPosition().distanceToPoint(this->stored[i + 1]->getPosition());
+	if (this->storedDistance == 0) {
+		this->storedDistance = 0;
+		for (int i = 0; i + 1 < this->stored.size(); i++) {
+			this->storedDistance += this->stored[i]->getPosition().distanceToPoint(this->stored[i + 1]->getPosition()); // Write a method for Node->getposition().distancetopoint()
+		}	
 	}
-	return total;
+	return this->storedDistance;
 }
 
 void NodePath::draw() {
@@ -153,4 +161,5 @@ int NodePath::size() {
 
 void NodePath::eraseFrom(Node* node) {
 	this->stored.erase(std::find(this->stored.begin(), this->stored.end(), node) + 1, this->stored.end());
+	this->stored.pop_back();
 }
