@@ -16,9 +16,10 @@
 
 class BadTest : public EnemyBase {
 	private:
-		PathManager<EnemyBase>* c; // <- Figure out why this is a pointer
 		NodePath path;
 		Node* getClosestUnblockedNode();
+		PathManager<EnemyBase> c{this};
+		Timer pathTimer;
 	public:
 		BadTest(Point position);
 		BadTest(const BadTest& that);

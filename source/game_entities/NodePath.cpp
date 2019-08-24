@@ -34,7 +34,7 @@ NodePath::NodePath(Node* startingNode, Point target) {
 				current = node;
 			}
 		}
-		if (getValue(current, target) < 50) {
+		if (getValue(current, target) < 55) {
 			std::map<Node*, Node*>::iterator it = path.find(current);
 			std::vector<Node*> temp;
 			while (it != path.end()) {
@@ -96,7 +96,12 @@ float NodePath::distance() {
 	return this->storedDistance;
 }
 
-void NodePath::draw() {
+void NodePath::draw(Point point) {
+	if (point.isReal()) {
+		Line tmp = Line(this->stored[0]->getPosition(), point);
+		tmp.setColorChannels(0xFF, 0x00, 0x00, 0xFF);
+		tmp.drawLine(MegaBase::renderer, MegaBase::offset);
+	}
 	for (int i = 0; i + 1 < this->stored.size(); i++) {
 		Line tmp = Line(this->stored[i]->getPosition(), this->stored[i + 1]->getPosition());
 		tmp.setColorChannels(0xFF, 0x00, 0x00, 0xFF);

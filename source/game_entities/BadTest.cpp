@@ -1,7 +1,7 @@
 #include "BadTest.h"
 
 BadTest::BadTest(Point position) : EnemyBase(position) {
-	this->c = new PathManager<EnemyBase>(this);
+	this->pathTimer.start();
 	/*
 	this->c->AddPath(new LinePath<EnemyBase>(Point(200, -200), toTicks(1)));
 	this->c->AddPath(new CirclePath<EnemyBase>(40, 1, Path<Point>::SINGLE_LOOP, false));
@@ -15,9 +15,7 @@ BadTest::BadTest(const BadTest& that) : EnemyBase(that.position) {
 	*this = BadTest(that.position);
 }
 
-BadTest::~BadTest() {
-	delete this->c;
-}
+BadTest::~BadTest() {}
 
 bool BadTest::checkLocationValidity() {
 	/* True -> Valid location, no collision
@@ -52,38 +50,21 @@ void BadTest::draw(Dot* dot) {
 	EnemyBase::draw(dot);
 	if (this->nav != NULL) {
 		Point center = this->position + Point() + (Point(this->width, this->height) / 2); // Maybe function this?
-		if (this->path.getFirst().isReal()) {
-			if (this->path.getFirst().distanceToPoint(center) < 5) { // Make the number a constant
-				if (center.distanceToPoint(dot->getPos()) > 50) {
-					if (this->path.getLast().distanceToPoint(dot->getPos()) > 150) {
-						NodePath temp = NodePath(this->path.lastNode(), dot->getPos());
-						this->path.combinePath(temp);
-					} else { // As the distance is less than 5, and the the target is not far too far away from the end point of the path
-						Node* store = this->path.firstNode();
-						if (this->path.size() > 1) {
-							for (int i = 0; i + 1 < this->path.size(); i++) {
-								if (this->path.distanceFromWithPoint(store, dot->getPos()) > this->path[i]->getPosition().distanceToPoint(dot->getPos())) {
-										store = this->path[i];
-										break; // leave the loop as any further nodes will result in a dumb looking path
-								}
-							}
-						}
-						this->path.eraseFrom(store);
-						NodePath tmp(store, dot->getPos());
-						this->path.combinePath(tmp);
-						this->path.removeLast();
-					}
-				}
-			}
-		} else { // If there is no path, generate one
+		if (this->pathTimer.getTicks() > 250) { // If it has been more than 250 milliseconds since the path has been calculated
 			Node* target = this->getClosestUnblockedNode();
 			this->path = NodePath(target, dot->getPos());
+			this->pathTimer.start();
+		}
+		if (this->path.getFirst().isReal()) {
+			if (this->path.getFirst().distanceToPoint(center) < 5) { // Make the number a constant
+				this->path.removeLast();
+			}
 		}
 		Point temp = this->path.getFirst();
 		if (temp.isReal()) {
 			float ange = atan2(temp.y() - center.y(), temp.x() - center.x());
 			*this += Point(1.5 * cos(ange), 1.5 * sin(ange));
-			this->path.draw();
+			this->path.draw(center);
 		} 
 	}
 }
@@ -92,7 +73,7 @@ void BadTest::update() {
 	if (!this->texture->isLoaded()) {
 		this->setTexture();
 	}
-	this->c->update();
+	this->c.update();
 }
 
 Point BadTest::getPos() {

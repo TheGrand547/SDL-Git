@@ -24,7 +24,7 @@ class NodePath {
 		Node* lastNode();
 		void eraseFrom(Node* begin);
 		void combinePath(NodePath& other);
-		void draw();
+		void draw(Point point = Point());
 		void removeLast(); // To remove the last element
 };
 #endif

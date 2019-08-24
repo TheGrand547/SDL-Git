@@ -12,7 +12,8 @@ bool CollideBaseGroup::exists() {
 }
 
 void CollideBaseGroup::clearGroup() {
-	for (std::vector<CollideBase*>::iterator iter = this->group.begin(); iter != this->group.end(); iter++) {
+	std::vector<CollideBase*>::iterator iter = this->group.begin();
+	for (; iter != this->group.end(); iter++) {
 		delete *iter;
 	}
 	this->group.clear();

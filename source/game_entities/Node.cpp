@@ -69,3 +69,6 @@ bool Node::checkLocationValidity(Point position, CollideBaseGroup& collision) {
 	return collideRectTest(collision, testRect);
 }
 
+float Node::distanceToPoint(Point point) {
+	return this->position.distanceToPoint(point);
+}
