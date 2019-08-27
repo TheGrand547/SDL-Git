@@ -5,7 +5,7 @@ Box::Box() {}
 		
 Box::Box(Point position) {
 	/* This hurts me phyiscally */
-	this->rect = Rect(position, BOX::BOX_WIDTH - 1, BOX::BOX_HEIGHT - 1);
+	this->rect = Rect(position, BOX::BOX_WIDTH, BOX::BOX_HEIGHT);
 }
 
 Box::~Box() {}
@@ -31,6 +31,13 @@ bool Box::overlap(Rect& other) {
 	return this->rect.overlap(other);
 }
 
+Point Box::getTopLeft() {
+	return this->rect.getTopLeft();
+}
+
+Point Box::getBottomRight() {
+	return this->rect.getBottomRight();
+}
 
 void Box::createBoxTexture(SDL_Renderer* renderer) {
 	Box::mTexture.setClip(BOX::BOX_WIDTH, BOX::BOX_HEIGHT);

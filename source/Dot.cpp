@@ -18,7 +18,7 @@ void Dot::evalAngle(Point delta) {
 float Dot::calcAngle(Point point) {
 	if(point.y() != 0 || point.x() != 0) {
 		 return atan2(0-point.y(), point.x());
-	 }
+	}
 	return 0;
 }
 
@@ -51,13 +51,14 @@ float Dot::getAngle() {
 
 void Dot::draw() {
 	SDL_SetRenderDrawColor(MegaBase::renderer, rChannel, gChannel, bChannel, aChannel);
-	SDL_Rect temp = (Rect(this->position, Player::PLAYER_X_DIMENSION, Player::PLAYER_Y_DIMENSION) - MegaBase::offset).getSDLRect();
+	SDL_Rect temp = (this->getRect() - MegaBase::offset).getSDLRect();
 	temp.w = Player::PLAYER_X_DIMENSION;
 	temp.h = Player::PLAYER_Y_DIMENSION;
 	SDL_RenderFillRect(MegaBase::renderer, &temp);
-	Rect p(this->position + Point(1, 1), Player::PLAYER_X_DIMENSION - 1, Player::PLAYER_Y_DIMENSION - 1);
+	/*
+	Rect p(this->position, Player::PLAYER_X_DIMENSION, Player::PLAYER_Y_DIMENSION);
 	p.setColorChannels(0xFF, 0x00, 0x00, 0xFF);
-	p.draw(MegaBase::renderer, MegaBase::offset);
+	p.draw(MegaBase::renderer, MegaBase::offset);*/
 }
 
 void Dot::collideTest(PointDelta delta, CollideBaseGroup& boxes) {
@@ -66,24 +67,25 @@ void Dot::collideTest(PointDelta delta, CollideBaseGroup& boxes) {
 	}
 	float xDelta = 0;
 	float yDelta = 0;
-	for (int i = 1; i < 6; i++) {
+	for (int i = 0; i < 5; i++) {
 		if (!xDelta) {
-			if (collideRectTest(boxes, this->getRect() + delta.onlyX() / i)) {
-				xDelta = delta.x() / i;
-				*MegaBase::offset += delta.onlyX() / i;
+			if (collideRectTest(boxes, this->getRect() + delta.onlyX() / pow(2, i))) {
+				xDelta = delta.x() / pow(2, i);
+				*MegaBase::offset += delta.onlyX() / pow(2, i);
 			}
 		}
 		if (!yDelta) {
-			if (collideRectTest(boxes, this->getRect() + delta.onlyY() / i)) {
-				yDelta = delta.y() / i;
-				*MegaBase::offset += delta.onlyY() / i;					
+			if (collideRectTest(boxes, this->getRect() + delta.onlyY() / pow(2, i))) {
+				yDelta = delta.y() / pow(2, i);
+				*MegaBase::offset += delta.onlyY() / pow(2, i);					
 			}
 		}
 		if (xDelta && yDelta) {
 			break;
 		}
 	}
-	*this += PointDelta(xDelta, yDelta, delta.getMagnitude());
+	//*this += PointDelta(xDelta, yDelta, delta.getMagnitude());
+	*this += Point(xDelta, yDelta);
 	// PUT THIS ELSEWHERE <- Will be handled when implementation is changed to being based around the Screen Class
 	if (this->getPos().x() < Screen::SCREEN_WIDTH / 2) {
 		MegaBase::offset->xZero();

@@ -77,20 +77,20 @@ float NodePath::distanceFrom(Node* node) {
 	float total = 0;
 	std::vector<Node*>::iterator i = std::find(this->stored.begin(), this->stored.end(), node);
 	for (; i + 1 != this->stored.end(); i++) {
-		total += i[0]->getPosition().distanceToPoint(i[1]->getPosition());
+		total += i[0]->getDistance(i[1]);
 	}
 	return total;
 }
 
 float NodePath::distanceFromWithPoint(Node* node, Point target) {
-	return this->distanceFrom(node) + this->lastNode()->getPosition().distanceToPoint(target);
+	return this->distanceFrom(node) + this->lastNode()->distanceToPoint(target);
 }
 
 float NodePath::distance() {
 	if (this->storedDistance == 0) {
 		this->storedDistance = 0;
 		for (int i = 0; i + 1 < this->stored.size(); i++) {
-			this->storedDistance += this->stored[i]->getPosition().distanceToPoint(this->stored[i + 1]->getPosition()); // Write a method for Node->getposition().distancetopoint()
+			this->storedDistance += this->stored[i]->distanceToPoint(this->stored[i + 1]->getPosition());
 		}	
 	}
 	return this->storedDistance;

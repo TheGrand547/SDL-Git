@@ -17,8 +17,8 @@ int EnemyDrawGroup::size() {
 }
 
 void EnemyDrawGroup::add(EnemyBase* entity) {
-	entity->setCollision(*this->collide);
-	entity->setNavigation(*this->nav);
+	entity->setCollision(this->collide);
+	entity->setNavigation(this->nav);
 	if (entity->checkLocationValidity()) {
 		delete entity;
 		return;
@@ -27,8 +27,9 @@ void EnemyDrawGroup::add(EnemyBase* entity) {
 }
 
 void EnemyDrawGroup::clearGroup() {
-	for (std::vector<EnemyBase*>::iterator iter = this->vector.begin(); iter != this->vector.end(); iter++) {
-		delete *iter;
+	std::vector<EnemyBase*>::iterator iter = this->vector.begin();
+	for (; iter != this->vector.end(); iter++) {
+		delete iter[0];
 	}
 	this->vector.clear();
 }

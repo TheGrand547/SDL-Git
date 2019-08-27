@@ -26,6 +26,8 @@ class Box : public CollideBase {
 		bool overlap(Rect& other) override;
 		bool checkLineCollision(Line& ray) override;
 		Point collideLine(Line& ray) override;
+		Point getTopLeft() override;
+		Point getBottomRight() override;
 		void draw(SDL_Renderer* renderer, Point offset = Point(0, 0)) override;
 		static void drawBox(SDL_Renderer* renderer, Point position, Point offset = Point(0, 0));
 		static void createBoxTexture(SDL_Renderer* renderer);

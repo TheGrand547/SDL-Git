@@ -51,6 +51,10 @@ Point& Point::operator=(const Point &that) {
 	return *this;
 }
 
+Point Point::toInt() {
+	return Point(int(this->xval), int(this->yval));
+}
+
 std::ostream& operator<<(std::ostream &output, const Point &point) {
 	output << "(" << float(point.x()) << ", " << float(point.y()) << ")";
 	return output;

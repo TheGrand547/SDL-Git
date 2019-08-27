@@ -28,17 +28,17 @@ void BadTest::setTexture() {
 }
 
 Node* BadTest::getClosestUnblockedNode() {
-	Node* targ = (*this->nav)[0];
-	Point center = this->position + Point() + (Point(this->width, this->height) / 2);
+	Node* targ = this->nav->getFirst();
 	if (this->nav->size() > 1) {
+		Point center = this->position + Point() + (Point(this->width, this->height) / 2);
 		for (int i = 1; i < this->nav->size(); i++) {
-			float distance = center.distanceToPoint((*this->nav)[i]->getPosition());
+			float distance = center.distanceToPoint(this->nav->at(i)->getPosition());
 			if (distance > 100) {
 				continue;
 			}
 			if (distance < center.distanceToPoint(targ->getPosition())) {
-				if (checkCollisionBetweenLineAndGroup(this->collide, Line(center, (*this->nav)[i]->getPosition()))) {
-					targ = (*this->nav)[i];
+				if (checkCollisionBetweenLineAndGroup(this->collide, Line(center, this->nav->at(i)->getPosition()))) {
+					targ = this->nav->at(i);
 				}
 			}
 		}

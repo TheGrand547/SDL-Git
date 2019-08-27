@@ -41,6 +41,9 @@ bool collideRect(CollideBaseGroup& boxes, Rect rect) {
 	bool result = false;
 	for (int i = 0; i < boxes.size() && !result; i++) {
 		result = boxes[i]->overlap(rect);
+		if (result) {
+			result = Rect(boxes[i]->getTopLeft() - Point(), boxes[i]->getBottomRight()).overlap(rect);
+		}
 	}
 	return result;
 }

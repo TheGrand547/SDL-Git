@@ -13,7 +13,7 @@ class Node {
 		Point position;
 		bool drawnThisFrame;
 	public:
-		std::vector<Node*> attached;
+		std::vector<Node*> attached; // TODO: This shouldn't be public, need to make some kind of workaround
 		Node(Point position); // This is the constructor for a "null node" aka one that needs to be re-evaluated later
 		Node(Point position, NodeDrawGroup& group, CollideBaseGroup& collision);
 		~Node();

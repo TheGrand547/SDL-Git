@@ -15,11 +15,11 @@ void SuperTexture::setClip(int xClip, int yClip) {
 
 SDL_Texture* SuperTexture::getBlank(SDL_Renderer* renderer) {
 	this->modified++;
-	return SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_TARGET, this->clipX + 1, this->clipY + 1);
+	return SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_TARGET, this->clipX, this->clipY);
 }
 
 Point SuperTexture::getOffset() {
-	return Point();
+	return Point(0, 0);
 }
 
 void SuperTexture::drawRect(SDL_Renderer* renderer, Rect rect) {

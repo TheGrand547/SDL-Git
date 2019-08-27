@@ -24,8 +24,8 @@ void EnemyBase::draw(Dot* dot) {
 	this->countedFrames++;
 }
 
-void EnemyBase::setCollision(CollideBaseGroup& collide) {
-	this->collide = &collide;
+void EnemyBase::setCollision(CollideBaseGroup* collide) {
+	this->collide = collide;
 }
 
 void EnemyBase::operator+=(Point delta) {
@@ -38,7 +38,7 @@ void EnemyBase::operator+=(Point delta) {
 	if (this->collide != NULL) {
 		for (int i = 1; i <= 3; i++) {
 			if (!xflag) {
-				if (collideRectTest(this->collide, Rect(this->position, this->width - 1, this->height - 1) + px.onlyX() / i)) {
+				if (collideRectTest(this->collide, Rect(this->position, this->width, this->height) + px.onlyX() / i)) {
 					xflag = px.x() / i;
 				}
 			}
@@ -64,6 +64,6 @@ std::ostream& operator<<(std::ostream &output, const EnemyBase& base) {
 	return output;
 }
 
-void EnemyBase::setNavigation(NodeDrawGroup& nav) {
-	this->nav = &nav;
+void EnemyBase::setNavigation(NodeDrawGroup* nav) {
+	this->nav = nav;
 }

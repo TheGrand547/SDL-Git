@@ -13,8 +13,9 @@ bool NodeDrawGroup::exists() {
 }
 
 void NodeDrawGroup::clearGroup() {
-	for (std::vector<Node*>::iterator iter = this->storage.begin(); iter != this->storage.end(); iter++) {
-		delete *iter;
+	std::vector<Node*>::iterator iter = this->storage.begin();
+	for (; iter != this->storage.end(); iter++) {
+		delete iter[0];
 	}
 	this->storage.clear();
 }
@@ -25,8 +26,16 @@ void NodeDrawGroup::drawGroup() {
 	}
 }
 
+Node*& NodeDrawGroup::at(int index) {
+	return this->storage[index];
+}
+
 Node*& NodeDrawGroup::operator[](int index) {
 	return this->storage[index];
+}
+
+Node*& NodeDrawGroup::getFirst() {
+	return this->storage.front();
 }
 
 void NodeDrawGroup::addNodeAt(Point point) {

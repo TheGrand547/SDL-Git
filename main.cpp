@@ -21,10 +21,11 @@ int main(int argc, char* argv[]) {
 	SDL_Renderer* gRenderer = createRenderer(gameWindow);
 	srand(time(NULL));
 	BoundedPoint screenPosition = BoundedPoint(Screen::MAX_SCREEN_X_POS, Screen::MAX_SCREEN_Y_POS);
-	Dot dot = Dot(Point(300, 150));
+	Dot dot = Dot(Point(190, 150));
 	dot.setColorChannels(0xFF);
 	Configuration config;
 	// TODO: Get rid of MegaBase, bad band-aid fix
+	// TODO: Have some DrawGroup pointers for collision, node, and other groups/structures needed
 	MegaBase::setOffset(&screenPosition);
 	MegaBase::setRenderer(gRenderer);
 	CollideBaseGroup boxes;
@@ -44,7 +45,7 @@ int main(int argc, char* argv[]) {
 	for (Point point: ar) {
 		boxes.push_back(CollideBaseFactory::CreateBox(point));
 	}
-	bads.add(new BadTest(Point(300, 400)));
+	bads.add(new BadTest(Point(300, 400))); // Raw 'new', kill it
 	for (int x = 0; x <= Screen::MAX_WIDTH; x += 25) {
 		for (int y = 0; y <= Screen::MAX_HEIGHT; y += 25) {
 			nodes.addNodeAt(Point(x, y));
@@ -60,9 +61,11 @@ int main(int argc, char* argv[]) {
 	Controller contra;
 	contra.addListener("Ray", 120);
 	contra.addPlayerKeys(popo); // Maybe allow for multiple bindings of the same command somehow? vectors likely? Also remove this dumb fix
-	FpsText fps(gFont, Point(100, 10), COLORS::RED); // Add handler for these things, also have this singular timer passed to all "groups" for consistency
+	FpsText fps(gFont, Point(100, 10), COLORS::RED); // TODO: Add handler for these things, also have this singular timer passed to all "groups" for consistency
 	handler.addMessage(AlertText("this shouldn't last long", Point(300, 150), COLORS::RED, 20, 2500));
 	// TODO: Standardize between draw and render, ie pick one you indecisive fuck
+	Rect testing = Rect(0, 0, Screen::SCREEN_WIDTH, Screen::SCREEN_HEIGHT);
+	testing.setColorChannels(0xFF, 0xFF, 0xFF, 0xFF);
 	while(!contra.quit) {
 		clearScreen(gRenderer);
 		popo.zero(); // >:(
@@ -79,6 +82,7 @@ int main(int argc, char* argv[]) {
 		if (contra.checkListener(config["Ray"]).getHeld()) { // Raycasting
 			dot.rayCast(boxes); // Dot should already have access to this; make it so
 		}
+		testing.draw(gRenderer, Point(0, 0));
 		fps.draw(gRenderer);
 		renderChanges(gRenderer, gameWindow);
 	}

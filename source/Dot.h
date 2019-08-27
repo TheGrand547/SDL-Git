@@ -8,7 +8,7 @@
 #include "essential/MegaBase.h"
 #include<math.h>
 
-class Dot: public MyBase {
+class Dot : public MyBase {
 	private:
 		float angle;
 		BoundedPoint position;

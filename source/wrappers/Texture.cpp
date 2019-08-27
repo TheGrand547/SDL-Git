@@ -117,11 +117,11 @@ void Texture::draw(int x, int y, SDL_Renderer* renderer, SDL_Rect* clip, double 
 }
 
 void Texture::draw(SDL_Renderer* renderer, SDL_Rect* clip, double angle, SDL_Point* center, SDL_RendererFlip flip) {
-	this->draw(this->xpos - 1, this->ypos - 1, renderer, clip, angle, center, flip);
+	this->draw(this->xpos + 1, this->ypos + 1, renderer, clip, angle, center, flip);
 }
 
 void Texture::draw(SDL_Renderer* renderer, Point offset) {
-	this->draw((this->xpos - offset.x()) - 1, (this->ypos - offset.y()) - 1, renderer);
+	this->draw((this->xpos - offset.x()), (this->ypos - offset.y()), renderer);
 }
 
 void Texture::drawAt(SDL_Renderer* renderer, Point position, Point offset) {

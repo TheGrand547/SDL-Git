@@ -21,6 +21,7 @@ class Point {
 		Point negate() const;
 		Point onlyX();
 		Point onlyY();
+		Point toInt();
 		bool getNonZero();
 		bool isNull();
 		bool isReal();

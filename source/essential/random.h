@@ -17,7 +17,7 @@ void mMax(T numA, T numB, T& iMin, T& iMax) {
 
 template<class T>
 bool valueInRange(T value, T min, T max){ 
-	return (int(value) >= int(min)) && (int(value) <= int(max)); 
+	return ((value) >= (min)) && ((value) <= (max)); 
 }
 
 template<class T>

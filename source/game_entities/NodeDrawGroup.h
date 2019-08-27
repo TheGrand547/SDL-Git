@@ -14,7 +14,9 @@ class NodeDrawGroup : public DrawGroup {
 		~NodeDrawGroup();
 		bool exists() override;
 		int size() override;
+		Node*& at(int position);
 		Node*& operator[](int position);
+		Node*& getFirst();
 		void clearGroup() override;
 		void drawGroup() override;
 		void addNodeAt(Point point);

@@ -14,4 +14,6 @@ class CollideBase {
 		virtual Point collideLine(Line& ray) = 0;
 		virtual bool checkLineCollision(Line& ray) = 0;
 		virtual void draw(SDL_Renderer* renderer, Point offset) = 0;
+		virtual Point getTopLeft() = 0;
+		virtual Point getBottomRight() = 0;
 };
