@@ -38,12 +38,12 @@ void EnemyBase::operator+=(Point delta) {
 	if (this->collide != NULL) {
 		for (int i = 1; i <= 3; i++) {
 			if (!xflag) {
-				if (collideRectTest(this->collide, Rect(this->position, this->width, this->height) + px.onlyX() / i)) {
+				if (this->collide->doesNotCollideWith(Rect(this->position, this->width, this->height) + px.onlyX() / i)) {
 					xflag = px.x() / i;
 				}
 			}
 			if (!yflag) {
-				if (collideRectTest(this->collide, Rect(this->position, this->width - 1, this->height - 1) + px.onlyY() / i)) {
+				if (this->collide->doesNotCollideWith(Rect(this->position, this->width, this->height) + px.onlyY() / i)) {
 					yflag = px.y() / i;					
 				}
 			}

@@ -43,6 +43,8 @@ void Rect::draw(SDL_Renderer* renderer, Point offset) {
 }
 
 bool Rect::checkLineCollision(Line& ray) {
+	/* True - 
+	 * False - */
 	Point topleft = Point(this->xpos, this->ypos);
 	Point topright = Point(this->xpos + this->width, this->ypos);
 	Point bottomleft = Point(this->xpos, this->ypos + this->height);
@@ -59,9 +61,7 @@ bool Rect::checkLineCollision(Line& ray) {
 }
 
 Point Rect::collideLine(Line& ray) {
-	/* No way for a single straight line to intersect a line in more than
-	 * two points *except with the stupid inline ones that i'm changing
-	 * the whole thing for */
+	/* Returns the point where the line intersects the rect, if it doesn't intersect it returns a null point */
 	Point intersect[] = {Point(), Point(), Point(), Point()};
 	Point topleft = Point(this->xpos, this->ypos);
 	Point topright = Point(this->xpos + this->width, this->ypos);

@@ -1,7 +1,6 @@
 #include "CollideBaseGroup.h"
 
-CollideBaseGroup::CollideBaseGroup() {
-}
+CollideBaseGroup::CollideBaseGroup() {}
 
 CollideBaseGroup::~CollideBaseGroup() {
 	this->clearGroup();
@@ -14,7 +13,7 @@ bool CollideBaseGroup::exists() {
 void CollideBaseGroup::clearGroup() {
 	std::vector<CollideBase*>::iterator iter = this->group.begin();
 	for (; iter != this->group.end(); iter++) {
-		delete *iter;
+		delete iter[0];
 	}
 	this->group.clear();
 }
@@ -37,58 +36,59 @@ int CollideBaseGroup::size() {
 	return this->group.size();
 }
 
-bool collideRect(CollideBaseGroup& boxes, Rect rect) {
+bool CollideBaseGroup::doesPlayerNotCollide(Rect rect) {
+	/* True - the rect DOES collide with this collide group, given the special rules for player collision
+	 * False - the rect DOESN'T collide with this collide group */
 	bool result = false;
-	for (int i = 0; i < boxes.size() && !result; i++) {
-		result = boxes[i]->overlap(rect);
+	for (int i = 0; i < this->size() && !result; i++) {
+		result = this->group[i]->overlap(rect);
 		if (result) {
-			result = Rect(boxes[i]->getTopLeft() - Point(), boxes[i]->getBottomRight()).overlap(rect);
+			result = Rect(this->group[i]->getTopLeft() - Point(), this->group[i]->getBottomRight()).overlap(rect); // I hate this
 		}
+	}
+	return !result;
+}
+
+bool CollideBaseGroup::doesCollideWith(Rect rect) {
+	/* True - the rect DOES collide with this collide group
+	 * False - the rect DOESN'T collide with this collide group */
+	bool result = false;
+	for (int i = 0; i < this->size() && !result; i++) {
+		result = this->group[i]->overlap(rect);
 	}
 	return result;
 }
 
-bool collideRect(CollideBaseGroup* boxes, Rect rect) {
-	return collideRect(*boxes, rect);
+bool CollideBaseGroup::doesNotCollideWith(Rect rect) {
+	/* True - the rect DOESN'T collide with this collide group
+	 * False - the rect DOES collide with this collide group */
+	return !this->doesCollideWith(rect);
 }
 
-Point smallestDistanceFrom(CollideBaseGroup& boxes, Point origin, Line ray) {
+bool CollideBaseGroup::doesNotCollideWith(Line ray) { /** ONE OF THESE IS WRONG, FIND IT AND FIX IT**/
+	/* True - the line DOESN'T collide with this collide group
+	 * False - the line DOES collide with this collide group */
+	bool result = true;
+	for (int i = 0; i < this->size() && result; i++) {
+		result = this->group[i]->checkLineCollision(ray);
+	}
+	return result;
+}
+
+bool CollideBaseGroup::doesCollideWith(Line ray) {
+	/* True - the line DOES collide with this collide group
+	 * False - the line DOESN'T collide with this collide group */
+	bool result = false;
+	for (int i = 0; i < this->size() && !result; i++) {
+		result = this->group[i]->checkLineCollision(ray);
+	}
+	return result;
+}
+
+Point CollideBaseGroup::closestPointThatCollidesWith(Line ray) {
 	Point stored;
-	for (int i = 0; i < boxes.size(); i++) {
-		stored = smallerDistance(origin, boxes[i]->collideLine(ray), stored);
+	for (int i = 0; i < this->size(); i++) {
+		stored = smallerDistance(ray.getOrigin(), this->group[i]->collideLine(ray), stored);
 	}
 	return stored;
 }
-
-Point smallestDistanceFrom(CollideBaseGroup* boxes, Point origin, Line ray) {
-	return smallestDistanceFrom(*boxes, origin, ray);
-}
-
-Point collideTestVectorToRay(CollideBaseGroup& boxes, Line ray) {
-	return smallestDistanceFrom(boxes, ray.getOrigin(), ray);
-}
-
-Point collideTestVectorToRay(CollideBaseGroup* boxes, Line ray) {
-	return collideTestVectorToRay(*boxes, ray);
-}
-
-bool collideRectTest(CollideBaseGroup& vec, Rect rect) {
-	return !collideRect(vec, rect);
-}
-
-bool collideRectTest(CollideBaseGroup* vec, Rect rect) {
-	return collideRectTest(*vec, rect);
-}
-
-bool checkCollisionBetweenLineAndGroup(CollideBaseGroup& group, Line ray) {
-	bool result = true;
-	for (int i = 0; i < group.size() && result; i++) {
-		result = group[i]->checkLineCollision(ray);
-	}
-	return result;
-}
-
-bool checkCollisionBetweenLineAndGroup(CollideBaseGroup* group, Line ray) {
-	return checkCollisionBetweenLineAndGroup(*group, ray);
-}
-

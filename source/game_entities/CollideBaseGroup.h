@@ -20,16 +20,12 @@ class CollideBaseGroup : public DrawGroup {
 		void drawGroup() override;
 		void drawGroup(BoundedPoint& offset) {}
 		void push_back(CollideBase* collision);
+		// CollisionGroup Specific Commands
+		bool doesCollideWith(Rect rect);
+		bool doesCollideWith(Line ray);
+		bool doesNotCollideWith(Rect rect);
+		bool doesNotCollideWith(Line line);
+		bool doesPlayerNotCollide(Rect rect);
+		Point closestPointThatCollidesWith(Line ray);
 };
-
-bool checkCollisionBetweenLineAndGroup(CollideBaseGroup& group, Line ray);
-bool checkCollisionBetweenLineAndGroup(CollideBaseGroup* group, Line ray);
-bool collideRect(CollideBaseGroup& boxes, Rect rect);
-bool collideRect(CollideBaseGroup* boxes, Rect rect);
-bool collideRectTest(CollideBaseGroup& vec, Rect rect);
-bool collideRectTest(CollideBaseGroup* vec, Rect rect);
-Point collideTestVectorToRay(CollideBaseGroup& boxes, Line ray);
-Point collideTestVectorToRay(CollideBaseGroup* boxes, Line ray);
-Point smallestDistanceFrom(CollideBaseGroup& boxes, Point origin, Line ray);
-Point smallestDistanceFrom(CollideBaseGroup* boxes, Point origin, Line ray);
 #endif

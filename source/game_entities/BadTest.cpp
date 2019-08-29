@@ -20,7 +20,7 @@ BadTest::~BadTest() {}
 bool BadTest::checkLocationValidity() {
 	/* True -> Valid location, no collision
 	 * False -> Invalid location, collision or some other predefined metric doesn't satisfy */
-	return !collideRectTest(this->collide, Rect(this->position, this->width, this->height));
+	return !this->collide->doesNotCollideWith(Rect(this->position, this->width, this->height));
 }
 
 void BadTest::setTexture() {
@@ -37,7 +37,7 @@ Node* BadTest::getClosestUnblockedNode() {
 				continue;
 			}
 			if (distance < center.distanceToPoint(targ->getPosition())) {
-				if (checkCollisionBetweenLineAndGroup(this->collide, Line(center, this->nav->at(i)->getPosition()))) {
+				if (this->collide->doesNotCollideWith(Line(center, this->nav->at(i)->getPosition()))) {
 					targ = this->nav->at(i);
 				}
 			}
@@ -65,7 +65,7 @@ void BadTest::draw(Dot* dot) {
 			float ange = atan2(temp.y() - center.y(), temp.x() - center.x());
 			*this += Point(1.5 * cos(ange), 1.5 * sin(ange));
 			this->path.draw(center);
-		} 
+		}
 	}
 }
 

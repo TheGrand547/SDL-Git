@@ -69,13 +69,13 @@ void Dot::collideTest(PointDelta delta, CollideBaseGroup& boxes) {
 	float yDelta = 0;
 	for (int i = 0; i < 5; i++) {
 		if (!xDelta) {
-			if (collideRectTest(boxes, this->getRect() + delta.onlyX() / pow(2, i))) {
+			if (boxes.doesPlayerNotCollide(this->getRect() + delta.onlyX() / pow(2, i))) {
 				xDelta = delta.x() / pow(2, i);
 				*MegaBase::offset += delta.onlyX() / pow(2, i);
 			}
 		}
 		if (!yDelta) {
-			if (collideRectTest(boxes, this->getRect() + delta.onlyY() / pow(2, i))) {
+			if (boxes.doesPlayerNotCollide(this->getRect() + delta.onlyY() / pow(2, i))) {
 				yDelta = delta.y() / pow(2, i);
 				*MegaBase::offset += delta.onlyY() / pow(2, i);					
 			}
@@ -84,7 +84,6 @@ void Dot::collideTest(PointDelta delta, CollideBaseGroup& boxes) {
 			break;
 		}
 	}
-	//*this += PointDelta(xDelta, yDelta, delta.getMagnitude());
 	*this += Point(xDelta, yDelta);
 	// PUT THIS ELSEWHERE <- Will be handled when implementation is changed to being based around the Screen Class
 	if (this->getPos().x() < Screen::SCREEN_WIDTH / 2) {
@@ -102,8 +101,8 @@ void Dot::collideTest(PointDelta delta, CollideBaseGroup& boxes) {
 } 
 
 void Dot::rayCast(CollideBaseGroup& boxes) {
-	Point newPoint = collideTestVectorToRay(boxes, this->getRay());
-	if (!newPoint.isNull()) {
+	Point newPoint = boxes.closestPointThatCollidesWith(this->getRay());
+	if (newPoint.isReal()) {
 		Line tempLine = Line(this->getCenter(), newPoint.copy());
 		tempLine.setColorChannels(COLORS::CYAN);
 		tempLine.drawLine(MegaBase::renderer, MegaBase::offset);

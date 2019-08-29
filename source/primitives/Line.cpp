@@ -12,7 +12,7 @@ Line::Line(Point pointA, Point pointB, uint8_t r, uint8_t g, uint8_t b, uint8_t 
 	setColorChannels(r, g, b, a);
 }
 
-Line::Line(Point *pointA, Point *pointB) {
+Line::Line(Point* pointA, Point* pointB) {
 	this->originPoint = Point(pointA);
 	this->endingPoint = Point(pointB);
 	this->minX = 0.0f;
@@ -50,8 +50,9 @@ Line& Line::operator=(const Line &that) {
 
 
 bool Line::isPointOnThisLine(Point point) {
-	if (thresholdValueInRange(point.x(), this->minX, this->maxX) && thresholdValueInRange(point.y(), this->minY, this->maxY))
+	if (thresholdValueInRange(point.x(), this->minX, this->maxX) && thresholdValueInRange(point.y(), this->minY, this->maxY)) {
 		return true;
+	}
 	return false;
 }
 

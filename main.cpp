@@ -64,8 +64,6 @@ int main(int argc, char* argv[]) {
 	FpsText fps(gFont, Point(100, 10), COLORS::RED); // TODO: Add handler for these things, also have this singular timer passed to all "groups" for consistency
 	handler.addMessage(AlertText("this shouldn't last long", Point(300, 150), COLORS::RED, 20, 2500));
 	// TODO: Standardize between draw and render, ie pick one you indecisive fuck
-	Rect testing = Rect(0, 0, Screen::SCREEN_WIDTH, Screen::SCREEN_HEIGHT);
-	testing.setColorChannels(0xFF, 0xFF, 0xFF, 0xFF);
 	while(!contra.quit) {
 		clearScreen(gRenderer);
 		popo.zero(); // >:(
@@ -82,7 +80,6 @@ int main(int argc, char* argv[]) {
 		if (contra.checkListener(config["Ray"]).getHeld()) { // Raycasting
 			dot.rayCast(boxes); // Dot should already have access to this; make it so
 		}
-		testing.draw(gRenderer, Point(0, 0));
 		fps.draw(gRenderer);
 		renderChanges(gRenderer, gameWindow);
 	}

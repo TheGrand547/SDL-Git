@@ -14,7 +14,7 @@ Node::Node(Point position, NodeDrawGroup& group, CollideBaseGroup& collision) {
 		if (this->position.distanceToPoint(group[i]->position) > 100) {
 			continue;
 		}
-		if (checkCollisionBetweenLineAndGroup(collision, Line(this->position, group[i]->position))) {
+		if (collision.doesNotCollideWith(Line(this->position, group[i]->position))) {
 			if (Node::checkLocationValidity(Line(this->position, group[i]->position).midPoint(), collision)) {
 				this->attached.push_back(group[i]);
 				group[i]->addAttached(this);
@@ -66,7 +66,7 @@ bool Node::checkLocationValidity(Point position, CollideBaseGroup& collision) {
 	 * False -> invalid location */
 	Rect testRect = Rect(position, 50, 50);
 	testRect -= Point(testRect.getWidth(), testRect.getHeight()) / 2.0;
-	return collideRectTest(collision, testRect);
+	return collision.doesNotCollideWith(testRect);
 }
 
 float Node::distanceToPoint(Point point) {
