@@ -39,3 +39,13 @@ template<class T>
 T& choice(std::vector<T>& vector) {
 	return vector[rand() % vector.size()];
 }
+
+template<class T>
+bool valueInVector(std::vector<T> vector, T element) {
+	return std::find(vector.begin(), vector.end(), element) != vector.end();
+}
+
+template<class T>
+bool valueNotInVector(std::vector<T> vector, T element) {
+	return std::find(vector.begin(), vector.end(), element) == vector.end();
+}

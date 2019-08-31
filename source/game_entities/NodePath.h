@@ -2,6 +2,7 @@
 #ifndef NODE_PATH_H
 #define NODE_PATH_H
 #include "Node.h"
+#include "../essential/random.h"
 #include<vector>
 
 class NodePath {
@@ -16,7 +17,6 @@ class NodePath {
 		int size();
 		float distance();
 		float distanceFrom(Node* start);
-		float distanceFromWithPoint(Node* start, Point target);
 		Point getLast();
 		Point getFirst();
 		Node* operator[](int index);

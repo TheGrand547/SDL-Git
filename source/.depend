@@ -434,4 +434,5 @@ NodePath.o: game_entities/NodePath.cpp game_entities/NodePath.h \
   game_entities/base/../../wrappers/Texture.h \
   game_entities/base/../../wrappers/../essential/constants.h \
   game_entities/base/../../wrappers/PixelMod.h \
-  game_entities/../wrappers/SuperTexture.h game_entities/NodeDrawGroup.h
+  game_entities/../wrappers/SuperTexture.h game_entities/NodeDrawGroup.h \
+  game_entities/../essential/random.h

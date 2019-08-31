@@ -7,7 +7,7 @@ struct VALUE {
 };
 
 float getValue(Node* node, Point target) {
-	return target.distanceToPoint(node->getPosition());
+	return node->distanceToPoint(target);
 }
 
 NodePath::NodePath() {}
@@ -35,24 +35,25 @@ NodePath::NodePath(Node* startingNode, Point target) {
 			}
 		}
 		if (getValue(current, target) < 55) {
-			std::map<Node*, Node*>::iterator it = path.find(current);
 			std::vector<Node*> temp;
+			std::map<Node*, Node*>::iterator it = path.find(current);
 			while (it != path.end()) {
 				temp.push_back(it->first);
 				it = path.find(it->second);
 			}
-			for (std::vector<Node*>::reverse_iterator it = temp.rbegin(); it != temp.rend(); it++) {
-				this->stored.push_back(it[0]);
+			std::vector<Node*>::reverse_iterator iter = temp.rbegin();
+			for (; iter != temp.rend(); iter++) {
+				this->stored.push_back(iter[0]);
 			}
 			break;
 		}
 		unused.erase(std::find(unused.begin(), unused.end(), current));
 		closed.push_back(current);
 		for (Node* node: current->attached) {
-			if (std::find(closed.begin(), closed.end(), node) != closed.end()) {
+			if (valueInVector(closed, node)) {
 				continue;
 			}
-			if (std::find(unused.begin(), unused.end(), node) == unused.end()) {
+			if (valueNotInVector(unused, node)) {
 				unused.push_back(node);
 			}
 			float general = cost[current].value + current->getDistance(node);
@@ -80,10 +81,6 @@ float NodePath::distanceFrom(Node* node) {
 		total += i[0]->getDistance(i[1]);
 	}
 	return total;
-}
-
-float NodePath::distanceFromWithPoint(Node* node, Point target) {
-	return this->distanceFrom(node) + this->lastNode()->distanceToPoint(target);
 }
 
 float NodePath::distance() {
@@ -154,7 +151,7 @@ Node* NodePath::operator[](int index) {
 
 void NodePath::combinePath(NodePath& other) {
 	for (Node* node: other.stored) {
-		if (std::find(this->stored.begin(), this->stored.end(), node) == this->stored.end()) { // Function this
+		if (valueNotInVector(this->stored, node)) {
 			this->stored.push_back(node);	
 		}
 	}

@@ -55,10 +55,9 @@ void Dot::draw() {
 	temp.w = Player::PLAYER_X_DIMENSION;
 	temp.h = Player::PLAYER_Y_DIMENSION;
 	SDL_RenderFillRect(MegaBase::renderer, &temp);
-	/*
 	Rect p(this->position, Player::PLAYER_X_DIMENSION, Player::PLAYER_Y_DIMENSION);
 	p.setColorChannels(0xFF, 0x00, 0x00, 0xFF);
-	p.draw(MegaBase::renderer, MegaBase::offset);*/
+	p.draw(MegaBase::renderer, MegaBase::offset);
 }
 
 void Dot::collideTest(PointDelta delta, CollideBaseGroup& boxes) {

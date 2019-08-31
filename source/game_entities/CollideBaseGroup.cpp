@@ -37,8 +37,8 @@ int CollideBaseGroup::size() {
 }
 
 bool CollideBaseGroup::doesPlayerNotCollide(Rect rect) {
-	/* True - the rect DOES collide with this collide group, given the special rules for player collision
-	 * False - the rect DOESN'T collide with this collide group */
+	/* True - the rect DOESN'T collide with this collide group, given the special rules for player collision
+	 * False - the rect DOES collide with this collide group */
 	bool result = false;
 	for (int i = 0; i < this->size() && !result; i++) {
 		result = this->group[i]->overlap(rect);
@@ -46,7 +46,7 @@ bool CollideBaseGroup::doesPlayerNotCollide(Rect rect) {
 			result = Rect(this->group[i]->getTopLeft() - Point(), this->group[i]->getBottomRight()).overlap(rect); // I hate this
 		}
 	}
-	return !result;
+	return !result; // If result is true -> it does collide, so we must return false based on the rules established above
 }
 
 bool CollideBaseGroup::doesCollideWith(Rect rect) {
