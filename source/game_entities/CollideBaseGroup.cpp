@@ -42,7 +42,7 @@ bool CollideBaseGroup::doesPlayerNotCollide(Rect rect) {
 	bool result = false;
 	for (int i = 0; i < this->size() && !result; i++) {
 		result = this->group[i]->overlap(rect);
-		if (result) {
+		if (result && Rect(0, 0, Screen::SCREEN_WIDTH, Screen::SCREEN_HEIGHT).overlap(rect)) {
 			result = Rect(this->group[i]->getTopLeft() - Point(), this->group[i]->getBottomRight()).overlap(rect); // I hate this
 		}
 	}
@@ -62,17 +62,17 @@ bool CollideBaseGroup::doesCollideWith(Rect rect) {
 bool CollideBaseGroup::doesNotCollideWith(Rect rect) {
 	/* True - the rect DOESN'T collide with this collide group
 	 * False - the rect DOES collide with this collide group */
-	return !this->doesCollideWith(rect);
-}
-
-bool CollideBaseGroup::doesNotCollideWith(Line ray) { /** ONE OF THESE IS WRONG, FIND IT AND FIX IT**/
-	/* True - the line DOESN'T collide with this collide group
-	 * False - the line DOES collide with this collide group */
 	bool result = true;
 	for (int i = 0; i < this->size() && result; i++) {
-		result = this->group[i]->checkLineCollision(ray);
+		result = !this->group[i]->overlap(rect);
 	}
 	return result;
+}
+
+bool CollideBaseGroup::doesNotCollideWith(Line ray) {
+	/* True - the line DOESN'T collide with this collide group
+	 * False - the line DOES collide with this collide group */
+	return !this->doesCollideWith(ray);
 }
 
 bool CollideBaseGroup::doesCollideWith(Line ray) {
@@ -80,7 +80,7 @@ bool CollideBaseGroup::doesCollideWith(Line ray) {
 	 * False - the line DOESN'T collide with this collide group */
 	bool result = false;
 	for (int i = 0; i < this->size() && !result; i++) {
-		result = this->group[i]->checkLineCollision(ray);
+		result = this->group[i]->doesLineCollide(ray);
 	}
 	return result;
 }

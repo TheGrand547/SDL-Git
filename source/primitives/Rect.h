@@ -29,7 +29,7 @@ class Rect: public MyBase{
 		Point getTopRight() const;
 		SDL_Rect getSDLRect();
 		bool overlap(Rect& other);
-		bool checkLineCollision(Line& ray);
+		bool doesLineCollide(Line& ray);
 		float getHeight();
 		float getWidth();
 		void draw(SDL_Renderer* renderer, Point offset);

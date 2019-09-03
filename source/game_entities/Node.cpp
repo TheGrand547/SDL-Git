@@ -11,7 +11,7 @@ Node::Node(Point position, NodeDrawGroup& group, CollideBaseGroup& collision) {
 	this->drawnThisFrame = false;
 	this->position = position;
 	for (int i = 0; i < group.size(); i++) {
-		if (this->position.distanceToPoint(group[i]->position) > 100) {
+		if (this->position.distanceToPoint(group[i]->position) > NODE::NODE_DISTANCE_MAX) {
 			continue;
 		}
 		if (collision.doesNotCollideWith(Line(this->position, group[i]->position))) {

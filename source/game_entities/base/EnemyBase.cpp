@@ -28,7 +28,7 @@ void EnemyBase::setCollision(CollideBaseGroup* collide) {
 	this->collide = collide;
 }
 
-void EnemyBase::operator+=(Point delta) {
+void EnemyBase::move(Point delta) {
 	// There must be a better way
 	float avg = float(this->countedFrames) / (float(this->timer.getTicks() + 1) / 1000.f);
 	float xflag = 0;
@@ -36,15 +36,17 @@ void EnemyBase::operator+=(Point delta) {
 	Point px = delta * (float(Screen::INTENDED_FRAME_RATE) / avg);
 	// Seems really inefficent, investigate it
 	if (this->collide != NULL) {
-		for (int i = 1; i <= 3; i++) {
+		Rect myRect = Rect(this->position, this->width, this->height);
+		for (int i = 0; i < 4; i++) {
+			Point modified = px / pow(2, i);
 			if (!xflag) {
-				if (this->collide->doesNotCollideWith(Rect(this->position, this->width, this->height) + px.onlyX() / i)) {
-					xflag = px.x() / i;
+				if (this->collide->doesNotCollideWith(myRect + modified.onlyX())) {
+					xflag = modified.x();
 				}
 			}
 			if (!yflag) {
-				if (this->collide->doesNotCollideWith(Rect(this->position, this->width, this->height) + px.onlyY() / i)) {
-					yflag = px.y() / i;					
+				if (this->collide->doesNotCollideWith(myRect + modified.onlyY())) {
+					yflag = modified.y();					
 				}
 			}
 			if (xflag && yflag) {
@@ -57,6 +59,10 @@ void EnemyBase::operator+=(Point delta) {
 	}
 	this->position += Point(xflag, yflag);
 	this->angle = atan2(delta.y(), delta.x());
+}
+
+void EnemyBase::operator+=(Point delta) {
+	this->move(delta);
 }
 
 std::ostream& operator<<(std::ostream &output, const EnemyBase& base) {

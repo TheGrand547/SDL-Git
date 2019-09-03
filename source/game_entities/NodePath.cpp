@@ -34,7 +34,7 @@ NodePath::NodePath(Node* startingNode, Point target) {
 				current = node;
 			}
 		}
-		if (getValue(current, target) < 55) {
+		if (getValue(current, target) < NODE::NODE_DISTANCE_MAX) {
 			std::vector<Node*> temp;
 			std::map<Node*, Node*>::iterator it = path.find(current);
 			while (it != path.end()) {
@@ -74,10 +74,11 @@ NodePath& NodePath::operator=(const NodePath& that) {
 	return *this;
 }
 
+// TODO: Figure out if these are ever necessary
 float NodePath::distanceFrom(Node* node) {
 	float total = 0;
 	std::vector<Node*>::iterator i = std::find(this->stored.begin(), this->stored.end(), node);
-	for (; i + 1 != this->stored.end(); i++) {
+	for (; i[0] != this->stored.back(); i++) {
 		total += i[0]->getDistance(i[1]);
 	}
 	return total;
@@ -99,8 +100,9 @@ void NodePath::draw(Point point) {
 		tmp.setColorChannels(0xFF, 0x00, 0x00, 0xFF);
 		tmp.drawLine(MegaBase::renderer, MegaBase::offset);
 	}
-	for (int i = 0; i + 1 < this->stored.size(); i++) {
-		Line tmp = Line(this->stored[i]->getPosition(), this->stored[i + 1]->getPosition());
+	std::vector<Node*>::iterator it = this->stored.begin();
+	for (; it[0] != this->stored.back(); it++) {
+		Line tmp = Line(it[0]->getPosition(), it[1]->getPosition());
 		tmp.setColorChannels(0xFF, 0x00, 0x00, 0xFF);
 		tmp.drawLine(MegaBase::renderer, MegaBase::offset);
 	}

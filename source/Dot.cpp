@@ -67,16 +67,17 @@ void Dot::collideTest(PointDelta delta, CollideBaseGroup& boxes) {
 	float xDelta = 0;
 	float yDelta = 0;
 	for (int i = 0; i < 5; i++) {
+		Point temp = delta / pow(2, i);
 		if (!xDelta) {
-			if (boxes.doesPlayerNotCollide(this->getRect() + delta.onlyX() / pow(2, i))) {
-				xDelta = delta.x() / pow(2, i);
-				*MegaBase::offset += delta.onlyX() / pow(2, i);
+			if (boxes.doesPlayerNotCollide(this->getRect() + temp.onlyX())) {
+				xDelta = temp.x();
+				*MegaBase::offset += temp.onlyX();
 			}
 		}
 		if (!yDelta) {
-			if (boxes.doesPlayerNotCollide(this->getRect() + delta.onlyY() / pow(2, i))) {
-				yDelta = delta.y() / pow(2, i);
-				*MegaBase::offset += delta.onlyY() / pow(2, i);					
+			if (boxes.doesPlayerNotCollide(this->getRect() + temp.onlyY())) {
+				yDelta = temp.y();
+				*MegaBase::offset += temp.onlyY();					
 			}
 		}
 		if (xDelta && yDelta) {

@@ -64,7 +64,8 @@ void Controller::handleEvents() {
 		tmp.str("");
 		for (int i = 0; i < this->myq.size(); i++) {
 			tmp << char(tolower(this->myq[i]));
-			for (std::map<std::string, void(*)()>::iterator iterator = this->mymp.begin(); iterator != this->mymp.end(); iterator++) {
+			std::map<std::string, void(*)()>::iterator iterator = this->mymp.begin();
+			for (; iterator != this->mymp.end(); iterator++) {
 				if (tmp.str().find(iterator->first) != std::string::npos) {
 					if (iterator->second != NULL) {
 						iterator->second();
@@ -75,7 +76,8 @@ void Controller::handleEvents() {
 			}
 		}
 	}
-	for (std::map<int, ButtonCommand*>::iterator iterator = buttons.begin(); iterator != buttons.end(); iterator++) {
+	std::map<int, ButtonCommand*>::iterator iterator = buttons.begin();
+	for (; iterator != buttons.end(); iterator++) {
 		if (this->stuff[iterator->first]) {
 			if (iterator->second != NULL) {
 				iterator->second->execute();

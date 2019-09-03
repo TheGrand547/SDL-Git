@@ -54,3 +54,7 @@ namespace Screen {
 	const int MAX_X_SCROLL_DISTANCE = MAX_WIDTH - SCREEN_WIDTH / 2;
 	const int MAX_Y_SCROLL_DISTANCE = MAX_HEIGHT - SCREEN_HEIGHT / 2;
 }
+
+namespace NODE {
+	const int NODE_DISTANCE_MAX = 100;
+}

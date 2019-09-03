@@ -54,6 +54,8 @@ void Box::drawBox(SDL_Renderer* renderer, Point position, Point offset) {
 	Box::mTexture.drawAt(renderer, position, offset);
 }
 
-bool Box::checkLineCollision(Line& ray) {
-	return this->rect.checkLineCollision(ray);
+bool Box::doesLineCollide(Line& ray) {
+	/* True - Line DOES collide with this Box
+	 * False - Line DOES NOT collide with this Box */
+	return this->rect.doesLineCollide(ray);
 }

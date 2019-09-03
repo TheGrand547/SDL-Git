@@ -50,6 +50,11 @@ void NodeDrawGroup::addNodeAt(Point point) {
 	}
 }
 
+void NodeDrawGroup::addNullNodeAt(Point point) {
+	Node* node = new Node(point);
+	this->storage.push_back(node);	
+}
+
 int NodeDrawGroup::size() {
 	return this->storage.size();
 }
@@ -66,4 +71,18 @@ void NodeDrawGroup::setCollision(CollideBaseGroup& collision) {
 
 void NodeDrawGroup::setCollision(CollideBaseGroup* collision) {
 	this->collision = collision;
+}
+
+void NodeDrawGroup::purge() {
+	int c = 0;
+	for (Node* node: this->storage) {
+		if (node->attached.size() == 0) {
+			std::vector<Node*>::iterator it = std::find(this->storage.begin(), this->storage.end(), node);
+			if (it != this->storage.end()) {
+				c++;
+				this->storage.erase(it);
+				delete node;
+			}
+		}
+	}
 }

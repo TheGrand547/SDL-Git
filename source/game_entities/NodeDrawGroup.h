@@ -19,7 +19,9 @@ class NodeDrawGroup : public DrawGroup {
 		Node*& getFirst();
 		void clearGroup() override;
 		void drawGroup() override;
+		void addNullNodeAt(Point point);
 		void addNodeAt(Point point);
+		void purge(); // Remove all nodes with no connections to improve performance
 		void reset();
 		void setCollision(CollideBaseGroup& collision);
 		void setCollision(CollideBaseGroup* collision);

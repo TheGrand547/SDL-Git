@@ -63,7 +63,7 @@ void BadTest::draw(Dot* dot) {
 		Point temp = this->path.getFirst();
 		if (temp.isReal()) {
 			float ange = atan2(temp.y() - center.y(), temp.x() - center.x());
-			*this += Point(1.5 * cos(ange), 1.5 * sin(ange));
+			this->move(Point(1.5 * cos(ange), 1.5 * sin(ange)));
 			this->path.draw(center);
 		}
 	}

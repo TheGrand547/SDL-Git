@@ -42,9 +42,9 @@ void Rect::draw(SDL_Renderer* renderer, Point offset) {
 	rectangleRGBA(renderer, Point(this->xpos, this->ypos) - offset, Point(this->xpos + this->width, this->ypos + this->height) - offset, rChannel, bChannel, gChannel, aChannel);
 }
 
-bool Rect::checkLineCollision(Line& ray) {
-	/* True - 
-	 * False - */
+bool Rect::doesLineCollide(Line& ray) {
+	/* True - the Line DOES collide with this rect
+	 * False - the Line DOES NOT collide with this rect */
 	Point topleft = Point(this->xpos, this->ypos);
 	Point topright = Point(this->xpos + this->width, this->ypos);
 	Point bottomleft = Point(this->xpos, this->ypos + this->height);
@@ -54,10 +54,10 @@ bool Rect::checkLineCollision(Line& ray) {
 	for (int i = 0; i < Rect::arrayLength; i++) {
 		tempPoint = intersectionTest(temp[i], ray);
 		if (tempPoint.isReal()) {
-			return false;
+			return true;
 		}
 	}
-	return true;
+	return false;
 }
 
 Point Rect::collideLine(Line& ray) {

@@ -43,7 +43,7 @@ int main(int argc, char* argv[]) {
 	Point ar[] = {Point(200, 200), Point(400, 200), Point(300, 200), Point(500, 200), Point(500, 300), Point (500, 400), 
 				  Point(500, 500), Point(600, 600), Point(600, 500)};
 	for (Point point: ar) {
-		boxes.push_back(CollideBaseFactory::CreateBox(point));
+		boxes.push_back(CollideBaseFactory::CreateBox(point, nodes)); // Should be a more elegant way of doing this
 	}
 	bads.add(new BadTest(Point(300, 400))); // Raw 'new', kill it
 	for (int x = 0; x <= Screen::MAX_WIDTH; x += 25) {
@@ -54,6 +54,7 @@ int main(int argc, char* argv[]) {
 			}
 		}
 	}
+	nodes.purge();
 	Font gFont;
 	std::string foo = "praise david oshry";
 	AppearingText ap(foo, &gFont, Point(250, 0), 15, COLORS::RED, 300);

@@ -24,7 +24,7 @@ class Box : public CollideBase {
 		Box(const Box& that);
 		Box& operator=(const Box& that);
 		bool overlap(Rect& other) override;
-		bool checkLineCollision(Line& ray) override;
+		bool doesLineCollide(Line& ray) override;
 		Point collideLine(Line& ray) override;
 		Point getTopLeft() override;
 		Point getBottomRight() override;
