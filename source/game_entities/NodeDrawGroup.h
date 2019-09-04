@@ -5,6 +5,7 @@
 #include "CollideBaseGroup.h"
 class NodeDrawGroup;
 #include "Node.h"
+
 class NodeDrawGroup : public DrawGroup {
 	private:
 		CollideBaseGroup* collision;

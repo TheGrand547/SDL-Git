@@ -62,11 +62,7 @@ bool CollideBaseGroup::doesCollideWith(Rect rect) {
 bool CollideBaseGroup::doesNotCollideWith(Rect rect) {
 	/* True - the rect DOESN'T collide with this collide group
 	 * False - the rect DOES collide with this collide group */
-	bool result = true;
-	for (int i = 0; i < this->size() && result; i++) {
-		result = !this->group[i]->overlap(rect);
-	}
-	return result;
+	return !this->doesCollideWith(rect);
 }
 
 bool CollideBaseGroup::doesNotCollideWith(Line ray) {

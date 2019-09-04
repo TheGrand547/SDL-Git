@@ -1,13 +1,14 @@
 #include "BadTest.h"
+#include "../primitives/Vector.h"
 
 BadTest::BadTest(Point position) : EnemyBase(position) {
 	this->pathTimer.start();
 	/*
-	this->c->AddPath(new LinePath<EnemyBase>(Point(200, -200), toTicks(1)));
-	this->c->AddPath(new CirclePath<EnemyBase>(40, 1, Path<Point>::SINGLE_LOOP, false));
-	this->c->AddPath(new LinePath<EnemyBase>(Point(-200, 200), toTicks(1)));
-	this->c->AddPath(new CirclePath<EnemyBase>(40, 1, Path<Point>::SINGLE_LOOP, false));			
-	this->c->setRepeat(true);
+	this->c.AddPath(new LinePath<EnemyBase>(Point(200, -200), toTicks(1)));
+	this->c.AddPath(new CirclePath<EnemyBase>(40, 1, Path<Point>::SINGLE_LOOP, false));
+	this->c.AddPath(new LinePath<EnemyBase>(Point(-200, 200), toTicks(1)));
+	this->c.AddPath(new CirclePath<EnemyBase>(40, 1, Path<Point>::SINGLE_LOOP, false));			
+	this->c.setRepeat(true);
 	*/
 }
 
@@ -17,20 +18,24 @@ BadTest::BadTest(const BadTest& that) : EnemyBase(that.position) {
 
 BadTest::~BadTest() {}
 
-bool BadTest::checkLocationValidity() {
-	/* True -> Valid location, no collision
-	 * False -> Invalid location, collision or some other predefined metric doesn't satisfy */
-	return !this->collide->doesNotCollideWith(Rect(this->position, this->width, this->height));
+bool BadTest::isLocationInvalid() {
+	/* True ->  Invalid location, collision or some other predefined metric doesn't satisfy
+	 * False -> Valid location */
+	return this->collide->doesCollideWith(Rect(this->position, this->width, this->height));
 }
 
 void BadTest::setTexture() {
 	this->texture->createBlank(MegaBase::renderer, 50, 50, 0xFF0000FF);
 }
 
+Point BadTest::getCenter() {
+	return this->position + Point() + (Point(this->width, this->height) / 2);
+}
+
 Node* BadTest::getClosestUnblockedNode() {
 	Node* targ = this->nav->getFirst();
 	if (this->nav->size() > 1) {
-		Point center = this->position + Point() + (Point(this->width, this->height) / 2);
+		Point center = this->getCenter();
 		for (int i = 1; i < this->nav->size(); i++) {
 			float distance = center.distanceToPoint(this->nav->at(i)->getPosition());
 			if (distance > 100) {
@@ -49,10 +54,9 @@ Node* BadTest::getClosestUnblockedNode() {
 void BadTest::draw(Dot* dot) {
 	EnemyBase::draw(dot);
 	if (this->nav != NULL) {
-		Point center = this->position + Point() + (Point(this->width, this->height) / 2); // Maybe function this?
+		Point center = this->getCenter();
 		if (this->pathTimer.getTicks() > 250) { // If it has been more than 250 milliseconds since the path has been calculated
-			Node* target = this->getClosestUnblockedNode();
-			this->path = NodePath(target, dot->getPos());
+			this->path = NodePath(this->getClosestUnblockedNode(), dot->getPos());
 			this->pathTimer.start();
 		}
 		if (this->path.getFirst().isReal()) {
@@ -62,8 +66,8 @@ void BadTest::draw(Dot* dot) {
 		}
 		Point temp = this->path.getFirst();
 		if (temp.isReal()) {
-			float ange = atan2(temp.y() - center.y(), temp.x() - center.x());
-			this->move(Point(1.5 * cos(ange), 1.5 * sin(ange)));
+			float angle = atan2(temp.y() - center.y(), temp.x() - center.x());
+			this->move(Vector(angle) * 2.25);
 			this->path.draw(center);
 		}
 	}

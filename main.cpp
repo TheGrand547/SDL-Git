@@ -1,4 +1,5 @@
 #include "source/headers.h"
+#include "source/primitives/Vector.h"
 bool init();
 SDL_Renderer* createRenderer(SDL_Window* window);
 SDL_Window* createWindow();

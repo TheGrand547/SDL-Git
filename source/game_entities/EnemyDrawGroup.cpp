@@ -19,7 +19,7 @@ int EnemyDrawGroup::size() {
 void EnemyDrawGroup::add(EnemyBase* entity) {
 	entity->setCollision(this->collide);
 	entity->setNavigation(this->nav);
-	if (entity->checkLocationValidity()) {
+	if (entity->isLocationInvalid()) {
 		delete entity;
 		return;
 	}

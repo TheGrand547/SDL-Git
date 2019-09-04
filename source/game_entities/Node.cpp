@@ -1,6 +1,8 @@
 #include "Node.h"
 #include "../essential/MegaBase.h"
 
+// TODO: Add functionality for data to be contained within the nodes
+
 Node::Node(Point position) {
 	// "Null" node, one that can be placed before collision group is fully created
 	this->drawnThisFrame = false;

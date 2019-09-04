@@ -17,15 +17,17 @@
 class BadTest : public EnemyBase {
 	private:
 		NodePath path;
-		Node* getClosestUnblockedNode();
 		PathManager<EnemyBase> c{this};
 		Timer pathTimer;
+		
+		Node* getClosestUnblockedNode();
 	public:
 		BadTest(Point position);
 		BadTest(const BadTest& that);
 		~BadTest();
-		bool checkLocationValidity() override;
+		bool isLocationInvalid() override;
 		Point getPos();
+		Point getCenter();
 		void draw(Dot* dot) override;
 		void setTexture();
 		void update() override;

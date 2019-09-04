@@ -8,6 +8,7 @@
 #include "CollideBaseGroup.h"
 class Node;
 #include "NodeDrawGroup.h"
+
 class Node {
 	private:
 		Point position;
