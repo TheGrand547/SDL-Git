@@ -4,7 +4,6 @@
 Box::Box() {}
 		
 Box::Box(Point position) {
-	/* This hurts me phyiscally */
 	this->rect = Rect(position, BOX::BOX_WIDTH, BOX::BOX_HEIGHT);
 }
 

@@ -112,10 +112,6 @@ std::ostream& operator<<(std::ostream &output, const Line &line) {
 	return output;
 }
 
-void Line::drawLine(SDL_Renderer* renderer) {
-	aalineRGBA(renderer, this->originPoint, this->endingPoint, rChannel, gChannel, bChannel, aChannel);
-}		
-
 void Line::drawLine(SDL_Renderer* renderer, Point offset) {
 	aalineRGBA(renderer, this->originPoint - offset, this->endingPoint - offset, rChannel, gChannel, bChannel, aChannel);
 }				

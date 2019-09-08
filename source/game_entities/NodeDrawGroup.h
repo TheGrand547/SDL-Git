@@ -11,7 +11,7 @@ class NodeDrawGroup : public DrawGroup {
 		CollideBaseGroup* collision;
 		std::vector<Node*> storage;
 	public:
-		NodeDrawGroup();
+		NodeDrawGroup(CollideBaseGroup& collision);
 		~NodeDrawGroup();
 		bool exists() override;
 		int size() override;
@@ -24,7 +24,5 @@ class NodeDrawGroup : public DrawGroup {
 		void addNodeAt(Point point);
 		void purge(); // Remove all nodes with no connections to improve performance
 		void reset();
-		void setCollision(CollideBaseGroup& collision);
-		void setCollision(CollideBaseGroup* collision);
 };
 #endif

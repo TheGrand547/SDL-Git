@@ -1,10 +1,13 @@
 #include "EnemyDrawGroup.h"
+#include "BadTest.h"
 
-EnemyDrawGroup::EnemyDrawGroup() {}
+EnemyDrawGroup::EnemyDrawGroup(CollideBaseGroup& collision, NodeDrawGroup& nav) {
+	this->collide = &collision;
+	this->nav = &nav;
+}
 
 EnemyDrawGroup::~EnemyDrawGroup() {
 	this->clearGroup();
-	this->dot = NULL;
 }
 
 bool EnemyDrawGroup::exists() {
@@ -16,9 +19,10 @@ int EnemyDrawGroup::size() {
 	return this->vector.size();
 }
 
-void EnemyDrawGroup::add(EnemyBase* entity) {
-	entity->setCollision(this->collide);
-	entity->setNavigation(this->nav);
+template<class Type, typename...Arguments>
+void EnemyDrawGroup::create(Arguments... args) {
+	Type* entity = new Type(this, args...);
+	entity->setParent(this);
 	if (entity->isLocationInvalid()) {
 		delete entity;
 		return;
@@ -50,10 +54,4 @@ void EnemyDrawGroup::setDot(Dot* dot) {
 	this->dot = dot;
 }
 
-void EnemyDrawGroup::setCollision(CollideBaseGroup& collision) {
-	this->collide = &collision;
-}
-
-void EnemyDrawGroup::setNavigation(NodeDrawGroup& nav) {
-	this->nav = &nav;
-}
+template void EnemyDrawGroup::create<BadTest, Point>(Point point); // :(

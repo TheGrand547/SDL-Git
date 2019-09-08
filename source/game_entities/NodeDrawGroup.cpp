@@ -1,7 +1,7 @@
 #include "NodeDrawGroup.h"
 
-NodeDrawGroup::NodeDrawGroup() {
-	this->collision = NULL;
+NodeDrawGroup::NodeDrawGroup(CollideBaseGroup& collision) {
+	this->collision = &collision;
 }
 
 NodeDrawGroup::~NodeDrawGroup() {
@@ -63,14 +63,6 @@ void NodeDrawGroup::reset() {
 	for (Node* node: this->storage) {
 		node->reset();
 	}
-}
-
-void NodeDrawGroup::setCollision(CollideBaseGroup& collision) {
-	this->setCollision(&collision);
-}
-
-void NodeDrawGroup::setCollision(CollideBaseGroup* collision) {
-	this->collision = collision;
 }
 
 void NodeDrawGroup::purge() {

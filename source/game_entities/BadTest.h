@@ -22,7 +22,7 @@ class BadTest : public EnemyBase {
 		
 		Node* getClosestUnblockedNode();
 	public:
-		BadTest(Point position);
+		BadTest(EnemyDrawGroup* parent, Point position);
 		BadTest(const BadTest& that);
 		~BadTest();
 		bool isLocationInvalid() override;

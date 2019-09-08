@@ -9,6 +9,8 @@
 #include "../NodeDrawGroup.h"
 #include<vector>
 #include<math.h>
+class EnemyBase;
+#include "../EnemyDrawGroup.h"
 
 class EnemyBase {
 	protected:
@@ -19,16 +21,14 @@ class EnemyBase {
 		int height = 50;
 		float angle = 0;
 		int countedFrames = 0;
-		/* Experimental - Maybe remove this in favor of a pointer to its container? */
-		CollideBaseGroup* collide;
-		NodeDrawGroup* nav;
+		
+		EnemyDrawGroup* parent;
 	public:
-		EnemyBase(Point position = Point(0, 0));
+		EnemyBase(EnemyDrawGroup* parent, Point position = Point(0, 0));
 		virtual ~EnemyBase();
 		virtual void update() = 0;
 		virtual void draw(Dot* dot);
-		void setCollision(CollideBaseGroup* collide);
-		void setNavigation(NodeDrawGroup* nav);
+		void setParent(EnemyDrawGroup* parent);
 		void operator+=(Point delta);
 		void move(Point delta);
 		virtual bool isLocationInvalid() = 0;

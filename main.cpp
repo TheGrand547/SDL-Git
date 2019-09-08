@@ -7,7 +7,7 @@ void close(SDL_Window* window);
 void clearScreen(SDL_Renderer* renderer);
 void renderChanges(SDL_Renderer* renderer, SDL_Window* window);
 
-// Static Member Variable Initialization -> Should put somewhere less conspicuous
+// TODO: Static Member Variable Initialization -> Should put somewhere less conspicuous
 SDL_Renderer* MegaBase::renderer = NULL;
 BoundedPoint* MegaBase::offset = NULL;
 SuperTexture Box::mTexture;
@@ -17,27 +17,25 @@ int main(int argc, char* argv[]) {
 		printf("Failed to initialize!\n");
 		return 0;
 	}
-	/* TODO: Add Method/Class for initializing everything on screen to clean up main() and help smooth the transition to using 'Screen' as the base class for the project */
 	SDL_Window* gameWindow = createWindow();
 	SDL_Renderer* gRenderer = createRenderer(gameWindow);
+	
 	srand(time(NULL));
 	BoundedPoint screenPosition = BoundedPoint(Screen::MAX_SCREEN_X_POS, Screen::MAX_SCREEN_Y_POS);
 	Dot dot = Dot(Point(190, 150));
 	dot.setColorChannels(0xFF);
 	Configuration config;
-	// TODO: Get rid of MegaBase, bad band-aid fix
+	// Target 9/5/2019 -> TODO: Get rid of MegaBase, bad band-aid fix
+	
 	// TODO: Have some DrawGroup pointers for collision, node, and other groups/structures needed
 	MegaBase::setOffset(&screenPosition);
 	MegaBase::setRenderer(gRenderer);
 	CollideBaseGroup boxes;
-	NodeDrawGroup nodes;
-	nodes.setCollision(boxes);
+	NodeDrawGroup nodes(boxes);
 	AlertTextHandler handler;
 	// TODO: Create a file structure for containing level data so its not hardcoded 
-	EnemyDrawGroup bads;
+	EnemyDrawGroup bads(boxes, nodes);
 	bads.setDot(&dot);
-	bads.setCollision(boxes);
-	bads.setNavigation(nodes);
 	BackgroundGroup groundGroup;
 	// Box creation
 	Box::createBoxTexture(gRenderer);
@@ -46,16 +44,17 @@ int main(int argc, char* argv[]) {
 	for (Point point: ar) {
 		boxes.push_back(CollideBaseFactory::CreateBox(point, nodes)); // Should be a more elegant way of doing this
 	}
-	bads.add(new BadTest(Point(300, 400))); // Raw 'new', kill it
+	bads.create<BadTest>(Point(300, 400));
 	for (int x = 0; x <= Screen::MAX_WIDTH; x += 25) {
 		for (int y = 0; y <= Screen::MAX_HEIGHT; y += 25) {
 			nodes.addNodeAt(Point(x, y));
 			if (x % 100 == 0 && y % 100 == 0) {
-				groundGroup.add(Point(x, y), Ground::GRASS); // Consider having Nodes placed based on ground tiles?
+				groundGroup.add(Point(x, y), Ground::GRASS);
 			}
 		}
 	}
 	nodes.purge();
+	
 	Font gFont;
 	std::string foo = "praise david oshry";
 	AppearingText ap(foo, &gFont, Point(250, 0), 15, COLORS::RED, 300);

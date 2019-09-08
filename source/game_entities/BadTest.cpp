@@ -1,7 +1,7 @@
 #include "BadTest.h"
 #include "../primitives/Vector.h"
 
-BadTest::BadTest(Point position) : EnemyBase(position) {
+BadTest::BadTest(EnemyDrawGroup* parent, Point position) : EnemyBase(parent, position) {
 	this->pathTimer.start();
 	/*
 	this->c.AddPath(new LinePath<EnemyBase>(Point(200, -200), toTicks(1)));
@@ -12,8 +12,8 @@ BadTest::BadTest(Point position) : EnemyBase(position) {
 	*/
 }
 
-BadTest::BadTest(const BadTest& that) : EnemyBase(that.position) {
-	*this = BadTest(that.position);
+BadTest::BadTest(const BadTest& that) : EnemyBase(that.parent, that.position) {
+	*this = BadTest(that.parent, that.position);
 }
 
 BadTest::~BadTest() {}
@@ -21,7 +21,7 @@ BadTest::~BadTest() {}
 bool BadTest::isLocationInvalid() {
 	/* True ->  Invalid location, collision or some other predefined metric doesn't satisfy
 	 * False -> Valid location */
-	return this->collide->doesCollideWith(Rect(this->position, this->width, this->height));
+	return this->parent->collide->doesCollideWith(Rect(this->position, this->width, this->height));
 }
 
 void BadTest::setTexture() {
@@ -33,17 +33,17 @@ Point BadTest::getCenter() {
 }
 
 Node* BadTest::getClosestUnblockedNode() {
-	Node* targ = this->nav->getFirst();
-	if (this->nav->size() > 1) {
+	Node* targ = this->parent->nav->getFirst();
+	if (this->parent->nav->size() > 1) {
 		Point center = this->getCenter();
-		for (int i = 1; i < this->nav->size(); i++) {
-			float distance = center.distanceToPoint(this->nav->at(i)->getPosition());
+		for (int i = 1; i < this->parent->nav->size(); i++) {
+			float distance = center.distanceToPoint(this->parent->nav->at(i)->getPosition());
 			if (distance > 100) {
 				continue;
 			}
 			if (distance < center.distanceToPoint(targ->getPosition())) {
-				if (this->collide->doesNotCollideWith(Line(center, this->nav->at(i)->getPosition()))) {
-					targ = this->nav->at(i);
+				if (this->parent->collide->doesNotCollideWith(Line(center, this->parent->nav->at(i)->getPosition()))) {
+					targ = this->parent->nav->at(i);
 				}
 			}
 		}
@@ -53,7 +53,7 @@ Node* BadTest::getClosestUnblockedNode() {
 
 void BadTest::draw(Dot* dot) {
 	EnemyBase::draw(dot);
-	if (this->nav != NULL) {
+	if (this->parent->nav != NULL) {
 		Point center = this->getCenter();
 		if (this->pathTimer.getTicks() > 250) { // If it has been more than 250 milliseconds since the path has been calculated
 			this->path = NodePath(this->getClosestUnblockedNode(), dot->getPos());

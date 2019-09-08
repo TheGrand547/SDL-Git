@@ -15,12 +15,12 @@ class Line: public MyBase{
 		Point originPoint, endingPoint;
 	public:	
 		Line(Point pointA = Point(), Point pointB = Point(), uint8_t r = 0x00, uint8_t g = 0x00, uint8_t b = 0xFF, uint8_t a = 0xFF);
-		Line(Point *pointA, Point *pointB);
+		Line(Point* pointA, Point* pointB);
 		~Line();
 		Line(const Line &line);
-		Line &operator=(const Line &that);
+		Line& operator=(const Line& that);
 		bool isPointOnThisLine(Point point);
-		bool collidePoint(Point &point);
+		bool collidePoint(Point& point);
 		bool collidePoint(Point *point);
 		void operator+=(Point b);
 		void operator-=(Point b);
@@ -32,9 +32,8 @@ class Line: public MyBase{
 		Point getOrigin() const;
 		Point getEnd() const;
 		Point midPoint();
-		friend std::ostream &operator<<(std::ostream &output, const Line &line);
-		void drawLine(SDL_Renderer* renderer);
-		void drawLine(SDL_Renderer* renderer, Point offset);
+		friend std::ostream& operator<<(std::ostream& output, const Line &line);
+		void drawLine(SDL_Renderer* renderer, Point offset = Point(0, 0));
 		void setColor(Uint8 red, Uint8 green, Uint8 blue, Uint8 alpha);
 };
 

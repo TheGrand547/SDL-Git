@@ -43,7 +43,7 @@ void Node::reset() {
 	this->drawnThisFrame = false;
 }
 
-void Node::draw() {
+void Node::draw() { // Legacy function only for testing purposes
 	//this->drawnThisFrame = true;
 	Line tempLine;
 	for (Node* node: this->attached) {
