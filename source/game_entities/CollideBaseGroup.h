@@ -10,17 +10,18 @@
 class CollideBaseGroup : public DrawGroup {
 	private:
 		std::vector<CollideBase*> group;
+		SDL_Renderer* renderer;
+		BoundedPoint* offset;
 	public:
-		CollideBaseGroup();
+		CollideBaseGroup(SDL_Renderer* renderer, BoundedPoint& offset);
 		~CollideBaseGroup();
 		CollideBase*& operator[](int index);
 		bool exists() override;
 		int size() override;
 		void clearGroup() override;
 		void drawGroup() override;
-		void drawGroup(BoundedPoint& offset) {}
 		void push_back(CollideBase* collision);
-		// CollisionGroup Specific Commands
+		/* CollisionGroup Specific Commands */
 		bool doesCollideWith(Rect rect);
 		bool doesCollideWith(Line ray);
 		bool doesNotCollideWith(Rect rect);

@@ -28,7 +28,7 @@ class BadTest : public EnemyBase {
 		bool isLocationInvalid() override;
 		Point getPos();
 		Point getCenter();
-		void draw(Dot* dot) override;
+		void draw(SDL_Renderer* renderer, BoundedPoint& offset) override;
 		void setTexture();
-		void update() override;
+		void update(Dot* dot) override;
 };

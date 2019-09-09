@@ -25,16 +25,14 @@ int main(int argc, char* argv[]) {
 	Dot dot = Dot(Point(190, 150));
 	dot.setColorChannels(0xFF);
 	Configuration config;
-	// Target 9/5/2019 -> TODO: Get rid of MegaBase, bad band-aid fix
-	
+	// TODO: Create a file structure for containing level data so its not hardcoded 
 	// TODO: Have some DrawGroup pointers for collision, node, and other groups/structures needed
 	MegaBase::setOffset(&screenPosition);
 	MegaBase::setRenderer(gRenderer);
-	CollideBaseGroup boxes;
+	CollideBaseGroup boxes(gRenderer, screenPosition);
 	NodeDrawGroup nodes(boxes);
 	AlertTextHandler handler;
-	// TODO: Create a file structure for containing level data so its not hardcoded 
-	EnemyDrawGroup bads(boxes, nodes);
+	EnemyDrawGroup bads(boxes, nodes, gRenderer, screenPosition);
 	bads.setDot(&dot);
 	BackgroundGroup groundGroup;
 	// Box creation
@@ -56,7 +54,7 @@ int main(int argc, char* argv[]) {
 	nodes.purge();
 	
 	Font gFont;
-	std::string foo = "praise david oshry";
+	std::string foo = "duck dev best dev";
 	AppearingText ap(foo, &gFont, Point(250, 0), 15, COLORS::RED, 300);
 	PointDelta popo = PointDelta(0, 0, 4);
 	Controller contra;

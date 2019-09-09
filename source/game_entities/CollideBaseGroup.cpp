@@ -1,6 +1,9 @@
 #include "CollideBaseGroup.h"
 
-CollideBaseGroup::CollideBaseGroup() {}
+CollideBaseGroup::CollideBaseGroup(SDL_Renderer* renderer, BoundedPoint& offset) {
+	this->renderer = renderer;
+	this->offset = &offset;
+}
 
 CollideBaseGroup::~CollideBaseGroup() {
 	this->clearGroup();
@@ -20,7 +23,7 @@ void CollideBaseGroup::clearGroup() {
 
 void CollideBaseGroup::drawGroup() {
 	for (CollideBase* collision: this->group) {
-		collision->draw(MegaBase::renderer, MegaBase::offset);
+		collision->draw(this->renderer, *this->offset);
 	}
 }
 

@@ -51,8 +51,18 @@ Node* BadTest::getClosestUnblockedNode() {
 	return targ;
 }
 
-void BadTest::draw(Dot* dot) {
-	EnemyBase::draw(dot);
+void BadTest::draw(SDL_Renderer* renderer, BoundedPoint& offset) {
+	EnemyBase::draw(renderer, offset);
+	if (this->path.getFirst().isReal()) {
+		this->path.draw();
+	}
+}
+
+void BadTest::update(Dot* dot) {
+	if (!this->texture->isLoaded()) {
+		this->setTexture();
+	}
+	this->c.update();
 	if (this->parent->nav != NULL) {
 		Point center = this->getCenter();
 		if (this->pathTimer.getTicks() > 250) { // If it has been more than 250 milliseconds since the path has been calculated
@@ -60,7 +70,7 @@ void BadTest::draw(Dot* dot) {
 			this->pathTimer.start();
 		}
 		if (this->path.getFirst().isReal()) {
-			if (this->path.getFirst().distanceToPoint(center) < 5) { // Make the number a constant
+			if (this->path.getFirst().distanceToPoint(center) < 1.5) { // Make the number a constant
 				this->path.removeLast();
 			}
 		}
@@ -68,16 +78,8 @@ void BadTest::draw(Dot* dot) {
 		if (temp.isReal()) {
 			float angle = atan2(temp.y() - center.y(), temp.x() - center.x());
 			this->move(Vector(angle) * 2.25);
-			this->path.draw(center);
 		}
 	}
-}
-
-void BadTest::update() {
-	if (!this->texture->isLoaded()) {
-		this->setTexture();
-	}
-	this->c.update();
 }
 
 Point BadTest::getPos() {

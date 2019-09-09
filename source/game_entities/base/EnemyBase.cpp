@@ -14,10 +14,10 @@ void EnemyBase::setParent(EnemyDrawGroup* parent) {
 	this->parent = parent;
 }
 
-void EnemyBase::draw(Dot* dot) {
+void EnemyBase::draw(SDL_Renderer* renderer, BoundedPoint& offset) {
 	if (this->texture->isLoaded()) {
 		this->texture->setPos(this->position);
-		this->texture->draw(MegaBase::renderer, MegaBase::offset);
+		this->texture->draw(renderer, offset);
 	}
 	if (this->countedFrames > 1000 || this->countedFrames == 0) {
 		this->countedFrames = 0;
@@ -28,10 +28,14 @@ void EnemyBase::draw(Dot* dot) {
 
 void EnemyBase::move(Point delta) {
 	// There must be a better way
-	float avg = float(this->countedFrames) / (float(this->timer.getTicks() + 1) / 1000.f);
+	float avg = float(this->countedFrames + 1) / (float(this->timer.getTicks() + 1) / 1000.f);
 	float xflag = 0;
 	float yflag = 0;
 	Point px = delta * (float(Screen::INTENDED_FRAME_RATE) / avg);
+	
+	if (!px.getNonZero()) {
+		return;
+	}
 	// Seems really inefficent, investigate it
 	if (this->parent != NULL) {
 		Rect myRect = Rect(this->position, this->width, this->height);

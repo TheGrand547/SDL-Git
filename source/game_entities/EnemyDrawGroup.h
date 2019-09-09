@@ -10,8 +10,10 @@ class EnemyDrawGroup : public DrawGroup {
 	private:
 		std::vector<EnemyBase*> vector;
 		Dot* dot;
+		SDL_Renderer* renderer;
+		BoundedPoint* offset;
 	public:		
-		EnemyDrawGroup(CollideBaseGroup& collision, NodeDrawGroup& nav);
+		EnemyDrawGroup(CollideBaseGroup& collision, NodeDrawGroup& nav, SDL_Renderer* renderer, BoundedPoint& offset);
 		~EnemyDrawGroup();
 		bool exists() override;
 		int size() override;

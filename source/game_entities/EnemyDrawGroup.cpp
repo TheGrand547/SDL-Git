@@ -1,9 +1,11 @@
 #include "EnemyDrawGroup.h"
 #include "BadTest.h"
 
-EnemyDrawGroup::EnemyDrawGroup(CollideBaseGroup& collision, NodeDrawGroup& nav) {
+EnemyDrawGroup::EnemyDrawGroup(CollideBaseGroup& collision, NodeDrawGroup& nav, SDL_Renderer* renderer, BoundedPoint& offset) {
 	this->collide = &collision;
 	this->nav = &nav;
+	this->renderer = renderer;
+	this->offset = &offset;
 }
 
 EnemyDrawGroup::~EnemyDrawGroup() {
@@ -40,13 +42,13 @@ void EnemyDrawGroup::clearGroup() {
 
 void EnemyDrawGroup::update() {
 	for (EnemyBase* entity: this->vector) {
-		entity->update();
+		entity->update(this->dot);
 	}
 }
 
 void EnemyDrawGroup::drawGroup() {
 	for (EnemyBase* entity: this->vector) {
-		entity->draw(this->dot);
+		entity->draw(this->renderer, *this->offset);
 	}
 }
 

@@ -26,8 +26,8 @@ class EnemyBase {
 	public:
 		EnemyBase(EnemyDrawGroup* parent, Point position = Point(0, 0));
 		virtual ~EnemyBase();
-		virtual void update() = 0;
-		virtual void draw(Dot* dot);
+		virtual void update(Dot* dot) = 0;
+		virtual void draw(SDL_Renderer* renderer, BoundedPoint& offset);
 		void setParent(EnemyDrawGroup* parent);
 		void operator+=(Point delta);
 		void move(Point delta);
