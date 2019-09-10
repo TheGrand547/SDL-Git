@@ -26,6 +26,25 @@ void EnemyBase::draw(SDL_Renderer* renderer, BoundedPoint& offset) {
 	this->countedFrames++;
 }
 
+Node* EnemyBase::getClosestUnblockedNode() {
+	Node* targ = this->parent->nav->getFirst();
+	if (this->parent->nav->size() > 1) {
+		Point center = this->getCenter();
+		for (int i = 1; i < this->parent->nav->size(); i++) {
+			float distance = center.distanceToPoint(this->parent->nav->at(i)->getPosition());
+			if (distance > 100) {
+				continue;
+			}
+			if (distance < center.distanceToPoint(targ->getPosition())) {
+				if (this->parent->collide->doesNotCollideWith(Line(center, this->parent->nav->at(i)->getPosition()))) {
+					targ = this->parent->nav->at(i);
+				}
+			}
+		}
+	}
+	return targ;
+}
+
 void EnemyBase::move(Point delta) {
 	// There must be a better way
 	float avg = float(this->countedFrames + 1) / (float(this->timer.getTicks() + 1) / 1000.f);

@@ -1,0 +1,11 @@
+Ai doc
+
+Types
+Entity - entity that will be controlled by the central brain
+Central Brain - entity that holds all the brain prongs and assigns the prongs to each Entity based on a variety of factors
+Brain Prongs - An instance that defines specific behavior for a given object based on parameters in the Central Brain
+
+Information stored by each object
+Entity: pointer to Central brain, any parameters required for the central brain to make decisions based off of
+Central Brain: parameters of the Entities required to make decisions, required Number of Brain Prongs to execute based on decisions
+Brain Prongs: Only the type of command the given brain Prong will require

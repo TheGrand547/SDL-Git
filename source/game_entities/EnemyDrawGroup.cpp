@@ -6,6 +6,8 @@ EnemyDrawGroup::EnemyDrawGroup(CollideBaseGroup& collision, NodeDrawGroup& nav, 
 	this->nav = &nav;
 	this->renderer = renderer;
 	this->offset = &offset;
+	this->powerslave = std::make_unique<AiBrain>();
+	this->powerslave->addTempProng();
 }
 
 EnemyDrawGroup::~EnemyDrawGroup() {
@@ -42,7 +44,8 @@ void EnemyDrawGroup::clearGroup() {
 
 void EnemyDrawGroup::update() {
 	for (EnemyBase* entity: this->vector) {
-		entity->update(this->dot);
+		this->powerslave->doBrainThings(entity);
+		entity->update();
 	}
 }
 
@@ -54,6 +57,10 @@ void EnemyDrawGroup::drawGroup() {
 
 void EnemyDrawGroup::setDot(Dot* dot) {
 	this->dot = dot;
+}
+
+Dot* EnemyDrawGroup::getDot() {
+	return this->dot;
 }
 
 template void EnemyDrawGroup::create<BadTest, Point>(Point point); // :(

@@ -32,25 +32,6 @@ Point BadTest::getCenter() {
 	return this->position + Point() + (Point(this->width, this->height) / 2);
 }
 
-Node* BadTest::getClosestUnblockedNode() {
-	Node* targ = this->parent->nav->getFirst();
-	if (this->parent->nav->size() > 1) {
-		Point center = this->getCenter();
-		for (int i = 1; i < this->parent->nav->size(); i++) {
-			float distance = center.distanceToPoint(this->parent->nav->at(i)->getPosition());
-			if (distance > 100) {
-				continue;
-			}
-			if (distance < center.distanceToPoint(targ->getPosition())) {
-				if (this->parent->collide->doesNotCollideWith(Line(center, this->parent->nav->at(i)->getPosition()))) {
-					targ = this->parent->nav->at(i);
-				}
-			}
-		}
-	}
-	return targ;
-}
-
 void BadTest::draw(SDL_Renderer* renderer, BoundedPoint& offset) {
 	EnemyBase::draw(renderer, offset);
 	if (this->path.getFirst().isReal()) {
@@ -58,28 +39,11 @@ void BadTest::draw(SDL_Renderer* renderer, BoundedPoint& offset) {
 	}
 }
 
-void BadTest::update(Dot* dot) {
+void BadTest::update() {
 	if (!this->texture->isLoaded()) {
 		this->setTexture();
 	}
 	this->c.update();
-	if (this->parent->nav != NULL) {
-		Point center = this->getCenter();
-		if (this->pathTimer.getTicks() > 250) { // If it has been more than 250 milliseconds since the path has been calculated
-			this->path = NodePath(this->getClosestUnblockedNode(), dot->getPos());
-			this->pathTimer.start();
-		}
-		if (this->path.getFirst().isReal()) {
-			if (this->path.getFirst().distanceToPoint(center) < 1.5) { // Make the number a constant
-				this->path.removeLast();
-			}
-		}
-		Point temp = this->path.getFirst();
-		if (temp.isReal()) {
-			float angle = atan2(temp.y() - center.y(), temp.x() - center.x());
-			this->move(Vector(angle) * 2.25);
-		}
-	}
 }
 
 Point BadTest::getPos() {

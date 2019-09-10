@@ -29,6 +29,7 @@
 #include "MyBase.h"
 #include "Dot.h"
 #include "primitives/PointDelta.h"
+#include "primitives/Vector.h"
 #include "wrappers/HeldKey.h"
 #include "wrappers/AlertText.h"
 #include "game_entities/base/CollideBase.h"

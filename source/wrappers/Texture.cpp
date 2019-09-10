@@ -68,7 +68,7 @@ void Texture::dither() {
 	if (mod.unlocked) {
 		return;
 	}
-	Uint8 matrix[2][2] = { {0x40, 0x80},  {0xC0, 0x00} };
+	Uint8 matrix[2][2] = { {0x40, 0x80}, {0xC0, 0x00} };
 	Uint32 transparent = SDL_MapRGBA(mod.format, 0xFF, 0xFF, 0xFF, 0x00);
 	Uint8 r, g, b, a;
 	Uint8 value;

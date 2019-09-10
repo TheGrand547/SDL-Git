@@ -19,16 +19,14 @@ class BadTest : public EnemyBase {
 		NodePath path;
 		PathManager<EnemyBase> c{this};
 		Timer pathTimer;
-		
-		Node* getClosestUnblockedNode();
 	public:
 		BadTest(EnemyDrawGroup* parent, Point position);
 		BadTest(const BadTest& that);
 		~BadTest();
 		bool isLocationInvalid() override;
-		Point getPos();
-		Point getCenter();
+		Point getPos() override;
+		Point getCenter() override;
 		void draw(SDL_Renderer* renderer, BoundedPoint& offset) override;
 		void setTexture();
-		void update(Dot* dot) override;
+		void update() override;
 };
