@@ -23,6 +23,7 @@ class Point {
 		Point onlyY();
 		Point toInt();
 		bool getNonZero();
+		bool isZero();
 		bool isNull();
 		bool isReal();
 		bool operator==(const Point& point);

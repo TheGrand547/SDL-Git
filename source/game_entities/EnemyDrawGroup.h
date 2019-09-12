@@ -6,7 +6,6 @@
 #include "DrawGroup.h"
 #include "NodeDrawGroup.h"
 class EnemyDrawGroup;
-#include "ai/AiBrain.h"
 #include "base/EnemyBase.h"
 
 class EnemyDrawGroup : public DrawGroup {
@@ -15,7 +14,6 @@ class EnemyDrawGroup : public DrawGroup {
 		Dot* dot;
 		SDL_Renderer* renderer;
 		BoundedPoint* offset;
-		std::unique_ptr<AiBrain> powerslave;
 	public:		
 		EnemyDrawGroup(CollideBaseGroup& collision, NodeDrawGroup& nav, SDL_Renderer* renderer, BoundedPoint& offset);
 		~EnemyDrawGroup();

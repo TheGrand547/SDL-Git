@@ -6,8 +6,6 @@ EnemyDrawGroup::EnemyDrawGroup(CollideBaseGroup& collision, NodeDrawGroup& nav, 
 	this->nav = &nav;
 	this->renderer = renderer;
 	this->offset = &offset;
-	this->powerslave = std::make_unique<AiBrain>();
-	this->powerslave->addTempProng();
 }
 
 EnemyDrawGroup::~EnemyDrawGroup() {
@@ -23,6 +21,7 @@ int EnemyDrawGroup::size() {
 	return this->vector.size();
 }
 
+// TODO: Make this commit die
 template<class Type, typename...Arguments>
 void EnemyDrawGroup::create(Arguments... args) {
 	Type* entity = new Type(this, args...);
@@ -44,7 +43,6 @@ void EnemyDrawGroup::clearGroup() {
 
 void EnemyDrawGroup::update() {
 	for (EnemyBase* entity: this->vector) {
-		this->powerslave->doBrainThings(entity);
 		entity->update();
 	}
 }
@@ -54,6 +52,7 @@ void EnemyDrawGroup::drawGroup() {
 		entity->draw(this->renderer, *this->offset);
 	}
 }
+
 
 void EnemyDrawGroup::setDot(Dot* dot) {
 	this->dot = dot;

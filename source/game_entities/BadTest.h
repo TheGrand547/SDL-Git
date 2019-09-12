@@ -16,9 +16,7 @@
 
 class BadTest : public EnemyBase {
 	private:
-		NodePath path;
 		PathManager<EnemyBase> c{this};
-		Timer pathTimer;
 	public:
 		BadTest(EnemyDrawGroup* parent, Point position);
 		BadTest(const BadTest& that);

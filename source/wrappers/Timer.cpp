@@ -1,5 +1,5 @@
 #include "Timer.h"
-
+#include<iostream>
 //Initializes variables
 Timer::Timer() {
 	this->mStartTicks = 0;
@@ -14,6 +14,7 @@ void Timer::start() {
 	this->mPaused = false;
 	this->mStartTicks = SDL_GetTicks();
 	this->mPausedTicks = 0;
+	this->countedTicks = 0;
 }
 
 void Timer::stop() {
@@ -21,6 +22,7 @@ void Timer::stop() {
 	this->mPaused = false;
 	this->mStartTicks = 0;
 	this->mPausedTicks = 0;
+	this->countedTicks = 0;
 }
 
 void Timer::pause() {
@@ -42,7 +44,20 @@ void Timer::unpause() {
 		mStartTicks = SDL_GetTicks() - mPausedTicks;
 		//Reset the paused ticks
 		mPausedTicks = 0;
+		this->countedTicks = 0;
 	}
+}
+
+void Timer::tick() {
+	if (this->countedTicks > 250 || this->countedTicks == 0) {
+		this->countedTicks = 0;
+		this->start();
+	}
+	this->countedTicks++;
+}
+
+float Timer::getFps() {
+	return float(this->countedTicks + 1) / (float(this->getTicks() + 1) / 1000.f);
 }
 
 Uint32 Timer::getTicks() {

@@ -1,5 +1,4 @@
 #include "source/headers.h"
-#include "source/game_entities/ai/AiBrain.h"
 bool init();
 SDL_Renderer* createRenderer(SDL_Window* window);
 SDL_Window* createWindow();
@@ -53,7 +52,6 @@ int main(int argc, char* argv[]) {
 		}
 	}
 	nodes.purge();
-	std::cout << "in main loop" << std::endl;
 	Font gFont;
 	std::string foo = "duck dev best dev";
 	AppearingText ap(foo, &gFont, Point(250, 0), 15, COLORS::RED, 300);
@@ -64,7 +62,6 @@ int main(int argc, char* argv[]) {
 	FpsText fps(gFont, Point(100, 10), COLORS::RED); // TODO: Add handler for these things, also have this singular timer passed to all "groups" for consistency
 	handler.addMessage(AlertText("this shouldn't last long", Point(300, 150), COLORS::RED, 20, 2500));
 	// TODO: Standardize between draw and render, ie pick one you indecisive fuck
-	std::cout << "in main loop" << std::endl;
 	while(!contra.quit) {
 		clearScreen(gRenderer);
 		popo.zero(); // >:(

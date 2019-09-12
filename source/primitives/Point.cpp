@@ -77,6 +77,10 @@ bool Point::isNull() {
 	return false;
 }
 
+bool Point::isZero() {
+	return !this->getNonZero();
+}
+
 bool Point::isReal() {
 	return !isNull();
 }

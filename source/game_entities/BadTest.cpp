@@ -1,5 +1,4 @@
 #include "BadTest.h"
-#include "../primitives/Vector.h"
 
 BadTest::BadTest(EnemyDrawGroup* parent, Point position) : EnemyBase(parent, position) {
 	this->pathTimer.start();
@@ -44,6 +43,8 @@ void BadTest::update() {
 		this->setTexture();
 	}
 	this->c.update();
+	// Temp
+	this->pathFindTo();
 }
 
 Point BadTest::getPos() {

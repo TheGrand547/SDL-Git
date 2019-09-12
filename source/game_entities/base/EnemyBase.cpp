@@ -4,6 +4,8 @@ EnemyBase::EnemyBase(EnemyDrawGroup* parent, Point position) {
 	this->parent = parent;
 	this->position = position;
 	this->texture = new Texture();
+	this->pathTimer.start();
+	
 }
 
 EnemyBase::~EnemyBase() {
@@ -19,11 +21,7 @@ void EnemyBase::draw(SDL_Renderer* renderer, BoundedPoint& offset) {
 		this->texture->setPos(this->position);
 		this->texture->draw(renderer, offset);
 	}
-	if (this->countedFrames > 1000 || this->countedFrames == 0) {
-		this->countedFrames = 0;
-		this->timer.start();
-	}
-	this->countedFrames++;
+	this->standardTimer.tick();
 }
 
 Node* EnemyBase::getClosestUnblockedNode() {
@@ -47,15 +45,15 @@ Node* EnemyBase::getClosestUnblockedNode() {
 
 void EnemyBase::move(Point delta) {
 	// There must be a better way
-	float avg = float(this->countedFrames + 1) / (float(this->timer.getTicks() + 1) / 1000.f);
 	float xflag = 0;
 	float yflag = 0;
-	Point px = delta * (float(Screen::INTENDED_FRAME_RATE) / avg);
+	Point px = delta * (float(Screen::INTENDED_FRAME_RATE) / this->standardTimer.getFps());
 	
-	if (!px.getNonZero()) {
+	if (px.isZero()) {
 		return;
 	}
 	// Seems really inefficent, investigate it
+	// Right now it's optimized for non-collision, might want to have some functionality to make it optimized for collision
 	if (this->parent != NULL) {
 		Rect myRect = Rect(this->position, this->width, this->height);
 		for (int i = 0; i < 4; i++) {
@@ -67,7 +65,7 @@ void EnemyBase::move(Point delta) {
 			}
 			if (!yflag) {
 				if (this->parent->collide->doesNotCollideWith(myRect + modified.onlyY())) {
-					yflag = modified.y();					
+					yflag = modified.y();
 				}
 			}
 			if (xflag && yflag) {
@@ -82,11 +80,30 @@ void EnemyBase::move(Point delta) {
 	this->angle = atan2(delta.y(), delta.x());
 }
 
-void EnemyBase::operator+=(Point delta) {
-	this->move(delta);
-}
-
 std::ostream& operator<<(std::ostream &output, const EnemyBase& base) {
 	output << base.position;
 	return output;
+}
+
+void EnemyBase::pathFindTo(Point target) {
+	if (this->parent->nav != NULL) {
+		Point center = this->getCenter();
+		if (target.isNull()) {
+			target = this->parent->getDot()->getPos();
+		}
+		if (this->pathTimer.getTicks() > 250) { // If it has been more than 250 milliseconds since the path has been calculated
+			this->path = NodePath(this->getClosestUnblockedNode(), target);
+			this->pathTimer.start();
+		}
+		if (this->path.getFirst().isReal()) {
+			if (this->path.getFirst().distanceToPoint(center) < 1.5) { // Make the number a constant
+				this->path.removeLast();
+			}
+		}
+		Point temp = this->path.getFirst();
+		if (temp.isReal()) {
+			float angle = atan2(temp.y() - center.y(), temp.x() - center.x());
+			this->move(Vector(angle) * 2.25);
+		}
+	}
 }

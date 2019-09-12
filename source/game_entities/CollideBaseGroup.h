@@ -1,6 +1,7 @@
 #pragma once
 #ifndef COLLIDE_BASE_DRAW_GROUP_H
 #define COLLIDE_BASE_DRAW_GROUP_H
+#include<memory>
 #include<SDL2/SDL.h>
 #include<vector>
 #include "DrawGroup.h"
