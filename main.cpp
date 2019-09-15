@@ -9,7 +9,6 @@ void renderChanges(SDL_Renderer* renderer, SDL_Window* window);
 // TODO: Static Member Variable Initialization -> Should put somewhere less conspicuous
 SDL_Renderer* MegaBase::renderer = NULL;
 BoundedPoint* MegaBase::offset = NULL;
-SuperTexture Box::mTexture;
 
 int main(int argc, char* argv[]) {
 	// TODO: Write command line args like in source, in addition to command line args such as DRAW_PATHS_ENABLE

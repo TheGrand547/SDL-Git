@@ -10,8 +10,6 @@ class FpsText {
 		Font font;
 		Point position;
 		SDL_Color color;
-		int countedFrames;
-		float averageFps;
 		Timer timer;
 	public:
 		FpsText(Font& font, Point position, SDL_Color color);

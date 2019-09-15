@@ -1,12 +1,12 @@
 #include "Timer.h"
-#include<iostream>
-//Initializes variables
+
 Timer::Timer() {
 	this->mStartTicks = 0;
 	this->mPausedTicks = 0;
 	this->mPaused = false;
 	this->mStarted = false;
 }
+
 Timer::~Timer() {}
 
 void Timer::start() {
@@ -36,6 +36,7 @@ void Timer::pause() {
 	}
 	this->unpause();
 }
+
 void Timer::unpause() {
 	//If the timer is running and paused
 	if(mStarted && mPaused){
@@ -78,6 +79,7 @@ Uint32 Timer::getTicks() {
 bool Timer::isStarted() {
 	return mStarted;
 }
+
 bool Timer::isPaused() {
 	return mPaused && mStarted;
 }

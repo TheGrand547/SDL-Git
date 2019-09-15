@@ -32,3 +32,4 @@ class Box : public CollideBase {
 		static void drawBox(SDL_Renderer* renderer, Point position, Point offset = Point(0, 0));
 		static void createBoxTexture(SDL_Renderer* renderer);
 };
+//SuperTexture Box::mTexture;
