@@ -10,7 +10,7 @@ class EnemyDrawGroup;
 
 class EnemyDrawGroup : public DrawGroup {
 	private:
-		std::vector<EnemyBase*> vector;
+		std::vector<std::shared_ptr<EnemyBase>> vector;
 		Dot* dot;
 		SDL_Renderer* renderer;
 		BoundedPoint* offset;
@@ -24,7 +24,7 @@ class EnemyDrawGroup : public DrawGroup {
 		void drawGroup() override;
 		void update();
 		void setDot(Dot* dot);
-		template<class Type, typename...Arguments> void create(Arguments... args);
+		void add(std::shared_ptr<EnemyBase> entity);
 		
 		CollideBaseGroup* collide;
 		NodeDrawGroup* nav;

@@ -1,4 +1,6 @@
 #include "source/headers.h"
+//#include "SDL/SDL_thread.h"
+#include<memory>
 bool init();
 SDL_Renderer* createRenderer(SDL_Window* window);
 SDL_Window* createWindow();
@@ -9,6 +11,7 @@ void renderChanges(SDL_Renderer* renderer, SDL_Window* window);
 // TODO: Static Member Variable Initialization -> Should put somewhere less conspicuous
 SDL_Renderer* MegaBase::renderer = NULL;
 BoundedPoint* MegaBase::offset = NULL;
+SuperTexture Box::mTexture;
 
 int main(int argc, char* argv[]) {
 	// TODO: Write command line args like in source, in addition to command line args such as DRAW_PATHS_ENABLE
@@ -39,9 +42,9 @@ int main(int argc, char* argv[]) {
 	Point ar[] = {Point(200, 200), Point(400, 200), Point(300, 200), Point(500, 200), Point(500, 300), Point (500, 400), 
 				  Point(500, 500), Point(600, 600), Point(600, 500)};
 	for (Point point: ar) {
-		boxes.push_back(CollideBaseFactory::CreateBox(point, nodes)); // Should be a more elegant way of doing this
+		boxes.push_back(CollideBaseFactory::CreateBox(point, nodes)); // TODO: Make more elegant
 	}
-	bads.create<BadTest>(Point(300, 400));
+	bads.add(std::make_shared<BadTest>(&bads, Point(300, 400))); // TODO: Make more elegant
 	for (int x = 0; x <= Screen::MAX_WIDTH; x += 25) {
 		for (int y = 0; y <= Screen::MAX_HEIGHT; y += 25) {
 			nodes.addNodeAt(Point(x, y));
@@ -61,6 +64,7 @@ int main(int argc, char* argv[]) {
 	FpsText fps(gFont, Point(100, 10), COLORS::RED); // TODO: Add handler for these things, also have this singular timer passed to all "groups" for consistency
 	handler.addMessage(AlertText("this shouldn't last long", Point(300, 150), COLORS::RED, 20, 2500));
 	// TODO: Standardize between draw and render, ie pick one you indecisive fuck
+	createDetachedThread(threadTest, NULL);
 	while(!contra.quit) {
 		clearScreen(gRenderer);
 		popo.zero(); // >:(
@@ -80,6 +84,7 @@ int main(int argc, char* argv[]) {
 		fps.draw(gRenderer);
 		renderChanges(gRenderer, gameWindow);
 	}
+	std::cout << "pls die by now :(" << std::endl;
 	close(gameWindow);
 	return 0;
 }

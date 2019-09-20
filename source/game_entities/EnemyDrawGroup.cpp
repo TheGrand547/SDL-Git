@@ -16,39 +16,31 @@ bool EnemyDrawGroup::exists() {
 	return this->vector.size() > 0;
 }
 
-
 int EnemyDrawGroup::size() {
 	return this->vector.size();
 }
 
-// TODO: Make this commit die
-template<class Type, typename...Arguments>
-void EnemyDrawGroup::create(Arguments... args) {
-	Type* entity = new Type(this, args...);
+void EnemyDrawGroup::add(std::shared_ptr<EnemyBase> entity) {
 	entity->setParent(this);
 	if (entity->isLocationInvalid()) {
-		delete entity;
+		entity.reset();
 		return;
 	}
 	this->vector.push_back(entity);
 }
 
 void EnemyDrawGroup::clearGroup() {
-	std::vector<EnemyBase*>::iterator iter = this->vector.begin();
-	for (; iter != this->vector.end(); iter++) {
-		delete iter[0];
-	}
 	this->vector.clear();
 }
 
 void EnemyDrawGroup::update() {
-	for (EnemyBase* entity: this->vector) {
+	for (std::shared_ptr<EnemyBase> entity: this->vector) {
 		entity->update();
 	}
 }
 
 void EnemyDrawGroup::drawGroup() {
-	for (EnemyBase* entity: this->vector) {
+	for (std::shared_ptr<EnemyBase> entity: this->vector) {
 		entity->draw(this->renderer, *this->offset);
 	}
 }
@@ -61,5 +53,3 @@ void EnemyDrawGroup::setDot(Dot* dot) {
 Dot* EnemyDrawGroup::getDot() {
 	return this->dot;
 }
-
-template void EnemyDrawGroup::create<BadTest, Point>(Point point); // :(
