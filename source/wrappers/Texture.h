@@ -30,6 +30,7 @@ class Texture {
 		void draw(SDL_Renderer* renderer, Point offset);
 		void drawAt(SDL_Renderer* renderer, Point position, Point offset);
 		bool isLoaded();
+		bool notLoaded();
 		void createBlank(SDL_Renderer* renderer, int w, int h, uint32_t color = 0x0000000FF);
 		SDL_Texture* getTexture();
 		void setPos(int x = 0, int y = 0);

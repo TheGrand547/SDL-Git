@@ -130,7 +130,11 @@ void Texture::drawAt(SDL_Renderer* renderer, Point position, Point offset) {
 }
 
 bool Texture::isLoaded() {
-	return texture != NULL;
+	return this->texture != NULL;
+}
+
+bool Texture::notLoaded() {
+	return this->texture == NULL;
 }
 
 void Texture::createBlank(SDL_Renderer* renderer, int w, int h, uint32_t color) {

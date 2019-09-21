@@ -35,13 +35,13 @@ inline int keyCodeFromEvent(SDL_Event event) {
 	return event.key.keysym.sym;
 }
 
-void createDetatchedThread(void(*method)(void*), void* arg = NULL, const char* name = "new thread") {
+inline void createDetatchedThread(int(*method)(void*), void* arg = NULL, const char* name = "new thread") {
 	SDL_Thread* newThread = SDL_CreateThread(method, name, arg);
 	SDL_DetachThread(newThread);
 }
 
 // TEMP TEMP TEMP TEMP TEMP
-int threadTest(void* ptr) {
+inline int threadTest(void* ptr) {
 	for (int i = 0; i < 10; i++) {
 		SDL_Delay(250);
 		std::cout << "It's been " << i * 250 << " ms since i started." << std::endl;
