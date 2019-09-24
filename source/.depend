@@ -488,3 +488,5 @@ CollideBaseFactory.o: game_entities/CollideBaseFactory.cpp \
   game_entities/../primitives/../essential/../BoundedPoint.h \
   game_entities/NodeDrawGroup.h game_entities/Node.h
 Vector.o: primitives/Vector.cpp primitives/Vector.h primitives/Point.h
+util.o: essential/util.cpp essential/util.h \
+  essential/../primitives/Point.h essential/../MyBase.h

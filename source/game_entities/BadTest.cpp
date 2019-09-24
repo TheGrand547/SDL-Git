@@ -24,7 +24,7 @@ bool BadTest::isLocationInvalid() {
 }
 
 void BadTest::setTexture() {
-	this->texture->createBlank(MegaBase::renderer, 50, 50, 0xFF0000FF);
+	this->texture.createBlank(MegaBase::renderer, 50, 50, 0xFF0000FF);
 }
 
 Point BadTest::getCenter() {
@@ -39,7 +39,7 @@ void BadTest::draw(SDL_Renderer* renderer, BoundedPoint& offset) {
 }
 
 void BadTest::update() {
-	if (!this->texture->isLoaded()) {
+	if (this->texture.notLoaded()) {
 		this->setTexture();
 	}
 	this->c.update();

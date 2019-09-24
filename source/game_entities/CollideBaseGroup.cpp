@@ -45,7 +45,7 @@ bool CollideBaseGroup::doesPlayerNotCollide(Rect rect) {
 	bool result = false;
 	for (int i = 0; i < this->size() && !result; i++) {
 		result = this->group[i]->overlap(rect);
-		if (result && Rect(0, 0, Screen::SCREEN_WIDTH, Screen::SCREEN_HEIGHT).overlap(rect)) {
+		if (result && (rect.getTopLeft().x() <= Screen::SCREEN_WIDTH * (2.0 / 3.0) || rect.getTopLeft().y() <= Screen::SCREEN_HEIGHT * (2.0 / 3.0))) {
 			result = Rect(this->group[i]->getTopLeft() - Point(), this->group[i]->getBottomRight()).overlap(rect); // I hate this
 		}
 	}

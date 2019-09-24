@@ -3,23 +3,20 @@
 EnemyBase::EnemyBase(EnemyDrawGroup* parent, Point position) {
 	this->parent = parent;
 	this->position = position;
-	this->texture = new Texture();
 	this->pathTimer.start();
 	
 }
 
-EnemyBase::~EnemyBase() {
-	delete this->texture;
-}
+EnemyBase::~EnemyBase() {}
 
 void EnemyBase::setParent(EnemyDrawGroup* parent) {
 	this->parent = parent;
 }
 
 void EnemyBase::draw(SDL_Renderer* renderer, BoundedPoint& offset) {
-	if (this->texture->isLoaded()) {
-		this->texture->setPos(this->position);
-		this->texture->draw(renderer, offset);
+	if (this->texture.isLoaded()) {
+		this->texture.setPos(this->position);
+		this->texture.draw(renderer, offset);
 	}
 	this->standardTimer.tick();
 }
@@ -48,7 +45,6 @@ void EnemyBase::move(Point delta) {
 	float xflag = 0;
 	float yflag = 0;
 	Point px = delta * (float(Screen::INTENDED_FRAME_RATE) / this->standardTimer.getFps());
-	
 	if (px.isZero()) {
 		return;
 	}

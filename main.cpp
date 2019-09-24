@@ -39,8 +39,8 @@ int main(int argc, char* argv[]) {
 	BackgroundGroup groundGroup;
 	// Box creation
 	Box::createBoxTexture(gRenderer);
-	Point ar[] = {Point(200, 200), Point(400, 200), Point(300, 200), Point(500, 200), Point(500, 300), Point (500, 400), 
-				  Point(500, 500), Point(600, 600), Point(600, 500)};
+	Point ar[] = {Point(200, 200), Point(400, 200), Point(300, 200), Point(500, 200), Point(500, 300), Point(500, 400), 
+				  Point(500, 500), Point(600, 600), Point(600, 500), Point(700, 200)};
 	for (Point point: ar) {
 		boxes.push_back(CollideBaseFactory::CreateBox(point, nodes)); // TODO: Make more elegant
 	}
@@ -64,7 +64,7 @@ int main(int argc, char* argv[]) {
 	FpsText fps(gFont, Point(100, 10), COLORS::RED); // TODO: Add handler for these things, also have this singular timer passed to all "groups" for consistency
 	handler.addMessage(AlertText("this shouldn't last long", Point(300, 150), COLORS::RED, 20, 2500));
 	// TODO: Standardize between draw and render, ie pick one you indecisive fuck
-	createDetachedThread(threadTest, NULL);
+	//createDetachedThread(threadTest, NULL);
 	while(!contra.quit) {
 		clearScreen(gRenderer);
 		popo.zero(); // >:(
@@ -84,7 +84,6 @@ int main(int argc, char* argv[]) {
 		fps.draw(gRenderer);
 		renderChanges(gRenderer, gameWindow);
 	}
-	std::cout << "pls die by now :(" << std::endl;
 	close(gameWindow);
 	return 0;
 }

@@ -18,7 +18,7 @@ class Rect: public MyBase{
 		Rect(const Rect& that);
 		Rect(float x, float y, int width, int height);
 		~Rect();
-		Rect &operator=(const Rect &that);
+		Rect& operator=(const Rect &that);
 		Rect operator+(const Point &point);
 		Rect operator-(const Point &point);
 		Point collideLine(Line& ray);

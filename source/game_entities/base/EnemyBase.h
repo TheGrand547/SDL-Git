@@ -17,7 +17,7 @@ class EnemyBase;
 
 class EnemyBase {
 	protected:
-		Texture* texture; // I don't think this needs to be a pointer
+		Texture texture; // I don't think this needs to be a pointer
 		Timer standardTimer, pathTimer;
 		Point position;
 		int width = 50;
