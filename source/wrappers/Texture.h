@@ -8,6 +8,7 @@
 #include "PixelMod.h"
 typedef Uint8 uint8_t;
 typedef Uint32 uint32_t;
+
 class Texture {
 	protected:
 		int xpos, ypos;

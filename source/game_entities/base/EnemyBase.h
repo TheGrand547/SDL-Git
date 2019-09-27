@@ -17,7 +17,7 @@ class EnemyBase;
 
 class EnemyBase {
 	protected:
-		Texture texture; // I don't think this needs to be a pointer
+		Texture texture;
 		Timer standardTimer, pathTimer;
 		Point position;
 		int width = 50;
@@ -39,5 +39,4 @@ class EnemyBase {
 		void pathFindTo(Point pos = Point());
 		virtual bool isLocationInvalid() = 0;
 		friend std::ostream& operator<<(std::ostream& output, const EnemyBase& base);
-		friend class AiProng;
 };

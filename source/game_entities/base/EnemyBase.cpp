@@ -50,7 +50,7 @@ void EnemyBase::move(Point delta) {
 	}
 	// Seems really inefficent, investigate it
 	// Right now it's optimized for non-collision, might want to have some functionality to make it optimized for collision
-	if (this->parent != NULL) {
+	if (this->parent->collide != NULL) {
 		Rect myRect = Rect(this->position, this->width, this->height);
 		for (int i = 0; i < 4; i++) {
 			Point modified = px / pow(2, i);

@@ -1,5 +1,4 @@
 #include "source/headers.h"
-//#include "SDL/SDL_thread.h"
 #include<memory>
 bool init();
 SDL_Renderer* createRenderer(SDL_Window* window);
@@ -64,7 +63,6 @@ int main(int argc, char* argv[]) {
 	FpsText fps(gFont, Point(100, 10), COLORS::RED); // TODO: Add handler for these things, also have this singular timer passed to all "groups" for consistency
 	handler.addMessage(AlertText("this shouldn't last long", Point(300, 150), COLORS::RED, 20, 2500));
 	// TODO: Standardize between draw and render, ie pick one you indecisive fuck
-	//createDetachedThread(threadTest, NULL);
 	while(!contra.quit) {
 		clearScreen(gRenderer);
 		popo.zero(); // >:(
