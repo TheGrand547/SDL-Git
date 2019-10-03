@@ -63,6 +63,37 @@ void Texture::setColorKey(Uint8 red, Uint8 green, Uint8 blue) { // Modified from
 	}
 }
 
+void Texture::floatyEdges() {
+	this->setBlend(SDL_BLENDMODE_BLEND);
+	PixelMod mod(this->texture);
+	if (mod.unlocked) {
+		return;
+	}
+	Uint8 r, g, b, a, aTemp, n1, n2, n3;
+	int count;
+	for (int x = 0; x < mod.width; x++) {
+		for (int y = 0; y < mod.height; y++) {
+			SDL_GetRGBA(mod.at(x, y), mod.format, &r, &g, &b, &a);
+			count = 0;
+			for (int subX = -1; subX <= 1; subX++) {
+				for (int subY = -1; subY <= 1; subY++) {
+					if (subY == 0 && subX == 0) {
+						continue;
+					}
+					SDL_GetRGBA(mod.at(x + subX, y + subY), mod.format, &n1, &n2, &n3, &aTemp);
+					if (aTemp < 0x2F) {
+						count++;
+					}
+				}
+			}
+			if (count > 3) {
+				a = 0x30;
+			}
+			mod.at(x, y) = SDL_MapRGBA(mod.format, r, g, b, a);
+		}
+	}
+}
+
 void Texture::dither() {
 	PixelMod mod(this->texture);
 	if (mod.unlocked) {

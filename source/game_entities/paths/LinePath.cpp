@@ -1,12 +1,13 @@
 #include "LinePath.h"
-#include<iostream> // DIE
+
 LinePath::LinePath() : Path() {
 	this->delta = Point(0, 0);
 	this->maxTicks = 1;
 }
 
 LinePath::LinePath(Point vector, float tickTime, int repeatCount) : Path() {
-	this->delta = vector / (tickTime / 10);
+	this->delta = vector / (tickTime / 10.0);
+	std::cout << this->delta << std::endl;
 	if (repeatCount == Path::SINGLE_LOOP) {
 		this->maxTicks = tickTime / 10;
 	} else {

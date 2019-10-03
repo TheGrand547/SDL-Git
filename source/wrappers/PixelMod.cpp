@@ -22,5 +22,8 @@ PixelMod::~PixelMod() {
 }
 
 Uint32& PixelMod::at(int x, int y) {
-	return this->pixels[x + (y * height)];
+	if (x < 0 || x > this->width || y < 0 || y > this->height) {
+		return UGLY;
+	}
+	return this->pixels[x + (y * this->height)];
 }

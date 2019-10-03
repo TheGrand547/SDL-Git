@@ -2,15 +2,12 @@
 
 BadTest::BadTest(EnemyDrawGroup* parent, Point position) : EnemyBase(parent, position) {
 	this->pathTimer.start();
-	
-	this->c.addPath(new LinePath(Point(200, -200), toTicks(1)));
-	
-	
-	//this->c.addPath(new CirclePath(40, 1, Path::SINGLE_LOOP, false));
-	//*
-	this->c.addPath(new LinePath(Point(-200, 200), toTicks(1)));
-	//this->c.addPath(new CirclePath(40, 1, Path::SINGLE_LOOP, false));	
-	//*/		
+	/*
+	this->c.addPath(new LinePath(Point(-200, 0), toTicks(1)));
+	this->c.addPath(new CirclePath(40, 1, Path::SINGLE_LOOP, false));
+	this->c.addPath(new LinePath(Point(200, 0), toTicks(1)));
+	this->c.addPath(new CirclePath(40, 1, Path::SINGLE_LOOP, false));	
+	*/		
 	this->c.setRepeat(true);
 }
 
@@ -46,10 +43,10 @@ void BadTest::update() {
 		this->setTexture();
 	}
 	
-	this->c.update();
+	//this->c.update();
 	
 	// Temp
-	//this->pathFindTo();
+	this->pathFindTo();
 }
 
 Point BadTest::getPos() {
