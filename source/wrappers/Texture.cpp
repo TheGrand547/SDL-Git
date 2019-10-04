@@ -70,26 +70,28 @@ void Texture::floatyEdges() {
 		return;
 	}
 	Uint8 r, g, b, a, aTemp, n1, n2, n3;
-	int count;
+	int aAvg, count;
 	for (int x = 0; x < mod.width; x++) {
 		for (int y = 0; y < mod.height; y++) {
 			SDL_GetRGBA(mod.at(x, y), mod.format, &r, &g, &b, &a);
+			if (a < 0x4F) {
+				continue;
+			}
+			aAvg = 0;
 			count = 0;
 			for (int subX = -1; subX <= 1; subX++) {
 				for (int subY = -1; subY <= 1; subY++) {
-					if (subY == 0 && subX == 0) {
-						continue;
-					}
 					SDL_GetRGBA(mod.at(x + subX, y + subY), mod.format, &n1, &n2, &n3, &aTemp);
-					if (aTemp < 0x2F) {
+					if (aTemp == 0x00) {
 						count++;
 					}
+					aAvg += aTemp;
+					count++;
 				}
 			}
-			if (count > 3) {
-				a = 0x30;
-			}
-			mod.at(x, y) = SDL_MapRGBA(mod.format, r, g, b, a);
+			aAvg /= count;
+			//std::cout << aAvg << std::endl;
+			mod.at(x, y) = SDL_MapRGBA(mod.format, r, g, b, aAvg);
 		}
 	}
 }
