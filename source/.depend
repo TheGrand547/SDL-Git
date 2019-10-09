@@ -41,6 +41,8 @@ main.o: ../main.cpp ../source/headers.h ../source/game_entities/Box.h \
   ../source/game_entities/../wrappers/Font.h \
   ../source/essential/Configuration.h ../source/game_entities/BadTest.h \
   ../source/game_entities/../essential/random.h \
+  ../source/game_entities/NodePath.h ../source/game_entities/Node.h \
+  ../source/game_entities/NodeDrawGroup.h \
   ../source/game_entities/base/EnemyBase.h \
   ../source/game_entities/base/../../essential/constants.h \
   ../source/game_entities/base/../../wrappers/Texture.h \
@@ -48,7 +50,6 @@ main.o: ../main.cpp ../source/headers.h ../source/game_entities/Box.h \
   ../source/game_entities/base/../CollideBaseGroup.h \
   ../source/game_entities/base/../../Dot.h \
   ../source/game_entities/base/../NodeDrawGroup.h \
-  ../source/game_entities/Node.h ../source/game_entities/NodeDrawGroup.h \
   ../source/game_entities/base/../NodePath.h \
   ../source/game_entities/base/../../primitives/Vector.h \
   ../source/game_entities/base/../EnemyDrawGroup.h \
@@ -60,7 +61,6 @@ main.o: ../main.cpp ../source/headers.h ../source/game_entities/Box.h \
   ../source/game_entities/paths/../../primitives/Point.h \
   ../source/game_entities/paths/../../essential/random.h \
   ../source/game_entities/paths/PathManager.h \
-  ../source/game_entities/NodePath.h \
   ../source/wrappers/control/Controller.h \
   ../source/wrappers/control/../../essential/Configuration.h \
   ../source/wrappers/control/../../primitives/PointDelta.h \
@@ -194,12 +194,12 @@ EnemyDrawGroup.o: game_entities/EnemyDrawGroup.cpp \
   game_entities/base/../../primitives/Vector.h \
   game_entities/base/../EnemyDrawGroup.h game_entities/BadTest.h \
   game_entities/../wrappers/Texture.h game_entities/../wrappers/Timer.h \
-  game_entities/paths/CirclePath.h \
+  game_entities/NodePath.h game_entities/paths/CirclePath.h \
   game_entities/paths/../../wrappers/Timer.h game_entities/paths/Path.h \
   game_entities/paths/../base/EnemyBase.h game_entities/paths/LinePath.h \
   game_entities/paths/../../primitives/Point.h \
   game_entities/paths/../../essential/random.h \
-  game_entities/paths/PathManager.h game_entities/NodePath.h
+  game_entities/paths/PathManager.h
 Point.o: primitives/Point.cpp primitives/Point.h
 AlertText.o: wrappers/AlertText.cpp wrappers/AlertText.h wrappers/Font.h \
   wrappers/Timer.h wrappers/../primitives/Point.h \
@@ -363,8 +363,9 @@ BadTest.o: game_entities/BadTest.cpp game_entities/BadTest.h \
   game_entities/../wrappers/../primitives/Rect.h \
   game_entities/../wrappers/../MyBase.h \
   game_entities/../wrappers/../essential/util.h \
-  game_entities/../wrappers/SuperTexture.h \
-  game_entities/base/EnemyBase.h \
+  game_entities/../wrappers/SuperTexture.h game_entities/NodePath.h \
+  game_entities/Node.h game_entities/../primitives/Rect.h \
+  game_entities/NodeDrawGroup.h game_entities/base/EnemyBase.h \
   game_entities/base/../../essential/constants.h \
   game_entities/base/../../wrappers/Texture.h \
   game_entities/base/../../wrappers/Timer.h \
@@ -375,9 +376,7 @@ BadTest.o: game_entities/BadTest.cpp game_entities/BadTest.h \
   game_entities/../primitives/../game_entities/CollideBaseGroup.h \
   game_entities/../primitives/../essential/constants.h \
   game_entities/../primitives/../essential/MegaBase.h \
-  game_entities/base/../NodeDrawGroup.h game_entities/Node.h \
-  game_entities/../primitives/Rect.h game_entities/NodeDrawGroup.h \
-  game_entities/base/../NodePath.h \
+  game_entities/base/../NodeDrawGroup.h game_entities/base/../NodePath.h \
   game_entities/base/../../primitives/Vector.h \
   game_entities/base/../EnemyDrawGroup.h \
   game_entities/paths/CirclePath.h \
@@ -385,7 +384,7 @@ BadTest.o: game_entities/BadTest.cpp game_entities/BadTest.h \
   game_entities/paths/../base/EnemyBase.h game_entities/paths/LinePath.h \
   game_entities/paths/../../primitives/Point.h \
   game_entities/paths/../../essential/random.h \
-  game_entities/paths/PathManager.h game_entities/NodePath.h
+  game_entities/paths/PathManager.h
 Texture.o: wrappers/Texture.cpp wrappers/Texture.h \
   wrappers/../primitives/Point.h wrappers/../essential/constants.h \
   wrappers/PixelMod.h

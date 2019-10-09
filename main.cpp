@@ -44,13 +44,6 @@ int main(int argc, char* argv[]) {
 		boxes.push_back(CollideBaseFactory::CreateBox(point, nodes)); // TODO: Make more elegant
 	}
 	bads.add(std::make_shared<BadTest>(&bads, Point(300, 400))); // TODO: Make more elegant
-	Texture tempText;
-	tempText.loadFromFile("resources/temp.png", gRenderer);//, Screen::SCREEN_WIDTH, Screen::SCREEN_HEIGHT);
-	tempText.setColorKey(0x00, 0x00, 0x00);
-	tempText.floatyEdges();
-	Texture tempText2;
-	tempText2.loadFromFile("resources/temp.png", gRenderer);//, Screen::SCREEN_WIDTH, Screen::SCREEN_HEIGHT);
-	tempText2.setColorKey(0x00, 0x00, 0x00);
 	for (int x = 0; x <= Screen::MAX_WIDTH; x += 25) {
 		for (int y = 0; y <= Screen::MAX_HEIGHT; y += 25) {
 			nodes.addNodeAt(Point(x, y));
@@ -77,7 +70,7 @@ int main(int argc, char* argv[]) {
 		dot.collideTest(popo * fps.getRatio(), boxes); // Player collision detection
 		bads.update();
 		/* Drawing */
-		//groundGroup.drawGroup();
+		groundGroup.drawGroup();
 		boxes.drawGroup();
 		bads.drawGroup();
 		ap.update(gRenderer);
@@ -86,8 +79,6 @@ int main(int argc, char* argv[]) {
 		if (contra.checkListener(config["Ray"]).getHeld()) { // Raycasting
 			dot.rayCast(boxes); // Dot should already have access to this; make it so
 		}
-		tempText.draw(0, 0, gRenderer);
-		tempText2.draw(250, 0, gRenderer);
 		fps.draw(gRenderer);
 		renderChanges(gRenderer, gameWindow);
 	}

@@ -8,11 +8,11 @@
 #include "../wrappers/Texture.h"
 #include "../wrappers/Timer.h"
 #include "CollideBaseGroup.h"
+#include "NodePath.h"
 #include "base/EnemyBase.h"
 #include "paths/CirclePath.h"
 #include "paths/LinePath.h"
 #include "paths/PathManager.h"
-#include "NodePath.h"
 
 class BadTest : public EnemyBase {
 	private:
@@ -25,6 +25,6 @@ class BadTest : public EnemyBase {
 		Point getPos() override;
 		Point getCenter() override;
 		void draw(SDL_Renderer* renderer, BoundedPoint& offset) override;
-		void setTexture();
+		void setTexture(SDL_Renderer* renderer);
 		void update() override;
 };
