@@ -5,7 +5,7 @@
 
 class Vector: public Point {
 	public:
-		Vector(float angle);
+		Vector(float angle = 0);
 		Vector(float x, float y);
 		~Vector();
 		float dot(const Vector other);

@@ -2,6 +2,8 @@
 
 Dot::Dot(Point startingCoordinate) {
 	this->angle = 0;
+	this->acceleration = Point(0, 0);
+	this->velocity = PointDelta(0, 0, 4); // TODO: Make a constant
 	this->position = BoundedPoint(startingCoordinate, 0, 0, Screen::MAX_WIDTH - Player::PLAYER_X_DIMENSION, Screen::MAX_HEIGHT - Player::PLAYER_Y_DIMENSION);
 }
 
@@ -22,13 +24,9 @@ float Dot::calcAngle(Point point) {
 	return 0;
 }
 
-void Dot::operator+=(Point delta) {
+void Dot::move(Point delta) {
 	this->position += delta;
 	evalAngle(delta);
-}
-
-void Dot::operator-=(Point delta) {
-	*this += delta.negate();
 }
 
 Point Dot::getPos() {
@@ -60,7 +58,17 @@ void Dot::draw() {
 	p.draw(MegaBase::renderer, MegaBase::offset);
 }
 
-void Dot::collideTest(PointDelta delta, CollideBaseGroup& boxes) {
+void Dot::update(PointDelta acceleration) {
+	if (acceleration.getMagnitude() < 0.1) {
+		acceleration = this->velocity / -10.0;
+	}
+	this->acceleration = acceleration * this->f->getRatio();
+	this->velocity += this->acceleration;
+	this->collideTest();
+}
+
+void Dot::collideTest() {
+	Point delta = this->velocity * this->f->getRatio();
 	if (!delta.getNonZero()) {
 		return;
 	}
@@ -69,13 +77,13 @@ void Dot::collideTest(PointDelta delta, CollideBaseGroup& boxes) {
 	for (int i = 0; i < 5; i++) {
 		Point temp = delta / pow(2, i);
 		if (!xDelta) {
-			if (boxes.doesPlayerNotCollide(this->getRect() + temp.onlyX())) {
+			if (this->collision->doesPlayerNotCollide(this->getRect() + temp.onlyX())) {
 				xDelta = temp.x();
 				*MegaBase::offset += temp.onlyX();
 			}
 		}
 		if (!yDelta) {
-			if (boxes.doesPlayerNotCollide(this->getRect() + temp.onlyY())) {
+			if (this->collision->doesPlayerNotCollide(this->getRect() + temp.onlyY())) {
 				yDelta = temp.y();
 				*MegaBase::offset += temp.onlyY();					
 			}
@@ -84,7 +92,7 @@ void Dot::collideTest(PointDelta delta, CollideBaseGroup& boxes) {
 			break;
 		}
 	}
-	*this += Point(xDelta, yDelta);
+	this->move(Vector(xDelta, yDelta));
 	// PUT THIS ELSEWHERE <- Will be handled when implementation is changed to being based around the Screen Class
 	if (this->getPos().x() < Screen::SCREEN_WIDTH / 2) {
 		MegaBase::offset->xZero();
@@ -100,11 +108,18 @@ void Dot::collideTest(PointDelta delta, CollideBaseGroup& boxes) {
 	}
 } 
 
-void Dot::rayCast(CollideBaseGroup& boxes) {
-	Point newPoint = boxes.closestPointThatCollidesWith(this->getRay());
+void Dot::rayCast() {
+	Point newPoint = this->collision->closestPointThatCollidesWith(this->getRay());
 	if (newPoint.isReal()) {
 		Line tempLine = Line(this->getCenter(), newPoint.copy());
 		tempLine.setColorChannels(COLORS::CYAN);
 		tempLine.drawLine(MegaBase::renderer, MegaBase::offset);
 	}
+}
+
+void Dot::setCollision(CollideBaseGroup& boxes) {
+	this->collision = &boxes;
+}
+void Dot::setTimer(FpsText& f) {
+	this->f = &f;
 }

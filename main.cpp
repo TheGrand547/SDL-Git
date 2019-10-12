@@ -56,18 +56,21 @@ int main(int argc, char* argv[]) {
 	Font gFont;
 	std::string foo = "duck dev best dev";
 	AppearingText ap(foo, &gFont, Point(250, 0), 15, COLORS::RED, 300);
-	PointDelta popo = PointDelta(0, 0, 4);
+	PointDelta popo = PointDelta(0, 0, 2);
 	Controller contra;
 	contra.addListener("Ray", 120);
 	contra.addPlayerKeys(popo); // Maybe allow for multiple bindings of the same command somehow? vectors likely? Also remove this dumb fix
 	FpsText fps(gFont, Point(100, 10), COLORS::RED); // TODO: Add handler for these things, also have this singular timer passed to all "groups" for consistency
 	handler.addMessage(AlertText("this shouldn't last long", Point(300, 150), COLORS::RED, 20, 2500));
 	// TODO: Standardize between draw and render, ie pick one you indecisive fuck
+	// Pass dot values it needs
+	dot.setCollision(boxes);
+	dot.setTimer(fps);
 	while(!contra.quit) {
 		clearScreen(gRenderer);
 		popo.zero(); // >:(
 		contra.handleEvents();
-		dot.collideTest(popo * fps.getRatio(), boxes); // Player collision detection
+		dot.update(popo); // Update player
 		bads.update();
 		/* Drawing */
 		groundGroup.drawGroup();
@@ -77,7 +80,7 @@ int main(int argc, char* argv[]) {
 		handler.drawHandler();
 		dot.draw(); // Player must always be drawn onto the top layer for best visibility, for the time being
 		if (contra.checkListener(config["Ray"]).getHeld()) { // Raycasting
-			dot.rayCast(boxes); // Dot should already have access to this; make it so
+			dot.rayCast();
 		}
 		fps.draw(gRenderer);
 		renderChanges(gRenderer, gameWindow);
