@@ -3,15 +3,17 @@
 #define ENTITY_BASE_H
 #include "../../primitives/Point.h"
 #include "../../primitives/PointDelta.h"
+#include "../../wrappers/Timer.h"
 class EntityBase {
 	protected:
-		PointDelta velocity
+		double frictionAmount, angle;
+		Timer timer;
+		PointDelta velocity;
 		Point acceleration;
-		double frictionAmount;
 	public:
 		EntityBase(double maxVelocity = 4, double friction = -10.0); // TODO: Constant these
 		~EntityBase();
-		void accelerate(Point delta);
-		virtual void move(Point delta) = 0;
+		void evalAngle(Point delta);
+		void accelerate(PointDelta delta);
 };
 #endif

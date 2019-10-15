@@ -1,9 +1,6 @@
 #include "Dot.h"
 
 Dot::Dot(Point startingCoordinate) {
-	this->angle = 0;
-	this->acceleration = Point(0, 0);
-	this->velocity = PointDelta(0, 0, 4); // TODO: Make a constant
 	this->position = BoundedPoint(startingCoordinate, 0, 0, Screen::MAX_WIDTH - Player::PLAYER_X_DIMENSION, Screen::MAX_HEIGHT - Player::PLAYER_Y_DIMENSION);
 }
 
@@ -11,10 +8,6 @@ Dot::~Dot() {}
 
 Point Dot::getCenter() {
 	return this->position + Point(Player::PLAYER_X_DIMENSION / 2, Player::PLAYER_Y_DIMENSION / 2);
-}
-
-void Dot::evalAngle(Point delta) {
-	this->angle = atan2(delta.y(), delta.x());
 }
 
 float Dot::calcAngle(Point point) {
@@ -59,17 +52,15 @@ void Dot::draw() {
 }
 
 void Dot::update(PointDelta acceleration) {
-	if (acceleration.getMagnitude() < 0.1) {
-		acceleration = this->velocity / -12.5; // TODO: Make constant
-	}
-	this->acceleration = acceleration * this->f->getRatio();
-	this->velocity += this->acceleration;
+	//std::cout << std::endl << "A: " << acceleration << std::endl;
+	this->EntityBase::accelerate(acceleration);
+	//std::cout << "B: " << this->acceleration << std::endl;
 	this->collideTest();
 }
 
 void Dot::collideTest() {
-	Point delta = this->velocity * this->f->getRatio();
-	if (!delta.getNonZero()) {
+	Point delta = this->velocity * this->timer.getRatio();
+	if (!delta.getNonZero()) { // TODO: Make elegant
 		return;
 	}
 	float xDelta = 0;
@@ -112,14 +103,11 @@ void Dot::rayCast() {
 	Point newPoint = this->collision->closestPointThatCollidesWith(this->getRay());
 	if (newPoint.isReal()) {
 		Line tempLine = Line(this->getCenter(), newPoint.copy());
-		tempLine.setColorChannels(COLORS::CYAN);
+		tempLine.setColorChannelsTo(COLORS::CYAN);
 		tempLine.drawLine(MegaBase::renderer, MegaBase::offset);
 	}
 }
 
 void Dot::setCollision(CollideBaseGroup& boxes) {
 	this->collision = &boxes;
-}
-void Dot::setTimer(FpsText& f) {
-	this->f = &f;
 }

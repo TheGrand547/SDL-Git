@@ -46,6 +46,7 @@ void BadTest::update() {
 	
 	// Temp
 	this->pathFindTo();
+	this->move();
 }
 
 Point BadTest::getPos() {

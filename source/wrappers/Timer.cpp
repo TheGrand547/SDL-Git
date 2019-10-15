@@ -83,3 +83,7 @@ bool Timer::isStarted() {
 bool Timer::isPaused() {
 	return mPaused && mStarted;
 }
+
+float Timer::getRatio() {
+	return float(Screen::INTENDED_FRAME_RATE) / float(this->getFps());
+}

@@ -1,6 +1,6 @@
 #include "EnemyBase.h"
 
-EnemyBase::EnemyBase(EnemyDrawGroup* parent, Point position) {
+EnemyBase::EnemyBase(EnemyDrawGroup* parent, Point position) : EntityBase(2.25) {
 	this->parent = parent;
 	this->position = position;
 	this->pathTimer.start();
@@ -40,11 +40,11 @@ Node* EnemyBase::getClosestUnblockedNode() {
 	return targ;
 }
 
-void EnemyBase::move(Point delta) {
+void EnemyBase::move() {
 	// There must be a better way
 	float xflag = 0;
 	float yflag = 0;
-	Point px = delta * (float(Screen::INTENDED_FRAME_RATE) / this->standardTimer.getFps());
+	Point px = this->velocity * this->timer.getRatio();
 	if (px.isZero()) {
 		return;
 	}
@@ -73,7 +73,7 @@ void EnemyBase::move(Point delta) {
 		yflag = px.y();
 	}
 	this->position += Point(xflag, yflag);
-	this->angle = atan2(delta.y(), delta.x());
+	this->angle = atan2(px.y(), px.x());
 }
 
 std::ostream& operator<<(std::ostream &output, const EnemyBase& base) {
@@ -99,7 +99,9 @@ void EnemyBase::pathFindTo(Point target) {
 		Point temp = this->path.getFirst();
 		if (temp.isReal()) {
 			float angle = atan2(temp.y() - center.y(), temp.x() - center.x());
-			this->move(Vector(angle) * 2.25);
+			this->accelerate(PointDelta(Vector(angle), 1));
+		} else {
+			this->accelerate(PointDelta(0,0,1));
 		}
 	}
 }

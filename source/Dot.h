@@ -5,25 +5,20 @@
 #include "primitives/Vector.h"
 #include "primitives/PointDelta.h"
 #include "game_entities/CollideBaseGroup.h"
+#include "game_entities/base/EntityBase.h"
 #include "essential/constants.h"
 #include "essential/MegaBase.h"
 #include "wrappers/FpsText.h"
 #include<math.h>
 
-class Dot : public MyBase {
+class Dot : public EntityBase, public MyBase { // Might not need MyBase
 	private:
-		// TODO: Generalize these variables
-		float angle;
 		BoundedPoint position;
-		PointDelta velocity;
-		Point acceleration;
 		CollideBaseGroup* collision;
-		FpsText* f;
 	public:
 		Dot(Point startingCoordinate);
 		~Dot();
 		Point getCenter();
-		void evalAngle(Point delta);
 		float calcAngle(Point point);
 		Point getPos();
 		Rect getRect();
@@ -36,5 +31,4 @@ class Dot : public MyBase {
 		void rayCast();
 		
 		void setCollision(CollideBaseGroup& boxes);
-		void setTimer(FpsText& f);
 };

@@ -65,7 +65,6 @@ int main(int argc, char* argv[]) {
 	// TODO: Standardize between draw and render, ie pick one you indecisive fuck
 	// Pass dot values it needs
 	dot.setCollision(boxes);
-	dot.setTimer(fps);
 	while(!contra.quit) {
 		clearScreen(gRenderer);
 		popo.zero(); // >:(
