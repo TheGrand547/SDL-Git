@@ -11,7 +11,7 @@ class PointDelta : public Point {
 		PointDelta(Point point, float magnitude);
 		PointDelta(const PointDelta &that);
 		~PointDelta();
-		PointDelta& operator=(const PointDelta &that);
+		PointDelta& operator=(const PointDelta& that);
 		PointDelta operator/(const float &num);
 		PointDelta operator*(const float &num);
 		PointDelta onlyX();

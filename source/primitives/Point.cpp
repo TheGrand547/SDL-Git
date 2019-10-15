@@ -66,8 +66,12 @@ float Point::distanceToPoint(Point point) {
 	return sqrt(dx*dx + dy*dy);
 }
 
-inline float Point::distanceToPoint(float x, float y) {
+float Point::distanceToPoint(float x, float y) {
 	return this->distanceToPoint(Point(x, y));
+}
+
+Point Point::getUnitVector() {
+	return (*this) / this->getMagnitude();
 }
 
 bool Point::isNull() {

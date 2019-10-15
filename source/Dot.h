@@ -12,6 +12,7 @@
 
 class Dot : public MyBase {
 	private:
+		// TODO: Generalize these variables
 		float angle;
 		BoundedPoint position;
 		PointDelta velocity;

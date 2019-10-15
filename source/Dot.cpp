@@ -60,7 +60,7 @@ void Dot::draw() {
 
 void Dot::update(PointDelta acceleration) {
 	if (acceleration.getMagnitude() < 0.1) {
-		acceleration = this->velocity / -10.0;
+		acceleration = this->velocity / -12.5; // TODO: Make constant
 	}
 	this->acceleration = acceleration * this->f->getRatio();
 	this->velocity += this->acceleration;

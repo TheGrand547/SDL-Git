@@ -22,6 +22,7 @@ class Point {
 		Point onlyX();
 		Point onlyY();
 		Point toInt();
+		Point getUnitVector();
 		bool getNonZero();
 		bool isZero();
 		bool isNull();
