@@ -28,7 +28,7 @@ void BadTest::setTexture(SDL_Renderer* renderer) {
 }
 
 Point BadTest::getCenter() {
-	return this->position + Point() + (Point(this->width, this->height) / 2);
+	return this->position + (Point(this->width, this->height) / 2);
 }
 
 void BadTest::draw(SDL_Renderer* renderer, BoundedPoint& offset) {
@@ -43,9 +43,9 @@ void BadTest::draw(SDL_Renderer* renderer, BoundedPoint& offset) {
 
 void BadTest::update() {	
 	//this->c.update();
-	
+
 	// Temp
-	this->pathFindTo();
+	this->accelerate(this->pathFindTo());
 	this->move();
 }
 

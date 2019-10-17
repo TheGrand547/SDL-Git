@@ -146,7 +146,7 @@ void Texture::draw(int x, int y, SDL_Renderer* renderer, SDL_Rect* clip, double 
 		renderQuad.w = clip->w;
 		renderQuad.h = clip->h;
 	}
-	SDL_RenderCopyEx(renderer, texture, clip, &renderQuad, angle, center, flip);
+	SDL_RenderCopyEx(renderer, this->texture, clip, &renderQuad, angle, center, flip);
 }
 
 void Texture::draw(SDL_Renderer* renderer, SDL_Rect* clip, double angle, SDL_Point* center, SDL_RendererFlip flip) {

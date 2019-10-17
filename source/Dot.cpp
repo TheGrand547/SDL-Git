@@ -7,7 +7,7 @@ Dot::Dot(Point startingCoordinate) {
 Dot::~Dot() {}
 
 Point Dot::getCenter() {
-	return this->position + Point(Player::PLAYER_X_DIMENSION / 2, Player::PLAYER_Y_DIMENSION / 2);
+	return this->position + (Point(Player::PLAYER_X_DIMENSION, Player::PLAYER_Y_DIMENSION) / 2);
 }
 
 float Dot::calcAngle(Point point) {
@@ -52,15 +52,13 @@ void Dot::draw() {
 }
 
 void Dot::update(PointDelta acceleration) {
-	//std::cout << std::endl << "A: " << acceleration << std::endl;
 	this->EntityBase::accelerate(acceleration);
-	//std::cout << "B: " << this->acceleration << std::endl;
 	this->collideTest();
 }
 
 void Dot::collideTest() {
 	Point delta = this->velocity * this->timer.getRatio();
-	if (!delta.getNonZero()) { // TODO: Make elegant
+	if (delta.isZero()) {
 		return;
 	}
 	float xDelta = 0;

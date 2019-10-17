@@ -25,14 +25,14 @@ float Point::y() const {
 }
 
 float Point::originDistance() {
-	return distanceToPoint(0,0);
+	return distanceToPoint(0, 0);
 }
 
-Point Point::operator-(const Point &point) {
+Point Point::operator-(const Point& point) {
 	return Point(this->xval - point.xval, this->yval - point.yval);
 }
 
-Point Point::operator+(const Point &point) {
+Point Point::operator+(const Point& point) {
 	return Point(this->xval + point.xval, this->yval + point.yval);
 }
 
@@ -75,7 +75,7 @@ Point Point::getUnitVector() {
 }
 
 bool Point::isNull() {
-	if (this->xval == -1 && this->yval == -1) {
+	if (this->xval != this->xval && this->yval != this->yval) {
 		return true;
 	}
 	return false;
@@ -106,7 +106,7 @@ inline float Point::getMagnitude() {
 }
 
 bool Point::getNonZero() {
-	return ((std::abs(this->xval) > .05 || std::abs(this->yval) > .05) && (this->xval == this->xval || this->yval == this->yval));
+	return ((std::abs(this->xval) > .0001 || std::abs(this->yval) > .0001) && (this->xval == this->xval || this->yval == this->yval)); // TODO: Define accuarcy constant
 }
 
 bool Point::operator==(const Point& point) {

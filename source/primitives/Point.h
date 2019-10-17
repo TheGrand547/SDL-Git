@@ -8,7 +8,7 @@ class Point {
 	protected:
 		float xval, yval;
 	public:
-		Point(float xCoordinate=-1, float yCoordinate=-1);
+		Point(float xCoordinate = 0.0 / 0.0, float yCoordinate = 0.0 / 0.0);
 		Point(const Point &point);
 		Point(const Point *point);
 		~Point();

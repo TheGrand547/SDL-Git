@@ -89,7 +89,7 @@ Point Rect::collideLine(Line& ray) {
 }
 
 void Rect::setColorChannels(int r, int g, int b, int a) {
-	_setColorChannels(r, g, b, a);
+	MyBase::setColorChannels(r, g, b, a);
 }
 
 Point Rect::getTopLeft() const {

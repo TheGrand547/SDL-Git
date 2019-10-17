@@ -19,7 +19,7 @@ class EnemyBase;
 class EnemyBase : public EntityBase {
 	protected:
 		Texture texture;
-		Timer standardTimer, pathTimer;
+		Timer pathTimer;
 		Point position;
 		int width = 50;
 		int height = 50;
@@ -35,9 +35,9 @@ class EnemyBase : public EntityBase {
 		virtual Point getPos() = 0;
 		virtual void update() = 0;
 		virtual void draw(SDL_Renderer* renderer, BoundedPoint& offset);
+		virtual void move();
 		Node* getClosestUnblockedNode();
+		PointDelta pathFindTo(Point pos = Point());
 		void setParent(EnemyDrawGroup* parent);
-		void move();
-		void pathFindTo(Point pos = Point());
 		friend std::ostream& operator<<(std::ostream& output, const EnemyBase& base);
 };

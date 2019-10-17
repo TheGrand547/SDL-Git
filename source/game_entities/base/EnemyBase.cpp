@@ -4,7 +4,6 @@ EnemyBase::EnemyBase(EnemyDrawGroup* parent, Point position) : EntityBase(2.25) 
 	this->parent = parent;
 	this->position = position;
 	this->pathTimer.start();
-	
 }
 
 EnemyBase::~EnemyBase() {}
@@ -18,7 +17,6 @@ void EnemyBase::draw(SDL_Renderer* renderer, BoundedPoint& offset) {
 		this->texture.setPos(this->position);
 		this->texture.draw(renderer, offset);
 	}
-	this->standardTimer.tick();
 }
 
 Node* EnemyBase::getClosestUnblockedNode() {
@@ -40,7 +38,7 @@ Node* EnemyBase::getClosestUnblockedNode() {
 	return targ;
 }
 
-void EnemyBase::move() {
+void EnemyBase::move() { // TODO: Maybe re-write this under a different name?
 	// There must be a better way
 	float xflag = 0;
 	float yflag = 0;
@@ -81,7 +79,7 @@ std::ostream& operator<<(std::ostream &output, const EnemyBase& base) {
 	return output;
 }
 
-void EnemyBase::pathFindTo(Point target) {
+PointDelta EnemyBase::pathFindTo(Point target) {
 	if (this->parent->nav != NULL) {
 		Point center = this->getCenter();
 		if (target.isNull()) {
@@ -92,16 +90,15 @@ void EnemyBase::pathFindTo(Point target) {
 			this->pathTimer.start();
 		}
 		if (this->path.getFirst().isReal()) {
-			if (this->path.getFirst().distanceToPoint(center) < 1.5) { // Make the number a constant
+			if (this->path.getFirst().distanceToPoint(center) < 2.5) { // Make the number a constant
 				this->path.removeLast();
 			}
 		}
 		Point temp = this->path.getFirst();
 		if (temp.isReal()) {
 			float angle = atan2(temp.y() - center.y(), temp.x() - center.x());
-			this->accelerate(PointDelta(Vector(angle), 1));
-		} else {
-			this->accelerate(PointDelta(0,0,1));
+			return PointDelta(Vector(angle), .75);
 		}
 	}
+	return PointDelta(0, 0, 0);
 }

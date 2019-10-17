@@ -66,7 +66,7 @@ class CirclePath : public Path {
 		void modify(float time) {
 			float tempdx = (-this->outsideMult) * sin(this->ticksDone * M_PI / 180.f * this->periodModify);
 			float tempdy = (this->plot * this->outsideMult) * cos(this->ticksDone * M_PI / 180.f * this->periodModify);
-			this->target->move(Point(tempdx, tempdy) * time);
+			this->target->accelerate(PointDelta(Point(tempdx, tempdy) * time), 1);
 			this->ticksDone += 6 * time;
 		}
 };
