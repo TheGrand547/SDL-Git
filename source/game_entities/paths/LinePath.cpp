@@ -35,6 +35,6 @@ bool LinePath::isFinished() {
 }
 
 void LinePath::modify(float time) {
-	//this->target->move(this->delta * time);
+	this->target->accelerate(PointDelta(this->delta * time, 1));
 	this->ticksDone += time;
 }

@@ -10,13 +10,20 @@
 #include "CollideBaseGroup.h"
 #include "NodePath.h"
 #include "base/EnemyBase.h"
-//#include "paths/CirclePath.h" // TODO: Fix these
-//#include "paths/LinePath.h"
+#include "paths/CirclePath.h"
+#include "paths/LinePath.h"
 #include "paths/PathManager.h"
 
 class BadTest : public EnemyBase {
 	private:
 		PathManager c{this};
+		/* Quick and dirty mockup of the finite-state machine AI */
+		enum State {
+			PATROL, GOTO, ENGAGE, RETURN, ERROR, STANDBY
+		};
+		State currentState;
+		Point lastPatrolledPoint;
+		
 	public:
 		BadTest(EnemyDrawGroup* parent, Point position);
 		BadTest(const BadTest& that);

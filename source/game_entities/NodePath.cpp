@@ -74,6 +74,19 @@ NodePath& NodePath::operator=(const NodePath& that) {
 	return *this;
 }
 
+Point NodePath::getFirst() {
+	if (this->stored.size() > 0) {
+		return this->stored.front()->getPosition();
+	}
+	return Point();
+}
+
+void NodePath::removeLast() {
+	if (this->stored.size() > 0) {
+		this->stored.erase(this->stored.begin());	
+	}
+}
+
 // TODO: Figure out if these are ever necessary
 float NodePath::distanceFrom(Node* node) {
 	float total = 0;
@@ -108,12 +121,6 @@ void NodePath::draw(Point point) {
 	}
 }
 
-void NodePath::removeLast() {
-	if (this->stored.size() > 0) {
-		this->stored.erase(this->stored.begin());	
-	}
-}
-
 Node* NodePath::firstNode() {
 	if (this->stored.size() > 0) {
 		return this->stored.front();
@@ -131,13 +138,6 @@ Node* NodePath::lastNode() {
 Point NodePath::getLast() {
 	if (this->stored.size() > 0) {
 		return this->stored.back()->getPosition();
-	}
-	return Point();
-}
-
-Point NodePath::getFirst() {
-	if (this->stored.size() > 0) {
-		return this->stored.front()->getPosition();
 	}
 	return Point();
 }

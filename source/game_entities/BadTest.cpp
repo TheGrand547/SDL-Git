@@ -1,6 +1,11 @@
 #include "BadTest.h"
 
 BadTest::BadTest(EnemyDrawGroup* parent, Point position) : EnemyBase(parent, position) {
+	this->currentState = State::PATROL;
+	
+	this->currentState = State::GOTO; // TEMP
+	
+	this->lastPatrolledPoint = Point();
 	this->pathTimer.start();
 	/*
 	this->c.addPath(new LinePath(Point(-200, 0), toTicks(1)));
@@ -41,11 +46,43 @@ void BadTest::draw(SDL_Renderer* renderer, BoundedPoint& offset) {
 	}
 }
 
-void BadTest::update() {	
+void BadTest::update() {
+	// This test AI will be based on a Finite State Machine
 	//this->c.update();
 
 	// Temp
-	this->accelerate(this->pathFindTo());
+	switch (this->currentState) {
+		case State::PATROL:
+			break;
+		case State::STANDBY:
+			break;
+		case State::GOTO: 
+			{
+				PointDelta temp = this->pathFindTo();
+				if (temp.getNonZero()) {
+					this->accelerate(temp);	
+				} else {
+					this->currentState = State::RETURN;
+					this->lastPatrolledPoint = Point(0, 0);
+				}
+			}
+			break;
+		case State::ENGAGE:
+			break;
+		case State::RETURN:
+			{
+				if (this->lastPatrolledPoint.isReal()) {
+					this->accelerate(this->pathFindTo(this->lastPatrolledPoint));
+				} else {
+					this->currentState = State::ERROR;
+				}
+			}
+			break;
+		case State::ERROR:
+			// TODO: Add debug logger
+			break;
+	}
+	
 	this->move();
 }
 

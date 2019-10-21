@@ -15,7 +15,7 @@ class Node {
 		bool drawnThisFrame;
 	public:
 		std::vector<Node*> attached; // TODO: This shouldn't be public, need to make some kind of workaround
-		Node(Point position); // This is the constructor for a "null node" aka one that needs to be re-evaluated later
+		Node(Point position); // This is the constructor for a "null node", one that needs to be re-evaluated for calculations later
 		Node(Point position, NodeDrawGroup& group, CollideBaseGroup& collision);
 		~Node();
 		Node* randomConnectedNode();
