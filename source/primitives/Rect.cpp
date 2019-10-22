@@ -85,7 +85,6 @@ Point Rect::collideLine(Line& ray) {
 		return smallerDistance(ray.getOrigin(),intersect[2], smallerDistance(ray.getOrigin(), intersect[0], intersect[1]));
 	}
 	return Point(); 
-	
 }
 
 void Rect::setColorChannels(int r, int g, int b, int a) {

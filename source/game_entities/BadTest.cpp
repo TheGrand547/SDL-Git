@@ -44,6 +44,19 @@ void BadTest::draw(SDL_Renderer* renderer, BoundedPoint& offset) {
 	if (this->path.getFirst().isReal()) {
 		this->path.draw();
 	}
+	// Draw vision cone
+	for (int i = -20; i <= 20; i++) {
+		Point pTemp = this->getCenter();
+		pTemp += Point(300 * cos(this->angle + radians(i)), 300 * sin(this->angle + radians(i)));
+		Line temp = Line(this->getCenter(), pTemp);
+
+		Point newTemp = this->parent->collide->closestPointThatCollidesWith(temp);
+		if (newTemp.isReal()) {
+			temp = Line(this->getCenter(), newTemp);
+		}
+		temp.setColorChannels(COLORS::BLACK);
+		temp.drawLine(MegaBase::renderer, MegaBase::offset);
+	}
 }
 
 void BadTest::update() {
@@ -58,7 +71,7 @@ void BadTest::update() {
 			break;
 		case State::GOTO: 
 			{
-				PointDelta temp = this->pathFindTo();
+				PointDelta temp = this->pathFindTo(this->targetPoint);
 				if (temp.getNonZero()) {
 					this->accelerate(temp);	
 				} else {
@@ -82,7 +95,22 @@ void BadTest::update() {
 			// TODO: Add debug logger
 			break;
 	}
-	
+	// SLOPPY
+	if (this->currentState == State::PATROL || this->currentState == State::GOTO) {
+		for (int i = -20; i <= 20; i++) {
+			Point pTemp = this->getCenter();
+			pTemp += Point(cos(this->angle + radians(i)), sin(this->angle + radians(i))) * 300;
+			Line temp = Line(this->getCenter(), pTemp);
+
+			Point newTemp = this->parent->collide->closestPointThatCollidesWith(temp);
+			if (newTemp.isReal()) {
+				temp = Line(this->getCenter(), newTemp);
+			}
+			if (this->parent->getDot()->getRect().doesLineCollide(temp)) {
+				this->targetPoint = this->parent->getDot()->getPos();
+			}
+		}
+	}
 	this->move();
 }
 

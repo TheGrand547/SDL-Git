@@ -37,6 +37,7 @@ class Line: public MyBase {
 		void setColor(Uint8 red, Uint8 green, Uint8 blue, Uint8 alpha);
 };
 
+// TODO: FIX THIS SHIT
 inline Point intersectionTest(Line line1, Line line2) {
 	float delta = (line1.getAx() * line2.getBy()) - (line1.getBy() * line2.getAx());
 	if (delta == 0) 

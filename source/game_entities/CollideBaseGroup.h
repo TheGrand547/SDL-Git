@@ -8,6 +8,7 @@
 #include "base/CollideBase.h"
 #include "../BoundedPoint.h"
 #include "../wrappers/SuperTexture.h"
+
 class CollideBaseGroup : public DrawGroup {
 	private:
 		std::vector<CollideBase*> group;

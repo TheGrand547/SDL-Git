@@ -22,7 +22,7 @@ class BadTest : public EnemyBase {
 			PATROL, GOTO, ENGAGE, RETURN, ERROR, STANDBY
 		};
 		State currentState;
-		Point lastPatrolledPoint;
+		Point lastPatrolledPoint, targetPoint;
 		
 	public:
 		BadTest(EnemyDrawGroup* parent, Point position);
