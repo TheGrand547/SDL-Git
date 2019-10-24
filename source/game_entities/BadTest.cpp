@@ -3,16 +3,14 @@
 BadTest::BadTest(EnemyDrawGroup* parent, Point position) : EnemyBase(parent, position) {
 	this->currentState = State::PATROL;
 	
-	this->currentState = State::GOTO; // TEMP
-	
 	this->lastPatrolledPoint = Point();
 	this->pathTimer.start();
-	/*
+	
 	this->c.addPath(new LinePath(Point(-200, 0), toTicks(1)));
 	this->c.addPath(new CirclePath(40, 1, Path::SINGLE_LOOP, false));
 	this->c.addPath(new LinePath(Point(200, 0), toTicks(1)));
 	this->c.addPath(new CirclePath(40, 1, Path::SINGLE_LOOP, false));	
-	*/		
+	
 	this->c.setRepeat(true);
 }
 
@@ -44,7 +42,7 @@ void BadTest::draw(SDL_Renderer* renderer, BoundedPoint& offset) {
 	if (this->path.getFirst().isReal()) {
 		this->path.draw();
 	}
-	// Draw vision cone
+	// Draw vision cone - Slopily
 	for (int i = -20; i <= 20; i++) {
 		Point pTemp = this->getCenter();
 		pTemp += Point(300 * cos(this->angle + radians(i)), 300 * sin(this->angle + radians(i)));
@@ -66,6 +64,7 @@ void BadTest::update() {
 	// Temp
 	switch (this->currentState) {
 		case State::PATROL:
+			this->c.update();
 			break;
 		case State::STANDBY:
 			break;
@@ -76,7 +75,6 @@ void BadTest::update() {
 					this->accelerate(temp);	
 				} else {
 					this->currentState = State::RETURN;
-					this->lastPatrolledPoint = Point(0, 0);
 				}
 			}
 			break;
@@ -85,7 +83,12 @@ void BadTest::update() {
 		case State::RETURN:
 			{
 				if (this->lastPatrolledPoint.isReal()) {
-					this->accelerate(this->pathFindTo(this->lastPatrolledPoint));
+					PointDelta temp = this->pathFindTo(this->lastPatrolledPoint);
+					if (temp.getNonZero()) {
+						this->accelerate(temp);
+					} else {
+						this->currentState = State::PATROL;
+					}
 				} else {
 					this->currentState = State::ERROR;
 				}
@@ -108,6 +111,10 @@ void BadTest::update() {
 			}
 			if (this->parent->getDot()->getRect().doesLineCollide(temp)) {
 				this->targetPoint = this->parent->getDot()->getPos();
+				if (this->currentState == State::PATROL) {
+					this->lastPatrolledPoint = this->position;
+				}
+				this->currentState = State::GOTO;
 			}
 		}
 	}

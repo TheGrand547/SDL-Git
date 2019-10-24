@@ -52,7 +52,7 @@ bool Rect::doesLineCollide(Line& ray) {
 	Line temp[] = {Line(topleft, topright), Line(topright, bottomright), Line(bottomright, bottomleft), Line(bottomleft, topleft)};
 	Point tempPoint;
 	for (int i = 0; i < Rect::arrayLength; i++) {
-		tempPoint = intersectionTest(temp[i], ray);
+		tempPoint = temp[i].intersectionPoint(ray);
 		if (tempPoint.isReal()) {
 			return true;
 		}
@@ -71,7 +71,7 @@ Point Rect::collideLine(Line& ray) {
 	Point tempPoint;
 	int index = 0;
 	for (int i = 0; i < Rect::arrayLength; i++) {
-		tempPoint = intersectionTest(temp[i], ray);
+		tempPoint = temp[i].intersectionPoint(ray);
 		if (tempPoint.isReal()) {
 			intersect[index] = tempPoint;
 			index++;

@@ -50,14 +50,14 @@ Line& Line::operator=(const Line &that) {
 
 
 bool Line::isPointOnThisLine(Point point) {
-	if (thresholdValueInRange(point.x(), this->minX, this->maxX) && thresholdValueInRange(point.y(), this->minY, this->maxY)) {
+	if (valueInRange(point.x(), this->minX, this->maxX) && valueInRange<float>(point.y(), this->minY, this->maxY)) {
 		return true;
 	}
 	return false;
 }
 
-bool Line::collidePoint(Point& point) {
-	if (thresholdValueInRange(point.x(), this->minX, this->maxX) && thresholdValueInRange(point.y(), this->minY, this->maxY))  {
+bool Line::collidePoint(Point point) {
+	if (valueInRange(point.x(), this->minX, this->maxX) && valueInRange<float>(point.y(), this->minY, this->maxY))  {
 		return true;
 	}
 	return false;
@@ -118,4 +118,22 @@ void Line::drawLine(SDL_Renderer* renderer, Point offset) {
 
 void Line::setColor(Uint8 red, Uint8 green, Uint8 blue, Uint8 alpha) {
 	setColorChannels(red, green, blue, alpha);
+}
+
+Point Line::intersectionPoint(Line other) {
+	float delta = (this->getAx() * other.getBy()) - (this->getBy() * other.getAx());
+	if (delta == 0) {
+		if (this->collidePoint(other.getEnd()) || this->collidePoint(other.getOrigin()) || other.collidePoint(this->getOrigin()) || other.collidePoint(this->getEnd())) {
+			return other.getOrigin();
+		} else {
+			return Point();
+		}
+	}
+	float x = ((this->getC() * other.getBy()) - (this->getBy() * other.getC())) / delta;
+	float y = ((this->getAx() * other.getC()) - (this->getC() * other.getAx())) / delta;
+	Point newPoint = Point(x, y);
+	if (this->collidePoint(newPoint) && other.collidePoint(newPoint)) {
+		return newPoint;
+	}
+	return Point();
 }

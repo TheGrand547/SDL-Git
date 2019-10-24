@@ -7,7 +7,6 @@ LinePath::LinePath() : Path() {
 
 LinePath::LinePath(Point vector, float tickTime, int repeatCount) : Path() {
 	this->delta = vector / (tickTime / 10.0);
-	std::cout << this->delta << std::endl;
 	if (repeatCount == Path::SINGLE_LOOP) {
 		this->maxTicks = tickTime / 10;
 	} else {
