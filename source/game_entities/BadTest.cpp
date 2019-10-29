@@ -99,6 +99,7 @@ void BadTest::update() {
 			break;
 	}
 	// SLOPPY
+	/*
 	if (this->currentState == State::PATROL || this->currentState == State::GOTO) {
 		for (int i = -20; i <= 20; i++) {
 			Point pTemp = this->getCenter();
@@ -117,7 +118,7 @@ void BadTest::update() {
 				this->currentState = State::GOTO;
 			}
 		}
-	}
+	}*/
 	this->move();
 }
 

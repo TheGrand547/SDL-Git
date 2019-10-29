@@ -16,8 +16,13 @@ void mMax(T numA, T numB, T& iMin, T& iMax) {
 }
 
 template<class T>
-bool valueInRange(T value, T min, T max){ 
-	return ((value - min) > 0.0001) && ((value - max) < 0.0001); 
+bool valueInRange(T value, T min, T max){
+	return ((value - min) > -0.0001) && ((value - max) < 0.0001); 
+}
+
+template<class T>
+bool valueInModRange(T value, T min, T max){ 
+	return ((int(value) >= int(min) - 2) && (int(value) <= int(max) + 2)); 
 }
 
 template<class T>

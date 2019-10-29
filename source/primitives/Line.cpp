@@ -50,14 +50,14 @@ Line& Line::operator=(const Line &that) {
 
 
 bool Line::isPointOnThisLine(Point point) {
-	if (valueInRange(point.x(), this->minX, this->maxX) && valueInRange<float>(point.y(), this->minY, this->maxY)) {
+	if (valueInRange(point.x(), this->minX, this->maxX) && valueInRange(point.y(), this->minY, this->maxY)) {
 		return true;
 	}
 	return false;
 }
 
 bool Line::collidePoint(Point point) {
-	if (valueInRange(point.x(), this->minX, this->maxX) && valueInRange<float>(point.y(), this->minY, this->maxY))  {
+	if (valueInRange(point.x(), this->minX, this->maxX) && valueInRange(point.y(), this->minY, this->maxY))  {
 		return true;
 	}
 	return false;
@@ -123,11 +123,7 @@ void Line::setColor(Uint8 red, Uint8 green, Uint8 blue, Uint8 alpha) {
 Point Line::intersectionPoint(Line other) {
 	float delta = (this->getAx() * other.getBy()) - (this->getBy() * other.getAx());
 	if (delta == 0) {
-		if (this->collidePoint(other.getEnd()) || this->collidePoint(other.getOrigin()) || other.collidePoint(this->getOrigin()) || other.collidePoint(this->getEnd())) {
-			return other.getOrigin();
-		} else {
-			return Point();
-		}
+		return Point();
 	}
 	float x = ((this->getC() * other.getBy()) - (this->getBy() * other.getC())) / delta;
 	float y = ((this->getAx() * other.getC()) - (this->getC() * other.getAx())) / delta;

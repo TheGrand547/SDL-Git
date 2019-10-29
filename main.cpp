@@ -20,7 +20,6 @@ int main(int argc, char* argv[]) {
 	}
 	SDL_Window* gameWindow = createWindow();
 	SDL_Renderer* gRenderer = createRenderer(gameWindow);
-	
 	srand(time(NULL));
 	BoundedPoint screenPosition = BoundedPoint(Screen::MAX_SCREEN_X_POS, Screen::MAX_SCREEN_Y_POS);
 	Dot dot = Dot(Point(190, 150));
