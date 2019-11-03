@@ -16,14 +16,8 @@ class NodePath {
 		~NodePath();
 		int size();
 		float distance();
-		float distanceFrom(Node* start);
-		Point getLast();
 		Point getFirst();
-		Node* operator[](int index);
-		Node* firstNode();
-		Node* lastNode();
-		void eraseFrom(Node* begin);
-		void combinePath(NodePath& other);
+		void clear();
 		void draw(Point point = Point());
 		void removeLast(); // To remove the last element
 };

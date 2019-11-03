@@ -75,6 +75,7 @@ void BadTest::update() {
 					this->accelerate(temp);	
 				} else {
 					this->currentState = State::RETURN;
+					this->path.clear();
 				}
 			}
 			break;
@@ -88,6 +89,7 @@ void BadTest::update() {
 						this->accelerate(temp);
 					} else {
 						this->currentState = State::PATROL;
+						this->c.unpause();
 					}
 				} else {
 					this->currentState = State::ERROR;
@@ -96,10 +98,10 @@ void BadTest::update() {
 			break;
 		case State::ERROR:
 			// TODO: Add debug logger
+			std::cout << "fa" << std::endl;
 			break;
 	}
 	// SLOPPY
-	/*
 	if (this->currentState == State::PATROL || this->currentState == State::GOTO) {
 		for (int i = -20; i <= 20; i++) {
 			Point pTemp = this->getCenter();
@@ -114,11 +116,12 @@ void BadTest::update() {
 				this->targetPoint = this->parent->getDot()->getPos();
 				if (this->currentState == State::PATROL) {
 					this->lastPatrolledPoint = this->position;
+					this->c.pause();
 				}
 				this->currentState = State::GOTO;
 			}
 		}
-	}*/
+	}
 	this->move();
 }
 

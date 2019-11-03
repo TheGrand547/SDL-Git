@@ -74,7 +74,7 @@ void EnemyBase::move() { // TODO: Maybe re-write this under a different name?
 	this->angle = atan2(px.y(), px.x());
 }
 
-std::ostream& operator<<(std::ostream &output, const EnemyBase& base) {
+std::ostream& operator<<(std::ostream& output, const EnemyBase& base) {
 	output << base.position;
 	return output;
 }
@@ -85,10 +85,10 @@ PointDelta EnemyBase::pathFindTo(Point target) {
 		if (target.isNull()) {
 			target = this->parent->getDot()->getPos();
 		}
-		if (this->pathTimer.getTicks() > 250) { // If it has been more than 250 milliseconds since the path has been calculated
+		if (this->pathTimer.getTicks() > 250 || this->path.getFirst().isNull()) { // If it has been more than 250 milliseconds since the path has been calculated
 			this->path = NodePath(this->getClosestUnblockedNode(), target);
 			this->pathTimer.start();
-		}
+		} 
 		if (this->path.getFirst().isReal()) {
 			if (this->path.getFirst().distanceToPoint(center) < 2.5) { // Make the number a constant
 				this->path.removeLast();

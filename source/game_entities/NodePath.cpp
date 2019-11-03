@@ -87,14 +87,8 @@ void NodePath::removeLast() {
 	}
 }
 
-// TODO: Figure out if these are ever necessary
-float NodePath::distanceFrom(Node* node) {
-	float total = 0;
-	std::vector<Node*>::iterator i = std::find(this->stored.begin(), this->stored.end(), node);
-	for (; i[0] != this->stored.back(); i++) {
-		total += i[0]->getDistance(i[1]);
-	}
-	return total;
+void NodePath::clear() {
+	this->stored.erase(this->stored.begin(), this->stored.end());
 }
 
 float NodePath::distance() {
@@ -119,51 +113,4 @@ void NodePath::draw(Point point) {
 		tmp.setColorChannels(0xFF, 0x00, 0x00, 0xFF);
 		tmp.drawLine(MegaBase::renderer, MegaBase::offset);
 	}
-}
-
-Node* NodePath::firstNode() {
-	if (this->stored.size() > 0) {
-		return this->stored.front();
-	}
-	return NULL;
-}
-
-Node* NodePath::lastNode() {
-	if (this->stored.size() > 0) {
-		return this->stored.back();
-	}
-	return NULL;
-}
-
-Point NodePath::getLast() {
-	if (this->stored.size() > 0) {
-		return this->stored.back()->getPosition();
-	}
-	return Point();
-}
-
-Node* NodePath::operator[](int index) {
-	if (this->stored.size() > 0) {
-		if (index < this->stored.size()) {
-			return this->stored[index];	
-		}
-	}
-	return NULL;
-}
-
-void NodePath::combinePath(NodePath& other) {
-	for (Node* node: other.stored) {
-		if (valueNotInVector(this->stored, node)) {
-			this->stored.push_back(node);	
-		}
-	}
-}
-
-int NodePath::size() {
-	return this->stored.size();
-}
-
-void NodePath::eraseFrom(Node* node) {
-	this->stored.erase(std::find(this->stored.begin(), this->stored.end(), node) + 1, this->stored.end());
-	this->stored.pop_back();
 }
