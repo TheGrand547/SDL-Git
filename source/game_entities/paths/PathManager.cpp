@@ -10,6 +10,13 @@ PathManager::~PathManager() {
 	paths.clear();
 }
 
+bool PathManager::paused() {
+	if (this->paths[this->index]->isPaused()) {
+		return true;
+	}
+	return false;
+}
+
 void PathManager::addPath(Path* path) {
 	path->setTarget(this->target);
 	this->paths.push_back(std::shared_ptr<Path>(path));
@@ -40,13 +47,9 @@ void PathManager::update() {
 }
 
 void PathManager::pause() {
-	for (std::shared_ptr<Path> path: this->paths) {
-		path->pause();
-	}
+	this->paths[this->index]->pause();
 }
 
 void PathManager::unpause() {
-	for (std::shared_ptr<Path> path: this->paths) {
-		path->unpause();
-	}
+	this->paths[this->index]->unpause();
 }

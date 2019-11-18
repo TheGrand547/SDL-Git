@@ -25,7 +25,9 @@ void Path::setTarget(EnemyBase* target) {
 
 void Path::update() {
 	float tmp = this->timer.getTicks();
-	this->modify(tmp / 10.0);
+	for (int i = 1; i < tmp; i++) {
+		this->modify(1 / 10.0);
+	}
 	this->timer.start();
 }
 
@@ -35,4 +37,8 @@ void Path::pause() {
 
 void Path::unpause() {
 	this->timer.unpause();
+}
+
+bool Path::isPaused() {
+	return this->timer.isPaused();
 }

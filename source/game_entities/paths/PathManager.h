@@ -13,6 +13,7 @@ class PathManager {
 	public:
 		PathManager(EnemyBase* target = NULL);
 		~PathManager();
+		bool paused();
 		void addPath(Path* path);
 		void removePath(int index);
 		void setRepeat(bool val);

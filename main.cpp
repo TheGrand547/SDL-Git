@@ -64,6 +64,7 @@ int main(int argc, char* argv[]) {
 	// TODO: Standardize between draw and render, ie pick one you indecisive fuck
 	// Pass dot values it needs
 	dot.setCollision(boxes);
+	Line lip(Point(300, 425), Point(100, 425));
 	while(!contra.quit) {
 		clearScreen(gRenderer);
 		popo.zero(); // >:(
@@ -80,6 +81,7 @@ int main(int argc, char* argv[]) {
 		if (contra.checkListener(config["Ray"]).getHeld()) { // Raycasting
 			dot.rayCast();
 		}
+		lip.drawLine(gRenderer);
 		fps.draw(gRenderer);
 		renderChanges(gRenderer, gameWindow);
 	}

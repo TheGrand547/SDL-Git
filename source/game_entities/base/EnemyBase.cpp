@@ -98,6 +98,11 @@ PointDelta EnemyBase::pathFindTo(Point target) {
 		if (temp.isReal()) {
 			float angle = atan2(temp.y() - center.y(), temp.x() - center.x());
 			return PointDelta(Vector(angle), .75);
+		} else {
+			if (center.distanceToPoint(target) > 2) {
+				float angle = atan2(target.y() - center.y(), target.x() - center.x());
+				return PointDelta(Vector(angle), .75);
+			}
 		}
 	}
 	return PointDelta(0, 0, 0);

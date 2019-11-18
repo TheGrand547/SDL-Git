@@ -6,10 +6,10 @@ BadTest::BadTest(EnemyDrawGroup* parent, Point position) : EnemyBase(parent, pos
 	this->lastPatrolledPoint = Point();
 	this->pathTimer.start();
 	
-	this->c.addPath(new LinePath(Point(-200, 0), toTicks(1)));
-	this->c.addPath(new CirclePath(40, 1, Path::SINGLE_LOOP, false));
-	this->c.addPath(new LinePath(Point(200, 0), toTicks(1)));
-	this->c.addPath(new CirclePath(40, 1, Path::SINGLE_LOOP, false));	
+	this->c.addPath(new LinePath(PointDelta(-1.5, 0, 1.5), 200, Path::SINGLE_LOOP));
+	//this->c.addPath(new CirclePath(40, 1, Path::SINGLE_LOOP, false));
+	this->c.addPath(new LinePath(PointDelta(1.5, 0, 1.5), 200, Path::SINGLE_LOOP));
+	//this->c.addPath(new CirclePath(40, 1, Path::SINGLE_LOOP, false));	
 	
 	this->c.setRepeat(true);
 }
@@ -43,6 +43,7 @@ void BadTest::draw(SDL_Renderer* renderer, BoundedPoint& offset) {
 		this->path.draw();
 	}
 	// Draw vision cone - Slopily
+	/*
 	for (int i = -20; i <= 20; i++) {
 		Point pTemp = this->getCenter();
 		pTemp += Point(300 * cos(this->angle + radians(i)), 300 * sin(this->angle + radians(i)));
@@ -54,7 +55,7 @@ void BadTest::draw(SDL_Renderer* renderer, BoundedPoint& offset) {
 		}
 		temp.setColorChannels(COLORS::BLACK);
 		temp.drawLine(MegaBase::renderer, MegaBase::offset);
-	}
+	}*/
 }
 
 void BadTest::update() {
@@ -62,8 +63,12 @@ void BadTest::update() {
 	//this->c.update();
 
 	// Temp
+	
 	switch (this->currentState) {
 		case State::PATROL:
+			if (this->c.paused()) {
+				this->c.unpause();
+			}
 			this->c.update();
 			break;
 		case State::STANDBY:
@@ -74,12 +79,14 @@ void BadTest::update() {
 				if (temp.getNonZero()) {
 					this->accelerate(temp);	
 				} else {
+					//std::cout << "NOW RETURN TO: " << this->lastPatrolledPoint << std::endl;
 					this->currentState = State::RETURN;
 					this->path.clear();
 				}
 			}
 			break;
 		case State::ENGAGE:
+			this->accelerate(PointDelta(0, 0, 0));
 			break;
 		case State::RETURN:
 			{
@@ -88,8 +95,8 @@ void BadTest::update() {
 					if (temp.getNonZero()) {
 						this->accelerate(temp);
 					} else {
+						//std::cout << "NOW PATROL: " << this->position << std::endl;
 						this->currentState = State::PATROL;
-						this->c.unpause();
 					}
 				} else {
 					this->currentState = State::ERROR;
@@ -115,10 +122,12 @@ void BadTest::update() {
 			if (this->parent->getDot()->getRect().doesLineCollide(temp)) {
 				this->targetPoint = this->parent->getDot()->getPos();
 				if (this->currentState == State::PATROL) {
-					this->lastPatrolledPoint = this->position;
+					//std::cout << "NOW GOTO: " << this->position << std::endl;
+					this->lastPatrolledPoint = this->getCenter();
 					this->c.pause();
 				}
 				this->currentState = State::GOTO;
+				break;
 			}
 		}
 	}

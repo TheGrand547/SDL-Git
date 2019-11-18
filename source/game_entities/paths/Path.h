@@ -21,4 +21,5 @@ class Path {
 		void update();
 		void pause();
 		void unpause();
+		bool isPaused();
 };
