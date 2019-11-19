@@ -7,15 +7,17 @@ class Path {
 		Timer timer;
 		float ticksDone;
 		EnemyBase* target;
+		bool started = false;
 	public:
 		static const int REPEAT = 0;
 		static const int SINGLE_LOOP = -2;
 		
 		Path(EnemyBase* target = NULL);
+		bool isStarted();
 		virtual ~Path();
-		virtual void stop();
-		void start();
-		virtual bool isFinished() = 0;
+		virtual void stop() = 0;
+		virtual void start() = 0;
+		virtual bool isFinished() const = 0;
 		virtual void modify(float time) = 0;
 		void setTarget(EnemyBase* target);
 		void update();

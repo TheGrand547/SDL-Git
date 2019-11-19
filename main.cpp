@@ -64,7 +64,7 @@ int main(int argc, char* argv[]) {
 	// TODO: Standardize between draw and render, ie pick one you indecisive fuck
 	// Pass dot values it needs
 	dot.setCollision(boxes);
-	Line lip(Point(300, 425), Point(100, 425));
+	Line lip(Point(325, 425), Point(125, 425));
 	while(!contra.quit) {
 		clearScreen(gRenderer);
 		popo.zero(); // >:(

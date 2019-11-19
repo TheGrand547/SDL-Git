@@ -10,17 +10,12 @@ Path::~Path() {
 	this->target = NULL;
 }
 
-void Path::stop() {
-	this->timer.stop();
-	this->ticksDone = 0;
-}
-
-void Path::start() {
-	this->timer.start();
-}
-
 void Path::setTarget(EnemyBase* target) {
 	this->target = target;
+}
+
+bool Path::isStarted() {
+	return this->started;
 }
 
 void Path::update() {

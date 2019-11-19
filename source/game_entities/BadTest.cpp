@@ -5,10 +5,10 @@ BadTest::BadTest(EnemyDrawGroup* parent, Point position) : EnemyBase(parent, pos
 	
 	this->lastPatrolledPoint = Point();
 	this->pathTimer.start();
-	
-	this->c.addPath(new LinePath(PointDelta(-1.5, 0, 1.5), 200, Path::SINGLE_LOOP));
+	int dist = 200;
+	this->c.addPath(new LinePath(PointDelta(-1.5, 0, 1.5), dist, Path::SINGLE_LOOP));
 	//this->c.addPath(new CirclePath(40, 1, Path::SINGLE_LOOP, false));
-	this->c.addPath(new LinePath(PointDelta(1.5, 0, 1.5), 200, Path::SINGLE_LOOP));
+	this->c.addPath(new LinePath(PointDelta(1.5, 0, 1.5), dist, Path::SINGLE_LOOP));
 	//this->c.addPath(new CirclePath(40, 1, Path::SINGLE_LOOP, false));	
 	
 	this->c.setRepeat(true);

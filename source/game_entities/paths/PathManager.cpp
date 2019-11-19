@@ -40,10 +40,14 @@ void PathManager::update() {
 			if (this->index >= this->paths.size() && this->repeat) {
 				this->index = 0;
 			}	
+		}
+		if (this->paths[this->index]->isStarted()) {
+			this->paths[this->index]->update();
+		} else {
 			this->paths[this->index]->start();
 		}
-		this->paths[this->index]->update();
-	} 
+		
+	}
 }
 
 void PathManager::pause() {

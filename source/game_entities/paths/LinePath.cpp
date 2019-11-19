@@ -17,13 +17,20 @@ LinePath::LinePath(PointDelta vector, float distance, int repeatCount) {
 
 LinePath::~LinePath() {}
 
-void LinePath::stop() {
+void LinePath::start() {
+	this->timer.start();
+	this->begin = this->target->getPos();
 	this->ticksDone = 0;
-	this->timer.stop();
+	this->started = true;
 }
 
-bool LinePath::isFinished() {
-	if (this->ticksDone >= this->maxTicks && this->maxTicks != Path::REPEAT) {
+void LinePath::stop() {
+	this->timer.stop();
+	this->started = false;
+}
+
+bool LinePath::isFinished() const {
+	if (this->begin.distanceToPoint(this->target->getPos()) >= this->maxTicks && this->maxTicks != Path::REPEAT) {
 		return true;
 	}
 	return false;
@@ -31,5 +38,4 @@ bool LinePath::isFinished() {
 
 void LinePath::modify(float time) {
 	this->target->accelerate(this->delta);
-	this->ticksDone += this->delta.getMagnitude() * time;
 }
