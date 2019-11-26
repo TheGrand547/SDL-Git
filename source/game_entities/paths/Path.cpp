@@ -1,5 +1,4 @@
 #include "Path.h"
-#include<iostream> // die
 
 Path::Path(EnemyBase* target) {
 	this->ticksDone = 0;
@@ -14,7 +13,7 @@ void Path::setTarget(EnemyBase* target) {
 	this->target = target;
 }
 
-bool Path::isStarted() {
+bool Path::isStarted() const {
 	return this->started;
 }
 

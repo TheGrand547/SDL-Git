@@ -20,53 +20,11 @@ class CirclePath : public Path {
 		int startingTicks = 0;
 		int startingMaxTicks = 0;
 	public:
-		CirclePath() : Path() {
-			this->outsideMult = 0;
-			this->periodModify = 0;
-		}
-	
-		CirclePath(int radius = 10, float periodModify = .5, int maxTicks = Path::SINGLE_LOOP, bool clockwise = true, int startingTicks = 0) : Path() {
-			this->outsideMult = sqrt(radius * periodModify);
-			this->periodModify = periodModify;
-			
-			if (maxTicks == Path::SINGLE_LOOP) {
-				this->maxTicks = 360 / periodModify;
-			} else if (maxTicks == Path::REPEAT) {
-				this->maxTicks = Path::REPEAT;
-			} else {
-				this->maxTicks = maxTicks + startingTicks;
-			}
-			if (!clockwise) {
-				this->plot = -1;
-			} else {
-				this->plot = 1;
-			}
-			this->ticksDone += startingTicks;
-			
-			/* Kind of messy stuff for looping */
-			this->startingTicks = int(startingTicks);
-			this->startingMaxTicks = int(this->maxTicks);
-		};
-		
-		~CirclePath() {}
-		
-		void stop() {
-			this->maxTicks = this->startingMaxTicks;
-			this->ticksDone = this->startingTicks;
-			this->timer.stop();
-		}
-		
-		bool isFinished() {
-			if (this->ticksDone >= this->maxTicks && this->maxTicks != Path::REPEAT) {
-				return true;
-			}
-			return false;
-		}
-		
-		void modify(float time) {
-			float tempdx = (-this->outsideMult) * sin(this->ticksDone * M_PI / 180.f * this->periodModify);
-			float tempdy = (this->plot * this->outsideMult) * cos(this->ticksDone * M_PI / 180.f * this->periodModify);
-			this->target->accelerate(PointDelta(Point(tempdx, tempdy) * time, 1));
-			this->ticksDone += 6 * time;
-		}
+		CirclePath();
+		CirclePath(int radius = 10, float periodModify = .5, int maxTicks = Path::SINGLE_LOOP, bool clockwise = true, int startingTicks = 0);
+		~CirclePath();
+		void stop();
+		void start();
+		bool isFinished() const;
+		void modify(float time);
 };

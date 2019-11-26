@@ -1,5 +1,4 @@
 #include "Box.h"
-#include<typeinfo>
 
 Box::Box() {}
 		

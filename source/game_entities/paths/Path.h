@@ -13,7 +13,7 @@ class Path {
 		static const int SINGLE_LOOP = -2;
 		
 		Path(EnemyBase* target = NULL);
-		bool isStarted();
+		bool isStarted() const;
 		virtual ~Path();
 		virtual void stop() = 0;
 		virtual void start() = 0;

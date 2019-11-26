@@ -1,5 +1,4 @@
 #include "source/headers.h"
-#include<memory>
 bool init();
 SDL_Renderer* createRenderer(SDL_Window* window);
 SDL_Window* createWindow();
@@ -37,9 +36,9 @@ int main(int argc, char* argv[]) {
 	BackgroundGroup groundGroup;
 	// Box creation
 	Box::createBoxTexture(gRenderer);
-	Point ar[] = {Point(200, 200), Point(400, 200), Point(300, 200), Point(500, 200), Point(500, 300), Point(500, 400), 
+	Point boxPoints[] = {Point(200, 200), Point(400, 200), Point(300, 200), Point(500, 200), Point(500, 300), Point(500, 400), 
 				  Point(500, 500), Point(600, 600), Point(600, 500), Point(700, 200)};
-	for (Point point: ar) {
+	for (Point point: boxPoints) {
 		boxes.push_back(CollideBaseFactory::CreateBox(point, nodes)); // TODO: Make more elegant
 	}
 	bads.add(std::make_shared<BadTest>(&bads, Point(300, 400))); // TODO: Make more elegant

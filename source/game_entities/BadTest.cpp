@@ -79,7 +79,6 @@ void BadTest::update() {
 				if (temp.getNonZero()) {
 					this->accelerate(temp);	
 				} else {
-					//std::cout << "NOW RETURN TO: " << this->lastPatrolledPoint << std::endl;
 					this->currentState = State::RETURN;
 					this->path.clear();
 				}
@@ -95,7 +94,6 @@ void BadTest::update() {
 					if (temp.getNonZero()) {
 						this->accelerate(temp);
 					} else {
-						//std::cout << "NOW PATROL: " << this->position << std::endl;
 						this->currentState = State::PATROL;
 					}
 				} else {

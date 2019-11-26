@@ -10,6 +10,7 @@
 #include<SDL2/SDL2_framerate.h>
 #include<SDL2_ttf/SDL_ttf.h>
 #include<SDL2/SDL_thread.h>
+#include<memory>
 #include<stdio.h>
 #include<sstream>
 #include<vector>

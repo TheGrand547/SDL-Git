@@ -39,7 +39,7 @@ void PathManager::update() {
 			this->index++;
 			if (this->index >= this->paths.size() && this->repeat) {
 				this->index = 0;
-			}	
+			}
 		}
 		if (this->paths[this->index]->isStarted()) {
 			this->paths[this->index]->update();
