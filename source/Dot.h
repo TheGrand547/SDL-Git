@@ -32,3 +32,5 @@ class Dot : public EntityBase, public MyBase { // Might not need MyBase
 		
 		void setCollision(CollideBaseGroup& boxes);
 };
+
+int tempF(double val);

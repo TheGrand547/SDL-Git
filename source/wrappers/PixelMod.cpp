@@ -21,9 +21,15 @@ PixelMod::~PixelMod() {
 	}
 }
 
+bool PixelMod::notLocked() {
+	return this->unlocked;
+}
+
 Uint32& PixelMod::at(int x, int y) {
-	if (x < 0 || x > this->width || y < 0 || y > this->height) {
-		return UGLY;
+	if (x < 0 || x > (this->width - 1) || y < 0 || y > (this->height - 1)) {
+		// If the requested position is outside of the array return a blank pixel with no data in it
+		this->UGLY = 0x00000000; // Reset the UGLY value
+		return this->UGLY;
 	}
 	return this->pixels[x + (y * this->height)];
 }

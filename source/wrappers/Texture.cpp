@@ -51,7 +51,7 @@ void Texture::setBlend(SDL_BlendMode mode) {
 void Texture::setColorKey(Uint8 red, Uint8 green, Uint8 blue) { // Modified from lazyfoo.net
 	this->setBlend(SDL_BLENDMODE_BLEND);
 	PixelMod mod(this->texture);
-	if (mod.unlocked) {
+	if (mod.notLocked()) {
 		return;
 	}
 	Uint32 colorKey = SDL_MapRGB(mod.format, red, green, blue);
@@ -66,7 +66,7 @@ void Texture::setColorKey(Uint8 red, Uint8 green, Uint8 blue) { // Modified from
 void Texture::floatyEdges() {
 	this->setBlend(SDL_BLENDMODE_BLEND);
 	PixelMod mod(this->texture);
-	if (mod.unlocked) {
+	if (mod.notLocked()) {
 		return;
 	}
 	// TODO: Tidy this up at some point
@@ -98,7 +98,7 @@ void Texture::floatyEdges() {
 
 void Texture::dither() {
 	PixelMod mod(this->texture);
-	if (mod.unlocked) {
+	if (mod.notLocked()) {
 		return;
 	}
 	Uint8 matrix[2][2] = { {0x40, 0x80}, {0xC0, 0x00} };
@@ -117,7 +117,7 @@ void Texture::dither() {
 
 void Texture::testFilter() {
 	PixelMod mod(this->texture);
-	if (mod.unlocked) {
+	if (mod.notLocked()) {
 		return;
 	}
 	Uint8 r, g, b, a, r2, g2, b2, r3, g3, b3;
