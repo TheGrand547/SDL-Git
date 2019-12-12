@@ -15,6 +15,7 @@ class Dot : public EntityBase, public MyBase { // Might not need MyBase
 	private:
 		BoundedPoint position;
 		CollideBaseGroup* collision;
+		Point lastDelta;
 	public:
 		Dot(Point startingCoordinate);
 		~Dot();
@@ -34,3 +35,5 @@ class Dot : public EntityBase, public MyBase { // Might not need MyBase
 };
 
 int tempF(double val);
+Rect tempF(Rect rect);
+Point tempF(Point point);

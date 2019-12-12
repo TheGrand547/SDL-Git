@@ -12,7 +12,7 @@ Point Dot::getCenter() {
 
 float Dot::calcAngle(Point point) {
 	if(point.y() != 0 || point.x() != 0) {
-		 return atan2(0-point.y(), point.x());
+		 return atan2(-point.y(), point.x());
 	}
 	return 0;
 }
@@ -42,14 +42,13 @@ float Dot::getAngle() {
 
 void Dot::draw() {
 	SDL_SetRenderDrawColor(MegaBase::renderer, rChannel, gChannel, bChannel, aChannel);
-	SDL_Rect temp = (this->getRect() - MegaBase::offset).getSDLRect();
+	SDL_Rect temp = tempF((this->getRect() - MegaBase::offset)).getSDLRect();
 	temp.w = Player::PLAYER_X_DIMENSION;
 	temp.h = Player::PLAYER_Y_DIMENSION;
 	SDL_RenderFillRect(MegaBase::renderer, &temp);
-	Point foop(tempF(this->position.x()), tempF(this->position.y()));
-	Rect p(foop, Player::PLAYER_X_DIMENSION, Player::PLAYER_Y_DIMENSION);
+	Rect p(temp.x, temp.y, Player::PLAYER_X_DIMENSION, Player::PLAYER_Y_DIMENSION);
 	p.setColorChannels(0xFF, 0x00, 0x00, 0xFF);
-	p.draw(MegaBase::renderer, MegaBase::offset);
+	p.draw(MegaBase::renderer, Point(0,0));
 }
 
 void Dot::update(PointDelta acceleration) {
@@ -62,17 +61,16 @@ void Dot::collideTest() {
 	if (delta.isZero()) {
 		return;
 	}
-	float xDelta = 0;
-	float yDelta = 0;
+	float xDelta = 0, yDelta = 0;
 	for (int i = 0; i < 5; i++) {
 		Point temp = delta / pow(2, i);
-		if (!xDelta) {
+		if (not xDelta) {
 			if (this->collision->doesPlayerNotCollide(this->getRect() + temp.onlyX())) {
 				xDelta = temp.x();
 				*MegaBase::offset += temp.onlyX();
 			}
 		}
-		if (!yDelta) {
+		if (not yDelta) {
 			if (this->collision->doesPlayerNotCollide(this->getRect() + temp.onlyY())) {
 				yDelta = temp.y();
 				*MegaBase::offset += temp.onlyY();					
@@ -82,7 +80,15 @@ void Dot::collideTest() {
 			break;
 		}
 	}
+	// TODO: Make comparison constant
+	if (abs(yDelta) < 0.005) {
+		this->velocity.yZero();
+	}
+	if (abs(xDelta) < 0.005) {
+		this->velocity.xZero();
+	}
 	this->move(Vector(xDelta, yDelta));
+	this->lastDelta = Point(xDelta, yDelta);
 	// PUT THIS ELSEWHERE <- Will be handled when implementation is changed to being based around the Screen Class
 	if (this->getPos().x() < Screen::SCREEN_WIDTH / 2) {
 		MegaBase::offset->xZero();
@@ -90,11 +96,11 @@ void Dot::collideTest() {
 	if (this->getPos().y() < Screen::SCREEN_HEIGHT / 2) {
 		MegaBase::offset->yZero();
 	}
-	if (this->getPos().y() > Screen::MAX_Y_SCROLL_DISTANCE) {
-		MegaBase::offset->maxY();
-	}
 	if (this->getPos().x() > Screen::MAX_X_SCROLL_DISTANCE) {
 		MegaBase::offset->maxX();
+	}
+	if (this->getPos().y() > Screen::MAX_Y_SCROLL_DISTANCE) {
+		MegaBase::offset->maxY();
 	}
 } 
 
@@ -110,7 +116,20 @@ void Dot::rayCast() {
 void Dot::setCollision(CollideBaseGroup& boxes) {
 	this->collision = &boxes;
 }
+/*
+int tempF(double val) {
+	return int(val) + ((val - int(val) > .005) ? 1 : 0);
+}*/
 
 int tempF(double val) {
-	return int(val) + ((val - int(val) > .05) ? 1 : 0);
+	return ((val - int(val) > (1 - .05)) ? 1 : 0);
+}
+
+Point tempF(Point point) {
+	return Point(tempF(point.x()), tempF(point.y()));
+}
+
+Rect tempF(Rect rect) {
+	rect += tempF(rect.getTopLeft());
+	return rect;
 }

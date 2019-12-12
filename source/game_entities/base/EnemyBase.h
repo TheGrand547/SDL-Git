@@ -36,6 +36,8 @@ class EnemyBase : public EntityBase {
 		virtual void update() = 0;
 		virtual void draw(SDL_Renderer* renderer, BoundedPoint& offset);
 		virtual void move();
+		void turn(float delta);
+		float getAngle() const;
 		Node* getClosestUnblockedNode();
 		PointDelta pathFindTo(Point pos = Point());
 		void setParent(EnemyDrawGroup* parent);

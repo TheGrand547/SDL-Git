@@ -13,6 +13,7 @@
 #include "paths/CirclePath.h"
 #include "paths/LinePath.h"
 #include "paths/PathManager.h"
+#include "paths/ZeroRadiusTurnPath.h"
 
 class BadTest : public EnemyBase {
 	private:

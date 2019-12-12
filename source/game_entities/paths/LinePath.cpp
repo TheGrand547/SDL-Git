@@ -6,7 +6,7 @@ LinePath::LinePath() : Path() {
 	this->maxTicks = 0;
 }
 
-LinePath::LinePath(PointDelta vector, float distance, int repeatCount) {
+LinePath::LinePath(PointDelta vector, float distance, int repeatCount) : Path() {
 	this->delta = vector;
 	if (repeatCount == Path::SINGLE_LOOP) {
 		this->maxTicks = distance;

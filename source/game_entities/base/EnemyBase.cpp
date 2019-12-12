@@ -52,12 +52,12 @@ void EnemyBase::move() { // TODO: Maybe re-write this under a different name?
 		Rect myRect = Rect(this->position, this->width, this->height);
 		for (int i = 0; i < 4; i++) {
 			Point modified = px / pow(2, i);
-			if (!xflag) {
+			if (not xflag) {
 				if (this->parent->collide->doesNotCollideWith(myRect + modified.onlyX())) {
 					xflag = modified.x();
 				}
 			}
-			if (!yflag) {
+			if (not yflag) {
 				if (this->parent->collide->doesNotCollideWith(myRect + modified.onlyY())) {
 					yflag = modified.y();
 				}
@@ -69,6 +69,12 @@ void EnemyBase::move() { // TODO: Maybe re-write this under a different name?
 	} else {
 		xflag = px.x();
 		yflag = px.y();
+	}
+	if (abs(yflag) < 0.005) {
+		this->velocity.yZero();
+	}
+	if (abs(xflag) < 0.005) {
+		this->velocity.xZero();
 	}
 	this->position += Point(xflag, yflag);
 	this->angle = atan2(px.y(), px.x());
@@ -106,4 +112,12 @@ PointDelta EnemyBase::pathFindTo(Point target) {
 		}
 	}
 	return PointDelta(0, 0, 0);
+}
+
+void EnemyBase::turn(float delta) {
+	this->angle += delta;
+}
+
+float EnemyBase::getAngle() const {
+	return this->angle;
 }

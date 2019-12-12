@@ -7,7 +7,7 @@
 #include "Line.h"
 
 Point smallerDistance(Point distanceFrom, Point pointA, Point pointB);
-class Rect: public MyBase{
+class Rect: public MyBase {
 	protected:
 		static const int arrayLength = 4;
 		float xpos, ypos, width, height;
