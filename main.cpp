@@ -64,6 +64,7 @@ int main(int argc, char* argv[]) {
 	// Pass dot values it needs
 	dot.setCollision(boxes);
 	Line lip(Point(325, 425), Point(125, 425));
+	lip += Point(0, 5);
 	while(!contra.quit) {
 		clearScreen(gRenderer);
 		popo.zero(); // >:(

@@ -77,7 +77,9 @@ void EnemyBase::move() { // TODO: Maybe re-write this under a different name?
 		this->velocity.xZero();
 	}
 	this->position += Point(xflag, yflag);
-	this->angle = atan2(px.y(), px.x());
+	if (not this->turning) {
+		this->angle = atan2(px.y(), px.x());
+	}
 }
 
 std::ostream& operator<<(std::ostream& output, const EnemyBase& base) {
@@ -115,9 +117,17 @@ PointDelta EnemyBase::pathFindTo(Point target) {
 }
 
 void EnemyBase::turn(float delta) {
-	this->angle += delta;
+	if (this->turning) {
+		this->angle += delta;
+	}
+}
+
+void EnemyBase::toggleTurn() {
+	this->turning = !this->turning;
 }
 
 float EnemyBase::getAngle() const {
 	return this->angle;
 }
+
+

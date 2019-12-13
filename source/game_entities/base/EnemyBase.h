@@ -24,7 +24,7 @@ class EnemyBase : public EntityBase {
 		int width = 50;
 		int height = 50;
 		float angle = 0;
-		
+		bool turning = false;
 		NodePath path;
 		EnemyDrawGroup* parent;
 	public:
@@ -37,6 +37,7 @@ class EnemyBase : public EntityBase {
 		virtual void draw(SDL_Renderer* renderer, BoundedPoint& offset);
 		virtual void move();
 		void turn(float delta);
+		void toggleTurn();
 		float getAngle() const;
 		Node* getClosestUnblockedNode();
 		PointDelta pathFindTo(Point pos = Point());

@@ -26,6 +26,8 @@ void LinePath::start() {
 
 void LinePath::stop() {
 	this->timer.stop();
+	this->begin = this->target->getPos();
+	this->ticksDone = 0;
 	this->started = false;
 }
 
