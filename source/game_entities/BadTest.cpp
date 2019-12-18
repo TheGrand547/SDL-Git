@@ -46,7 +46,6 @@ void BadTest::draw(SDL_Renderer* renderer, BoundedPoint& offset) {
 		this->path.draw();
 	}
 	// Draw vision cone - Slopily
-	/*
 	for (int i = -20; i <= 20; i++) {
 		Point pTemp = this->getCenter();
 		pTemp += Point(300 * cos(this->angle + radians(i)), 300 * sin(this->angle + radians(i)));
@@ -58,7 +57,7 @@ void BadTest::draw(SDL_Renderer* renderer, BoundedPoint& offset) {
 		}
 		temp.setColorChannels(COLORS::BLACK);
 		temp.drawLine(MegaBase::renderer, MegaBase::offset);
-	}*/
+	}
 }
 
 void BadTest::update() {

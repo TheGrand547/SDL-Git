@@ -11,7 +11,7 @@ class EntityBase {
 		PointDelta velocity;
 		Point acceleration;
 	public:
-		EntityBase(double maxVelocity = 4, double friction = -10.0); // TODO: Constant these
+		EntityBase(double maxVelocity = 4, double friction = 10.0); // TODO: Constant these
 		~EntityBase();
 		void evalAngle(Point delta);
 		void accelerate(PointDelta delta);
