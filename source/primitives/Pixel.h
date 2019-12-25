@@ -9,11 +9,22 @@ class Pixel {
 	private:
 		Point position;
 		SDL_PixelFormat* format;
-		uint8 red, green, blue, alpha;
+		uint32* original;
+		uint8 r, g, b, a;
 	public:
-		Pixel(Point position, uint32 data, SDL_PixelFormat* format);
-		Pixel(float x, float y, uint32 data, SDL_PixelFormat* format);
+		Pixel(uint32& data, SDL_PixelFormat* format);
+		Pixel(Point position, uint32& data, SDL_PixelFormat* format);
+		Pixel(float x, float y, uint32& data, SDL_PixelFormat* format);
 		~Pixel();
-	
+		uint8& red();
+		uint8& green();
+		uint8& blue();
+		uint8& alpha();
+		uint32& source() const;
+		Pixel& operator=(const uint32& other);
 };
+bool operator==(const Pixel& lhs, const uint32& rhs);
+bool operator==(const uint32& lhs, const Pixel& rhs);
+bool operator!=(const Pixel& lhs, const uint32& rhs);
+bool operator!=(const uint32& lhs, const Pixel& rhs);
 #endif

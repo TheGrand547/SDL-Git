@@ -36,11 +36,11 @@ SDL_Surface* Texture::scaleToCoords(SDL_Surface* surf, float desiredWidth, float
 	return rotozoomSurfaceXY(surf, 0, xFactor, yFactor, 1);
 }
 
-void Texture::setColorMod(Uint8 red, Uint8 green, Uint8 blue) {
+void Texture::setColorMod(uint8 red, uint8 green, uint8 blue) {
 	SDL_SetTextureColorMod(this->texture, red, green, blue);
 }
 
-void Texture::setAlpha(Uint8 alpha) {
+void Texture::setAlpha(uint8 alpha) {
 	SDL_SetTextureAlphaMod(this->texture, alpha);
 }
 
@@ -48,14 +48,14 @@ void Texture::setBlend(SDL_BlendMode mode) {
 	SDL_SetTextureBlendMode(this->texture, mode);
 }
 
-void Texture::setColorKey(Uint8 red, Uint8 green, Uint8 blue) { // Modified from lazyfoo.net
+void Texture::setColorKey(uint8 red, uint8 green, uint8 blue) { // Modified from lazyfoo.net
 	this->setBlend(SDL_BLENDMODE_BLEND);
 	PixelMod mod(this->texture);
 	if (mod.notLocked()) {
 		return;
 	}
-	Uint32 colorKey = SDL_MapRGB(mod.format, red, green, blue);
-	Uint32 transparent = SDL_MapRGBA(mod.format, 0xFF, 0xFF, 0xFF, 0x00);
+	uint32 colorKey = mod.mapRGBA(red, green, blue);
+	uint32 transparent = mod.mapRGBA(0xFF, 0xFF, 0xFF, 0x00);
 	for (int i = 0; i < mod.pixelCount; i++) {
 		if (mod.pixels[i] == colorKey) {
 			mod.pixels[i] = transparent;
@@ -101,17 +101,18 @@ void Texture::dither() {
 	if (mod.notLocked()) {
 		return;
 	}
-	Uint8 matrix[2][2] = { {0x40, 0x80}, {0xC0, 0x00} };
-	Uint32 transparent = SDL_MapRGBA(mod.format, 0xFF, 0xFF, 0xFF, 0x00);
-	Uint8 r, g, b, a;
-	Uint8 value;
+	uint8 matrix[2][2] = {{0x40, 0x80}, 
+						  {0xC0, 0x00}};
+	uint32 transparent = mod.mapRGBA(0xFF, 0xFF, 0xFF, 0x00);
+	uint8 r, g, b, a;
+	uint8 value;
 	for (int i = 0; i < mod.pixelCount; i++) {
 		SDL_GetRGBA(mod.pixels[i], mod.format, &r, &g, &b, &a);
 		value = matrix[(i / mod.width) % 2][(i / mod.height) % 2];
 		r = (r < value) ? 0x00 : 0xFF;
 		g = (g < value) ? 0x00 : 0xFF;
 		b = (b < value) ? 0x00 : 0xFF;
-		mod.pixels[i] = SDL_MapRGBA(mod.format, r, g, b, a);
+		mod.pixels[i] = mod.mapRGBA(r, g, b, a);
 	}
 }
 
@@ -120,7 +121,7 @@ void Texture::testFilter() {
 	if (mod.notLocked()) {
 		return;
 	}
-	Uint8 r, g, b, a, r2, g2, b2, r3, g3, b3;
+	uint8 r, g, b, a, r2, g2, b2, r3, g3, b3;
 	for (int x = 0; x < mod.width; x++) {
 		for (int y = 0; y < mod.height; y++) {
 			SDL_GetRGBA(mod.at(x, y), mod.format, &r, &g, &b, &a);
@@ -129,7 +130,7 @@ void Texture::testFilter() {
 			r = (r + r2 + r3) / 3;
 			g = (g + g2 + g3) / 3;
 			b = (b + b2 + b3) / 3;
-			mod.at(x, y) = SDL_MapRGBA(mod.format, r, g, b, a);
+			mod.at(x, y) = mod.mapRGBA(r, g, b, a);
 		}
 	}
 }

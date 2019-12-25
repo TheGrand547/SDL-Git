@@ -6,8 +6,8 @@
 #include "../primitives/Point.h"
 #include "../essential/constants.h"
 #include "PixelMod.h"
-typedef Uint8 uint8_t;
-typedef Uint32 uint32_t;
+typedef uint8 uint8_t;
+typedef uint32 uint32_t;
 
 class Texture {
 	protected:
@@ -20,10 +20,10 @@ class Texture {
 		Texture(const Texture& that);
 		void free();
 		SDL_Surface* scaleToCoords(SDL_Surface* surf, float desiredWidth, float desiredHeight);
-		void setAlpha(Uint8 alpha);
+		void setAlpha(uint8 alpha);
 		void setBlend(SDL_BlendMode mode);
-		void setColorMod(Uint8 red, Uint8 green, Uint8 blue);
-		void setColorKey(Uint8 red, Uint8 green, Uint8 blue);
+		void setColorMod(uint8 red, uint8 green, uint8 blue);
+		void setColorKey(uint8 red, uint8 green, uint8 blue);
 		void dither();
 		void testFilter();
 		void floatyEdges();

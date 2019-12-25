@@ -18,6 +18,7 @@ main.o: ../main.cpp ../source/headers.h ../source/game_entities/Box.h \
   ../source/game_entities/../wrappers/Texture.h \
   ../source/game_entities/../wrappers/../essential/constants.h \
   ../source/game_entities/../wrappers/PixelMod.h \
+  ../source/game_entities/../wrappers/../primitives/Pixel.h \
   ../source/game_entities/../BoundedPoint.h ../source/primitives/Point.h \
   ../source/game_entities/../essential/util.h \
   ../source/game_entities/base/CollideBase.h \
@@ -143,6 +144,7 @@ CollideBaseGroup.o: game_entities/CollideBaseGroup.cpp \
   game_entities/base/../../wrappers/Texture.h \
   game_entities/base/../../wrappers/../essential/constants.h \
   game_entities/base/../../wrappers/PixelMod.h \
+  game_entities/base/../../wrappers/../primitives/Pixel.h \
   game_entities/../wrappers/SuperTexture.h
 BackgroundGroup.o: game_entities/BackgroundGroup.cpp \
   game_entities/BackgroundGroup.h game_entities/DrawGroup.h \
@@ -153,6 +155,7 @@ BackgroundGroup.o: game_entities/BackgroundGroup.cpp \
   game_entities/../wrappers/../primitives/Point.h \
   game_entities/../wrappers/../essential/constants.h \
   game_entities/../wrappers/PixelMod.h \
+  game_entities/../wrappers/../primitives/Pixel.h \
   game_entities/../essential/constants.h \
   game_entities/BackgroundElement.h game_entities/../primitives/Rect.h \
   game_entities/../primitives/../essential/util.h \
@@ -188,6 +191,7 @@ EnemyDrawGroup.o: game_entities/EnemyDrawGroup.cpp \
   game_entities/base/../../wrappers/Texture.h \
   game_entities/base/../../wrappers/../essential/constants.h \
   game_entities/base/../../wrappers/PixelMod.h \
+  game_entities/base/../../wrappers/../primitives/Pixel.h \
   game_entities/../wrappers/SuperTexture.h game_entities/Node.h \
   game_entities/../primitives/Rect.h game_entities/base/EnemyBase.h \
   game_entities/base/../../essential/constants.h \
@@ -230,6 +234,7 @@ EnemyBase.o: game_entities/base/EnemyBase.cpp \
   game_entities/base/../../wrappers/../primitives/Point.h \
   game_entities/base/../../wrappers/../essential/constants.h \
   game_entities/base/../../wrappers/PixelMod.h \
+  game_entities/base/../../wrappers/../primitives/Pixel.h \
   game_entities/base/../../wrappers/Timer.h \
   game_entities/base/CollideBase.h \
   game_entities/base/../../primitives/Rect.h \
@@ -287,8 +292,10 @@ Box.o: game_entities/Box.cpp game_entities/Box.h \
   game_entities/../wrappers/../essential/util.h \
   game_entities/../wrappers/Texture.h \
   game_entities/../wrappers/../essential/constants.h \
-  game_entities/../wrappers/PixelMod.h game_entities/../BoundedPoint.h \
-  game_entities/../essential/util.h game_entities/base/CollideBase.h \
+  game_entities/../wrappers/PixelMod.h \
+  game_entities/../wrappers/../primitives/Pixel.h \
+  game_entities/../BoundedPoint.h game_entities/../essential/util.h \
+  game_entities/base/CollideBase.h \
   game_entities/base/../../primitives/Rect.h \
   game_entities/base/../../primitives/Line.h \
   game_entities/base/../../wrappers/SuperTexture.h \
@@ -319,6 +326,7 @@ Node.o: game_entities/Node.cpp game_entities/Node.h \
   game_entities/base/../../wrappers/Texture.h \
   game_entities/base/../../wrappers/../essential/constants.h \
   game_entities/base/../../wrappers/PixelMod.h \
+  game_entities/base/../../wrappers/../primitives/Pixel.h \
   game_entities/../wrappers/SuperTexture.h game_entities/NodeDrawGroup.h
 NodeDrawGroup.o: game_entities/NodeDrawGroup.cpp \
   game_entities/NodeDrawGroup.h game_entities/DrawGroup.h \
@@ -344,6 +352,7 @@ NodeDrawGroup.o: game_entities/NodeDrawGroup.cpp \
   game_entities/base/../../wrappers/Texture.h \
   game_entities/base/../../wrappers/../essential/constants.h \
   game_entities/base/../../wrappers/PixelMod.h \
+  game_entities/base/../../wrappers/../primitives/Pixel.h \
   game_entities/../wrappers/SuperTexture.h game_entities/Node.h \
   game_entities/../primitives/Rect.h
 SuperTexture.o: wrappers/SuperTexture.cpp wrappers/SuperTexture.h \
@@ -355,7 +364,8 @@ SuperTexture.o: wrappers/SuperTexture.cpp wrappers/SuperTexture.h \
   wrappers/../primitives/../essential/../MyBase.h \
   wrappers/../primitives/Rect.h wrappers/../primitives/PointDelta.h \
   wrappers/../MyBase.h wrappers/../essential/util.h wrappers/Texture.h \
-  wrappers/../essential/constants.h wrappers/PixelMod.h
+  wrappers/../essential/constants.h wrappers/PixelMod.h \
+  wrappers/../primitives/Pixel.h
 BadTest.o: game_entities/BadTest.cpp game_entities/BadTest.h \
   game_entities/../essential/random.h game_entities/../primitives/Line.h \
   game_entities/../primitives/Point.h \
@@ -367,9 +377,10 @@ BadTest.o: game_entities/BadTest.cpp game_entities/BadTest.h \
   game_entities/../wrappers/Texture.h \
   game_entities/../wrappers/../primitives/Point.h \
   game_entities/../wrappers/../essential/constants.h \
-  game_entities/../wrappers/PixelMod.h game_entities/../wrappers/Timer.h \
-  game_entities/CollideBaseGroup.h game_entities/DrawGroup.h \
-  game_entities/../BoundedPoint.h \
+  game_entities/../wrappers/PixelMod.h \
+  game_entities/../wrappers/../primitives/Pixel.h \
+  game_entities/../wrappers/Timer.h game_entities/CollideBaseGroup.h \
+  game_entities/DrawGroup.h game_entities/../BoundedPoint.h \
   game_entities/../primitives/../primitives/Point.h \
   game_entities/../essential/MegaBase.h \
   game_entities/../essential/../BoundedPoint.h \
@@ -413,7 +424,7 @@ BadTest.o: game_entities/BadTest.cpp game_entities/BadTest.h \
   game_entities/paths/ZeroRadiusTurnPath.h
 Texture.o: wrappers/Texture.cpp wrappers/Texture.h \
   wrappers/../primitives/Point.h wrappers/../essential/constants.h \
-  wrappers/PixelMod.h
+  wrappers/PixelMod.h wrappers/../primitives/Pixel.h
 Dot.o: Dot.cpp Dot.h primitives/Point.h primitives/Rect.h \
   primitives/../essential/util.h \
   primitives/../essential/../primitives/Point.h \
@@ -435,6 +446,7 @@ Dot.o: Dot.cpp Dot.h primitives/Point.h primitives/Rect.h \
   game_entities/base/../../wrappers/Texture.h \
   game_entities/base/../../wrappers/../essential/constants.h \
   game_entities/base/../../wrappers/PixelMod.h \
+  game_entities/base/../../wrappers/../primitives/Pixel.h \
   game_entities/../wrappers/SuperTexture.h \
   game_entities/base/EntityBase.h \
   game_entities/base/../../primitives/Point.h \
@@ -460,8 +472,10 @@ BackgroundElement.o: game_entities/BackgroundElement.cpp \
   game_entities/../wrappers/../primitives/Point.h \
   game_entities/../wrappers/../essential/constants.h \
   game_entities/../wrappers/PixelMod.h \
+  game_entities/../wrappers/../primitives/Pixel.h \
   game_entities/../essential/constants.h
-PixelMod.o: wrappers/PixelMod.cpp wrappers/PixelMod.h
+PixelMod.o: wrappers/PixelMod.cpp wrappers/PixelMod.h \
+  wrappers/../primitives/Pixel.h wrappers/../primitives/Point.h
 NodePath.o: game_entities/NodePath.cpp game_entities/NodePath.h \
   game_entities/Node.h game_entities/../primitives/Point.h \
   game_entities/../primitives/Rect.h \
@@ -487,6 +501,7 @@ NodePath.o: game_entities/NodePath.cpp game_entities/NodePath.h \
   game_entities/base/../../wrappers/Texture.h \
   game_entities/base/../../wrappers/../essential/constants.h \
   game_entities/base/../../wrappers/PixelMod.h \
+  game_entities/base/../../wrappers/../primitives/Pixel.h \
   game_entities/../wrappers/SuperTexture.h game_entities/NodeDrawGroup.h \
   game_entities/../essential/random.h
 CollideBaseFactory.o: game_entities/CollideBaseFactory.cpp \
@@ -509,8 +524,9 @@ CollideBaseFactory.o: game_entities/CollideBaseFactory.cpp \
   game_entities/base/../../wrappers/../essential/util.h \
   game_entities/base/../../wrappers/Texture.h \
   game_entities/base/../../wrappers/../essential/constants.h \
-  game_entities/base/../../wrappers/PixelMod.h game_entities/Box.h \
-  game_entities/../essential/constants.h \
+  game_entities/base/../../wrappers/PixelMod.h \
+  game_entities/base/../../wrappers/../primitives/Pixel.h \
+  game_entities/Box.h game_entities/../essential/constants.h \
   game_entities/../primitives/Rect.h \
   game_entities/../wrappers/SuperTexture.h \
   game_entities/../wrappers/Texture.h game_entities/../BoundedPoint.h \
@@ -528,6 +544,7 @@ Path.o: game_entities/paths/Path.cpp game_entities/paths/Path.h \
   game_entities/paths/../base/../../wrappers/../primitives/Point.h \
   game_entities/paths/../base/../../wrappers/../essential/constants.h \
   game_entities/paths/../base/../../wrappers/PixelMod.h \
+  game_entities/paths/../base/../../wrappers/../primitives/Pixel.h \
   game_entities/paths/../base/../../wrappers/Timer.h \
   game_entities/paths/../base/CollideBase.h \
   game_entities/paths/../base/../../primitives/Rect.h \
@@ -578,6 +595,7 @@ LinePath.o: game_entities/paths/LinePath.cpp \
   game_entities/paths/../base/../../wrappers/../primitives/Point.h \
   game_entities/paths/../base/../../wrappers/../essential/constants.h \
   game_entities/paths/../base/../../wrappers/PixelMod.h \
+  game_entities/paths/../base/../../wrappers/../primitives/Pixel.h \
   game_entities/paths/../base/../../wrappers/Timer.h \
   game_entities/paths/../base/CollideBase.h \
   game_entities/paths/../base/../../primitives/Rect.h \
@@ -637,6 +655,7 @@ PathManager.o: game_entities/paths/PathManager.cpp \
   game_entities/paths/../base/../../wrappers/../primitives/Point.h \
   game_entities/paths/../base/../../wrappers/../essential/constants.h \
   game_entities/paths/../base/../../wrappers/PixelMod.h \
+  game_entities/paths/../base/../../wrappers/../primitives/Pixel.h \
   game_entities/paths/../base/../../wrappers/Timer.h \
   game_entities/paths/../base/CollideBase.h \
   game_entities/paths/../base/../../primitives/Rect.h \
@@ -688,6 +707,7 @@ CirclePath.o: game_entities/paths/CirclePath.cpp \
   game_entities/paths/../base/../../wrappers/Texture.h \
   game_entities/paths/../../wrappers/../primitives/Point.h \
   game_entities/paths/../../wrappers/PixelMod.h \
+  game_entities/paths/../../wrappers/../primitives/Pixel.h \
   game_entities/paths/../base/../../wrappers/Timer.h \
   game_entities/paths/../base/CollideBase.h \
   game_entities/paths/../base/../../primitives/Rect.h \
@@ -738,6 +758,7 @@ ZeroRadiusTurnPath.o: game_entities/paths/ZeroRadiusTurnPath.cpp \
   game_entities/paths/../base/../../wrappers/../primitives/Point.h \
   game_entities/paths/../base/../../wrappers/../essential/constants.h \
   game_entities/paths/../base/../../wrappers/PixelMod.h \
+  game_entities/paths/../base/../../wrappers/../primitives/Pixel.h \
   game_entities/paths/../base/../../wrappers/Timer.h \
   game_entities/paths/../base/CollideBase.h \
   game_entities/paths/../base/../../primitives/Rect.h \
@@ -780,3 +801,4 @@ ZeroRadiusTurnPath.o: game_entities/paths/ZeroRadiusTurnPath.cpp \
   game_entities/paths/../base/../EnemyDrawGroup.h \
   game_entities/paths/../base/../base/EnemyBase.h \
   game_entities/paths/../../wrappers/Timer.h
+Pixel.o: primitives/Pixel.cpp primitives/Pixel.h primitives/Point.h
