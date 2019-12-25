@@ -17,8 +17,16 @@ Pixel::Pixel(float x, float y, uint32& data, SDL_PixelFormat* format) {
 	*this = Pixel(Point(x, y), data, format);
 }
 
+Pixel::Pixel(const Pixel& that) {
+	this->position = that.position;
+	this->format = that.format;
+	this->original = that.original;
+	SDL_GetRGBA(*this->original, this->format, &this->r, &this->g, &this->b, &this->a);
+}
+
 Pixel::~Pixel() {
-	*this->original = SDL_MapRGBA(this->format, this->r, this->g, this->b, this->g);
+	// When the object goes out of scope, apply changes
+	*this->original = SDL_MapRGBA(this->format, this->r, this->g, this->b, this->a); 
 }
 
 uint8& Pixel::red() {
@@ -46,6 +54,23 @@ Pixel& Pixel::operator=(const uint32& other) {
 	SDL_GetRGBA(other, this->format, &this->r, &this->g, &this->b, &this->a);
 	return *this;
 }
+
+void Pixel::setRed(const uint8 red) {
+	this->r = red;
+}
+
+void Pixel::setBlue(const uint8 blue) {
+	this->b = blue;
+}
+
+void Pixel::setGreen(const uint8 green) {
+	this->g = green;
+}
+
+void Pixel::setAlpha(const uint8 alpha) {
+	this->a = alpha;
+}
+
 
 bool operator==(const Pixel& lhs, const uint32& rhs) {
 	return lhs.source() == rhs;

@@ -4,14 +4,15 @@ PixelMod::PixelMod(SDL_Texture* texture) : texture(texture) {
 	void* rawPixels;
 	uint32 format;
 	this->unlocked = false;
-	if (SDL_LockTexture(texture, NULL, &rawPixels, &this->pitch) != 0) {
+	if (SDL_LockTexture(texture, NULL, &rawPixels, &this->texturePitch) != 0) {
 		this->unlocked = true;
+		// TODO: log error locking texture
 		return;
 	}
-	SDL_QueryTexture(this->texture, &format, NULL, &this->width, &this->height);
+	SDL_QueryTexture(this->texture, &format, NULL, &this->textureWidth, &this->textureHeight);
 	this->format = SDL_AllocFormat(format);
 	this->pixels = (uint32*)rawPixels;
-	this->pixelCount = (this->pitch / 4) * this->height;
+	this->pixelCount = (this->texturePitch / 4) * this->textureHeight;
 }
 
 PixelMod::~PixelMod() {
@@ -26,12 +27,28 @@ bool PixelMod::notLocked() {
 }
 
 uint32& PixelMod::at(int x, int y) {
-	if (x < 0 || x > (this->width - 1) || y < 0 || y > (this->height - 1)) {
+	if (x < 0 || x > (this->width() - 1) || y < 0 || y > (this->height() - 1)) {
 		// If the requested position is outside of the array return a blank pixel with no data in it
 		this->UGLY = 0x00000000; // Reset the UGLY value
 		return this->UGLY;
 	}
-	return this->pixels[x + (y * this->height)];
+	return this->pixels[x + (y * this->height())];
+}
+
+int PixelMod::count() const {
+	return this->pixelCount;
+}
+
+int PixelMod::height() const {
+	return this->textureHeight;
+}
+
+int PixelMod::pitch() const {
+	return this->texturePitch;
+}
+
+int PixelMod::width() const {
+	return this->textureWidth;
 }
 
 uint32 PixelMod::mapRGBA(const uint8 r, const uint8 g, const uint8 b, const uint8 a) const {

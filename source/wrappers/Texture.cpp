@@ -56,9 +56,9 @@ void Texture::setColorKey(uint8 red, uint8 green, uint8 blue) { // Modified from
 	}
 	uint32 colorKey = mod.mapRGBA(red, green, blue);
 	uint32 transparent = mod.mapRGBA(0xFF, 0xFF, 0xFF, 0x00);
-	for (int i = 0; i < mod.pixelCount; i++) {
-		if (mod.pixels[i] == colorKey) {
-			mod.pixels[i] = transparent;
+	for (int i = 0; i < mod.count(); i++) {
+		if (mod[i] == colorKey) {
+			mod[i] = transparent;
 		}
 	}
 }
@@ -70,28 +70,27 @@ void Texture::floatyEdges() {
 		return;
 	}
 	// TODO: Tidy this up at some point
-	Uint8 r, g, b, a, aTemp, n1, n2, n3;
 	int aAvg, count;
-	for (int x = 0; x < mod.width; x++) {
-		for (int y = 0; y < mod.height; y++) {
-			SDL_GetRGBA(mod.at(x, y), mod.format, &r, &g, &b, &a);
-			if (a < 0x4F) {
+	for (int x = 0; x < mod.width(); x++) {
+		for (int y = 0; y < mod.height(); y++) {
+			Pixel pixel = mod.getPixel(x, y);
+			if (pixel.alpha() < 0x4F) {
 				continue;
 			}
 			aAvg = 0;
 			count = 0;
 			for (int subX = -1; subX <= 1; subX++) {
 				for (int subY = -1; subY <= 1; subY++) {
-					SDL_GetRGBA(mod.at(x + subX, y + subY), mod.format, &n1, &n2, &n3, &aTemp);
-					if (aTemp == 0x00) {
+					Pixel temp = mod.getPixel(x + subX, y + subY);
+					if (temp.alpha() == 0x00) {
 						count++;
 					}
-					aAvg += aTemp;
+					aAvg += temp.alpha();
 					count++;
 				}
 			}
 			aAvg /= count;
-			mod.at(x, y) = SDL_MapRGBA(mod.format, r, g, b, aAvg);
+			pixel.setAlpha(aAvg);
 		}
 	}
 }
@@ -103,16 +102,13 @@ void Texture::dither() {
 	}
 	uint8 matrix[2][2] = {{0x40, 0x80}, 
 						  {0xC0, 0x00}};
-	uint32 transparent = mod.mapRGBA(0xFF, 0xFF, 0xFF, 0x00);
-	uint8 r, g, b, a;
 	uint8 value;
-	for (int i = 0; i < mod.pixelCount; i++) {
-		SDL_GetRGBA(mod.pixels[i], mod.format, &r, &g, &b, &a);
-		value = matrix[(i / mod.width) % 2][(i / mod.height) % 2];
-		r = (r < value) ? 0x00 : 0xFF;
-		g = (g < value) ? 0x00 : 0xFF;
-		b = (b < value) ? 0x00 : 0xFF;
-		mod.pixels[i] = mod.mapRGBA(r, g, b, a);
+	for (int i = 0; i < mod.count(); i++) {
+		Pixel pixel = mod.getPixel(i);
+		value = matrix[(i / mod.width()) % 2][(i / mod.height()) % 2];
+		pixel.red() = (pixel.red() < value) ? 0x00 : 0xFF;
+		pixel.green() = (pixel.green() < value) ? 0x00 : 0xFF;
+		pixel.blue() = (pixel.blue() < value) ? 0x00 : 0xFF;
 	}
 }
 
@@ -121,16 +117,14 @@ void Texture::testFilter() {
 	if (mod.notLocked()) {
 		return;
 	}
-	uint8 r, g, b, a, r2, g2, b2, r3, g3, b3;
-	for (int x = 0; x < mod.width; x++) {
-		for (int y = 0; y < mod.height; y++) {
-			SDL_GetRGBA(mod.at(x, y), mod.format, &r, &g, &b, &a);
-			SDL_GetRGB(mod.at(x - 1, y), mod.format, &r2, &g2, &b2);
-			SDL_GetRGB(mod.at(x + 1, y), mod.format, &r3, &g3, &b3);
-			r = (r + r2 + r3) / 3;
-			g = (g + g2 + g3) / 3;
-			b = (b + b2 + b3) / 3;
-			mod.at(x, y) = mod.mapRGBA(r, g, b, a);
+	for (int x = 0; x < mod.width(); x++) {
+		for (int y = 0; y < mod.height(); y++) {
+			Pixel main = mod.getPixel(x, y);
+			Pixel left = mod.getPixel(x - 1, y);
+			Pixel right = mod.getPixel(x + 1, y);
+			main.red() = (main.red() + left.red() + right.red()) / 3;
+			main.green() = (main.green() + left.green() + right.green()) / 3;
+			main.blue() = (main.blue() + left.blue() + right.blue()) / 3;
 		}
 	}
 }

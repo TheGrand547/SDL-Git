@@ -15,7 +15,12 @@ class Pixel {
 		Pixel(uint32& data, SDL_PixelFormat* format);
 		Pixel(Point position, uint32& data, SDL_PixelFormat* format);
 		Pixel(float x, float y, uint32& data, SDL_PixelFormat* format);
+		Pixel(const Pixel& that);
 		~Pixel();
+		void setRed(const uint8 red);
+		void setBlue(const uint8 blue);
+		void setGreen(const uint8 green);
+		void setAlpha(const uint8 alpha);
 		uint8& red();
 		uint8& green();
 		uint8& blue();
