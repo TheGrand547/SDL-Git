@@ -28,6 +28,7 @@ void BackgroundGroup::add(Point position, Ground::Type type) {
 	if (this->textures[type] == NULL) {
 		this->textures[type] = BackElement::createGroundTexture(MegaBase::renderer, type);
 		this->textures[type]->normalizeTexture(MegaBase::renderer);
+		this->textures[type]->bilateralFilter(12.0, 16.0, 7);
 	}
 	this->elements.push_back(new BackElement(position, type));
 	this->elements.back()->setTexture(this->textures[type]);

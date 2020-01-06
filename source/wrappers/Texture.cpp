@@ -129,7 +129,7 @@ void Texture::testFilter() {
 	}
 }
 
-void Texture::bilateralFilter(float valI, float valS, int kernelSize) {
+void Texture::bilateralFilter(float valI, float valS, const int kernelSize) {
 	PixelMod mod(this->texture);
 	if (mod.notLocked()) {
 		return;
@@ -151,25 +151,36 @@ void Texture::bilateralFilter(float valI, float valS, int kernelSize) {
 				pixels[x][y] = mod.getPixel(x, y);
 			}
 		}
-		std::cout << "D:" << std::endl;
 		int half = kernelSize / 2;
-		for (int x = half; x < mod.width() - half; x++) {
-			for (int y = half; y < mod.height() - half; y++) {
+		for (int x = 2; x < mod.width() - 2; x++) {
+			for (int y = 2; y < mod.height() - 2; y++) {
 				// For each pixel apply the filter
 				float totalR(0), totalG(0), totalB(0);
 				float weightR(0), weightG(0), weightB(0);
 				for (int i = 0; i < kernelSize; i++) {
-					for (int j = 0; j < kernelSize; i++) {
+					for (int j = 0; j < kernelSize; j++) {
 						int otherX = x - (half - i);
 						int otherY = y - (half - j);
 						float gaussIR = gaussian(pixels[otherX][otherY].red() - pixels[x][y].red(), valI);
-						float gaussSR = gaussian(Point(x, y).distanceToPoint(Point(otherX, otherY)), valS);
-						double deltaR = gaussIR * gaussSR;
+						float gaussS = gaussian(Point(x, y).distanceToPoint(Point(otherX, otherY)), valS);
+						double deltaR = gaussIR * gaussS;
 						totalR += pixels[otherX][otherY].red() * deltaR;
 						weightR += deltaR;
+						
+						float gaussIG = gaussian(pixels[otherX][otherY].green() - pixels[x][y].green(), valI);
+						double deltaG = gaussIG * gaussS;
+						totalG += pixels[otherX][otherY].green() * deltaG;
+						weightG += deltaG;
+						
+						float gaussIB = gaussian(pixels[otherX][otherY].blue() - pixels[x][y].blue(), valI);
+						double deltaB = gaussIB * gaussS;
+						totalB += pixels[otherX][otherY].blue() * deltaB;
+						weightB += deltaB;
 					}
 				}
 				pixels[x][y].red() = totalR / weightR;
+				pixels[x][y].green() = totalG / weightG;
+				pixels[x][y].blue() = totalB / weightB;
 			}
 		}
 	}
