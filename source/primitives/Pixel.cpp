@@ -1,5 +1,10 @@
 #include "Pixel.h"
 
+Pixel::Pixel() {
+	this->format = NULL;
+	this->original = NULL;
+}
+
 Pixel::Pixel(uint32& data, SDL_PixelFormat* format) {
 	this->original = &data;
 	this->format = format;
@@ -74,12 +79,14 @@ void Pixel::setAlpha(const uint8 alpha) {
 }
 
 void Pixel::update() {
-	*this->original = SDL_MapRGBA(this->format, this->r, this->g, this->b, this->a); 
+	if (this->original != NULL) {
+		*this->original = SDL_MapRGBA(this->format, this->r, this->g, this->b, this->a); 
+	}
 }
 
 void Pixel::empty() {
 	this->update();
-	this-> original = NULL;
+	this->original = NULL;
 }
 
 bool operator==(const Pixel& lhs, const uint32& rhs) {

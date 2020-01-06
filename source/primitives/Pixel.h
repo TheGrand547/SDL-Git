@@ -12,6 +12,7 @@ class Pixel {
 		uint32* original;
 		uint8 r, g, b, a;
 	public:
+		Pixel();
 		Pixel(uint32& data, SDL_PixelFormat* format);
 		Pixel(Point position, uint32& data, SDL_PixelFormat* format);
 		Pixel(float x, float y, uint32& data, SDL_PixelFormat* format);

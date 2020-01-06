@@ -44,3 +44,5 @@ template<class T>
 bool valueNotInVector(std::vector<T> vector, T element) {
 	return std::find(vector.begin(), vector.end(), element) == vector.end();
 }
+	
+double gaussian(float x, double sigma);

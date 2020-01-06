@@ -129,6 +129,52 @@ void Texture::testFilter() {
 	}
 }
 
+void Texture::bilateralFilter(float valI, float valS, int kernelSize) {
+	PixelMod mod(this->texture);
+	if (mod.notLocked()) {
+		return;
+	}
+	{
+		/*
+		std::vector<std::vector<Pixel>> pixels; // Test performance against below
+		for (int x = 0; x < mod.width(); x++) {
+			std::vector<Pixel> row;
+			for (int y = 0; y < mod.height(); y++) {
+				row.push_back(mod.getPixel(x, y));
+			}
+			pixels.push_back(row);
+		}*/
+		
+		Pixel pixels[mod.width()][mod.height()];
+		for (int y = 0; y < mod.width(); y++) {
+			for (int x = 0; x < mod.height(); x++) {
+				pixels[x][y] = mod.getPixel(x, y);
+			}
+		}
+		std::cout << "D:" << std::endl;
+		int half = kernelSize / 2;
+		for (int x = half; x < mod.width() - half; x++) {
+			for (int y = half; y < mod.height() - half; y++) {
+				// For each pixel apply the filter
+				float totalR(0), totalG(0), totalB(0);
+				float weightR(0), weightG(0), weightB(0);
+				for (int i = 0; i < kernelSize; i++) {
+					for (int j = 0; j < kernelSize; i++) {
+						int otherX = x - (half - i);
+						int otherY = y - (half - j);
+						float gaussIR = gaussian(pixels[otherX][otherY].red() - pixels[x][y].red(), valI);
+						float gaussSR = gaussian(Point(x, y).distanceToPoint(Point(otherX, otherY)), valS);
+						double deltaR = gaussIR * gaussSR;
+						totalR += pixels[otherX][otherY].red() * deltaR;
+						weightR += deltaR;
+					}
+				}
+				pixels[x][y].red() = totalR / weightR;
+			}
+		}
+	}
+}
+
 void Texture::draw(int x, int y, SDL_Renderer* renderer, SDL_Rect* clip, double angle, SDL_Point* center, SDL_RendererFlip flip) {
 	int width, height, access;
 	SDL_QueryTexture(this->texture, NULL, &access, &width, &height);
