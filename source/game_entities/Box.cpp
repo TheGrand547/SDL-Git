@@ -46,6 +46,7 @@ void Box::createBoxTexture(SDL_Renderer* renderer) {
 	setRenderColors(renderer, BOX::BOX_INNER_BORDER_COLOR);
 	Box::mTexture.drawRect(renderer, Rect(Point(0, 0), Point(BOX::BOX_WIDTH, BOX::BOX_OUTDENT * BOX::BOX_HEIGHT)));
 	Box::mTexture.normalizeTexture(renderer);
+	Box::mTexture.bilateralFilter(12.0, 16.0, 7);
 }
 
 void Box::drawBox(SDL_Renderer* renderer, Point position, Point offset) {

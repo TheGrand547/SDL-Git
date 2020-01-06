@@ -39,7 +39,7 @@ class Texture {
 		void normalizeTexture(SDL_Renderer* renderer);
 		//TODO: Add more functionality
 		// Filters
-		void bilateralFilter(float valI, float valS, const int kernelSize = 5);
+		void bilateralFilter(const float valI, const float valS, const int kernelSize = 5, const int xStart = 2, const int yStart = 2, int width = 0, int height = 0);
 		void dither();
 		void testFilter();
 		void floatyEdges();

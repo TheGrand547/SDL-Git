@@ -1,6 +1,7 @@
 #include "PixelMod.h"
 
-PixelMod::PixelMod(SDL_Texture* texture) : texture(texture) {
+PixelMod::PixelMod(SDL_Texture* texture, bool wrapEdges) : texture(texture) {
+	this->edges = wrapEdges;
 	void* rawPixels;
 	uint32 format;
 	this->unlocked = false;
@@ -29,6 +30,21 @@ bool PixelMod::notLocked() {
 uint32& PixelMod::at(int x, int y) {
 	if (x < 0 || x > (this->width() - 1) || y < 0 || y > (this->height() - 1)) {
 		// If the requested position is outside of the array return a blank pixel with no data in it
+		if (this->edges) {
+			if (x < 0) {
+				x += this->width();
+			}
+			if (y < 0) {
+				y += this->height();
+			}
+			if (x > this->width() - 1) {
+				x -= this->width();
+			}
+			if (y > this->height() - 1) {
+				y -= this->height();
+			}
+			return this->at(x, y);
+		}
 		this->UGLY = 0x00000000; // Reset the UGLY value
 		return this->UGLY;
 	}

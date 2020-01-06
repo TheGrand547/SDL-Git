@@ -129,31 +129,27 @@ void Texture::testFilter() {
 	}
 }
 
-void Texture::bilateralFilter(float valI, float valS, const int kernelSize) {
-	PixelMod mod(this->texture);
+void Texture::bilateralFilter(float valI, float valS, const int kernelSize,  const int xStart, const int yStart, int width, int height) {
+	PixelMod mod(this->texture, true);
 	if (mod.notLocked()) {
 		return;
 	}
 	{
-		/*
-		std::vector<std::vector<Pixel>> pixels; // Test performance against below
-		for (int x = 0; x < mod.width(); x++) {
-			std::vector<Pixel> row;
-			for (int y = 0; y < mod.height(); y++) {
-				row.push_back(mod.getPixel(x, y));
-			}
-			pixels.push_back(row);
-		}*/
-		
-		Pixel pixels[mod.width()][mod.height()];
+		Pixel pixels[mod.width()][mod.height()]; // Using a static array is not only more elegant, it's also more performant
 		for (int y = 0; y < mod.width(); y++) {
 			for (int x = 0; x < mod.height(); x++) {
 				pixels[x][y] = mod.getPixel(x, y);
 			}
 		}
 		int half = kernelSize / 2;
-		for (int x = 2; x < mod.width() - 2; x++) {
-			for (int y = 2; y < mod.height() - 2; y++) {
+		if (width == 0) {
+			width = mod.width() - 2 - xStart;
+		}
+		if (height == 0) {
+			height = mod.height() - 2 - yStart;
+		}
+		for (int x = xStart; x - xStart < width; x++) {
+			for (int y = yStart; y - yStart < height; y++) {
 				// For each pixel apply the filter
 				float totalR(0), totalG(0), totalB(0);
 				float weightR(0), weightG(0), weightB(0);

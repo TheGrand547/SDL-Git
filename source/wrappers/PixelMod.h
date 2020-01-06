@@ -11,12 +11,12 @@ class PixelMod {
 	protected:
 		SDL_Texture* texture;
 		uint32 UGLY = 0x00000000;
-		bool unlocked;
+		bool unlocked, edges;
 		uint32* pixels;
 		SDL_PixelFormat* format;
 		int texturePitch, textureWidth, textureHeight, pixelCount;
 	public:		
-		PixelMod(SDL_Texture* texture);
+		PixelMod(SDL_Texture* texture, bool wrapEdges = false);
 		~PixelMod();
 		bool notLocked();
 		int count() const;
