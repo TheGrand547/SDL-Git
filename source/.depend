@@ -822,3 +822,4 @@ ZeroRadiusTurnPath.o: game_entities/paths/ZeroRadiusTurnPath.cpp \
   game_entities/paths/../../wrappers/Timer.h
 Pixel.o: primitives/Pixel.cpp primitives/Pixel.h primitives/Point.h
 random.o: essential/random.cpp essential/random.h
+Configuration.o: essential/Configuration.cpp essential/Configuration.h

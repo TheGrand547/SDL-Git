@@ -46,7 +46,7 @@ int main(int argc, char* argv[]) {
 		for (int y = 0; y <= Screen::MAX_HEIGHT; y += 25) {
 			nodes.addNodeAt(Point(x, y));
 			if (x % 100 == 0 && y % 100 == 0) {
-				groundGroup.add(Point(x, y), Ground::GRASS);
+				groundGroup.add(Point(x, y), Ground::filenames[Ground::GRASS]);
 			}
 		}
 	}
