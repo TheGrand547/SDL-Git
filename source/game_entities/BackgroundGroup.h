@@ -8,17 +8,19 @@
 #include "../primitives/Point.h"
 #include "BackgroundElement.h"
 #include<map>
+#include<memory>
+#include<string>
 #include<vector>
 class BackgroundGroup : public DrawGroup {
 	private:
-		std::map<Ground::Type, Texture*> textures;
-		std::vector<BackElement*> elements;
+		std::map<std::string, std::shared_ptr<Texture>> textures;
+		std::vector<std::shared_ptr<BackElement>> elements;
 	public:
 		BackgroundGroup();
 		~BackgroundGroup();
 		bool exists() override;
 		int size() override;
-		void add(Point position, Ground::Type type);
+		void add(Point position, std::string type = "missingTexture.jpg");
 		void clearGroup() override;
 		void drawGroup() override;
 };

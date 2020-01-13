@@ -3,9 +3,6 @@
 BackgroundGroup::BackgroundGroup() {}
 
 BackgroundGroup::~BackgroundGroup() {
-	for (std::map<Ground::Type, Texture*>::iterator iter = this->textures.begin(); iter != this->textures.end(); iter++) {
-		delete iter->second;
-	}
 	this->clearGroup();
 }
 
@@ -18,25 +15,21 @@ int BackgroundGroup::size() {
 }
 
 void BackgroundGroup::clearGroup() {
-	for (std::vector<BackElement*>::iterator iter = this->elements.begin(); iter != this->elements.end(); iter++) {
-		delete *iter;
-	}
 	this->elements.clear();
 }
 
-void BackgroundGroup::add(Point position, Ground::Type type) {
+void BackgroundGroup::add(Point position, std::string type) {
 	if (this->textures[type] == NULL) {
 		this->textures[type] = BackElement::createGroundTexture(MegaBase::renderer, type);
 		this->textures[type]->normalizeTexture(MegaBase::renderer);
-		this->textures[type]->bilateralFilter(40.0, 16.0, 7, 40, 40, 20, 20);
 	}
-	this->elements.push_back(new BackElement(position, type));
+	this->elements.push_back(std::make_shared<BackElement>(position, type));
 	this->elements.back()->setTexture(this->textures[type]);
 	
 }
 
 void BackgroundGroup::drawGroup() {
-	for (BackElement* element: this->elements) {
+	for (std::shared_ptr<BackElement> element: this->elements) {
 		element->draw(MegaBase::renderer, MegaBase::offset);
 	}
 }
