@@ -11,7 +11,44 @@ SDL_Renderer* MegaBase::renderer = NULL;
 BoundedPoint* MegaBase::offset = NULL;
 SuperTexture Box::mTexture;
 
+
 int main(int argc, char* argv[]) {
+	bool last = false;
+	std::string fop;
+	std::map<std::string, int> foe;
+	int t = 1;
+	for (int i = 1; i < argc; i++) {
+		fop = argv[i];
+		if (last) {
+			if (fop.find("=") != std::string::npos) {
+				continue;
+			}
+			last = false;
+			if (fop.find("-") == std::string::npos) {
+				std::string temp = argv[t];
+				try {
+					foe[temp.substr(temp.find("-") + 1)] = stoi(fop);
+				} catch (const std::invalid_argument& e) {
+					// TODO: Log invalid command line argument
+					std::cout << "Invalid Command Line Argument: ";
+					for (int j = t; j <= i; j++) {
+						std::cout << argv[j];
+					}
+					std::cout << std::endl;
+				}
+				continue;
+			}
+		}
+		if (fop.find("-") != std::string::npos) {
+			t = i;
+			foe[fop.substr(fop.find("-") + 1)] = 1;
+			last = true;
+		}
+	}
+	for (std::map<std::string, int>::iterator iter = foe.begin(); iter != foe.end(); iter++) {
+		std::cout << iter->first << " = " << iter->second << std::endl;
+	}
+	std::cout << "no" << std::endl;
 	// TODO: Write command line args like in source, in addition to command line args such as DRAW_PATHS_ENABLE
 	if(!init()) {
 		printf("Failed to initialize!\n");
