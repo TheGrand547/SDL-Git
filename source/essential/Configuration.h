@@ -12,7 +12,7 @@ class Configuration {
 		std::map<std::string, int> configMap;
 	public:
 		Configuration();
-		int operator[](std::string key) const;
-		void output(std::ostream& output = std::cout) const;
+		int operator[](std::string key);
+		void output(std::ostream& output = std::cout);
 		void reload();
 };

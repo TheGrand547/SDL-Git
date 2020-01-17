@@ -37,16 +37,16 @@ Configuration::Configuration() {
 	}
 }
 
-int Configuration::operator[](std::string key) const {
+int Configuration::operator[](std::string key) {
 	int value = SDL_GetScancodeFromName(this->keyMap[key].c_str());
 	if (value == SDL_SCANCODE_UNKNOWN) {
-		value = stoi(this->configMap[key]);
+		value = this->configMap[key];
 	}
 	return value;
 }
 
-void Configuration::output(std::ostream& output) const {
-	for (std::map<std::string, std::string>::iterator iter = configMap.begin(); iter != configMap.end(); iter++) {
+void Configuration::output(std::ostream& output) {
+	for (std::map<std::string, std::string>::iterator iter = keyMap.begin(); iter != keyMap.end(); iter++) {
 		output << iter->first << " = " << iter->second << std::endl;
 	}
 }

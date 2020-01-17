@@ -16,12 +16,8 @@ Controller::Controller() {}
 
 
 Controller::~Controller() {
-	for (std::map<int, CommandBase*>::iterator iterator = keys.begin(); iterator != keys.end(); iterator++) {
-		delete iterator->second;
-	}
-	for (std::map<int, ButtonCommand*>::iterator iterator = buttons.begin(); iterator != buttons.end(); iterator++) {
-		delete iterator->second;
-	}
+	this->keys.clear();
+	this->buttons.clear();
 }
 
 void Controller::handleEvents() {
@@ -76,7 +72,7 @@ void Controller::handleEvents() {
 			}
 		}
 	}
-	std::map<int, ButtonCommand*>::iterator iterator = buttons.begin();
+	std::map<int, std::shared_ptr<ButtonCommand>>::iterator iterator = buttons.begin();
 	for (; iterator != buttons.end(); iterator++) {
 		if (this->stuff[iterator->first]) {
 			if (iterator->second != NULL) {
@@ -87,15 +83,15 @@ void Controller::handleEvents() {
 	this->tickListeners();	
 }
 
-void Controller::addButton(int value, ButtonCommand* button) {
+void Controller::addButton(int value, std::shared_ptr<ButtonCommand> button) {
 	this->buttons[value] = button;
 }
 
-void Controller::addButton(std::string str, ButtonCommand* button) {
+void Controller::addButton(std::string str, std::shared_ptr<ButtonCommand> button) {
 	this->buttons[config[str]] = button;
 }
 
-void Controller::addKey(int value, CommandBase* command) {
+void Controller::addKey(int value, std::shared_ptr<CommandBase> command) {
 	this->keys[value] = command;
 }
 
@@ -118,10 +114,10 @@ HeldKey& Controller::checkListener(int key) {
 }
 
 void Controller::addPlayerKeys(PointDelta& target) {
-	this->addButton(config["Right"], new PlayerMoveCommand(BASIC::PLAYER_RIGHT_KEYDOWN, &target));
-	this->addButton(config["Left"], new PlayerMoveCommand(BASIC::PLAYER_LEFT_KEYDOWN, &target));
-	this->addButton(config["Up"], new PlayerMoveCommand(BASIC::PLAYER_UP_KEYDOWN, &target));
-	this->addButton(config["Down"], new PlayerMoveCommand(BASIC::PLAYER_DOWN_KEYDOWN, &target));
+	this->addButton(config["Right"], std::make_shared<PlayerMoveCommand>(BASIC::PLAYER_RIGHT_KEYDOWN, &target));
+	this->addButton(config["Left"], std::make_shared<PlayerMoveCommand>(BASIC::PLAYER_LEFT_KEYDOWN, &target));
+	this->addButton(config["Up"], std::make_shared<PlayerMoveCommand>(BASIC::PLAYER_UP_KEYDOWN, &target));
+	this->addButton(config["Down"], std::make_shared<PlayerMoveCommand>(BASIC::PLAYER_DOWN_KEYDOWN, &target));
 }
 
 void Controller::addCheat(std::string key, void(*func)()) {

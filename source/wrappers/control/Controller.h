@@ -10,6 +10,7 @@
 #include "ControllerCommand.h"
 #include "CommandBase.h"
 #include<map>
+#include<memory>
 #include<vector>
 
 /* Class to handle event handling(haha) less messily and with easier functionality to implement new events */ 
@@ -20,8 +21,8 @@ class Controller {
 	 * Listeners are an extention of HeldKey for more complicated external usage */
 	private:
 		/* Low Priority TODO: Add controller support */
-		std::map<int, CommandBase*> keys;
-		std::map<int, ButtonCommand*> buttons;
+		std::map<int, std::shared_ptr<CommandBase>> keys;
+		std::map<int, std::shared_ptr<ButtonCommand>> buttons;
 		std::map<int, HeldKey> listeners;
 		std::vector<char> myq;
 		std::map<std::string, void(*)()> mymp;
@@ -34,9 +35,9 @@ class Controller {
 		Controller();
 		~Controller();
 		void handleEvents();
-		void addButton(int value, ButtonCommand* button);
-		void addButton(std::string str, ButtonCommand* button);
-		void addKey(int value, CommandBase* command);
+		void addButton(int value, std::shared_ptr<ButtonCommand> button);
+		void addButton(std::string str, std::shared_ptr<ButtonCommand> button);
+		void addKey(int value, std::shared_ptr<CommandBase> command);
 		void addListener(int key, int threshold = 150);
 		void addListener(std::string key, int threshold = 150);
 		void tickListeners();
