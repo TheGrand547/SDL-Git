@@ -25,20 +25,13 @@ void HeldKey::set(bool to) {
 	if (to) {
 		if (this->timer.getTicks() == 0) {
 			this->timer.start();
-		}
-		tick();
-	} else {
-		reset();
-	}
-}
-
-bool HeldKey::tick() {
-	if (this->down) {
-		if (this->timer.getTicks() >= this->maxHeld) {
-			this->toggle = true;
 		} 
+		if (this->timer.getTicks() > this->maxHeld) {
+			this->toggle = true;
+		}
+	} else {
+		this->reset();
 	}
-	return this->toggle;
 }
 
 bool HeldKey::getHeld() {

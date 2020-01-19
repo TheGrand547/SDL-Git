@@ -24,6 +24,7 @@ class Controller {
 		std::map<int, std::shared_ptr<CommandBase>> keys;
 		std::map<int, std::shared_ptr<ButtonCommand>> buttons;
 		std::map<int, HeldKey> listeners;
+		
 		std::vector<char> myq;
 		std::map<std::string, void(*)()> mymp;
 		
@@ -40,7 +41,7 @@ class Controller {
 		void addKey(int value, std::shared_ptr<CommandBase> command);
 		void addListener(int key, int threshold = 150);
 		void addListener(std::string key, int threshold = 150);
-		void tickListeners();
+		void updateListeners();
 		HeldKey& checkListener(int key);
 		void addPlayerKeys(PointDelta& target);
 		void addCheat(std::string key, void(*func)()); // TODO: Make this not dependent on function pointers

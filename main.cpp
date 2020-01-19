@@ -13,7 +13,14 @@ SuperTexture Box::mTexture;
 
 
 int main(int argc, char* argv[]) {
+	std::map<std::string, int> gameState; // This will later be placed into the class to hold level instances
 	// TODO: Write command line args like in source, in addition to command line args such as DRAW_PATHS_ENABLE
+	for (int i = 1; i < argc; i++) {
+		if (!strcmp(argv[i], "RAY_CAST_ENABLE")) {
+			std::cout << "FO" << std::endl;
+			gameState["RAY_CAST"] = 1;
+		}
+	}
 	if(!init()) {
 		printf("Failed to initialize!\n");
 		return 0;
@@ -79,8 +86,10 @@ int main(int argc, char* argv[]) {
 		ap.update(gRenderer);
 		handler.drawHandler();
 		dot.draw(); // Player must always be drawn onto the top layer for best visibility, for the time being
-		if (contra.checkListener(config["Ray"]).getHeld()) { // Raycasting
-			dot.rayCast();
+		if (gameState["RAY_CAST"]) {
+			if (contra.checkListener(config["Ray"]).getHeld()) { // Raycasting
+				dot.rayCast();
+			}
 		}
 		lip.drawLine(gRenderer);
 		fps.draw(gRenderer);

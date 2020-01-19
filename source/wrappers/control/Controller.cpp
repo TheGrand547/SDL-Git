@@ -80,7 +80,7 @@ void Controller::handleEvents() {
 			}
 		}
 	}
-	this->tickListeners();	
+	this->updateListeners();	
 }
 
 void Controller::addButton(int value, std::shared_ptr<ButtonCommand> button) {
@@ -103,9 +103,9 @@ void Controller::addListener(std::string key, int threshold) {
 	this->addListener(config[key], threshold);
 }
 
-void Controller::tickListeners() {
+void Controller::updateListeners() {
 	for(std::map<int, HeldKey>::iterator iterator = this->listeners.begin(); iterator != listeners.end(); iterator++) {
-		iterator->second.tick();
+		iterator->second.set(this->stuff[iterator->first]);
 	}
 }
 
