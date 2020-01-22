@@ -17,7 +17,6 @@ int main(int argc, char* argv[]) {
 	// TODO: Write command line args like in source, in addition to command line args such as DRAW_PATHS_ENABLE
 	for (int i = 1; i < argc; i++) {
 		if (!strcmp(argv[i], "RAY_CAST_ENABLE")) {
-			std::cout << "FO" << std::endl;
 			gameState["RAY_CAST"] = 1;
 		}
 	}
