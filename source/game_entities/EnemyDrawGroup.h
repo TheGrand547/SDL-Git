@@ -20,11 +20,11 @@ class EnemyDrawGroup : public DrawGroup {
 		bool exists() override;
 		Dot* getDot();
 		int size() override;
+		void add(std::shared_ptr<EnemyBase> entity);
 		void clearGroup() override;
 		void drawGroup() override;
 		void update();
 		void setDot(Dot* dot);
-		void add(std::shared_ptr<EnemyBase> entity);
 		
 		CollideBaseGroup* collide;
 		NodeDrawGroup* nav;

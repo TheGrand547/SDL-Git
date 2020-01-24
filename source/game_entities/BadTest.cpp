@@ -137,3 +137,15 @@ void BadTest::update() {
 Point BadTest::getPos() {
 	return this->position;
 }
+
+Rect BadTest::getRect() const {
+	return Rect(this->position, this->width, this->height);
+}
+
+bool BadTest::overlap(Rect other) {
+	return this->getRect().overlap(other);
+}
+
+bool BadTest::overlap(std::shared_ptr<ThingBase>& other) {
+	return this->overlap(other->getRect());
+}

@@ -26,7 +26,7 @@ Point Dot::getPos() {
 	return this->position;
 }
 
-Rect Dot::getRect() {
+Rect Dot::getRect() const {
 	return Rect(this->position, Player::PLAYER_X_DIMENSION, Player::PLAYER_Y_DIMENSION);
 }
 
@@ -38,6 +38,14 @@ Line Dot::getRay() {
 
 float Dot::getAngle() {
 	return this->angle * 180 / M_PI;
+}
+
+bool Dot::overlap(Rect other) {
+	return this->getRect().overlap(other);
+}
+
+bool Dot::overlap(std::shared_ptr<ThingBase>& other) {
+	return this->overlap(other->getRect());
 }
 
 void Dot::draw() {

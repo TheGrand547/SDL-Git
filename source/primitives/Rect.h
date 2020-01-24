@@ -21,6 +21,10 @@ class Rect: public MyBase {
 		Rect& operator=(const Rect &that);
 		Rect operator+(const Point &point);
 		Rect operator-(const Point &point);
+		bool overlap(Rect& other);
+		bool doesLineCollide(Line& ray);
+		float getHeight();
+		float getWidth();
 		Point collideLine(Line& ray);
 		Point getBottomLeft() const;
 		Point getBottomRight() const;
@@ -28,10 +32,6 @@ class Rect: public MyBase {
 		Point getTopLeft() const;
 		Point getTopRight() const;
 		SDL_Rect getSDLRect();
-		bool overlap(Rect& other);
-		bool doesLineCollide(Line& ray);
-		float getHeight();
-		float getWidth();
 		void draw(SDL_Renderer* renderer, Point offset);
 		void operator+=(Point point);
 		void operator-=(Point point);

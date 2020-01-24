@@ -1,6 +1,7 @@
 #include "EnemyBase.h"
 
-EnemyBase::EnemyBase(EnemyDrawGroup* parent, Point position) : EntityBase(SOLID, 2.25) {
+EnemyBase::EnemyBase(EnemyDrawGroup* parent, Point position) : EntityBase(2.25) {
+	this->flags = SOLID;
 	this->parent = parent;
 	this->position = position;
 	this->pathTimer.start();

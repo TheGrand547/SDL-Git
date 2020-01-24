@@ -1,6 +1,6 @@
 #include "EntityBase.h"
 
-EntityBase::EntityBase(int flags, double maxVelocity, double friction) : flags(flags) {
+EntityBase::EntityBase(double maxVelocity, double friction) {
 	this->acceleration = Point(0, 0);
 	this->angle = 0;
 	this->frictionAmount = friction * ((friction > 0) ? 1 : -1);
@@ -26,4 +26,8 @@ void EntityBase::accelerate(PointDelta delta) {
 	this->acceleration = delta * this->timer.getRatio();
 	this->velocity += this->acceleration;
 	this->evalAngle(this->velocity);
+}
+
+int EntityBase::getFlags() {
+	return this->flags;
 }

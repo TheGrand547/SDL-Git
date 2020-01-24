@@ -7,9 +7,9 @@
 #include "../primitives/Point.h"
 #include "../wrappers/Texture.h"
 #include "../wrappers/Timer.h"
+#include "base/EnemyBase.h"
 #include "CollideBaseGroup.h"
 #include "NodePath.h"
-#include "base/EnemyBase.h"
 #include "paths/CirclePath.h"
 #include "paths/LinePath.h"
 #include "paths/PathManager.h"
@@ -29,9 +29,12 @@ class BadTest : public EnemyBase {
 		BadTest(EnemyDrawGroup* parent, Point position);
 		BadTest(const BadTest& that);
 		~BadTest();
+		bool overlap(Rect other) override;
+		bool overlap(std::shared_ptr<ThingBase>& other) override;
 		bool isLocationInvalid() override;
 		Point getPos() override;
 		Point getCenter() override;
+		Rect getRect() const override;
 		void draw(SDL_Renderer* renderer, BoundedPoint& offset) override;
 		void setTexture(SDL_Renderer* renderer);
 		void update() override;

@@ -1,17 +1,18 @@
 #pragma once
-#include<SDL2/SDL.h>
-#include "primitives/Point.h"
-#include "primitives/Rect.h"
-#include "primitives/Vector.h"
-#include "primitives/PointDelta.h"
-#include "game_entities/CollideBaseGroup.h"
-#include "game_entities/base/EntityBase.h"
 #include "essential/constants.h"
 #include "essential/MegaBase.h"
+#include "game_entities/base/EntityBase.h"
+#include "game_entities/CollideBaseGroup.h"
+#include "primitives/Point.h"
+#include "primitives/PointDelta.h"
+#include "primitives/Rect.h"
+#include "primitives/Vector.h"
 #include "wrappers/FpsText.h"
 #include<math.h>
+#include<memory>
+#include<SDL2/SDL.h>
 
-class Dot : public EntityBase, public MyBase { // Might not need MyBase
+class Dot : public EntityBase, public MyBase { 
 	private:
 		BoundedPoint position;
 		CollideBaseGroup* collision;
@@ -19,19 +20,20 @@ class Dot : public EntityBase, public MyBase { // Might not need MyBase
 	public:
 		Dot(Point startingCoordinate);
 		~Dot();
-		Point getCenter();
-		float calcAngle(Point point);
-		Point getPos();
-		Rect getRect();
-		Line getRay();
+		bool overlap(Rect other) override;
+		bool overlap(std::shared_ptr<ThingBase>& other) override;
 		float getAngle();
-		void move(Point delta);
-		void update(PointDelta acceleration);
-		void draw();
+		float calcAngle(Point point);
+		Line getRay();
+		Point getCenter();
+		Point getPos();
+		Rect getRect() const override;
 		void collideTest();
+		void draw();
+		void move(Point delta);
 		void rayCast();
-		
 		void setCollision(CollideBaseGroup& boxes);
+		void update(PointDelta acceleration);
 };
 
 int tempF(double val);
