@@ -25,7 +25,7 @@ Point Box::collideLine(Line& ray) {
 	return this->rect.collideLine(ray);
 }
 
-bool Box::overlap(Rect& other) {
+bool Box::overlap(Rect other) {
 	return this->rect.overlap(other);
 }
 
@@ -57,4 +57,12 @@ bool Box::doesLineCollide(Line& ray) {
 	/* True - Line DOES collide with this Box
 	 * False - Line DOES NOT collide with this Box */
 	return this->rect.doesLineCollide(ray);
+}
+
+Rect Box::getRect() const {
+	return this->rect;
+}
+
+bool Box::overlap(std::shared_ptr<ThingBase>& other) {
+	return this->overlap(other->getRect());
 }

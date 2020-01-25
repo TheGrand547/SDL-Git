@@ -45,6 +45,7 @@ void BadTest::draw(SDL_Renderer* renderer, BoundedPoint& offset) {
 	if (this->path.getFirst().isReal()) {
 		this->path.draw();
 	}
+	this->path.draw();
 	// Draw vision cone - Slopily
 	for (int i = -20; i <= 20; i++) {
 		Point pTemp = this->getCenter();
@@ -65,7 +66,6 @@ void BadTest::update() {
 	//this->c.update();
 
 	// Temp
-	
 	switch (this->currentState) {
 		case State::PATROL:
 			if (this->c.paused()) {

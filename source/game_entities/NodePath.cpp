@@ -107,10 +107,12 @@ void NodePath::draw(Point point) {
 		tmp.setColorChannels(0xFF, 0x00, 0x00, 0xFF);
 		tmp.drawLine(MegaBase::renderer, MegaBase::offset);
 	}
-	std::vector<Node*>::iterator it = this->stored.begin();
-	for (; it[0] != this->stored.back(); it++) {
-		Line tmp = Line(it[0]->getPosition(), it[1]->getPosition());
-		tmp.setColorChannels(0xFF, 0x00, 0x00, 0xFF);
-		tmp.drawLine(MegaBase::renderer, MegaBase::offset);
+	if (this->stored.size() > 2) {
+		std::vector<Node*>::iterator it = this->stored.begin();
+		for (; it[0] != this->stored.back(); it++) {
+			Line tmp = Line(it[0]->getPosition(), it[1]->getPosition());
+			tmp.setColorChannels(0xFF, 0x00, 0x00, 0xFF);
+			tmp.drawLine(MegaBase::renderer, MegaBase::offset);
+		}
 	}
 }

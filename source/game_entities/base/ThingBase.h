@@ -18,7 +18,7 @@ class ThingBase {
 		int flags;
 		Point position;
 	public:
-		virtual ~ThingBase() {};
+		virtual ~ThingBase() = 0;
 		virtual bool overlap(Rect other) = 0;
 		virtual bool overlap(std::shared_ptr<ThingBase>& other) = 0;
 		virtual Rect getRect() const = 0;

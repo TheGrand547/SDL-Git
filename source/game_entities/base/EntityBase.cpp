@@ -3,7 +3,7 @@
 EntityBase::EntityBase(double maxVelocity, double friction) {
 	this->acceleration = Point(0, 0);
 	this->angle = 0;
-	this->frictionAmount = friction * ((friction > 0) ? 1 : -1);
+	this->frictionAmount = abs(friction);
 	this->velocity = PointDelta(0, 0, maxVelocity);
 }
 

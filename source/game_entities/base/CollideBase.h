@@ -10,8 +10,7 @@ class CollideBase : public ThingBase {
 		CollideBase() {
 			this->flags |= MOVEABLE;
 		}
-		virtual ~CollideBase() {};
-		virtual bool overlap(Rect& other) = 0;
+		virtual ~CollideBase() = 0;
 		virtual Point collideLine(Line& ray) = 0;
 		virtual bool doesLineCollide(Line& ray) = 0;
 		virtual void draw(SDL_Renderer* renderer, Point offset) = 0;
