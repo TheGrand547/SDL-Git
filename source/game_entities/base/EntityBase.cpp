@@ -31,3 +31,7 @@ void EntityBase::accelerate(PointDelta delta) {
 int EntityBase::getFlags() {
 	return this->flags;
 }
+
+int EntityBase::originDistance() const {
+	return this->position.distanceToPoint(Point(0, 0));
+}

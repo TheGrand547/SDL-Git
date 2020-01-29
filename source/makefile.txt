@@ -2,7 +2,7 @@ CC=gcc
 CXX=g++
 RM=rm -f
 CPPFLAGS=-g -std=c++17 -march=native
-LDFLAGS=-g -o2 -march=native
+LDFLAGS=-g -og -march=native
 LDLIBS=-lSDL2 -lSDL2_gfx -lSDL2_image -lSDL2_ttf
 
 SRCS=../main.cpp primitives/Rect.cpp wrappers/HeldKey.cpp wrappers/control/Controller.cpp primitives/PointDelta.cpp primitives/Line.cpp wrappers/AppearingText.cpp wrappers/Timer.cpp wrappers/control/CommandBase.cpp wrappers/FpsText.cpp wrappers/control/PlayerMoveCommand.cpp game_entities/CollideBaseGroup.cpp game_entities/BackgroundGroup.cpp BoundedPoint.cpp game_entities/EnemyDrawGroup.cpp primitives/Point.cpp wrappers/AlertText.cpp AlertTextHandler.cpp game_entities/base/EnemyBase.cpp game_entities/Box.cpp game_entities/Node.cpp game_entities/NodeDrawGroup.cpp wrappers/SuperTexture.cpp game_entities/BadTest.cpp wrappers/Texture.cpp Dot.cpp wrappers/control/SimpleButtonCommand.cpp wrappers/Font.cpp game_entities/BackgroundElement.cpp wrappers/PixelMod.cpp game_entities/NodePath.cpp game_entities/CollideBaseFactory.cpp primitives/Vector.cpp essential/util.cpp game_entities/paths/Path.cpp game_entities/paths/LinePath.cpp game_entities/base/EntityBase.cpp MyBase.cpp game_entities/paths/PathManager.cpp game_entities/paths/CirclePath.cpp game_entities/paths/ZeroRadiusTurnPath.cpp primitives/Pixel.cpp essential/random.cpp essential/Configuration.cpp game_entities/base/CollideBase.cpp game_entities/base/ThingBase.cpp
