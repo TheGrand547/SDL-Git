@@ -28,7 +28,7 @@ void EntityBase::accelerate(PointDelta delta) {
 	this->evalAngle(this->velocity);
 }
 
-int EntityBase::getFlags() {
+int EntityBase::getFlags() const {
 	return this->flags;
 }
 

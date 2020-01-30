@@ -17,7 +17,7 @@ class EntityBase : public ThingBase {
 	public:
 		EntityBase(double maxVelocity = 4, double friction = 10.0); // TODO: Constant these
 		~EntityBase();
-		int getFlags();
+		int getFlags() const override;
 		int originDistance() const override;
 		void accelerate(PointDelta delta);
 		void evalAngle(Point delta);

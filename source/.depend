@@ -863,3 +863,26 @@ ThingBase.o: game_entities/base/ThingBase.cpp \
   game_entities/base/../../primitives/../MyBase.h \
   game_entities/base/../../primitives/Line.h \
   game_entities/base/../../primitives/../essential/random.h
+GameInstance.o: GameInstance.cpp GameInstance.h AlertTextHandler.h \
+  wrappers/AlertText.h wrappers/Font.h wrappers/Timer.h \
+  wrappers/../essential/constants.h wrappers/../primitives/Point.h \
+  game_entities/CollideBaseGroup.h game_entities/DrawGroup.h \
+  game_entities/../BoundedPoint.h primitives/Point.h \
+  game_entities/../essential/MegaBase.h \
+  wrappers/../essential/../BoundedPoint.h \
+  game_entities/base/CollideBase.h \
+  game_entities/base/../../primitives/Rect.h \
+  wrappers/../primitives/../essential/util.h \
+  wrappers/../essential/../primitives/Point.h \
+  wrappers/../essential/../MyBase.h wrappers/../primitives/PointDelta.h \
+  wrappers/../primitives/../MyBase.h wrappers/../primitives/Line.h \
+  wrappers/../primitives/../essential/random.h \
+  game_entities/base/../../primitives/Line.h \
+  game_entities/base/ThingBase.h \
+  game_entities/base/../../primitives/Point.h \
+  game_entities/../wrappers/SuperTexture.h wrappers/../primitives/Rect.h \
+  wrappers/../MyBase.h wrappers/../essential/util.h wrappers/Texture.h \
+  wrappers/../essential/random.h wrappers/PixelMod.h \
+  wrappers/../primitives/Pixel.h game_entities/NodeDrawGroup.h \
+  game_entities/Node.h game_entities/../primitives/Point.h \
+  game_entities/../primitives/Rect.h

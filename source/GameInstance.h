@@ -10,20 +10,25 @@
 
 typedef uint32_t Uint32;
 
-bool compare(const ThingBase*& lhs, const ThingBase*& rhs) {
-	return lhs->originDistance() < rhs->originDistance();
-}
+struct compare {
+	bool operator()(const ThingBase* lhs, const ThingBase* rhs);
+};
 
 class GameInstance {
 	private:
 		//CollideBaseGroup collision;
 		//NodeDrawGroup nodes;
-		std::vector<std::shared_ptr<ThingBase>> cld;
+		std::vector<std::shared_ptr<ThingBase>> allThings;
 		std::vector<std::shared_ptr<ThingBase>> drawThings;
-		std::set<ThingBase*, decltype(compare)> due(decltype(compare));
+		std::vector<std::shared_ptr<ThingBase>> collision;
+		
+		std::vector<std::shared_ptr<ThingBase>> movingThings; // List of everything that's position won't change
+		std::set<ThingBase*, compare> drawOrder;
 	public:
-		GameInstance() {}
-		~GameInstance() {}
+		GameInstance();
+		~GameInstance();
+		void addThing(std::shared_ptr<ThingBase> thing);
+		void update();
 		//CollideBaseGroup& getCollision() {return this->collision;}
 		//NodeDrawGroup& getNodes() {return this->nodes;}
 };

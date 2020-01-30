@@ -7,9 +7,7 @@
  * things in the world, such as projectiles, walls, enemies, ect. */
 class CollideBase : public ThingBase {
 	public:
-		CollideBase() {
-			this->flags |= MOVEABLE;
-		}
+		CollideBase();
 		virtual ~CollideBase() = 0;
 		virtual Point collideLine(Line& ray) = 0;
 		virtual bool doesLineCollide(Line& ray) = 0;
