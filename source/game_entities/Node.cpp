@@ -3,23 +3,21 @@
 
 // TODO: Add functionality for data to be contained within the nodes
 
-Node::Node(Point position) {
+Node::Node(Point position, std::string data) : data(data), position(position) {
 	// "Null" node, one that can be placed before collision group is fully created
 	this->drawnThisFrame = false;
-	this->position = position;
 }
 
-Node::Node(Point position, NodeDrawGroup& group, CollideBaseGroup& collision) {
+Node::Node(Point position, NodeDrawGroup* parent, std::string data) : data(data), position(position) {
 	this->drawnThisFrame = false;
-	this->position = position;
-	for (int i = 0; i < group.size(); i++) {
-		if (this->position.distanceToPoint(group[i]->position) > NODE::NODE_DISTANCE_MAX) {
+	for (int i = 0; i < parent->size(); i++) {
+		if (this->position.distanceToPoint(parent->at(i)->position) > NODE::NODE_DISTANCE_MAX) {
 			continue;
 		}
-		if (collision.doesNotCollideWith(Line(this->position, group[i]->position))) {
-			if (Node::checkLocationValidity(Line(this->position, group[i]->position).midPoint(), collision)) {
-				this->attached.push_back(group[i]);
-				group[i]->addAttached(this);
+		if (collision.doesNotCollideWith(Line(this->position, parent->at(i)->position))) {
+			if (Node::checkLocationValidity(Line(this->position, parent->at(i)->position).midPoint(), collision)) {
+				this->attached.push_back(parent->at(i));
+				parent->at(i)->addAttached(std::shared_ptr<Node>(this));
 			}
 		}
 	}
@@ -27,11 +25,11 @@ Node::Node(Point position, NodeDrawGroup& group, CollideBaseGroup& collision) {
 
 Node::~Node() {}
 
-Node* Node::randomConnectedNode() {
+std::shared_ptr<Node> Node::randomConnectedNode() {
 	return this->attached[rand() % this->attached.size()];
 }
 
-float Node::getDistance(Node* other) {
+float Node::getDistance(std::shared_ptr<Node> other) {
 	return this->position.distanceToPoint(other->getPosition());
 }
 
@@ -46,7 +44,7 @@ void Node::reset() {
 void Node::draw() { // Legacy function only for testing purposes
 	//this->drawnThisFrame = true;
 	Line tempLine;
-	for (Node* node: this->attached) {
+	for (std::shared_ptr<Node> node: this->attached) {
 		if (!node->drawnThisFrame) {
 			// BREACHING DE GATEZ
 			tempLine = Line(this->position, node->position);
@@ -59,7 +57,7 @@ void Node::draw() { // Legacy function only for testing purposes
 	circleColor(MegaBase::renderer, temp.x(), temp.y(), 10, 0xFF0000FF);
 }
 
-void Node::addAttached(Node* node) {
+void Node::addAttached(std::shared_ptr<Node> node) {
 	this->attached.push_back(node);
 }
 

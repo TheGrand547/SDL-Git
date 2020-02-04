@@ -1,0 +1,21 @@
+#pragma once
+#ifndef COLLISION_HANDLER_H
+#define COLLISION_HANDLER_H
+class CollisionHandler;
+#include "../GameInstance.h"
+#include "base/ThingBase.h"
+#include<memory>
+#include<vector>
+
+
+// Interface to interact with the collidable objects from GameInstance
+class CollisionHandler {
+	private:
+		GameInstance* parent;
+	public:
+		CollisionHandler(GameInstance* parent);
+		~CollisionHandler();
+		int size() const;
+};
+
+#endif

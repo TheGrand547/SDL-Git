@@ -94,7 +94,6 @@ int main(int argc, char* argv[]) {
 		lip.drawLine(gRenderer);
 		fps.draw(gRenderer);
 		renderChanges(gRenderer, gameWindow);
-		frames++;
 	}
 	close(gameWindow);
 	return 0;

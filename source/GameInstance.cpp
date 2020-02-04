@@ -4,7 +4,7 @@ bool compare::operator()(const ThingBase* lhs, const ThingBase* rhs) {
 	return lhs->originDistance() < rhs->originDistance();
 }
 
-GameInstance::GameInstance() {}
+GameInstance::GameInstance(SDL_Renderer* renderer) : renderer(renderer) {}
 
 GameInstance::~GameInstance() {}
 
@@ -25,10 +25,15 @@ void GameInstance::addThing(std::shared_ptr<ThingBase> thing) {
 void GameInstance::update() {
 	for (std::shared_ptr<ThingBase> thing: this->movingThings) {
 		///thing->move();
-		if (!(thing->getFlags() & NOCLIP)) {
-			
-		}
 		this->drawOrder.erase(thing.get());
 		this->drawOrder.insert(thing.get());
 	}
+}
+
+void GameInstance::draw() {
+	
+}
+
+SDL_Renderer* GameInstance::getRenderer() {
+	return this->renderer;
 }
