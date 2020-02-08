@@ -29,7 +29,7 @@ class Dot : public EntityBase, public MyBase {
 		Point getPos();
 		Rect getRect() const override;
 		void collideTest();
-		void draw();
+		void draw(SDL_Renderer* renderer, Point offset = Point(0, 0)) override;
 		void move(Point delta);
 		void rayCast();
 		void setCollision(CollideBaseGroup& boxes);

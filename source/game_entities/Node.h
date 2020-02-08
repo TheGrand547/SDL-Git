@@ -1,15 +1,17 @@
 #pragma once
 #ifndef AI_NODE_H
 #define AI_NODE_H
-#include<vector>
-#include<stdlib.h>
+class Node;
+#include "../essential/MegaBase.h"
 #include "../primitives/Point.h"
 #include "../primitives/Rect.h"
-#include "CollideBaseGroup.h"
-class Node;
 #include "NodeDrawGroup.h"
 #include<memory>
+#include<stdlib.h>
 #include<string>
+#include<vector>
+
+class GameInstance;
 
 class Node {
 	private:
@@ -28,6 +30,6 @@ class Node {
 		void addAttached(std::shared_ptr<Node> node);
 		void draw();
 		void reset();
-		static bool checkLocationValidity(Point position, CollideBaseGroup& collision);
+		static bool checkLocationValidity(Point position, GameInstance* collision);
 };
 #endif

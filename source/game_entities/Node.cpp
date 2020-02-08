@@ -1,5 +1,5 @@
 #include "Node.h"
-#include "../essential/MegaBase.h"
+#include "CollisionHandler.h"
 
 // TODO: Add functionality for data to be contained within the nodes
 
@@ -14,8 +14,8 @@ Node::Node(Point position, NodeDrawGroup* parent, std::string data) : data(data)
 		if (this->position.distanceToPoint(parent->at(i)->position) > NODE::NODE_DISTANCE_MAX) {
 			continue;
 		}
-		if (collision.doesNotCollideWith(Line(this->position, parent->at(i)->position))) {
-			if (Node::checkLocationValidity(Line(this->position, parent->at(i)->position).midPoint(), collision)) {
+		if (parent->parent->collision.doesNotCollideWith(Line(this->position, parent->at(i)->position))) {
+			if (Node::checkLocationValidity(Line(this->position, parent->at(i)->position).midPoint(), parent->parent)) {
 				this->attached.push_back(parent->at(i));
 				parent->at(i)->addAttached(std::shared_ptr<Node>(this));
 			}
@@ -61,12 +61,12 @@ void Node::addAttached(std::shared_ptr<Node> node) {
 	this->attached.push_back(node);
 }
 
-bool Node::checkLocationValidity(Point position, CollideBaseGroup& collision) {
+bool Node::checkLocationValidity(Point position, GameInstance* instance) {
 	/* True -> valid location
 	 * False -> invalid location */
 	Rect testRect = Rect(position, 50, 50);
 	testRect -= Point(testRect.getWidth(), testRect.getHeight()) / 2.0;
-	return collision.doesNotCollideWith(testRect);
+	return instance->collision.doesNotCollideWith(testRect);
 }
 
 float Node::distanceToPoint(Point point) {

@@ -1,4 +1,5 @@
 #include "NodeDrawGroup.h"
+#include "../GameInstance.h"
 
 NodeDrawGroup::NodeDrawGroup(GameInstance* parent) : parent(parent) {}
 
@@ -33,9 +34,9 @@ std::shared_ptr<Node>& NodeDrawGroup::getFirst() {
 }
 
 void NodeDrawGroup::addNodeAt(Point point, std::string data) {
-	if (Node::checkLocationValidity(point, this->collision->)) {
+	if (Node::checkLocationValidity(point, this->parent)) {
 		std::shared_ptr<Node> node;
-		if (this->collision != NULL) {
+		if (this->parent->collision.size() > 0) {
 			node = std::make_shared<Node>(point, this, data);	
 		} else {
 			node = std::make_shared<Node>(point, data);

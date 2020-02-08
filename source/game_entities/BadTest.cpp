@@ -1,6 +1,7 @@
 #include "BadTest.h"
 
-BadTest::BadTest(EnemyDrawGroup* parent, Point position) : EnemyBase(parent, position) {
+BadTest::BadTest(Point position) : EnemyBase(position) {
+	this->flags = SOLID | MOVEABLE;
 	this->currentState = State::PATROL;
 	
 	this->lastPatrolledPoint = Point();
@@ -8,12 +9,8 @@ BadTest::BadTest(EnemyDrawGroup* parent, Point position) : EnemyBase(parent, pos
 	int dist = 200;
 	this->c.addPath(new LinePath(PointDelta(-1.5, 0, 1.5), dist, Path::SINGLE_LOOP));
 	this->c.addPath(new ZeroRadiusTurnPath(0, 200));
-	//this->c.addPath(new CirclePath(40, 1, Path::SINGLE_LOOP, false));
 	this->c.addPath(new LinePath(PointDelta(1.5, 0, 1.5), dist, Path::SINGLE_LOOP));
-	this->c.addPath(new ZeroRadiusTurnPath(M_PI, 200));
-
-	//this->c.addPath(new CirclePath(40, 1, Path::SINGLE_LOOP, false));	
-	
+	this->c.addPath(new ZeroRadiusTurnPath(M_PI, 200));	
 	this->c.setRepeat(true);
 }
 
@@ -37,7 +34,7 @@ Point BadTest::getCenter() {
 	return this->position + (Point(this->width, this->height) / 2);
 }
 
-void BadTest::draw(SDL_Renderer* renderer, BoundedPoint& offset) {
+void BadTest::draw(SDL_Renderer* renderer, Point offset) {
 	if (this->texture.notLoaded()) {
 		this->setTexture(renderer);
 	}

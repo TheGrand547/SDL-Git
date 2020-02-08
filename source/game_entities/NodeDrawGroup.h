@@ -1,20 +1,19 @@
 #pragma once
 #ifndef NODE_DRAW_GROUP_H
 #define NODE_DRAW_GROUP_H
-#include "CollideBaseGroup.h"
-#include "DrawGroup.h"
-#include "../GameInstance.h"
 class NodeDrawGroup;
+class GameInstance;
+#include "DrawGroup.h"
 #include "Node.h"
 #include<memory>
 #include<string>
 
 class NodeDrawGroup : public DrawGroup {
 	private:
-		GameInstance* parent;
 		std::vector<std::shared_ptr<Node>> storage;
 	public:
-		NodeDrawGroup(CollideBaseGroup& collision);
+		GameInstance* parent;
+		NodeDrawGroup(GameInstance* parent);
 		~NodeDrawGroup();
 		bool exists() override;
 		int size() override;

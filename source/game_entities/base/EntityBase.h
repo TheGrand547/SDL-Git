@@ -1,6 +1,7 @@
 #pragma once
 #ifndef ENTITY_BASE_H
 #define ENTITY_BASE_H
+#include "../../GameInstance.h"
 #include "../../primitives/Point.h"
 #include "../../primitives/PointDelta.h"
 #include "../../wrappers/Timer.h"
@@ -11,14 +12,13 @@
 class EntityBase : public ThingBase {
 	protected:
 		double frictionAmount, angle;
-		PointDelta velocity;
 		Point acceleration;
+		PointDelta velocity;
 		Timer timer;
 	public:
 		EntityBase(double maxVelocity = 4, double friction = 10.0); // TODO: Constant these
 		~EntityBase();
-		int getFlags() const override;
-		int originDistance() const override;
+		float originDistance() const override;
 		void accelerate(PointDelta delta);
 		void evalAngle(Point delta);
 };

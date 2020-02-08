@@ -29,36 +29,39 @@ int main(int argc, char* argv[]) {
 	SDL_Renderer* gRenderer = createRenderer(gameWindow);
 	srand(time(NULL));
 	BoundedPoint screenPosition = BoundedPoint(Screen::MAX_SCREEN_X_POS, Screen::MAX_SCREEN_Y_POS);
-	Dot dot = Dot(Point(190, 150));
-	dot.setColorChannels(0xFF);
+	//Dot dot = Dot(Point(190, 150));
+	std::shared_ptr<Dot> dot = std::make_shared<Dot>(Point(190, 150));
+	dot->setColorChannels(0xFF);
 	Configuration config;
 	// TODO: Create a file structure for containing level data so its not hardcoded 
 	// TODO: Have some DrawGroup pointers for collision, node, and other groups/structures needed
+	
+	GameInstance GAME(gRenderer, screenPosition);
+	GAME.addThing(dot);
 	MegaBase::setOffset(&screenPosition);
 	MegaBase::setRenderer(gRenderer);
-	CollideBaseGroup boxes(gRenderer, screenPosition);
-	NodeDrawGroup nodes(boxes);
+	//CollideBaseGroup boxes(gRenderer, screenPosition);
 	AlertTextHandler handler;
-	EnemyDrawGroup bads(boxes, nodes, gRenderer, screenPosition);
-	bads.setDot(&dot);
+	//EnemyDrawGroup bads(boxes, nodes, gRenderer, screenPosition);
+	//bads.setDot(&dot);
 	BackgroundGroup groundGroup;
 	// Box creation
 	Box::createBoxTexture(gRenderer);
 	Point boxPoints[] = {Point(200, 200), Point(400, 200), Point(300, 200), Point(500, 200), Point(500, 300), Point(500, 400), 
 				  Point(500, 500), Point(600, 600), Point(600, 500), Point(700, 200)};
 	for (Point point: boxPoints) {
-		boxes.push_back(CollideBaseFactory::CreateBox(point, nodes)); // TODO: Make more elegant
+		GAME.addThing(std::make_shared<Box>(point));
 	}
-	bads.add(std::make_shared<BadTest>(&bads, Point(300, 400))); // TODO: Make more elegant
+	GAME.addThing(std::make_shared<BadTest>(Point(50, 50)));
 	for (int x = 0; x <= Screen::MAX_WIDTH; x += 25) {
 		for (int y = 0; y <= Screen::MAX_HEIGHT; y += 25) {
-			nodes.addNodeAt(Point(x, y));
+			GAME.addNode(Point(x, y));
 			if (x % 100 == 0 && y % 100 == 0) {
 				groundGroup.add(Point(x, y), Ground::filenames[Ground::GRASS]);
 			}
 		}
 	}
-	nodes.purge(); // Remove all redundant nodes that connect to nothing
+	GAME.instanceBegin();
 	Font gFont;
 	std::string foo = "duck dev best dev";
 	AppearingText ap(foo, &gFont, Point(250, 0), 15, COLORS::RED, 300);
@@ -70,25 +73,26 @@ int main(int argc, char* argv[]) {
 	handler.addMessage(AlertText("this shouldn't last long", Point(300, 150), COLORS::RED, 20, 2500));
 	// TODO: Standardize between draw and render, ie pick one you indecisive fuck
 	// Pass dot values it needs
-	dot.setCollision(boxes);
 	Line lip(Point(325, 425), Point(125, 425));
 	lip += Point(0, 5);
 	while(!contra.quit) {
 		clearScreen(gRenderer);
 		popo.zero(); // >:(
 		contra.handleEvents();
-		dot.update(popo); // Update player
-		bads.update();
+		dot->update(popo); // Update player
+		GAME.update();
+		//bads.update();
 		/* Drawing */
 		groundGroup.drawGroup();
-		boxes.drawGroup();
-		bads.drawGroup();
-		ap.update(gRenderer);
-		handler.drawHandler();
-		dot.draw(); // Player must always be drawn onto the top layer for best visibility, for the time being
+		GAME.draw();
+		//boxes.drawGroup();
+		//bads.drawGroup();
+		//ap.update(gRenderer);
+		//handler.drawHandler();
+		//dot.draw(); // Player must always be drawn onto the top layer for best visibility, for the time being
 		if (gameState["RAY_CAST"]) {
 			if (contra.checkListener(config["Ray"]).getHeld()) { // Raycasting
-				dot.rayCast();
+				dot->rayCast();
 			}
 		}
 		lip.drawLine(gRenderer);

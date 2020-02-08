@@ -2,8 +2,7 @@
 #ifndef GAME_INSTANCE_H
 #define GAME_INSTANCE_H
 #include "AlertTextHandler.h"
-#include "CollisionHandler"
-#include "game_entities/CollideBaseGroup.h" // Actually I think this is redundant and should be removed
+#include "game_entities/CollisionHandler.h"
 #include "game_entities/NodeDrawGroup.h"
 #include<memory>
 #include<set>
@@ -19,22 +18,28 @@ class GameInstance {
 	private:
 		friend class CollisionHandler;
 		//CollideBaseGroup collision;
-		//NodeDrawGroup nodes;
 		BoundedPoint offset;
 		SDL_Renderer* renderer;
 		
 		std::vector<std::shared_ptr<ThingBase>> allThings;
 		std::vector<std::shared_ptr<ThingBase>> drawThings;
-		std::vector<std::shared_ptr<ThingBase>> collision;
+		std::vector<std::shared_ptr<ThingBase>> collisionThings;
 		
 		std::vector<std::shared_ptr<ThingBase>> movingThings; // List of everything that's position won't change
 		std::set<ThingBase*, compare> drawOrder;
 	public:
-		GameInstance(SDL_Renderer* renderer);
+		CollisionHandler collision{this};
+		NodeDrawGroup nodes{this};
+	
+		GameInstance(SDL_Renderer* renderer, BoundedPoint offset);
 		~GameInstance();
+		BoundedPoint& getOffset();
 		SDL_Renderer* getRenderer();
 		void addThing(std::shared_ptr<ThingBase> thing);
+		void addNode(Point position, std::string data = "", bool full = true);
+		void instanceBegin();
 		void update();
+		void draw();
 		//CollideBaseGroup& getCollision() {return this->collision;}
 		//NodeDrawGroup& getNodes() {return this->nodes;}
 };

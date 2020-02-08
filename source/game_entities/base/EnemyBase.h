@@ -1,20 +1,16 @@
 #pragma once
-#include<SDL2/SDL.h>
 #include "../../essential/constants.h"
+#include "../../primitives/Vector.h"
 #include "../../wrappers/Texture.h"
 #include "../../wrappers/Timer.h"
-#include "CollideBase.h"
-#include "../CollideBaseGroup.h"
 #include "../../Dot.h"
 #include "../NodeDrawGroup.h"
 #include "../NodePath.h"
-#include "../../primitives/Vector.h"
 #include "EntityBase.h"
-#include<vector>
 #include<math.h>
 #include<memory>
-class EnemyBase;
-#include "../EnemyDrawGroup.h"
+#include<SDL2/SDL.h>
+#include<vector>
 
 class EnemyBase : public EntityBase {
 	protected:
@@ -26,21 +22,19 @@ class EnemyBase : public EntityBase {
 		float angle = 0;
 		bool turning = false;
 		NodePath path;
-		EnemyDrawGroup* parent;
 	public:
-		EnemyBase(EnemyDrawGroup* parent, Point position = Point(0, 0));
+		EnemyBase(Point position = Point(0, 0));
 		virtual ~EnemyBase();
 		virtual bool isLocationInvalid() = 0;
 		virtual Point getCenter() = 0;
 		virtual Point getPos() = 0;
 		virtual void update() = 0;
-		virtual void draw(SDL_Renderer* renderer, BoundedPoint& offset);
+		virtual void draw(SDL_Renderer* renderer, Point offset = Point(0, 0));
 		virtual void move();
 		void turn(float delta);
 		void toggleTurn();
 		float getAngle() const;
-		Node* getClosestUnblockedNode();
+		std::shared_ptr<Node> getClosestUnblockedNode();
 		PointDelta pathFindTo(Point pos = Point());
-		void setParent(EnemyDrawGroup* parent);
 		friend std::ostream& operator<<(std::ostream& output, const EnemyBase& base);
 };

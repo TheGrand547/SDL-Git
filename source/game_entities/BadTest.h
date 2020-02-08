@@ -24,9 +24,8 @@ class BadTest : public EnemyBase {
 		};
 		State currentState;
 		Point lastPatrolledPoint, targetPoint;
-		
 	public:
-		BadTest(EnemyDrawGroup* parent, Point position);
+		BadTest(Point position);
 		BadTest(const BadTest& that);
 		~BadTest();
 		bool overlap(Rect other) override;
@@ -35,7 +34,7 @@ class BadTest : public EnemyBase {
 		Point getPos() override;
 		Point getCenter() override;
 		Rect getRect() const override;
-		void draw(SDL_Renderer* renderer, BoundedPoint& offset) override;
+		void draw(SDL_Renderer* renderer, Point offset = Point(0, 0)) override;
 		void setTexture(SDL_Renderer* renderer);
 		void update() override;
 };

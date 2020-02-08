@@ -48,15 +48,15 @@ bool Dot::overlap(std::shared_ptr<ThingBase>& other) {
 	return this->overlap(other->getRect());
 }
 
-void Dot::draw() {
-	SDL_SetRenderDrawColor(MegaBase::renderer, rChannel, gChannel, bChannel, aChannel);
-	SDL_Rect temp = tempF((this->getRect() - MegaBase::offset)).getSDLRect();
+void Dot::draw(SDL_Renderer* renderer, Point offset) {
+	SDL_SetRenderDrawColor(renderer, rChannel, gChannel, bChannel, aChannel);
+	SDL_Rect temp = tempF((this->getRect() - offset)).getSDLRect();
 	temp.w = Player::PLAYER_X_DIMENSION;
 	temp.h = Player::PLAYER_Y_DIMENSION;
-	SDL_RenderFillRect(MegaBase::renderer, &temp);
+	SDL_RenderFillRect(renderer, &temp);
 	Rect p(temp.x, temp.y, Player::PLAYER_X_DIMENSION, Player::PLAYER_Y_DIMENSION);
 	p.setColorChannels(0xFF, 0x00, 0x00, 0xFF);
-	p.draw(MegaBase::renderer, Point(0,0));
+	p.draw(renderer, Point(0,0));
 }
 
 void Dot::update(PointDelta acceleration) {

@@ -28,10 +28,6 @@ void EntityBase::accelerate(PointDelta delta) {
 	this->evalAngle(this->velocity);
 }
 
-int EntityBase::getFlags() const {
-	return this->flags;
-}
-
-int EntityBase::originDistance() const {
+float EntityBase::originDistance() const {
 	return this->position.distanceToPoint(Point(0, 0));
 }

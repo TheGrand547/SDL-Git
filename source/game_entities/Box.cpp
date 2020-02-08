@@ -66,3 +66,7 @@ Rect Box::getRect() const {
 bool Box::overlap(std::shared_ptr<ThingBase>& other) {
 	return this->overlap(other->getRect());
 }
+
+float Box::originDistance() const {
+	return this->rect.getBottomRight().distanceToPoint(Point(0, 0));
+}
