@@ -6,42 +6,42 @@ struct VALUE {
 	float value = 10000000;
 };
 
-float getValue(Node* node, Point target) {
+float getValue(std::shared_ptr<Node> node, Point target) {
 	return node->distanceToPoint(target);
 }
 
 NodePath::NodePath() {}
 
-NodePath::NodePath(Node* startingNode, Point target) {
+NodePath::NodePath(std::shared_ptr<Node> startingNode, Point target) {
 	this->storedDistance = 0;
 	this->stored.clear();
-	std::vector<Node*> unused = {startingNode};
-	std::map<Node*, Node*> path;
+	std::vector<std::shared_ptr<Node>> unused = {startingNode};
+	std::map<std::shared_ptr<Node>, std::shared_ptr<Node>> path;
 	
-	std::map<Node*, VALUE> cost;
+	std::map<std::shared_ptr<Node>, VALUE> cost;
 	cost[startingNode].value = 0;
 	
-	std::map<Node*, VALUE> currentCost;
+	std::map<std::shared_ptr<Node>, VALUE> currentCost;
 	currentCost[startingNode].value = 0;
 
-	std::vector<Node*> closed;
-	Node* current = startingNode;
+	std::vector<std::shared_ptr<Node>> closed;
+	std::shared_ptr<Node> current = startingNode;
 	
 	while (unused.size() > 0) {
 		current = unused[0];
-		for (Node* node: unused) {
+		for (std::shared_ptr<Node> node: unused) {
 			if (currentCost[node].value < currentCost[current].value) {
 				current = node;
 			}
 		}
 		if (getValue(current, target) < NODE::NODE_DISTANCE_MAX) {
-			std::vector<Node*> temp;
-			std::map<Node*, Node*>::iterator it = path.find(current);
+			std::vector<std::shared_ptr<Node>> temp;
+			std::map<std::shared_ptr<Node>, std::shared_ptr<Node>>::iterator it = path.find(current);
 			while (it != path.end()) {
 				temp.push_back(it->first);
 				it = path.find(it->second);
 			}
-			std::vector<Node*>::reverse_iterator iter = temp.rbegin();
+			std::vector<std::shared_ptr<Node>>::reverse_iterator iter = temp.rbegin();
 			for (; iter != temp.rend(); iter++) {
 				this->stored.push_back(iter[0]);
 			}
@@ -49,7 +49,7 @@ NodePath::NodePath(Node* startingNode, Point target) {
 		}
 		unused.erase(std::find(unused.begin(), unused.end(), current));
 		closed.push_back(current);
-		for (Node* node: current->attached) {
+		for (std::shared_ptr<Node> node: current->attached) {
 			if (valueInVector(closed, node)) {
 				continue;
 			}
@@ -108,7 +108,7 @@ void NodePath::draw(Point point) {
 		tmp.drawLine(MegaBase::renderer, MegaBase::offset);
 	}
 	if (this->stored.size() > 2) {
-		std::vector<Node*>::iterator it = this->stored.begin();
+		std::vector<std::shared_ptr<Node>>::iterator it = this->stored.begin();
 		for (; it[0] != this->stored.back(); it++) {
 			Line tmp = Line(it[0]->getPosition(), it[1]->getPosition());
 			tmp.setColorChannels(0xFF, 0x00, 0x00, 0xFF);

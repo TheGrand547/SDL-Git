@@ -3,15 +3,16 @@
 #define NODE_PATH_H
 #include "Node.h"
 #include "../essential/random.h"
+#include<memory>
 #include<vector>
 
 class NodePath {
 	private:
-		std::vector<Node*> stored;
+		std::vector<std::shared_ptr<Node>> stored;
 		float storedDistance;
 	public:
 		NodePath();
-		NodePath(Node* startingNode, Point target);
+		NodePath(std::shared_ptr<Node> startingNode, Point target);
 		NodePath& operator=(const NodePath& that);
 		~NodePath();
 		int size();

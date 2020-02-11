@@ -1,4 +1,6 @@
 #include "CollisionHandler.h"
+#include "../GameInstance.h"
+#include "base/ThingBase.h"
 
 CollisionHandler::CollisionHandler(GameInstance* parent) : parent(parent) {}
 
@@ -34,6 +36,8 @@ bool CollisionHandler::doesNotCollideWith(Rect rect) {
 	return !result;
 }
 
+// TODO TODO TODO TODO TODO
+
 bool CollisionHandler::doesCollideWith(Line line) {
 	return false;
 }
@@ -41,3 +45,13 @@ bool CollisionHandler::doesCollideWith(Line line) {
 bool CollisionHandler::doesNotCollideWith(Line line) {
 	return true;
 }
+
+Point CollisionHandler::closestPointThatCollidesWith(Line ray) {
+	return Point();
+}
+
+bool CollisionHandler::doesPlayerNotCollide(Rect rect) {
+	return false;
+}
+
+

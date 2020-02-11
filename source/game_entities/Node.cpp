@@ -1,5 +1,6 @@
 #include "Node.h"
 #include "CollisionHandler.h"
+#include "../GameInstance.h"
 
 // TODO: Add functionality for data to be contained within the nodes
 
@@ -25,15 +26,15 @@ Node::Node(Point position, NodeDrawGroup* parent, std::string data) : data(data)
 
 Node::~Node() {}
 
-std::shared_ptr<Node> Node::randomConnectedNode() {
+std::shared_ptr<Node> Node::randomConnectedNode() const {
 	return this->attached[rand() % this->attached.size()];
 }
 
-float Node::getDistance(std::shared_ptr<Node> other) {
+float Node::getDistance(std::shared_ptr<Node> other) const {
 	return this->position.distanceToPoint(other->getPosition());
 }
 
-Point Node::getPosition() {
+Point Node::getPosition() const {
 	return this->position;
 }
 
@@ -69,6 +70,6 @@ bool Node::checkLocationValidity(Point position, GameInstance* instance) {
 	return instance->collision.doesNotCollideWith(testRect);
 }
 
-float Node::distanceToPoint(Point point) {
+float Node::distanceToPoint(Point point) const {
 	return this->position.distanceToPoint(point);
 }

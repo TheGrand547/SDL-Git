@@ -84,13 +84,11 @@ std::ostream& operator<<(std::ostream& output, const EnemyBase& base) {
 }
 
 PointDelta EnemyBase::pathFindTo(Point target) {
-	if (this->parent->nodes.size() > 0) {
+	if (this->parent->nodes.size() > 0 && target.isReal()) {
 		Point center = this->getCenter();
-		if (target.isNull()) {
-			target = this->parent->getDot()->getPos();
-		}
-		if (this->pathTimer.getTicks() > 250 || this->path.getFirst().isNull()) { // If it has been more than 250 milliseconds since the path has been calculated
-			this->path = NodePath(this->getClosestUnblockedNode().get(), target);
+		if (this->pathTimer.getTicks() > 250 || this->path.getFirst().isNull()) { 
+			// If it has been more than 250 milliseconds since the path has been calculated
+			this->path = NodePath(this->getClosestUnblockedNode(), target);
 			this->pathTimer.start();
 		} 
 		if (this->path.getFirst().isReal()) {

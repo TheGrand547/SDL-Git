@@ -3,8 +3,8 @@
 #define COLLISION_HANDLER_H
 class CollisionHandler;
 class GameInstance;
-#include "../GameInstance.h"
-#include "base/ThingBase.h"
+#include "../primitives/Line.h"
+#include "../primitives/Rect.h"
 #include<memory>
 #include<vector>
 

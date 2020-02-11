@@ -2,6 +2,7 @@
 #ifndef THING_BASE_H
 #define THING_BASE_H
 class ThingBase;
+class GameInstance;
 #include "../../GameInstance.h"
 #include "../../primitives/Point.h"
 #include "../../primitives/Rect.h"
@@ -28,6 +29,7 @@ class ThingBase {
 		virtual bool overlap(std::shared_ptr<ThingBase>& other) = 0;
 		int getFlags() const;
 		virtual float originDistance() const = 0;
+		Point getPosition() const;
 		virtual Rect getRect() const = 0;
 		virtual void draw(SDL_Renderer* renderer, Point offset = Point(0, 0)) = 0;
 		void setParent(GameInstance* parent);

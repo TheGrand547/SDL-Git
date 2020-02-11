@@ -14,8 +14,8 @@ BadTest::BadTest(Point position) : EnemyBase(position) {
 	this->c.setRepeat(true);
 }
 
-BadTest::BadTest(const BadTest& that) : EnemyBase(that.parent, that.position) {
-	*this = BadTest(that.parent, that.position);
+BadTest::BadTest(const BadTest& that) : EnemyBase(that.position) {
+	*this = BadTest(that.position);
 }
 
 BadTest::~BadTest() {}
@@ -23,7 +23,7 @@ BadTest::~BadTest() {}
 bool BadTest::isLocationInvalid() {
 	/* True  -> Invalid location, collision or some other predefined metric doesn't satisfy
 	 * False -> Valid location */
-	return this->parent->collide->doesCollideWith(Rect(this->position, this->width, this->height));
+	return this->parent->collision.doesCollideWith(Rect(this->position, this->width, this->height));
 }
 
 void BadTest::setTexture(SDL_Renderer* renderer) {
@@ -49,7 +49,7 @@ void BadTest::draw(SDL_Renderer* renderer, Point offset) {
 		pTemp += Point(300 * cos(this->angle + radians(i)), 300 * sin(this->angle + radians(i)));
 		Line temp = Line(this->getCenter(), pTemp);
 
-		Point newTemp = this->parent->collide->closestPointThatCollidesWith(temp);
+		Point newTemp = this->parent->collision.closestPointThatCollidesWith(temp);
 		if (newTemp.isReal()) {
 			temp = Line(this->getCenter(), newTemp);
 		}
@@ -112,10 +112,11 @@ void BadTest::update() {
 			pTemp += Point(cos(this->angle + radians(i)), sin(this->angle + radians(i))) * 300;
 			Line temp = Line(this->getCenter(), pTemp);
 
-			Point newTemp = this->parent->collide->closestPointThatCollidesWith(temp);
+			Point newTemp = this->parent->collision.closestPointThatCollidesWith(temp);
 			if (newTemp.isReal()) {
 				temp = Line(this->getCenter(), newTemp);
 			}
+			/*
 			if (this->parent->getDot()->getRect().doesLineCollide(temp)) {
 				this->targetPoint = this->parent->getDot()->getPos();
 				if (this->currentState == State::PATROL) {
@@ -125,7 +126,7 @@ void BadTest::update() {
 				}
 				this->currentState = State::GOTO;
 				break;
-			}
+			}*/
 		}
 	}
 	this->move();

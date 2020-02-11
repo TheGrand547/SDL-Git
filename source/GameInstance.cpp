@@ -1,6 +1,6 @@
 #include "GameInstance.h"
 
-bool compare::operator()(const ThingBase* lhs, const ThingBase* rhs) {
+bool compare::operator()(const ThingBase* lhs, const ThingBase* rhs) const {
 	return lhs->originDistance() < rhs->originDistance();
 }
 
@@ -27,7 +27,7 @@ void GameInstance::update() {
 	for (std::shared_ptr<ThingBase> thing: this->movingThings) {
 		Point position = thing->getPosition();
 		///thing->move();
-		if (position != this->getPosition()) {
+		if (position != thing->getPosition()) {
 			this->drawOrder.erase(thing.get());
 			this->drawOrder.insert(thing.get());
 		}
@@ -35,8 +35,8 @@ void GameInstance::update() {
 }
 
 void GameInstance::draw() {
-	for (std::shared_ptr<ThingBase> thing: this->drawOrder) {
-		thing->draw();
+	for (ThingBase* thing: this->drawOrder) {
+		thing->draw(this->renderer, this->offset);
 	} 
 }
 
@@ -44,7 +44,7 @@ SDL_Renderer* GameInstance::getRenderer() {
 	return this->renderer;
 }
 
-BoundedPoint& GameInstance::getOffset() {
+Point& GameInstance::getOffset() {
 	return this->offset;
 }
 
@@ -52,7 +52,7 @@ void GameInstance::addNode(Point position, std::string data, bool full) {
 	if (full) {
 		this->nodes.addNodeAt(position, data);
 	} else {
-		this->nodes.addNullNodeAt(point, data);
+		this->nodes.addNullNodeAt(position, data);
 	}
 }
 

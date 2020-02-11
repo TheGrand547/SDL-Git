@@ -21,7 +21,7 @@ int EnemyDrawGroup::size() {
 }
 
 void EnemyDrawGroup::add(std::shared_ptr<EnemyBase> entity) {
-	entity->setParent(this);
+	//entity->setParent(this);
 	if (entity->isLocationInvalid()) {
 		entity.reset();
 		return;

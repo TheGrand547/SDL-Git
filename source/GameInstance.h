@@ -2,6 +2,7 @@
 #ifndef GAME_INSTANCE_H
 #define GAME_INSTANCE_H
 #include "AlertTextHandler.h"
+#include "game_entities/base/ThingBase.h"
 #include "game_entities/CollisionHandler.h"
 #include "game_entities/NodeDrawGroup.h"
 #include<memory>
@@ -11,14 +12,14 @@
 typedef uint32_t Uint32;
 
 struct compare {
-	bool operator()(const ThingBase* lhs, const ThingBase* rhs);
+	bool operator()(const ThingBase* lhs, const ThingBase* rhs) const;
 };
 
 class GameInstance {
 	private:
 		friend class CollisionHandler;
 		//CollideBaseGroup collision;
-		BoundedPoint offset;
+		Point offset;
 		SDL_Renderer* renderer;
 		
 		std::vector<std::shared_ptr<ThingBase>> allThings;
@@ -33,15 +34,13 @@ class GameInstance {
 	
 		GameInstance(SDL_Renderer* renderer, BoundedPoint offset);
 		~GameInstance();
-		BoundedPoint& getOffset();
+		Point& getOffset();
 		SDL_Renderer* getRenderer();
 		void addThing(std::shared_ptr<ThingBase> thing);
 		void addNode(Point position, std::string data = "", bool full = true);
 		void instanceBegin();
 		void update();
 		void draw();
-		//CollideBaseGroup& getCollision() {return this->collision;}
-		//NodeDrawGroup& getNodes() {return this->nodes;}
 };
 
 #endif
