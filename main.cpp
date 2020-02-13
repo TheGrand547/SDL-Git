@@ -53,6 +53,7 @@ int main(int argc, char* argv[]) {
 		GAME.addThing(std::make_shared<Box>(point));
 	}
 	GAME.addThing(std::make_shared<BadTest>(Point(50, 50)));
+	groundGroup.setParent(GAME);
 	for (int x = 0; x <= Screen::MAX_WIDTH; x += 25) {
 		for (int y = 0; y <= Screen::MAX_HEIGHT; y += 25) {
 			GAME.addNode(Point(x, y));

@@ -18,7 +18,6 @@ struct compare {
 class GameInstance {
 	private:
 		friend class CollisionHandler;
-		//CollideBaseGroup collision;
 		Point offset;
 		SDL_Renderer* renderer;
 		
@@ -29,7 +28,7 @@ class GameInstance {
 		std::vector<std::shared_ptr<ThingBase>> movingThings; // List of everything that's position won't change
 		std::set<ThingBase*, compare> drawOrder;
 	public:
-		CollisionHandler collision{this};
+		CollisionHandler collision;
 		NodeDrawGroup nodes{this};
 	
 		GameInstance(SDL_Renderer* renderer, BoundedPoint offset);

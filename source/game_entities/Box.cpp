@@ -1,9 +1,12 @@
 #include "Box.h"
 
-Box::Box() {}
+Box::Box() {
+	this->flags |= SOLID | DRAW | BLOCKS_VISIBILTY;
+}
 		
 Box::Box(Point position) {
 	this->rect = Rect(position, BOX::BOX_WIDTH, BOX::BOX_HEIGHT);
+	this->flags |= SOLID | DRAW | BLOCKS_VISIBILTY;
 }
 
 Box::~Box() {}

@@ -15,7 +15,6 @@
 class Dot : public EntityBase, public MyBase { 
 	private:
 		BoundedPoint position;
-		CollideBaseGroup* collision;
 		Point lastDelta;
 	public:
 		Dot(Point startingCoordinate);
@@ -32,7 +31,6 @@ class Dot : public EntityBase, public MyBase {
 		void draw(SDL_Renderer* renderer, Point offset = Point(0, 0)) override;
 		void move(Point delta);
 		void rayCast();
-		void setCollision(CollideBaseGroup& boxes);
 		void update(PointDelta acceleration);
 };
 

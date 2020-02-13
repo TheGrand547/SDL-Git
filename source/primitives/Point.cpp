@@ -110,14 +110,14 @@ bool Point::getNonZero() const {
 }
 
 bool Point::operator==(const Point& point) {
-	return point.xval == this->xval && point.yval == this->yval;
+	return std::abs(point.xval - this->xval) < 0.000001 && std::abs(point.yval - this->yval) < 0.000001;
 }
 
 bool Point::operator!=(const Point& point) {
 	return !(*this == point);
 }
 
-inline Point Point::negate() const {
+Point Point::negate() const {
 	return Point(-this->xval,-this->yval);
 }
 

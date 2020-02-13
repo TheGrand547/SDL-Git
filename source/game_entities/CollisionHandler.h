@@ -20,7 +20,6 @@ class CollisionHandler {
 		bool doesCollideWith(Line ray);
 		bool doesNotCollideWith(Rect rect);
 		bool doesNotCollideWith(Line line);
-		bool doesPlayerNotCollide(Rect rect);
 		Point closestPointThatCollidesWith(Line ray);
 };
 

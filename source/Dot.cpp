@@ -1,6 +1,7 @@
 #include "Dot.h"
 
 Dot::Dot(Point startingCoordinate) {
+	this->flags |= DRAW | MOVEABLE;
 	this->position = BoundedPoint(startingCoordinate, 0, 0, Screen::MAX_WIDTH - Player::PLAYER_X_DIMENSION, Screen::MAX_HEIGHT - Player::PLAYER_Y_DIMENSION);
 }
 
@@ -73,15 +74,15 @@ void Dot::collideTest() {
 	for (int i = 0; i < 5; i++) {
 		Point temp = delta / pow(2, i);
 		if (not xDelta) {
-			if (this->collision->doesPlayerNotCollide(this->getRect() + temp.onlyX())) {
+			if (this->parent->collision.doesNotCollideWith(this->getRect() + temp.onlyX())) {
 				xDelta = temp.x();
-				*MegaBase::offset += temp.onlyX();
+				this->parent->getOffset() += temp.onlyX();
 			}
 		}
 		if (not yDelta) {
-			if (this->collision->doesPlayerNotCollide(this->getRect() + temp.onlyY())) {
+			if (this->parent->collision.doesNotCollideWith(this->getRect() + temp.onlyY())) {
 				yDelta = temp.y();
-				*MegaBase::offset += temp.onlyY();					
+				this->parent->getOffset() += temp.onlyY();					
 			}
 		}
 		if (xDelta && yDelta) {
@@ -99,21 +100,22 @@ void Dot::collideTest() {
 	this->lastDelta = Point(xDelta, yDelta);
 	// PUT THIS ELSEWHERE <- Will be handled when implementation is changed to being based around the Screen Class
 	if (this->getPos().x() < Screen::SCREEN_WIDTH / 2) {
-		MegaBase::offset->xZero();
+		this->parent->getOffset().xZero();
 	}
 	if (this->getPos().y() < Screen::SCREEN_HEIGHT / 2) {
-		MegaBase::offset->yZero();
+		this->parent->getOffset().yZero();
 	}
+	/*
 	if (this->getPos().x() > Screen::MAX_X_SCROLL_DISTANCE) {
-		MegaBase::offset->maxX();
+		this->parent->getOffset();
 	}
 	if (this->getPos().y() > Screen::MAX_Y_SCROLL_DISTANCE) {
-		MegaBase::offset->maxY();
-	}
+		this->parent->getOffset().maxY();
+	}*/
 } 
 
 void Dot::rayCast() {
-	Point newPoint = this->collision->closestPointThatCollidesWith(this->getRay());
+	Point newPoint = this->parent->collision.closestPointThatCollidesWith(this->getRay());
 	if (newPoint.isReal()) {
 		Line tempLine = Line(this->getCenter(), newPoint.copy());
 		tempLine.setColorChannelsTo(COLORS::CYAN);
@@ -121,9 +123,6 @@ void Dot::rayCast() {
 	}
 }
 
-void Dot::setCollision(CollideBaseGroup& boxes) {
-	this->collision = &boxes;
-}
 /*
 int tempF(double val) {
 	return int(val) + ((val - int(val) > .005) ? 1 : 0);

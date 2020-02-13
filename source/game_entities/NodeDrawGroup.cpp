@@ -1,5 +1,6 @@
 #include "NodeDrawGroup.h"
 #include "../GameInstance.h"
+#include "CollisionHandler.h"
 
 NodeDrawGroup::NodeDrawGroup(GameInstance* parent) : parent(parent) {}
 

@@ -1,18 +1,31 @@
 #include "GameInstance.h"
 
 bool compare::operator()(const ThingBase* lhs, const ThingBase* rhs) const {
-	return lhs->originDistance() < rhs->originDistance();
+	if (lhs->originDistance() < rhs->originDistance()) {
+		return true;
+	}
+	if (lhs->originDistance() > rhs->originDistance()) {
+		return false;
+	}
+	return lhs < rhs;
 }
 
-GameInstance::GameInstance(SDL_Renderer* renderer, BoundedPoint offset) : renderer(renderer), offset(offset) {}
+GameInstance::GameInstance(SDL_Renderer* renderer, BoundedPoint offset) : renderer(renderer), offset(offset), collision(this) {}
 
-GameInstance::~GameInstance() {}
+GameInstance::~GameInstance() {
+	std::cout << "crash" << std::endl;
+}
 
 void GameInstance::addThing(std::shared_ptr<ThingBase> thing) {
 	this->allThings.push_back(thing);
 	thing->setParent(this);
 	if (thing->getFlags() & DRAW) {
 		this->drawThings.push_back(thing);
+		//this->drawOrder.insert(thing.get());
+		
+		if(!this->drawOrder.insert(thing.get()).second){   
+			std::cout << thing.get() << std::endl;
+		}
 	}
 	if (thing->getFlags() & SOLID) {
 		this->collisionThings.push_back(thing);
@@ -20,17 +33,17 @@ void GameInstance::addThing(std::shared_ptr<ThingBase> thing) {
 	if (thing->getFlags() & MOVEABLE) {
 		this->movingThings.push_back(thing);
 	}
-	this->drawOrder.insert(thing.get());
 }
 
 void GameInstance::update() {
 	for (std::shared_ptr<ThingBase> thing: this->movingThings) {
 		Point position = thing->getPosition();
 		///thing->move();
+		/*
 		if (position != thing->getPosition()) {
 			this->drawOrder.erase(thing.get());
 			this->drawOrder.insert(thing.get());
-		}
+		}*/
 	}
 }
 

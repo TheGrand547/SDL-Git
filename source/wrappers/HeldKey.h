@@ -5,9 +5,10 @@
 class HeldKey {
 	private:
 		bool down, toggle;
-		int maxHeld;
 		Timer timer;
 	public:
+				int maxHeld;
+	
 		HeldKey();
 		HeldKey(int maxHeld);
 		~HeldKey();

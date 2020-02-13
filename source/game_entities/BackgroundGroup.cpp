@@ -30,6 +30,10 @@ void BackgroundGroup::add(Point position, std::string type) {
 
 void BackgroundGroup::drawGroup() {
 	for (std::shared_ptr<BackElement> element: this->elements) {
-		element->draw(MegaBase::renderer, MegaBase::offset);
+		element->draw(this->parent->getRenderer(), this->parent->getOffset());
 	}
+}
+
+void BackgroundGroup::setParent(GameInstance& parent) {
+	this->parent = &parent;
 }

@@ -80,7 +80,7 @@ void Controller::handleEvents() {
 			}
 		}
 	}
-	this->updateListeners();	
+	this->updateListeners();
 }
 
 void Controller::addButton(int value, std::shared_ptr<ButtonCommand> button) {
