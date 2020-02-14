@@ -28,11 +28,13 @@ class BadTest : public EnemyBase {
 		BadTest(Point position);
 		BadTest(const BadTest& that);
 		~BadTest();
-		bool overlap(Rect other) override;
-		bool overlap(std::shared_ptr<ThingBase>& other) override;
-		bool isLocationInvalid() override;
-		Point getPos() override;
-		Point getCenter() override;
+		bool doesLineCollide(const Line& ray) const override;
+		bool overlap(const Rect other) const override;
+		bool overlap(const std::shared_ptr<ThingBase>& other) const override;
+		bool isLocationInvalid() const override;
+		Point collideLine(const Line& ray) const override;
+		Point getPos() const override;
+		Point getCenter() const override;
 		Rect getRect() const override;
 		void draw(SDL_Renderer* renderer, Point offset = Point(0, 0)) override;
 		void setTexture(SDL_Renderer* renderer);

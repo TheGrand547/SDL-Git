@@ -25,13 +25,16 @@ class ThingBase {
 		Point position;
 	public:
 		virtual ~ThingBase() = 0;
-		virtual bool overlap(Rect other) = 0;
-		virtual bool overlap(std::shared_ptr<ThingBase>& other) = 0;
+		virtual bool doesLineCollide(const Line& ray) const = 0;
+		virtual bool overlap(const Rect other) const = 0;
+		virtual bool overlap(const std::shared_ptr<ThingBase>& other) const = 0;
 		int getFlags() const;
 		virtual float originDistance() const = 0;
+		virtual Point collideLine(const Line& ray) const = 0;
 		Point getPosition() const;
 		virtual Rect getRect() const = 0;
 		virtual void draw(SDL_Renderer* renderer, Point offset = Point(0, 0)) = 0;
 		void setParent(GameInstance* parent);
+		virtual void update() = 0;
 };
 #endif

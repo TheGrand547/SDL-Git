@@ -25,9 +25,9 @@ class EnemyBase : public EntityBase {
 	public:
 		EnemyBase(Point position = Point(0, 0));
 		virtual ~EnemyBase();
-		virtual bool isLocationInvalid() = 0;
-		virtual Point getCenter() = 0;
-		virtual Point getPos() = 0;
+		virtual bool isLocationInvalid() const = 0;
+		virtual Point getCenter() const = 0;
+		virtual Point getPos() const = 0;
 		virtual void update() = 0;
 		virtual void draw(SDL_Renderer* renderer, Point offset = Point(0, 0));
 		virtual void move();

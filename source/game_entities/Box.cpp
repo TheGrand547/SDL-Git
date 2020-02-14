@@ -24,19 +24,19 @@ void Box::draw(SDL_Renderer* renderer, Point offset) {
 	Box::drawBox(renderer, this->rect.getTopLeft(), offset);
 }
 
-Point Box::collideLine(Line& ray) {
+Point Box::collideLine(const Line& ray) const{
 	return this->rect.collideLine(ray);
 }
 
-bool Box::overlap(Rect other) {
+bool Box::overlap(const Rect other) const {
 	return this->rect.overlap(other);
 }
 
-Point Box::getTopLeft() {
+Point Box::getTopLeft() const {
 	return this->rect.getTopLeft();
 }
 
-Point Box::getBottomRight() {
+Point Box::getBottomRight() const {
 	return this->rect.getBottomRight();
 }
 
@@ -56,7 +56,7 @@ void Box::drawBox(SDL_Renderer* renderer, Point position, Point offset) {
 	Box::mTexture.drawAt(renderer, position, offset);
 }
 
-bool Box::doesLineCollide(Line& ray) {
+bool Box::doesLineCollide(const Line& ray) const {
 	/* True - Line DOES collide with this Box
 	 * False - Line DOES NOT collide with this Box */
 	return this->rect.doesLineCollide(ray);
@@ -66,10 +66,12 @@ Rect Box::getRect() const {
 	return this->rect;
 }
 
-bool Box::overlap(std::shared_ptr<ThingBase>& other) {
+bool Box::overlap(const std::shared_ptr<ThingBase>& other) const {
 	return this->overlap(other->getRect());
 }
 
 float Box::originDistance() const {
 	return this->rect.getBottomRight().distanceToPoint(Point(0, 0));
 }
+
+void Box::update() {}

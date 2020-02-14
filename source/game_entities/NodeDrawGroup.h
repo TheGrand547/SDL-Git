@@ -10,6 +10,7 @@ class GameInstance;
 
 class NodeDrawGroup : public DrawGroup {
 	private:
+		friend class Node;
 		std::vector<std::shared_ptr<Node>> storage;
 	public:
 		GameInstance* parent;
@@ -20,10 +21,10 @@ class NodeDrawGroup : public DrawGroup {
 		std::shared_ptr<Node>& at(int position);
 		std::shared_ptr<Node>& operator[](int position);
 		std::shared_ptr<Node>& getFirst();
+		void addNodeAt(Point point, std::string data = "");
 		void clearGroup() override;
 		void drawGroup() override;
-		void addNullNodeAt(Point point, std::string data = "");
-		void addNodeAt(Point point, std::string data = "");
+		void connectNodes();
 		void purge(); // Remove all nodes with no connections to improve performance
 		void reset();
 };

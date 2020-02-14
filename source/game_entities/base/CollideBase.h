@@ -9,9 +9,9 @@ class CollideBase : public ThingBase {
 	public:
 		CollideBase();
 		virtual ~CollideBase() = 0;
-		virtual Point collideLine(Line& ray) = 0;
-		virtual bool doesLineCollide(Line& ray) = 0;
+		virtual Point collideLine(const Line& ray) const = 0;
+		virtual bool doesLineCollide(const Line& ray) const = 0;
 		virtual void draw(SDL_Renderer* renderer, Point offset) = 0;
-		virtual Point getTopLeft() = 0;
-		virtual Point getBottomRight() = 0;
+		virtual Point getTopLeft() const = 0;
+		virtual Point getBottomRight() const = 0;
 };

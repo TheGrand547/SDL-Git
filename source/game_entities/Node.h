@@ -20,15 +20,16 @@ class Node {
 		bool drawnThisFrame;
 		std::string data;
 	public:
-		std::vector<std::shared_ptr<Node>> attached; // TODO: This shouldn't be public, need to make some kind of workaround
-		Node(Point position, std::string data = ""); // This is the constructor for a "null node", one that needs to be re-evaluated for calculations later
-		Node(Point position, NodeDrawGroup* parent, std::string data = "");
+		std::vector<std::weak_ptr<Node>> attached; // TODO: This shouldn't be public, need to make some kind of workaround
+		
+		Node(Point position, std::string data = "");
 		~Node();
-		float getDistance(std::shared_ptr<Node> other) const;
-		float distanceToPoint(Point point) const;
+		float getDistance(const std::weak_ptr<Node> other) const;
+		float getDistance(const std::shared_ptr<Node> other) const;
+		float distanceToPoint(const Point point) const;
 		Point getPosition() const;
 		std::shared_ptr<Node> randomConnectedNode() const;
-		void addAttached(std::shared_ptr<Node> node);
+		void connectToOthers(NodeDrawGroup* parent);
 		void draw();
 		void reset();
 		static bool checkLocationValidity(Point position, GameInstance* collision);

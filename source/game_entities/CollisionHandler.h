@@ -16,11 +16,11 @@ class CollisionHandler {
 		CollisionHandler(GameInstance* parent);
 		~CollisionHandler();
 		int size() const;
-		bool doesCollideWith(Rect rect);
-		bool doesCollideWith(Line ray);
-		bool doesNotCollideWith(Rect rect);
-		bool doesNotCollideWith(Line line);
-		Point closestPointThatCollidesWith(Line ray);
+		bool doesCollideWith(const Rect rect) const;
+		bool doesCollideWith(const Line ray) const;
+		bool doesNotCollideWith(const Rect rect) const;
+		bool doesNotCollideWith(const Line line) const;
+		Point closestPointThatCollidesWith(const Line ray) const;
 };
 
 #endif

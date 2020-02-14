@@ -29,21 +29,16 @@ int main(int argc, char* argv[]) {
 	SDL_Renderer* gRenderer = createRenderer(gameWindow);
 	srand(time(NULL));
 	BoundedPoint screenPosition = BoundedPoint(Screen::MAX_SCREEN_X_POS, Screen::MAX_SCREEN_Y_POS);
-	//Dot dot = Dot(Point(190, 150));
 	std::shared_ptr<Dot> dot = std::make_shared<Dot>(Point(190, 150));
 	dot->setColorChannels(0xFF);
 	Configuration config;
 	// TODO: Create a file structure for containing level data so its not hardcoded 
 	// TODO: Have some DrawGroup pointers for collision, node, and other groups/structures needed
-	
 	GameInstance GAME(gRenderer, screenPosition);
 	GAME.addThing(dot);
 	MegaBase::setOffset(&screenPosition);
 	MegaBase::setRenderer(gRenderer);
-	//CollideBaseGroup boxes(gRenderer, screenPosition);
 	AlertTextHandler handler;
-	//EnemyDrawGroup bads(boxes, nodes, gRenderer, screenPosition);
-	//bads.setDot(&dot);
 	BackgroundGroup groundGroup;
 	// Box creation
 	Box::createBoxTexture(gRenderer);
@@ -52,7 +47,9 @@ int main(int argc, char* argv[]) {
 	for (Point point: boxPoints) {
 		GAME.addThing(std::make_shared<Box>(point));
 	}
-	GAME.addThing(std::make_shared<BadTest>(Point(50, 50)));
+	std::shared_ptr<BadTest> heck = std::make_shared<BadTest>(Point(50, 50));
+	heck->setTexture(gRenderer);
+	GAME.addThing(heck);
 	groundGroup.setParent(GAME);
 	for (int x = 0; x <= Screen::MAX_WIDTH; x += 25) {
 		for (int y = 0; y <= Screen::MAX_HEIGHT; y += 25) {
@@ -80,8 +77,10 @@ int main(int argc, char* argv[]) {
 		clearScreen(gRenderer);
 		popo.zero(); // >:(
 		contra.handleEvents();
-		dot->update(popo); // Update player
+		dot->velocityDelta(popo); // Update player
+
 		GAME.update();
+
 		//bads.update();
 		/* Drawing */
 		groundGroup.drawGroup();

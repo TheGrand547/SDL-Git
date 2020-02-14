@@ -5,33 +5,29 @@
 // TODO: Add functionality for data to be contained within the nodes
 
 Node::Node(Point position, std::string data) : data(data), position(position) {
-	// "Null" node, one that can be placed before collision group is fully created
 	this->drawnThisFrame = false;
 }
 
-Node::Node(Point position, NodeDrawGroup* parent, std::string data) : data(data), position(position) {
-	this->drawnThisFrame = false;
-	for (int i = 0; i < parent->size(); i++) {
-		if (this->position.distanceToPoint(parent->at(i)->position) > NODE::NODE_DISTANCE_MAX) {
-			continue;
-		}
-		if (parent->parent->collision.doesNotCollideWith(Line(this->position, parent->at(i)->position))) {
-			if (Node::checkLocationValidity(Line(this->position, parent->at(i)->position).midPoint(), parent->parent)) {
-				this->attached.push_back(parent->at(i));
-				parent->at(i)->addAttached(std::shared_ptr<Node>(this));
-			}
-		}
-	}
+Node::~Node() {
+	this->attached.clear();
 }
-
-Node::~Node() {}
 
 std::shared_ptr<Node> Node::randomConnectedNode() const {
-	return this->attached[rand() % this->attached.size()];
+	return this->attached[rand() % this->attached.size()].lock();
 }
 
-float Node::getDistance(std::shared_ptr<Node> other) const {
+float Node::getDistance(const std::shared_ptr<Node> other) const {
 	return this->position.distanceToPoint(other->getPosition());
+}
+
+float Node::getDistance(const std::weak_ptr<Node> other) const {
+	std::shared_ptr<Node> temp = other.lock();
+	if (!temp) {
+		// TODO: LOG ERROR
+		std::cout << "ERROR: std::weak_ptr<Node> was invalid." << std::endl;
+		return 0.0 / 0.0;
+	}
+	return this->position.distanceToPoint(temp->getPosition());
 }
 
 Point Node::getPosition() const {
@@ -43,12 +39,13 @@ void Node::reset() {
 }
 
 void Node::draw() { // Legacy function only for testing purposes
-	//this->drawnThisFrame = true;
+	this->drawnThisFrame = true;
 	Line tempLine;
-	for (std::shared_ptr<Node> node: this->attached) {
-		if (!node->drawnThisFrame) {
+	for (std::weak_ptr<Node> node: this->attached) {
+		std::shared_ptr<Node> temp = node.lock();
+		if (temp && !temp->drawnThisFrame) {
 			// BREACHING DE GATEZ
-			tempLine = Line(this->position, node->position);
+			tempLine = Line(this->position, temp->position);
 			tempLine.setColorChannels(0xFF, 0x00, 0x00, 0xFF);
 			tempLine.drawLine(MegaBase::renderer, MegaBase::offset);
 			// D - CANE
@@ -56,10 +53,6 @@ void Node::draw() { // Legacy function only for testing purposes
 	}
 	Point temp = this->position - MegaBase::offset;
 	circleColor(MegaBase::renderer, temp.x(), temp.y(), 10, 0xFF0000FF);
-}
-
-void Node::addAttached(std::shared_ptr<Node> node) {
-	this->attached.push_back(node);
 }
 
 bool Node::checkLocationValidity(Point position, GameInstance* instance) {
@@ -70,6 +63,19 @@ bool Node::checkLocationValidity(Point position, GameInstance* instance) {
 	return instance->collision.doesNotCollideWith(testRect);
 }
 
-float Node::distanceToPoint(Point point) const {
+float Node::distanceToPoint(const Point point) const {
 	return this->position.distanceToPoint(point);
+}
+
+void Node::connectToOthers(NodeDrawGroup* parent) {
+	for (std::shared_ptr<Node> node: parent->storage) {
+		if (this->position.distanceToPoint(node->position) > NODE::NODE_DISTANCE_MAX || node.get() == this) {
+			continue;
+		}
+		if (parent->parent->collision.doesNotCollideWith(Line(this->position, node->position))) {
+			if (Node::checkLocationValidity(Line(this->position, node->position).midPoint(), parent->parent)) {
+				this->attached.push_back(node);
+			}
+		}
+	}
 }

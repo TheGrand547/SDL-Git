@@ -36,22 +36,12 @@ std::shared_ptr<Node>& NodeDrawGroup::getFirst() {
 
 void NodeDrawGroup::addNodeAt(Point point, std::string data) {
 	if (Node::checkLocationValidity(point, this->parent)) {
-		std::shared_ptr<Node> node;
-		if (this->parent->collision.size() > 0) {
-			node = std::make_shared<Node>(point, this, data);	
-		} else {
-			node = std::make_shared<Node>(point, data);
-		}
-		this->storage.push_back(node);	
+		this->storage.push_back(std::make_shared<Node>(point, data));	
 	} else {
 		// TODO: Log invalid node at (Point)
 	}
 }
 
-void NodeDrawGroup::addNullNodeAt(Point point, std::string data) {
-	std::shared_ptr<Node> node = std::make_shared<Node>(point, data);
-	this->storage.push_back(node);	
-}
 
 int NodeDrawGroup::size() {
 	return this->storage.size();
@@ -71,5 +61,11 @@ void NodeDrawGroup::purge() {
 				this->storage.erase(it);
 			}	
 		}
+	}
+}
+
+void NodeDrawGroup::connectNodes() {
+	for (std::shared_ptr<Node> node: this->storage) {
+		node->connectToOthers(this);
 	}
 }

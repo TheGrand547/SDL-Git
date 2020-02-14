@@ -41,11 +41,11 @@ float Dot::getAngle() {
 	return this->angle * 180 / M_PI;
 }
 
-bool Dot::overlap(Rect other) {
+bool Dot::overlap(const Rect other) const {
 	return this->getRect().overlap(other);
 }
 
-bool Dot::overlap(std::shared_ptr<ThingBase>& other) {
+bool Dot::overlap(const std::shared_ptr<ThingBase>& other) const {
 	return this->overlap(other->getRect());
 }
 
@@ -60,8 +60,11 @@ void Dot::draw(SDL_Renderer* renderer, Point offset) {
 	p.draw(renderer, Point(0,0));
 }
 
-void Dot::update(PointDelta acceleration) {
+void Dot::velocityDelta(PointDelta acceleration) {
 	this->EntityBase::accelerate(acceleration);
+}
+
+void Dot::update() {
 	this->collideTest();
 }
 
@@ -105,13 +108,13 @@ void Dot::collideTest() {
 	if (this->getPos().y() < Screen::SCREEN_HEIGHT / 2) {
 		this->parent->getOffset().yZero();
 	}
-	/*
+	
 	if (this->getPos().x() > Screen::MAX_X_SCROLL_DISTANCE) {
-		this->parent->getOffset();
+		this->parent->getOffset() = Point(Screen::MAX_SCREEN_X_POS, this->parent->getOffset().y());
 	}
 	if (this->getPos().y() > Screen::MAX_Y_SCROLL_DISTANCE) {
-		this->parent->getOffset().maxY();
-	}*/
+		this->parent->getOffset() = Point(this->parent->getOffset().x(), Screen::MAX_SCREEN_Y_POS);
+	}
 } 
 
 void Dot::rayCast() {
@@ -123,6 +126,16 @@ void Dot::rayCast() {
 	}
 }
 
+bool Dot::doesLineCollide(const Line& ray) const {
+	return this->getRect().doesLineCollide(ray);
+}
+
+Point Dot::collideLine(const Line& ray) const {
+	return this->getRect().collideLine(ray);
+}
+
+
+// DUMB STUFF, PLEASE IGNORE
 /*
 int tempF(double val) {
 	return int(val) + ((val - int(val) > .005) ? 1 : 0);

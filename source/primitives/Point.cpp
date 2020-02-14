@@ -28,11 +28,11 @@ float Point::originDistance() const {
 	return this->distanceToPoint(0, 0);
 }
 
-Point Point::operator-(const Point& point) {
+Point Point::operator-(const Point& point) const {
 	return Point(this->xval - point.xval, this->yval - point.yval);
 }
 
-Point Point::operator+(const Point& point) {
+Point Point::operator+(const Point& point) const {
 	return Point(this->xval + point.xval, this->yval + point.yval);
 }
 

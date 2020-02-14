@@ -42,7 +42,7 @@ void Rect::draw(SDL_Renderer* renderer, Point offset) {
 	rectangleRGBA(renderer, Point(this->xpos, this->ypos) - offset, Point(this->xpos + this->width, this->ypos + this->height) - offset, rChannel, bChannel, gChannel, aChannel);
 }
 
-bool Rect::doesLineCollide(Line& ray) {
+bool Rect::doesLineCollide(const Line& ray) const {
 	/* True - the Line DOES collide with this rect
 	 * False - the Line DOES NOT collide with this rect */
 	Point topleft = Point(this->xpos, this->ypos);
@@ -50,17 +50,15 @@ bool Rect::doesLineCollide(Line& ray) {
 	Point bottomleft = Point(this->xpos, this->ypos + this->height);
 	Point bottomright = Point(this->xpos + this->width, this->ypos + this->height);
 	Line temp[] = {Line(topleft, topright), Line(topright, bottomright), Line(bottomright, bottomleft), Line(bottomleft, topleft)};
-	Point tempPoint;
-	for (int i = 0; i < Rect::arrayLength; i++) {
-		tempPoint = temp[i].intersectionPoint(ray);
-		if (tempPoint.isReal()) {
+	for (Line line: temp) {
+		if (line.intersectionPoint(ray).isReal()) {
 			return true;
 		}
 	}
 	return false;
 }
 
-Point Rect::collideLine(Line& ray) {
+Point Rect::collideLine(const Line& ray) const {
 	/* Returns the point where the line intersects the rect, if it doesn't intersect it returns a null point */
 	Point intersect[] = {Point(), Point(), Point(), Point()};
 	Point topleft = Point(this->xpos, this->ypos);
@@ -107,20 +105,20 @@ Point Rect::getBottomRight() const {
 	return this->getTopLeft() + Point(this->width, this->height);
 }
 
-float Rect::getWidth() {
+float Rect::getWidth() const {
 	return this->width;
 }
-float Rect::getHeight() {
+float Rect::getHeight() const {
 	return this->height;
 }
 
-bool Rect::overlap(Rect& other) {
+bool Rect::overlap(const Rect& other) const {
 	bool xOver = valueInRange(this->xpos, other.xpos, other.xpos + other.width) || valueInRange(other.xpos, this->xpos, this->xpos + this->width);
 	bool yOver = valueInRange(this->ypos, other.ypos, other.ypos + other.height) || valueInRange(other.ypos, this->ypos, this->ypos + this->height);
 	return xOver && yOver;
 }
 
-SDL_Rect Rect::getSDLRect() {
+SDL_Rect Rect::getSDLRect() const {
 	SDL_Rect tempRect = {int(this->xpos), int(this->ypos), int(this->width), int(this->height)};
 	return tempRect;
 }
@@ -133,12 +131,12 @@ Rect Rect::operator-(const Point& point) {
 	return *this + point.negate();
 }
 
-void Rect::operator+=(Point point) {
+void Rect::operator+=(const Point point) {
 	this->xpos += point.x();
 	this->ypos += point.y();
 }
 
-void Rect::operator-=(Point point) {
+void Rect::operator-=(const Point point) {
 	*this += point.negate();
 }
 
@@ -150,25 +148,6 @@ Rect& Rect::operator=(const Rect& that) {
 	return *this;
 }
 
-Point Rect::getCenter() {
+Point Rect::getCenter() const {
 	return Point(this->xpos, this->ypos) + (Point(this->width, this->height) / 2);
-}
-
-Point smallerDistance(Point distanceFrom, Point pointA, Point pointB) {
-	if (pointA.isReal() && pointB.isNull()) {
-		return pointA;
-	}
-	if (pointA.isNull() && pointB.isReal()) {
-		return pointB;
-	}
-	if (pointA.isNull() && pointB.isNull()) {
-		return Point();
-	}
-	if (distanceFrom.distanceToPoint(pointA) < distanceFrom.distanceToPoint(pointB)) {
-		return pointA;
-	} 
-	if (distanceFrom.distanceToPoint(pointA) > distanceFrom.distanceToPoint(pointB)) {
-		return pointB;
-	}
-	return Point();
 }

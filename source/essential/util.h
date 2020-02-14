@@ -16,6 +16,9 @@ void setRenderColors(SDL_Renderer* renderer, SDL_Color rect);
 
 int keyCodeFromEvent(SDL_Event event);
 
+
+Point smallerDistance(const Point distanceFrom, const Point pointA, const Point pointB);
+
 void createDetatchedThread(int(*method)(void*), void* arg = NULL, const char* name = "new thread");
 
 // TEMP TEMP TEMP TEMP TEMP

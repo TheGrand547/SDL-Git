@@ -2,7 +2,7 @@
 
 BadTest::BadTest(Point position) : EnemyBase(position) {
 	this->flags = SOLID | MOVEABLE;
-	this->currentState = State::PATROL;
+	this->currentState = State::STANDBY;
 	
 	this->lastPatrolledPoint = Point();
 	this->pathTimer.start();
@@ -20,7 +20,7 @@ BadTest::BadTest(const BadTest& that) : EnemyBase(that.position) {
 
 BadTest::~BadTest() {}
 
-bool BadTest::isLocationInvalid() {
+bool BadTest::isLocationInvalid() const {
 	/* True  -> Invalid location, collision or some other predefined metric doesn't satisfy
 	 * False -> Valid location */
 	return this->parent->collision.doesCollideWith(Rect(this->position, this->width, this->height));
@@ -30,7 +30,7 @@ void BadTest::setTexture(SDL_Renderer* renderer) {
 	this->texture.createBlank(renderer, 50, 50, 0xFF0000FF);
 }
 
-Point BadTest::getCenter() {
+Point BadTest::getCenter() const {
 	return this->position + (Point(this->width, this->height) / 2);
 }
 
@@ -132,7 +132,7 @@ void BadTest::update() {
 	this->move();
 }
 
-Point BadTest::getPos() {
+Point BadTest::getPos() const {
 	return this->position;
 }
 
@@ -140,10 +140,18 @@ Rect BadTest::getRect() const {
 	return Rect(this->position, this->width, this->height);
 }
 
-bool BadTest::overlap(Rect other) {
+bool BadTest::overlap(const Rect other) const {
 	return this->getRect().overlap(other);
 }
 
-bool BadTest::overlap(std::shared_ptr<ThingBase>& other) {
+bool BadTest::overlap(const std::shared_ptr<ThingBase>& other) const {
 	return this->overlap(other->getRect());
+}
+
+bool BadTest::doesLineCollide(const Line& ray) const {
+	return this->getRect().doesLineCollide(ray);
+}
+
+Point BadTest::collideLine(const Line& ray) const {
+	return this->getRect().collideLine(ray);
 }

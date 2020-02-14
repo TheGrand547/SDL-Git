@@ -12,11 +12,11 @@ class Point {
 		Point(const Point &point);
 		Point(const Point *point);
 		~Point();
-		Point operator-(const Point &point);
-		Point operator+(const Point &point);
+		Point operator-(const Point& point) const;
+		Point operator+(const Point& point) const;
 		Point& operator=(const Point &that);
-		Point operator/(const float &num) const;
-		Point operator*(const float &num) const;
+		Point operator/(const float& num) const;
+		Point operator*(const float& num) const;
 		Point copy() const;
 		Point negate() const;
 		Point onlyX() const;
