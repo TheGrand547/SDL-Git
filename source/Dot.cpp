@@ -23,7 +23,7 @@ void Dot::move(Point delta) {
 	evalAngle(delta);
 }
 
-Point Dot::getPos() {
+Point Dot::getPosition() const {
 	return this->position;
 }
 
@@ -102,17 +102,17 @@ void Dot::collideTest() {
 	this->move(Vector(xDelta, yDelta));
 	this->lastDelta = Point(xDelta, yDelta);
 	// PUT THIS ELSEWHERE <- Will be handled when implementation is changed to being based around the Screen Class
-	if (this->getPos().x() < Screen::SCREEN_WIDTH / 2) {
+	if (this->getPosition().x() < Screen::SCREEN_WIDTH / 2) {
 		this->parent->getOffset().xZero();
 	}
-	if (this->getPos().y() < Screen::SCREEN_HEIGHT / 2) {
+	if (this->getPosition().y() < Screen::SCREEN_HEIGHT / 2) {
 		this->parent->getOffset().yZero();
 	}
 	
-	if (this->getPos().x() > Screen::MAX_X_SCROLL_DISTANCE) {
+	if (this->getPosition().x() > Screen::MAX_X_SCROLL_DISTANCE) {
 		this->parent->getOffset() = Point(Screen::MAX_SCREEN_X_POS, this->parent->getOffset().y());
 	}
-	if (this->getPos().y() > Screen::MAX_Y_SCROLL_DISTANCE) {
+	if (this->getPosition().y() > Screen::MAX_Y_SCROLL_DISTANCE) {
 		this->parent->getOffset() = Point(this->parent->getOffset().x(), Screen::MAX_SCREEN_Y_POS);
 	}
 } 

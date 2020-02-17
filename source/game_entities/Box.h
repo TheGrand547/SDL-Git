@@ -9,7 +9,7 @@
 #include "../wrappers/SuperTexture.h"	
 #include "../wrappers/Texture.h"
 #include "base/CollideBase.h"
-#include "CollideBaseGroup.h"
+
 typedef uint32_t Uint32;
 
 class Box : public CollideBase {
@@ -27,8 +27,9 @@ class Box : public CollideBase {
 		bool doesLineCollide(const Line& ray) const override;
 		float originDistance() const override;
 		Point collideLine(const Line& ray) const override;
-		Point getTopLeft() const override;
 		Point getBottomRight() const override;
+		Point getPosition() const override;
+		Point getTopLeft() const override;
 		Rect getRect() const override;
 		void draw(SDL_Renderer* renderer, Point offset = Point(0, 0)) override;
 		static void drawBox(SDL_Renderer* renderer, Point position, Point offset = Point(0, 0));

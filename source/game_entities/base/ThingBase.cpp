@@ -10,6 +10,3 @@ int ThingBase::getFlags() const {
 	return this->flags;
 }
 
-Point ThingBase::getPosition() const {
-	return this->position;
-}

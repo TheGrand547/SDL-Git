@@ -25,6 +25,12 @@ void GameInstance::addThing(std::shared_ptr<ThingBase> thing) {
 	}
 	if (thing->getFlags() & SOLID) {
 		this->collisionThings.push_back(thing);
+		if (!(thing->getFlags() & MOVEABLE)) {
+			this->addNode(thing->getPosition() + Point(-60, -60), "CONSTRUCTION");
+			this->addNode(thing->getPosition() + Point(160, 160), "CONSTRUCTION");
+			this->addNode(thing->getPosition() + Point(160, -60), "CONSTRUCTION");
+			this->addNode(thing->getPosition() + Point(-60, 160), "CONSTRUCTION");
+		}
 	}
 	if (thing->getFlags() & MOVEABLE) {
 		this->movingThings.push_back(thing);
@@ -48,6 +54,7 @@ void GameInstance::draw() {
 	for (ThingBase* thing: this->drawOrder) {
 		thing->draw(this->renderer, this->offset);
 	} 
+	this->nodes.drawGroup();
 }
 
 SDL_Renderer* GameInstance::getRenderer() {
@@ -58,7 +65,7 @@ Point& GameInstance::getOffset() {
 	return this->offset;
 }
 
-void GameInstance::addNode(Point position, std::string data, bool full) {
+void GameInstance::addNode(Point position, std::string data) {
 	this->nodes.addNodeAt(position, data);
 }
 

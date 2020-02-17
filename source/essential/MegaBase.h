@@ -6,11 +6,11 @@
 class MegaBase {
 	public:
 		static SDL_Renderer* renderer;
-		static BoundedPoint* offset;
+		static Point* offset;
 		static void setRenderer(SDL_Renderer* renderer) {
 			MegaBase::renderer = renderer;
 		}
-		static void setOffset(BoundedPoint* offset) {
+		static void setOffset(Point* offset) {
 			MegaBase::offset = offset;
 		}
 };

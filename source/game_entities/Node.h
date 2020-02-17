@@ -29,6 +29,7 @@ class Node {
 		float distanceToPoint(const Point point) const;
 		Point getPosition() const;
 		std::shared_ptr<Node> randomConnectedNode() const;
+		std::string getData() const;
 		void connectToOthers(NodeDrawGroup* parent);
 		void draw();
 		void reset();

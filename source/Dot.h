@@ -2,7 +2,6 @@
 #include "essential/constants.h"
 #include "essential/MegaBase.h"
 #include "game_entities/base/EntityBase.h"
-#include "game_entities/CollideBaseGroup.h"
 #include "primitives/Point.h"
 #include "primitives/PointDelta.h"
 #include "primitives/Rect.h"
@@ -27,7 +26,7 @@ class Dot : public EntityBase, public MyBase {
 		Line getRay();
 		Point collideLine(const Line& ray) const override;
 		Point getCenter();
-		Point getPos();
+		Point getPosition() const override;
 		Rect getRect() const override;
 		void collideTest();
 		void draw(SDL_Renderer* renderer, Point offset = Point(0, 0)) override;

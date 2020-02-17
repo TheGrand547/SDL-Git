@@ -9,7 +9,7 @@ void renderChanges(SDL_Renderer* renderer, SDL_Window* window);
 
 // TODO: Static Member Variable Initialization -> Should put somewhere less conspicuous
 SDL_Renderer* MegaBase::renderer = NULL;
-BoundedPoint* MegaBase::offset = NULL;
+Point* MegaBase::offset = NULL;
 SuperTexture Box::mTexture;
 
 
@@ -36,7 +36,7 @@ int main(int argc, char* argv[]) {
 	// TODO: Have some DrawGroup pointers for collision, node, and other groups/structures needed
 	GameInstance GAME(gRenderer, screenPosition);
 	GAME.addThing(dot);
-	MegaBase::setOffset(&screenPosition);
+	MegaBase::setOffset(&GAME.getOffset());
 	MegaBase::setRenderer(gRenderer);
 	AlertTextHandler handler;
 	BackgroundGroup groundGroup;
@@ -47,13 +47,13 @@ int main(int argc, char* argv[]) {
 	for (Point point: boxPoints) {
 		GAME.addThing(std::make_shared<Box>(point));
 	}
-	std::shared_ptr<BadTest> heck = std::make_shared<BadTest>(Point(50, 50));
-	heck->setTexture(gRenderer);
-	GAME.addThing(heck);
+	//std::shared_ptr<BadTest> heck = std::make_shared<BadTest>(Point(100, 400));
+	//heck->setTexture(gRenderer);
+	//GAME.addThing(heck);
 	groundGroup.setParent(GAME);
 	for (int x = 0; x <= Screen::MAX_WIDTH; x += 25) {
 		for (int y = 0; y <= Screen::MAX_HEIGHT; y += 25) {
-			GAME.addNode(Point(x, y));
+			//GAME.addNode(Point(x, y));
 			if (x % 100 == 0 && y % 100 == 0) {
 				groundGroup.add(Point(x, y), Ground::filenames[Ground::GRASS]);
 			}

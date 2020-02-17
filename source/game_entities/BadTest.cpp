@@ -2,7 +2,7 @@
 
 BadTest::BadTest(Point position) : EnemyBase(position) {
 	this->flags = SOLID | MOVEABLE;
-	this->currentState = State::STANDBY;
+	this->currentState = State::PATROL;
 	
 	this->lastPatrolledPoint = Point();
 	this->pathTimer.start();
@@ -54,7 +54,7 @@ void BadTest::draw(SDL_Renderer* renderer, Point offset) {
 			temp = Line(this->getCenter(), newTemp);
 		}
 		temp.setColorChannels(COLORS::BLACK);
-		temp.drawLine(MegaBase::renderer, MegaBase::offset);
+		temp.drawLine(this->parent->getRenderer(), this->parent->getOffset());
 	}
 }
 

@@ -36,7 +36,7 @@ class GameInstance {
 		Point& getOffset();
 		SDL_Renderer* getRenderer();
 		void addThing(std::shared_ptr<ThingBase> thing);
-		void addNode(Point position, std::string data = "", bool full = true);
+		void addNode(Point position, std::string data = "");
 		void instanceBegin();
 		void update();
 		void draw();

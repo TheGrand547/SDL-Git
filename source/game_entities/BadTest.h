@@ -8,7 +8,6 @@
 #include "../wrappers/Texture.h"
 #include "../wrappers/Timer.h"
 #include "base/EnemyBase.h"
-#include "CollideBaseGroup.h"
 #include "NodePath.h"
 #include "paths/CirclePath.h"
 #include "paths/LinePath.h"

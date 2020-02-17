@@ -40,6 +40,10 @@ Point Box::getBottomRight() const {
 	return this->rect.getBottomRight();
 }
 
+Point Box::getPosition() const {
+	return this->getTopLeft();
+}
+
 void Box::createBoxTexture(SDL_Renderer* renderer) {
 	Box::mTexture.setClip(BOX::BOX_WIDTH, BOX::BOX_HEIGHT);
 	Box::mTexture.drawBox(renderer, Rect(Point(0, 0), Point(BOX::BOX_WIDTH, BOX::BOX_HEIGHT)), BOX::BOX_INNER_COLOR);

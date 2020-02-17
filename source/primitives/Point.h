@@ -14,7 +14,7 @@ class Point {
 		~Point();
 		Point operator-(const Point& point) const;
 		Point operator+(const Point& point) const;
-		Point& operator=(const Point &that);
+		Point& operator=(const Point& that);
 		Point operator/(const float& num) const;
 		Point operator*(const float& num) const;
 		Point copy() const;

@@ -54,13 +54,22 @@ void NodeDrawGroup::reset() {
 }
 
 void NodeDrawGroup::purge() {
+	std::vector<std::shared_ptr<Node>> constructionNodes;
 	for (std::shared_ptr<Node> node: this->storage) {
+		std::vector<std::shared_ptr<Node>>::iterator it = std::find(this->storage.begin(), this->storage.end(), node);
 		if (node->attached.size() == 0) {
-			std::vector<std::shared_ptr<Node>>::iterator it = std::find(this->storage.begin(), this->storage.end(), node);
 			if (it != this->storage.end()) {
-				this->storage.erase(it);
+				//this->storage.erase(it);
 			}	
 		}
+		/*
+		if (!node->getData().compare("CONSTRUCTION")) {
+			// INSERT THE CONSTRUCTION CODE
+			constructionNodes.push_back(node);
+			if (it != this->storage.end()) {
+				this->storage.erase(it);
+			}
+		}*/
 	}
 }
 

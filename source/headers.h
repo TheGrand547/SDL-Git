@@ -42,7 +42,6 @@
 #include "wrappers/control/SimpleButtonCommand.h"
 #include "game_entities/DrawGroup.h"
 #include "game_entities/BackgroundGroup.h"
-#include "game_entities/EnemyDrawGroup.h"
 #include "game_entities/Node.h"
 #include "game_entities/NodeDrawGroup.h"
 #include "game_entities/NodePath.h"
