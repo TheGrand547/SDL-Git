@@ -74,6 +74,10 @@ Point Point::getUnitVector() const {
 	return (*this) / this->getMagnitude();
 }
 
+float Point::getAngle() const {
+	return atan2(this->yval, this->xval);
+}
+
 bool Point::isNull() const {
 	if (this->xval != this->xval && this->yval != this->yval) {
 		return true;

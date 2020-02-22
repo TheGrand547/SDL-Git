@@ -3,10 +3,12 @@
 #define NODE_DRAW_GROUP_H
 class NodeDrawGroup;
 class GameInstance;
+#include "../essential/random.h"
 #include "DrawGroup.h"
 #include "Node.h"
 #include<memory>
 #include<string>
+#include<utility>
 
 class NodeDrawGroup : public DrawGroup {
 	private:

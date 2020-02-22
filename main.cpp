@@ -43,7 +43,7 @@ int main(int argc, char* argv[]) {
 	// Box creation
 	Box::createBoxTexture(gRenderer);
 	Point boxPoints[] = {Point(200, 200), Point(400, 200), Point(300, 200), Point(500, 200), Point(500, 300), Point(500, 400), 
-				  Point(500, 500), Point(600, 600), Point(600, 500), Point(700, 200)};
+				  Point(500, 500), Point(600, 600), Point(600, 500), Point(700, 200), Point(100, 600)};
 	for (Point point: boxPoints) {
 		GAME.addThing(std::make_shared<Box>(point));
 	}
@@ -51,6 +51,7 @@ int main(int argc, char* argv[]) {
 	//heck->setTexture(gRenderer);
 	//GAME.addThing(heck);
 	groundGroup.setParent(GAME);
+	std::cout << "seg" << std::endl;
 	for (int x = 0; x <= Screen::MAX_WIDTH; x += 25) {
 		for (int y = 0; y <= Screen::MAX_HEIGHT; y += 25) {
 			//GAME.addNode(Point(x, y));

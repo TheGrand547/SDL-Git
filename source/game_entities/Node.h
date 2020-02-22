@@ -24,6 +24,8 @@ class Node {
 		
 		Node(Point position, std::string data = "");
 		~Node();
+		bool collinear(const std::shared_ptr<Node> other) const;
+		bool isAttachedTo(const std::shared_ptr<Node> other) const;
 		float getDistance(const std::weak_ptr<Node> other) const;
 		float getDistance(const std::shared_ptr<Node> other) const;
 		float distanceToPoint(const Point point) const;

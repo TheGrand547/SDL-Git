@@ -5,6 +5,7 @@
 #include "../MyBase.h"
 #include "../essential/random.h"
 #include "../essential/util.h"
+
 typedef Uint8 uint8_t;
 
 class Line: public MyBase {

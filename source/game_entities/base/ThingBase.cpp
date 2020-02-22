@@ -10,3 +10,5 @@ int ThingBase::getFlags() const {
 	return this->flags;
 }
 
+void ThingBase::addNodes() {}
+

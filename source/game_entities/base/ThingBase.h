@@ -26,6 +26,11 @@ class ThingBase {
 	public:
 		virtual ~ThingBase() = 0;
 		virtual bool doesLineCollide(const Line& ray) const = 0;
+		
+		/* overlap(Rect) -> Does /this/ collide with that specific rectangle
+		 * overlap(shared_ptr<Thing>) -> Does this object collide with this object(ie call the objects 
+		 * 		overlap with each hitbox in this */ 
+		 // TODO: Make a HitBox class
 		virtual bool overlap(const Rect other) const = 0;
 		virtual bool overlap(const std::shared_ptr<ThingBase>& other) const = 0;
 		int getFlags() const;
@@ -33,6 +38,7 @@ class ThingBase {
 		virtual Point collideLine(const Line& ray) const = 0;
 		virtual Point getPosition() const = 0;
 		virtual Rect getRect() const = 0;
+		virtual void addNodes();
 		virtual void draw(SDL_Renderer* renderer, Point offset = Point(0, 0)) = 0;
 		void setParent(GameInstance* parent);
 		virtual void update() = 0;

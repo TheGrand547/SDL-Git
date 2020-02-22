@@ -2,13 +2,31 @@
 #include "CollisionHandler.h"
 #include "../GameInstance.h"
 
-
 Node::Node(Point position, std::string data) : data(data), position(position) {
 	this->drawnThisFrame = false;
 }
 
 Node::~Node() {
 	this->attached.clear();
+}
+
+bool Node::collinear(const std::shared_ptr<Node> other) const {
+	Point delta = other->getPosition() - this->getPosition();
+	if (std::abs(delta.x()) < 0.0001 || std::abs(delta.y()) < 0.0001) {
+		return true;
+	}
+	return false;
+}
+
+bool Node::isAttachedTo(const std::shared_ptr<Node> other) const {
+	for (std::weak_ptr<Node> ptr: this->attached) {
+		if (std::shared_ptr<Node> node = ptr.lock()) {
+			if (node.get() == other.get()) {
+				return true;
+			}
+		}
+	}
+	return false;
 }
 
 std::shared_ptr<Node> Node::randomConnectedNode() const {
@@ -47,14 +65,6 @@ void Node::draw() { // Legacy function only for testing purposes
 			tempLine.setColorChannels(0xFF, 0x00, 0x00, 0xFF);
 			tempLine.drawLine(MegaBase::renderer, MegaBase::offset);
 		}
-		/*
-		if (!node.lock() && !temp->drawnThisFrame) {
-			// BREACHING DE GATEZ
-			tempLine = Line(this->position, temp->position);
-			tempLine.setColorChannels(0xFF, 0x00, 0x00, 0xFF);
-			tempLine.drawLine(MegaBase::renderer, MegaBase::offset);
-			// D - CANE
-		}*/
 	}
 	Point temp = this->position - *MegaBase::offset;
 	circleColor(MegaBase::renderer, temp.x(), temp.y(), 10, 0xFF0000FF);
@@ -80,7 +90,14 @@ void Node::connectToOthers(NodeDrawGroup* parent) {
 			continue;
 		}*/
 		if (parent->parent->collision.doesNotCollideWith(Line(this->position, node->position))) {
+			Point ptr = this->position - node->position;
 			if (Node::checkLocationValidity(Line(this->position, node->position).midPoint(), parent->parent)) {
+				if (!this->getData().compare("CONSTRUCTION")) { // Construction nodes can't connect with other nodes
+					if (!node->getData().compare("CONSTRUCTION")) {
+						this->attached.push_back(node);
+					}
+					continue;
+				}	
 				this->attached.push_back(node);
 			}
 		}

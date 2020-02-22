@@ -1,6 +1,7 @@
 #pragma once
 #include<math.h>
 #include<stdlib.h>
+#include<utility>
 #include<vector>
 /* Misc functions with no dependencies */
 
@@ -46,3 +47,10 @@ bool valueNotInVector(std::vector<T> vector, T element) {
 }
 	
 double gaussian(float x, double sigma);
+
+template<class T>
+bool shareNoElements(std::pair<std::shared_ptr<T>, std::shared_ptr<T>> pair, std::pair<std::shared_ptr<T>, std::shared_ptr<T>> otherPair) {
+	bool result = pair.first.get() != otherPair.first.get() && pair.second.get() != otherPair.first.get() 
+				&& pair.first.get() != otherPair.second.get() && pair.second.get() != otherPair.second.get();
+	return result;
+} 

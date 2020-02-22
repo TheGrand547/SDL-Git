@@ -31,6 +31,7 @@ class Point {
 		bool operator!=(const Point& point);
 		float distanceToPoint(Point point) const;
 		float distanceToPoint(float x, float y) const;
+		float getAngle() const;
 		float getMagnitude() const;
 		float originDistance() const;
 		float x() const;
