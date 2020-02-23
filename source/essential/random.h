@@ -1,4 +1,5 @@
 #pragma once
+#include<cmath>
 #include<math.h>
 #include<stdlib.h>
 #include<utility>
@@ -16,10 +17,7 @@ void mMax(T numA, T numB, T& iMin, T& iMax) {
 	iMax = (numA > numB) ? numA : numB;
 }
 
-template<class T>
-bool valueInRange(T value, T min, T max){
-	return ((value - min) > -0.0001) && ((value - max) < 0.0001); 
-}
+bool valueInRange(float value, float min, float max);
 
 template<class T>
 bool valueInModRange(T value, T min, T max){ 

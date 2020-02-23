@@ -101,13 +101,21 @@ void NodeDrawGroup::purge() {
 		for (node_pair otherPair : HAHA) {
 			Line lineA(pair.first->getPosition(), pair.second->getPosition());
 			Line lineB(otherPair.first->getPosition(), otherPair.second->getPosition());
-			if (shareNoElements<Node>(pair, otherPair) &&
+			if (//shareNoElements<Node>(pair, otherPair) &&
 				pair.first->isAttachedTo(otherPair.first) &&
 				pair.second->isAttachedTo(otherPair.first) &&
 				pair.first->isAttachedTo(otherPair.second) &&
 				pair.second->isAttachedTo(otherPair.second) &&
 				lineA.intersectionPoint(lineB).isNull()) { // HAHA HAHAHHA HAH HA HH HA A
-					ctr++;
+					if (0 > 150) {
+						//lineA.midPoint().distanceToPoint(lineB.midPoint())
+						ctr++;
+					} else {
+						if (lineA.isParallel(lineB) && !lineA.isCollinear(lineB)) {
+							Point mid = Line(lineA.midPoint(),lineB.midPoint()).midPoint();
+							this->addNodeAt(mid, std::string("p"));
+						}
+					}
 				}
 		}
 	}

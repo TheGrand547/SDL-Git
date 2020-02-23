@@ -16,7 +16,9 @@ bool CollisionHandler::doesCollideWith(const Rect rect) const {
 	bool result = false;
 	for (std::shared_ptr<ThingBase> thing: this->parent->collisionThings) {
 		result = thing->overlap(rect);
-		if (result) break;
+		if (result) {			
+			break;
+		}
 	}
 	return result;
 }

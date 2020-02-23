@@ -1,4 +1,5 @@
 #pragma once
+#include<cmath>
 #include<SDL2/SDL.h>
 #include<SDL2/SDL2_gfxPrimitives.h>
 #include "Point.h"
@@ -18,6 +19,8 @@ class Line: public MyBase {
 		~Line();
 		Line(const Line &line);
 		Line& operator=(const Line& that);
+		bool isCollinear(const Line other) const;
+		bool isParallel(const Line other) const;
 		bool isPointOnThisLine(Point point) const;
 		bool collidePoint(const Point point) const;
 		void operator+=(const Point b);
@@ -27,8 +30,9 @@ class Line: public MyBase {
 		float getAx() const;
 		float getBy() const;
 		float getC() const;
-		Point getOrigin() const;
 		Point getEnd() const;
+		Point getOrigin() const;
+		Point getUnitVector() const;
 		Point midPoint() const;
 		Point intersectionPoint(const Line other) const;
 		friend std::ostream& operator<<(std::ostream& output, const Line &line);

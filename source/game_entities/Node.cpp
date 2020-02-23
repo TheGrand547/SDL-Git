@@ -67,15 +67,19 @@ void Node::draw() { // Legacy function only for testing purposes
 		}
 	}
 	Point temp = this->position - *MegaBase::offset;
-	circleColor(MegaBase::renderer, temp.x(), temp.y(), 10, 0xFF0000FF);
+	if (this->data.compare("p") == 0) {
+		circleColor(MegaBase::renderer, temp.x(), temp.y(), 25, 0xFF00FFFF);
+	} else {
+		circleColor(MegaBase::renderer, temp.x(), temp.y(), 10, 0xFF0000FF);
+	}
 }
 
 bool Node::checkLocationValidity(Point position, GameInstance* instance) {
 	/* True -> valid location
 	 * False -> invalid location */
-	Rect testRect = Rect(position, 50, 50);
+	Rect testRect = Rect(position, 25, 25);
 	testRect -= Point(testRect.getWidth(), testRect.getHeight()) / 2.0;
-	return instance->collision.doesNotCollideWith(testRect);
+	return instance->collision.doesNotCollideWith(testRect) && instance->getPlayableArea().overlap(testRect);
 }
 
 float Node::distanceToPoint(const Point point) const {

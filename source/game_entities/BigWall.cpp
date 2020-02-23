@@ -12,7 +12,7 @@ bool BigWall::doesLineCollide(const Line& ray) const {
 }
 
 bool BigWall::overlap(const Rect other) const {
-	return this->rect.overlap(rect);
+	return this->rect.overlap(other);
 }
 
 bool BigWall::overlap(const std::shared_ptr<ThingBase>& other) const {
@@ -35,8 +35,14 @@ Rect BigWall::getRect() const {
 	return this->rect;
 }
 
-void BigWall::addNodes() const {
-	this->parent->draw();
+void BigWall::addNodes() {
+	float horz[] = {-this->rect.getWidth() / 2 - 25, 0, this->rect.getWidth() / 2 + 25};
+	float vert[] = {-this->rect.getHeight() / 2 - 25, 0, this->rect.getHeight() / 2 + 25};
+	for (float x: horz) {
+		for (float y: vert) {
+			this->parent->addNode(this->getPosition() + Point(x, y), "CONSTRUCTION");
+		}
+	}
 }
 
 void BigWall::draw(SDL_Renderer* renderer, Point offset) {

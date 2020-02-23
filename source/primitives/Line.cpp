@@ -37,6 +37,25 @@ Line& Line::operator=(const Line& that) {
 	return *this;
 }
 
+bool Line::isCollinear(const Line other) const {
+	/* True -> This line is on the same plane
+	 * False -> This line is not on the same plane
+	 */
+	if (this->isParallel(other)) {
+		return std::abs(other.getC() / other.getBy() - this->getC() / this->getBy()) < 0.00001;
+	}
+	return false;
+}
+
+bool Line::isParallel(const Line other) const {
+	/* True -> This line IS parallel to other
+	 * False -> This line IS NOT parallel to other */
+	 
+	Point myVector = this->getUnitVector();
+	Point otherVector = other.getUnitVector();
+	return myVector == otherVector;
+	//return std::abs((other.getAx() / other.getBy()) - (this->getAx() / this->getBy())) < 0.0001;
+}
 
 bool Line::isPointOnThisLine(const Point point) const {
 	if (valueInRange(point.x(), this->minX, this->maxX) && valueInRange(point.y(), this->minY, this->maxY)) {
@@ -77,12 +96,16 @@ float Line::getC() const {
 	return float((this->getAx() * this->originPoint.x()) + (this->getBy() * this->originPoint.y()));
 }
 
+Point Line::getEnd() const {
+	return this->endingPoint;
+}
+
 Point Line::getOrigin() const {
 	return this->originPoint;
 }
 
-Point Line::getEnd() const {
-	return this->endingPoint;
+Point Line::getUnitVector() const {
+	return (this->endingPoint - this->originPoint).getUnitVector();
 }
 
 Point Line::midPoint() const {

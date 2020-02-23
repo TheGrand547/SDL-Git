@@ -29,6 +29,9 @@ void Controller::handleEvents() {
 			case SDL_QUIT:
 				this->quit = true;
 				break;
+			case SDL_MOUSEBUTTONDOWN:
+				std::cout << mouseX << ", " << mouseY << std::endl;
+				break;
 			case SDL_KEYDOWN:
 				if (e.key.repeat == 0) {
 					this->myq.push_back(*SDL_GetKeyName(e.key.keysym.sym));

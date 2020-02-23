@@ -10,7 +10,8 @@ bool compare::operator()(const ThingBase* lhs, const ThingBase* rhs) const {
 	return lhs < rhs;
 }
 
-GameInstance::GameInstance(SDL_Renderer* renderer, BoundedPoint offset) : renderer(renderer), offset(offset), collision(this) {}
+GameInstance::GameInstance(SDL_Renderer* renderer, BoundedPoint offset) : renderer(renderer), offset(offset), 
+							collision(this), playableArea(0, 0, Screen::MAX_WIDTH, Screen::MAX_HEIGHT) {}
 
 GameInstance::~GameInstance() {}
 
@@ -26,16 +27,8 @@ void GameInstance::addThing(std::shared_ptr<ThingBase> thing) {
 	if (thing->getFlags() & SOLID) {
 		this->collisionThings.push_back(thing);
 		if (!(thing->getFlags() & MOVEABLE)) {
-			// Diagonal nodes
-			this->addNode(thing->getPosition() + Point(-60, -60), "CONSTRUCTION");
-			this->addNode(thing->getPosition() + Point(160, 160), "CONSTRUCTION");
-			this->addNode(thing->getPosition() + Point(160, -60), "CONSTRUCTION");
-			this->addNode(thing->getPosition() + Point(-60, 160), "CONSTRUCTION");
-			// Caridnal node
-			this->addNode(thing->getPosition() + Point(50, -60), "CONSTRUCTION");
-			this->addNode(thing->getPosition() + Point(50, 160), "CONSTRUCTION");
-			this->addNode(thing->getPosition() + Point(-60, 50), "CONSTRUCTION");
-			this->addNode(thing->getPosition() + Point(160, 50), "CONSTRUCTION");
+			thing->addNodes();
+			//std::cout << "This thing shouldn't move" << std::endl;
 		}
 	}
 	if (thing->getFlags() & MOVEABLE) {
@@ -47,7 +40,6 @@ void GameInstance::update() {
 	for (std::shared_ptr<ThingBase> thing: this->movingThings) {
 		Point position = thing->getPosition();
 		thing->update();
-		///thing->move();
 		if (position != thing->getPosition()) {
 			this->drawOrder.erase(thing.get());
 			this->drawOrder.insert(thing.get());
@@ -59,7 +51,11 @@ void GameInstance::draw() {
 	for (ThingBase* thing: this->drawOrder) {
 		thing->draw(this->renderer, this->offset);
 	} 
-	this->nodes.drawGroup();
+	//this->nodes.drawGroup();
+}
+
+Rect GameInstance::getPlayableArea() const {
+	return this->playableArea;
 }
 
 SDL_Renderer* GameInstance::getRenderer() {

@@ -1,6 +1,6 @@
 #include "Dot.h"
 
-Dot::Dot(Point startingCoordinate) {
+Dot::Dot(Point startingCoordinate) : EntityBase(4, 1.25) {
 	this->flags |= DRAW | MOVEABLE;
 	this->position = BoundedPoint(startingCoordinate, 0, 0, Screen::MAX_WIDTH - Player::PLAYER_X_DIMENSION, Screen::MAX_HEIGHT - Player::PLAYER_Y_DIMENSION);
 }

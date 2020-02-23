@@ -19,6 +19,7 @@ class GameInstance {
 	private:
 		friend class CollisionHandler;
 		Point offset;
+		Rect playableArea;
 		SDL_Renderer* renderer;
 		
 		std::vector<std::shared_ptr<ThingBase>> allThings;
@@ -34,6 +35,7 @@ class GameInstance {
 		GameInstance(SDL_Renderer* renderer, BoundedPoint offset);
 		~GameInstance();
 		Point& getOffset();
+		Rect getPlayableArea() const;
 		SDL_Renderer* getRenderer();
 		void addThing(std::shared_ptr<ThingBase> thing);
 		void addNode(Point position, std::string data = "");
