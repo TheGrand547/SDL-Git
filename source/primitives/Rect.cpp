@@ -8,6 +8,11 @@ Rect::Rect() {
 }
 
 Rect::Rect(Point topLeft, Point bottomRight) {
+	if (bottomRight.distanceToPoint() < topLeft.distanceToPoint()) {
+		Point temp = topLeft;
+		topLeft = bottomRight;
+		bottomRight = temp;
+	}
 	this->xpos = topLeft.x();
 	this->ypos = topLeft.y();
 	this->width = bottomRight.x() - topLeft.x();

@@ -51,7 +51,7 @@ void GameInstance::draw() {
 	for (ThingBase* thing: this->drawOrder) {
 		thing->draw(this->renderer, this->offset);
 	} 
-	//this->nodes.drawGroup();
+	this->nodes.drawGroup();
 }
 
 Rect GameInstance::getPlayableArea() const {

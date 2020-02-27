@@ -29,6 +29,13 @@ int keyCodeFromEvent(SDL_Event event) {
 	return event.key.keysym.sym;
 }
 
+void orderPoints(Point& pointA, Point& pointB) {
+	if (pointB.distanceToPoint() < pointA.distanceToPoint()) {
+		Point temp = pointA;
+		pointA = pointB;
+		pointB = temp;
+	}
+}
 
 Point smallerDistance(const Point distanceFrom, const Point pointA, const Point pointB) {
 	if (pointA.isReal() && pointB.isNull()) {

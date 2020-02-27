@@ -1,12 +1,13 @@
 #include "Line.h"
 
-Line::Line(Point pointA, Point pointB, uint8_t r, uint8_t g, uint8_t b, uint8_t a) {
-	this->originPoint = Point(pointA);
-	this->endingPoint = Point(pointB);
-	this->minX = 0.0f;
-	this->maxX = 0.0f;
-	this->minY = 0.0f;
-	this->maxY = 0.0f;
+Line::Line(Point pointA, Point pointB, uint8_t r, uint8_t g, uint8_t b, uint8_t a) : originPoint(pointA), endingPoint(pointB) {
+	if (pointA.isNull()) {
+		this->originPoint = Point(0, 0);
+	}
+	if (pointB.isNull()) {
+		this->endingPoint = Point(0, 0);
+	}
+	orderPoints(this->originPoint, this->endingPoint);
 	mMax(pointA.x(), pointB.x(), this->minX, this->maxX);
 	mMax(pointA.y(), pointB.y(), this->minY, this->maxY);
 	setColorChannels(r, g, b, a);
@@ -17,10 +18,7 @@ Line::~Line() {}
 Line::Line(const Line& line) {
 	this->originPoint = Point(line.originPoint);
 	this->endingPoint = Point(line.endingPoint);
-	this->minX = 0.0f;
-	this->maxX = 0.0f;
-	this->minY = 0.0f;
-	this->maxY = 0.0f;
+	orderPoints(this->originPoint, this->endingPoint);
 	mMax(originPoint.x(), endingPoint.x(), this->minX, this->maxX);
 	mMax(originPoint.y(), endingPoint.y(), this->minY, this->maxY);
 }
@@ -28,18 +26,15 @@ Line::Line(const Line& line) {
 Line& Line::operator=(const Line& that) {
 	this->originPoint = that.originPoint;
 	this->endingPoint = that.endingPoint;
-	this->minX = 0.0f;
-	this->maxX = 0.0f;
-	this->minY = 0.0f;
-	this->maxY = 0.0f;
+	orderPoints(this->originPoint, this->endingPoint);
 	mMax(this->originPoint.x(), this->endingPoint.x(), this->minX, this->maxX);
 	mMax(this->originPoint.y(), this->endingPoint.y(), this->minY, this->maxY);
 	return *this;
 }
 
 bool Line::isCollinear(const Line other) const {
-	/* True -> This line is on the same plane
-	 * False -> This line is not on the same plane
+	/* True -> This line IS on the same unbounded line
+	 * False -> This line IS NOT on the same unbounded line
 	 */
 	if (this->isParallel(other)) {
 		return std::abs(other.getC() / other.getBy() - this->getC() / this->getBy()) < 0.00001;
@@ -50,11 +45,7 @@ bool Line::isCollinear(const Line other) const {
 bool Line::isParallel(const Line other) const {
 	/* True -> This line IS parallel to other
 	 * False -> This line IS NOT parallel to other */
-	 
-	Point myVector = this->getUnitVector();
-	Point otherVector = other.getUnitVector();
-	return myVector == otherVector;
-	//return std::abs((other.getAx() / other.getBy()) - (this->getAx() / this->getBy())) < 0.0001;
+	return std::abs((other.getAx() * this->getBy()) - (this->getAx() * other.getBy())) < 0.0001;
 }
 
 bool Line::isPointOnThisLine(const Point point) const {

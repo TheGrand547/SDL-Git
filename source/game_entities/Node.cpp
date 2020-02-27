@@ -90,7 +90,7 @@ void Node::connectToOthers(NodeDrawGroup* parent) {
 	for (std::shared_ptr<Node> node: parent->storage) {
 		if (node.get() == this) continue;
 		/*
-		if (this->position.distanceToPoint(node->position) > NODE::NODE_DISTANCE_MAX || node.get() == this) {
+		if (this->position.distanceToPoint(node->position) > 300 || node.get() == this) {
 			continue;
 		}*/
 		if (parent->parent->collision.doesNotCollideWith(Line(this->position, node->position))) {
@@ -110,4 +110,27 @@ void Node::connectToOthers(NodeDrawGroup* parent) {
 
 std::string Node::getData() const {
 	return this->data;
+}
+
+int Node::numberOfSharedNodes(const std::shared_ptr<Node> other) const {
+	int shared = 0;
+	for (std::weak_ptr<Node> ptr: this->attached) {
+		if (std::shared_ptr<Node> node = ptr.lock()) {
+			if (other->isAttachedTo(node)) {
+				shared++;
+			}
+		}
+	}
+	return shared;
+}
+
+bool Node::shareAllNodes(const std::shared_ptr<Node> other) const {
+	for (std::weak_ptr<Node> ptr: this->attached) {
+		if (std::shared_ptr<Node> node = ptr.lock()) {
+			if (!other->isAttachedTo(node)) {
+				return false;
+			}
+		}
+	}
+	return true;
 }

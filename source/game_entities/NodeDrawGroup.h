@@ -14,16 +14,17 @@ class NodeDrawGroup : public DrawGroup {
 	private:
 		friend class Node;
 		std::vector<std::shared_ptr<Node>> storage;
+		bool addNodesOnLine(const Line line);
 	public:
 		GameInstance* parent;
 		NodeDrawGroup(GameInstance* parent);
 		~NodeDrawGroup();
+		bool addNodeAt(Point point, std::string data = "");
 		bool exists() override;
 		int size() override;
 		std::shared_ptr<Node>& at(int position);
 		std::shared_ptr<Node>& operator[](int position);
 		std::shared_ptr<Node>& getFirst();
-		void addNodeAt(Point point, std::string data = "");
 		void clearGroup() override;
 		void drawGroup() override;
 		void connectNodes();

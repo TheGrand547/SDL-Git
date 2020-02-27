@@ -53,6 +53,8 @@ int main(int argc, char* argv[]) {
 	GAME.addThing(std::make_shared<BigWall>(Rect(200, 200, 300, 100)));
 	GAME.addThing(std::make_shared<BigWall>(Rect(500, 200, 100, 400)));
 	GAME.addThing(std::make_shared<BigWall>(Rect(600, 500, 100, 300)));
+	GAME.addThing(std::make_shared<BigWall>(Rect(300, 450, 100, 300)));
+
 	//std::shared_ptr<BadTest> heck = std::make_shared<BadTest>(Point(100, 400));
 	//heck->setTexture(gRenderer);
 	//GAME.addThing(heck);

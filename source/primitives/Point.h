@@ -29,7 +29,7 @@ class Point {
 		bool isReal() const;
 		bool operator==(const Point& point);
 		bool operator!=(const Point& point);
-		float distanceToPoint(Point point) const;
+		float distanceToPoint(Point point = Point(0, 0)) const;
 		float distanceToPoint(float x, float y) const;
 		float getAngle() const;
 		float getMagnitude() const;

@@ -30,7 +30,7 @@ T toTicks(T seconds) {
 }
 
 template<class T>
-T& choice(std::vector<T>& vector) {
+T& choice(const std::vector<T>& vector) {
 	return vector[rand() % vector.size()];
 }
 
@@ -51,4 +51,4 @@ bool shareNoElements(std::pair<std::shared_ptr<T>, std::shared_ptr<T>> pair, std
 	bool result = pair.first.get() != otherPair.first.get() && pair.second.get() != otherPair.first.get() 
 				&& pair.first.get() != otherPair.second.get() && pair.second.get() != otherPair.second.get();
 	return result;
-} 
+}

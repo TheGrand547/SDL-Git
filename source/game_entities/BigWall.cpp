@@ -36,8 +36,8 @@ Rect BigWall::getRect() const {
 }
 
 void BigWall::addNodes() {
-	float horz[] = {-this->rect.getWidth() / 2 - 25, 0, this->rect.getWidth() / 2 + 25};
-	float vert[] = {-this->rect.getHeight() / 2 - 25, 0, this->rect.getHeight() / 2 + 25};
+	float horz[] = {-this->rect.getWidth() / 2 - 25,  this->rect.getWidth() / 2 + 25};
+	float vert[] = {-this->rect.getHeight() / 2 - 25,  this->rect.getHeight() / 2 + 25};
 	for (float x: horz) {
 		for (float y: vert) {
 			this->parent->addNode(this->getPosition() + Point(x, y), "CONSTRUCTION");

@@ -14,6 +14,8 @@ void boxRGBA(SDL_Renderer* renderer, Point pointA, Point pointB, uint8_t r, uint
 
 void setRenderColors(SDL_Renderer* renderer, SDL_Color rect);
 
+void orderPoints(Point& pointA, Point& pointB);
+
 int keyCodeFromEvent(SDL_Event event);
 
 Point smallerDistance(const Point distanceFrom, const Point pointA, const Point pointB);
