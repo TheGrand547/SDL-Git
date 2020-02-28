@@ -8,14 +8,15 @@
 
 class Rect: public MyBase {
 	protected:
-		static const int arrayLength = 4;
-		float xpos, ypos, width, height;
+		Point topLeft, heightVector, widthVector;
 	public:
 		Rect();
-		Rect(Point position, int width, int height);
+		Rect(Point topLeft, Line widthVector, Line heightVector);
+		Rect(Line side1, Line side2);
+		Rect(Point position, float width, float height);
 		Rect(Point topLeft, Point bottomRight);
 		Rect(const Rect& that);
-		Rect(float x, float y, int width, int height);
+		Rect(float x, float y, float width, float height);
 		~Rect();
 		Rect& operator=(const Rect& that);
 		Rect operator+(const Point& point);
@@ -32,8 +33,8 @@ class Rect: public MyBase {
 		Point getTopRight() const;
 		SDL_Rect getSDLRect() const;
 		void draw(SDL_Renderer* renderer, Point offset);
-		void operator+=(const Point point);
-		void operator-=(const Point point);
+		void operator+=(const Point& point);
+		void operator-=(const Point& point);
 		void setColorChannels(int r, int g, int b, int a);
 		void superDraw(SDL_Renderer* renderer, Point offset);
 };

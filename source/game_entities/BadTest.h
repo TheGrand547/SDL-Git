@@ -32,7 +32,7 @@ class BadTest : public EnemyBase {
 		bool overlap(const std::shared_ptr<ThingBase>& other) const override;
 		bool isLocationInvalid() const override;
 		Point collideLine(const Line& ray) const override;
-		Point getPos() const override;
+		Point getPosition() const override;
 		Point getCenter() const override;
 		Rect getRect() const override;
 		void draw(SDL_Renderer* renderer, Point offset = Point(0, 0)) override;

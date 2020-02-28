@@ -19,20 +19,20 @@ LinePath::~LinePath() {}
 
 void LinePath::start() {
 	this->timer.start();
-	this->begin = this->target->getPos();
+	this->begin = this->target->getPosition();
 	this->ticksDone = 0;
 	this->started = true;
 }
 
 void LinePath::stop() {
 	this->timer.stop();
-	this->begin = this->target->getPos();
+	this->begin = this->target->getPosition();
 	this->ticksDone = 0;
 	this->started = false;
 }
 
 bool LinePath::isFinished() const {
-	if (this->begin.distanceToPoint(this->target->getPos()) >= this->maxTicks && this->maxTicks != Path::REPEAT) {
+	if (this->begin.distanceToPoint(this->target->getPosition()) >= this->maxTicks && this->maxTicks != Path::REPEAT) {
 		return true;
 	}
 	return false;

@@ -14,8 +14,18 @@ SuperTexture Box::mTexture;
 
 
 int main(int argc, char* argv[]) {
+	std::cout << "Float: " << sizeof(float) << std::endl;
+	std::cout << "Double: " << sizeof(double) << std::endl;
+	std::cout << "Point: " << sizeof(Point) << std::endl;
+	std::cout << "Line: " << sizeof(Line) << std::endl;
+	std::cout << "Rect: " << sizeof(Rect) << std::endl;
+	std::cout << "Node: " << sizeof(Node) << std::endl;
+	std::cout << "Node Pointer: " << sizeof(Node*) << std::endl;
+	std::cout << "Node Smart Pointer: " << sizeof(std::shared_ptr<Node>) << std::endl;
+	std::cout << "BigWall: " << sizeof(BigWall) << std::endl;
+	std::cout << "Vector: " << sizeof(std::vector<bool>) << std::endl;
 	std::map<std::string, int> gameState; // This will later be placed into the class to hold level instances
-	// TODO: Write command line args like in source, in addition to command line args such as DRAW_PATHS_ENABLE
+	// TODO: Write command line args like in source/idtech1, in addition to command line args such as DRAW_PATHS_ENABLE
 	for (int i = 1; i < argc; i++) {
 		if (!strcmp(argv[i], "RAY_CAST_ENABLE")) {
 			gameState["RAY_CAST"] = 1;

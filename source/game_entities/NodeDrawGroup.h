@@ -10,10 +10,12 @@ class GameInstance;
 #include<string>
 #include<utility>
 
+typedef std::shared_ptr<Node> NodePtr;
+
 class NodeDrawGroup : public DrawGroup {
 	private:
 		friend class Node;
-		std::vector<std::shared_ptr<Node>> storage;
+		std::vector<NodePtr> storage;
 		bool addNodesOnLine(const Line line);
 	public:
 		GameInstance* parent;
@@ -22,9 +24,9 @@ class NodeDrawGroup : public DrawGroup {
 		bool addNodeAt(Point point, std::string data = "");
 		bool exists() override;
 		int size() override;
-		std::shared_ptr<Node>& at(int position);
-		std::shared_ptr<Node>& operator[](int position);
-		std::shared_ptr<Node>& getFirst();
+		NodePtr& at(int position);
+		NodePtr& operator[](int position);
+		NodePtr& getFirst();
 		void clearGroup() override;
 		void drawGroup() override;
 		void connectNodes();

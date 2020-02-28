@@ -36,16 +36,16 @@ Point Point::operator+(const Point& point) const {
 	return Point(this->xval + point.xval, this->yval + point.yval);
 }
 
-void Point::operator-=(Point delta) {
+void Point::operator-=(const Point& delta) {
 	*this += delta.negate();
 }
 
-void Point::operator+=(Point delta) {
+void Point::operator+=(const Point& delta) {
 	this->xval += delta.xval;
 	this->yval += delta.yval;
 }
 
-Point& Point::operator=(const Point &that) {
+Point& Point::operator=(const Point& that) {
 	xval = that.xval;
 	yval = that.yval;
 	return *this;
@@ -60,7 +60,7 @@ std::ostream& operator<<(std::ostream &output, const Point &point) {
 	return output;
 }
 
-float Point::distanceToPoint(Point point) const {
+float Point::distanceToPoint(const Point& point) const {
 	float dx = this->xval - point.x();
 	float dy = this->yval - point.y();
 	return sqrt(dx*dx + dy*dy);
@@ -71,6 +71,9 @@ float Point::distanceToPoint(float x, float y) const {
 }
 
 Point Point::getUnitVector() const {
+	if (this->getMagnitude() < 0.0001) {
+		return Point(0, 0);
+	}
 	return (*this) / this->getMagnitude();
 }
 
@@ -133,15 +136,19 @@ Point Point::onlyY() const {
 	return Point(0, this->yval);
 }
 
-Point Point::operator/(const float &num) const {
+Point Point::operator/(const float& num) const {
 	return Point(this->xval / num, this->yval / num);
 }
 
-Point Point::operator*(const float &num) const {
+Point Point::operator*(const float& num) const {
 	return Point(this->xval * num, this->yval * num);
 }
 
 void Point::zero() {
 	this->xval = 0;
 	this->yval = 0;
+}
+
+float Point::operator*(const Point& other) const {
+	return (this->xval * other.xval) + (this->yval * other.yval);
 }

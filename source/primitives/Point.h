@@ -9,8 +9,8 @@ class Point {
 		float xval, yval;
 	public:
 		Point(float xCoordinate = 0.0 / 0.0, float yCoordinate = 0.0 / 0.0);
-		Point(const Point &point);
-		Point(const Point *point);
+		Point(const Point& point);
+		Point(const Point* point);
 		~Point();
 		Point operator-(const Point& point) const;
 		Point operator+(const Point& point) const;
@@ -29,16 +29,17 @@ class Point {
 		bool isReal() const;
 		bool operator==(const Point& point);
 		bool operator!=(const Point& point);
-		float distanceToPoint(Point point = Point(0, 0)) const;
+		float distanceToPoint(const Point& point = Point(0, 0)) const;
 		float distanceToPoint(float x, float y) const;
 		float getAngle() const;
 		float getMagnitude() const;
+		float operator*(const Point& other) const;
 		float originDistance() const;
 		float x() const;
 		float y() const;
 		friend std::ostream &operator<<(std::ostream &output, const Point &point);
-		void operator+=(Point delta);
-		void operator-=(Point delta);
+		void operator+=(const Point& delta);
+		void operator-=(const Point& delta);
 		void xZero();
 		void yZero();
 		void zero();

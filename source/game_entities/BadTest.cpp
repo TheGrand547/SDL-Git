@@ -132,7 +132,7 @@ void BadTest::update() {
 	this->move();
 }
 
-Point BadTest::getPos() const {
+Point BadTest::getPosition() const {
 	return this->position;
 }
 

@@ -1,8 +1,9 @@
 #include "NodeDrawGroup.h"
 #include "../GameInstance.h"
 #include "CollisionHandler.h"
-typedef std::pair<std::shared_ptr<Node>, std::shared_ptr<Node>> node_pair;
-typedef std::shared_ptr<Node> NodePtr;
+typedef std::weak_ptr<Node> WeakNodePtr;
+typedef std::pair<NodePtr, NodePtr> node_pair;
+typedef std::vector<NodePtr> NodePtrVector;
 
 NodeDrawGroup::NodeDrawGroup(GameInstance* parent) : parent(parent) {}
 
@@ -19,26 +20,26 @@ void NodeDrawGroup::clearGroup() {
 }
 
 void NodeDrawGroup::drawGroup() {
-	for (std::shared_ptr<Node> node: this->storage) {
+	for (NodePtr node: this->storage) {
 		node->draw();
 	}
 }
 
-std::shared_ptr<Node>& NodeDrawGroup::at(int index) {
+NodePtr& NodeDrawGroup::at(int index) {
 	return this->storage[index];
 }
 
-std::shared_ptr<Node>& NodeDrawGroup::operator[](int index) {
+NodePtr& NodeDrawGroup::operator[](int index) {
 	return this->storage[index];
 }
 
-std::shared_ptr<Node>& NodeDrawGroup::getFirst() {
+NodePtr& NodeDrawGroup::getFirst() {
 	return this->storage.front();
 }
 
 bool NodeDrawGroup::addNodeAt(Point point, std::string data) {
 	if (Node::checkLocationValidity(point, this->parent)) {
-		for (std::shared_ptr<Node> node: this->storage) {
+		for (NodePtr node: this->storage) {
 			if (point.distanceToPoint(node->getPosition()) < 25) {
 				// TODO: Log invalid node at
 				return false;
@@ -59,14 +60,14 @@ int NodeDrawGroup::size() {
 }
 
 void NodeDrawGroup::reset() {
-	for (std::shared_ptr<Node> node: this->storage) {
+	for (NodePtr node: this->storage) {
 		node->reset();
 	}
 }
 
 void NodeDrawGroup::purge() {
-	std::vector<std::shared_ptr<Node>> constructionNodes;
-	std::vector<std::shared_ptr<Node>>::iterator it = this->storage.begin();
+	NodePtrVector constructionNodes;
+	NodePtrVector::iterator it = this->storage.begin();
 	while (it != this->storage.end()) {
 		if (!it[0] || it[0]->attached.size() == 0) {
 			it = this->storage.erase(it);
@@ -82,8 +83,8 @@ void NodeDrawGroup::purge() {
 		it++;
 	}
 	std::vector<node_pair> HAHA;
-	for (std::shared_ptr<Node> node: constructionNodes) {
-		for (std::shared_ptr<Node> otherNode: constructionNodes) {
+	for (NodePtr node: constructionNodes) {
+		for (NodePtr otherNode: constructionNodes) {
 			if (node.get() != otherNode.get()) {
 				if (node->isAttachedTo(otherNode) && node->getDistance(otherNode) > 50) { // CHECK THEY CAN SEE EACH OTHER
 					bool flag = true;
@@ -162,7 +163,7 @@ void NodeDrawGroup::purge() {
 	std::vector<node_pair> ignore;
 	while (it != this->storage.end()) {
 		bool g = false;
-		for (std::weak_ptr<Node> ptr: it[0]->attached) {
+		for (WeakNodePtr ptr: it[0]->attached) {
 			if (NodePtr node = ptr.lock()) {
 				if (node->shareAllNodes(it[0])) {
 					g = !g;
@@ -197,7 +198,7 @@ void NodeDrawGroup::purge() {
 }
 
 void NodeDrawGroup::connectNodes() {
-	for (std::shared_ptr<Node> node: this->storage) {
+	for (NodePtr node: this->storage) {
 		node->connectToOthers(this);
 	}
 }
