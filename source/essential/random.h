@@ -35,12 +35,12 @@ T& choice(const std::vector<T>& vector) {
 }
 
 template<class T>
-bool valueInVector(std::vector<T> vector, T element) {
+bool valueInVector(const std::vector<T>& vector, const T& element) {
 	return std::find(vector.begin(), vector.end(), element) != vector.end();
 }
 
 template<class T>
-bool valueNotInVector(std::vector<T> vector, T element) {
+bool valueNotInVector(const std::vector<T>& vector, const T& element) {
 	return std::find(vector.begin(), vector.end(), element) == vector.end();
 }
 	

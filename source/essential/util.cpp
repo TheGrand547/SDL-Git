@@ -37,25 +37,6 @@ void orderPoints(Point& pointA, Point& pointB) {
 	}
 }
 
-Point smallerDistance(const Point distanceFrom, const Point pointA, const Point pointB) {
-	if (pointA.isReal() && pointB.isNull()) {
-		return pointA;
-	}
-	if (pointA.isNull() && pointB.isReal()) {
-		return pointB;
-	}
-	if (pointA.isNull() && pointB.isNull()) {
-		return Point();
-	}
-	if (distanceFrom.distanceToPoint(pointA) < distanceFrom.distanceToPoint(pointB)) {
-		return pointA;
-	} 
-	if (distanceFrom.distanceToPoint(pointA) > distanceFrom.distanceToPoint(pointB)) {
-		return pointB;
-	}
-	return Point();
-}
-
 void createDetatchedThread(int(*method)(void*), void* arg, const char* name) {
 	SDL_Thread* newThread = SDL_CreateThread(method, name, arg);
 	SDL_DetachThread(newThread);

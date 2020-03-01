@@ -28,7 +28,7 @@ class BadTest : public EnemyBase {
 		BadTest(const BadTest& that);
 		~BadTest();
 		bool doesLineCollide(const Line& ray) const override;
-		bool overlap(const Rect other) const override;
+		bool overlap(const Rect& other) const override;
 		bool overlap(const std::shared_ptr<ThingBase>& other) const override;
 		bool isLocationInvalid() const override;
 		Point collideLine(const Line& ray) const override;

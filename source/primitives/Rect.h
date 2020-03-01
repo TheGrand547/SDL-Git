@@ -12,17 +12,20 @@ class Rect: public MyBase {
 	public:
 		Rect();
 		Rect(Point topLeft, Line widthVector, Line heightVector);
+		Rect(Point topLeft, Point widthVector, Point heightVector);
 		Rect(Line side1, Line side2);
 		Rect(Point position, float width, float height);
 		Rect(Point topLeft, Point bottomRight);
 		Rect(const Rect& that);
 		Rect(float x, float y, float width, float height);
 		~Rect();
+		Rect getBoundingRect() const;
 		Rect& operator=(const Rect& that);
 		Rect operator+(const Point& point);
 		Rect operator-(const Point& point);
-		bool overlap(const Rect& other) const;
 		bool doesLineCollide(const Line& ray) const;
+		bool operator==(const Rect& rect) const;
+		bool overlap(const Rect& other) const;
 		float getHeight() const;
 		float getWidth() const;
 		Point collideLine(const Line& ray) const;

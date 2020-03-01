@@ -3,9 +3,12 @@
 Rect::Rect() : topLeft(0, 0), heightVector(0, 0), widthVector(0, 0) {}
 
 Rect::Rect(Point topLeft, Line widthVector, Line heightVector) : topLeft(topLeft), 
-			heightVector(heightVector.getUnitVector()), widthVector(widthVector.getUnitVector()) {
+			heightVector(heightVector.getVector()), widthVector(widthVector.getVector()) {
 	// Point and two magnitude vectors
 }
+
+Rect::Rect(Point topLeft, Point widthVector, Point heightVector) : topLeft(topLeft), 
+			heightVector(heightVector), widthVector(widthVector) {}
 
 Rect::Rect(Line side1, Line side2){
 	// Two Lines that make up sides of a rectangle, and hopefully touch 
@@ -46,6 +49,9 @@ Rect::Rect(Point position, float width, float height) {
 }
 
 Rect::Rect(const Rect& that) {
+	this->topLeft = that.topLeft;
+	this->widthVector = that.widthVector;
+	this->heightVector = that.heightVector;
 }
 
 Rect::~Rect() {}
@@ -58,57 +64,54 @@ void Rect::superDraw(SDL_Renderer* renderer, Point offset) {
 }
 
 void Rect::draw(SDL_Renderer* renderer, Point offset) {
-	/*
-	rectangleRGBA(renderer, Point(this->xpos, this->ypos) - offset, 
-					Point(this->xpos + this->width, this->ypos + this->height) - offset, 
-					rChannel, bChannel, gChannel, aChannel);*/
+	Point ar[] = {this->getTopLeft(), this->getTopRight(), this->getBottomRight(), this->getBottomLeft()};
+	short* x = new short[4];
+	short* y = new short[4];
+	for (int i = 0; i < 4; i++) {
+		ar[i] -= offset;
+		x[i] = ar[i].x();
+		y[i] = ar[i].y();
+	}
+	polygonRGBA(renderer, x, y, 4, 0xFF, bChannel, gChannel, 0xFF);
+	delete[] x;
+	delete[] y;
 }
 
 bool Rect::doesLineCollide(const Line& ray) const {
 	/* True - the Line DOES collide with this rect
 	 * False - the Line DOES NOT collide with this rect */
-	/*
-	Point topleft = Point(this->xpos, this->ypos);
-	Point topright = Point(this->xpos + this->width, this->ypos);
-	Point bottomleft = Point(this->xpos, this->ypos + this->height);
-	Point bottomright = Point(this->xpos + this->width, this->ypos + this->height);
-	Line temp[] = {Line(topleft, topright), Line(topright, bottomright), Line(bottomright, bottomleft), Line(bottomleft, topleft)};
+	 
+	// TODO: should REALLY have a vector or something for this...
+	Point ar[] = {this->getTopLeft(), this->getTopRight(), this->getBottomRight(), this->getBottomLeft()};
+	Line temp[4];
+	for (int i = 0; i < 4; i++) {
+		temp[i] = Line(ar[i], ar[(i + 1) % 4]);
+	}
 	for (Line line: temp) {
 		if (line.intersectionPoint(ray).isReal()) {
 			return true;
 		}
-	}*/
+	}
 	return false;
 }
 
 Point Rect::collideLine(const Line& ray) const {
 	/* Returns the point where the line intersects the rect, if it doesn't intersect it returns a null point */
-	/*
-	Point intersect[] = {Point(), Point(), Point(), Point()};
-	Point topleft = Point(this->xpos, this->ypos);
-	Point topright = Point(this->xpos + this->width, this->ypos);
-	Point bottomleft = Point(this->xpos, this->ypos + this->height);
-	Point bottomright = Point(this->xpos + this->width, this->ypos + this->height);
-	Line temp[] = {Line(topleft, topright), Line(topright, bottomright), Line(bottomright, bottomleft), Line(bottomleft, topleft)};
-	Point tempPoint;
-	int index = 0;
+	Point intersection, tempPoint;
+	Point ar[] = {this->getTopLeft(), this->getTopRight(), this->getBottomRight(), this->getBottomLeft()};
+	Line temp[4];
+	for (int i = 0; i < 4; i++) {
+		temp[i] = Line(ar[i], ar[(i + 1) % 4]);
+	}
 	for (Line line: temp) {
 		tempPoint = line.intersectionPoint(ray);
 		if (tempPoint.isReal()) {
-			intersect[index] = tempPoint;
-			index++;
+			if (intersection.isNull() || tempPoint.distanceToPoint(ray.getOrigin()) < intersection.distanceToPoint(ray.getOrigin())) {
+				intersection = tempPoint;
+			}
 		}
 	}
-	// TODO: Tidy this up
-	if (intersect[0].isReal() && intersect[1].isNull() && intersect[2].isNull()) {
-		return intersect[0];
-	} else if(intersect[0].isReal() && intersect[1].isReal() && intersect[2].isNull()) {
-		return smallerDistance(ray.getOrigin(), intersect[0], intersect[1]);
-	} else if(intersect[0].isReal() && intersect[1].isReal() && intersect[2].isReal()) {
-		return smallerDistance(ray.getOrigin(),intersect[2], smallerDistance(ray.getOrigin(), intersect[0], intersect[1]));
-	}
-	return Point(); */
-	return Point();
+	return intersection;
 }
 
 void Rect::setColorChannels(int r, int g, int b, int a) {
@@ -139,11 +142,42 @@ float Rect::getHeight() const {
 }
 
 bool Rect::overlap(const Rect& other) const {
-	/*
-	bool xOver = valueInRange(this->xpos, other.xpos, other.xpos + other.width) || valueInRange(other.xpos, this->xpos, this->xpos + this->width);
-	bool yOver = valueInRange(this->ypos, other.ypos, other.ypos + other.height) || valueInRange(other.ypos, this->ypos, this->ypos + this->height);*/
-	//return xOver && yOver;
-	return false;
+	bool value = false;
+	Rect p = this->getBoundingRect();
+	Rect other2 = other.getBoundingRect();
+	float myX = p.getTopLeft().x();
+	float myY = p.getTopLeft().y();
+	float otherX = other2.getTopLeft().x();
+	float otherY = other2.getTopLeft().y();
+	
+	bool xOver = valueInRange(myX, otherX, otherX + other2.getWidth()) || valueInRange(otherX, myX, myX + p.getWidth());
+	bool yOver = valueInRange(myY, otherY, otherY + other2.getHeight()) || valueInRange(otherY, myY, myY + p.getHeight());
+	if (xOver && yOver) {
+		if (p == *this) { // If this is right alligned
+			value = true;
+		} else {
+			
+		}
+	}
+	return value;
+}
+
+bool Rect::operator==(const Rect& other) const {
+	Point ar[] = {this->getTopLeft(), this->getTopRight(), this->getBottomRight(), this->getBottomLeft()};
+	Point ar2[] = {other.getTopLeft(), other.getTopRight(), other.getBottomRight(), other.getBottomLeft()};
+	for (const Point& pointA: ar) {
+		bool flag = false;
+		for (const Point& pointB: ar2) {
+			if (pointA == pointB) {
+				flag = true;
+				break;
+			}
+		}
+		if (!flag) {
+			return false;
+		}
+	}
+	return true;
 }
 
 SDL_Rect Rect::getSDLRect() const {
@@ -151,6 +185,20 @@ SDL_Rect Rect::getSDLRect() const {
 						int(this->widthVector.getMagnitude()), int(this->heightVector.getMagnitude())};
 	return tempRect;
 }
+
+Rect Rect::getBoundingRect() const {
+	assert(this->topLeft.isReal());
+	float minX(1/0.0), minY(1/0.0), maxX(-1/0.0), maxY(-1/0.0);
+	Point ar[] = {this->getTopLeft(), this->getTopRight(), this->getBottomRight(), this->getBottomLeft()};
+	for (const Point& point: ar) {
+		if (point.x() > maxX) maxX = point.x();
+		if (point.x() < minX) minX = point.x();
+		if (point.y() > maxY) maxY = point.y();
+		if (point.y() < minY) minY = point.y();
+	}
+	return Rect(Point(minX, minY), Point(maxX, maxY));
+}
+
 
 Rect Rect::operator+(const Point& point) {
 	return Rect(this->topLeft + point, this->widthVector, this->heightVector);

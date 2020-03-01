@@ -31,7 +31,7 @@ class ThingBase {
 		 * overlap(shared_ptr<Thing>) -> Does this object collide with this object(ie call the objects 
 		 * 		overlap with each hitbox in this */ 
 		 // TODO: Make a HitBox class
-		virtual bool overlap(const Rect other) const = 0;
+		virtual bool overlap(const Rect& other) const = 0;
 		virtual bool overlap(const std::shared_ptr<ThingBase>& other) const = 0;
 		int getFlags() const;
 		virtual float originDistance() const = 0;

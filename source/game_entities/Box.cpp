@@ -28,7 +28,7 @@ Point Box::collideLine(const Line& ray) const{
 	return this->rect.collideLine(ray);
 }
 
-bool Box::overlap(const Rect other) const {
+bool Box::overlap(const Rect& other) const {
 	return this->rect.overlap(other);
 }
 

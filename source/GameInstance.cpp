@@ -1,4 +1,5 @@
 #include "GameInstance.h"
+typedef std::shared_ptr<ThingBase> ThingPtr;
 
 bool compare::operator()(const ThingBase* lhs, const ThingBase* rhs) const {
 	if (lhs->originDistance() < rhs->originDistance()) {
@@ -15,7 +16,7 @@ GameInstance::GameInstance(SDL_Renderer* renderer, BoundedPoint offset) : render
 
 GameInstance::~GameInstance() {}
 
-void GameInstance::addThing(std::shared_ptr<ThingBase> thing) {
+void GameInstance::addThing(ThingPtr thing) {
 	this->allThings.push_back(thing);
 	thing->setParent(this);
 	if (thing->getFlags() & DRAW) {
@@ -27,7 +28,6 @@ void GameInstance::addThing(std::shared_ptr<ThingBase> thing) {
 	if (thing->getFlags() & SOLID) {
 		this->collisionThings.push_back(thing);
 		if (!(thing->getFlags() & MOVEABLE)) {
-			thing->addNodes();
 			//std::cout << "This thing shouldn't move" << std::endl;
 		}
 	}
@@ -37,7 +37,7 @@ void GameInstance::addThing(std::shared_ptr<ThingBase> thing) {
 }
 
 void GameInstance::update() {
-	for (std::shared_ptr<ThingBase> thing: this->movingThings) {
+	for (ThingPtr& thing: this->movingThings) {
 		Point position = thing->getPosition();
 		thing->update();
 		if (position != thing->getPosition()) {
@@ -72,6 +72,9 @@ void GameInstance::addNode(Point position, std::string data) {
 
 void GameInstance::instanceBegin() {
 	// Do final things before playing starts
+	for (const ThingPtr& thing: this->allThings) {
+		thing->addNodes();
+	}
 	this->nodes.connectNodes();
-	this->nodes.purge();
+	//this->nodes.purge();
 }

@@ -11,4 +11,3 @@ int ThingBase::getFlags() const {
 }
 
 void ThingBase::addNodes() {}
-

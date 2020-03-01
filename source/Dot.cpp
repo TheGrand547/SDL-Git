@@ -41,7 +41,7 @@ float Dot::getAngle() {
 	return this->angle * 180 / M_PI;
 }
 
-bool Dot::overlap(const Rect other) const {
+bool Dot::overlap(const Rect& other) const {
 	return this->getRect().overlap(other);
 }
 

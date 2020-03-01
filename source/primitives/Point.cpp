@@ -1,17 +1,14 @@
 #include "Point.h"
 
-Point::Point(float xCoordinate, float yCoordinate) {
-	xval = xCoordinate;
-	yval = yCoordinate;
-}
+Point::Point(float xCoordinate, float yCoordinate) : xval(xCoordinate), yval(yCoordinate) {}
 
 Point::~Point() {}
 
-Point::Point(const Point &point) {
+Point::Point(const Point& point) {
 	this->xval = point.xval;
 	this->yval = point.yval;
 }
-Point::Point(const Point *point) {
+Point::Point(const Point* point) {
 	xval = point->xval;
 	yval = point->yval;
 }
@@ -116,11 +113,11 @@ bool Point::getNonZero() const {
 	return ((std::abs(this->xval) > .0001 || std::abs(this->yval) > .0001) && (this->xval == this->xval || this->yval == this->yval)); // TODO: Define accuarcy constant
 }
 
-bool Point::operator==(const Point& point) {
+bool Point::operator==(const Point& point) const {
 	return std::abs(point.xval - this->xval) < 0.000001 && std::abs(point.yval - this->yval) < 0.000001;
 }
 
-bool Point::operator!=(const Point& point) {
+bool Point::operator!=(const Point& point) const {
 	return !(*this == point);
 }
 

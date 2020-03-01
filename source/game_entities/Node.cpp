@@ -79,6 +79,7 @@ bool Node::checkLocationValidity(Point position, GameInstance* instance) {
 	 * False -> invalid location */
 	Rect testRect = Rect(position, 25, 25);
 	testRect -= Point(testRect.getWidth(), testRect.getHeight()) / 2.0;
+	
 	return instance->collision.doesNotCollideWith(testRect) && instance->getPlayableArea().overlap(testRect);
 }
 

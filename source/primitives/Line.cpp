@@ -8,6 +8,11 @@ Line::Line(Point pointA, Point pointB, uint8_t r, uint8_t g, uint8_t b, uint8_t 
 		this->endingPoint = Point(0, 0);
 	}
 	orderPoints(this->originPoint, this->endingPoint);
+	if (this->originPoint == pointA) {
+		this->flop = false;
+	} else {
+		this->flop = true;
+	}
 	setColorChannels(r, g, b, a);
 }
 
@@ -48,10 +53,7 @@ bool Line::isPointOnThisLine(const Point& point) const {
 	float minX, maxX, minY, maxY;
 	mMax(this->originPoint.x(), this->endingPoint.x(), minX, maxX);
 	mMax(this->originPoint.y(), this->endingPoint.y(), minY, maxY);
-	if (valueInRange(point.x(), minX, maxX) && valueInRange(point.y(), minY, maxY)) {
-		return true;
-	}
-	return false;
+	return valueInRange(point.x(), minX, maxX) && valueInRange(point.y(), minY, maxY);
 }
 
 bool Line::collidePoint(const Point& point) const {
@@ -87,10 +89,12 @@ float Line::getC() const {
 }
 
 Point Line::getEnd() const {
+	if (this->flop) return this->originPoint;
 	return this->endingPoint;
 }
 
 Point Line::getOrigin() const {
+	if (this->flop) return this->endingPoint;
 	return this->originPoint;
 }
 

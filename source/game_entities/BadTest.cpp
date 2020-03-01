@@ -140,7 +140,7 @@ Rect BadTest::getRect() const {
 	return Rect(this->position, this->width, this->height);
 }
 
-bool BadTest::overlap(const Rect other) const {
+bool BadTest::overlap(const Rect& other) const {
 	return this->getRect().overlap(other);
 }
 

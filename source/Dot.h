@@ -19,7 +19,7 @@ class Dot : public EntityBase, public MyBase {
 		Dot(Point startingCoordinate);
 		~Dot();
 		bool doesLineCollide(const Line& ray) const override;
-		bool overlap(const Rect other) const override;
+		bool overlap(const Rect& other) const override;
 		bool overlap(const std::shared_ptr<ThingBase>& other) const override;
 		float getAngle();
 		float calcAngle(Point point);

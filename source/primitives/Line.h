@@ -12,6 +12,7 @@ typedef Uint8 uint8_t;
 class Line: public MyBase {
 	/* Represents a line in the form, ax+by=c, bounded by the points A and B */
 	private:
+		bool flop;
 		Point originPoint, endingPoint;
 	public:	
 		Line(Point pointA = Point(), Point pointB = Point(), uint8_t r = 0x00, uint8_t g = 0x00, uint8_t b = 0xFF, uint8_t a = 0xFF);

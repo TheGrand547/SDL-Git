@@ -22,7 +22,7 @@ class Box : public CollideBase {
 		~Box();
 		Box(const Box& that);
 		Box& operator=(const Box& that);
-		bool overlap(const Rect other) const override;
+		bool overlap(const Rect& other) const override;
 		bool overlap(const std::shared_ptr<ThingBase>& other) const override;
 		bool doesLineCollide(const Line& ray) const override;
 		float originDistance() const override;

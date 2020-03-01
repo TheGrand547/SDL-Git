@@ -48,8 +48,8 @@ bool NodeDrawGroup::addNodeAt(Point point, std::string data) {
 		this->storage.push_back(std::make_shared<Node>(point, data));
 		return true;
 	} else {
-		return false;
 		// TODO: Log invalid node at (Point)
+		return false;
 	}
 	
 }
@@ -66,6 +66,7 @@ void NodeDrawGroup::reset() {
 }
 
 void NodeDrawGroup::purge() {
+	std::cout << "Before Nodes: " << this->storage.size() << std::endl;
 	NodePtrVector constructionNodes;
 	NodePtrVector::iterator it = this->storage.begin();
 	while (it != this->storage.end()) {
@@ -154,21 +155,23 @@ void NodeDrawGroup::purge() {
 				}
 		}
 	}
+	/*
 	for (NodePtr f: this->storage) {
 		f->attached.clear();
 		f->connectToOthers(this);
-	}
+	}*/
 	
 	it = this->storage.begin();
 	std::vector<node_pair> ignore;
+	
 	while (it != this->storage.end()) {
 		bool g = false;
 		for (WeakNodePtr ptr: it[0]->attached) {
 			if (NodePtr node = ptr.lock()) {
 				if (node->shareAllNodes(it[0])) {
 					g = !g;
-					it = this->storage.erase(it);
-					//it++;
+					//it = this->storage.erase(it);
+					it++;
 					break;
 				}
 			}

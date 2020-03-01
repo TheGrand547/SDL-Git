@@ -14,6 +14,16 @@ SuperTexture Box::mTexture;
 
 
 int main(int argc, char* argv[]) {
+	Rect f(Point(0, 0), Point(20, 20));
+	Rect f2(Point(0, 0), Point(20, 20));
+	Rect g(Point(21, 21), Point(25, 25));
+	Rect te(Point(5, 5), Point(34, 7));
+	std::cout << "f == f2: " << (f == f2) << std::endl;
+	std::cout << "f == g: " << (f == g) << std::endl;
+	std::cout << "f.overlap(g): " << f.overlap(g) << std::endl; 
+	std::cout << "g.overlap(f): " << g.overlap(f) << std::endl;
+	std::cout << "te.overlap(f): " << te.overlap(f) << std::endl; 
+	std::cout << "te.overlap(g): " << te.overlap(g) << std::endl; 
 	std::cout << "Float: " << sizeof(float) << std::endl;
 	std::cout << "Double: " << sizeof(double) << std::endl;
 	std::cout << "Point: " << sizeof(Point) << std::endl;
@@ -24,6 +34,7 @@ int main(int argc, char* argv[]) {
 	std::cout << "Node Smart Pointer: " << sizeof(std::shared_ptr<Node>) << std::endl;
 	std::cout << "BigWall: " << sizeof(BigWall) << std::endl;
 	std::cout << "Vector: " << sizeof(std::vector<bool>) << std::endl;
+	//return 0;
 	std::map<std::string, int> gameState; // This will later be placed into the class to hold level instances
 	// TODO: Write command line args like in source/idtech1, in addition to command line args such as DRAW_PATHS_ENABLE
 	for (int i = 1; i < argc; i++) {
@@ -41,7 +52,7 @@ int main(int argc, char* argv[]) {
 	BoundedPoint screenPosition = BoundedPoint(Screen::MAX_SCREEN_X_POS, Screen::MAX_SCREEN_Y_POS);
 	std::shared_ptr<Dot> dot = std::make_shared<Dot>(Point(190, 150));
 	dot->setColorChannels(0xFF);
-	Configuration config;
+	Configuration config;	
 	// TODO: Create a file structure for containing level data so its not hardcoded 
 	// TODO: Have some DrawGroup pointers for collision, node, and other groups/structures needed
 	GameInstance GAME(gRenderer, screenPosition);
@@ -51,20 +62,13 @@ int main(int argc, char* argv[]) {
 	AlertTextHandler handler;
 	BackgroundGroup groundGroup;
 	// Box creation
-	Box::createBoxTexture(gRenderer);
-	/*
-	Point boxPoints[] = {Point(200, 200), Point(400, 200), Point(300, 200), Point(500, 200), Point(500, 300), Point(500, 400), 
-				  Point(500, 500), Point(600, 600), Point(600, 500), Point(700, 200), Point(100, 600)};
-				  
-	for (Point point: boxPoints) {
-		GAME.addThing(std::make_shared<Box>(point));
-	}*/
+	//Box::createBoxTexture(gRenderer);
+
 	GAME.addThing(std::make_shared<BigWall>(Rect(0, 200, 100, 300)));
 	GAME.addThing(std::make_shared<BigWall>(Rect(200, 200, 300, 100)));
 	GAME.addThing(std::make_shared<BigWall>(Rect(500, 200, 100, 400)));
 	GAME.addThing(std::make_shared<BigWall>(Rect(600, 500, 100, 300)));
 	GAME.addThing(std::make_shared<BigWall>(Rect(300, 450, 100, 300)));
-
 	//std::shared_ptr<BadTest> heck = std::make_shared<BadTest>(Point(100, 400));
 	//heck->setTexture(gRenderer);
 	//GAME.addThing(heck);
@@ -92,6 +96,11 @@ int main(int argc, char* argv[]) {
 	// Pass dot values it needs
 	Line lip(Point(325, 425), Point(125, 425));
 	lip += Point(0, 5);
+	Rect testtest(Line(Point(0, 5), Point(5, 0)), Line(Point(10, 15), Point(15, 10)));
+	Point pef[] = {testtest.getTopLeft(), testtest.getTopRight(), testtest.getBottomRight(), testtest.getBottomLeft()};
+	for (Point pgbab: pef) {
+		std::cout << pgbab << std::endl;
+	}
 	while(!contra.quit) {
 		clearScreen(gRenderer);
 		popo.zero(); // >:(
@@ -101,16 +110,15 @@ int main(int argc, char* argv[]) {
 		/* Drawing */
 		groundGroup.drawGroup();
 		GAME.draw();
-		//boxes.drawGroup();
 		//bads.drawGroup();
 		//ap.update(gRenderer);
-		//handler.drawHandler();
 		//dot.draw(); // Player must always be drawn onto the top layer for best visibility, for the time being
 		if (gameState["RAY_CAST"]) {
 			if (contra.checkListener(config["Ray"]).getHeld()) { // Raycasting
 				dot->rayCast();
 			}
 		}
+		testtest.draw(gRenderer, Point(0, 0));
 		lip.drawLine(gRenderer);
 		fps.draw(gRenderer);
 		renderChanges(gRenderer, gameWindow);
