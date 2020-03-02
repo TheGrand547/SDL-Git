@@ -149,14 +149,24 @@ bool Rect::overlap(const Rect& other) const {
 	float myY = p.getTopLeft().y();
 	float otherX = other2.getTopLeft().x();
 	float otherY = other2.getTopLeft().y();
-	
+	// TODO: Rename these variables something sensible
 	bool xOver = valueInRange(myX, otherX, otherX + other2.getWidth()) || valueInRange(otherX, myX, myX + p.getWidth());
 	bool yOver = valueInRange(myY, otherY, otherY + other2.getHeight()) || valueInRange(otherY, myY, myY + p.getHeight());
 	if (xOver && yOver) {
-		if (p == *this) { // If this is right alligned
+		if (p == *this && other == other2) { // If this is right alligned
 			value = true;
-		} else {
-			
+		} else { // HAHHA
+			Point ar[] = {this->getTopLeft(), this->getTopRight(), this->getBottomRight(), this->getBottomLeft()};
+			int ctr = 0;
+			for (int i = 0; i < 4; i++) {
+				if (other.doesLineCollide(Line(ar[i], ar[(i + 1) % 4]))) {
+					ctr++;
+					if (ctr >= 2) {
+						value = true;
+						break;
+					}
+				}
+			}
 		}
 	}
 	return value;

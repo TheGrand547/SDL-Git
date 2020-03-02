@@ -97,10 +97,6 @@ int main(int argc, char* argv[]) {
 	Line lip(Point(325, 425), Point(125, 425));
 	lip += Point(0, 5);
 	Rect testtest(Line(Point(0, 5), Point(5, 0)), Line(Point(10, 15), Point(15, 10)));
-	Point pef[] = {testtest.getTopLeft(), testtest.getTopRight(), testtest.getBottomRight(), testtest.getBottomLeft()};
-	for (Point pgbab: pef) {
-		std::cout << pgbab << std::endl;
-	}
 	while(!contra.quit) {
 		clearScreen(gRenderer);
 		popo.zero(); // >:(
