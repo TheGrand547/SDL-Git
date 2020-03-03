@@ -1,50 +1,52 @@
 #pragma once
 #ifndef HEADERS_H
 #define HEADERS_H
-#include<iostream>
-#include<math.h>
-#include<SDL2/SDL.h>
-#include<SDL2_image/SDL_image.h>
-#include<SDL2/SDL2_gfxPrimitives.h>
-#include<SDL2/SDL2_rotozoom.h>
-#include<SDL2/SDL2_framerate.h>
-#include<SDL2_ttf/SDL_ttf.h>
-#include<SDL2/SDL_thread.h>
-#include<memory>
-#include<stdio.h>
-#include<sstream>
-#include<vector>
-#include<queue>
-#include<time.h>
-#include<stdlib.h>
-#include "game_entities/Box.h"
-#include "game_entities/BackgroundElement.h"
-#include "primitives/Line.h"
-#include "primitives/Point.h"
-#include "wrappers/Font.h"
-#include "primitives/Rect.h"
-#include "wrappers/Timer.h"
-#include "wrappers/Texture.h"
-#include "essential/util.h"
-#include "essential/random.h"
-#include "MyBase.h"
+// Remove for alpha/beta/final releases
+//#define NDEBUG 
+#include "AlertTextHandler.h"
 #include "Dot.h"
-#include "primitives/PointDelta.h"
-#include "primitives/Vector.h"
-#include "wrappers/HeldKey.h"
-#include "wrappers/AlertText.h"
-#include "game_entities/base/CollideBase.h"
 #include "essential/Configuration.h"
-#include "game_entities/BadTest.h"
-#include "wrappers/control/Controller.h"
-#include "wrappers/AppearingText.h"
-#include "wrappers/FpsText.h"
-#include "wrappers/control/SimpleButtonCommand.h"
+#include "essential/random.h"
+#include "essential/util.h"
+#include "game_entities/BackgroundElement.h"
 #include "game_entities/BackgroundGroup.h"
+#include "game_entities/BadTest.h"
+#include "game_entities/base/CollideBase.h"
 #include "game_entities/BigWall.h"
+#include "game_entities/Box.h"
 #include "game_entities/DrawGroup.h"
 #include "game_entities/Node.h"
 #include "game_entities/NodeDrawGroup.h"
 #include "game_entities/NodePath.h"
-#include "AlertTextHandler.h"
+#include "MyBase.h"
+#include "primitives/Line.h"
+#include "primitives/Point.h"
+#include "primitives/PointDelta.h"
+#include "primitives/Rect.h"
+#include "primitives/Vector.h"
+#include "wrappers/AlertText.h"
+#include "wrappers/AppearingText.h"
+#include "wrappers/control/Controller.h"
+#include "wrappers/control/SimpleButtonCommand.h"
+#include "wrappers/Font.h"
+#include "wrappers/FpsText.h"
+#include "wrappers/HeldKey.h"
+#include "wrappers/Texture.h"
+#include "wrappers/Timer.h"
+#include<iostream>
+#include<math.h>
+#include<memory>
+#include<queue>
+#include<SDL2/SDL.h>
+#include<SDL2/SDL2_framerate.h>
+#include<SDL2/SDL2_gfxPrimitives.h>
+#include<SDL2/SDL2_rotozoom.h>
+#include<SDL2/SDL_thread.h>
+#include<SDL2_image/SDL_image.h>
+#include<SDL2_ttf/SDL_ttf.h>
+#include<sstream>
+#include<stdio.h>
+#include<stdlib.h>
+#include<time.h>
+#include<vector>
 #endif

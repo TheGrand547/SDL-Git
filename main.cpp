@@ -34,7 +34,6 @@ int main(int argc, char* argv[]) {
 	std::cout << "Node Smart Pointer: " << sizeof(std::shared_ptr<Node>) << std::endl;
 	std::cout << "BigWall: " << sizeof(BigWall) << std::endl;
 	std::cout << "Vector: " << sizeof(std::vector<bool>) << std::endl;
-	//return 0;
 	std::map<std::string, int> gameState; // This will later be placed into the class to hold level instances
 	// TODO: Write command line args like in source/idtech1, in addition to command line args such as DRAW_PATHS_ENABLE
 	for (int i = 1; i < argc; i++) {
@@ -96,7 +95,6 @@ int main(int argc, char* argv[]) {
 	// Pass dot values it needs
 	Line lip(Point(325, 425), Point(125, 425));
 	lip += Point(0, 5);
-	Rect testtest(Line(Point(0, 5), Point(5, 0)), Line(Point(10, 15), Point(15, 10)));
 	while(!contra.quit) {
 		clearScreen(gRenderer);
 		popo.zero(); // >:(
@@ -114,7 +112,6 @@ int main(int argc, char* argv[]) {
 				dot->rayCast();
 			}
 		}
-		testtest.draw(gRenderer, Point(0, 0));
 		lip.drawLine(gRenderer);
 		fps.draw(gRenderer);
 		renderChanges(gRenderer, gameWindow);

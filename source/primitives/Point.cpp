@@ -149,3 +149,13 @@ void Point::zero() {
 float Point::operator*(const Point& other) const {
 	return (this->xval * other.xval) + (this->yval * other.yval);
 }
+
+void Point::operator*=(const double& val) {
+	this->xval *= val;
+	this->yval *= val;
+}
+
+void Point::operator/=(const double& val) {
+	this->xval /= val;
+	this->yval /= val;
+}

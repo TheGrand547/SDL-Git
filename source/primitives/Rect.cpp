@@ -10,9 +10,10 @@ Rect::Rect(Point topLeft, Line widthVector, Line heightVector) : topLeft(topLeft
 Rect::Rect(Point topLeft, Point widthVector, Point heightVector) : topLeft(topLeft), 
 			heightVector(heightVector), widthVector(widthVector) {}
 
-Rect::Rect(Line side1, Line side2){
+Rect::Rect(Line side1, Line side2) {
 	// Two Lines that make up sides of a rectangle, and hopefully touch 
 	// but I'm not going to think about testing for that at this point
+	assert(side1.isOrthogonal(side2) || side1.isParallel(side2));
 	if (side1.isOrthogonal(side2)) { // Ideal
 		this->topLeft = side1.getOrigin();
 		this->widthVector = side1.getVector();
@@ -29,6 +30,32 @@ Rect::Rect(Line side1, Line side2){
 		}
 	} else { // shit
 		std::cout << "Undefined behavior" << std::endl;
+		return;
+	}
+	// TODO: Make this not vomit inducing
+	Point check[] = {side1.getOrigin(), side1.getEnd(), side2.getOrigin(), side2.getEnd()};
+	while (true) {
+		Point ar[] = {this->getTopLeft(), this->getTopRight(), this->getBottomRight(), this->getBottomLeft()};
+		int ctr = 0;
+		for (Point g: check) {
+			bool f = false;
+			for (Point p: ar) {
+				if (g == p) {
+					f = true;
+					break;
+				}
+			}
+			if (!f) {
+				//this->widthVector *= -1;
+				this->heightVector *= -1;
+				break;
+			} else {
+				ctr++;
+			}
+		}
+		if (ctr > 3) {
+			break;
+		}
 	}
 }
 
@@ -72,7 +99,7 @@ void Rect::draw(SDL_Renderer* renderer, Point offset) {
 		x[i] = ar[i].x();
 		y[i] = ar[i].y();
 	}
-	polygonRGBA(renderer, x, y, 4, 0xFF, bChannel, gChannel, 0xFF);
+	polygonRGBA(renderer, x, y, 4, rChannel, bChannel, gChannel, aChannel);
 	delete[] x;
 	delete[] y;
 }

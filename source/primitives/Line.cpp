@@ -7,12 +7,6 @@ Line::Line(Point pointA, Point pointB, uint8_t r, uint8_t g, uint8_t b, uint8_t 
 	if (pointB.isNull()) {
 		this->endingPoint = Point(0, 0);
 	}
-	orderPoints(this->originPoint, this->endingPoint);
-	if (this->originPoint == pointA) {
-		this->flop = false;
-	} else {
-		this->flop = true;
-	}
 	setColorChannels(r, g, b, a);
 }
 
@@ -89,12 +83,10 @@ float Line::getC() const {
 }
 
 Point Line::getEnd() const {
-	if (this->flop) return this->originPoint;
 	return this->endingPoint;
 }
 
 Point Line::getOrigin() const {
-	if (this->flop) return this->endingPoint;
 	return this->originPoint;
 }
 

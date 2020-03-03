@@ -40,6 +40,8 @@ class Point {
 		friend std::ostream &operator<<(std::ostream &output, const Point &point);
 		void operator+=(const Point& delta);
 		void operator-=(const Point& delta);
+		void operator*=(const double& val);
+		void operator/=(const double& val);
 		void xZero();
 		void yZero();
 		void zero();
