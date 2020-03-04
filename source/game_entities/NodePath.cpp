@@ -49,8 +49,9 @@ NodePath::NodePath(std::shared_ptr<Node> startingNode, Point target) {
 		}
 		unused.erase(std::find(unused.begin(), unused.end(), current));
 		closed.push_back(current);
-		for (std::shared_ptr<Node> node: current->attached) {
-			if (valueInVector(closed, node)) {
+		for (std::weak_ptr<Node> weak: current->attached) {
+			std::shared_ptr<Node> node = weak.lock();
+			if (!node || valueInVector(closed, node)) {
 				continue;
 			}
 			if (valueNotInVector(unused, node)) {

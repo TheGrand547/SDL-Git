@@ -21,8 +21,8 @@ Rect::Rect(Line side1, Line side2) {
 	} else if (side1.isParallel(side2)) { // Not awful
 		this->topLeft = side1.getOrigin();
 		this->heightVector = side1.getVector();
-		float distance1 = side1.getOrigin().distanceToPoint(side2.getOrigin());
-		float distance2 = side1.getOrigin().distanceToPoint(side2.getEnd());
+		double distance1 = side1.getOrigin().distanceToPoint(side2.getOrigin());
+		double distance2 = side1.getOrigin().distanceToPoint(side2.getEnd());
 		if (distance1 > distance2) {
 			this->widthVector = Line(side1.getOrigin(), side2.getEnd()).getVector();
 		} else {
@@ -67,11 +67,11 @@ Rect::Rect(Point topLeft, Point bottomRight) {
 	widthVector = Point(bottomRight.x() - topLeft.x(), 0);
 }
 
-Rect::Rect(float x, float y, float width, float height) {
+Rect::Rect(double x, double y, double width, double height) {
 	*this = Rect(Point(x, y), width, height);
 }
 
-Rect::Rect(Point position, float width, float height) {
+Rect::Rect(Point position, double width, double height) {
 	*this = Rect(position, position + Point(width, height));
 }
 
@@ -176,10 +176,10 @@ Point Rect::getBottomRight() const {
 	return this->getBottomLeft() + this->widthVector;
 }
 
-float Rect::getWidth() const {
+double Rect::getWidth() const {
 	return this->widthVector.getMagnitude();
 }
-float Rect::getHeight() const {
+double Rect::getHeight() const {
 	return this->heightVector.getMagnitude();
 }
 
@@ -187,10 +187,10 @@ bool Rect::overlap(const Rect& other) const {
 	bool value = false;
 	Rect p = this->getBoundingRect();
 	Rect other2 = other.getBoundingRect();
-	float myX = p.getTopLeft().x();
-	float myY = p.getTopLeft().y();
-	float otherX = other2.getTopLeft().x();
-	float otherY = other2.getTopLeft().y();
+	double myX = p.getTopLeft().x();
+	double myY = p.getTopLeft().y();
+	double otherX = other2.getTopLeft().x();
+	double otherY = other2.getTopLeft().y();
 	// TODO: Rename these variables something sensible
 	bool xOver = valueInRange(myX, otherX, otherX + other2.getWidth()) || valueInRange(otherX, myX, myX + p.getWidth());
 	bool yOver = valueInRange(myY, otherY, otherY + other2.getHeight()) || valueInRange(otherY, myY, myY + p.getHeight());
@@ -198,6 +198,7 @@ bool Rect::overlap(const Rect& other) const {
 		if (p == *this && other == other2) { // If this is right alligned
 			value = true;
 		} else { // HAHHA
+			std::cout << "EH" << std::endl;
 			Point ar[] = {this->getTopLeft(), this->getTopRight(), this->getBottomRight(), this->getBottomLeft()};
 			int ctr = 0;
 			for (int i = 0; i < 4 && ctr < 2; i++) {
@@ -238,7 +239,7 @@ SDL_Rect Rect::getSDLRect() const {
 
 Rect Rect::getBoundingRect() const {
 	assert(this->topLeft.isReal());
-	float minX(1/0.0), minY(1/0.0), maxX(-1/0.0), maxY(-1/0.0);
+	double minX(1/0.0), minY(1/0.0), maxX(-1/0.0), maxY(-1/0.0);
 	Point ar[] = {this->getTopLeft(), this->getTopRight(), this->getBottomRight(), this->getBottomLeft()};
 	for (const Point& point: ar) {
 		if (point.x() > maxX) maxX = point.x();

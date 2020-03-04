@@ -15,9 +15,7 @@ Texture& Texture::operator=(const Texture& that) {
 	return *this;
 }
 
-Texture::Texture(const Texture& that) {
-	this->xpos = that.xpos;
-	this->ypos = that.ypos;
+Texture::Texture(const Texture& that) : xpos(that.xpos), ypos(that.ypos) {
 	this->texture = that.texture;
 }
 

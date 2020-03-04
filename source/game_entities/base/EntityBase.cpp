@@ -10,7 +10,7 @@ EntityBase::EntityBase(double maxVelocity, double friction) {
 EntityBase::~EntityBase() {}
 
 void EntityBase::evalAngle(Point delta) {
-	if (delta.getNonZero()) {	
+	if (delta.getNonZero()) {
 		this->angle = atan2(delta.y(), delta.x());
 	}
 }
@@ -28,6 +28,6 @@ void EntityBase::accelerate(PointDelta delta) {
 	this->evalAngle(this->velocity);
 }
 
-float EntityBase::originDistance() const {
+double EntityBase::originDistance() const {
 	return this->position.distanceToPoint(Point(0, 0));
 }

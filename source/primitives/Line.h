@@ -29,9 +29,9 @@ class Line: public MyBase {
 		Line operator/(const double& delta) const;
 		Line operator+(const Point& b) const;
 		Line operator-(const Point& b) const;
-		float getAx() const;
-		float getBy() const;
-		float getC() const;
+		double getAx() const;
+		double getBy() const;
+		double getC() const;
 		Point getEnd() const;
 		Point getOrigin() const;
 		Point getUnitVector() const;

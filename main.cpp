@@ -31,7 +31,7 @@ int main(int argc, char* argv[]) {
 	std::cout << "Rect: " << sizeof(Rect) << std::endl;
 	std::cout << "Node: " << sizeof(Node) << std::endl;
 	std::cout << "Node Pointer: " << sizeof(Node*) << std::endl;
-	std::cout << "Node Smart Pointer: " << sizeof(std::shared_ptr<Node>) << std::endl;
+	std::cout << "Thing: " << sizeof(ThingBase) << std::endl;
 	std::cout << "BigWall: " << sizeof(BigWall) << std::endl;
 	std::cout << "Vector: " << sizeof(std::vector<bool>) << std::endl;
 	std::map<std::string, int> gameState; // This will later be placed into the class to hold level instances

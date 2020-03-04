@@ -39,7 +39,7 @@ void AlertText::render() {
 		this->finished = true;
 		return;
 	}
-	this->font.renderText(this->position.x() - MegaBase::offset->x(), this->position.y() - MegaBase::offset->y(), this->message, MegaBase::renderer, this->color);
+	this->font.drawText(this->position.x() - MegaBase::offset->x(), this->position.y() - MegaBase::offset->y(), this->message, MegaBase::renderer, this->color);
 }
 
 bool AlertText::isDone() {

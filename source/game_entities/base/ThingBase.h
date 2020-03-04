@@ -34,7 +34,7 @@ class ThingBase {
 		virtual bool overlap(const Rect& other) const = 0;
 		virtual bool overlap(const std::shared_ptr<ThingBase>& other) const = 0;
 		int getFlags() const;
-		virtual float originDistance() const = 0;
+		virtual double originDistance() const = 0;
 		virtual Point collideLine(const Line& ray) const = 0;
 		virtual Point getPosition() const = 0;
 		virtual Rect getRect() const = 0;

@@ -20,7 +20,7 @@ std::shared_ptr<Node> EnemyBase::getClosestUnblockedNode() {
 	if (this->parent->nodes.size() > 1) {
 		Point center = this->getCenter();
 		for (int i = 1; i < this->parent->nodes.size(); i++) {
-			float distance = center.distanceToPoint(this->parent->nodes.at(i)->getPosition());
+			double distance = center.distanceToPoint(this->parent->nodes.at(i)->getPosition());
 			if (distance > 100) {
 				continue;
 			}
@@ -36,8 +36,8 @@ std::shared_ptr<Node> EnemyBase::getClosestUnblockedNode() {
 
 void EnemyBase::move() { // TODO: Maybe re-write this under a different name?
 	// There must be a better way
-	float xflag = 0;
-	float yflag = 0;
+	double xflag = 0;
+	double yflag = 0;
 	Point px = this->velocity * this->timer.getRatio();
 	if (px.isZero()) {
 		return;
@@ -98,11 +98,11 @@ PointDelta EnemyBase::pathFindTo(Point target) {
 		}
 		Point temp = this->path.getFirst();
 		if (temp.isReal()) {
-			float angle = atan2(temp.y() - center.y(), temp.x() - center.x());
+			double angle = atan2(temp.y() - center.y(), temp.x() - center.x());
 			return PointDelta(Vector(angle), .75);
 		} else {
 			if (center.distanceToPoint(target) > 2) {
-				float angle = atan2(target.y() - center.y(), target.x() - center.x());
+				double angle = atan2(target.y() - center.y(), target.x() - center.x());
 				return PointDelta(Vector(angle), .75);
 			}
 		}
@@ -110,7 +110,7 @@ PointDelta EnemyBase::pathFindTo(Point target) {
 	return PointDelta(0, 0, 0);
 }
 
-void EnemyBase::turn(float delta) {
+void EnemyBase::turn(double delta) {
 	if (this->turning) {
 		this->angle += delta;
 	}
@@ -120,7 +120,7 @@ void EnemyBase::toggleTurn() {
 	this->turning = !this->turning;
 }
 
-float EnemyBase::getAngle() const {
+double EnemyBase::getAngle() const {
 	return this->angle;
 }
 

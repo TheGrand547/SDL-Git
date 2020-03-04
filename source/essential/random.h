@@ -17,7 +17,7 @@ void mMax(T numA, T numB, T& iMin, T& iMax) {
 	iMax = (numA > numB) ? numA : numB;
 }
 
-bool valueInRange(float value, float min, float max);
+bool valueInRange(double value, double min, double max);
 
 template<class T>
 bool valueInModRange(T value, T min, T max){ 
@@ -44,7 +44,7 @@ bool valueNotInVector(const std::vector<T>& vector, const T& element) {
 	return std::find(vector.begin(), vector.end(), element) == vector.end();
 }
 	
-double gaussian(float x, double sigma);
+double gaussian(double x, double sigma);
 
 template<class T>
 bool shareNoElements(std::pair<std::shared_ptr<T>, std::shared_ptr<T>> pair, std::pair<std::shared_ptr<T>, std::shared_ptr<T>> otherPair) {

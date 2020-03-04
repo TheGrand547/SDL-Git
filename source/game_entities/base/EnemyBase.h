@@ -19,7 +19,7 @@ class EnemyBase : public EntityBase {
 		Point position;
 		int width = 50;
 		int height = 50;
-		float angle = 0;
+		double angle = 0;
 		bool turning = false;
 		NodePath path;
 	public:
@@ -30,9 +30,9 @@ class EnemyBase : public EntityBase {
 		virtual void update() = 0;
 		virtual void draw(SDL_Renderer* renderer, Point offset = Point(0, 0));
 		virtual void move();
-		void turn(float delta);
+		void turn(double delta);
 		void toggleTurn();
-		float getAngle() const;
+		double getAngle() const;
 		std::shared_ptr<Node> getClosestUnblockedNode();
 		PointDelta pathFindTo(Point pos = Point());
 		friend std::ostream& operator<<(std::ostream& output, const EnemyBase& base);

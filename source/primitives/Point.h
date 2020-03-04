@@ -6,17 +6,17 @@
 
 class Point {
 	protected:
-		float xval, yval;
+		double xval, yval;
 	public:
-		Point(float xCoordinate = 0.0 / 0.0, float yCoordinate = 0.0 / 0.0);
+		Point(double xCoordinate = 0.0 / 0.0, double yCoordinate = 0.0 / 0.0);
 		Point(const Point& point);
 		Point(const Point* point);
 		~Point();
 		Point operator-(const Point& point) const;
 		Point operator+(const Point& point) const;
 		Point& operator=(const Point& that);
-		Point operator/(const float& num) const;
-		Point operator*(const float& num) const;
+		Point operator/(const double& num) const;
+		Point operator*(const double& num) const;
 		Point copy() const;
 		Point negate() const;
 		Point onlyX() const;
@@ -29,14 +29,14 @@ class Point {
 		bool isReal() const;
 		bool operator==(const Point& point) const;
 		bool operator!=(const Point& point) const;
-		float distanceToPoint(const Point& point = Point(0, 0)) const;
-		float distanceToPoint(float x, float y) const;
-		float getAngle() const;
-		float getMagnitude() const;
-		float operator*(const Point& other) const;
-		float originDistance() const;
-		float x() const;
-		float y() const;
+		double distanceToPoint(const Point& point = Point(0, 0)) const;
+		double distanceToPoint(double x, double y) const;
+		double getAngle() const;
+		double getMagnitude() const;
+		double operator*(const Point& other) const;
+		double originDistance() const;
+		double x() const;
+		double y() const;
 		friend std::ostream &operator<<(std::ostream &output, const Point &point);
 		void operator+=(const Point& delta);
 		void operator-=(const Point& delta);

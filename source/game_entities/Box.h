@@ -25,7 +25,7 @@ class Box : public CollideBase {
 		bool overlap(const Rect& other) const override;
 		bool overlap(const std::shared_ptr<ThingBase>& other) const override;
 		bool doesLineCollide(const Line& ray) const override;
-		float originDistance() const override;
+		double originDistance() const override;
 		Point collideLine(const Line& ray) const override;
 		Point getBottomRight() const override;
 		Point getPosition() const override;

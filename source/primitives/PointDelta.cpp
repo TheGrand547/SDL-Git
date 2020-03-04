@@ -7,12 +7,12 @@ PointDelta::PointDelta() : Point(0, 0) {
 	this->magnitude = 0;
 }
 
-PointDelta::PointDelta(float xval, float yval, float magnitude) : Point(xval, yval) {
+PointDelta::PointDelta(double xval, double yval, double magnitude) : Point(xval, yval) {
 	this->magnitude = magnitude;
 	this->reduceToBounds();
 }
 
-PointDelta::PointDelta(Point point, float magnitude) : Point(point) {
+PointDelta::PointDelta(Point point, double magnitude) : Point(point) {
 	this->magnitude = magnitude;
 	this->reduceToBounds();
 }
@@ -22,7 +22,7 @@ PointDelta::PointDelta(const PointDelta &that) : Point(that){
 	this->reduceToBounds();
 }
 
-float PointDelta::calcAngle(Point point) {
+double PointDelta::calcAngle(Point point) {
 	if(point.y() != 0 || point.x() != 0) {
 		 return atan2(0-point.y(), point.x());
 	}
@@ -31,13 +31,13 @@ float PointDelta::calcAngle(Point point) {
 
 void PointDelta::reduceToBounds() {			
 	if (this->getMagnitude() > this->magnitude) {
-		float tempFloat = calcAngle(*this);
+		double tempFloat = calcAngle(*this);
 		this->xval = this->magnitude * cos(tempFloat);
 		this->yval = -this->magnitude * sin(tempFloat);
 	}
 }
 
-float PointDelta::getMagnitude() {
+double PointDelta::getMagnitude() {
 	return sqrt((pow(this->xval, 2) + pow(this->yval, 2)));
 }
 
@@ -58,15 +58,15 @@ PointDelta& PointDelta::operator=(const PointDelta &that) {
 	return *this;
 }
 
-PointDelta PointDelta::operator/(const float &num) {
+PointDelta PointDelta::operator/(const double &num) {
 	return PointDelta(this->xval / num, this->yval / num, this->magnitude);
 }
 
-PointDelta PointDelta::operator*(const float &num) {
+PointDelta PointDelta::operator*(const double &num) {
 	return PointDelta(this->xval * num, this->yval * num, this->magnitude * num);
 }
 
-void PointDelta::setMagnitude(float magnitude) {
+void PointDelta::setMagnitude(double magnitude) {
 	this->magnitude = magnitude;
 	this->reduceToBounds();
 }

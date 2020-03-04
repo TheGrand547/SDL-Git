@@ -5,15 +5,15 @@
 
 class Vector: public Point {
 	public:
-		Vector(float angle = 0);
-		Vector(float x, float y);
+		Vector(double angle = 0);
+		Vector(double x, double y);
 		~Vector();
-		float dot(const Vector other);
-		float operator*(const Vector& other);
+		double dot(const Vector other);
+		double operator*(const Vector& other);
 		Vector operator*(const double& num); 
 		Vector operator/(const double& num);
 		friend Vector operator*(const double& num, Vector& vec);
-		float magnitude() const;
-		float angleBetween(const Vector other);
+		double magnitude() const;
+		double angleBetween(const Vector other);
 };
 #endif 

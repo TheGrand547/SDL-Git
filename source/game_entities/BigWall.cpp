@@ -19,7 +19,7 @@ bool BigWall::overlap(const std::shared_ptr<ThingBase>& other) const {
 	return other->overlap(this->rect);
 }
 
-float BigWall::originDistance() const {
+double BigWall::originDistance() const {
 	return this->rect.getBottomRight().distanceToPoint(Point(0, 0));
 }
 
@@ -36,10 +36,10 @@ Rect BigWall::getRect() const {
 }
 
 void BigWall::addNodes() {
-	float horz[] = {-this->rect.getWidth() / 2 - 25,  this->rect.getWidth() / 2 + 25};
-	float vert[] = {-this->rect.getHeight() / 2 - 25,  this->rect.getHeight() / 2 + 25};
-	for (float x: horz) {
-		for (float y: vert) {
+	double horz[] = {-this->rect.getWidth() / 2 - 25,  this->rect.getWidth() / 2 + 25};
+	double vert[] = {-this->rect.getHeight() / 2 - 25,  this->rect.getHeight() / 2 + 25};
+	for (double x: horz) {
+		for (double y: vert) {
 			this->parent->addNode(this->getPosition() + Point(x, y), "CONSTRUCTION");
 		}
 	}

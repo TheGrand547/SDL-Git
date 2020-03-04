@@ -14,7 +14,6 @@ int scanCodeFromEvent(SDL_Event event) {
 
 Controller::Controller() {}
 
-
 Controller::~Controller() {
 	this->keys.clear();
 	this->buttons.clear();

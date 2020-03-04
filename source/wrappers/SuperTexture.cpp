@@ -48,7 +48,7 @@ void SuperTexture::drawLine(SDL_Renderer* renderer, Point pointA, Point pointB) 
 	SDL_SetRenderTarget(renderer, tempTexture);
 	SDL_RenderCopy(renderer, this->texture, NULL, NULL);
 	Line temp = Line(pointA, pointB);
-	temp.setColorChannels(this);
+	//temp.setColorChannels(this);
 	temp.drawLine(renderer, this->getOffset());
 	SDL_SetRenderTarget(renderer, NULL);
 	this->texture = tempTexture;

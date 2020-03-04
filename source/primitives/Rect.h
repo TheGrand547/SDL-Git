@@ -13,10 +13,10 @@ class Rect: public MyBase {
 		Rect(Point topLeft, Line widthVector, Line heightVector);
 		Rect(Point topLeft, Point widthVector, Point heightVector);
 		Rect(Line side1, Line side2);
-		Rect(Point position, float width, float height);
+		Rect(Point position, double width, double height);
 		Rect(Point topLeft, Point bottomRight);
 		Rect(const Rect& that);
-		Rect(float x, float y, float width, float height);
+		Rect(double x, double y, double width, double height);
 		~Rect();
 		Rect getBoundingRect() const;
 		Rect& operator=(const Rect& that);
@@ -25,8 +25,8 @@ class Rect: public MyBase {
 		bool doesLineCollide(const Line& ray) const;
 		bool operator==(const Rect& rect) const;
 		bool overlap(const Rect& other) const;
-		float getHeight() const;
-		float getWidth() const;
+		double getHeight() const;
+		double getWidth() const;
 		int numberOfCollisions(const Line& line) const;
 		Point collideLine(const Line& ray) const;
 		Point getBottomLeft() const;

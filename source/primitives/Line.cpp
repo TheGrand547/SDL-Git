@@ -44,7 +44,7 @@ bool Line::isOrthogonal(const Line& other) const {
 }
 
 bool Line::isPointOnThisLine(const Point& point) const {
-	float minX, maxX, minY, maxY;
+	double minX, maxX, minY, maxY;
 	mMax(this->originPoint.x(), this->endingPoint.x(), minX, maxX);
 	mMax(this->originPoint.y(), this->endingPoint.y(), minY, maxY);
 	return valueInRange(point.x(), minX, maxX) && valueInRange(point.y(), minY, maxY);
@@ -70,16 +70,16 @@ Line Line::operator-(const Point& b) const {
 	return Line(this->originPoint - b, this->endingPoint - b);
 }
 	
-float Line::getAx() const { 
-	return float(this->endingPoint.y() - this->originPoint.y());
+double Line::getAx() const { 
+	return double(this->endingPoint.y() - this->originPoint.y());
 }
 
-float Line::getBy() const { 
-	return float(this->originPoint.x() - this->endingPoint.x());
+double Line::getBy() const { 
+	return double(this->originPoint.x() - this->endingPoint.x());
 }
 
-float Line::getC() const { 
-	return float((this->getAx() * this->originPoint.x()) + (this->getBy() * this->originPoint.y()));
+double Line::getC() const { 
+	return double((this->getAx() * this->originPoint.x()) + (this->getBy() * this->originPoint.y()));
 }
 
 Point Line::getEnd() const {
@@ -116,12 +116,12 @@ void Line::setColor(Uint8 red, Uint8 green, Uint8 blue, Uint8 alpha) {
 }
 
 Point Line::intersectionPoint(const Line& other) const {
-	float delta = (this->getAx() * other.getBy()) - (this->getBy() * other.getAx());
+	double delta = (this->getAx() * other.getBy()) - (this->getBy() * other.getAx());
 	if (delta == 0) {
 		return Point();
 	}
-	float x = ((this->getC() * other.getBy()) - (this->getBy() * other.getC())) / delta;
-	float y = ((this->getAx() * other.getC()) - (this->getC() * other.getAx())) / delta;
+	double x = ((this->getC() * other.getBy()) - (this->getBy() * other.getC())) / delta;
+	double y = ((this->getAx() * other.getC()) - (this->getC() * other.getAx())) / delta;
 	Point newPoint = Point(x, y);
 	if (this->collidePoint(newPoint) && other.collidePoint(newPoint)) {
 		return newPoint;
