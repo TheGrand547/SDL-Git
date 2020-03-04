@@ -134,11 +134,12 @@ Point Point::onlyY() const {
 }
 
 Point Point::operator/(const float& num) const {
+	assert(num);
 	return Point(this->xval / num, this->yval / num);
 }
 
 Point Point::operator*(const float& num) const {
-	return Point(this->xval * num, this->yval * num);
+ 	return Point(this->xval * num, this->yval * num);
 }
 
 void Point::zero() {

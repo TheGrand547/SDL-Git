@@ -128,3 +128,19 @@ Point Line::intersectionPoint(const Line& other) const {
 	}
 	return Point();
 }
+
+Line Line::operator*(const double& delta) const {
+	return Line(this->getOrigin(), this->getOrigin() + this->getVector() * delta);
+}
+
+Line Line::operator/(const double& delta) const {
+	return Line(this->getOrigin(), this->getVector() / delta);
+}
+
+Line operator*(const double& delta, const Line& line) {
+	return line * delta;
+}
+
+Line operator/(const double& delta, const Line& line) {
+	return line / delta;
+}

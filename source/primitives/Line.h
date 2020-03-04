@@ -10,7 +10,7 @@
 typedef Uint8 uint8_t;
 
 class Line: public MyBase {
-	/* Represents a line in the form, ax+by=c, bounded by the points A and B */
+	/* Represents a line segment in the form, ax+by=c, bounded by the points A and B */
 	private:
 		Point originPoint, endingPoint;
 	public:	
@@ -25,6 +25,8 @@ class Line: public MyBase {
 		bool collidePoint(const Point& point) const;
 		void operator+=(const Point& b);
 		void operator-=(const Point& b);
+		Line operator*(const double& delta) const;
+		Line operator/(const double& delta) const;
 		Line operator+(const Point& b) const;
 		Line operator-(const Point& b) const;
 		float getAx() const;
@@ -40,3 +42,6 @@ class Line: public MyBase {
 		void drawLine(SDL_Renderer* renderer, Point offset = Point(0, 0));
 		void setColor(Uint8 red, Uint8 green, Uint8 blue, Uint8 alpha);
 };
+
+Line operator*(const double& delta, const Line& line);
+Line operator/(const double& delta, const Line& line);

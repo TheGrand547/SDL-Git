@@ -122,6 +122,21 @@ bool Rect::doesLineCollide(const Line& ray) const {
 	return false;
 }
 
+int Rect::numberOfCollisions(const Line& ray) const {
+	Point ar[] = {this->getTopLeft(), this->getTopRight(), this->getBottomRight(), this->getBottomLeft()};
+	Line temp[4];
+	int count = 0;
+	for (int i = 0; i < 4; i++) {
+		temp[i] = Line(ar[i], ar[(i + 1) % 4]);
+	}
+	for (Line line: temp) {
+		if (line.intersectionPoint(ray).isReal()) {
+			count++;
+		}
+	}
+	return count;
+}
+
 Point Rect::collideLine(const Line& ray) const {
 	/* Returns the point where the line intersects the rect, if it doesn't intersect it returns a null point */
 	Point intersection, tempPoint;
@@ -185,14 +200,12 @@ bool Rect::overlap(const Rect& other) const {
 		} else { // HAHHA
 			Point ar[] = {this->getTopLeft(), this->getTopRight(), this->getBottomRight(), this->getBottomLeft()};
 			int ctr = 0;
-			for (int i = 0; i < 4; i++) {
-				if (other.doesLineCollide(Line(ar[i], ar[(i + 1) % 4]))) {
-					ctr++;
-					if (ctr >= 2) {
-						value = true;
-						break;
-					}
-				}
+			for (int i = 0; i < 4 && ctr < 2; i++) {
+				ctr += other.numberOfCollisions(Line(ar[i], ar[(i + 1) % 4]));
+				ctr += other.numberOfCollisions(Line(this->getCenter(), ar[i]));
+			}
+			if (ctr >= 2) {
+				value = true;
 			}
 		}
 	}
@@ -261,5 +274,5 @@ Rect& Rect::operator=(const Rect& that) {
 }
 
 Point Rect::getCenter() const {
-	return this->topLeft + (this->widthVector + this->heightVector) / 2;
+	return (this->topLeft + this->getBottomRight()) / 2;
 }
