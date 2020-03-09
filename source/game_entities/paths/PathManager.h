@@ -9,12 +9,12 @@ class PathManager {
 		std::vector<std::shared_ptr<Path>> paths;
 		EnemyBase* target;
 		bool repeat;
-		int index;
+		uint32_t index;
 	public:
 		PathManager(EnemyBase* target = NULL);
 		~PathManager();
 		bool paused();
-		void addPath(Path* path);
+		void addPath(std::shared_ptr<Path> path);
 		void removePath(int index);
 		void setRepeat(bool val);
 		void update();

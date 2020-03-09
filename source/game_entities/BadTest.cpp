@@ -7,10 +7,10 @@ BadTest::BadTest(Point position) : EnemyBase(position) {
 	this->lastPatrolledPoint = Point();
 	this->pathTimer.start();
 	int dist = 200;
-	this->c.addPath(new LinePath(PointDelta(-1.5, 0, 1.5), dist, Path::SINGLE_LOOP));
-	this->c.addPath(new ZeroRadiusTurnPath(0, 200));
-	this->c.addPath(new LinePath(PointDelta(1.5, 0, 1.5), dist, Path::SINGLE_LOOP));
-	this->c.addPath(new ZeroRadiusTurnPath(M_PI, 200));	
+	this->c.addPath(std::make_shared<LinePath>(PointDelta(-1.5, 0, 1.5), dist, Path::SINGLE_LOOP));
+	this->c.addPath(std::make_shared<ZeroRadiusTurnPath>(0, 200));
+	this->c.addPath(std::make_shared<LinePath>(PointDelta(1.5, 0, 1.5), dist, Path::SINGLE_LOOP));
+	this->c.addPath(std::make_shared<ZeroRadiusTurnPath>(M_PI, 200));	
 	this->c.setRepeat(true);
 }
 

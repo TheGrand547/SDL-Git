@@ -9,8 +9,8 @@ class Path {
 		EnemyBase* target;
 		bool started = false;
 	public:
-		static const int REPEAT = 0;
-		static const int SINGLE_LOOP = -2;
+		static const int REPEAT;
+		static const int SINGLE_LOOP;
 		
 		Path(EnemyBase* target = NULL);
 		bool isStarted() const;

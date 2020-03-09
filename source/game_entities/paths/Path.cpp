@@ -1,5 +1,9 @@
 #include "Path.h"
 
+const int Path::REPEAT = 0;
+const int Path::SINGLE_LOOP = -2;
+
+
 Path::Path(EnemyBase* target) {
 	this->ticksDone = 0;
 	this->target = target;

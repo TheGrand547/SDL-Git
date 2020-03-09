@@ -14,26 +14,6 @@ SuperTexture Box::mTexture;
 
 
 int main(int argc, char* argv[]) {
-	Rect f(Point(0, 0), Point(20, 20));
-	Rect f2(Point(0, 0), Point(20, 20));
-	Rect g(Point(21, 21), Point(25, 25));
-	Rect te(Point(5, 5), Point(34, 7));
-	std::cout << "f == f2: " << (f == f2) << std::endl;
-	std::cout << "f == g: " << (f == g) << std::endl;
-	std::cout << "f.overlap(g): " << f.overlap(g) << std::endl; 
-	std::cout << "g.overlap(f): " << g.overlap(f) << std::endl;
-	std::cout << "te.overlap(f): " << te.overlap(f) << std::endl; 
-	std::cout << "te.overlap(g): " << te.overlap(g) << std::endl; 
-	std::cout << "Float: " << sizeof(float) << std::endl;
-	std::cout << "Double: " << sizeof(double) << std::endl;
-	std::cout << "Point: " << sizeof(Point) << std::endl;
-	std::cout << "Line: " << sizeof(Line) << std::endl;
-	std::cout << "Rect: " << sizeof(Rect) << std::endl;
-	std::cout << "Node: " << sizeof(Node) << std::endl;
-	std::cout << "Node Pointer: " << sizeof(Node*) << std::endl;
-	std::cout << "Thing: " << sizeof(ThingBase) << std::endl;
-	std::cout << "BigWall: " << sizeof(BigWall) << std::endl;
-	std::cout << "Vector: " << sizeof(std::vector<bool>) << std::endl;
 	std::map<std::string, int> gameState; // This will later be placed into the class to hold level instances
 	// TODO: Write command line args like in source/idtech1, in addition to command line args such as DRAW_PATHS_ENABLE
 	for (int i = 1; i < argc; i++) {
@@ -60,14 +40,14 @@ int main(int argc, char* argv[]) {
 	MegaBase::setRenderer(gRenderer);
 	AlertTextHandler handler;
 	BackgroundGroup groundGroup;
-	// Box creation
-	//Box::createBoxTexture(gRenderer);
-
+	
 	GAME.addThing(std::make_shared<BigWall>(Rect(0, 200, 100, 300)));
 	GAME.addThing(std::make_shared<BigWall>(Rect(200, 200, 300, 100)));
 	GAME.addThing(std::make_shared<BigWall>(Rect(500, 200, 100, 400)));
 	GAME.addThing(std::make_shared<BigWall>(Rect(600, 500, 100, 300)));
 	GAME.addThing(std::make_shared<BigWall>(Rect(300, 450, 100, 300)));
+	
+	// Get back to this stuff
 	//std::shared_ptr<BadTest> heck = std::make_shared<BadTest>(Point(100, 400));
 	//heck->setTexture(gRenderer);
 	//GAME.addThing(heck);

@@ -1,7 +1,7 @@
 CC=gcc
 CXX=g++
 RM=rm -f
-CPPFLAGS=-g -std=c++17 -march=native
+CPPFLAGS=-g -std=c++17 -march=native -mtune=generic -Wall -Wextra -Werror -pipe
 LDFLAGS=-g -og -march=native
 LDLIBS=-lSDL2 -lSDL2_gfx -lSDL2_image -lSDL2_ttf
 

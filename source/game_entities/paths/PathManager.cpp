@@ -17,13 +17,13 @@ bool PathManager::paused() {
 	return false;
 }
 
-void PathManager::addPath(Path* path) {
+void PathManager::addPath(std::shared_ptr<Path> path) {
 	path->setTarget(this->target);
-	this->paths.push_back(std::shared_ptr<Path>(path));
+	this->paths.push_back(path);
 }
 
 void PathManager::removePath(int index) {
-	if (index < this->paths.size()) {
+	if (this->index < this->paths.size()) {
 		this->paths.erase(this->paths.begin() + index);
 	}
 }
