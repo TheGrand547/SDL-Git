@@ -1,7 +1,7 @@
 #include "BadTest.h"
 
 BadTest::BadTest(Point position) : EnemyBase(position) {
-	this->flags = SOLID | MOVEABLE;
+	this->flags |= DRAW | SOLID | MOVEABLE;
 	this->currentState = State::PATROL;
 	
 	this->lastPatrolledPoint = Point();
@@ -35,15 +35,18 @@ Point BadTest::getCenter() const {
 }
 
 void BadTest::draw(SDL_Renderer* renderer, Point offset) {
+	//std::cout << "ME draw smorc" << std::endl;
 	if (this->texture.notLoaded()) {
 		this->setTexture(renderer);
 	}
 	EnemyBase::draw(renderer, offset);
+	/*
 	if (this->path.getFirst().isReal()) {
 		this->path.draw();
 	}
 	this->path.draw();
 	// Draw vision cone - Slopily
+	
 	for (int i = -20; i <= 20; i++) {
 		Point pTemp = this->getCenter();
 		pTemp += Point(300 * cos(this->angle + radians(i)), 300 * sin(this->angle + radians(i)));
@@ -55,7 +58,7 @@ void BadTest::draw(SDL_Renderer* renderer, Point offset) {
 		}
 		temp.setColorChannels(COLORS::BLACK);
 		temp.drawLine(this->parent->getRenderer(), this->parent->getOffset());
-	}
+	}*/
 }
 
 void BadTest::update() {

@@ -46,11 +46,12 @@ int main(int argc, char* argv[]) {
 	GAME.addThing(std::make_shared<BigWall>(Rect(500, 200, 100, 400)));
 	GAME.addThing(std::make_shared<BigWall>(Rect(600, 500, 100, 300)));
 	GAME.addThing(std::make_shared<BigWall>(Rect(300, 450, 100, 300)));
+	GAME.addThing(std::make_shared<BigWall>(Rect(Line(Point(50, 0), Point(0, 50)), Line(Point(50, 0), Point(100, 50)))));
 	
 	// Get back to this stuff
-	//std::shared_ptr<BadTest> heck = std::make_shared<BadTest>(Point(100, 400));
-	//heck->setTexture(gRenderer);
-	//GAME.addThing(heck);
+	std::shared_ptr<BadTest> heck = std::make_shared<BadTest>(Point(100, 400));
+	heck->setTexture(gRenderer);
+	GAME.addThing(heck);
 	groundGroup.setParent(GAME);
 
 	for (int x = 0; x <= Screen::MAX_WIDTH; x += 25) {

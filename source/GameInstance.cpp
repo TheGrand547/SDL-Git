@@ -11,8 +11,8 @@ bool compare::operator()(const ThingBase* lhs, const ThingBase* rhs) const {
 	return lhs < rhs;
 }
 
-GameInstance::GameInstance(SDL_Renderer* renderer, BoundedPoint offset) : renderer(renderer), offset(offset), 
-							collision(this), playableArea(0, 0, Screen::MAX_WIDTH, Screen::MAX_HEIGHT) {}
+GameInstance::GameInstance(SDL_Renderer* renderer, BoundedPoint offset) : offset(offset), playableArea(0, 0, Screen::MAX_WIDTH, Screen::MAX_HEIGHT), 
+							renderer(renderer), collision(this) {}
 
 GameInstance::~GameInstance() {}
 
@@ -51,7 +51,7 @@ void GameInstance::draw() {
 	for (ThingBase* thing: this->drawOrder) {
 		thing->draw(this->renderer, this->offset);
 	} 
-	this->nodes.drawGroup();
+	//this->nodes.drawGroup();
 }
 
 Rect GameInstance::getPlayableArea() const {

@@ -28,7 +28,7 @@ bool Line::isCollinear(const Line& other) const {
 	 * False -> This line IS NOT on the same unbounded line
 	 */
 	if (this->isParallel(other)) {
-		return std::abs(other.getC() / other.getBy() - this->getC() / this->getBy()) < 0.00001;
+		return std::abs(other.getC() * this->getBy() - this->getC() * other.getBy()) < 0.00001;
 	}
 	return false;
 }
@@ -142,5 +142,6 @@ Line operator*(const double& delta, const Line& line) {
 }
 
 Line operator/(const double& delta, const Line& line) {
+	assert(delta != 0);
 	return line / delta;
 }

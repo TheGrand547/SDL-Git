@@ -13,7 +13,7 @@ Rect::Rect(Point topLeft, Point widthVector, Point heightVector) : topLeft(topLe
 Rect::Rect(Line side1, Line side2) {
 	// Two Lines that make up sides of a rectangle, and hopefully touch 
 	// but I'm not going to think about testing for that at this point
-	assert(side1.isOrthogonal(side2) || side1.isParallel(side2));
+	assert(side1.isParallel(side2) || side1.isOrthogonal(side2));
 	if (side1.isOrthogonal(side2)) { // Ideal
 		this->topLeft = side1.getOrigin();
 		this->widthVector = side1.getVector();
@@ -184,21 +184,20 @@ double Rect::getHeight() const {
 }
 
 bool Rect::overlap(const Rect& other) const {
-	bool value = false;
-	Rect p = this->getBoundingRect();
-	Rect other2 = other.getBoundingRect();
-	double myX = p.getTopLeft().x();
-	double myY = p.getTopLeft().y();
-	double otherX = other2.getTopLeft().x();
-	double otherY = other2.getTopLeft().y();
 	// TODO: Rename these variables something sensible
-	bool xOver = valueInRange(myX, otherX, otherX + other2.getWidth()) || valueInRange(otherX, myX, myX + p.getWidth());
-	bool yOver = valueInRange(myY, otherY, otherY + other2.getHeight()) || valueInRange(otherY, myY, myY + p.getHeight());
+	bool value = false;
+	Rect bound = this->getBoundingRect();
+	Rect otherBound = other.getBoundingRect();
+	double myX = bound.getTopLeft().x();
+	double myY = bound.getTopLeft().y();
+	double otherX = otherBound.getTopLeft().x();
+	double otherY = otherBound.getTopLeft().y();
+	bool xOver = valueInRange(myX, otherX, otherX + otherBound.getWidth()) || valueInRange(otherX, myX, myX + bound.getWidth());
+	bool yOver = valueInRange(myY, otherY, otherY + otherBound.getHeight()) || valueInRange(otherY, myY, myY + bound.getHeight());
 	if (xOver && yOver) {
-		if (p == *this && other == other2) { // If this is right alligned
+		if (bound == *this && other == otherBound) { // If both are right aligned
 			value = true;
 		} else { // HAHHA
-			std::cout << "EH" << std::endl;
 			Point ar[] = {this->getTopLeft(), this->getTopRight(), this->getBottomRight(), this->getBottomLeft()};
 			int ctr = 0;
 			for (int i = 0; i < 4 && ctr < 2; i++) {
@@ -239,7 +238,7 @@ SDL_Rect Rect::getSDLRect() const {
 
 Rect Rect::getBoundingRect() const {
 	assert(this->topLeft.isReal());
-	double minX(1/0.0), minY(1/0.0), maxX(-1/0.0), maxY(-1/0.0);
+	double minX(1 / 0.0), minY(1 / 0.0), maxX(-1 / 0.0), maxY(-1 / 0.0);
 	Point ar[] = {this->getTopLeft(), this->getTopRight(), this->getBottomRight(), this->getBottomLeft()};
 	for (const Point& point: ar) {
 		if (point.x() > maxX) maxX = point.x();

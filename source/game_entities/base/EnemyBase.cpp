@@ -1,7 +1,7 @@
 #include "EnemyBase.h"
 
 EnemyBase::EnemyBase(Point position) : EntityBase(2.25) {
-	this->flags = SOLID;
+	this->flags |= DRAW | SOLID;
 	this->position = position;
 	this->pathTimer.start();
 }
