@@ -39,5 +39,6 @@ bool LinePath::isFinished() const {
 }
 
 void LinePath::modify(float time) {
+	time++;
 	this->target->accelerate(this->delta);
 }

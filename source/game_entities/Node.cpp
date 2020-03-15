@@ -2,7 +2,7 @@
 #include "CollisionHandler.h"
 #include "../GameInstance.h"
 
-Node::Node(Point position, std::string data) : data(data), position(position) {
+Node::Node(Point position, std::string data) : position(position), data(data) {
 	this->drawnThisFrame = false;
 }
 

@@ -10,7 +10,7 @@ class GameInstance;
 #include<SDL2/SDL.h>
 #include<vector>
 
-enum ENTITY_FLAGS {
+enum ENTITY_FLAG {
 	SOLID                   = 0x0001, // Other objects can collide with this at some point
 	NOCLIP                  = 0x0002, // This doesn't collide with others
 	MOVEABLE                = 0x0004, // This object can move
@@ -24,6 +24,7 @@ class ThingBase {
 		int flags;
 		Point position;
 	public:
+	
 		virtual ~ThingBase() = 0;
 		virtual bool doesLineCollide(const Line& ray) const = 0;
 		
@@ -41,6 +42,7 @@ class ThingBase {
 		virtual void addNodes();
 		virtual void draw(SDL_Renderer* renderer, Point offset = Point(0, 0)) = 0;
 		void setParent(GameInstance* parent);
+		void unsetFlag(ENTITY_FLAG flag);
 		virtual void update() = 0;
 };
 #endif

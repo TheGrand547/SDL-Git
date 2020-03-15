@@ -16,7 +16,6 @@ class EnemyBase : public EntityBase {
 	protected:
 		Texture texture;
 		Timer pathTimer;
-		Point position;
 		int width = 50;
 		int height = 50;
 		double angle = 0;

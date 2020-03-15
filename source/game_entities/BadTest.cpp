@@ -1,15 +1,15 @@
 #include "BadTest.h"
 
 BadTest::BadTest(Point position) : EnemyBase(position) {
-	this->flags |= DRAW | SOLID | MOVEABLE;
+	this->flags |= DRAW | MOVEABLE;
 	this->currentState = State::PATROL;
 	
 	this->lastPatrolledPoint = Point();
 	this->pathTimer.start();
 	int dist = 200;
-	this->c.addPath(std::make_shared<LinePath>(PointDelta(-1.5, 0, 1.5), dist, Path::SINGLE_LOOP));
-	this->c.addPath(std::make_shared<ZeroRadiusTurnPath>(0, 200));
 	this->c.addPath(std::make_shared<LinePath>(PointDelta(1.5, 0, 1.5), dist, Path::SINGLE_LOOP));
+	this->c.addPath(std::make_shared<ZeroRadiusTurnPath>(0, 200));
+	this->c.addPath(std::make_shared<LinePath>(PointDelta(-1.5, 0, 1.5), dist, Path::SINGLE_LOOP));
 	this->c.addPath(std::make_shared<ZeroRadiusTurnPath>(M_PI, 200));	
 	this->c.setRepeat(true);
 }
@@ -35,15 +35,15 @@ Point BadTest::getCenter() const {
 }
 
 void BadTest::draw(SDL_Renderer* renderer, Point offset) {
-	//std::cout << "ME draw smorc" << std::endl;
 	if (this->texture.notLoaded()) {
 		this->setTexture(renderer);
 	}
 	EnemyBase::draw(renderer, offset);
-	/*
+	
 	if (this->path.getFirst().isReal()) {
 		this->path.draw();
 	}
+	/*
 	this->path.draw();
 	// Draw vision cone - Slopily
 	
@@ -63,7 +63,7 @@ void BadTest::draw(SDL_Renderer* renderer, Point offset) {
 
 void BadTest::update() {
 	// This test AI will be based on a Finite State Machine
-	//this->c.update();
+	this->c.update();
 
 	// Temp
 	switch (this->currentState) {

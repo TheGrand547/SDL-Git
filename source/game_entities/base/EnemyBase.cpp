@@ -1,7 +1,7 @@
 #include "EnemyBase.h"
 
 EnemyBase::EnemyBase(Point position) : EntityBase(2.25) {
-	this->flags |= DRAW | SOLID;
+	this->flags |= DRAW;
 	this->position = position;
 	this->pathTimer.start();
 }
@@ -39,6 +39,7 @@ void EnemyBase::move() { // TODO: Maybe re-write this under a different name?
 	double xflag = 0;
 	double yflag = 0;
 	Point px = this->velocity * this->timer.getRatio();
+	
 	if (px.isZero()) {
 		return;
 	}
@@ -66,14 +67,14 @@ void EnemyBase::move() { // TODO: Maybe re-write this under a different name?
 		xflag = px.x();
 		yflag = px.y();
 	}
-	if (abs(yflag) < 0.005) {
+	if (abs(yflag) < 0.000001) {
 		this->velocity.yZero();
 	}
-	if (abs(xflag) < 0.005) {
+	if (abs(xflag) < 0.000001) {
 		this->velocity.xZero();
 	}
 	this->position += Point(xflag, yflag);
-	if (not this->turning) {
+	if (!this->turning) {
 		this->angle = atan2(px.y(), px.x());
 	}
 }
