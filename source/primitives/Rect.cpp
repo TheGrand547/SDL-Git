@@ -104,6 +104,18 @@ void Rect::draw(SDL_Renderer* renderer, Point offset) {
 	delete[] y;
 }
 
+double Rect::getOriginDistance() const {
+	Point ar[] = {this->getTopLeft(), this->getTopRight(), this->getBottomRight(), this->getBottomLeft()};
+	double dist = 0;
+	for (Point point: ar) {
+		double temp = point.originDistance();
+		if (temp > dist) {
+			dist = temp;
+		}
+	}
+	return dist;
+}
+
 bool Rect::doesLineCollide(const Line& ray) const {
 	/* True - the Line DOES collide with this rect
 	 * False - the Line DOES NOT collide with this rect */

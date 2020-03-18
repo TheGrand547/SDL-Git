@@ -1,20 +1,13 @@
 #include "PathManager.h"
 
-PathManager::PathManager(EnemyBase* target) {
-	this->target = target;
-	this->index = 0;
-	this->repeat = false;
-}
+PathManager::PathManager(EnemyBase* target) : target(target), repeat(false), index(0) {}
 
 PathManager::~PathManager() {
 	paths.clear();
 }
 
 bool PathManager::paused() {
-	if (this->paths[this->index]->isPaused()) {
-		return true;
-	}
-	return false;
+	return this->paths[this->index]->isPaused();
 }
 
 void PathManager::addPath(std::shared_ptr<Path> path) {

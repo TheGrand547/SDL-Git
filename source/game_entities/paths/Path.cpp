@@ -4,8 +4,7 @@ const int Path::REPEAT = 0;
 const int Path::SINGLE_LOOP = -2;
 
 
-Path::Path(EnemyBase* target) {
-	this->ticksDone = 0;
+Path::Path(EnemyBase* target) : ticksDone(0) {
 	this->target = target;
 }
 
@@ -23,10 +22,12 @@ bool Path::isStarted() const {
 
 void Path::update() {
 	float tmp = this->timer.getTicks();
-	for (int i = 1; i < tmp; i++) {
-		this->modify(1 / 10.0);
+	if (tmp) {
+		for (int i = 1; i < tmp; i++) {
+			this->modify(1 / 10.0);
+		}
+		this->timer.start();
 	}
-	this->timer.start();
 }
 
 void Path::pause() {

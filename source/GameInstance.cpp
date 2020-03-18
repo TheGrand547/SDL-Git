@@ -19,19 +19,20 @@ GameInstance::~GameInstance() {}
 void GameInstance::addThing(ThingPtr thing) {
 	this->allThings.push_back(thing);
 	thing->setParent(this);
-	if (thing->getFlags() & DRAW) {
+	int flags = thing->getAbsoluteFlags();
+	if (flags & DRAW) {
 		this->drawThings.push_back(thing);
 		if (!this->drawOrder.insert(thing.get()).second) {
 			// TOOD: Log duplicate instance
 		}
 	}
-	if (thing->getFlags() & SOLID) {
+	if (flags & SOLID) {
 		this->collisionThings.push_back(thing);
-		if (!(thing->getFlags() & MOVEABLE)) {
+		if (!(flags & MOVEABLE)) {
 			//std::cout << "This thing shouldn't move" << std::endl;
 		}
 	}
-	if (thing->getFlags() & MOVEABLE) {
+	if (flags & MOVEABLE) {
 		this->movingThings.push_back(thing);
 	}
 }

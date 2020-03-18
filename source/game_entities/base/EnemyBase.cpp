@@ -1,8 +1,8 @@
 #include "EnemyBase.h"
 
-EnemyBase::EnemyBase(Point position) : EntityBase(2.25) {
-	this->flags |= DRAW;
+EnemyBase::EnemyBase(Point position, int flags) : ThingBase(flags | DRAW), maxVelocity(2.5) {
 	this->position = position;
+	this->timer.start();
 	this->pathTimer.start();
 }
 
@@ -34,12 +34,14 @@ std::shared_ptr<Node> EnemyBase::getClosestUnblockedNode() {
 	return targ;
 }
 
-void EnemyBase::move() { // TODO: Maybe re-write this under a different name?
+void EnemyBase::move(Point velocity) { // TODO: Maybe re-write this under a different name?
 	// There must be a better way
 	double xflag = 0;
 	double yflag = 0;
-	Point px = this->velocity * this->timer.getRatio();
-	
+	if (velocity.getMagnitude() > this->maxVelocity) {
+		velocity = velocity.getUnitVector() * this->maxVelocity;
+	}
+	Point px = velocity * this->timer.getRatio();
 	if (px.isZero()) {
 		return;
 	}
@@ -66,12 +68,6 @@ void EnemyBase::move() { // TODO: Maybe re-write this under a different name?
 	} else {
 		xflag = px.x();
 		yflag = px.y();
-	}
-	if (abs(yflag) < 0.000001) {
-		this->velocity.yZero();
-	}
-	if (abs(xflag) < 0.000001) {
-		this->velocity.xZero();
 	}
 	this->position += Point(xflag, yflag);
 	if (!this->turning) {

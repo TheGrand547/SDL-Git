@@ -21,19 +21,20 @@ enum ENTITY_FLAG {
 class ThingBase {
 	protected:
 		GameInstance* parent;
-		int flags;
+		const int absoluteFlags; // List of attributes this object /can/ have, but might not necessarily have at any given moment
+		int flags; // List of attributs the object CURRENTLY has
 		Point position;
 	public:
-	
+		ThingBase(int flags = 0);
 		virtual ~ThingBase() = 0;
 		virtual bool doesLineCollide(const Line& ray) const = 0;
-		
 		/* overlap(Rect) -> Does /this/ collide with that specific rectangle
 		 * overlap(shared_ptr<Thing>) -> Does this object collide with this object(ie call the objects 
 		 * 		overlap with each hitbox in this */ 
 		 // TODO: Make a HitBox class
 		virtual bool overlap(const Rect& other) const = 0;
 		virtual bool overlap(const std::shared_ptr<ThingBase>& other) const = 0;
+		int getAbsoluteFlags() const;
 		int getFlags() const;
 		virtual double originDistance() const = 0;
 		virtual Point collideLine(const Line& ray) const = 0;
@@ -41,6 +42,7 @@ class ThingBase {
 		virtual Rect getRect() const = 0;
 		virtual void addNodes();
 		virtual void draw(SDL_Renderer* renderer, Point offset = Point(0, 0)) = 0;
+		void setFlag(ENTITY_FLAG flag);
 		void setParent(GameInstance* parent);
 		void unsetFlag(ENTITY_FLAG flag);
 		virtual void update() = 0;

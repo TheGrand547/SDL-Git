@@ -1,7 +1,8 @@
 #include "Dot.h"
 
-Dot::Dot(Point startingCoordinate) : EntityBase(4, 1.25) {
-	this->flags |= DRAW | MOVEABLE;
+Dot::Dot(Point startingCoordinate) : EntityBase(DRAW | MOVEABLE) {
+	this->setMaxVelocity(2.25);
+	this->setFriction(10);
 	this->position = BoundedPoint(startingCoordinate, 0, 0, Screen::MAX_WIDTH - Player::PLAYER_X_DIMENSION, Screen::MAX_HEIGHT - Player::PLAYER_Y_DIMENSION);
 }
 

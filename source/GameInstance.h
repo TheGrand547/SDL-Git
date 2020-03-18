@@ -5,6 +5,7 @@
 #include "game_entities/base/ThingBase.h"
 #include "game_entities/CollisionHandler.h"
 #include "game_entities/NodeDrawGroup.h"
+#include<map>
 #include<memory>
 #include<set>
 #include<vector>
@@ -31,6 +32,7 @@ class GameInstance {
 	public:
 		CollisionHandler collision;
 		NodeDrawGroup nodes{this};
+		std::map<std::string, int> gameState;
 	
 		GameInstance(SDL_Renderer* renderer, BoundedPoint offset);
 		~GameInstance();
@@ -42,6 +44,10 @@ class GameInstance {
 		void instanceBegin();
 		void update();
 		void draw();
+		
+		template<typename T, typename... Args> void createThing(Args... args) {
+			this->addThing(std::make_shared<T>(args...));
+		}
 };
 
 #endif

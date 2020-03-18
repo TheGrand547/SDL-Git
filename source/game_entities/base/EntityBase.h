@@ -16,10 +16,13 @@ class EntityBase : public ThingBase {
 		PointDelta velocity;
 		Timer timer;
 	public:
-		EntityBase(double maxVelocity = 4, double friction = 10.0); // TODO: Constant these
+		EntityBase(int flags);
 		~EntityBase();
 		double originDistance() const override;
 		void accelerate(PointDelta delta);
 		void evalAngle(Point delta);
+		void setAngle(const double angle);
+		void setFriction(const double value);
+		void setMaxVelocity(const double value);
 };
 #endif

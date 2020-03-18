@@ -32,13 +32,9 @@ void LinePath::stop() {
 }
 
 bool LinePath::isFinished() const {
-	if (this->begin.distanceToPoint(this->target->getPosition()) >= this->maxTicks && this->maxTicks != Path::REPEAT) {
-		return true;
-	}
-	return false;
+	return this->maxTicks != Path::REPEAT && this->begin.distanceToPoint(this->target->getPosition()) >= this->maxTicks;
 }
 
 void LinePath::modify(float time) {
-	time++;
-	this->target->accelerate(this->delta);
+	this->target->move(this->delta * time);
 }

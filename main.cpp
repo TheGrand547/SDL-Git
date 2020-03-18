@@ -14,8 +14,7 @@ SuperTexture Box::mTexture;
 
 
 int main(int argc, char* argv[]) {
-	std::map<std::string, int> gameState; // This will later be placed into the class to hold level instances
-	// TODO: Write command line args like in source/idtech1, in addition to command line args such as DRAW_PATHS_ENABLE
+	std::map<std::string, int> gameState; // TODO: Write command line args like in source/idtech1, in addition to command line args such as DRAW_PATHS_ENABLE
 	for (int i = 1; i < argc; i++) {
 		if (!strcmp(argv[i], "RAY_CAST_ENABLE")) {
 			gameState["RAY_CAST"] = 1;
@@ -41,22 +40,21 @@ int main(int argc, char* argv[]) {
 	AlertTextHandler handler;
 	BackgroundGroup groundGroup;
 	
-	GAME.addThing(std::make_shared<BigWall>(Rect(0, 200, 100, 300)));
-	GAME.addThing(std::make_shared<BigWall>(Rect(200, 200, 300, 100)));
-	GAME.addThing(std::make_shared<BigWall>(Rect(500, 200, 100, 400)));
-	GAME.addThing(std::make_shared<BigWall>(Rect(600, 500, 100, 300)));
-	GAME.addThing(std::make_shared<BigWall>(Rect(300, 450, 100, 300)));
+	GAME.createThing<BigWall>(Rect(0, 200, 100, 300));
+	GAME.createThing<BigWall>(Rect(200, 200, 300, 100));
+	GAME.createThing<BigWall>(Rect(500, 200, 100, 400));
+	GAME.createThing<BigWall>(Rect(600, 500, 100, 300));
+	GAME.createThing<BigWall>(Rect(300, 450, 100, 300));
 	GAME.addThing(std::make_shared<BigWall>(Rect(Line(Point(50, 0), Point(0, 50)), Line(Point(50, 0), Point(100, 50)))));
 	
-	// Get back to this stuff
-	std::shared_ptr<BadTest> heck = std::make_shared<BadTest>(Point(120, 400));
+	// Enemy
+	std::shared_ptr<BadTest> heck = std::make_shared<BadTest>(Point(120, 380));
 	heck->setTexture(gRenderer);
 	GAME.addThing(heck);
 	groundGroup.setParent(GAME);
 
 	for (int x = 0; x <= Screen::MAX_WIDTH; x += 25) {
 		for (int y = 0; y <= Screen::MAX_HEIGHT; y += 25) {
-			//GAME.addNode(Point(x, y));
 			if (x % 100 == 0 && y % 100 == 0) {
 				groundGroup.add(Point(x, y), Ground::filenames[Ground::GRASS]);
 			}
@@ -74,7 +72,7 @@ int main(int argc, char* argv[]) {
 	handler.addMessage(AlertText("this shouldn't last long", Point(300, 150), COLORS::RED, 20, 2500));
 	// TODO: Standardize between draw and render, ie pick one you indecisive fuck
 	// Pass dot values it needs
-	Line lip(Point(325, 425), Point(125, 425));
+	Line lip(heck->getPosition(), heck->getPosition() + Point(200, 0));
 	lip += Point(0, 5);
 	while(!contra.quit) {
 		clearScreen(gRenderer);

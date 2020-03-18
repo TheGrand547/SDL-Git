@@ -45,10 +45,7 @@ void CirclePath::start() {
 }
 
 bool CirclePath::isFinished() const {
-	if (this->ticksDone >= this->maxTicks && this->maxTicks != Path::REPEAT) {
-		return true;
-	}
-	return false;
+	return this->maxTicks != Path::REPEAT && this->ticksDone >= this->maxTicks;
 }
 
 void CirclePath::modify(float time) {

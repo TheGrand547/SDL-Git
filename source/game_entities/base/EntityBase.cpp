@@ -1,13 +1,24 @@
 #include "EntityBase.h"
 
-EntityBase::EntityBase(double maxVelocity, double friction) {
-	this->acceleration = Point(0, 0);
-	this->angle = 0;
-	this->frictionAmount = abs(friction);
-	this->velocity = PointDelta(0, 0, maxVelocity);
-}
+EntityBase::EntityBase(int flags) : ThingBase(flags), frictionAmount(1), angle(0), acceleration(0, 0), velocity(0, 0, 0) {}
 
 EntityBase::~EntityBase() {}
+
+double EntityBase::originDistance() const {
+	return this->position.distanceToPoint(Point(0, 0));
+}
+
+void EntityBase::setAngle(const double angle) {
+	this->angle = angle;
+}
+
+void EntityBase::setFriction(const double value) {
+	this->frictionAmount = abs(value);
+}
+
+void EntityBase::setMaxVelocity(const double value) {
+	this->velocity = PointDelta(0, 0, value);
+}
 
 void EntityBase::evalAngle(Point delta) {
 	if (delta.getNonZero()) {
@@ -26,8 +37,4 @@ void EntityBase::accelerate(PointDelta delta) {
 	this->acceleration = delta * this->timer.getRatio();
 	this->velocity += this->acceleration;
 	this->evalAngle(this->velocity);
-}
-
-double EntityBase::originDistance() const {
-	return this->position.distanceToPoint(Point(0, 0));
 }

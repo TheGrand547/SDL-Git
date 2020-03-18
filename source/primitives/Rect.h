@@ -26,6 +26,7 @@ class Rect: public MyBase {
 		bool operator==(const Rect& rect) const;
 		bool overlap(const Rect& other) const;
 		double getHeight() const;
+		double getOriginDistance() const;
 		double getWidth() const;
 		int numberOfCollisions(const Line& line) const;
 		Point collideLine(const Line& ray) const;

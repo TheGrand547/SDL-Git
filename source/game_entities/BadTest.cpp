@@ -1,21 +1,17 @@
 #include "BadTest.h"
 
-BadTest::BadTest(Point position) : EnemyBase(position) {
-	this->flags |= DRAW | MOVEABLE;
+BadTest::BadTest(Point position) : EnemyBase(position, DRAW | MOVEABLE) {
+	this->maxVelocity = 2.5;
 	this->currentState = State::PATROL;
 	
 	this->lastPatrolledPoint = Point();
 	this->pathTimer.start();
 	int dist = 200;
 	this->c.addPath(std::make_shared<LinePath>(PointDelta(1.5, 0, 1.5), dist, Path::SINGLE_LOOP));
-	this->c.addPath(std::make_shared<ZeroRadiusTurnPath>(0, 200));
+	//this->c.addPath(std::make_shared<ZeroRadiusTurnPath>(0, 200));
 	this->c.addPath(std::make_shared<LinePath>(PointDelta(-1.5, 0, 1.5), dist, Path::SINGLE_LOOP));
-	this->c.addPath(std::make_shared<ZeroRadiusTurnPath>(M_PI, 200));	
+	//this->c.addPath(std::make_shared<ZeroRadiusTurnPath>(M_PI, 200));	
 	this->c.setRepeat(true);
-}
-
-BadTest::BadTest(const BadTest& that) : EnemyBase(that.position) {
-	*this = BadTest(that.position);
 }
 
 BadTest::~BadTest() {}
@@ -28,6 +24,10 @@ bool BadTest::isLocationInvalid() const {
 
 void BadTest::setTexture(SDL_Renderer* renderer) {
 	this->texture.createBlank(renderer, 50, 50, 0xFF0000FF);
+}
+
+double BadTest::originDistance() const {
+	return this->getRect().getOriginDistance();
 }
 
 Point BadTest::getCenter() const {
@@ -62,9 +62,9 @@ void BadTest::draw(SDL_Renderer* renderer, Point offset) {
 }
 
 void BadTest::update() {
+	this->timer.tick();
 	// This test AI will be based on a Finite State Machine
-	this->c.update();
-
+	
 	// Temp
 	switch (this->currentState) {
 		case State::PATROL:
@@ -79,7 +79,7 @@ void BadTest::update() {
 			{
 				PointDelta temp = this->pathFindTo(this->targetPoint);
 				if (temp.getNonZero()) {
-					this->accelerate(temp);	
+					this->move(temp);	
 				} else {
 					this->currentState = State::RETURN;
 					this->path.clear();
@@ -87,14 +87,14 @@ void BadTest::update() {
 			}
 			break;
 		case State::ENGAGE:
-			this->accelerate(PointDelta(0, 0, 0));
+			std::cout << "DIE SWINE" << std::endl;
 			break;
 		case State::RETURN:
 			{
 				if (this->lastPatrolledPoint.isReal()) {
 					PointDelta temp = this->pathFindTo(this->lastPatrolledPoint);
 					if (temp.getNonZero()) {
-						this->accelerate(temp);
+						this->move(temp);
 					} else {
 						this->currentState = State::PATROL;
 					}
@@ -109,6 +109,7 @@ void BadTest::update() {
 			break;
 	}
 	// SLOPPY
+	/*
 	if (this->currentState == State::PATROL || this->currentState == State::GOTO) {
 		for (int i = -20; i <= 20; i++) {
 			Point pTemp = this->getCenter();
@@ -119,7 +120,7 @@ void BadTest::update() {
 			if (newTemp.isReal()) {
 				temp = Line(this->getCenter(), newTemp);
 			}
-			/*
+			
 			if (this->parent->getDot()->getRect().doesLineCollide(temp)) {
 				this->targetPoint = this->parent->getDot()->getPos();
 				if (this->currentState == State::PATROL) {
@@ -129,10 +130,9 @@ void BadTest::update() {
 				}
 				this->currentState = State::GOTO;
 				break;
-			}*/
+			}
 		}
-	}
-	this->move();
+	}*/
 }
 
 Point BadTest::getPosition() const {

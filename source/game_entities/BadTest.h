@@ -25,12 +25,12 @@ class BadTest : public EnemyBase {
 		Point lastPatrolledPoint, targetPoint;
 	public:
 		BadTest(Point position);
-		BadTest(const BadTest& that);
 		~BadTest();
 		bool doesLineCollide(const Line& ray) const override;
 		bool overlap(const Rect& other) const override;
 		bool overlap(const std::shared_ptr<ThingBase>& other) const override;
 		bool isLocationInvalid() const override;
+		double originDistance() const override;
 		Point collideLine(const Line& ray) const override;
 		Point getPosition() const override;
 		Point getCenter() const override;

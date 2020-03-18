@@ -1,7 +1,6 @@
 #include "BigWall.h"
 
-BigWall::BigWall(Rect rect) : rect(rect) {
-	this->flags = SOLID | DRAW | BLOCKS_VISIBILTY;
+BigWall::BigWall(Rect rect) : ThingBase(SOLID | DRAW | BLOCKS_VISIBILTY), rect(rect) {
 	this->position = rect.getCenter();
 }
 
