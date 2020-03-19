@@ -19,6 +19,18 @@ Texture::Texture(const Texture& that) : xpos(that.xpos), ypos(that.ypos) {
 	this->texture = that.texture;
 }
 
+int Texture::getHeight() {
+	int height;
+	SDL_QueryTexture(this->texture, NULL, NULL, NULL, &height);
+	return height;
+}
+
+int Texture::getWidth() {
+	int width;
+	SDL_QueryTexture(this->texture, NULL, NULL, &width, NULL);
+	return width;
+}
+
 void Texture::free() {
 	if (texture != NULL) {
 		SDL_DestroyTexture(texture);
@@ -27,11 +39,12 @@ void Texture::free() {
 }
 
 SDL_Surface* Texture::scaleToCoords(SDL_Surface* surf, float desiredWidth, float desiredHeight) {
-	desiredWidth = (desiredWidth == 0) ? surf->w : desiredWidth;
-	desiredHeight = (desiredHeight == 0) ? surf->w : desiredHeight;
+	if (!desiredWidth && !desiredHeight) {
+		return surf;
+	}
 	double xFactor = desiredWidth / surf->w;
 	double yFactor = desiredHeight / surf->h;
-	return rotozoomSurfaceXY(surf, 0, xFactor, yFactor, 1);
+	return rotozoomSurfaceXY(surf, 0, xFactor, yFactor, 0);
 }
 
 void Texture::setColorMod(uint8 red, uint8 green, uint8 blue) {
@@ -196,12 +209,16 @@ void Texture::draw(int x, int y, SDL_Renderer* renderer, SDL_Rect* clip, double 
 }
 
 void Texture::draw(SDL_Renderer* renderer, SDL_Rect* clip, double angle, SDL_Point* center, SDL_RendererFlip flip) {
-	this->draw(this->xpos + 1, this->ypos + 1, renderer, clip, angle, center, flip);
+	this->draw(this->xpos, this->ypos, renderer, clip, angle, center, flip);
 }
 
 void Texture::draw(SDL_Renderer* renderer, Point offset) {
 	this->draw((this->xpos - offset.x()), (this->ypos - offset.y()), renderer);
 }
+
+void draw(Point pos, SDL_Renderer* renderer, SDL_Rect* clip, double angle, SDL_Point* center, SDL_RendererFlip flip) {
+	this->draw(pos.x(), pos.y(), renderer, clip, angle, center, flip);
+} 
 
 void Texture::drawAt(SDL_Renderer* renderer, Point position, Point offset) {
 	this->setPos(position);

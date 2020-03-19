@@ -1,5 +1,6 @@
 #include "source/headers.h"
 #include "source/GameInstance.h"
+#include "source/wrappers/SpriteSheet.h"
 bool init();
 SDL_Renderer* createRenderer(SDL_Window* window);
 SDL_Window* createWindow();
@@ -74,6 +75,7 @@ int main(int argc, char* argv[]) {
 	// Pass dot values it needs
 	Line lip(heck->getPosition(), heck->getPosition() + Point(200, 0));
 	lip += Point(0, 5);
+	SpriteSheet g("resources/animtest.png", 50, 50, gRenderer);
 	while(!contra.quit) {
 		clearScreen(gRenderer);
 		popo.zero(); // >:(
@@ -91,6 +93,7 @@ int main(int argc, char* argv[]) {
 				dot->rayCast();
 			}
 		}
+		g.draw(gRenderer);
 		lip.drawLine(gRenderer);
 		fps.draw(gRenderer);
 		renderChanges(gRenderer, gameWindow);

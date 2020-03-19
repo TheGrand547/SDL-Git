@@ -7,8 +7,8 @@
 #include "../essential/constants.h"
 #include "../essential/random.h"
 #include "PixelMod.h"
-typedef uint8 uint8_t;
-typedef uint32 uint32_t;
+typedef uint8_t uint8;
+typedef uint32_t uint32;
 
 class Texture {
 	protected:
@@ -19,12 +19,15 @@ class Texture {
 		~Texture();
 		Texture& operator=(const Texture& that);
 		Texture(const Texture& that);
-		void free();
+		int getHeight();
+		int getWidth();
 		SDL_Surface* scaleToCoords(SDL_Surface* surf, float desiredWidth, float desiredHeight);
+		void free();
 		void setAlpha(uint8 alpha);
 		void setBlend(SDL_BlendMode mode);
 		void setColorMod(uint8 red, uint8 green, uint8 blue);
 		void setColorKey(uint8 red, uint8 green, uint8 blue);
+		void draw(Point pos, SDL_Renderer* renderer, SDL_Rect* clip = NULL, double angle = 0, SDL_Point* center = NULL, SDL_RendererFlip flip = SDL_FLIP_NONE);
 		void draw(int x, int y, SDL_Renderer* renderer, SDL_Rect* clip = NULL, double angle = 0, SDL_Point* center = NULL, SDL_RendererFlip flip = SDL_FLIP_NONE);
 		void draw(SDL_Renderer* renderer, SDL_Rect* clip = NULL, double angle = 0, SDL_Point* center = NULL, SDL_RendererFlip flip = SDL_FLIP_NONE);
 		void draw(SDL_Renderer* renderer, Point offset);

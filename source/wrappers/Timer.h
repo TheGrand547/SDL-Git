@@ -1,7 +1,7 @@
 #pragma once
 #include "../essential/constants.h"
 #include<SDL2/SDL.h>
-typedef Uint32 uint32_t;
+typedef uint32_t Uint32;
 
 /** Lightly modified from the timer on lazyfoo.net **/
 class Timer {
