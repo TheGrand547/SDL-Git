@@ -821,6 +821,6 @@ BigWall.o: game_entities/BigWall.cpp game_entities/BigWall.h \
   game_entities/base/../../primitives/Point.h \
   game_entities/base/../../primitives/Rect.h
 SpriteSheet.o: wrappers/SpriteSheet.cpp wrappers/SpriteSheet.h \
-  wrappers/Texture.h wrappers/../primitives/Point.h \
+  wrappers/../primitives/Point.h wrappers/Texture.h \
   wrappers/../essential/constants.h wrappers/../essential/random.h \
   wrappers/PixelMod.h wrappers/../primitives/Pixel.h wrappers/Timer.h

@@ -216,7 +216,7 @@ void Texture::draw(SDL_Renderer* renderer, Point offset) {
 	this->draw((this->xpos - offset.x()), (this->ypos - offset.y()), renderer);
 }
 
-void draw(Point pos, SDL_Renderer* renderer, SDL_Rect* clip, double angle, SDL_Point* center, SDL_RendererFlip flip) {
+void Texture::draw(Point pos, SDL_Renderer* renderer, SDL_Rect* clip, double angle, SDL_Point* center, SDL_RendererFlip flip) {
 	this->draw(pos.x(), pos.y(), renderer, clip, angle, center, flip);
 } 
 

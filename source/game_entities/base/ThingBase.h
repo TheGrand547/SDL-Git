@@ -18,11 +18,17 @@ enum ENTITY_FLAG {
 	BLOCKS_VISIBILTY        = 0x0010  // This object can block visibility
 };
 
+enum ENTITY_DIRECTION {
+	RIGHT, UP_RIGHT, UP, UP_LEFT, LEFT, DOWN_LEFT, DOWN, DOWN_RIGHT
+};
+
+ENTITY_DIRECTION getDirectionFromAngle(const double angle);
+
 class ThingBase {
 	protected:
 		GameInstance* parent;
 		const int absoluteFlags; // List of attributes this object /can/ have, but might not necessarily have at any given moment
-		int flags; // List of attributs the object CURRENTLY has
+		int flags; // List of attributes the object CURRENTLY has
 		Point position;
 	public:
 		ThingBase(int flags = 0);

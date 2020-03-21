@@ -88,12 +88,12 @@ int main(int argc, char* argv[]) {
 		//bads.drawGroup();
 		//ap.update(gRenderer);
 		//dot.draw(); // Player must always be drawn onto the top layer for best visibility, for the time being
-		if (gameState["RAY_CAST"]) {
+		if (!gameState["RAY_CAST"]) {
 			if (contra.checkListener(config["Ray"]).getHeld()) { // Raycasting
 				dot->rayCast();
 			}
 		}
-		g.draw(gRenderer);
+		g.draw(gRenderer, Point(200, 200));
 		lip.drawLine(gRenderer);
 		fps.draw(gRenderer);
 		renderChanges(gRenderer, gameWindow);
