@@ -36,12 +36,19 @@ std::shared_ptr<Node> EnemyBase::getClosestUnblockedNode() {
 
 void EnemyBase::move(Point velocity) { // TODO: Maybe re-write this under a different name?
 	// There must be a better way
+	double gp = this->timer.getTicks();
+	if (gp) {
+		gp /= 100.f;
+		this->timer.start();
+	} else {
+		return;
+	}
 	double xflag = 0;
 	double yflag = 0;
 	if (velocity.getMagnitude() > this->maxVelocity) {
 		velocity = velocity.getUnitVector() * this->maxVelocity;
 	}
-	Point px = velocity * this->timer.getRatio();
+	Point px = velocity * gp;
 	if (px.isZero()) {
 		return;
 	}

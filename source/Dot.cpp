@@ -1,7 +1,8 @@
 #include "Dot.h"
 
 Dot::Dot(Point startingCoordinate) : EntityBase(DRAW | MOVEABLE) {
-	this->setMaxVelocity(2.25);
+	this->tmp.start();
+	this->setMaxVelocity(50); // Per second
 	this->setFriction(10);
 	this->position = BoundedPoint(startingCoordinate, 0, 0, Screen::MAX_WIDTH - Player::PLAYER_X_DIMENSION, Screen::MAX_HEIGHT - Player::PLAYER_Y_DIMENSION);
 }
@@ -70,11 +71,18 @@ void Dot::update() {
 }
 
 void Dot::collideTest() {
-	Point delta = this->velocity * this->timer.getRatio();
+	double gp = tmp.getTicks();
+	if (gp) {
+		gp /= 100.f;
+		tmp.start();
+	} else {
+		return;
+	}
+	Point delta = this->velocity * gp;
 	if (delta.isZero()) {
 		return;
 	}
-	float xDelta = 0, yDelta = 0;
+	double xDelta = 0, yDelta = 0;
 	for (int i = 0; i < 5; i++) {
 		Point temp = delta / pow(2, i);
 		if (not xDelta) {
@@ -94,10 +102,10 @@ void Dot::collideTest() {
 		}
 	}
 	// TODO: Make comparison constant
-	if (abs(yDelta) < 0.005) {
+	if (abs(yDelta) < 0.00001) {
 		this->velocity.yZero();
 	}
-	if (abs(xDelta) < 0.005) {
+	if (abs(xDelta) < 0.00001) {
 		this->velocity.xZero();
 	}
 	this->move(Vector(xDelta, yDelta));

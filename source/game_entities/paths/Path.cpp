@@ -4,9 +4,7 @@ const int Path::REPEAT = 0;
 const int Path::SINGLE_LOOP = -2;
 
 
-Path::Path(EnemyBase* target) : ticksDone(0) {
-	this->target = target;
-}
+Path::Path(EnemyBase* target) : ticksDone(0), target(target) {}
 
 Path::~Path() {
 	this->target = NULL;

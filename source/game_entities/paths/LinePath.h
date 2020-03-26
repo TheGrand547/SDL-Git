@@ -5,12 +5,12 @@
 
 class LinePath : public Path {
 	private:
-		PointDelta delta;
+		Point delta;
 		int maxTicks;
 		Point begin;
 	public:
 		LinePath();
-		LinePath(PointDelta vector, float distance, int repeatCount = Path::SINGLE_LOOP);
+		LinePath(Point vector, float distance, int repeatCount = Path::SINGLE_LOOP);
 		~LinePath();
 		void start();
 		void stop();

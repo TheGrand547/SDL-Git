@@ -2,12 +2,10 @@
 
 LinePath::LinePath() : Path() {
 	// TODO: Log error in initialization
-	this->delta = PointDelta(0, 0, 0);
 	this->maxTicks = 0;
 }
 
-LinePath::LinePath(PointDelta vector, float distance, int repeatCount) : Path() {
-	this->delta = vector;
+LinePath::LinePath(Point vector, float distance, int repeatCount) : Path(), delta(vector)  {
 	if (repeatCount == Path::SINGLE_LOOP) {
 		this->maxTicks = distance;
 	} else {
@@ -36,5 +34,6 @@ bool LinePath::isFinished() const {
 }
 
 void LinePath::modify(float time) {
-	this->target->move(this->delta * time);
+	time++;
+	this->target->move(this->delta);
 }

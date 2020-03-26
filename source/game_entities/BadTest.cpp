@@ -1,15 +1,15 @@
 #include "BadTest.h"
 
 BadTest::BadTest(Point position) : EnemyBase(position, DRAW | MOVEABLE) {
-	this->maxVelocity = 2.5;
+	this->maxVelocity = 50;
 	this->currentState = State::PATROL;
 	
 	this->lastPatrolledPoint = Point();
 	this->pathTimer.start();
 	int dist = 200;
-	this->c.addPath(std::make_shared<LinePath>(PointDelta(1.5, 0, 1.5), dist, Path::SINGLE_LOOP));
+	this->c.addPath(std::make_shared<LinePath>(Point(50, 0), dist, Path::SINGLE_LOOP));
 	//this->c.addPath(std::make_shared<ZeroRadiusTurnPath>(0, 200));
-	this->c.addPath(std::make_shared<LinePath>(PointDelta(-1.5, 0, 1.5), dist, Path::SINGLE_LOOP));
+	this->c.addPath(std::make_shared<LinePath>(Point(-50, 0), dist, Path::SINGLE_LOOP));
 	//this->c.addPath(std::make_shared<ZeroRadiusTurnPath>(M_PI, 200));	
 	this->c.setRepeat(true);
 }
@@ -62,10 +62,9 @@ void BadTest::draw(SDL_Renderer* renderer, Point offset) {
 }
 
 void BadTest::update() {
+	// TODO: Switch to only one move() call per frame
 	this->timer.tick();
 	// This test AI will be based on a Finite State Machine
-	
-	// Temp
 	switch (this->currentState) {
 		case State::PATROL:
 			if (this->c.paused()) {

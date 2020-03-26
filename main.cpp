@@ -46,8 +46,8 @@ int main(int argc, char* argv[]) {
 	GAME.createThing<BigWall>(Rect(500, 200, 100, 400));
 	GAME.createThing<BigWall>(Rect(600, 500, 100, 300));
 	GAME.createThing<BigWall>(Rect(300, 450, 100, 300));
-	GAME.addThing(std::make_shared<BigWall>(Rect(Line(Point(50, 0), Point(0, 50)), Line(Point(50, 0), Point(100, 50)))));
-	
+	GAME.createThing<BigWall>(Rect(Line(Point(50, 0), Point(0, 50)), Line(Point(50, 0), Point(100, 50))));
+		
 	// Enemy
 	std::shared_ptr<BadTest> heck = std::make_shared<BadTest>(Point(120, 380));
 	heck->setTexture(gRenderer);
@@ -65,7 +65,7 @@ int main(int argc, char* argv[]) {
 	Font gFont;
 	std::string foo = "duck dev best dev";
 	AppearingText ap(foo, &gFont, Point(250, 0), 15, COLORS::RED, 300);
-	PointDelta popo = PointDelta(0, 0, 2);
+	PointDelta popo = PointDelta(0, 0, 10);
 	Controller contra;
 	contra.addListener("Ray", 120);
 	contra.addPlayerKeys(popo); // Maybe allow for multiple bindings of the same command somehow? vectors likely? Also remove this dumb fix
