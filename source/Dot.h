@@ -15,7 +15,7 @@ class Dot : public EntityBase, public MyBase {
 	private:
 		BoundedPoint position;
 		Point lastDelta;
-		Timer tmp;
+		Timer tmp, pf;
 	public:
 		Dot(Point startingCoordinate);
 		~Dot();

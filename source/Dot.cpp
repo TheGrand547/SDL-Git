@@ -1,8 +1,10 @@
 #include "Dot.h"
 
 Dot::Dot(Point startingCoordinate) : EntityBase(DRAW | MOVEABLE) {
+	this->lastDelta = startingCoordinate;
+	this->pf.start();
 	this->tmp.start();
-	this->setMaxVelocity(50); // Per second
+	this->setMaxVelocity(200); // Per second
 	this->setFriction(10);
 	this->position = BoundedPoint(startingCoordinate, 0, 0, Screen::MAX_WIDTH - Player::PLAYER_X_DIMENSION, Screen::MAX_HEIGHT - Player::PLAYER_Y_DIMENSION);
 }
@@ -71,9 +73,15 @@ void Dot::update() {
 }
 
 void Dot::collideTest() {
+	/*
+	if (this->pf.getTicks() >= 1000) {
+		std::cout << (this->lastDelta - this->getPosition()).getMagnitude() << std::endl;
+		this->lastDelta = this->getPosition();
+		this->pf.start();
+	}*/
 	double gp = tmp.getTicks();
 	if (gp) {
-		gp /= 100.f;
+		gp /= 1000.f;
 		tmp.start();
 	} else {
 		return;
@@ -102,14 +110,14 @@ void Dot::collideTest() {
 		}
 	}
 	// TODO: Make comparison constant
-	if (abs(yDelta) < 0.00001) {
+	if (abs(yDelta) < 0.0000001) {
 		this->velocity.yZero();
 	}
-	if (abs(xDelta) < 0.00001) {
+	if (abs(xDelta) < 0.0000001) {
 		this->velocity.xZero();
 	}
 	this->move(Vector(xDelta, yDelta));
-	this->lastDelta = Point(xDelta, yDelta);
+	//this->lastDelta = Point(xDelta, yDelta);
 	// PUT THIS ELSEWHERE <- Will be handled when implementation is changed to being based around the Screen Class
 	if (this->getPosition().x() < Screen::SCREEN_WIDTH / 2) {
 		this->parent->getOffset().xZero();

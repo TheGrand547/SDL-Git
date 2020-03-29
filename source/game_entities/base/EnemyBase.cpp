@@ -38,7 +38,7 @@ void EnemyBase::move(Point velocity) { // TODO: Maybe re-write this under a diff
 	// There must be a better way
 	double gp = this->timer.getTicks();
 	if (gp) {
-		gp /= 100.f;
+		gp /= 1000.f;
 		this->timer.start();
 	} else {
 		return;

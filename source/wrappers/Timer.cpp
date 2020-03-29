@@ -38,12 +38,12 @@ void Timer::pause() {
 }
 
 void Timer::unpause() {
-	//If the timer is running and paused
+	// If the timer is running and paused
 	if(mStarted && mPaused){
 		mPaused = false;
-		//Reset the starting ticks
+		// Reset the starting ticks
 		mStartTicks = SDL_GetTicks() - mPausedTicks;
-		//Reset the paused ticks
+		// Reset the paused ticks
 		mPausedTicks = 0;
 		this->countedTicks = 0;
 	}
@@ -63,10 +63,10 @@ float Timer::getFps() {
 
 Uint32 Timer::getTicks() {
 	Uint32 time = 0;
-	//If the timer is running
+	// If the timer is running
 	if(mStarted){
 		if(mPaused){
-			//Return the number of ticks when the timer was paused
+			// Return the number of ticks when the timer was paused
 			time = mPausedTicks;
 		} else {
 			//Return the current time minus the start time

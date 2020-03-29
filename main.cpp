@@ -65,7 +65,7 @@ int main(int argc, char* argv[]) {
 	Font gFont;
 	std::string foo = "duck dev best dev";
 	AppearingText ap(foo, &gFont, Point(250, 0), 15, COLORS::RED, 300);
-	PointDelta popo = PointDelta(0, 0, 10);
+	PointDelta popo = PointDelta(0, 0, 15);
 	Controller contra;
 	contra.addListener("Ray", 120);
 	contra.addPlayerKeys(popo); // Maybe allow for multiple bindings of the same command somehow? vectors likely? Also remove this dumb fix
