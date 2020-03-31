@@ -60,7 +60,7 @@ void Controller::handleEvents() {
 	if (this->myq.size() > 0) {
 		std::stringstream tmp;
 		tmp.str("");
-		for (int i = 0; i < this->myq.size(); i++) {
+		for (uint i = 0; i < this->myq.size(); i++) {
 			tmp << char(tolower(this->myq[i]));
 			std::map<std::string, void(*)()>::iterator iterator = this->mymp.begin();
 			for (; iterator != this->mymp.end(); iterator++) {

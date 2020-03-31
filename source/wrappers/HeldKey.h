@@ -7,8 +7,7 @@ class HeldKey {
 		bool down, toggle;
 		Timer timer;
 	public:
-				int maxHeld;
-	
+		uint maxHeld;
 		HeldKey();
 		HeldKey(int maxHeld);
 		~HeldKey();

@@ -1,5 +1,5 @@
 #pragma once
-#idndef MOVEMENT_WRAPPER_H
+#ifndef MOVEMENT_WRAPPER_H
 #define MOVEMENT_WRAPPER_H
 #include "Timer.h"
 

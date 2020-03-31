@@ -9,7 +9,7 @@ void aalineRGBA(SDL_Renderer* renderer, Point pointA, Point pointB, uint8_t r, u
 }
 
 void aalineRGBA(SDL_Renderer* renderer, Point* pointA, Point* pointB, uint8_t r, uint8_t g, uint8_t b, uint8_t a) {
-	aalineRGBA(renderer, *pointA, *pointA, r, g, b, a);
+	aalineRGBA(renderer, *pointA, *pointB, r, g, b, a);
 }
 
 void aalineRGBA(SDL_Renderer* renderer, Point* pointA, Point* pointB, uint8_t r, uint8_t g, uint8_t b, uint8_t a, Point offset) {
@@ -44,6 +44,8 @@ void createDetatchedThread(int(*method)(void*), void* arg, const char* name) {
 
 // TEMP TEMP TEMP TEMP TEMP
 int threadTest(void* ptr) {
+	int* pter = static_cast<int*>(ptr);
+	pter++;
 	for (int i = 0; i < 10; i++) {
 		SDL_Delay(250);
 		std::cout << "It's been " << i * 250 << " ms since i started." << std::endl;

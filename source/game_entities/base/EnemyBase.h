@@ -1,6 +1,7 @@
 #pragma once
 #include "../../essential/constants.h"
 #include "../../primitives/Vector.h"
+#include "../../wrappers/MovementWrapper.h"
 #include "../../wrappers/Texture.h"
 #include "../../wrappers/Timer.h"
 #include "../../Dot.h"
@@ -22,6 +23,7 @@ class EnemyBase : public ThingBase {
 		double maxVelocity;
 		bool turning = false;
 		NodePath path;
+		MovementWrapper mvmnt;
 	public:
 		EnemyBase(Point position = Point(0, 0), int flags = 0);
 		virtual ~EnemyBase();

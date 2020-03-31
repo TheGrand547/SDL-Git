@@ -51,6 +51,6 @@ bool CirclePath::isFinished() const {
 void CirclePath::modify(float time) {
 	float tempdx = (this->outsideMult) * cos(this->ticksDone * M_PI / 180.f * this->periodModify);
 	float tempdy = (this->plot * this->outsideMult) * sin(this->ticksDone * M_PI / 180.f * this->periodModify);
-	this->target->accelerate(PointDelta(Point(tempdx, tempdy) * time, 1));
+	this->target->move(PointDelta(Point(tempdx, tempdy) * time, 1));
 	this->ticksDone += 6 * time;
 }

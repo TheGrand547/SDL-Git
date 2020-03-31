@@ -95,7 +95,7 @@ void NodePath::clear() {
 float NodePath::distance() {
 	if (this->storedDistance == 0) {
 		this->storedDistance = 0;
-		for (int i = 0; i + 1 < this->stored.size(); i++) {
+		for (uint i = 0; i + 1 < this->stored.size(); i++) {
 			this->storedDistance += this->stored[i]->distanceToPoint(this->stored[i + 1]->getPosition());
 		}	
 	}

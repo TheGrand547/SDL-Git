@@ -32,5 +32,5 @@ void ZeroRadiusTurnPath::modify(float delta) {
 		this->target->turn(deltaAngle);
 	}
 	this->ticksDone += delta;
-	this->target->accelerate(PointDelta(0, 0, 0));
+	this->target->move(PointDelta(0, 0, 0));
 }

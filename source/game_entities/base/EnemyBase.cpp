@@ -36,15 +36,7 @@ std::shared_ptr<Node> EnemyBase::getClosestUnblockedNode() {
 
 void EnemyBase::move(Point velocity) { // TODO: Maybe re-write this under a different name?
 	// There must be a better way
-	double gp = this->timer.getTicks();
-	if (gp) {
-		gp /= 1000.f;
-		this->timer.start();
-	} else {
-		return;
-	}
-	double xflag = 0;
-	double yflag = 0;
+	double gp = this->mvmnt.getValue();
 	if (velocity.getMagnitude() > this->maxVelocity) {
 		velocity = velocity.getUnitVector() * this->maxVelocity;
 	}
@@ -54,6 +46,7 @@ void EnemyBase::move(Point velocity) { // TODO: Maybe re-write this under a diff
 	}
 	// Seems really inefficent, investigate it
 	// Right now it's optimized for non-collision, might want to have some functionality to make it optimized for collision
+	double xflag = 0, yflag = 0;
 	if (this->parent->collision.size() > 0) {
 		Rect myRect = Rect(this->position, this->width, this->height);
 		for (int i = 0; i < 4; i++) {

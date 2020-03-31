@@ -14,7 +14,8 @@ class AppearingText {
 		Point position;
 		SDL_Color color;
 		std::string text;
-		int ticksPerLetter, index, leftOver, charWrap;
+		int ticksPerLetter, leftOver, charWrap;
+		uint index;
 		Timer timer;
 		Font* font;
 	public:

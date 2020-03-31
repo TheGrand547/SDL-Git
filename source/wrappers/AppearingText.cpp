@@ -29,7 +29,7 @@ void AppearingText::update(SDL_Renderer* renderer) {
 		this->timer.start();
 		std::stringstream temp;
 		temp.str("");
-		for (int i = 0; i < this->index; i++) {
+		for (uint i = 0; i < this->index; i++) {
 			temp << this->text.at(i);
 		}
 		if (this->charWrap) {
