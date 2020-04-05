@@ -1,7 +1,9 @@
 #pragma once
+#include<algorithm>
 #include<cmath>
 #include<math.h>
 #include<stdlib.h>
+#include<memory>
 #include<utility>
 #include<vector>
 /* Misc functions with no dependencies */

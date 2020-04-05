@@ -1,9 +1,10 @@
 #pragma once
-#include<iostream>
 #include "../essential/util.h"
 #include "../MyBase.h"
 #include "Point.h"
 #include "Line.h"
+#include<iostream>
+#include<cassert>
 
 class Rect: public MyBase {
 	protected:

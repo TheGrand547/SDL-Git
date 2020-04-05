@@ -75,7 +75,7 @@ Rect::Rect(Point position, double width, double height) {
 	*this = Rect(position, position + Point(width, height));
 }
 
-Rect::Rect(const Rect& that) {
+Rect::Rect(const Rect& that) : MyBase() {
 	this->topLeft = that.topLeft;
 	this->widthVector = that.widthVector;
 	this->heightVector = that.heightVector;
