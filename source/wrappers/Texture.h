@@ -5,10 +5,12 @@
 #include<SDL2_image/SDL_image.h>
 #include "../primitives/Point.h"
 #include "../essential/constants.h"
+#include "../essential/log.h"
 #include "../essential/random.h"
+#include "../essential/SDLUtil.h"
 #include "PixelMod.h"
-typedef uint8_t uint8;
-typedef uint32_t uint32;
+typedef uint8_t Uint8;
+typedef uint32_t Uint32;
 
 class Texture {
 	protected:
@@ -21,12 +23,11 @@ class Texture {
 		Texture(const Texture& that);
 		int getHeight();
 		int getWidth();
-		SDL_Surface* scaleToCoords(SDL_Surface* surf, float desiredWidth, float desiredHeight);
 		void free();
-		void setAlpha(uint8 alpha);
+		void setAlpha(Uint8 alpha);
 		void setBlend(SDL_BlendMode mode);
-		void setColorMod(uint8 red, uint8 green, uint8 blue);
-		void setColorKey(uint8 red, uint8 green, uint8 blue);
+		void setColorMod(Uint8 red, Uint8 green, Uint8 blue);
+		void setColorKey(Uint8 red, Uint8 green, Uint8 blue);
 		void draw(Point pos, SDL_Renderer* renderer, SDL_Rect* clip = NULL, double angle = 0, SDL_Point* center = NULL, SDL_RendererFlip flip = SDL_FLIP_NONE);
 		void draw(int x, int y, SDL_Renderer* renderer, SDL_Rect* clip = NULL, double angle = 0, SDL_Point* center = NULL, SDL_RendererFlip flip = SDL_FLIP_NONE);
 		void draw(SDL_Renderer* renderer, SDL_Rect* clip = NULL, double angle = 0, SDL_Point* center = NULL, SDL_RendererFlip flip = SDL_FLIP_NONE);
@@ -34,7 +35,7 @@ class Texture {
 		void drawAt(SDL_Renderer* renderer, Point position, Point offset);
 		bool isLoaded();
 		bool notLoaded();
-		void createBlank(SDL_Renderer* renderer, int w, int h, uint32_t color = 0x0000000FF);
+		void createBlank(SDL_Renderer* renderer, int w, int h, Uint32 color = 0x0000000FF);
 		SDL_Texture* getTexture();
 		void setPos(int x = 0, int y = 0);
 		void setPos(Point point);

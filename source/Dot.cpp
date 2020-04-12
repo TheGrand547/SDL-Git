@@ -79,6 +79,7 @@ void Dot::collideTest() {
 		this->lastDelta = this->getPosition();
 		this->pf.start();
 	}*/
+	const int CHECKS = 4;
 	double gp = tmp.getTicks();
 	if (gp) {
 		gp /= 1000.f;
@@ -91,8 +92,15 @@ void Dot::collideTest() {
 		return;
 	}
 	double xDelta = 0, yDelta = 0;
-	for (int i = 0; i < 5; i++) {
-		Point temp = delta / pow(2, i);
+	for (int i = 0; i < CHECKS; i++) {
+		Point temp = delta / CHECKS;
+		if (this->parent->collision.doesNotCollideWith(this->getRect() + temp)) {
+			this->move(temp);
+			xDelta = temp.x();
+			yDelta = temp.y();
+			this->parent->getOffset() += temp;
+		}
+		/*
 		if (not xDelta) {
 			if (this->parent->collision.doesNotCollideWith(this->getRect() + temp.onlyX())) {
 				xDelta = temp.x();
@@ -107,7 +115,7 @@ void Dot::collideTest() {
 		}
 		if (xDelta && yDelta) {
 			break;
-		}
+		}*/
 	}
 	// TODO: Make comparison constant
 	if (abs(yDelta) < 0.0000001) {
@@ -116,7 +124,7 @@ void Dot::collideTest() {
 	if (abs(xDelta) < 0.0000001) {
 		this->velocity.xZero();
 	}
-	this->move(Vector(xDelta, yDelta));
+	//this->move(Vector(xDelta, yDelta));
 	//this->lastDelta = Point(xDelta, yDelta);
 	// PUT THIS ELSEWHERE <- Will be handled when implementation is changed to being based around the Screen Class
 	if (this->getPosition().x() < Screen::SCREEN_WIDTH / 2) {

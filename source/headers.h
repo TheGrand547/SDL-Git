@@ -13,7 +13,6 @@
 #include "game_entities/BadTest.h"
 #include "game_entities/base/CollideBase.h"
 #include "game_entities/BigWall.h"
-#include "game_entities/Box.h"
 #include "game_entities/DrawGroup.h"
 #include "game_entities/Node.h"
 #include "game_entities/NodeDrawGroup.h"

@@ -212,11 +212,11 @@ bool Rect::overlap(const Rect& other) const {
 		} else { // HAHHA
 			Point ar[] = {this->getTopLeft(), this->getTopRight(), this->getBottomRight(), this->getBottomLeft()};
 			int ctr = 0;
-			for (int i = 0; i < 4 && ctr < 2; i++) {
+			for (int i = 0; i < 4 && !ctr; i++) {
 				ctr += other.numberOfCollisions(Line(ar[i], ar[(i + 1) % 4]));
 				ctr += other.numberOfCollisions(Line(this->getCenter(), ar[i]));
 			}
-			if (ctr >= 2) {
+			if (ctr) {
 				value = true;
 			}
 		}

@@ -38,20 +38,11 @@ void Texture::free() {
 	}
 }
 
-SDL_Surface* Texture::scaleToCoords(SDL_Surface* surf, float desiredWidth, float desiredHeight) {
-	if (!desiredWidth && !desiredHeight) {
-		return surf;
-	}
-	double xFactor = desiredWidth / surf->w;
-	double yFactor = desiredHeight / surf->h;
-	return rotozoomSurfaceXY(surf, 0, xFactor, yFactor, 0);
-}
-
-void Texture::setColorMod(uint8 red, uint8 green, uint8 blue) {
+void Texture::setColorMod(Uint8 red, Uint8 green, Uint8 blue) {
 	SDL_SetTextureColorMod(this->texture, red, green, blue);
 }
 
-void Texture::setAlpha(uint8 alpha) {
+void Texture::setAlpha(Uint8 alpha) {
 	SDL_SetTextureAlphaMod(this->texture, alpha);
 }
 
@@ -59,14 +50,14 @@ void Texture::setBlend(SDL_BlendMode mode) {
 	SDL_SetTextureBlendMode(this->texture, mode);
 }
 
-void Texture::setColorKey(uint8 red, uint8 green, uint8 blue) { // Modified from lazyfoo.net
+void Texture::setColorKey(Uint8 red, Uint8 green, Uint8 blue) { // Modified from lazyfoo.net
 	this->setBlend(SDL_BLENDMODE_BLEND);
 	PixelMod mod(this->texture);
 	if (mod.notLocked()) {
 		return;
 	}
-	uint32 colorKey = mod.mapRGBA(red, green, blue);
-	uint32 transparent = mod.mapRGBA(0xFF, 0xFF, 0xFF, 0x00);
+	Uint32 colorKey = mod.mapRGBA(red, green, blue);
+	Uint32 transparent = mod.mapRGBA(0xFF, 0xFF, 0xFF, 0x00);
 	for (int i = 0; i < mod.count(); i++) {
 		if (mod[i] == colorKey) {
 			mod[i] = transparent;
@@ -233,7 +224,7 @@ bool Texture::notLoaded() {
 	return this->texture == NULL;
 }
 
-void Texture::createBlank(SDL_Renderer* renderer, int w, int h, uint32_t color) {
+void Texture::createBlank(SDL_Renderer* renderer, int w, int h, Uint32 color) {
 	SDL_DestroyTexture(this->texture);
 	SDL_Texture* toReturn = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_TARGET, w, h);
 	SDL_Texture* tempText = NULL;
@@ -266,31 +257,18 @@ void Texture::setPos(Point point) {
 
 void Texture::loadFromFile(std::string path, SDL_Renderer* renderer, int xSize, int ySize) {
 	SDL_Texture* newTexture = NULL;
-	SDL_Texture* tempTexture = NULL;
 	SDL_Surface* tempSurface = IMG_Load(path.c_str());	
-	if (tempSurface == NULL) {
-		printf("Unable to load image %s! SDL_image Error: %s\n", path.c_str(), IMG_GetError());
+	if (!tempSurface) {
+		LOG("Unable to load image %s! SDL_image Error: %s\n", path.c_str(), IMG_GetError());
 	} else {
-		tempSurface = scaleToCoords(tempSurface, xSize, ySize);
-		if (this->texture == NULL) {
-			tempTexture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_TARGET, tempSurface->w, tempSurface->h);
-		} else {
-			int width, height;
-			SDL_QueryTexture(this->texture, NULL, NULL, &width, &height);
-			tempTexture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_TARGET, width, height);
-		}
+		tempSurface = scaleToSize(tempSurface, xSize, ySize);
 		newTexture = SDL_CreateTextureFromSurface(renderer, tempSurface);
-		if (newTexture == NULL) {
-			printf( "Unable to create texture from %s! SDL Error: %s\n", path.c_str(), SDL_GetError() );
+		if (!newTexture) {
+			LOG("Unable to create texture from %s! SDL Error: %s\n", path.c_str(), SDL_GetError() );
 		}
-		SDL_SetRenderTarget(renderer, tempTexture);
-		SDL_Rect tempRect = {0, 0, tempSurface->w, tempSurface->h};
-		SDL_RenderCopy(renderer, this->texture, NULL, NULL);
-		SDL_RenderCopy(renderer, newTexture, NULL, &tempRect);
-		SDL_SetRenderTarget(renderer, NULL);
 	}
 	SDL_FreeSurface(tempSurface);
-	this->texture = tempTexture;
+	this->texture = newTexture;
 	this->normalizeTexture(renderer);
 }
 
@@ -302,7 +280,7 @@ void Texture::normalizeTexture(SDL_Renderer* renderer) {
 		return;
 	}
 	if (access == SDL_TEXTUREACCESS_STATIC) { // Don't know what to do with it :(
-		std::cout << "Texture was created with the Texture Access of Static -> Fix This" << std::endl;
+		LOG("Texture was created with the Texture Access of Static -> Fix This")
 		return;
 	}
 	SDL_SetRenderTarget(renderer, this->texture);
