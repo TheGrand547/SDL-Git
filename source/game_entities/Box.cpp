@@ -1,5 +1,6 @@
 #include "Box.h"
 
+SuperTexture Box::mTexture;
 Box::Box() {
 	this->flags |= SOLID | DRAW | BLOCKS_VISIBILTY;
 }

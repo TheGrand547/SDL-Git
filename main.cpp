@@ -12,9 +12,9 @@ void renderChanges(SDL_Renderer* renderer, SDL_Window* window);
 // TODO: Static Member Variable Initialization should put somewhere less conspicuous
 SDL_Renderer* MegaBase::renderer = NULL;
 Point* MegaBase::offset = NULL;
-SuperTexture Box::mTexture;
 
 
+// TODO: EDGEMAP EDGEMAP EDGEMAP -> MAP EDGES OF EACH SHAPE AND ESTABLISH SECTORS FROM THAT
 int main(int argc, char* argv[]) {
 	std::map<std::string, int> gameState; // TODO: Write command line args like in source/idtech1, in addition to command line args such as DRAW_PATHS_ENABLE
 	for (int i = 1; i < argc; i++) {
@@ -77,6 +77,22 @@ int main(int argc, char* argv[]) {
 	Line lip(heck->getPosition(), heck->getPosition() + Point(200, 0));
 	lip += Point(0, 5);
 	SpriteSheet g("resources/animtest.png", 50, 50, gRenderer);
+	// Shake test
+	std::vector<Point> shake;
+	{
+		for (int i = 0; i < 10; i++) {
+			double x = (rand() % 10) - 5;
+			double y = (rand() % 10) - 5;
+			shake.push_back(Point(x, y));
+		}
+		int p = shake.size();
+		for (int i = 0; i < p; i++) {
+			shake.push_back(shake[i].negate());
+		}
+	}
+	int fpf = 0;
+	Timer gpg;
+	gpg.start();
 	while(!contra.quit) {
 		clearScreen(gRenderer);
 		popo.zero(); // >:(
@@ -93,6 +109,11 @@ int main(int argc, char* argv[]) {
 			if (contra.checkListener(config["Ray"]).getHeld()) { // Raycasting
 				dot->rayCast();
 			}
+		}
+		if (gpg.getTicks() > 25) {
+			gpg.start();
+			GAME.getOffset() += shake[fpf % shake.size()] * 5;
+			fpf++;
 		}
 		g.draw(gRenderer, Point(200, 200));
 		lip.drawLine(gRenderer);

@@ -6,9 +6,13 @@
 #include<iostream>
 #include<cassert>
 
+#define CORNERS(ptr) Point corners ## ptr[4]; \
+				ptr->getCorners(corners ## ptr);
+
 class Rect: public MyBase {
 	protected:
 		Point topLeft, heightVector, widthVector;
+		void getCorners(Point array[4]) const;
 	public:
 		Rect();
 		Rect(Point topLeft, Line widthVector, Line heightVector);

@@ -22,7 +22,6 @@ void BackgroundGroup::add(Point position, std::string type) {
 	if (this->textures[type] == NULL) {
 		this->textures[type] = BackElement::createGroundTexture(MegaBase::renderer, type);
 		this->textures[type]->normalizeTexture(MegaBase::renderer);
-		this->textures[type]->dither();
 	}
 	this->elements.push_back(std::make_shared<BackElement>(position, type));
 	this->elements.back()->setTexture(this->textures[type]);
