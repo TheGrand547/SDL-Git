@@ -52,7 +52,7 @@ void GameInstance::draw() {
 	for (ThingBase* thing: this->drawOrder) {
 		thing->draw(this->renderer, this->offset);
 	} 
-	//this->nodes.drawGroup();
+	this->nodes.drawGroup();
 }
 
 Rect GameInstance::getPlayableArea() const {
@@ -68,14 +68,37 @@ Point& GameInstance::getOffset() {
 }
 
 void GameInstance::addNode(Point position, std::string data) {
-	this->nodes.addNodeAt(position, data);
+	if (this->nodes.addNodeAt(position, data)) {
+		LOG("Success (%f,%f)", position.x(), position.y());
+	}
 }
 
 void GameInstance::instanceBegin() {
 	// Do final things before playing starts
+	std::vector<Line> p;
+	std::cout << this->allThings.size() << std::endl;
 	for (const ThingPtr& thing: this->allThings) {
-		thing->addNodes();
+		//thing->addNodes();
+		thing->gimme(p);
 	}
-	this->nodes.connectNodes();
+	for (Line f: p) { // First
+		for (Line s: p) { // Second
+			if (&f == &s) continue;
+			if (f.shareNoPoints(s)) {
+				Line a(f.getOrigin(), s.getOrigin());
+				Line b(f.getEnd(), s.getEnd());
+				if (this->collision.doesNotCollideWith(a) && this->collision.doesNotCollideWith(b)) {
+					this->addNode(a.getOrigin(), "");
+					this->addNode(a.getEnd(), "");
+					this->addNode(a.midPoint(), "");
+					this->addNode(b.getOrigin(), "");
+					this->addNode(b.getEnd(), "");
+				}
+			}
+		}
+	}
+	Rect g(5, 5,5 ,5);
+	LOG("Size: %i", this->nodes.size());
+	//this->nodes.connectNodes();
 	//this->nodes.purge();
 }

@@ -145,3 +145,8 @@ Line operator/(const double& delta, const Line& line) {
 	assert(delta != 0);
 	return line / delta;
 }
+
+bool Line::shareNoPoints(const Line& other) const {
+	return this->originPoint != other.originPoint && this->originPoint != other.endingPoint &&
+			this->endingPoint != other.originPoint && this->endingPoint != other.endingPoint;
+}

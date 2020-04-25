@@ -30,6 +30,11 @@ void ThingBase::setFlag(ENTITY_FLAG flag) {
 	}
 }
 
+void ThingBase::gimme(std::vector<Line>& vec) const {
+	int a = vec.size();
+	a++;
+}
+
 ENTITY_DIRECTION getDirectionFromAngle(double angle) {
 	while (angle < 0 || angle > 2 * M_PI) {
 		if (angle < 0) {

@@ -16,6 +16,7 @@ Point* MegaBase::offset = NULL;
 
 // TODO: EDGEMAP EDGEMAP EDGEMAP -> MAP EDGES OF EACH SHAPE AND ESTABLISH SECTORS FROM THAT
 int main(int argc, char* argv[]) {
+	LOG("Section: Setup");
 	std::map<std::string, int> gameState; // TODO: Write command line args like in source/idtech1, in addition to command line args such as DRAW_PATHS_ENABLE
 	for (int i = 1; i < argc; i++) {
 		if (!strcmp(argv[i], "RAY_CAST_ENABLE")) {
@@ -50,9 +51,10 @@ int main(int argc, char* argv[]) {
 	GAME.createThing<BigWall>(Rect(Line(Point(50, 0), Point(0, 50)), Line(Point(50, 0), Point(100, 50))));
 		
 	// Enemy
+	/*
 	std::shared_ptr<BadTest> heck = std::make_shared<BadTest>(Point(120, 380));
 	heck->setTexture(gRenderer);
-	GAME.addThing(heck);
+	GAME.addThing(heck);*/
 	groundGroup.setParent(GAME);
 
 	for (int x = 0; x <= Screen::MAX_WIDTH; x += 25) {
@@ -74,8 +76,9 @@ int main(int argc, char* argv[]) {
 	handler.addMessage(AlertText("this shouldn't last long", Point(300, 150), COLORS::RED, 20, 2500));
 	// TODO: Standardize between draw and render, ie pick one you indecisive fuck
 	// Pass dot values it needs
+	/*
 	Line lip(heck->getPosition(), heck->getPosition() + Point(200, 0));
-	lip += Point(0, 5);
+	lip += Point(0, 5);*/
 	SpriteSheet g("resources/animtest.png", 50, 50, gRenderer);
 	// Shake test
 	std::vector<Point> shake;
@@ -93,6 +96,7 @@ int main(int argc, char* argv[]) {
 	int fpf = 0;
 	Timer gpg;
 	gpg.start();
+	LOG("Section: Main Loop");
 	while(!contra.quit) {
 		clearScreen(gRenderer);
 		popo.zero(); // >:(
@@ -110,13 +114,14 @@ int main(int argc, char* argv[]) {
 				dot->rayCast();
 			}
 		}
+		
 		if (gpg.getTicks() > 25) {
 			gpg.start();
-			GAME.getOffset() += shake[fpf % shake.size()] * 5;
+			//GAME.getOffset() += shake[fpf % shake.size()] * 5;
 			fpf++;
 		}
 		g.draw(gRenderer, Point(200, 200));
-		lip.drawLine(gRenderer);
+		//lip.drawLine(gRenderer);
 		fps.draw(gRenderer);
 		renderChanges(gRenderer, gameWindow);
 	}

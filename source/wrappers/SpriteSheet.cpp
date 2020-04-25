@@ -37,3 +37,7 @@ void SpriteSheet::draw(SDL_Renderer* renderer, Point position) {
 	
 	this->frame.draw(position, renderer, &f);
 }
+
+void SpriteSheet::drawTo(SDL_Renderer* renderer, Texture& fo) {
+	std::cout << renderer << " and " << &fo << std::endl;
+}

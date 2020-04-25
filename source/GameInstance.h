@@ -1,6 +1,7 @@
 #pragma once
 #ifndef GAME_INSTANCE_H
 #define GAME_INSTANCE_H
+#include "essential/log.h"
 #include "AlertTextHandler.h"
 #include "game_entities/base/ThingBase.h"
 #include "game_entities/CollisionHandler.h"

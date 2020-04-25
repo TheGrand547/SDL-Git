@@ -8,6 +8,7 @@ Point::Point(const Point& point) {
 	this->xval = point.xval;
 	this->yval = point.yval;
 }
+
 Point::Point(const Point* point) {
 	xval = point->xval;
 	yval = point->yval;

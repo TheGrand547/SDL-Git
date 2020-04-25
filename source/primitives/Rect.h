@@ -6,8 +6,8 @@
 #include<iostream>
 #include<cassert>
 
-#define CORNERS(ptr) Point corners ## ptr[4]; \
-				ptr->getCorners(corners ## ptr);
+#define CORNERS(ptr, name) Point name[4]; \
+				(ptr)->getCorners(name);
 
 class Rect: public MyBase {
 	protected:

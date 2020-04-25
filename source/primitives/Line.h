@@ -23,6 +23,7 @@ class Line: public MyBase {
 		bool isParallel(const Line& other) const;
 		bool isPointOnThisLine(const Point& point) const;
 		bool collidePoint(const Point& point) const;
+		bool shareNoPoints(const Line& other) const;
 		void operator+=(const Point& b);
 		void operator-=(const Point& b);
 		Line operator*(const double& delta) const;

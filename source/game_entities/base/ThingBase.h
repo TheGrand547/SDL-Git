@@ -46,7 +46,8 @@ class ThingBase {
 		virtual Point collideLine(const Line& ray) const = 0;
 		virtual Point getPosition() const = 0;
 		virtual Rect getRect() const = 0;
-		virtual void addNodes();
+		virtual void addNodes(); // DEPRECATED
+		virtual void gimme(std::vector<Line>& vec) const; // GIVE A GOOD NAME
 		virtual void draw(SDL_Renderer* renderer, Point offset = Point(0, 0)) = 0;
 		void setFlag(ENTITY_FLAG flag);
 		void setParent(GameInstance* parent);

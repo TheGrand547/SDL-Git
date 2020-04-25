@@ -16,5 +16,6 @@ class SpriteSheet {
 		SpriteSheet(const std::string& filename, int width, int height, SDL_Renderer* renderer);
 		~SpriteSheet();
 		void draw(SDL_Renderer* renderer, Point position);
+		void drawTo(SDL_Renderer* renderer, Texture& fo);
 };
 #endif

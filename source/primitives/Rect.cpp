@@ -251,11 +251,8 @@ SDL_Rect Rect::getSDLRect() const {
 Rect Rect::getBoundingRect() const {
 	assert(this->topLeft.isReal());
 	double minX(1 / 0.0), minY(1 / 0.0), maxX(-1 / 0.0), maxY(-1 / 0.0);
-	CORNERS(this);
-	/*
-	Point corners[4];// = {this->getTopLeft(), this->getTopRight(), this->getBottomRight(), this->getBottomLeft()};
-	this->getCorners(ar);*/
-	for (const Point& point: cornersthis) {
+	CORNERS(this, myCorners);
+	for (const Point& point: myCorners) {
 		if (point.x() > maxX) maxX = point.x();
 		if (point.x() < minX) minX = point.x();
 		if (point.y() > maxY) maxY = point.y();
