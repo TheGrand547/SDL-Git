@@ -47,7 +47,7 @@ class ThingBase {
 		virtual Point getPosition() const = 0;
 		virtual Rect getRect() const = 0;
 		virtual void addNodes(); // DEPRECATED
-		virtual void gimme(std::vector<Line>& vec) const; // GIVE A GOOD NAME
+		virtual void gimme(std::vector<Point>& vec) const; // GIVE A GOOD NAME
 		virtual void draw(SDL_Renderer* renderer, Point offset = Point(0, 0)) = 0;
 		void setFlag(ENTITY_FLAG flag);
 		void setParent(GameInstance* parent);

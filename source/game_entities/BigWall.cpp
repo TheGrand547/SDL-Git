@@ -50,10 +50,12 @@ void BigWall::draw(SDL_Renderer* renderer, Point offset) {
 
 void BigWall::update() {} // This just sits there so why would it need to update anything
 
-void BigWall::gimme(std::vector<Line>& vec) const {
+void BigWall::gimme(std::vector<Point>& vec) const {
 	const int f = 2;
-	vec.push_back(Line(this->rect.getTopLeft() - Point(f, f), this->rect.getTopRight() + Point(f, -f)));
-	vec.push_back(Line(this->rect.getTopLeft( )- Point(f, f), this->rect.getBottomLeft() + Point(-f, f)));
-	vec.push_back(Line(this->rect.getBottomRight() + Point(f, f), this->rect.getTopRight() + Point(f, -f)));
-	vec.push_back(Line(this->rect.getBottomLeft() + Point(-f, f), this->rect.getBottomRight() + Point(f, f)));
+	int g = f;
+	g++;
+	vec.push_back(this->rect.getTopLeft());
+	vec.push_back(this->rect.getTopRight());
+	vec.push_back(this->rect.getBottomLeft());
+	vec.push_back(this->rect.getBottomRight());
 }

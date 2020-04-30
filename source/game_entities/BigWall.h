@@ -22,7 +22,7 @@ class BigWall : public ThingBase {
 		Rect getRect() const override;
 		void addNodes() override;
 		void draw(SDL_Renderer* renderer, Point offset = Point(0, 0)) override;
-		void gimme(std::vector<Line>& vec) const override;
+		void gimme(std::vector<Point>& vec) const override;
 		void update() override;
 };
 #endif

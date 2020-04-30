@@ -30,7 +30,7 @@ void ThingBase::setFlag(ENTITY_FLAG flag) {
 	}
 }
 
-void ThingBase::gimme(std::vector<Line>& vec) const {
+void ThingBase::gimme(std::vector<Point>& vec) const {
 	int a = vec.size();
 	a++;
 }
