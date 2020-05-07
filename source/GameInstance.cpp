@@ -1,4 +1,5 @@
 #include "GameInstance.h"
+// KILL WITH FUCKING FIRE FUCK FUCK FUCK FUCK
 #define plusOrMinusOne(i) int i = -1; i <= 1; i++
 typedef std::shared_ptr<ThingBase> ThingPtr;
 
@@ -120,7 +121,7 @@ void GameInstance::instanceBegin() {
 		}
 	}
 	LOG("%f", (AVG / NUMS));
-	std::cout << TEMPTEMP::LINES.size() << std::endl;
+	//std::cout << TEMPTEMP::LINES.size() << std::endl;
 	for (Line f: TEMPTEMP::LINES) { // First
 		for (Line s: TEMPTEMP::LINES) { // Second
 			if (&f == &s) continue;

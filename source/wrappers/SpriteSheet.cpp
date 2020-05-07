@@ -1,6 +1,7 @@
 #include "SpriteSheet.h"
 
 
+/// TODO: Rewrite this as just a storage place for various textures, instead of the animation thing it is now
 /* 
 Animation definition structure should be something as follows, 
 Everything on a line after a '#' will be ignored as a comment

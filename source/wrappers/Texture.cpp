@@ -131,6 +131,7 @@ void Texture::testFilter() {
 	}
 }
 
+// This sucks please ignore
 void Texture::bilateralFilter(float valI, float valS, const int kernelSize,  const int xStart, const int yStart, int width, int height) {
 	PixelMod mod(this->texture, true);
 	if (mod.notLocked()) {
@@ -184,7 +185,7 @@ void Texture::bilateralFilter(float valI, float valS, const int kernelSize,  con
 	}
 }
 
-void Texture::draw(int x, int y, SDL_Renderer* renderer, SDL_Rect* clip, double angle, SDL_Point* center, SDL_RendererFlip flip) {
+void Texture::draw(int x, int y, SDL_Renderer* renderer, SDL_COPY_EX_ARGS) {
 	int width, height, access;
 	SDL_QueryTexture(this->texture, NULL, &access, &width, &height);
 	// Including this on the off chance it's needed
@@ -199,7 +200,7 @@ void Texture::draw(int x, int y, SDL_Renderer* renderer, SDL_Rect* clip, double 
 	SDL_RenderCopyEx(renderer, this->texture, clip, &renderQuad, angle, center, flip);
 }
 
-void Texture::draw(SDL_Renderer* renderer, SDL_Rect* clip, double angle, SDL_Point* center, SDL_RendererFlip flip) {
+void Texture::draw(SDL_Renderer* renderer, SDL_COPY_EX_ARGS) {
 	this->draw(this->xpos, this->ypos, renderer, clip, angle, center, flip);
 }
 
@@ -226,19 +227,18 @@ bool Texture::notLoaded() {
 
 void Texture::createBlank(SDL_Renderer* renderer, int w, int h, Uint32 color) {
 	SDL_DestroyTexture(this->texture);
-	SDL_Texture* toReturn = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_TARGET, w, h);
-	SDL_Texture* tempText = NULL;
-	SDL_Surface* tempSurf = SDL_CreateRGBSurface(0, w, h, 32, 0, 0, 0, 0);
-	if (tempSurf != NULL) {
-		SDL_FillRect(tempSurf, NULL, color);
-		SDL_SetRenderTarget(renderer, toReturn);
-		tempText = SDL_CreateTextureFromSurface(renderer, tempSurf);
-		SDL_RenderCopy(renderer, tempText, NULL, NULL);
-		SDL_SetRenderTarget(renderer, NULL);
-		SDL_DestroyTexture(tempText);
-		this->texture = toReturn;
+	SDL_Surface* tempSurface = SDL_CreateRGBSurface(0, w, h, 32, 0, 0, 0, 0);
+	if (tempSurface != NULL) {
+		SDL_FillRect(tempSurface, NULL, color);
+		SDL_Texture* tempTexture = SDL_CreateTextureFromSurface(renderer, tempSurface);
+		if (tempTexture == NULL) {
+			LOG("Unable to create blank texture: Error %s", SDL_GetError());
+		} else {
+			this->texture = tempTexture;
+			this->normalizeTexture(renderer);
+		}
 	}
-	SDL_FreeSurface(tempSurf);
+	SDL_FreeSurface(tempSurface);
 }
 
 SDL_Texture* Texture::getTexture() {

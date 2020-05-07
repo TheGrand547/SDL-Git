@@ -6,12 +6,13 @@
 #include "../primitives/Point.h"
 #include "Texture.h"
 #include "Timer.h"
+typedef uint Uint;
 
 class SpriteSheet {
 	private:
 		Timer t;
 		Texture frame;
-		uint width, height, currentX, currentY, maxX, maxY;
+		Uint width, height, currentX, currentY, maxX, maxY;
 	public:
 		SpriteSheet(const std::string& filename, int width, int height, SDL_Renderer* renderer);
 		~SpriteSheet();

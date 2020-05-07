@@ -125,6 +125,7 @@ int main(int argc, char* argv[]) {
 		fps.draw(gRenderer);
 		renderChanges(gRenderer, gameWindow);
 	}
+	LOG("Section: End of Program");
 	close(gameWindow);
 	return 0;
 }

@@ -8,6 +8,7 @@
 #include "../essential/log.h"
 #include "../essential/random.h"
 #include "../essential/SDLUtil.h"
+#include "../essential/SDL_Headers.h"
 #include "PixelMod.h"
 typedef uint8_t Uint8;
 typedef uint32_t Uint32;
@@ -28,8 +29,8 @@ class Texture {
 		void setBlend(SDL_BlendMode mode);
 		void setColorMod(Uint8 red, Uint8 green, Uint8 blue);
 		void setColorKey(Uint8 red, Uint8 green, Uint8 blue);
-		void draw(Point pos, SDL_Renderer* renderer, SDL_Rect* clip = NULL, double angle = 0, SDL_Point* center = NULL, SDL_RendererFlip flip = SDL_FLIP_NONE);
-		void draw(int x, int y, SDL_Renderer* renderer, SDL_Rect* clip = NULL, double angle = 0, SDL_Point* center = NULL, SDL_RendererFlip flip = SDL_FLIP_NONE);
+		void draw(Point pos, SDL_Renderer* renderer, SDL_COPY_EX_ARGS_DEFAULTS);
+		void draw(int x, int y, SDL_Renderer* renderer, SDL_COPY_EX_ARGS_DEFAULTS);
 		void draw(SDL_Renderer* renderer, SDL_Rect* clip = NULL, double angle = 0, SDL_Point* center = NULL, SDL_RendererFlip flip = SDL_FLIP_NONE);
 		void draw(SDL_Renderer* renderer, Point offset);
 		void drawAt(SDL_Renderer* renderer, Point position, Point offset);
@@ -43,7 +44,8 @@ class Texture {
 		void normalizeTexture(SDL_Renderer* renderer);
 		//TODO: Add more functionality
 		// Filters
-		void bilateralFilter(const float valI, const float valS, const int kernelSize = 5, const int xStart = 2, const int yStart = 2, int width = 0, int height = 0);
+		void bilateralFilter(const float valI, const float valS, const int kernelSize = 5, 
+		        const int xStart = 2, const int yStart = 2, int width = 0, int height = 0);
 		void dither();
 		void testFilter();
 		void floatyEdges();
