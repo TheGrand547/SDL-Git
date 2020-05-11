@@ -1,21 +1,19 @@
 #include "Texture.h"
 
-Texture::Texture() {
-	texture = NULL;
-}
+Texture::Texture() : texture(NULL) {}
 
 Texture::~Texture() {
-	free();
+	this->free();
 }
 
 Texture& Texture::operator=(const Texture& that) {
-	this->xpos = that.xpos;
-	this->ypos = that.ypos;
+	this->free();
 	this->texture = that.texture;
 	return *this;
 }
 
-Texture::Texture(const Texture& that) : xpos(that.xpos), ypos(that.ypos) {
+Texture::Texture(const Texture& that) {
+	this->free();
 	this->texture = that.texture;
 }
 
@@ -65,6 +63,130 @@ void Texture::setColorKey(Uint8 red, Uint8 green, Uint8 blue) { // Modified from
 	}
 }
 
+void Texture::draw(SDL_Renderer* renderer, Point position, SDL_COPY_EX_ARGS) {
+	int width, height, access;
+	SDL_QueryTexture(this->texture, NULL, &access, &width, &height);
+	// Including this on the off chance it's needed
+	if (access != SDL_TEXTUREACCESS_STREAMING) {
+		this->normalizeTexture(renderer);
+	}
+	SDL_Rect renderQuad = {x, y, width, height};
+	if (clip != NULL) {
+		renderQuad.w = clip->w;
+		renderQuad.h = clip->h;
+	}
+	SDL_RenderCopyEx(renderer, this->texture, clip, &renderQuad, angle, center, flip);
+}
+
+bool Texture::isLoaded() {
+	return this->texture != NULL;
+}
+
+bool Texture::notLoaded() {
+	return this->texture == NULL;
+}
+
+void Texture::createBlank(SDL_Renderer* renderer, int w, int h, Uint32 color) {
+	this->free();
+	SDL_Surface* tempSurface = SDL_CreateRGBSurface(0, w, h, 32, 0, 0, 0, 0);
+	if (tempSurface != NULL) {
+		SDL_FillRect(tempSurface, NULL, color);
+		SDL_Texture* tempTexture = SDL_CreateTextureFromSurface(renderer, tempSurface);
+		if (tempTexture == NULL) {
+			LOG("Unable to create blank texture: Error %s", SDL_GetError());
+		} else {
+			this->texture = tempTexture;
+			this->normalizeTexture(renderer);
+		}
+	}
+	SDL_FreeSurface(tempSurface);
+}
+
+SDL_Texture* Texture::getRawTexture() {
+	return this->texture;
+}
+
+void Texture::loadFromFile(SDL_Renderer* renderer, std::string path, int xSize, int ySize) {
+	this->free();
+	SDL_Texture* newTexture = NULL;
+	SDL_Surface* tempSurface = IMG_Load(path.c_str());	
+	if (tempSurface == NULL) {
+		LOG("Unable to load image %s! SDL_image Error: %s\n", path.c_str(), IMG_GetError());
+	} else {
+		tempSurface = scaleToSize(tempSurface, xSize, ySize);
+		newTexture = SDL_CreateTextureFromSurface(renderer, tempSurface);
+		if (newTexture == NULL) {
+			LOG("Unable to create texture from %s! SDL Error: %s\n", path.c_str(), SDL_GetError() );
+		}
+	}
+	SDL_FreeSurface(tempSurface);
+	this->texture = newTexture;
+	this->normalizeTexture(renderer);
+}
+
+void Texture::normalizeTexture(SDL_Renderer* renderer) { // TODO: Make this not shit
+	// Method to take a SDL_TEXTUREACCESS_TARGET and make it a SDL_TEXTUREACCESS_STREAMING for pixel modification
+	int access, width, height;
+	SDL_QueryTexture(this->texture, NULL, &access, &width, &height);
+	if (access == SDL_TEXTUREACCESS_STREAMING) {
+		return;
+	} else if (access == SDL_TEXTUREACCESS_STATIC) { // Don't know what to do with it :(
+		LOG("Texture was created with the Texture Access of Static -> Fix This");
+		SDL_Texture* streamingTexture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_TARGET, width, height);
+		
+		SDL_SetRenderTarget(renderer, streamingTexture);
+		this->setBlend(SDL_BLENDMODE_BLEND);
+		SDL_RenderCopy(renderer, this->texture, NULL, NULL);
+		SDL_SetRenderTarget(renderer, NULL);
+		
+		SDL_DestroyTexture(this->texture);
+				
+		this->texture = streamingTexture;
+		this->normalizeTexture(renderer);
+		return;
+	} else {
+		SDL_SetRenderTarget(renderer, this->texture);
+		SDL_Texture* streamingTexture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_STREAMING, width, height); 
+		void* streamingPixels;
+		int streamingPitch;
+		SDL_LockTexture(streamingTexture, NULL, &streamingPixels, &streamingPitch); 
+		SDL_RenderReadPixels(renderer, NULL, SDL_PIXELFORMAT_RGBA32, streamingPixels, streamingPitch); 
+		SDL_UnlockTexture(streamingTexture);
+		SDL_SetRenderTarget(renderer, NULL);
+		
+		Uint8 alpha, colorR, colorG, colorB;
+		SDL_BlendMode blend;
+		SDL_GetTextureAlphaMod(this->texture, &alpha);
+		SDL_GetTextureBlendMode(this->texture, &blend);
+		SDL_GetTextureColorMod(this->texture, &colorR, &colorG, &colorB);
+		
+		SDL_SetTextureAlphaMod(streamingTexture, alpha);
+		SDL_SetTextureBlendMode(streamingTexture, blend);
+		SDL_SetTextureColorMod(this->texture, colorR, colorG, colorB);
+		SDL_DestroyTexture(this->texture);
+		this->texture = streamingTexture;
+	}
+}
+
+
+// ------------------------------------------------
+// --------------- Static Methods -----------------
+// ------------------------------------------------
+
+Texture Texture::load(SDL_Renderer* renderer, std::string renderer) {
+	Texture temp;
+	temp.loadFromFile(renderer, path);
+	return temp;
+}
+
+Texture Texture::scaleTextureBy(SDL_Renderer* renderer, Texture texture, double xFactor, double yFactor) {
+	// TODO: Fill in
+	return Texture();
+}
+
+// ------------------------------------------------
+// ------------ Non Essential Extras --------------
+// ------------------------------------------------
 void Texture::floatyEdges() {
 	this->setBlend(SDL_BLENDMODE_BLEND);
 	PixelMod mod(this->texture);
@@ -182,136 +304,5 @@ void Texture::bilateralFilter(float valI, float valS, const int kernelSize,  con
 				pixels[x][y].blue() = totalB / weightB;
 			}
 		}
-	}
-}
-
-void Texture::draw(int x, int y, SDL_Renderer* renderer, SDL_COPY_EX_ARGS) {
-	int width, height, access;
-	SDL_QueryTexture(this->texture, NULL, &access, &width, &height);
-	// Including this on the off chance it's needed
-	if (access != SDL_TEXTUREACCESS_STREAMING) {
-		this->normalizeTexture(renderer);
-	}
-	SDL_Rect renderQuad = {x, y, width, height};
-	if (clip != NULL) {
-		renderQuad.w = clip->w;
-		renderQuad.h = clip->h;
-	}
-	SDL_RenderCopyEx(renderer, this->texture, clip, &renderQuad, angle, center, flip);
-}
-
-void Texture::draw(SDL_Renderer* renderer, SDL_COPY_EX_ARGS) {
-	this->draw(this->xpos, this->ypos, renderer, clip, angle, center, flip);
-}
-
-void Texture::draw(SDL_Renderer* renderer, Point offset) {
-	this->draw((this->xpos - offset.x()), (this->ypos - offset.y()), renderer);
-}
-
-void Texture::draw(Point pos, SDL_Renderer* renderer, SDL_Rect* clip, double angle, SDL_Point* center, SDL_RendererFlip flip) {
-	this->draw(pos.x(), pos.y(), renderer, clip, angle, center, flip);
-} 
-
-void Texture::drawAt(SDL_Renderer* renderer, Point position, Point offset) {
-	this->setPos(position);
-	this->draw(renderer, offset);
-}
-
-bool Texture::isLoaded() {
-	return this->texture != NULL;
-}
-
-bool Texture::notLoaded() {
-	return this->texture == NULL;
-}
-
-void Texture::createBlank(SDL_Renderer* renderer, int w, int h, Uint32 color) {
-	SDL_DestroyTexture(this->texture);
-	SDL_Surface* tempSurface = SDL_CreateRGBSurface(0, w, h, 32, 0, 0, 0, 0);
-	if (tempSurface != NULL) {
-		SDL_FillRect(tempSurface, NULL, color);
-		SDL_Texture* tempTexture = SDL_CreateTextureFromSurface(renderer, tempSurface);
-		if (tempTexture == NULL) {
-			LOG("Unable to create blank texture: Error %s", SDL_GetError());
-		} else {
-			this->texture = tempTexture;
-			this->normalizeTexture(renderer);
-		}
-	}
-	SDL_FreeSurface(tempSurface);
-}
-
-SDL_Texture* Texture::getTexture() {
-	return this->texture;
-}
-
-void Texture::setPos(int x, int y) {
-	this->xpos = x;
-	this->ypos = y;
-}
-
-void Texture::setPos(Point point) {
-	this->xpos = point.x();
-	this->ypos = point.y();
-}
-
-void Texture::loadFromFile(std::string path, SDL_Renderer* renderer, int xSize, int ySize) {
-	SDL_Texture* newTexture = NULL;
-	SDL_Surface* tempSurface = IMG_Load(path.c_str());	
-	if (tempSurface == NULL) {
-		LOG("Unable to load image %s! SDL_image Error: %s\n", path.c_str(), IMG_GetError());
-	} else {
-		tempSurface = scaleToSize(tempSurface, xSize, ySize);
-		newTexture = SDL_CreateTextureFromSurface(renderer, tempSurface);
-		if (newTexture == NULL) {
-			LOG("Unable to create texture from %s! SDL Error: %s\n", path.c_str(), SDL_GetError() );
-		}
-	}
-	SDL_FreeSurface(tempSurface);
-	this->texture = newTexture;
-	this->normalizeTexture(renderer);
-}
-
-void Texture::normalizeTexture(SDL_Renderer* renderer) {
-	// Method to take a SDL_TEXTUREACCESS_TARGET and make it a SDL_TEXTUREACCESS_STREAMING for pixel modification
-	int access, width, height;
-	SDL_QueryTexture(this->texture, NULL, &access, &width, &height);
-	if (access == SDL_TEXTUREACCESS_STREAMING) {
-		return;
-	} else if (access == SDL_TEXTUREACCESS_STATIC) { // Don't know what to do with it :(
-		LOG("Texture was created with the Texture Access of Static -> Fix This");
-		SDL_Texture* streamingTexture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_TARGET, width, height);
-		
-		SDL_SetRenderTarget(renderer, streamingTexture);
-		this->setBlend(SDL_BLENDMODE_BLEND);
-		SDL_RenderCopy(renderer, this->texture, NULL, NULL);
-		SDL_SetRenderTarget(renderer, NULL);
-		
-		SDL_DestroyTexture(this->texture);
-				
-		this->texture = streamingTexture;
-		this->normalizeTexture(renderer);
-		return;
-	} else {
-		SDL_SetRenderTarget(renderer, this->texture);
-		SDL_Texture* streamingTexture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_STREAMING, width, height); 
-		void* streamingPixels;
-		int streamingPitch;
-		SDL_LockTexture(streamingTexture, NULL, &streamingPixels, &streamingPitch); 
-		SDL_RenderReadPixels(renderer, NULL, SDL_PIXELFORMAT_RGBA32, streamingPixels, streamingPitch); 
-		SDL_UnlockTexture(streamingTexture);
-		SDL_SetRenderTarget(renderer, NULL);
-		
-		Uint8 alpha, colorR, colorG, colorB;
-		SDL_BlendMode blend;
-		SDL_GetTextureAlphaMod(this->texture, &alpha);
-		SDL_GetTextureBlendMode(this->texture, &blend);
-		SDL_GetTextureColorMod(this->texture, &colorR, &colorG, &colorB);
-		
-		SDL_SetTextureAlphaMod(streamingTexture, alpha);
-		SDL_SetTextureBlendMode(streamingTexture, blend);
-		SDL_SetTextureColorMod(this->texture, colorR, colorG, colorB);
-		SDL_DestroyTexture(this->texture);
-		this->texture = streamingTexture;
 	}
 }

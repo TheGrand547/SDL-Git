@@ -3,11 +3,11 @@
 PixelMod::PixelMod(SDL_Texture* texture, bool wrapEdges) : texture(texture) {
 	this->edges = wrapEdges;
 	void* rawPixels;
-	uint32 format;
+	Uint32 format;
 	this->unlocked = false;
 	if (SDL_LockTexture(texture, NULL, &rawPixels, &this->texturePitch) != 0) {
+		LOG("Error Locking Texture: %s", SDL_GetError());
 		this->unlocked = true;
-		// TODO: log error locking texture
 		return;
 	}
 	SDL_QueryTexture(this->texture, &format, NULL, &this->textureWidth, &this->textureHeight);

@@ -43,8 +43,10 @@ bool CollisionHandler::doesNotCollideWith(const Line& line, void* pointer) const
 Point CollisionHandler::closestPointThatCollidesWith(const Line& ray, void* pointer) const {
 	Point stored, temp;
 	for (std::shared_ptr<ThingBase> thing : this->parent->collisionThings) {
+		if (thing.get() == pointer) continue;
 		temp = thing->collideLine(ray);
-		if (thing.get() != pointer && (stored.isNull() || temp.distanceToPoint(ray.getOrigin()) < stored.distanceToPoint(ray.getOrigin()))) {
+		if (temp.isNull()) continue;
+		if (stored.isNull() || temp.distanceToPoint(ray.getOrigin()) < stored.distanceToPoint(ray.getOrigin())) {
 			stored = temp;
 		}
 	}

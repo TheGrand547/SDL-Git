@@ -38,7 +38,7 @@ void BadTest::draw(SDL_Renderer* renderer, Point offset) {
 	if (this->texture.notLoaded()) {
 		this->setTexture(renderer);
 	}
-	EnemyBase::draw(renderer, offset);
+	EnemyBase::draw(renderer, this->position - offset);
 	
 	if (this->path.getFirst().isReal()) {
 		this->path.draw();

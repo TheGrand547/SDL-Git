@@ -2,10 +2,11 @@
 #ifndef PIXEL_MOD_H
 #define PIXEL_MOD_H
 #include<SDL2/SDL.h>
+#include "../essential/SDL_Headers.h"
 #include "../primitives/Pixel.h"
 
-typedef uint8 uint8_t;
-typedef uint32 uint32_t;
+typedef uint8_t Uint8;
+typedef uint32_t Uint32;
 
 class PixelMod {
 	protected:
