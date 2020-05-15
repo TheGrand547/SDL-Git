@@ -96,8 +96,8 @@ void Dot::collideTest() {
 		Point temp = delta / CHECKS;
 		if (this->parent->collision.doesNotCollideWith(this->getRect() + temp)) {
 			this->move(temp);
-			xDelta = temp.x();
-			yDelta = temp.y();
+			xDelta += temp.x();
+			yDelta += temp.y();
 			this->parent->getOffset() += temp;
 		}
 		/*

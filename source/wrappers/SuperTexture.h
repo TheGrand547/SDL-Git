@@ -11,13 +11,14 @@
 #include "../essential/util.h"
 #include "Texture.h"
 
-/* TODO: Add support for rendering another image onto this one, from file, texture or supertexture */
+typedef uint8_t Uint8; 
 
-typedef Uint8 uint8_t;
 class SuperTexture : public Texture, public MyBase {
 	protected:
+		// TODO: Investigate if these clips are ever used
 		int clipX, clipY;
 	 public:
+		// TODO: Kill this int
 		int modified;
 		SuperTexture(Uint8 r = 0x00, Uint8 g = 0x00, Uint8 b = 0x00, Uint8 a = 0xFF);
 		~SuperTexture();

@@ -21,7 +21,7 @@ size = ...;
 
 SpriteSheet::SpriteSheet(const std::string& filename, int width, int height, SDL_Renderer* renderer) : width(width), 
 					height(height), currentX(0), currentY(0) {
-	this->frame.loadFromFile(filename, renderer);
+	this->frame.loadFromFile(renderer, filename);
 	this->frame.setColorKey(0xFF, 0xFF, 0xFF);
 	this->maxX = this->frame.getWidth() / this->width;
 	this->maxY = this->frame.getHeight() / this->height;
@@ -36,7 +36,7 @@ void SpriteSheet::draw(SDL_Renderer* renderer, Point position) {
 	f.w = this->width;
 	f.h = this->height;
 	
-	this->frame.draw(position, renderer, &f);
+	this->frame.draw(renderer, position, &f);
 }
 
 void SpriteSheet::drawTo(SDL_Renderer* renderer, Texture& fo) {

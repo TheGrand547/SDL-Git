@@ -2,6 +2,8 @@
 #include "source/GameInstance.h"
 #include "source/wrappers/SpriteSheet.h"
 #include "source/essential/log.h"
+#include<ctime>
+#include<chrono>
 bool init();
 SDL_Renderer* createRenderer(SDL_Window* window);
 SDL_Window* createWindow();
@@ -12,7 +14,6 @@ void renderChanges(SDL_Renderer* renderer, SDL_Window* window);
 // TODO: Static Member Variable Initialization should put somewhere less conspicuous
 SDL_Renderer* MegaBase::renderer = NULL;
 Point* MegaBase::offset = NULL;
-
 
 // TODO: EDGEMAP EDGEMAP EDGEMAP -> MAP EDGES OF EACH SHAPE AND ESTABLISH SECTORS FROM THAT
 int main(int argc, char* argv[]) {

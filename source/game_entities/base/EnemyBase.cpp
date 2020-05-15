@@ -10,8 +10,7 @@ EnemyBase::~EnemyBase() {}
 
 void EnemyBase::draw(SDL_Renderer* renderer, Point offset) {
 	if (this->texture.isLoaded()) {
-		this->texture.setPos(this->position);
-		this->texture.draw(renderer, offset);
+		this->texture.draw(renderer, this->position - offset);
 	}
 }
 

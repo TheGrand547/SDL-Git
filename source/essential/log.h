@@ -1,10 +1,12 @@
 #pragma once
 #include<iostream>
+#include<ctime>
+#include<chrono>
 
-#define LOG_FORMAT(file, function, number) printf("[%s][%s] Line %i: ", file, function, number)
+void logFormat(const char* file, const char* function, int line);
 
 // Used like printf(...);
-#define LOG(...) LOG_FORMAT(__FILE__, __PRETTY_FUNCTION__, __LINE__); \
+#define LOG(...) logFormat(__FILE__, __PRETTY_FUNCTION__, __LINE__); \
 				printf(__VA_ARGS__); \
 				printf("\n"); \
 				fflush(stdout);

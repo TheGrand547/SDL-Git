@@ -6,6 +6,7 @@ Texture::~Texture() {
 	this->free();
 }
 
+// TODO: Determine if these could cause memory leaks
 Texture& Texture::operator=(const Texture& that) {
 	this->free();
 	this->texture = that.texture;
@@ -70,7 +71,7 @@ void Texture::draw(SDL_Renderer* renderer, Point position, SDL_COPY_EX_ARGS) {
 	if (access != SDL_TEXTUREACCESS_STREAMING) {
 		this->normalizeTexture(renderer);
 	}
-	SDL_Rect renderQuad = {x, y, width, height};
+	SDL_Rect renderQuad = {(int)position.x(), (int)position.y(), width, height};
 	if (clip != NULL) {
 		renderQuad.w = clip->w;
 		renderQuad.h = clip->h;
@@ -124,7 +125,8 @@ void Texture::loadFromFile(SDL_Renderer* renderer, std::string path, int xSize, 
 	this->normalizeTexture(renderer);
 }
 
-void Texture::normalizeTexture(SDL_Renderer* renderer) { // TODO: Make this not shit
+void Texture::normalizeTexture(SDL_Renderer* renderer) {
+	// TODO: Make this not shit
 	// Method to take a SDL_TEXTUREACCESS_TARGET and make it a SDL_TEXTUREACCESS_STREAMING for pixel modification
 	int access, width, height;
 	SDL_QueryTexture(this->texture, NULL, &access, &width, &height);
@@ -173,7 +175,7 @@ void Texture::normalizeTexture(SDL_Renderer* renderer) { // TODO: Make this not 
 // --------------- Static Methods -----------------
 // ------------------------------------------------
 
-Texture Texture::load(SDL_Renderer* renderer, std::string renderer) {
+Texture Texture::load(SDL_Renderer* renderer, std::string path) {
 	Texture temp;
 	temp.loadFromFile(renderer, path);
 	return temp;
@@ -181,6 +183,10 @@ Texture Texture::load(SDL_Renderer* renderer, std::string renderer) {
 
 Texture Texture::scaleTextureBy(SDL_Renderer* renderer, Texture texture, double xFactor, double yFactor) {
 	// TODO: Fill in
+	texture.getWidth();
+	SDL_SetRenderTarget(renderer, NULL);
+	xFactor++;
+	yFactor++;
 	return Texture();
 }
 

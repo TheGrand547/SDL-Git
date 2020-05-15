@@ -1,5 +1,5 @@
 #include "Box.h"
-
+// TODO: Get rid of this stupid class
 SuperTexture Box::mTexture;
 Box::Box() {
 	this->flags |= SOLID | DRAW | BLOCKS_VISIBILTY;
@@ -48,7 +48,7 @@ Point Box::getPosition() const {
 void Box::createBoxTexture(SDL_Renderer* renderer) {
 	Box::mTexture.setClip(BOX::BOX_WIDTH, BOX::BOX_HEIGHT);
 	Box::mTexture.drawBox(renderer, Rect(Point(0, 0), Point(BOX::BOX_WIDTH, BOX::BOX_HEIGHT)), BOX::BOX_INNER_COLOR);
-	Box::mTexture.loadFromFile(BOX::BOX_TEXTURE, renderer, BOX::BOX_WIDTH, BOX::BOX_OUTDENT * BOX::BOX_HEIGHT);
+	Box::mTexture.loadFromFile(renderer, BOX::BOX_TEXTURE, BOX::BOX_WIDTH, BOX::BOX_OUTDENT * BOX::BOX_HEIGHT);
 	setRenderColors(renderer, BOX::BOX_OUTER_BORDER_COLOR);
 	Box::mTexture.drawRect(renderer, Rect(Point(0, 0), Point(BOX::BOX_WIDTH, BOX::BOX_HEIGHT)));
 	setRenderColors(renderer, BOX::BOX_INNER_BORDER_COLOR);
@@ -58,7 +58,7 @@ void Box::createBoxTexture(SDL_Renderer* renderer) {
 }
 
 void Box::drawBox(SDL_Renderer* renderer, Point position, Point offset) {
-	Box::mTexture.drawAt(renderer, position, offset);
+	Box::mTexture.draw(renderer, position - offset);
 }
 
 bool Box::doesLineCollide(const Line& ray) const {
