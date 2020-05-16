@@ -895,4 +895,4 @@ MovementWrapper.o: wrappers/MovementWrapper.cpp \
   wrappers/../essential/constants.h
 SDLUtil.o: essential/SDLUtil.cpp essential/SDLUtil.h \
   essential/SDL_Headers.h
-log.o: essential/log.cpp essential/log.h
+log.o: essential/log.cpp essential/log.h essential/SDL_Headers.h

@@ -18,6 +18,18 @@ void orderPoints(Point& pointA, Point& pointB);
 
 int keyCodeFromEvent(SDL_Event event);
 
+
+typedef uint32_t Uint32;
+class Time {
+	private:
+		static Uint32 last;
+		Time();
+	public:
+		static Uint32 time();	
+};
+#define TIC Time::time();
+#define TOCK int tock = Time::time();
+
 void createDetatchedThread(int(*method)(void*), void* arg = NULL, const char* name = "new thread");
 
 // TEMP TEMP TEMP TEMP TEMP
