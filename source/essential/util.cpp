@@ -1,20 +1,6 @@
 #include "util.h"
 #include "SDL_Headers.h"
 
-Uint32 Time::last;
-
-Time::Time() {}
-
-Uint32 Time::time() {
-	Uint32 now = SDL_GetTicks();
-	Uint32 value = 0;
-	if (Time::last) {
-		value = now - Time::last;
-	}
-	Time::last = now;
-	return value;
-}
-
 void rectangleRGBA(SDL_Renderer *renderer, Point pointA, Point pointB, uint8_t r, uint8_t g, uint8_t b, uint8_t a) {
 	rectangleRGBA(renderer, pointA.x(), pointA.y(), pointB.x(), pointB.y(), r, g, b, a);
 }
