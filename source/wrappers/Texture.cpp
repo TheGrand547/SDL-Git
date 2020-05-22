@@ -230,9 +230,9 @@ void Texture::dither() {
 	if (mod.notLocked()) {
 		return;
 	}
-	uint8 matrix[2][2] = {{0x40, 0x80}, 
+	Uint8 matrix[2][2] = {{0x40, 0x80}, 
 						  {0xC0, 0x00}};
-	uint8 value;
+	Uint8 value;
 	for (int i = 0; i < mod.count(); i++) {
 		Pixel pixel = mod.getPixel(i);
 		value = matrix[(i / mod.width()) % 2][(i / mod.height()) % 2];

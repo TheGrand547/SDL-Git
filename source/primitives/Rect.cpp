@@ -195,7 +195,7 @@ double Rect::getHeight() const {
 	return this->heightVector.getMagnitude();
 }
 
-bool Rect::overlap(const Rect& other) const {
+bool Rect::overlap(const Polygon& other) const {
 	// TODO: Rename these variables something sensible
 	bool value = false;
 	Rect bound = this->getBoundingRect();
@@ -206,6 +206,7 @@ bool Rect::overlap(const Rect& other) const {
 	double otherY = otherBound.getTopLeft().y();
 	bool xOver = valueInRange(myX, otherX, otherX + otherBound.getWidth()) || valueInRange(otherX, myX, myX + bound.getWidth());
 	bool yOver = valueInRange(myY, otherY, otherY + otherBound.getHeight()) || valueInRange(otherY, myY, myY + bound.getHeight());
+	// TODO: Fix this shit
 	if (xOver && yOver) {
 		if (bound == *this && other == otherBound) { // If both are right aligned
 			value = true;
@@ -222,6 +223,18 @@ bool Rect::overlap(const Rect& other) const {
 		}
 	}
 	return value;
+}
+
+bool Rect::containsPoint(const Point& point) const {
+	// TODO: write this
+	std::cout << point << std::endl;
+	return false;
+}
+
+bool Rect::operator==(const Polygon& other) const {
+	// TODO: WRITE THIS
+	other.getBoundingRect();
+	return false;
 }
 
 bool Rect::operator==(const Rect& other) const {
