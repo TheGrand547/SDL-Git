@@ -12,7 +12,6 @@ typedef uint Uint;
 class Rect: public Polygon {
 	protected:
 		Point topLeft, heightVector, widthVector;
-		void getCorners(Point array[4]) const;
 	public:
 		Rect();
 		Rect(Point topLeft, Line widthVector, Line heightVector);
@@ -32,6 +31,8 @@ class Rect: public Polygon {
 		bool operator==(const Polygon& other) const override;
 		bool overlap(const Polygon& other) const override;
 		int numberOfCollisions(const Line& line) const override;
+		int numLines() const override;
+		int numPoints() const override;
 		Point collideLine(const Line& ray) const override;
 		std::vector<Line> getLines() const override;
 		std::vector<Point> getPoints() const override;

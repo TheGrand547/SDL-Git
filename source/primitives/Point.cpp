@@ -10,8 +10,8 @@ Point::Point(const Point& point) {
 }
 
 Point::Point(const Point* point) {
-	xval = point->xval;
-	yval = point->yval;
+	this->xval = point->xval;
+	this->yval = point->yval;
 }
 
 double Point::x() const {

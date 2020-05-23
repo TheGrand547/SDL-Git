@@ -85,22 +85,6 @@ int main(int argc, char* argv[]) {
 	Line lip(heck->getPosition(), heck->getPosition() + Point(200, 0));
 	lip += Point(0, 5);*/
 	SpriteSheet g("resources/animtest.png", 50, 50, gRenderer);
-	// Shake test
-	std::vector<Point> shake;
-	{
-		for (int i = 0; i < 10; i++) {
-			double x = (rand() % 10) - 5;
-			double y = (rand() % 10) - 5;
-			shake.push_back(Point(x, y));
-		}
-		int p = shake.size();
-		for (int i = 0; i < p; i++) {
-			shake.push_back(shake[i].negate());
-		}
-	}
-	int fpf = 0;
-	Timer gpg;
-	gpg.start();
 	LOG("Section: Main Loop");
 	while(!contra.quit) {
 		clearScreen(gRenderer);
@@ -119,15 +103,10 @@ int main(int argc, char* argv[]) {
 				dot->rayCast();
 			}
 		}
-		
-		if (gpg.getTicks() > 25) {
-			gpg.start();
-			//GAME.getOffset() += shake[fpf % shake.size()] * 5;
-			fpf++;
-		}
 		g.draw(gRenderer, Point(200, 200));
 		//lip.drawLine(gRenderer);
 		fps.draw(gRenderer);
+		fps.drawFrameTime(gRenderer);
 		renderChanges(gRenderer, gameWindow);
 	}
 	LOG("Section: End of Program");

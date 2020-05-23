@@ -10,12 +10,13 @@ class FpsText {
 		Font font;
 		Point position;
 		SDL_Color color;
-		Timer timer;
+		Timer timer, timer2;
 	public:
 		FpsText(Font& font, Point position, SDL_Color color);
 		~FpsText();
 		float getFps();
 		float getRatio();
 		void draw(SDL_Renderer* renderer);
+		void drawFrameTime(SDL_Renderer* renderer);
 };
 #endif

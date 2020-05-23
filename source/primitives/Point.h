@@ -5,9 +5,9 @@
 #include<iostream>
 
 class Point {
-	protected:
-		double xval, yval;
 	public:
+		double xval, yval;
+		
 		Point(double xCoordinate = 0.0 / 0.0, double yCoordinate = 0.0 / 0.0);
 		Point(const Point& point);
 		Point(const Point* point);

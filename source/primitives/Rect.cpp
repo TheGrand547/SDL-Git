@@ -1,5 +1,7 @@
 #include "Rect.h"
 
+#define OUT_OF_BOUNDS Point(-10547, -20547)
+
 // ------------------------------------------------
 // ---------------- Constructors ------------------
 // ------------------------------------------------
@@ -92,19 +94,14 @@ Rect::~Rect() {}
 // ------------------------------------------------
 
 bool Rect::containsPoint(const Point& point) const {
-	// TODO: write this
-	std::cout << point << std::endl;
-	return false;
+	return this->numberOfCollisions(Line(point, OUT_OF_BOUNDS)) & 1;
 }
 
 bool Rect::doesLineCollide(const Line& ray) const {
 	/* True - the Line DOES collide with this rect
 	 * False - the Line DOES NOT collide with this rect */
-	std::vector<Line> temp = this->getLines();
-	for (Line line: temp) {
-		if (line.intersectionPoint(ray).isReal()) {
-			return true;
-		}
+	for (Line line: this->getLines()) {
+		if (line.intersectionPoint(ray).isReal()) return true;
 	}
 	return false;
 }
@@ -129,33 +126,11 @@ bool Rect::operator==(const Polygon& other) const {
 }
 
 bool Rect::overlap(const Polygon& other) const {
-	// TODO: Rename these variables something sensible
-	bool value = false;
-	Rect bound = this->getBoundingRect();
-	Rect otherBound = other.getBoundingRect();
-	double myX = bound.getTopLeft().x();
-	double myY = bound.getTopLeft().y();
-	double otherX = otherBound.getTopLeft().x();
-	double otherY = otherBound.getTopLeft().y();
-	bool xOver = valueInRange(myX, otherX, otherX + otherBound.getWidth()) || valueInRange(otherX, myX, myX + bound.getWidth());
-	bool yOver = valueInRange(myY, otherY, otherY + otherBound.getHeight()) || valueInRange(otherY, myY, myY + bound.getHeight());
-	// TODO: Fix this shit
-	if (xOver && yOver) {
-		if (bound == *this && other == otherBound) { // If both are right aligned
-			value = true;
-		} else { // HAHHA
-			Point ar[] = {this->getTopLeft(), this->getTopRight(), this->getBottomRight(), this->getBottomLeft()};
-			int ctr = 0;
-			for (int i = 0; i < 4 && !ctr; i++) {
-				ctr += other.numberOfCollisions(Line(ar[i], ar[(i + 1) % 4]));
-				ctr += other.numberOfCollisions(Line(this->getCenter(), ar[i]));
-			}
-			if (ctr) {
-				value = true;
-			}
-		}
+	if (this->numLines() > other.numLines()) return other.overlap(*this);
+	for (const Line& line: this->getLines()) {
+		if (other.doesLineCollide(line)) return true;
 	}
-	return value;
+	return false;
 }
 
 int Rect::numberOfCollisions(const Line& ray) const {
@@ -166,6 +141,14 @@ int Rect::numberOfCollisions(const Line& ray) const {
 		}
 	}
 	return count;
+}
+
+int Rect::numLines() const {
+	return 4;
+}
+
+int Rect::numPoints() const {
+	return 4;
 }
 
 Point Rect::collideLine(const Line& ray) const {
