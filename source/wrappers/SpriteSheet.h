@@ -6,6 +6,7 @@
 #include "../primitives/Point.h"
 #include "Texture.h"
 #include "Timer.h"
+
 typedef uint Uint;
 
 class SpriteSheet {

@@ -12,8 +12,9 @@ main.o: ../main.cpp ../source/headers.h ../source/AlertTextHandler.h \
   ../source/wrappers/../primitives/../essential/util.h \
   ../source/wrappers/../essential/../primitives/Point.h \
   ../source/wrappers/../essential/../MyBase.h \
-  ../source/wrappers/../primitives/../MyBase.h \
+  ../source/wrappers/../primitives/../essential/log.h \
   ../source/wrappers/../primitives/Line.h \
+  ../source/wrappers/../primitives/../MyBase.h \
   ../source/wrappers/../primitives/../essential/random.h \
   ../source/wrappers/../primitives/Polygon.h \
   ../source/game_entities/CollisionHandler.h \
@@ -78,9 +79,9 @@ main.o: ../main.cpp ../source/headers.h ../source/AlertTextHandler.h \
 Rect.o: primitives/Rect.cpp primitives/Rect.h \
   primitives/../essential/util.h \
   primitives/../essential/../primitives/Point.h \
-  primitives/../essential/../MyBase.h primitives/../MyBase.h \
-  primitives/Line.h primitives/Point.h primitives/../essential/random.h \
-  primitives/Polygon.h
+  primitives/../essential/../MyBase.h primitives/../essential/log.h \
+  primitives/Line.h primitives/Point.h primitives/../MyBase.h \
+  primitives/../essential/random.h primitives/Polygon.h
 HeldKey.o: wrappers/HeldKey.cpp wrappers/HeldKey.h wrappers/Timer.h \
   wrappers/../essential/constants.h
 Controller.o: wrappers/control/Controller.cpp \
@@ -123,8 +124,9 @@ BackgroundGroup.o: game_entities/BackgroundGroup.cpp \
   game_entities/../primitives/../essential/util.h \
   game_entities/../primitives/../essential/../primitives/Point.h \
   game_entities/../primitives/../essential/../MyBase.h \
-  game_entities/../primitives/../MyBase.h \
+  game_entities/../primitives/../essential/log.h \
   game_entities/../primitives/Line.h \
+  game_entities/../primitives/../MyBase.h \
   game_entities/../primitives/../essential/random.h \
   game_entities/../primitives/Polygon.h \
   game_entities/../wrappers/Texture.h \
@@ -194,8 +196,9 @@ EnemyBase.o: game_entities/base/EnemyBase.cpp \
   game_entities/base/../../primitives/../essential/util.h \
   game_entities/base/../../essential/../primitives/Point.h \
   game_entities/base/../../essential/../MyBase.h \
-  game_entities/base/../../primitives/../MyBase.h \
+  game_entities/base/../../primitives/../essential/log.h \
   game_entities/base/../../primitives/Line.h \
+  game_entities/base/../../primitives/../MyBase.h \
   game_entities/base/../../primitives/../essential/random.h \
   game_entities/base/../../primitives/Polygon.h \
   game_entities/base/../../game_entities/CollisionHandler.h \
@@ -222,8 +225,9 @@ Box.o: game_entities/Box.cpp game_entities/Box.h \
   game_entities/../essential/../MyBase.h \
   game_entities/../primitives/Rect.h \
   game_entities/../primitives/../essential/util.h \
-  game_entities/../primitives/../MyBase.h \
+  game_entities/../primitives/../essential/log.h \
   game_entities/../primitives/Line.h \
+  game_entities/../primitives/../MyBase.h \
   game_entities/../primitives/../essential/random.h \
   game_entities/../primitives/Polygon.h \
   game_entities/../wrappers/SuperTexture.h \
@@ -264,8 +268,9 @@ Node.o: game_entities/Node.cpp game_entities/Node.h \
   game_entities/../primitives/Point.h game_entities/../primitives/Rect.h \
   game_entities/../essential/../primitives/../essential/util.h \
   game_entities/../essential/../MyBase.h \
-  game_entities/../essential/../primitives/../MyBase.h \
+  game_entities/../essential/../primitives/../essential/log.h \
   game_entities/../essential/../primitives/Line.h \
+  game_entities/../essential/../primitives/../MyBase.h \
   game_entities/../essential/../primitives/../essential/random.h \
   game_entities/../essential/../primitives/Polygon.h \
   game_entities/NodeDrawGroup.h game_entities/../essential/random.h \
@@ -296,8 +301,9 @@ NodeDrawGroup.o: game_entities/NodeDrawGroup.cpp \
   game_entities/../primitives/../essential/util.h \
   game_entities/../essential/../primitives/Point.h \
   game_entities/../essential/../MyBase.h \
-  game_entities/../primitives/../MyBase.h \
+  game_entities/../primitives/../essential/log.h \
   game_entities/../primitives/Line.h \
+  game_entities/../primitives/../MyBase.h \
   game_entities/../primitives/../essential/random.h \
   game_entities/../primitives/Polygon.h game_entities/../GameInstance.h \
   game_entities/../essential/log.h game_entities/../AlertTextHandler.h \
@@ -319,8 +325,10 @@ SuperTexture.o: wrappers/SuperTexture.cpp wrappers/SuperTexture.h \
   wrappers/../primitives/../essential/util.h \
   wrappers/../primitives/../essential/../primitives/Point.h \
   wrappers/../primitives/../essential/../MyBase.h \
-  wrappers/../primitives/Rect.h wrappers/../primitives/Polygon.h \
-  wrappers/../MyBase.h wrappers/../essential/util.h wrappers/Texture.h \
+  wrappers/../primitives/Rect.h \
+  wrappers/../primitives/../essential/log.h \
+  wrappers/../primitives/Polygon.h wrappers/../MyBase.h \
+  wrappers/../essential/util.h wrappers/Texture.h \
   wrappers/../essential/constants.h wrappers/../essential/log.h \
   wrappers/../essential/random.h wrappers/../essential/SDLUtil.h \
   wrappers/../primitives/../essential/SDL_Headers.h \
@@ -401,13 +409,14 @@ Dot.o: Dot.cpp Dot.h essential/constants.h essential/MegaBase.h \
   game_entities/base/../../primitives/Point.h \
   game_entities/base/../../primitives/Rect.h \
   primitives/../essential/util.h essential/../primitives/Point.h \
-  essential/../MyBase.h primitives/../MyBase.h primitives/Line.h \
-  primitives/../essential/random.h primitives/Polygon.h \
-  game_entities/CollisionHandler.h game_entities/../primitives/Line.h \
-  game_entities/../primitives/Rect.h game_entities/NodeDrawGroup.h \
-  game_entities/../essential/random.h game_entities/DrawGroup.h \
-  game_entities/../BoundedPoint.h game_entities/../essential/MegaBase.h \
-  game_entities/Node.h game_entities/../essential/constants.h \
+  essential/../MyBase.h primitives/../essential/log.h primitives/Line.h \
+  primitives/../MyBase.h primitives/../essential/random.h \
+  primitives/Polygon.h game_entities/CollisionHandler.h \
+  game_entities/../primitives/Line.h game_entities/../primitives/Rect.h \
+  game_entities/NodeDrawGroup.h game_entities/../essential/random.h \
+  game_entities/DrawGroup.h game_entities/../BoundedPoint.h \
+  game_entities/../essential/MegaBase.h game_entities/Node.h \
+  game_entities/../essential/constants.h \
   game_entities/../primitives/Point.h \
   game_entities/base/../../primitives/PointDelta.h \
   game_entities/base/../../wrappers/Timer.h primitives/PointDelta.h \
@@ -422,8 +431,9 @@ BackgroundElement.o: game_entities/BackgroundElement.cpp \
   game_entities/../primitives/../essential/util.h \
   game_entities/../primitives/../essential/../primitives/Point.h \
   game_entities/../primitives/../essential/../MyBase.h \
-  game_entities/../primitives/../MyBase.h \
+  game_entities/../primitives/../essential/log.h \
   game_entities/../primitives/Line.h \
+  game_entities/../primitives/../MyBase.h \
   game_entities/../primitives/../essential/random.h \
   game_entities/../primitives/Polygon.h \
   game_entities/../wrappers/Texture.h \
@@ -448,8 +458,9 @@ NodePath.o: game_entities/NodePath.cpp game_entities/NodePath.h \
   game_entities/../primitives/Point.h game_entities/../primitives/Rect.h \
   game_entities/../essential/../primitives/../essential/util.h \
   game_entities/../essential/../MyBase.h \
-  game_entities/../essential/../primitives/../MyBase.h \
+  game_entities/../essential/../primitives/../essential/log.h \
   game_entities/../essential/../primitives/Line.h \
+  game_entities/../essential/../primitives/../MyBase.h \
   game_entities/../essential/../primitives/../essential/random.h \
   game_entities/../essential/../primitives/Polygon.h \
   game_entities/NodeDrawGroup.h game_entities/../essential/random.h \
@@ -489,8 +500,9 @@ Path.o: game_entities/paths/Path.cpp game_entities/paths/Path.h \
   game_entities/paths/../base/../../primitives/../essential/util.h \
   game_entities/paths/../base/../../essential/../primitives/Point.h \
   game_entities/paths/../base/../../essential/../MyBase.h \
-  game_entities/paths/../base/../../primitives/../MyBase.h \
+  game_entities/paths/../base/../../primitives/../essential/log.h \
   game_entities/paths/../base/../../primitives/Line.h \
+  game_entities/paths/../base/../../primitives/../MyBase.h \
   game_entities/paths/../base/../../primitives/../essential/random.h \
   game_entities/paths/../base/../../primitives/Polygon.h \
   game_entities/paths/../base/../../game_entities/CollisionHandler.h \
@@ -543,8 +555,9 @@ LinePath.o: game_entities/paths/LinePath.cpp \
   game_entities/paths/../base/../../primitives/../essential/util.h \
   game_entities/paths/../base/../../essential/../primitives/Point.h \
   game_entities/paths/../base/../../essential/../MyBase.h \
-  game_entities/paths/../base/../../primitives/../MyBase.h \
+  game_entities/paths/../base/../../primitives/../essential/log.h \
   game_entities/paths/../base/../../primitives/Line.h \
+  game_entities/paths/../base/../../primitives/../MyBase.h \
   game_entities/paths/../base/../../primitives/../essential/random.h \
   game_entities/paths/../base/../../primitives/Polygon.h \
   game_entities/paths/../base/../../game_entities/CollisionHandler.h \
@@ -583,8 +596,9 @@ EntityBase.o: game_entities/base/EntityBase.cpp \
   game_entities/base/../../wrappers/../primitives/../essential/util.h \
   game_entities/base/../../essential/../primitives/Point.h \
   game_entities/base/../../essential/../MyBase.h \
-  game_entities/base/../../wrappers/../primitives/../MyBase.h \
+  game_entities/base/../../wrappers/../primitives/../essential/log.h \
   game_entities/base/../../wrappers/../primitives/Line.h \
+  game_entities/base/../../wrappers/../primitives/../MyBase.h \
   game_entities/base/../../wrappers/../primitives/../essential/random.h \
   game_entities/base/../../wrappers/../primitives/Polygon.h \
   game_entities/base/../../game_entities/CollisionHandler.h \
@@ -634,8 +648,9 @@ PathManager.o: game_entities/paths/PathManager.cpp \
   game_entities/paths/../base/../../primitives/../essential/util.h \
   game_entities/paths/../base/../../essential/../primitives/Point.h \
   game_entities/paths/../base/../../essential/../MyBase.h \
-  game_entities/paths/../base/../../primitives/../MyBase.h \
+  game_entities/paths/../base/../../primitives/../essential/log.h \
   game_entities/paths/../base/../../primitives/Line.h \
+  game_entities/paths/../base/../../primitives/../MyBase.h \
   game_entities/paths/../base/../../primitives/../essential/random.h \
   game_entities/paths/../base/../../primitives/Polygon.h \
   game_entities/paths/../base/../../game_entities/CollisionHandler.h \
@@ -688,8 +703,9 @@ CirclePath.o: game_entities/paths/CirclePath.cpp \
   game_entities/paths/../base/../../primitives/../essential/util.h \
   game_entities/paths/../../wrappers/../essential/../primitives/Point.h \
   game_entities/paths/../../wrappers/../essential/../MyBase.h \
-  game_entities/paths/../base/../../primitives/../MyBase.h \
+  game_entities/paths/../base/../../primitives/../essential/log.h \
   game_entities/paths/../base/../../primitives/Line.h \
+  game_entities/paths/../base/../../primitives/../MyBase.h \
   game_entities/paths/../base/../../primitives/../essential/random.h \
   game_entities/paths/../base/../../primitives/Polygon.h \
   game_entities/paths/../base/../../game_entities/CollisionHandler.h \
@@ -741,8 +757,9 @@ ZeroRadiusTurnPath.o: game_entities/paths/ZeroRadiusTurnPath.cpp \
   game_entities/paths/../base/../../primitives/../essential/util.h \
   game_entities/paths/../base/../../essential/../primitives/Point.h \
   game_entities/paths/../base/../../essential/../MyBase.h \
-  game_entities/paths/../base/../../primitives/../MyBase.h \
+  game_entities/paths/../base/../../primitives/../essential/log.h \
   game_entities/paths/../base/../../primitives/Line.h \
+  game_entities/paths/../base/../../primitives/../MyBase.h \
   game_entities/paths/../base/../../primitives/../essential/random.h \
   game_entities/paths/../base/../../primitives/Polygon.h \
   game_entities/paths/../base/../../game_entities/CollisionHandler.h \
@@ -772,9 +789,10 @@ CollideBase.o: game_entities/base/CollideBase.cpp \
   game_entities/base/../../primitives/../essential/util.h \
   game_entities/base/../../primitives/../essential/../primitives/Point.h \
   game_entities/base/../../primitives/../essential/../MyBase.h \
-  game_entities/base/../../primitives/../MyBase.h \
+  game_entities/base/../../primitives/../essential/log.h \
   game_entities/base/../../primitives/Line.h \
   game_entities/base/../../primitives/Point.h \
+  game_entities/base/../../primitives/../MyBase.h \
   game_entities/base/../../primitives/../essential/random.h \
   game_entities/base/../../primitives/Polygon.h \
   game_entities/base/ThingBase.h game_entities/base/../../GameInstance.h \
@@ -816,6 +834,7 @@ ThingBase.o: game_entities/base/ThingBase.cpp \
   game_entities/base/../../essential/../primitives/Point.h \
   game_entities/base/../../essential/../MyBase.h \
   game_entities/base/../../game_entities/../primitives/Rect.h \
+  game_entities/base/../../wrappers/../primitives/../essential/log.h \
   game_entities/base/../../wrappers/../primitives/Line.h \
   game_entities/base/../../wrappers/../primitives/Polygon.h \
   game_entities/base/../../game_entities/NodeDrawGroup.h \
@@ -838,7 +857,8 @@ GameInstance.o: GameInstance.cpp GameInstance.h essential/log.h \
   game_entities/base/../../primitives/Rect.h \
   wrappers/../primitives/../essential/util.h \
   essential/../primitives/Point.h essential/../MyBase.h \
-  wrappers/../primitives/../MyBase.h wrappers/../primitives/Line.h \
+  wrappers/../primitives/../essential/log.h \
+  wrappers/../primitives/Line.h wrappers/../primitives/../MyBase.h \
   wrappers/../primitives/../essential/random.h \
   wrappers/../primitives/Polygon.h game_entities/CollisionHandler.h \
   game_entities/../primitives/Line.h game_entities/../primitives/Rect.h \
@@ -857,8 +877,8 @@ CollisionHandler.o: game_entities/CollisionHandler.cpp \
   game_entities/../primitives/../essential/../primitives/Point.h \
   game_entities/../primitives/../essential/../MyBase.h \
   game_entities/../primitives/Rect.h \
-  game_entities/../primitives/Polygon.h game_entities/../GameInstance.h \
   game_entities/../primitives/../essential/log.h \
+  game_entities/../primitives/Polygon.h game_entities/../GameInstance.h \
   game_entities/../primitives/../AlertTextHandler.h \
   game_entities/../primitives/../wrappers/AlertText.h \
   game_entities/../primitives/../wrappers/Font.h \
@@ -883,8 +903,9 @@ BigWall.o: game_entities/BigWall.cpp game_entities/BigWall.h \
   game_entities/../primitives/../essential/util.h \
   game_entities/../primitives/../essential/../primitives/Point.h \
   game_entities/../primitives/../essential/../MyBase.h \
-  game_entities/../primitives/../MyBase.h \
+  game_entities/../primitives/../essential/log.h \
   game_entities/../primitives/Line.h \
+  game_entities/../primitives/../MyBase.h \
   game_entities/../primitives/../essential/random.h \
   game_entities/../primitives/Polygon.h game_entities/base/ThingBase.h \
   game_entities/base/../../GameInstance.h \
@@ -917,3 +938,9 @@ MovementWrapper.o: wrappers/MovementWrapper.cpp \
 SDLUtil.o: essential/SDLUtil.cpp essential/SDLUtil.h \
   essential/SDL_Headers.h
 log.o: essential/log.cpp essential/log.h
+Polygon.o: primitives/Polygon.cpp primitives/Polygon.h \
+  primitives/../MyBase.h primitives/Line.h primitives/Point.h \
+  primitives/../essential/random.h primitives/../essential/util.h \
+  primitives/../essential/../primitives/Point.h \
+  primitives/../essential/../MyBase.h primitives/Rect.h \
+  primitives/../essential/log.h

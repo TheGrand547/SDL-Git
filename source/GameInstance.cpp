@@ -87,6 +87,7 @@ void GameInstance::addNode(Point position, std::string data) {
 
 void GameInstance::instanceBegin() {
 	// Do final things before playing starts
+	/*
 	std::vector<Point> p;
 	//std::vector<Line> LINES;
 	//std::cout << this->allThings.size() << std::endl;
@@ -142,5 +143,5 @@ void GameInstance::instanceBegin() {
 	Rect g(5, 5,5 ,5);
 	LOG("Size: %i", this->nodes.size());
 	//this->nodes.connectNodes();
-	//this->nodes.purge();
+	//this->nodes.purge();*/
 }

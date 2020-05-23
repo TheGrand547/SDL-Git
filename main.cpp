@@ -18,14 +18,15 @@ Point* MegaBase::offset = NULL;
 // TODO: EDGEMAP EDGEMAP EDGEMAP -> MAP EDGES OF EACH SHAPE AND ESTABLISH SECTORS FROM THAT
 int main(int argc, char* argv[]) {
 	LOG("Section: Setup");
-	std::map<std::string, int> gameState; // TODO: Write command line args like in source/idtech1, in addition to command line args such as DRAW_PATHS_ENABLE
+	// TODO: Write command line args like in source/idtech1, in addition to command line args such as DRAW_PATHS_ENABLE
+	std::map<std::string, int> gameState; 
 	for (int i = 1; i < argc; i++) {
 		if (!strcmp(argv[i], "RAY_CAST_ENABLE")) {
 			gameState["RAY_CAST"] = 1;
 		}
 	}
 	if(!init()) {
-		printf("Failed to initialize!\n");
+		LOG("Failed to initialize!\n");
 		return 0;
 	}
 	SDL_Window* gameWindow = createWindow();
@@ -44,6 +45,7 @@ int main(int argc, char* argv[]) {
 	AlertTextHandler handler;
 	BackgroundGroup groundGroup;
 	
+	LOG("MAKING THINGS");
 	GAME.createThing<BigWall>(Rect(0, 200, 100, 300));
 	GAME.createThing<BigWall>(Rect(200, 200, 300, 100));
 	GAME.createThing<BigWall>(Rect(500, 200, 100, 400));
@@ -65,7 +67,9 @@ int main(int argc, char* argv[]) {
 			}
 		}
 	}
+	LOG("BEGIN INSTANCE");
 	GAME.instanceBegin();
+	LOG("INSTANCE BEGAN");
 	Font gFont;
 	std::string foo = "duck dev best dev";
 	AppearingText ap(foo, &gFont, Point(250, 0), 15, COLORS::RED, 300);
@@ -135,11 +139,11 @@ bool init() {
 	bool success = true;
 	//Initialize SDL
 	if(SDL_Init(SDL_INIT_EVERYTHING) < 0) {
-		printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
+		LOG("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
 		success = false;
 	} else {
 		if (TTF_Init() < 0) {
-			printf("True Type Font could not be Initialized!");
+			LOG("True Type Font could not be Initialized!");
 			success = false;
 		}
 	}
@@ -147,7 +151,8 @@ bool init() {
 }
 
 SDL_Window* createWindow() {
-	return SDL_CreateWindow(Screen::WINDOW_TITLE.c_str(), Screen::DEFAULT_POS, Screen::DEFAULT_POS, Screen::SCREEN_WIDTH, Screen::SCREEN_HEIGHT, Screen::WINDOW_ARGUMENTS);
+	return SDL_CreateWindow(Screen::WINDOW_TITLE.c_str(), Screen::DEFAULT_POS, Screen::DEFAULT_POS, Screen::SCREEN_WIDTH, 
+							Screen::SCREEN_HEIGHT, Screen::WINDOW_ARGUMENTS);
 }
 
 SDL_Renderer* createRenderer(SDL_Window* window) {

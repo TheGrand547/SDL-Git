@@ -1,5 +1,9 @@
 #include "Rect.h"
 
+// ------------------------------------------------
+// ---------------- Constructors ------------------
+// ------------------------------------------------
+
 Rect::Rect() : topLeft(0, 0), heightVector(0, 0), widthVector(0, 0) {}
 
 Rect::Rect(Point topLeft, Line widthVector, Line heightVector) : topLeft(topLeft), 
@@ -29,7 +33,7 @@ Rect::Rect(Line side1, Line side2) {
 			this->widthVector = Line(side1.getOrigin(), side2.getOrigin()).getVector();
 		}
 	} else { // shit
-		std::cout << "Undefined behavior" << std::endl;
+		LOG("Undefined behavior in Rect Initialization");
 		return;
 	}
 	// TODO: Make this not vomit inducing
@@ -75,7 +79,7 @@ Rect::Rect(Point position, double width, double height) {
 	*this = Rect(position, position + Point(width, height));
 }
 
-Rect::Rect(const Rect& that) : MyBase() {
+Rect::Rect(const Rect& that) {
 	this->topLeft = that.topLeft;
 	this->widthVector = that.widthVector;
 	this->heightVector = that.heightVector;
@@ -83,49 +87,20 @@ Rect::Rect(const Rect& that) : MyBase() {
 
 Rect::~Rect() {}
 
-void Rect::superDraw(SDL_Renderer* renderer, Point offset) {
-	uint8_t r, g, b, a;
-	SDL_GetRenderDrawColor(renderer, &r, &g, &b, &a);
-	this->setColorChannels(r, g, b, a);
-	this->draw(renderer, offset);
-}
+// ------------------------------------------------
+// ------------- Interface Methods ----------------
+// ------------------------------------------------
 
-void Rect::draw(SDL_Renderer* renderer, Point offset) {
-	Point ar[] = {this->getTopLeft(), this->getTopRight(), this->getBottomRight(), this->getBottomLeft()};
-	short* x = new short[4];
-	short* y = new short[4];
-	for (int i = 0; i < 4; i++) {
-		ar[i] -= offset;
-		x[i] = ar[i].x();
-		y[i] = ar[i].y();
-	}
-	polygonRGBA(renderer, x, y, 4, rChannel, bChannel, gChannel, aChannel);
-	delete[] x;
-	delete[] y;
-}
-
-double Rect::getOriginDistance() const {
-	Point ar[] = {this->getTopLeft(), this->getTopRight(), this->getBottomRight(), this->getBottomLeft()};
-	double dist = 0;
-	for (Point point: ar) {
-		double temp = point.originDistance();
-		if (temp > dist) {
-			dist = temp;
-		}
-	}
-	return dist;
+bool Rect::containsPoint(const Point& point) const {
+	// TODO: write this
+	std::cout << point << std::endl;
+	return false;
 }
 
 bool Rect::doesLineCollide(const Line& ray) const {
 	/* True - the Line DOES collide with this rect
 	 * False - the Line DOES NOT collide with this rect */
-	 
-	// TODO: should REALLY have a vector or something for this...
-	Point ar[] = {this->getTopLeft(), this->getTopRight(), this->getBottomRight(), this->getBottomLeft()};
-	Line temp[4];
-	for (int i = 0; i < 4; i++) {
-		temp[i] = Line(ar[i], ar[(i + 1) % 4]);
-	}
+	std::vector<Line> temp = this->getLines();
 	for (Line line: temp) {
 		if (line.intersectionPoint(ray).isReal()) {
 			return true;
@@ -134,65 +109,23 @@ bool Rect::doesLineCollide(const Line& ray) const {
 	return false;
 }
 
-int Rect::numberOfCollisions(const Line& ray) const {
-	Point ar[] = {this->getTopLeft(), this->getTopRight(), this->getBottomRight(), this->getBottomLeft()};
-	Line temp[4];
-	int count = 0;
-	for (int i = 0; i < 4; i++) {
-		temp[i] = Line(ar[i], ar[(i + 1) % 4]);
-	}
-	for (Line line: temp) {
-		if (line.intersectionPoint(ray).isReal()) {
-			count++;
-		}
-	}
-	return count;
-}
-
-Point Rect::collideLine(const Line& ray) const {
-	/* Returns the point where the line intersects the rect, if it doesn't intersect it returns a null point */
-	Point intersection, tempPoint;
-	Point ar[] = {this->getTopLeft(), this->getTopRight(), this->getBottomRight(), this->getBottomLeft()};
-	Line temp[4];
-	for (int i = 0; i < 4; i++) {
-		temp[i] = Line(ar[i], ar[(i + 1) % 4]);
-	}
-	for (Line line: temp) {
-		tempPoint = line.intersectionPoint(ray);
-		if (tempPoint.isReal()) {
-			if (intersection.isNull() || tempPoint.distanceToPoint(ray.getOrigin()) < intersection.distanceToPoint(ray.getOrigin())) {
-				intersection = tempPoint;
+bool Rect::operator==(const Polygon& other) const {
+	std::vector<Point> myArray = this->getPoints();
+	std::vector<Point> otherArray = other.getPoints();
+	if (myArray.size() != otherArray.size()) return false;
+	for (const Point& pointA: myArray) {
+		bool flag = false;
+		for (const Point& pointB: otherArray) {
+			if (pointA == pointB) {
+				flag = true;
+				break;
 			}
 		}
+		if (!flag) {
+			return false;
+		}
 	}
-	return intersection;
-}
-
-void Rect::setColorChannels(int r, int g, int b, int a) {
-	MyBase::setColorChannels(r, g, b, a);
-}
-
-Point Rect::getTopLeft() const {
-	return this->topLeft;
-}
-
-Point Rect::getTopRight() const {
-	return this->topLeft + this->widthVector;
-}
-
-Point Rect::getBottomLeft() const {
-	return this->topLeft + this->heightVector;
-}
-
-Point Rect::getBottomRight() const {
-	return this->getBottomLeft() + this->widthVector;
-}
-
-double Rect::getWidth() const {
-	return this->widthVector.getMagnitude();
-}
-double Rect::getHeight() const {
-	return this->heightVector.getMagnitude();
+	return true;
 }
 
 bool Rect::overlap(const Polygon& other) const {
@@ -225,34 +158,104 @@ bool Rect::overlap(const Polygon& other) const {
 	return value;
 }
 
-bool Rect::containsPoint(const Point& point) const {
-	// TODO: write this
-	std::cout << point << std::endl;
-	return false;
-}
-
-bool Rect::operator==(const Polygon& other) const {
-	// TODO: WRITE THIS
-	other.getBoundingRect();
-	return false;
-}
-
-bool Rect::operator==(const Rect& other) const {
-	Point ar[] = {this->getTopLeft(), this->getTopRight(), this->getBottomRight(), this->getBottomLeft()};
-	Point ar2[] = {other.getTopLeft(), other.getTopRight(), other.getBottomRight(), other.getBottomLeft()};
-	for (const Point& pointA: ar) {
-		bool flag = false;
-		for (const Point& pointB: ar2) {
-			if (pointA == pointB) {
-				flag = true;
-				break;
-			}
-		}
-		if (!flag) {
-			return false;
+int Rect::numberOfCollisions(const Line& ray) const {
+	int count = 0;
+	for (Line line: this->getLines()) {
+		if (line.intersectionPoint(ray).isReal()) {
+			count++;
 		}
 	}
-	return true;
+	return count;
+}
+
+Point Rect::collideLine(const Line& ray) const {
+	/* Returns the point where the line intersects the rect, if it doesn't intersect it returns a null point */
+	Point intersection, tempPoint;
+	for (Line line: this->getLines()) {
+		tempPoint = line.intersectionPoint(ray);
+		if (tempPoint.isReal()) {
+			if (intersection.isNull() || tempPoint.distanceToPoint(ray.getOrigin()) < intersection.distanceToPoint(ray.getOrigin())) {
+				intersection = tempPoint;
+			}
+		}
+	}
+	return intersection;
+}
+
+std::vector<Line> Rect::getLines() const {
+	std::vector<Line> returnValue;
+	std::vector<Point> points = this->getPoints();
+	for (int i = 0; i < 4; i++) {
+		returnValue.push_back(Line(points[i], points[(i + 1) % 4]));
+	}
+	return returnValue;
+}
+
+std::vector<Point> Rect::getPoints() const {
+	return {this->getTopLeft(), this->getTopRight(), this->getBottomRight(), this->getBottomLeft()};
+}
+
+// ------------------------------------------------
+// ------------ Specialized Methods ---------------
+// ------------------------------------------------
+
+void Rect::superDraw(SDL_Renderer* renderer, Point offset) {
+	uint8_t r, g, b, a;
+	SDL_GetRenderDrawColor(renderer, &r, &g, &b, &a);
+	this->setColorChannels(r, g, b, a);
+	this->draw(renderer, offset);
+}
+
+void Rect::draw(SDL_Renderer* renderer, Point offset) {
+	std::vector<Point> temp = this->getPoints();
+	short* x = new short[temp.size()];
+	short* y = new short[temp.size()];
+	for (Uint i = 0; i < temp.size(); i++) {
+		temp[i] -= offset;
+		x[i] = temp[i].x();
+		y[i] = temp[i].y();
+	}
+	polygonRGBA(renderer, x, y, temp.size(), rChannel, bChannel, gChannel, aChannel);
+	delete[] x;
+	delete[] y;
+}
+
+double Rect::getOriginDistance() const {
+	double dist = 0;
+	for (Point point: this->getPoints()) {
+		double temp = point.originDistance();
+		if (temp > dist) {
+			dist = temp;
+		}
+	}
+	return dist;
+}
+
+void Rect::setColorChannels(int r, int g, int b, int a) {
+	MyBase::setColorChannels(r, g, b, a);
+}
+
+Point Rect::getTopLeft() const {
+	return this->topLeft;
+}
+
+Point Rect::getTopRight() const {
+	return this->topLeft + this->widthVector;
+}
+
+Point Rect::getBottomLeft() const {
+	return this->topLeft + this->heightVector;
+}
+
+Point Rect::getBottomRight() const {
+	return this->getBottomLeft() + this->widthVector;
+}
+
+double Rect::getWidth() const {
+	return this->widthVector.getMagnitude();
+}
+double Rect::getHeight() const {
+	return this->heightVector.getMagnitude();
 }
 
 SDL_Rect Rect::getSDLRect() const {
@@ -260,20 +263,6 @@ SDL_Rect Rect::getSDLRect() const {
 						int(this->widthVector.getMagnitude()), int(this->heightVector.getMagnitude())};
 	return tempRect;
 }
-
-Rect Rect::getBoundingRect() const {
-	assert(this->topLeft.isReal());
-	double minX(1 / 0.0), minY(1 / 0.0), maxX(-1 / 0.0), maxY(-1 / 0.0);
-	CORNERS(this, myCorners);
-	for (const Point& point: myCorners) {
-		if (point.x() > maxX) maxX = point.x();
-		if (point.x() < minX) minX = point.x();
-		if (point.y() > maxY) maxY = point.y();
-		if (point.y() < minY) minY = point.y();
-	}
-	return Rect(Point(minX, minY), Point(maxX, maxY));
-}
-
 
 Rect Rect::operator+(const Point& point) {
 	return Rect(this->topLeft + point, this->widthVector, this->heightVector);
@@ -300,11 +289,4 @@ Rect& Rect::operator=(const Rect& that) {
 
 Point Rect::getCenter() const {
 	return (this->topLeft + this->getBottomRight()) / 2;
-}
-
-void Rect::getCorners(Point array[4]) const {
-	array[0] = this->getTopLeft();
-	array[1] = this->getTopRight();
-	array[2] = this->getBottomRight();
-	array[3] = this->getBottomLeft();
 }
