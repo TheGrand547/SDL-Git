@@ -198,7 +198,7 @@ void Rect::draw(SDL_Renderer* renderer, Point offset) {
 		x[i] = temp[i].x();
 		y[i] = temp[i].y();
 	}
-	polygonRGBA(renderer, x, y, temp.size(), rChannel, bChannel, gChannel, aChannel);
+	polygonRGBA(renderer, x, y, temp.size(), this->rChannel, this->bChannel, this->gChannel, this->aChannel);
 	delete[] x;
 	delete[] y;
 }

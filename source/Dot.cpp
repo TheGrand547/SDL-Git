@@ -73,12 +73,6 @@ void Dot::update() {
 }
 
 void Dot::collideTest() {
-	/*
-	if (this->pf.getTicks() >= 1000) {
-		std::cout << (this->lastDelta - this->getPosition()).getMagnitude() << std::endl;
-		this->lastDelta = this->getPosition();
-		this->pf.start();
-	}*/
 	const int CHECKS = 4;
 	double gp = tmp.getTicks();
 	if (gp) {

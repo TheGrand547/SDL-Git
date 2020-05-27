@@ -75,7 +75,8 @@ main.o: ../main.cpp ../source/headers.h ../source/AlertTextHandler.h \
   ../source/wrappers/control/CommandBase.h \
   ../source/wrappers/control/SimpleButtonCommand.h \
   ../source/wrappers/HeldKey.h ../source/wrappers/Texture.h \
-  ../source/GameInstance.h ../source/wrappers/SpriteSheet.h
+  ../source/GameInstance.h ../source/wrappers/SpriteSheet.h \
+  ../source/wrappers/../game_entities/base/ThingBase.h
 Rect.o: primitives/Rect.cpp primitives/Rect.h \
   primitives/../essential/util.h \
   primitives/../essential/../primitives/Point.h \
@@ -927,11 +928,40 @@ BigWall.o: game_entities/BigWall.cpp game_entities/BigWall.h \
   game_entities/base/../../primitives/Point.h \
   game_entities/base/../../primitives/Rect.h
 SpriteSheet.o: wrappers/SpriteSheet.cpp wrappers/SpriteSheet.h \
-  wrappers/../primitives/Point.h wrappers/Texture.h \
-  wrappers/../essential/constants.h wrappers/../essential/log.h \
+  wrappers/../primitives/Point.h \
+  wrappers/../game_entities/base/ThingBase.h \
+  wrappers/../game_entities/base/../../GameInstance.h \
+  wrappers/../game_entities/base/../../essential/log.h \
+  wrappers/../game_entities/base/../../AlertTextHandler.h \
+  wrappers/../game_entities/base/../../wrappers/AlertText.h \
+  wrappers/Font.h wrappers/Timer.h wrappers/../essential/constants.h \
+  wrappers/../game_entities/base/../../game_entities/base/ThingBase.h \
+  wrappers/../game_entities/base/../../game_entities/CollisionHandler.h \
+  wrappers/../game_entities/base/../../game_entities/../primitives/Line.h \
+  wrappers/../primitives/../MyBase.h \
+  wrappers/../primitives/../essential/random.h \
+  wrappers/../primitives/../essential/util.h \
+  wrappers/../game_entities/base/../../essential/../primitives/Point.h \
+  wrappers/../game_entities/base/../../essential/../MyBase.h \
+  wrappers/../game_entities/base/../../game_entities/../primitives/Rect.h \
+  wrappers/../primitives/../essential/log.h \
+  wrappers/../primitives/Line.h wrappers/../primitives/Polygon.h \
+  wrappers/../game_entities/base/../../game_entities/NodeDrawGroup.h \
+  wrappers/../game_entities/base/../../game_entities/../essential/random.h \
+  wrappers/../game_entities/base/../../game_entities/DrawGroup.h \
+  wrappers/../game_entities/base/../../game_entities/../BoundedPoint.h \
+  wrappers/../game_entities/base/../../primitives/Point.h \
+  wrappers/../game_entities/base/../../game_entities/../essential/MegaBase.h \
+  wrappers/../game_entities/base/../../essential/../BoundedPoint.h \
+  wrappers/../game_entities/base/../../game_entities/Node.h \
+  wrappers/../game_entities/base/../../game_entities/../essential/constants.h \
+  wrappers/../game_entities/base/../../game_entities/../primitives/Point.h \
+  wrappers/../game_entities/base/../../primitives/Rect.h \
+  wrappers/Texture.h wrappers/../essential/log.h \
   wrappers/../essential/random.h wrappers/../essential/SDLUtil.h \
+  wrappers/../game_entities/base/../../essential/SDL_Headers.h \
   wrappers/../essential/SDL_Headers.h wrappers/PixelMod.h \
-  wrappers/../primitives/Pixel.h wrappers/Timer.h
+  wrappers/../primitives/Pixel.h
 MovementWrapper.o: wrappers/MovementWrapper.cpp \
   wrappers/MovementWrapper.h wrappers/Timer.h \
   wrappers/../essential/constants.h
@@ -944,3 +974,38 @@ Polygon.o: primitives/Polygon.cpp primitives/Polygon.h \
   primitives/../essential/../primitives/Point.h \
   primitives/../essential/../MyBase.h primitives/Rect.h \
   primitives/../essential/log.h
+Animation.o: wrappers/Animation.cpp wrappers/Animation.h \
+  wrappers/SpriteSheet.h wrappers/../primitives/Point.h \
+  wrappers/../game_entities/base/ThingBase.h \
+  wrappers/../game_entities/base/../../GameInstance.h \
+  wrappers/../game_entities/base/../../essential/log.h \
+  wrappers/../game_entities/base/../../AlertTextHandler.h \
+  wrappers/../game_entities/base/../../wrappers/AlertText.h \
+  wrappers/Font.h wrappers/Timer.h wrappers/../essential/constants.h \
+  wrappers/../game_entities/base/../../game_entities/base/ThingBase.h \
+  wrappers/../game_entities/base/../../game_entities/CollisionHandler.h \
+  wrappers/../game_entities/base/../../game_entities/../primitives/Line.h \
+  wrappers/../primitives/../MyBase.h \
+  wrappers/../primitives/../essential/random.h \
+  wrappers/../primitives/../essential/util.h \
+  wrappers/../game_entities/base/../../essential/../primitives/Point.h \
+  wrappers/../game_entities/base/../../essential/../MyBase.h \
+  wrappers/../game_entities/base/../../game_entities/../primitives/Rect.h \
+  wrappers/../primitives/../essential/log.h \
+  wrappers/../primitives/Line.h wrappers/../primitives/Polygon.h \
+  wrappers/../game_entities/base/../../game_entities/NodeDrawGroup.h \
+  wrappers/../game_entities/base/../../game_entities/../essential/random.h \
+  wrappers/../game_entities/base/../../game_entities/DrawGroup.h \
+  wrappers/../game_entities/base/../../game_entities/../BoundedPoint.h \
+  wrappers/../game_entities/base/../../primitives/Point.h \
+  wrappers/../game_entities/base/../../game_entities/../essential/MegaBase.h \
+  wrappers/../game_entities/base/../../essential/../BoundedPoint.h \
+  wrappers/../game_entities/base/../../game_entities/Node.h \
+  wrappers/../game_entities/base/../../game_entities/../essential/constants.h \
+  wrappers/../game_entities/base/../../game_entities/../primitives/Point.h \
+  wrappers/../game_entities/base/../../primitives/Rect.h \
+  wrappers/Texture.h wrappers/../essential/log.h \
+  wrappers/../essential/random.h wrappers/../essential/SDLUtil.h \
+  wrappers/../game_entities/base/../../essential/SDL_Headers.h \
+  wrappers/../essential/SDL_Headers.h wrappers/PixelMod.h \
+  wrappers/../primitives/Pixel.h

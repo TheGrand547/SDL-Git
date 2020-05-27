@@ -67,9 +67,7 @@ int main(int argc, char* argv[]) {
 			}
 		}
 	}
-	LOG("BEGIN INSTANCE");
 	GAME.instanceBegin();
-	LOG("INSTANCE BEGAN");
 	Font gFont;
 	std::string foo = "duck dev best dev";
 	AppearingText ap(foo, &gFont, Point(250, 0), 15, COLORS::RED, 300);
@@ -80,12 +78,12 @@ int main(int argc, char* argv[]) {
 	FpsText fps(gFont, Point(100, 10), COLORS::RED); // TODO: Add handler for these things, also have this singular timer passed to all "groups" for consistency
 	handler.addMessage(AlertText("this shouldn't last long", Point(300, 150), COLORS::RED, 20, 2500));
 	// TODO: Standardize between draw and render, ie pick one you indecisive fuck
-	// Pass dot values it needs
 	/*
 	Line lip(heck->getPosition(), heck->getPosition() + Point(200, 0));
 	lip += Point(0, 5);*/
 	SpriteSheet g("resources/animtest.png", 50, 50, gRenderer);
 	LOG("Section: Main Loop");
+	int x = 0;
 	while(!contra.quit) {
 		clearScreen(gRenderer);
 		popo.zero(); // >:(
@@ -95,15 +93,16 @@ int main(int argc, char* argv[]) {
 		/* Drawing */
 		groundGroup.drawGroup();
 		GAME.draw();
-		//bads.drawGroup();
-		//ap.update(gRenderer);
-		//dot.draw(); // Player must always be drawn onto the top layer for best visibility, for the time being
+		ap.update(gRenderer);
 		if (!gameState["RAY_CAST"]) {
 			if (contra.checkListener(config["Ray"]).getHeld()) { // Raycasting
 				dot->rayCast();
 			}
 		}
-		g.draw(gRenderer, Point(200, 200));
+		g.draw(gRenderer, Point(200, 200), RIGHT, x % 5);
+		if (SDL_GetTicks() % 100 < 5) {
+			x++;
+		}
 		//lip.drawLine(gRenderer);
 		fps.draw(gRenderer);
 		fps.drawFrameTime(gRenderer);

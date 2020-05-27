@@ -37,11 +37,11 @@ class Texture {
 		void loadFromFile(SDL_Renderer* renderer, std::string path, int xSize = 0, int ySize = 0);
 		void normalizeTexture(SDL_Renderer* renderer);
 		
-		// TODO: Add more static method
+		// TODO: Add more static methods
 		static Texture load(SDL_Renderer* renderer, std::string path);
 		static Texture scaleTextureBy(SDL_Renderer* renderer, Texture texture, double xFactor, double yFactor);
 		
-		//TODO: Add more Filters
+		// TODO: Add more Filters
 		// Filters
 		void bilateralFilter(const float valI, const float valS, const int kernelSize = 5, 
 		        const int xStart = 2, const int yStart = 2, int width = 0, int height = 0);
