@@ -76,7 +76,8 @@ main.o: ../main.cpp ../source/headers.h ../source/AlertTextHandler.h \
   ../source/wrappers/control/SimpleButtonCommand.h \
   ../source/wrappers/HeldKey.h ../source/wrappers/Texture.h \
   ../source/GameInstance.h ../source/wrappers/SpriteSheet.h \
-  ../source/wrappers/../game_entities/base/ThingBase.h
+  ../source/wrappers/../game_entities/base/ThingBase.h \
+  ../source/wrappers/Animation.h
 Rect.o: primitives/Rect.cpp primitives/Rect.h \
   primitives/../essential/util.h \
   primitives/../essential/../primitives/Point.h \
@@ -957,7 +958,7 @@ SpriteSheet.o: wrappers/SpriteSheet.cpp wrappers/SpriteSheet.h \
   wrappers/../game_entities/base/../../game_entities/../essential/constants.h \
   wrappers/../game_entities/base/../../game_entities/../primitives/Point.h \
   wrappers/../game_entities/base/../../primitives/Rect.h \
-  wrappers/Texture.h wrappers/../essential/log.h \
+  wrappers/Animation.h wrappers/Texture.h wrappers/../essential/log.h \
   wrappers/../essential/random.h wrappers/../essential/SDLUtil.h \
   wrappers/../game_entities/base/../../essential/SDL_Headers.h \
   wrappers/../essential/SDL_Headers.h wrappers/PixelMod.h \

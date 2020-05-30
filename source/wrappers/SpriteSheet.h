@@ -1,6 +1,7 @@
 #pragma once
 #ifndef SPRITE_SHEET_H
 #define SPRITE_SHEET_H
+#include<map>
 #include<string>
 #include "../primitives/Point.h"
 #include "../game_entities/base/ThingBase.h"
@@ -16,11 +17,16 @@ typedef ENTITY_DIRECTION EntityDir;
 
 class SpriteSheet {
 	private:
+		std::map<std::string, Animation> animations;
+		std::string key;
 		Texture frame;
 		Uint width, height, maxX, maxY;
 	public:
 		SpriteSheet(const std::string& filename, int width, int height, SDL_Renderer* renderer);
 		~SpriteSheet();
+		void addAnimation(std::string tag, Uint startingIndex, Uint endingIndex, Uint interval);
 		void draw(SDL_Renderer* renderer, Point position, EntityDir dir, Uint index);
+		void draw(SDL_Renderer* renderer, Point position, EntityDir dir);
+		void startAnimation(std::string tag);
 };
 #endif

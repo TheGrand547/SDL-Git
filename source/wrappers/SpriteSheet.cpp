@@ -19,7 +19,7 @@ size = ...;
 
 // Cause i'm lazy and I want the background code to work i'll do this later
 
-SpriteSheet::SpriteSheet(const std::string& filename, int width, int height, SDL_Renderer* renderer) : width(width), height(height) {
+SpriteSheet::SpriteSheet(const std::string& filename, int width, int height, SDL_Renderer* renderer) : key(""), width(width), height(height) {
 	this->frame.loadFromFile(renderer, filename);
 	this->frame.setColorKey(0xFF, 0xFF, 0xFF);
 	this->maxX = this->frame.getWidth() / this->width;
@@ -33,16 +33,43 @@ SpriteSheet::~SpriteSheet() {}
 
 void SpriteSheet::draw(SDL_Renderer* renderer, Point position, EntityDir dir, Uint index) {
 	if (index >= this->maxX) {
-		LOG("ERROR: Sprite Sheet Index out of bounds! %i is greater than the width of %i!", index, this->maxX);
+		LOG("ERROR: Sprite Sheet Index out of bounds! %i is greater than the width of %i!", (int)index, this->maxX);
 		return;
 	}
-	int x = dir;
-	x++;
 	SDL_Rect f;
 	f.x = (index % this->maxX) * this->width;
-	f.y = (0 % this->maxY) * this->height;
+	f.y = (dir % this->maxY) * this->height;
 	f.w = this->width;
 	f.h = this->height;
 	
 	this->frame.draw(renderer, position, &f);
+}
+
+void SpriteSheet::draw(SDL_Renderer* renderer, Point position, EntityDir dir) {
+	if (!this->animations[this->key].isReal()) return;
+	this->animations[this->key].update();
+	this->draw(renderer, position, dir, this->animations[this->key].currentIndex);
+}
+
+void SpriteSheet::addAnimation(std::string tag, Uint startingIndex, Uint endingIndex, Uint interval) {
+	if (this->animations[tag].isReal()) return;
+	if (startingIndex >= this->maxX || endingIndex >= this->maxX) {
+		LOG("ERROR: Sprite Sheet Index out of bounds! %i or %i is greater than the width of %i!", startingIndex, endingIndex, this->maxX);
+		return;
+	}
+	this->animations[tag] = Animation(startingIndex, endingIndex, interval);
+}
+
+void SpriteSheet::startAnimation(std::string tag) {
+	if (this->animations[tag].isReal()) {
+		if (!strcmp(this->key.c_str(), tag.c_str())) { // Same tag, restart animation
+			this->animations[tag].reset();
+		} else { // New animation
+			this->animations[this->key].exit();
+			this->animations[tag].start();
+			this->key = tag;
+		}
+	} else {
+		LOG("Invalid Animation tag of %s", tag.c_str());
+	}
 }

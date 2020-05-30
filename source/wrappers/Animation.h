@@ -1,20 +1,31 @@
 #pragma once
 #ifndef ANIMATION_H
 #define ANIMATION_H
+
+class Animation;
+
 #include "SpriteSheet.h"
 #include "Timer.h"
 
 typedef uint Uint;
 
 class Animation {
-	friend class SpriteSheet;
 	private:
-		SpriteSheet& parent;
+		bool started;
 		Timer timer;
-		Uint currentIndex, duration, endingIndex, interval, startingIndex;
+		Uint endingIndex, interval, startingIndex;
 	public:
-		Animation(SpriteSheet& parent, Uint startingIndex, Uint endingIndex, Uint duration, Uint interval);
+		Uint currentIndex;
+		
+		Animation(Uint startingIndex = 0, Uint endingIndex = 0, Uint interval = 0);
+		Animation(const Animation& other);
 		~Animation();
-		void foo();
+		Animation& operator=(const Animation& other);
+		bool isReal() const;
+		bool update();
+		void exit();
+		void pause();
+		void start();
+		void reset(); // Alias of start to be more specific
 };
 #endif
