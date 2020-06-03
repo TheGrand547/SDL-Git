@@ -24,9 +24,7 @@ class SpriteSheet {
 	public:
 		SpriteSheet(const std::string& filename, int width, int height, SDL_Renderer* renderer);
 		~SpriteSheet();
+		bool draw(std::string tag, SDL_Renderer* renderer, Point position, EntityDir dir);
 		void addAnimation(std::string tag, Uint startingIndex, Uint endingIndex, Uint interval);
-		void draw(SDL_Renderer* renderer, Point position, EntityDir dir, Uint index);
-		void draw(SDL_Renderer* renderer, Point position, EntityDir dir);
-		void startAnimation(std::string tag);
 };
 #endif

@@ -23,6 +23,7 @@ class Animation {
 		Animation& operator=(const Animation& other);
 		bool isReal() const;
 		bool update();
+		bool isStarted() const;
 		void exit();
 		void pause();
 		void start();

@@ -22,16 +22,22 @@ bool Animation::isReal() const {
 	return this->interval;
 }
 
+bool Animation::isStarted() const {
+	return this->started;
+}
+
 bool Animation::update() {
 	if (this->started && this->timer.getTicks() >= this->interval) {
 		this->currentIndex++;
 		this->started = this->currentIndex <= this->endingIndex;
 		this->timer.start();
+		//if (this->currentIndex > this->endingIndex) this->currentIndex = this->startingIndex;
 	}
 	return this->started;
 }
 
 void Animation::exit() {
+	this->currentIndex = this->startingIndex;
 	this->started = false;
 	this->timer.stop();
 }
