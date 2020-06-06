@@ -219,49 +219,6 @@ EnemyBase.o: game_entities/base/EnemyBase.cpp \
   game_entities/base/../../wrappers/FpsText.h \
   game_entities/base/../NodeDrawGroup.h game_entities/base/../NodePath.h \
   game_entities/base/EntityBase.h
-Box.o: game_entities/Box.cpp game_entities/Box.h \
-  game_entities/../BoundedPoint.h game_entities/../primitives/Point.h \
-  game_entities/../essential/constants.h \
-  game_entities/../essential/util.h \
-  game_entities/../essential/../primitives/Point.h \
-  game_entities/../essential/../MyBase.h \
-  game_entities/../primitives/Rect.h \
-  game_entities/../primitives/../essential/util.h \
-  game_entities/../primitives/../essential/log.h \
-  game_entities/../primitives/Line.h \
-  game_entities/../primitives/../MyBase.h \
-  game_entities/../primitives/../essential/random.h \
-  game_entities/../primitives/Polygon.h \
-  game_entities/../wrappers/SuperTexture.h \
-  game_entities/../wrappers/../primitives/Line.h \
-  game_entities/../wrappers/../primitives/Point.h \
-  game_entities/../wrappers/../primitives/Rect.h \
-  game_entities/../wrappers/../MyBase.h \
-  game_entities/../wrappers/../essential/util.h \
-  game_entities/../wrappers/Texture.h \
-  game_entities/../wrappers/../essential/constants.h \
-  game_entities/../wrappers/../essential/log.h \
-  game_entities/../wrappers/../essential/random.h \
-  game_entities/../wrappers/../essential/SDLUtil.h \
-  game_entities/../essential/SDL_Headers.h \
-  game_entities/../wrappers/../essential/SDL_Headers.h \
-  game_entities/../wrappers/PixelMod.h \
-  game_entities/../wrappers/../primitives/Pixel.h \
-  game_entities/base/CollideBase.h \
-  game_entities/base/../../primitives/Rect.h \
-  game_entities/base/../../primitives/Line.h \
-  game_entities/base/ThingBase.h game_entities/base/../../GameInstance.h \
-  game_entities/../essential/log.h game_entities/../AlertTextHandler.h \
-  game_entities/../wrappers/AlertText.h game_entities/../wrappers/Font.h \
-  game_entities/../wrappers/Timer.h \
-  game_entities/../game_entities/base/ThingBase.h \
-  game_entities/../game_entities/CollisionHandler.h \
-  game_entities/../game_entities/NodeDrawGroup.h \
-  game_entities/../essential/random.h game_entities/DrawGroup.h \
-  game_entities/../essential/MegaBase.h \
-  game_entities/../essential/../BoundedPoint.h game_entities/Node.h \
-  game_entities/NodeDrawGroup.h \
-  game_entities/base/../../primitives/Point.h
 Node.o: game_entities/Node.cpp game_entities/Node.h \
   game_entities/../essential/constants.h \
   game_entities/../essential/MegaBase.h \

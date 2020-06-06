@@ -16,7 +16,7 @@ Point Dot::getCenter() {
 }
 
 float Dot::calcAngle(Point point) {
-	if(point.y() != 0 || point.x() != 0) {
+	if (point.y() != 0 || point.x() != 0) {
 		 return atan2(-point.y(), point.x());
 	}
 	return 0;
@@ -42,7 +42,7 @@ Line Dot::getRay() {
 }
 
 float Dot::getAngle() {
-	return this->angle * 180 / M_PI;
+	return this->angle;
 }
 
 bool Dot::overlap(const Rect& other) const {

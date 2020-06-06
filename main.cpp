@@ -81,11 +81,9 @@ int main(int argc, char* argv[]) {
 	/*
 	Line lip(heck->getPosition(), heck->getPosition() + Point(200, 0));
 	lip += Point(0, 5);*/
-	SpriteSheet g("resources/animtest.png", 50, 50, gRenderer);
-	g.addAnimation("dumb", 1, 4, 500);
-	g.addAnimation("foo", 0, 3, 100);
+	SpriteSheet g("resources/bigsprite.png", 50, 50, gRenderer);
+	g.addAnimation("dumb", 0, 4, 500);
 	std::string kekw = "dumb";
-	ENTITY_DIRECTION DIR = RIGHT;
 	LOG("Section: Main Loop");
 	while(!contra.quit) {
 		clearScreen(gRenderer);
@@ -102,11 +100,7 @@ int main(int argc, char* argv[]) {
 				dot->rayCast();
 			}
 		}
-		if (SDL_GetTicks() % 600 == 0) {
-			DIR = (!strcmp(kekw.c_str(), "dumb")) ? UP_LEFT : RIGHT;
-			kekw = (!strcmp(kekw.c_str(), "dumb")) ? "foo" : "dumb";
-		}
-		g.draw(kekw, gRenderer, Point(200, 200), DIR);
+		g.draw(kekw, gRenderer, Point(200, 200), getDirectionFromAngle(dot->getAngle()));
 		//lip.drawLine(gRenderer);
 		fps.draw(gRenderer);
 		fps.drawFrameTime(gRenderer);
