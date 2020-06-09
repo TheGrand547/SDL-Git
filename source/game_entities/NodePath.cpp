@@ -3,10 +3,10 @@
 #include<algorithm>
 
 struct VALUE {
-	float value = 10000000;
+	double value = 10000000;
 };
 
-float getValue(std::shared_ptr<Node> node, Point target) {
+double getValue(std::shared_ptr<Node> node, Point target) {
 	return node->distanceToPoint(target);
 }
 
@@ -42,22 +42,16 @@ NodePath::NodePath(std::shared_ptr<Node> startingNode, Point target) {
 				it = path.find(it->second);
 			}
 			std::vector<std::shared_ptr<Node>>::reverse_iterator iter = temp.rbegin();
-			for (; iter != temp.rend(); iter++) {
-				this->stored.push_back(iter[0]);
-			}
+			for (; iter != temp.rend(); iter++) this->stored.push_back(iter[0]);
 			break;
 		}
 		unused.erase(std::find(unused.begin(), unused.end(), current));
 		closed.push_back(current);
 		for (std::weak_ptr<Node> weak: current->attached) {
 			std::shared_ptr<Node> node = weak.lock();
-			if (!node || valueInVector(closed, node)) {
-				continue;
-			}
-			if (valueNotInVector(unused, node)) {
-				unused.push_back(node);
-			}
-			float general = cost[current].value + current->getDistance(node);
+			if (!node || valueInVector(closed, node)) continue;
+			if (valueNotInVector(unused, node)) unused.push_back(node);
+			double general = cost[current].value + current->getDistance(node);
 			if (general < cost[node].value) {
 				path[node] = current;
 				cost[node].value = general;

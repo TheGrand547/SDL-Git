@@ -31,9 +31,12 @@ void ThingBase::setFlag(ENTITY_FLAG flag) {
 }
 
 void ThingBase::gimme(std::vector<Point>& vec) const {
+	// TODO: Make this pure virtual
 	int a = vec.size();
 	a++;
 }
+
+void ThingBase::update() {}
 
 ENTITY_DIRECTION getDirectionFromAngle(double angle) {
 	while (angle < 0 || angle > 2 * M_PI) {

@@ -23,6 +23,5 @@ class BigWall : public ThingBase {
 		void addNodes() override;
 		void draw(SDL_Renderer* renderer, Point offset = Point(0, 0)) override;
 		void gimme(std::vector<Point>& vec) const override;
-		void update() override;
 };
 #endif

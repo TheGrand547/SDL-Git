@@ -31,9 +31,9 @@ int Texture::getWidth() {
 }
 
 void Texture::free() {
-	if (texture != NULL) {
+	if (this->texture != NULL) {
 		SDL_DestroyTexture(texture);
-		texture = NULL;	
+		this->texture = NULL;	
 	}
 }
 
@@ -52,9 +52,7 @@ void Texture::setBlend(SDL_BlendMode mode) {
 void Texture::setColorKey(Uint8 red, Uint8 green, Uint8 blue) { // Modified from lazyfoo.net
 	this->setBlend(SDL_BLENDMODE_BLEND);
 	PixelMod mod(this->texture);
-	if (mod.notLocked()) {
-		return;
-	}
+	if (mod.notLocked()) return;
 	Uint32 colorKey = mod.mapRGBA(red, green, blue);
 	Uint32 transparent = mod.mapRGBA(0xFF, 0xFF, 0xFF, 0x00);
 	for (int i = 0; i < mod.count(); i++) {
@@ -196,9 +194,7 @@ Texture Texture::scaleTextureBy(SDL_Renderer* renderer, Texture texture, double 
 void Texture::floatyEdges() {
 	this->setBlend(SDL_BLENDMODE_BLEND);
 	PixelMod mod(this->texture);
-	if (mod.notLocked()) {
-		return;
-	}
+	if (mod.notLocked()) return;
 	// TODO: Tidy this up at some point
 	int aAvg, count;
 	for (int x = 0; x < mod.width(); x++) {
@@ -227,9 +223,7 @@ void Texture::floatyEdges() {
 
 void Texture::dither() {
 	PixelMod mod(this->texture);
-	if (mod.notLocked()) {
-		return;
-	}
+	if (mod.notLocked()) return;
 	Uint8 matrix[2][2] = {{0x40, 0x80}, 
 						  {0xC0, 0x00}};
 	Uint8 value;
@@ -244,9 +238,7 @@ void Texture::dither() {
 
 void Texture::testFilter() {
 	PixelMod mod(this->texture);
-	if (mod.notLocked()) {
-		return;
-	}
+	if (mod.notLocked()) return;
 	for (int x = 0; x < mod.width(); x++) {
 		for (int y = 0; y < mod.height(); y++) {
 			Pixel main = mod.getPixel(x, y);
@@ -262,9 +254,7 @@ void Texture::testFilter() {
 // This sucks please ignore
 void Texture::bilateralFilter(float valI, float valS, const int kernelSize,  const int xStart, const int yStart, int width, int height) {
 	PixelMod mod(this->texture, true);
-	if (mod.notLocked()) {
-		return;
-	}
+	if (mod.notLocked()) return;
 	{
 		Pixel pixels[mod.width()][mod.height()]; // Using a static array is not only more elegant, it's also more performant
 		for (int y = 0; y < mod.width(); y++) {

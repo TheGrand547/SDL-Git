@@ -1,11 +1,7 @@
 #include "SpriteSheet.h"
-
-
-/// TODO: Rewrite this as just a storage place for various textures, instead of the animation thing it is now
+// TODO: Implement this pipe dream lul
 /* 
 Animation definition structure should be something as follows, 
-Everything on a line after a '#' will be ignored as a comment
-Each semicolon is treated as a line break
 example: file=SpritSheet.png;delay=50;size=50x50;
 # Filename
 file = ...; 
@@ -15,9 +11,6 @@ delay = 50;
 # Dimension of each sprite in 480x640 style
 size = ...;
 */
-// file=resources/animtest.png;delay=50;size=64x64;
-
-// Cause i'm lazy and I want the background code to work i'll do this later
 
 SpriteSheet::SpriteSheet(const std::string& filename, int width, int height, SDL_Renderer* renderer) : key(""), width(width), height(height) {
 	this->frame.loadFromFile(renderer, filename);

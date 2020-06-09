@@ -10,7 +10,7 @@
 #include<string>
 /* Background element of the map, notably the ground */
 class BackElement { // TODO: Fix the over reliance on Ground::filenames
-	private:
+	protected:
 		std::shared_ptr<Texture> texture;
 		Point position;
 		std::string type;

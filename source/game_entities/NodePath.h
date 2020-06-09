@@ -7,7 +7,7 @@
 #include<vector>
 
 class NodePath {
-	private:
+	protected:
 		std::vector<std::shared_ptr<Node>> stored;
 		float storedDistance;
 	public:

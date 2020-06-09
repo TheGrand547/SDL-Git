@@ -48,9 +48,6 @@ void BigWall::draw(SDL_Renderer* renderer, Point offset) {
 	this->rect.draw(renderer, offset);
 }
 
-// TODO: Make thingbase update default so this is unnecessary
-void BigWall::update() {} // This just sits there so why would it need to update anything
-
 void BigWall::gimme(std::vector<Point>& vec) const {
 	vec.push_back(this->rect.getTopLeft());
 	vec.push_back(this->rect.getTopRight());

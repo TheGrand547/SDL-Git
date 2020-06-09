@@ -12,19 +12,13 @@ Node::~Node() {
 
 bool Node::collinear(const std::shared_ptr<Node> other) const {
 	Point delta = other->getPosition() - this->getPosition();
-	if (std::abs(delta.x()) < 0.0001 || std::abs(delta.y()) < 0.0001) {
-		return true;
-	}
-	return false;
+	return std::abs(delta.x()) < 0.0001 || std::abs(delta.y()) < 0.0001;
 }
 
 bool Node::isAttachedTo(const std::shared_ptr<Node> other) const {
 	for (std::weak_ptr<Node> ptr: this->attached) {
-		if (std::shared_ptr<Node> node = ptr.lock()) {
-			if (node.get() == other.get()) {
-				return true;
-			}
-		}
+		if (std::shared_ptr<Node> node = ptr.lock())
+			if (node.get() == other.get()) return true;
 	}
 	return false;
 }
@@ -40,8 +34,7 @@ float Node::getDistance(const std::shared_ptr<Node> other) const {
 float Node::getDistance(const std::weak_ptr<Node> other) const {
 	std::shared_ptr<Node> temp = other.lock();
 	if (!temp) {
-		// TODO: LOG ERROR
-		std::cout << "ERROR: std::weak_ptr<Node> was invalid." << std::endl;
+		LOG("ERROR: std::weak_ptr<Node> was invalid.");
 		return 0.0 / 0.0;
 	}
 	return this->position.distanceToPoint(temp->getPosition());
@@ -59,8 +52,7 @@ void Node::draw() { // Legacy function only for testing purposes
 	//this->drawnThisFrame = true;
 	Line tempLine;
 	for (std::weak_ptr<Node> node: this->attached) {
-		//std::shared_ptr<Node> temp = node.lock();
-		if (auto temp = node.lock()) {
+		if (std::shared_ptr<Node> temp = node.lock()) {
 			tempLine = Line(this->position, temp->position);
 			tempLine.setColorChannels(0xFF, 0x00, 0x00, 0xFF);
 			tempLine.drawLine(MegaBase::renderer, MegaBase::offset);
@@ -79,7 +71,6 @@ bool Node::checkLocationValidity(Point position, GameInstance* instance) {
 	 * False -> invalid location */
 	Rect testRect = Rect(position, 25, 25);
 	testRect -= Point(testRect.getWidth(), testRect.getHeight()) / 2.0;
-	
 	return instance->collision.doesNotCollideWith(testRect) && instance->getPlayableArea().overlap(testRect);
 }
 

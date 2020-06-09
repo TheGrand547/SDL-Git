@@ -40,7 +40,7 @@ class GameInstance {
 		Point& getOffset();
 		Rect getPlayableArea() const;
 		SDL_Renderer* getRenderer();
-		void addThing(std::shared_ptr<ThingBase> thing);
+		void addThing(const std::shared_ptr<ThingBase>& thing);
 		void addNode(Point position, std::string data = "");
 		void instanceBegin();
 		void update();
