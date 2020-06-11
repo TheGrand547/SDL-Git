@@ -14,6 +14,7 @@ typedef uint8_t Uint8;
 typedef uint32_t Uint32;
 
 class Texture {
+	// TODO: Store height/width/maybe some other shit idk
 	protected:
 		SDL_Texture* texture;
 	public:

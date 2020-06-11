@@ -28,7 +28,7 @@ BoundedPoint::BoundedPoint(Point pos, float xMin, float yMin, float xMax, float 
 	this->yMax = yMax;
 }
 
-BoundedPoint::BoundedPoint(const BoundedPoint &other) : Point(other.xval, other.yval){
+BoundedPoint::BoundedPoint(const BoundedPoint &other) : Point(other.x, other.y){
 	this->xMin = other.xMin;
 	this->xMax = other.xMax;
 	this->yMin = other.yMin;
@@ -36,8 +36,8 @@ BoundedPoint::BoundedPoint(const BoundedPoint &other) : Point(other.xval, other.
 }
 
 BoundedPoint& BoundedPoint::operator=(BoundedPoint other){
-	this->xval = other.xval;
-	this->yval = other.yval;
+	this->x = other.x;
+	this->y = other.y;
 	this->xMin = other.xMin;
 	this->xMax = other.xMax;
 	this->yMin = other.yMin;
@@ -48,10 +48,10 @@ BoundedPoint& BoundedPoint::operator=(BoundedPoint other){
 BoundedPoint::~BoundedPoint() {}
 
 void BoundedPoint::reduce() {
-	this->xval = (this->xval <= this->xMin) ? this->xMin : this->xval;
-	this->xval = (this->xval >= this->xMax) ? this->xMax : this->xval;
-	this->yval = (this->yval <= this->yMin) ? this->yMin : this->yval;
-	this->yval = (this->yval >= this->yMax) ? this->yMax : this->yval;
+	this->x = (this->x <= this->xMin) ? this->xMin : this->x;
+	this->x = (this->x >= this->xMax) ? this->xMax : this->x;
+	this->y = (this->y <= this->yMin) ? this->yMin : this->y;
+	this->y = (this->y >= this->yMax) ? this->yMax : this->y;
 }
 
 void BoundedPoint::operator+=(Point delta) {
@@ -65,17 +65,17 @@ void BoundedPoint::operator-=(Point delta) {
 }
 
 void BoundedPoint::zeroX() {
-	this->xval = 0;
+	this->x = 0;
 }
 
 void BoundedPoint::zeroY() {
-	this->yval = 0;
+	this->y = 0;
 }
 
 void BoundedPoint::maxX() {
-	this->xval = this->xMax;
+	this->x = this->xMax;
 }
 
 void BoundedPoint::maxY() {
-	this->yval = this->yMax;
+	this->y = this->yMax;
 }

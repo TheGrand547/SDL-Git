@@ -23,8 +23,8 @@ PointDelta::PointDelta(const PointDelta &that) : Point(that){
 }
 
 double PointDelta::calcAngle(Point point) {
-	if(point.y() != 0 || point.x() != 0) {
-		 return atan2(0-point.y(), point.x());
+	if(point.y != 0 || point.x != 0) {
+		 return atan2(-point.y, point.x);
 	}
 	return 0;
 }
@@ -32,13 +32,13 @@ double PointDelta::calcAngle(Point point) {
 void PointDelta::reduceToBounds() {			
 	if (this->getMagnitude() > this->magnitude) {
 		double tempFloat = calcAngle(*this);
-		this->xval = this->magnitude * cos(tempFloat);
-		this->yval = -this->magnitude * sin(tempFloat);
+		this->x = this->magnitude * cos(tempFloat);
+		this->y = -this->magnitude * sin(tempFloat);
 	}
 }
 
 double PointDelta::getMagnitude() {
-	return sqrt((pow(this->xval, 2) + pow(this->yval, 2)));
+	return sqrt((pow(this->x, 2) + pow(this->y, 2)));
 }
 
 void PointDelta::operator-=(Point delta) {
@@ -52,18 +52,18 @@ void PointDelta::operator+=(Point delta) {
 }
 
 PointDelta& PointDelta::operator=(const PointDelta &that) {
-	this->xval = that.xval;
-	this->yval = that.yval;
+	this->x = that.x;
+	this->y = that.y;
 	this->magnitude = that.magnitude;
 	return *this;
 }
 
 PointDelta PointDelta::operator/(const double &num) {
-	return PointDelta(this->xval / num, this->yval / num, this->magnitude);
+	return PointDelta(this->x / num, this->y / num, this->magnitude);
 }
 
 PointDelta PointDelta::operator*(const double &num) {
-	return PointDelta(this->xval * num, this->yval * num, this->magnitude * num);
+	return PointDelta(this->x * num, this->y * num, this->magnitude * num);
 }
 
 void PointDelta::setMagnitude(double magnitude) {
@@ -72,11 +72,11 @@ void PointDelta::setMagnitude(double magnitude) {
 }
 
 PointDelta PointDelta::onlyX() {
-	return PointDelta(this->xval, 0, this->magnitude);
+	return PointDelta(this->x, 0, this->magnitude);
 }
 
 PointDelta PointDelta::onlyY() {
-	return PointDelta(0, this->yval, this->magnitude);
+	return PointDelta(0, this->y, this->magnitude);
 }
 
 Point PointDelta::getXPoint() {
@@ -88,19 +88,13 @@ Point PointDelta::getYPoint() {
 }
 
 bool PointDelta::operator>(const int &val) {
-	if (this->xval > val || this->yval > val) {
-		return true;
-	}
-	return false;
+	return this->x > val || this->y > val;
 }
 
 bool PointDelta::operator<(const int &val) {
-	if (this->xval < val || this->yval < val) {
-		return true;
-	}
-	return false;
+	return this->x < val || this->y < val;
 }
 
 PointDelta PointDelta::negate() {
-	return PointDelta(-this->xval, -this->yval, this->magnitude);
+	return PointDelta(-this->x, -this->y, this->magnitude);
 }

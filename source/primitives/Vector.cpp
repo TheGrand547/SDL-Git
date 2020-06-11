@@ -7,7 +7,7 @@ Vector::Vector(double x, double y) : Point(x, y) {}
 Vector::~Vector() {}
 
 Vector Vector::operator*(const double& num) {
-	return Vector(this->xval * num, this->yval * num);
+	return Vector(this->x * num, this->y * num);
 }
 
 Vector Vector::operator/(const double& num) {
@@ -15,7 +15,7 @@ Vector Vector::operator/(const double& num) {
 }
 
 double Vector::dot(const Vector other) {
-	return (this->xval * other.xval) + (this->yval * other.yval);
+	return (this->x * other.x) + (this->y * other.y);
 }
 
 double Vector::operator*(const Vector& other) {
@@ -23,7 +23,7 @@ double Vector::operator*(const Vector& other) {
 }
 
 double Vector::magnitude() const {
-	return sqrt(pow(this->xval, 2) + pow(this->yval, 2));
+	return sqrt(pow(this->x, 2) + pow(this->y, 2));
 }
 
 double Vector::angleBetween(const Vector other) {

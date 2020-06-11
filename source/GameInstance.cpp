@@ -28,12 +28,10 @@ void GameInstance::addThing(const ThingPtr& thing) {
 	int flags = thing->getAbsoluteFlags();
 	if (flags & DRAW) {
 		this->drawThings.push_back(thing);
+		this->drawOrder.insert(thing.get());
 	}
 	if (flags & SOLID) {
 		this->collisionThings.push_back(thing);
-		if (!(flags & MOVEABLE)) {
-			//std::cout << "This thing shouldn't move" << std::endl;
-		}
 	}
 	if (flags & MOVEABLE) {
 		this->movingThings.push_back(thing);
@@ -54,7 +52,7 @@ void GameInstance::update() {
 
 void GameInstance::draw() {
 	for (ThingBase* thing: this->drawOrder) thing->draw(this->renderer, this->offset);
-	this->nodes.drawGroup();
+	//this->nodes.drawGroup();
 }
 
 Rect GameInstance::getPlayableArea() const {
@@ -70,14 +68,17 @@ Point& GameInstance::getOffset() {
 }
 
 void GameInstance::addNode(Point position, std::string data) {
-	if (this->nodes.addNodeAt(position, data)) LOG("Failure Placing Node at (%.1f, %.1f)", position.x(), position.y());
+	// For some reason it can't be placed inline?
+	if (!this->nodes.addNodeAt(position, data)) {
+		LOG("Failure Placing Node at (%.1f, %.1f)", position.x, position.y);
+	}
 }
 
 void GameInstance::instanceBegin() {
 	// Do final things before playing starts
-	LOG("Size: %i", this->nodes.size());
-	/*
+	for (const ThingPtr& p: this->allThings) {
+		p->addNodes();
+	}
 	this->nodes.connectNodes();
 	this->nodes.purge();
-	*/
 }

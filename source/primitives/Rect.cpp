@@ -69,8 +69,8 @@ Rect::Rect(Point topLeft, Point bottomRight) {
 	// Constructor for a standard, coordinate system orthogonal rectangle
 	orderPoints(topLeft, bottomRight);
 	this->topLeft = topLeft;
-	heightVector = Point(0, bottomRight.y() - topLeft.y());
-	widthVector = Point(bottomRight.x() - topLeft.x(), 0);
+	heightVector = Point(0, bottomRight.y - topLeft.y);
+	widthVector = Point(bottomRight.x - topLeft.x, 0);
 }
 
 Rect::Rect(double x, double y, double width, double height) {
@@ -102,33 +102,6 @@ bool Rect::doesLineCollide(const Line& ray) const {
 	 * False - the Line DOES NOT collide with this rect */
 	for (Line line: this->getLines()) {
 		if (line.intersectionPoint(ray).isReal()) return true;
-	}
-	return false;
-}
-
-bool Rect::operator==(const Polygon& other) const {
-	std::vector<Point> myArray = this->getPoints();
-	std::vector<Point> otherArray = other.getPoints();
-	if (myArray.size() != otherArray.size()) return false;
-	for (const Point& pointA: myArray) {
-		bool flag = false;
-		for (const Point& pointB: otherArray) {
-			if (pointA == pointB) {
-				flag = true;
-				break;
-			}
-		}
-		if (!flag) {
-			return false;
-		}
-	}
-	return true;
-}
-
-bool Rect::overlap(const Polygon& other) const {
-	if (this->numLines() > other.numLines()) return other.overlap(*this);
-	for (const Line& line: this->getLines()) {
-		if (other.doesLineCollide(line)) return true;
 	}
 	return false;
 }
@@ -195,8 +168,8 @@ void Rect::draw(SDL_Renderer* renderer, Point offset) {
 	short* y = new short[temp.size()];
 	for (Uint i = 0; i < temp.size(); i++) {
 		temp[i] -= offset;
-		x[i] = temp[i].x();
-		y[i] = temp[i].y();
+		x[i] = temp[i].x;
+		y[i] = temp[i].y;
 	}
 	polygonRGBA(renderer, x, y, temp.size(), this->rChannel, this->bChannel, this->gChannel, this->aChannel);
 	delete[] x;
@@ -242,7 +215,7 @@ double Rect::getHeight() const {
 }
 
 SDL_Rect Rect::getSDLRect() const {
-	SDL_Rect tempRect = {int(this->topLeft.x()), int(this->topLeft.y()), 
+	SDL_Rect tempRect = {int(this->topLeft.x), int(this->topLeft.y), 
 						int(this->widthVector.getMagnitude()), int(this->heightVector.getMagnitude())};
 	return tempRect;
 }

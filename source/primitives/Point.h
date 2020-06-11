@@ -6,7 +6,7 @@
 
 class Point {
 	public:
-		double xval, yval;
+		double x, y;
 		
 		Point(double xCoordinate = 0.0 / 0.0, double yCoordinate = 0.0 / 0.0);
 		Point(const Point& point);
@@ -35,8 +35,6 @@ class Point {
 		double getMagnitude() const;
 		double operator*(const Point& other) const;
 		double originDistance() const;
-		double x() const;
-		double y() const;
 		friend std::ostream &operator<<(std::ostream &output, const Point &point);
 		void operator+=(const Point& delta);
 		void operator-=(const Point& delta);

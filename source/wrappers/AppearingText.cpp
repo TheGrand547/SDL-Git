@@ -33,9 +33,9 @@ void AppearingText::update(SDL_Renderer* renderer) {
 			temp << this->text.at(i);
 		}
 		if (this->charWrap) {
-			this->font->drawTextWrapped(this->position.x(), this->position.y(), temp.str(), renderer, this->color, this->charWrap);
+			this->font->drawTextWrapped(this->position.x, this->position.y, temp.str(), renderer, this->color, this->charWrap);
 		} else {
-			this->font->drawText(this->position.x(), this->position.y(), temp.str(), renderer, this->color);
+			this->font->drawText(this->position.x, this->position.y, temp.str(), renderer, this->color);
 		}
 		return;
 	}

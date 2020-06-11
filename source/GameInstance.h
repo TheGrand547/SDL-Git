@@ -28,7 +28,7 @@ class GameInstance {
 		std::vector<std::shared_ptr<ThingBase>> drawThings;
 		std::vector<std::shared_ptr<ThingBase>> collisionThings;
 		
-		std::vector<std::shared_ptr<ThingBase>> movingThings; // List of everything that's position won't change
+		std::vector<std::shared_ptr<ThingBase>> movingThings; // List of everything thats position can change
 		std::set<ThingBase*, compare> drawOrder;
 	public:
 		CollisionHandler collision;

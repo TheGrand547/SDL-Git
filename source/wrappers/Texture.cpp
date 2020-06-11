@@ -69,7 +69,7 @@ void Texture::draw(SDL_Renderer* renderer, Point position, SDL_COPY_EX_ARGS) {
 	if (access != SDL_TEXTUREACCESS_STREAMING) {
 		this->normalizeTexture(renderer);
 	}
-	SDL_Rect renderQuad = {(int)position.x(), (int)position.y(), width, height};
+	SDL_Rect renderQuad = {(int)position.x, (int)position.y, width, height};
 	if (clip != NULL) {
 		renderQuad.w = clip->w;
 		renderQuad.h = clip->h;

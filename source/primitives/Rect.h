@@ -28,8 +28,6 @@ class Rect: public Polygon {
 		
 		bool containsPoint(const Point& point) const override;
 		bool doesLineCollide(const Line& ray) const override;
-		bool operator==(const Polygon& other) const override;
-		bool overlap(const Polygon& other) const override;
 		int numberOfCollisions(const Line& line) const override;
 		int numLines() const override;
 		int numPoints() const override;

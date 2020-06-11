@@ -45,9 +45,9 @@ bool Line::isOrthogonal(const Line& other) const {
 
 bool Line::isPointOnThisLine(const Point& point) const {
 	double minX, maxX, minY, maxY;
-	mMax(this->originPoint.x(), this->endingPoint.x(), minX, maxX);
-	mMax(this->originPoint.y(), this->endingPoint.y(), minY, maxY);
-	return valueInRange(point.x(), minX, maxX) && valueInRange(point.y(), minY, maxY);
+	mMax(this->originPoint.x, this->endingPoint.x, minX, maxX);
+	mMax(this->originPoint.y, this->endingPoint.y, minY, maxY);
+	return valueInRange(point.x, minX, maxX) && valueInRange(point.y, minY, maxY);
 }
 
 bool Line::collidePoint(const Point& point) const {
@@ -71,15 +71,15 @@ Line Line::operator-(const Point& b) const {
 }
 	
 double Line::getAx() const { 
-	return double(this->endingPoint.y() - this->originPoint.y());
+	return double(this->endingPoint.y - this->originPoint.y);
 }
 
 double Line::getBy() const { 
-	return double(this->originPoint.x() - this->endingPoint.x());
+	return double(this->originPoint.x - this->endingPoint.x);
 }
 
 double Line::getC() const { 
-	return double((this->getAx() * this->originPoint.x()) + (this->getBy() * this->originPoint.y()));
+	return double((this->getAx() * this->originPoint.x + (this->getBy() * this->originPoint.y)));
 }
 
 Point Line::getEnd() const {

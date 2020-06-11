@@ -33,7 +33,8 @@ std::shared_ptr<Node> EnemyBase::getClosestUnblockedNode() {
 	return targ;
 }
 
-void EnemyBase::move(Point velocity) { // TODO: Maybe re-write this under a different name?
+void EnemyBase::move(Point velocity) { 
+	// TODO: Fix this shit
 	// There must be a better way
 	double gp = this->mvmnt.getValue();
 	if (velocity.getMagnitude() > this->maxVelocity) {
@@ -52,12 +53,12 @@ void EnemyBase::move(Point velocity) { // TODO: Maybe re-write this under a diff
 			Point modified = px / pow(2, i);
 			if (not xflag) {
 				if (this->parent->collision.doesNotCollideWith(myRect + modified.onlyX())) {
-					xflag = modified.x();
+					xflag = modified.x;
 				}
 			}
 			if (not yflag) {
 				if (this->parent->collision.doesNotCollideWith(myRect + modified.onlyY())) {
-					yflag = modified.y();
+					yflag = modified.y;
 				}
 			}
 			if (xflag && yflag) {
@@ -65,12 +66,12 @@ void EnemyBase::move(Point velocity) { // TODO: Maybe re-write this under a diff
 			}
 		}
 	} else {
-		xflag = px.x();
-		yflag = px.y();
+		xflag = px.x;
+		yflag = px.y;
 	}
 	this->position += Point(xflag, yflag);
 	if (!this->turning) {
-		this->angle = atan2(px.y(), px.x());
+		this->angle = atan2(px.y, px.x);
 	}
 }
 
@@ -94,11 +95,11 @@ PointDelta EnemyBase::pathFindTo(Point target) {
 		}
 		Point temp = this->path.getFirst();
 		if (temp.isReal()) {
-			double angle = atan2(temp.y() - center.y(), temp.x() - center.x());
+			double angle = atan2(temp.y - center.y, temp.x - center.x);
 			return PointDelta(Vector(angle), .75);
 		} else {
 			if (center.distanceToPoint(target) > 2) {
-				double angle = atan2(target.y() - center.y(), target.x() - center.x());
+				double angle = atan2(target.y - center.y, target.x - center.x);
 				return PointDelta(Vector(angle), .75);
 			}
 		}

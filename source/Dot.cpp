@@ -16,8 +16,8 @@ Point Dot::getCenter() {
 }
 
 float Dot::calcAngle(Point point) {
-	if (point.y() != 0 || point.x() != 0) {
-		 return atan2(-point.y(), point.x());
+	if (point.y != 0 || point.x != 0) {
+		 return atan2(-point.y, point.x);
 	}
 	return 0;
 }
@@ -90,8 +90,8 @@ void Dot::collideTest() {
 		Point temp = delta / CHECKS;
 		if (this->parent->collision.doesNotCollideWith(this->getRect() + temp)) {
 			this->move(temp);
-			xDelta += temp.x();
-			yDelta += temp.y();
+			xDelta += temp.x;
+			yDelta += temp.y;
 			this->parent->getOffset() += temp;
 		}
 		/*
@@ -121,18 +121,18 @@ void Dot::collideTest() {
 	//this->move(Vector(xDelta, yDelta));
 	//this->lastDelta = Point(xDelta, yDelta);
 	// PUT THIS ELSEWHERE <- Will be handled when implementation is changed to being based around the Screen Class
-	if (this->getPosition().x() < Screen::SCREEN_WIDTH / 2) {
+	if (this->getPosition().x < Screen::SCREEN_WIDTH / 2) {
 		this->parent->getOffset().xZero();
 	}
-	if (this->getPosition().y() < Screen::SCREEN_HEIGHT / 2) {
+	if (this->getPosition().y < Screen::SCREEN_HEIGHT / 2) {
 		this->parent->getOffset().yZero();
 	}
 	
-	if (this->getPosition().x() > Screen::MAX_X_SCROLL_DISTANCE) {
-		this->parent->getOffset() = Point(Screen::MAX_SCREEN_X_POS, this->parent->getOffset().y());
+	if (this->getPosition().x > Screen::MAX_X_SCROLL_DISTANCE) {
+		this->parent->getOffset() = Point(Screen::MAX_SCREEN_X_POS, this->parent->getOffset().y);
 	}
-	if (this->getPosition().y() > Screen::MAX_Y_SCROLL_DISTANCE) {
-		this->parent->getOffset() = Point(this->parent->getOffset().x(), Screen::MAX_SCREEN_Y_POS);
+	if (this->getPosition().y > Screen::MAX_Y_SCROLL_DISTANCE) {
+		this->parent->getOffset() = Point(this->parent->getOffset().x, Screen::MAX_SCREEN_Y_POS);
 	}
 } 
 
@@ -165,7 +165,7 @@ int tempF(double val) {
 }
 
 Point tempF(Point point) {
-	return Point(tempF(point.x()), tempF(point.y()));
+	return Point(tempF(point.x), tempF(point.y));
 }
 
 Rect tempF(Rect rect) {

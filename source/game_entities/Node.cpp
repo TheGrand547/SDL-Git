@@ -12,7 +12,7 @@ Node::~Node() {
 
 bool Node::collinear(const std::shared_ptr<Node> other) const {
 	Point delta = other->getPosition() - this->getPosition();
-	return std::abs(delta.x()) < 0.0001 || std::abs(delta.y()) < 0.0001;
+	return std::abs(delta.x) < 0.0001 || std::abs(delta.y) < 0.0001;
 }
 
 bool Node::isAttachedTo(const std::shared_ptr<Node> other) const {
@@ -60,9 +60,9 @@ void Node::draw() { // Legacy function only for testing purposes
 	}
 	Point temp = this->position - *MegaBase::offset;
 	if (this->data.compare("p") == 0) {
-		circleColor(MegaBase::renderer, temp.x(), temp.y(), 25, 0xFF00FFFF);
+		circleColor(MegaBase::renderer, temp.x, temp.y, 25, 0xFF00FFFF);
 	} else {
-		circleColor(MegaBase::renderer, temp.x(), temp.y(), 10, 0xFF0000FF);
+		circleColor(MegaBase::renderer, temp.x, temp.y, 10, 0xFF0000FF);
 	}
 }
 
