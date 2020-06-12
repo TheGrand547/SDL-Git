@@ -28,6 +28,8 @@ class GameInstance {
 		std::vector<std::shared_ptr<ThingBase>> drawThings;
 		std::vector<std::shared_ptr<ThingBase>> collisionThings;
 		
+		std::vector<std::shared_ptr<ThingBase>> shortTermMemory; // Projectiles and such that might collide but can be removed with less overhead
+		
 		std::vector<std::shared_ptr<ThingBase>> movingThings; // List of everything thats position can change
 		std::set<ThingBase*, compare> drawOrder;
 	public:

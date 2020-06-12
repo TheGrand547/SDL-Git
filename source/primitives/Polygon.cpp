@@ -39,9 +39,12 @@ bool Polygon::overlap(const Polygon& that) const {
 	if (!(xOver && yOver)) return false;
 	// If the bounding rectangles DO overlap, and both polygons are THEIR OWN bounding rectangles, they must overlap
 	if (me == *this && other == that) return true;
-	// If the bounding rectanlges DO overlap, AND the polygons DO overlap, then at LEAST one point is inside of the other
+	for (Line line: this->getLines()) {
+		if (that.doesLineCollide(line)) return true;
+	}
+	// If the bounding rectanlges DO overlap, AND none of the lines overlap AND the polygons DO overlap, then at LEAST one point is inside of the other
 	for (Point point: that.getPoints()) {
-		// Can't remember the name of the rule, but if the number of colisions is odd, then the point is inside
+		// Even-odd rule, if the number of collisions with a polygon of a line is odd, then the starting point IS inside the polygon
 		if (this->numberOfCollisions(Line(point, OUT_OF_BOUNDS)) & 1) return true;
 	}
 	// Default case where the bounding rectangles overlap but no points are inside the other polygon

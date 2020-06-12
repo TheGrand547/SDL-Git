@@ -40,9 +40,7 @@ NodePtr& NodeDrawGroup::getFirst() {
 bool NodeDrawGroup::addNodeAt(Point point, std::string data) {
 	if (Node::checkLocationValidity(point, this->parent)) {
 		for (NodePtr node: this->storage) {
-			if (point.distanceToPoint(node->getPosition()) < 25) {
-				return false;
-			}
+			if (point.distanceToPoint(node->getPosition()) < 25) return false;
 		}
 		this->storage.push_back(std::make_shared<Node>(point, data));
 		return true;

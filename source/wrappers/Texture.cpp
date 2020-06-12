@@ -1,6 +1,6 @@
 #include "Texture.h"
 
-Texture::Texture() : texture(NULL) {}
+Texture::Texture() : width(0), height(0), texture(NULL) {}
 
 Texture::~Texture() {
 	this->free();
@@ -10,24 +10,24 @@ Texture::~Texture() {
 Texture& Texture::operator=(const Texture& that) {
 	this->free();
 	this->texture = that.texture;
+	this->width = that.width;
+	this->height = that.height;
 	return *this;
 }
 
 Texture::Texture(const Texture& that) {
 	this->free();
 	this->texture = that.texture;
+	this->width = that.width;
+	this->height = that.height;
 }
 
-int Texture::getHeight() {
-	int height;
-	SDL_QueryTexture(this->texture, NULL, NULL, NULL, &height);
-	return height;
+int Texture::getHeight() const {
+	return this->height;
 }
 
-int Texture::getWidth() {
-	int width;
-	SDL_QueryTexture(this->texture, NULL, NULL, &width, NULL);
-	return width;
+int Texture::getWidth() const {
+	return this->width;
 }
 
 void Texture::free() {
@@ -38,18 +38,22 @@ void Texture::free() {
 }
 
 void Texture::setColorMod(Uint8 red, Uint8 green, Uint8 blue) {
+	if (this->texture == NULL) return;
 	SDL_SetTextureColorMod(this->texture, red, green, blue);
 }
 
 void Texture::setAlpha(Uint8 alpha) {
+	if (this->texture == NULL) return;
 	SDL_SetTextureAlphaMod(this->texture, alpha);
 }
 
 void Texture::setBlend(SDL_BlendMode mode) {
+	if (this->texture == NULL) return;
 	SDL_SetTextureBlendMode(this->texture, mode);
 }
 
 void Texture::setColorKey(Uint8 red, Uint8 green, Uint8 blue) { // Modified from lazyfoo.net
+	if (this->texture == NULL) return;
 	this->setBlend(SDL_BLENDMODE_BLEND);
 	PixelMod mod(this->texture);
 	if (mod.notLocked()) return;
@@ -63,13 +67,9 @@ void Texture::setColorKey(Uint8 red, Uint8 green, Uint8 blue) { // Modified from
 }
 
 void Texture::draw(SDL_Renderer* renderer, Point position, SDL_COPY_EX_ARGS) {
-	int width, height, access;
-	SDL_QueryTexture(this->texture, NULL, &access, &width, &height);
-	// Including this on the off chance it's needed
-	if (access != SDL_TEXTUREACCESS_STREAMING) {
-		this->normalizeTexture(renderer);
-	}
-	SDL_Rect renderQuad = {(int)position.x, (int)position.y, width, height};
+	if (this->texture == NULL) return;
+	if (!this->width || !this->height) SDL_QueryTexture(this->texture, NULL, NULL, &this->width, &this->height);
+	SDL_Rect renderQuad = {(int)position.x, (int)position.y, this->width, this->height};
 	if (clip != NULL) {
 		renderQuad.w = clip->w;
 		renderQuad.h = clip->h;
@@ -89,6 +89,8 @@ void Texture::createBlank(SDL_Renderer* renderer, int w, int h, Uint32 color) {
 	this->free();
 	SDL_Surface* tempSurface = SDL_CreateRGBSurface(0, w, h, 32, 0, 0, 0, 0);
 	if (tempSurface != NULL) {
+		this->width = w;
+		this->height = h;
 		SDL_FillRect(tempSurface, NULL, color);
 		SDL_Texture* tempTexture = SDL_CreateTextureFromSurface(renderer, tempSurface);
 		if (tempTexture == NULL) {
@@ -115,11 +117,13 @@ void Texture::loadFromFile(SDL_Renderer* renderer, std::string path, int xSize, 
 		tempSurface = scaleToSize(tempSurface, xSize, ySize);
 		newTexture = SDL_CreateTextureFromSurface(renderer, tempSurface);
 		if (newTexture == NULL) {
-			LOG("Unable to create texture from %s! SDL Error: %s\n", path.c_str(), SDL_GetError() );
+			LOG("Unable to create texture from %s! SDL Error: %s\n", path.c_str(), SDL_GetError());
+			return;
 		}
 	}
 	SDL_FreeSurface(tempSurface);
 	this->texture = newTexture;
+	SDL_QueryTexture(this->texture, NULL, NULL, &this->width, &this->height);
 	this->normalizeTexture(renderer);
 }
 
@@ -192,6 +196,7 @@ Texture Texture::scaleTextureBy(SDL_Renderer* renderer, Texture texture, double 
 // ------------ Non Essential Extras --------------
 // ------------------------------------------------
 void Texture::floatyEdges() {
+	if (this->texture == NULL) return;
 	this->setBlend(SDL_BLENDMODE_BLEND);
 	PixelMod mod(this->texture);
 	if (mod.notLocked()) return;
@@ -222,6 +227,7 @@ void Texture::floatyEdges() {
 }
 
 void Texture::dither() {
+	if (this->texture == NULL) return;
 	PixelMod mod(this->texture);
 	if (mod.notLocked()) return;
 	Uint8 matrix[2][2] = {{0x40, 0x80}, 
@@ -237,6 +243,7 @@ void Texture::dither() {
 }
 
 void Texture::testFilter() {
+	if (this->texture == NULL) return;
 	PixelMod mod(this->texture);
 	if (mod.notLocked()) return;
 	for (int x = 0; x < mod.width(); x++) {
@@ -253,6 +260,7 @@ void Texture::testFilter() {
 
 // This sucks please ignore
 void Texture::bilateralFilter(float valI, float valS, const int kernelSize,  const int xStart, const int yStart, int width, int height) {
+	if (this->texture == NULL) return;
 	PixelMod mod(this->texture, true);
 	if (mod.notLocked()) return;
 	{

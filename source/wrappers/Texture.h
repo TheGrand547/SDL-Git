@@ -14,16 +14,16 @@ typedef uint8_t Uint8;
 typedef uint32_t Uint32;
 
 class Texture {
-	// TODO: Store height/width/maybe some other shit idk
 	protected:
+		int width, height;
 		SDL_Texture* texture;
 	public:
 		Texture();
 		~Texture();
 		Texture& operator=(const Texture& that);
 		Texture(const Texture& that);
-		int getHeight();
-		int getWidth();
+		int getHeight() const;
+		int getWidth() const;
 		void free();
 		void setAlpha(Uint8 alpha);
 		void setBlend(SDL_BlendMode mode);
