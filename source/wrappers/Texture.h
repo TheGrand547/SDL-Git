@@ -16,12 +16,17 @@ typedef uint32_t Uint32;
 class Texture {
 	protected:
 		int width, height;
+		SDL_Renderer* renderer;
 		SDL_Texture* texture;
+		
+		SDL_Texture* getBlankRenderTarget(SDL_Renderer* renderer);
 	public:
 		Texture();
 		~Texture();
-		Texture& operator=(const Texture& that);
 		Texture(const Texture& that);
+		Texture(Texture&& that);
+		Texture& operator=(Texture& that);
+		Texture& operator=(Texture&& that);
 		int getHeight() const;
 		int getWidth() const;
 		void free();

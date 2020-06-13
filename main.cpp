@@ -85,6 +85,9 @@ int main(int argc, char* argv[]) {
 	g.addAnimation("dumb", 0, 4, 500);
 	std::string kekw = "dumb";
 	LOG("Section: Main Loop");
+	Texture test, fra;
+	test = Texture::load(gRenderer, "resources/bigsprite.png");
+	fra = test;
 	while(!contra.quit) {
 		clearScreen(gRenderer);
 		popo.zero(); // >:(
@@ -101,6 +104,7 @@ int main(int argc, char* argv[]) {
 			}
 		}
 		g.draw(kekw, gRenderer, Point(200, 200), getDirectionFromAngle(dot->getAngle()));
+		test.draw(gRenderer, {300, 300});
 		//lip.drawLine(gRenderer);
 		fps.draw(gRenderer);
 		fps.drawFrameTime(gRenderer);

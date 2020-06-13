@@ -1,25 +1,62 @@
 #include "Texture.h"
 
-Texture::Texture() : width(0), height(0), texture(NULL) {}
+Texture::Texture() : width(0), height(0), renderer(NULL), texture(NULL) {}
 
 Texture::~Texture() {
 	this->free();
 }
 
-// TODO: Determine if these could cause memory leaks
-Texture& Texture::operator=(const Texture& that) {
+Texture::Texture(Texture&& that) {
+	// rvalue texture constructor will be cleared
 	this->free();
 	this->texture = that.texture;
 	this->width = that.width;
 	this->height = that.height;
-	return *this;
+	that.texture = NULL;
 }
 
 Texture::Texture(const Texture& that) {
+	// lvalue texture should be copied
+	this->free();
+	this->width = that.width;
+	this->height = that.height;
+	if (that.renderer != NULL) {
+		this->texture = this->getBlankRenderTarget(that.renderer);
+		SDL_SetRenderTarget(that.renderer, this->texture);
+		SDL_RenderCopy(that.renderer, that.texture, NULL, NULL);
+		SDL_SetRenderTarget(that.renderer, NULL);
+		this->normalizeTexture(that.renderer);
+	}
+}
+
+Texture& Texture::operator=(Texture&& that) {
+	// rvalue texture will be cleared
 	this->free();
 	this->texture = that.texture;
 	this->width = that.width;
 	this->height = that.height;
+	that.texture = NULL;
+	return *this;
+}
+
+Texture& Texture::operator=(Texture& that) {
+	// lvalue texture should be copied
+	this->free();
+	this->width = that.width;
+	this->height = that.height;
+	if (that.renderer != NULL) {
+		this->texture = this->getBlankRenderTarget(that.renderer);
+		SDL_SetRenderTarget(that.renderer, this->texture);
+		SDL_RenderCopy(that.renderer, that.texture, NULL, NULL);
+		SDL_SetRenderTarget(that.renderer, NULL);
+		this->normalizeTexture(that.renderer);
+	}
+	return *this;
+}
+
+SDL_Texture* Texture::getBlankRenderTarget(SDL_Renderer* renderer) {
+	if (this->renderer == NULL) this->renderer = renderer;
+	return SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_TARGET, this->width, this->height);
 }
 
 int Texture::getHeight() const {
@@ -86,6 +123,7 @@ bool Texture::notLoaded() {
 }
 
 void Texture::createBlank(SDL_Renderer* renderer, int w, int h, Uint32 color) {
+	if (this->renderer == NULL) this->renderer = renderer;
 	this->free();
 	SDL_Surface* tempSurface = SDL_CreateRGBSurface(0, w, h, 32, 0, 0, 0, 0);
 	if (tempSurface != NULL) {
@@ -108,6 +146,7 @@ SDL_Texture* Texture::getRawTexture() {
 }
 
 void Texture::loadFromFile(SDL_Renderer* renderer, std::string path, int xSize, int ySize) {
+	if (this->renderer == NULL) this->renderer = renderer;
 	this->free();
 	SDL_Texture* newTexture = NULL;
 	SDL_Surface* tempSurface = IMG_Load(path.c_str());	
@@ -128,6 +167,8 @@ void Texture::loadFromFile(SDL_Renderer* renderer, std::string path, int xSize, 
 }
 
 void Texture::normalizeTexture(SDL_Renderer* renderer) {
+	if (this->renderer == NULL) this->renderer = renderer;
+	if (this->texture == NULL) return;
 	// TODO: Make this not shit
 	// Method to take a SDL_TEXTUREACCESS_TARGET and make it a SDL_TEXTUREACCESS_STREAMING for pixel modification
 	int access, width, height;

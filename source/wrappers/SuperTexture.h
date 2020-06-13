@@ -18,7 +18,6 @@ class SuperTexture : public Texture, public MyBase {
 	 public:
 		SuperTexture(Uint8 r = 0x00, Uint8 g = 0x00, Uint8 b = 0x00, Uint8 a = 0xFF);
 		~SuperTexture();
-		SDL_Texture* getBlank(SDL_Renderer* renderer);
 		Point getOffset();
 		void drawRect(SDL_Renderer* renderer, Rect rect);
 		void drawBox(SDL_Renderer* renderer, Rect rect, SDL_Color color);
