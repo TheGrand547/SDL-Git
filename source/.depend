@@ -68,6 +68,7 @@ main.o: ../main.cpp ../source/headers.h ../source/AlertTextHandler.h \
   ../source/primitives/Line.h ../source/wrappers/AppearingText.h \
   ../source/wrappers/control/Controller.h \
   ../source/wrappers/control/../../essential/Configuration.h \
+  ../source/wrappers/control/../../primitives/Point.h \
   ../source/wrappers/control/../../primitives/PointDelta.h \
   ../source/wrappers/control/../HeldKey.h \
   ../source/wrappers/control/ButtonCommand.h \
@@ -89,8 +90,8 @@ HeldKey.o: wrappers/HeldKey.cpp wrappers/HeldKey.h wrappers/Timer.h \
 Controller.o: wrappers/control/Controller.cpp \
   wrappers/control/Controller.h \
   wrappers/control/../../essential/Configuration.h \
-  wrappers/control/../../primitives/PointDelta.h \
   wrappers/control/../../primitives/Point.h \
+  wrappers/control/../../primitives/PointDelta.h \
   wrappers/control/../HeldKey.h wrappers/control/../Timer.h \
   wrappers/control/../../essential/constants.h \
   wrappers/control/ButtonCommand.h wrappers/control/ControllerCommand.h \

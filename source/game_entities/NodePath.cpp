@@ -26,8 +26,9 @@ NodePath::NodePath(std::shared_ptr<Node> startingNode, Point target) {
 
 	std::vector<std::shared_ptr<Node>> closed;
 	std::shared_ptr<Node> current = startingNode;
-	
+	int counted = 0;
 	while (unused.size() > 0) {
+		counted++;
 		current = unused[0];
 		for (std::shared_ptr<Node> node: unused) {
 			if (currentCost[node].value < currentCost[current].value) {
@@ -42,7 +43,9 @@ NodePath::NodePath(std::shared_ptr<Node> startingNode, Point target) {
 				it = path.find(it->second);
 			}
 			std::vector<std::shared_ptr<Node>>::reverse_iterator iter = temp.rbegin();
-			for (; iter != temp.rend(); iter++) this->stored.push_back(iter[0]);
+			for (; iter != temp.rend(); iter++) {
+				this->stored.push_back(iter[0]);
+			}
 			break;
 		}
 		unused.erase(std::find(unused.begin(), unused.end(), current));
@@ -59,6 +62,7 @@ NodePath::NodePath(std::shared_ptr<Node> startingNode, Point target) {
 			}
 		}
 	}
+	//if (!this->stored.size()) {std::cout << "C" << counted << std::endl;} else {std::cout << this->stored.size() << std::endl;}
 }
 
 NodePath::~NodePath() {}
@@ -97,17 +101,19 @@ float NodePath::distance() {
 }
 
 void NodePath::draw(Point point) {
+	//if (!this->stored.size()) return;
+	
 	if (point.isReal()) {
 		Line tmp = Line(this->stored[0]->getPosition(), point);
 		tmp.setColorChannels(0xFF, 0x00, 0x00, 0xFF);
-		tmp.drawLine(MegaBase::renderer, MegaBase::offset);
+		tmp.drawLine(MegaBase::renderer, *MegaBase::offset);
 	}
-	if (this->stored.size() > 2) {
+	if (this->stored.size() > 1) {
 		std::vector<std::shared_ptr<Node>>::iterator it = this->stored.begin();
 		for (; it[0] != this->stored.back(); it++) {
 			Line tmp = Line(it[0]->getPosition(), it[1]->getPosition());
 			tmp.setColorChannels(0xFF, 0x00, 0x00, 0xFF);
-			tmp.drawLine(MegaBase::renderer, MegaBase::offset);
+			tmp.drawLine(MegaBase::renderer, *MegaBase::offset);
 		}
 	}
 }

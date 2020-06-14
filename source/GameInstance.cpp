@@ -1,7 +1,5 @@
 #include "GameInstance.h"
 
-typedef std::shared_ptr<ThingBase> ThingPtr;
-
 // Comparator for the sake of the draw order pointer set
 bool compare::operator()(const ThingBase* lhs, const ThingBase* rhs) const {
 	if (lhs->originDistance() < rhs->originDistance()) {
@@ -36,6 +34,11 @@ void GameInstance::addThing(const ThingPtr& thing) {
 	if (flags & MOVEABLE) {
 		this->movingThings.push_back(thing);
 	}
+}
+
+void GameInstance::addPlayer(const std::shared_ptr<ThingBase>& thing) {
+	this->PLAYER = thing;
+	this->addThing(thing);
 }
 
 void GameInstance::update() {
@@ -81,4 +84,8 @@ void GameInstance::instanceBegin() {
 	}
 	this->nodes.connectNodes();
 	this->nodes.purge();
+}
+
+ThingPtr GameInstance::getPlayer() {
+	return this->PLAYER;
 }

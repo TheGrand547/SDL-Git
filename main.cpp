@@ -39,7 +39,7 @@ int main(int argc, char* argv[]) {
 	// TODO: Create a file structure for containing level data so its not hardcoded 
 	// TODO: Have some DrawGroup pointers for collision, node, and other groups/structures needed
 	GameInstance GAME(gRenderer, screenPosition);
-	GAME.addThing(dot);
+	GAME.addPlayer(dot);
 	MegaBase::setOffset(&GAME.getOffset());
 	MegaBase::setRenderer(gRenderer);
 	AlertTextHandler handler;
@@ -54,16 +54,19 @@ int main(int argc, char* argv[]) {
 	GAME.createThing<BigWall>(Rect(Line(Point(50, 0), Point(0, 50)), Line(Point(50, 0), Point(100, 50))));
 		
 	// Enemy
-	/*
-	std::shared_ptr<BadTest> heck = std::make_shared<BadTest>(Point(120, 380));
+	
+	std::shared_ptr<BadTest> heck = std::make_shared<BadTest>(Point(200, 360));
 	heck->setTexture(gRenderer);
-	GAME.addThing(heck);*/
+	GAME.addThing(heck);
 	groundGroup.setParent(GAME);
 
 	for (int x = 0; x <= Screen::MAX_WIDTH; x += 25) {
 		for (int y = 0; y <= Screen::MAX_HEIGHT; y += 25) {
 			if (x % 100 == 0 && y % 100 == 0) {
 				groundGroup.add(Point(x, y), Ground::filenames[Ground::GRASS]);
+			}
+			if (x % 50 == 0 && y % 50 == 0) {
+				GAME.addNode({(double)x, (double)y});
 			}
 		}
 	}
@@ -85,9 +88,16 @@ int main(int argc, char* argv[]) {
 	g.addAnimation("dumb", 0, 4, 500);
 	std::string kekw = "dumb";
 	LOG("Section: Main Loop");
+	/*
 	Texture test, fra;
 	test = Texture::load(gRenderer, "resources/bigsprite.png");
-	fra = test;
+	fra = test;*/
+	std::shared_ptr<Node> start = GAME.nodes.at(20);
+	std::cout << start->getPosition() << std::endl;
+	/*
+	NodePath gee;
+	Timer pg13;
+	pg13.start();*/
 	while(!contra.quit) {
 		clearScreen(gRenderer);
 		popo.zero(); // >:(
@@ -102,9 +112,14 @@ int main(int argc, char* argv[]) {
 			if (contra.checkListener(config["Ray"]).getHeld()) { // Raycasting
 				dot->rayCast();
 			}
+		}/*
+		if (pg13.getTicks() > 250) {
+			gee = NodePath(start, Point((double)contra.mouseX, (double)contra.mouseY) - GAME.getOffset());
+			pg13.start();
 		}
+		gee.draw(GAME.getOffset());*/
 		g.draw(kekw, gRenderer, Point(200, 200), getDirectionFromAngle(dot->getAngle()));
-		test.draw(gRenderer, {300, 300});
+		//test.draw(gRenderer, {300, 300});
 		//lip.drawLine(gRenderer);
 		fps.draw(gRenderer);
 		fps.drawFrameTime(gRenderer);

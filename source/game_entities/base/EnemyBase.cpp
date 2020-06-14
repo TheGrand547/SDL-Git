@@ -1,6 +1,6 @@
 #include "EnemyBase.h"
 
-EnemyBase::EnemyBase(Point position, int flags) : ThingBase(flags | DRAW), maxVelocity(2.5) {
+EnemyBase::EnemyBase(Point position, int flags) : ThingBase(flags | DRAW), maxVelocity(200) {
 	this->position = position;
 	this->timer.start();
 	this->pathTimer.start();
@@ -37,6 +37,7 @@ void EnemyBase::move(Point velocity) {
 	// TODO: Fix this shit
 	// There must be a better way
 	double gp = this->mvmnt.getValue();
+	if (gp > 2) return;
 	if (velocity.getMagnitude() > this->maxVelocity) {
 		velocity = velocity.getUnitVector() * this->maxVelocity;
 	}
@@ -96,11 +97,11 @@ PointDelta EnemyBase::pathFindTo(Point target) {
 		Point temp = this->path.getFirst();
 		if (temp.isReal()) {
 			double angle = atan2(temp.y - center.y, temp.x - center.x);
-			return PointDelta(Vector(angle), .75);
+			return PointDelta(Vector(angle), 200) * 200;
 		} else {
 			if (center.distanceToPoint(target) > 2) {
 				double angle = atan2(target.y - center.y, target.x - center.x);
-				return PointDelta(Vector(angle), .75);
+				return PointDelta(Vector(angle), 200) * 200;
 			}
 		}
 	}

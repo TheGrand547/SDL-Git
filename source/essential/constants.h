@@ -56,5 +56,5 @@ namespace Screen {
 }
 
 namespace NODE {
-	const int NODE_DISTANCE_MAX = 100;
+	const int NODE_DISTANCE_MAX = 50;
 }

@@ -1,7 +1,7 @@
 #include "BadTest.h"
 
 BadTest::BadTest(Point position) : EnemyBase(position, DRAW | MOVEABLE) {
-	this->maxVelocity = 50;
+	this->maxVelocity = 200;
 	this->currentState = State::PATROL;
 	
 	this->lastPatrolledPoint = Point();
@@ -38,13 +38,13 @@ void BadTest::draw(SDL_Renderer* renderer, Point offset) {
 	if (this->texture.notLoaded()) {
 		this->setTexture(renderer);
 	}
-	EnemyBase::draw(renderer, this->position - offset);
+	EnemyBase::draw(renderer, offset);
 	
 	if (this->path.getFirst().isReal()) {
 		this->path.draw();
 	}
+	this->path.draw(this->position);
 	/*
-	this->path.draw();
 	// Draw vision cone - Slopily
 	
 	for (int i = -20; i <= 20; i++) {
@@ -62,9 +62,13 @@ void BadTest::draw(SDL_Renderer* renderer, Point offset) {
 }
 
 void BadTest::update() {
+	//std::cout << this->position << std::endl;
 	// TODO: Switch to only one move() call per frame
 	this->timer.tick();
 	// This test AI will be based on a Finite State Machine
+	Point g = this->pathFindTo(this->parent->getPlayer()->getPosition());
+	if (g.isReal()) this->move(g);
+	/*
 	switch (this->currentState) {
 		case State::PATROL:
 			if (this->c.paused()) {
@@ -77,7 +81,8 @@ void BadTest::update() {
 		case State::GOTO: 
 			{
 				PointDelta temp = this->pathFindTo(this->targetPoint);
-				if (temp.getNonZero()) {
+				if (temp.isReal()) {
+					//std::cout << temp << std::endl;
 					this->move(temp);	
 				} else {
 					this->currentState = State::RETURN;
@@ -103,12 +108,11 @@ void BadTest::update() {
 			}
 			break;
 		case State::ERROR:
-			// TODO: Add debug logger
-			std::cout << "fa" << std::endl;
+			//LOG("ERROR: BadTest has entered the ERROR State.");
 			break;
 	}
 	// SLOPPY
-	/*
+	
 	if (this->currentState == State::PATROL || this->currentState == State::GOTO) {
 		for (int i = -20; i <= 20; i++) {
 			Point pTemp = this->getCenter();
@@ -120,8 +124,8 @@ void BadTest::update() {
 				temp = Line(this->getCenter(), newTemp);
 			}
 			
-			if (this->parent->getDot()->getRect().doesLineCollide(temp)) {
-				this->targetPoint = this->parent->getDot()->getPos();
+			if (this->parent->getPlayer()->getRect().doesLineCollide(temp)) {
+				this->targetPoint = this->parent->getPlayer()->getPosition();
 				if (this->currentState == State::PATROL) {
 					//std::cout << "NOW GOTO: " << this->position << std::endl;
 					this->lastPatrolledPoint = this->getCenter();

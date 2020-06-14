@@ -12,6 +12,9 @@
 #include<vector>
 
 typedef uint32_t Uint32;
+typedef uint8_t Uint8;
+typedef std::shared_ptr<ThingBase> ThingPtr;
+
 
 struct compare {
 	bool operator()(const ThingBase* lhs, const ThingBase* rhs) const;
@@ -23,7 +26,7 @@ class GameInstance {
 		Point offset;
 		Rect playableArea;
 		SDL_Renderer* renderer;
-		
+		std::shared_ptr<ThingBase> PLAYER;
 		std::vector<std::shared_ptr<ThingBase>> allThings;
 		std::vector<std::shared_ptr<ThingBase>> drawThings;
 		std::vector<std::shared_ptr<ThingBase>> collisionThings;
@@ -43,10 +46,12 @@ class GameInstance {
 		Rect getPlayableArea() const;
 		SDL_Renderer* getRenderer();
 		void addThing(const std::shared_ptr<ThingBase>& thing);
+		void addPlayer(const std::shared_ptr<ThingBase>& thing);
 		void addNode(Point position, std::string data = "");
 		void instanceBegin();
 		void update();
 		void draw();
+		std::shared_ptr<ThingBase> getPlayer();
 		
 		template<typename T, typename... Args> void createThing(Args... args) {
 			this->addThing(std::make_shared<T>(args...));
