@@ -80,11 +80,7 @@ float Node::distanceToPoint(const Point point) const {
 
 void Node::connectToOthers(NodeDrawGroup* parent) {
 	for (std::shared_ptr<Node> node: parent->storage) {
-		if (node.get() == this) continue;
-		/*
-		if (this->position.distanceToPoint(node->position) > 300 || node.get() == this) {
-			continue;
-		}*/
+		if (this->position.distanceToPoint(node->position) > 300 || node.get() == this) continue;
 		if (parent->parent->collision.doesNotCollideWith(Line(this->position, node->position))) {
 			Point ptr = this->position - node->position;
 			if (Node::checkLocationValidity(Line(this->position, node->position).midPoint(), parent->parent)) {

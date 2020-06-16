@@ -968,3 +968,13 @@ Animation.o: wrappers/Animation.cpp wrappers/Animation.h \
   wrappers/../game_entities/base/../../essential/SDL_Headers.h \
   wrappers/../essential/SDL_Headers.h wrappers/PixelMod.h \
   wrappers/../primitives/Pixel.h
+Sector.o: game_entities/Sector.cpp game_entities/Sector.h \
+  game_entities/../primitives/Line.h game_entities/../primitives/Point.h \
+  game_entities/../primitives/../MyBase.h \
+  game_entities/../primitives/../essential/random.h \
+  game_entities/../primitives/../essential/util.h \
+  game_entities/../primitives/../essential/../primitives/Point.h \
+  game_entities/../primitives/../essential/../MyBase.h \
+  game_entities/../primitives/Polygon.h \
+  game_entities/../primitives/Rect.h \
+  game_entities/../primitives/../essential/log.h

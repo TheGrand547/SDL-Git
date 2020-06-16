@@ -54,8 +54,7 @@ int main(int argc, char* argv[]) {
 	GAME.createThing<BigWall>(Rect(Line(Point(50, 0), Point(0, 50)), Line(Point(50, 0), Point(100, 50))));
 		
 	// Enemy
-	
-	std::shared_ptr<BadTest> heck = std::make_shared<BadTest>(Point(200, 360));
+	std::shared_ptr<BadTest> heck = std::make_shared<BadTest>(Point(220, 360));
 	heck->setTexture(gRenderer);
 	GAME.addThing(heck);
 	groundGroup.setParent(GAME);
@@ -65,11 +64,8 @@ int main(int argc, char* argv[]) {
 			if (x % 100 == 0 && y % 100 == 0) {
 				groundGroup.add(Point(x, y), Ground::filenames[Ground::GRASS]);
 			}
-			if (x % 50 == 0 && y % 50 == 0) {
-				GAME.addNode({(double)x, (double)y});
-			}
 		}
-	}
+	}	
 	GAME.instanceBegin();
 	Font gFont;
 	std::string foo = "duck dev best dev";
@@ -92,8 +88,6 @@ int main(int argc, char* argv[]) {
 	Texture test, fra;
 	test = Texture::load(gRenderer, "resources/bigsprite.png");
 	fra = test;*/
-	std::shared_ptr<Node> start = GAME.nodes.at(20);
-	std::cout << start->getPosition() << std::endl;
 	/*
 	NodePath gee;
 	Timer pg13;

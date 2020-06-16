@@ -20,9 +20,6 @@ std::shared_ptr<Node> EnemyBase::getClosestUnblockedNode() {
 		Point center = this->getCenter();
 		for (int i = 1; i < this->parent->nodes.size(); i++) {
 			double distance = center.distanceToPoint(this->parent->nodes.at(i)->getPosition());
-			if (distance > 100) {
-				continue;
-			}
 			if (distance < center.distanceToPoint(targ->getPosition())) {
 				if (this->parent->collision.doesNotCollideWith(Line(center, this->parent->nodes.at(i)->getPosition()))) {
 					targ = this->parent->nodes.at(i);
@@ -99,7 +96,7 @@ PointDelta EnemyBase::pathFindTo(Point target) {
 			double angle = atan2(temp.y - center.y, temp.x - center.x);
 			return PointDelta(Vector(angle), 200) * 200;
 		} else {
-			if (center.distanceToPoint(target) > 2) {
+			if (center.distanceToPoint(target) > 50) {
 				double angle = atan2(target.y - center.y, target.x - center.x);
 				return PointDelta(Vector(angle), 200) * 200;
 			}

@@ -41,9 +41,8 @@ void BadTest::draw(SDL_Renderer* renderer, Point offset) {
 	EnemyBase::draw(renderer, offset);
 	
 	if (this->path.getFirst().isReal()) {
-		this->path.draw();
+		this->path.draw(this->getCenter());
 	}
-	this->path.draw(this->position);
 	/*
 	// Draw vision cone - Slopily
 	
@@ -62,13 +61,10 @@ void BadTest::draw(SDL_Renderer* renderer, Point offset) {
 }
 
 void BadTest::update() {
-	//std::cout << this->position << std::endl;
 	// TODO: Switch to only one move() call per frame
 	this->timer.tick();
 	// This test AI will be based on a Finite State Machine
-	Point g = this->pathFindTo(this->parent->getPlayer()->getPosition());
-	if (g.isReal()) this->move(g);
-	/*
+	
 	switch (this->currentState) {
 		case State::PATROL:
 			if (this->c.paused()) {
@@ -82,7 +78,6 @@ void BadTest::update() {
 			{
 				PointDelta temp = this->pathFindTo(this->targetPoint);
 				if (temp.isReal()) {
-					//std::cout << temp << std::endl;
 					this->move(temp);	
 				} else {
 					this->currentState = State::RETURN;
@@ -108,9 +103,10 @@ void BadTest::update() {
 			}
 			break;
 		case State::ERROR:
-			//LOG("ERROR: BadTest has entered the ERROR State.");
+			LOG("ERROR: BadTest has entered the ERROR State.");
 			break;
 	}
+	/*
 	// SLOPPY
 	
 	if (this->currentState == State::PATROL || this->currentState == State::GOTO) {

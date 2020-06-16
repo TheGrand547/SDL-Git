@@ -101,11 +101,11 @@ float NodePath::distance() {
 }
 
 void NodePath::draw(Point point) {
-	//if (!this->stored.size()) return;
+	if (!this->stored.size()) return;
 	
 	if (point.isReal()) {
 		Line tmp = Line(this->stored[0]->getPosition(), point);
-		tmp.setColorChannels(0xFF, 0x00, 0x00, 0xFF);
+		tmp.setColorChannels(0x00, 0x00, 0xFF, 0xFF);
 		tmp.drawLine(MegaBase::renderer, *MegaBase::offset);
 	}
 	if (this->stored.size() > 1) {
@@ -116,4 +116,5 @@ void NodePath::draw(Point point) {
 			tmp.drawLine(MegaBase::renderer, *MegaBase::offset);
 		}
 	}
+	this->stored[0]->draw();
 }
