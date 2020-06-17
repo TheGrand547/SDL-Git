@@ -82,6 +82,14 @@ double Line::getC() const {
 	return double((this->getAx() * this->originPoint.x + (this->getBy() * this->originPoint.y)));
 }
 
+double Line::getMagnitude() const {
+	return sqrt(this->getFastMagnitude());
+}
+
+double Line::getFastMagnitude() const {
+	return (this->endingPoint - this->originPoint).getFastMagnitude();
+}
+
 Point Line::getEnd() const {
 	return this->endingPoint;
 }

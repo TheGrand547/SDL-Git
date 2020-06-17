@@ -4,15 +4,9 @@ Point::Point(double xCoordinate, double yCoordinate) : x(xCoordinate), y(yCoordi
 
 Point::~Point() {}
 
-Point::Point(const Point& point) {
-	this->x = point.x;
-	this->y = point.y;
-}
+Point::Point(const Point& point) : x(point.x), y(point.y) {}
 
-Point::Point(const Point* point) {
-	this->x = point->x;
-	this->y = point->y;
-}
+Point::Point(const Point* point) : x(point->x), y(point->y) {}
 
 double Point::originDistance() const {
 	return this->distanceToPoint(0, 0);
@@ -39,6 +33,10 @@ Point& Point::operator=(const Point& that) {
 	x = that.x;
 	y = that.y;
 	return *this;
+}
+
+Point Point::rotate90() const {
+	return Point(this->y, -this->x);
 }
 
 Point Point::toInt() const {
@@ -93,8 +91,12 @@ void Point::yZero() {
 	this->y = 0;
 }
 
-double Point::getMagnitude() const {
-	return sqrt(pow(this->x, 2) + pow(this->y, 2));
+inline double Point::getMagnitude() const {
+	return sqrt(this->getFastMagnitude());
+}
+
+inline double Point::getFastMagnitude() const {
+	return pow(this->x, 2) + pow(this->y, 2);
 }
 
 bool Point::getNonZero() const {

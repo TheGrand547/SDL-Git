@@ -33,6 +33,8 @@ class Line: public MyBase {
 		double getAx() const;
 		double getBy() const;
 		double getC() const;
+		double getFastMagnitude() const;
+		double getMagnitude() const;
 		Point getEnd() const;
 		Point getOrigin() const;
 		Point getUnitVector() const;

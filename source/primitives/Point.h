@@ -18,11 +18,12 @@ class Point {
 		Point operator/(const double& num) const;
 		Point operator*(const double& num) const;
 		Point copy() const;
+		Point getUnitVector() const;
 		Point negate() const;
 		Point onlyX() const;
 		Point onlyY() const;
+		Point rotate90() const;
 		Point toInt() const;
-		Point getUnitVector() const;
 		bool getNonZero() const;
 		bool isZero() const;
 		bool isNull() const;
@@ -33,6 +34,7 @@ class Point {
 		double distanceToPoint(double x, double y) const;
 		double getAngle() const;
 		double getMagnitude() const;
+		double getFastMagnitude() const;
 		double operator*(const Point& other) const;
 		double originDistance() const;
 		friend std::ostream &operator<<(std::ostream &output, const Point &point);

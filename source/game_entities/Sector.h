@@ -9,12 +9,15 @@
 
 // Think of it like a "room" for path finding
 class Sector {
-	private:
-		std::vector<Line> exits;
-		std::vector<Line> solids;
+	protected:
+		// TODO: Rewrite for polygon instead of rect
+		Rect structure;
+		std::vector<std::weak_ptr<Sector>> attached;
 	public:
-		Sector();
+		Sector(Rect structure);
 		~Sector();
-		static std::vector<Sector> MakeSectors(const std::vector<Line>& collisionLines);
+		bool contains(Sector* pointer) const;
+		Line iwannaline();
+		void connectToOthers(std::vector<std::shared_ptr<Sector>>& others);
 };
 #endif

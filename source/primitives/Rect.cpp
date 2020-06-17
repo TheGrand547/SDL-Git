@@ -244,5 +244,5 @@ Rect& Rect::operator=(const Rect& that) {
 }
 
 Point Rect::getCenter() const {
-	return (this->topLeft + this->getBottomRight()) / 2;
+	return this->topLeft + (this->widthVector + this->heightVector) / 2;
 }

@@ -2,8 +2,7 @@
 #include "source/GameInstance.h"
 #include "source/wrappers/SpriteSheet.h"
 #include "source/essential/log.h"
-#include<ctime>
-#include<chrono>
+#include "source/game_entities/Sector.h"
 bool init();
 SDL_Renderer* createRenderer(SDL_Window* window);
 SDL_Window* createWindow();
@@ -52,7 +51,13 @@ int main(int argc, char* argv[]) {
 	GAME.createThing<BigWall>(Rect(600, 500, 100, 300));
 	GAME.createThing<BigWall>(Rect(300, 450, 100, 300));
 	GAME.createThing<BigWall>(Rect(Line(Point(50, 0), Point(0, 50)), Line(Point(50, 0), Point(100, 50))));
-		
+	
+	Rect NME(Rect(150, 50, 50, 50));
+	std::vector<std::shared_ptr<Sector>> BOOM = {std::make_shared<Sector>(Rect(201, 50, 50, 50))};
+	Sector TME(NME);
+	TME.connectToOthers(BOOM);
+	Line NEF(TME.iwannaline());
+	
 	// Enemy
 	std::shared_ptr<BadTest> heck = std::make_shared<BadTest>(Point(220, 360));
 	heck->setTexture(gRenderer);
@@ -113,6 +118,7 @@ int main(int argc, char* argv[]) {
 		}
 		gee.draw(GAME.getOffset());*/
 		g.draw(kekw, gRenderer, Point(200, 200), getDirectionFromAngle(dot->getAngle()));
+		NEF.drawLine(gRenderer, GAME.getOffset());
 		//test.draw(gRenderer, {300, 300});
 		//lip.drawLine(gRenderer);
 		fps.draw(gRenderer);
