@@ -82,21 +82,12 @@ int main(int argc, char* argv[]) {
 	FpsText fps(gFont, Point(100, 10), COLORS::RED); // TODO: Add handler for these things, also have this singular timer passed to all "groups" for consistency
 	handler.addMessage(AlertText("this shouldn't last long", Point(300, 150), COLORS::RED, 20, 2500));
 	// TODO: Standardize between draw and render, ie pick one you indecisive fuck
-	/*
-	Line lip(heck->getPosition(), heck->getPosition() + Point(200, 0));
-	lip += Point(0, 5);*/
+	
+	Line patrolLine(heck->getPosition(), heck->getPosition() + Point(200, 0));
+	patrolLine += Point(0, 5);
 	SpriteSheet g("resources/bigsprite.png", 50, 50, gRenderer);
 	g.addAnimation("dumb", 0, 4, 500);
-	std::string kekw = "dumb";
 	LOG("Section: Main Loop");
-	/*
-	Texture test, fra;
-	test = Texture::load(gRenderer, "resources/bigsprite.png");
-	fra = test;*/
-	/*
-	NodePath gee;
-	Timer pg13;
-	pg13.start();*/
 	while(!contra.quit) {
 		clearScreen(gRenderer);
 		popo.zero(); // >:(
@@ -111,16 +102,15 @@ int main(int argc, char* argv[]) {
 			if (contra.checkListener(config["Ray"]).getHeld()) { // Raycasting
 				dot->rayCast();
 			}
-		}/*
-		if (pg13.getTicks() > 250) {
-			gee = NodePath(start, Point((double)contra.mouseX, (double)contra.mouseY) - GAME.getOffset());
-			pg13.start();
 		}
-		gee.draw(GAME.getOffset());*/
-		g.draw(kekw, gRenderer, Point(200, 200), getDirectionFromAngle(dot->getAngle()));
+		
+		// Testing stuff
+		g.draw("dumb", gRenderer, Point(200, 200), getDirectionFromAngle(dot->getAngle()));
 		NEF.drawLine(gRenderer, GAME.getOffset());
-		//test.draw(gRenderer, {300, 300});
-		//lip.drawLine(gRenderer);
+		BOOM[0]->draw();
+		TME.draw();
+		patrolLine.drawLine(gRenderer);
+		
 		fps.draw(gRenderer);
 		fps.drawFrameTime(gRenderer);
 		renderChanges(gRenderer, gameWindow);

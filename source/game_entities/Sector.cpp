@@ -1,9 +1,20 @@
 #include "Sector.h"
+#include "../essential/MegaBase.h"
 
-Sector::Sector(Rect structure) : structure(structure) {}
+Sector::Sector(Rect structure, std::string data) : structure(structure), data(data) {}
 
 Sector::~Sector() {}
 
+bool Sector::contains(Sector* pointer) const {
+	for (const std::weak_ptr<Sector>& sector: this->attached) {
+		std::shared_ptr<Sector> specific = sector.lock();
+		if (specific && specific.get() == pointer) return true;
+	} 
+	return false;
+}
+
+
+// SHITTY EXPIRIMENTAL FUNCTION
 Line Sector::iwannaline() {
 	std::vector<Line> tempLines = this->structure.getLines();
 	Point center = this->structure.getCenter();
@@ -14,6 +25,10 @@ Line Sector::iwannaline() {
 		tempLines.push_back((positive.getFastMagnitude() > negative.getFastMagnitude()) ? positive: negative);
 	}
 	return tempLines[this->structure.numLines()];
+}
+
+std::string Sector::getData() const {
+	return this->data;
 }
 
 void Sector::connectToOthers(std::vector<std::shared_ptr<Sector>>& others) {
@@ -35,10 +50,6 @@ void Sector::connectToOthers(std::vector<std::shared_ptr<Sector>>& others) {
 	std::cout << this->attached.size() << std::endl;
 }
 
-bool Sector::contains(Sector* pointer) const {
-	for (const std::weak_ptr<Sector>& sector: this->attached) {
-		std::shared_ptr<Sector> specific = sector.lock();
-		if (specific && specific.get() == pointer) return true;
-	} 
-	return false;
+void Sector::draw() {
+	this->structure.draw(MegaBase::renderer, *MegaBase::offset);
 }

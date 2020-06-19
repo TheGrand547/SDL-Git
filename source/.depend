@@ -978,4 +978,35 @@ Sector.o: game_entities/Sector.cpp game_entities/Sector.h \
   game_entities/../primitives/../essential/../MyBase.h \
   game_entities/../primitives/Polygon.h \
   game_entities/../primitives/Rect.h \
-  game_entities/../primitives/../essential/log.h
+  game_entities/../primitives/../essential/log.h \
+  game_entities/../essential/MegaBase.h \
+  game_entities/../primitives/../essential/../BoundedPoint.h \
+  game_entities/../primitives/../primitives/Point.h
+SectorGroup.o: game_entities/SectorGroup.cpp game_entities/SectorGroup.h \
+  game_entities/../essential/random.h game_entities/DrawGroup.h \
+  game_entities/../BoundedPoint.h game_entities/../primitives/Point.h \
+  game_entities/../essential/MegaBase.h \
+  game_entities/../essential/../BoundedPoint.h game_entities/Sector.h \
+  game_entities/../primitives/Line.h \
+  game_entities/../primitives/../MyBase.h \
+  game_entities/../primitives/../essential/random.h \
+  game_entities/../primitives/../essential/util.h \
+  game_entities/../essential/../primitives/Point.h \
+  game_entities/../essential/../MyBase.h \
+  game_entities/../primitives/Polygon.h \
+  game_entities/../primitives/Rect.h \
+  game_entities/../primitives/../essential/log.h \
+  game_entities/../GameInstance.h game_entities/../essential/log.h \
+  game_entities/../AlertTextHandler.h \
+  game_entities/../wrappers/AlertText.h game_entities/../wrappers/Font.h \
+  game_entities/../wrappers/Timer.h \
+  game_entities/../wrappers/../essential/constants.h \
+  game_entities/../wrappers/../primitives/Point.h \
+  game_entities/../game_entities/base/ThingBase.h \
+  game_entities/../game_entities/base/../../GameInstance.h \
+  game_entities/../game_entities/base/../../primitives/Point.h \
+  game_entities/../game_entities/base/../../primitives/Rect.h \
+  game_entities/../game_entities/CollisionHandler.h \
+  game_entities/../game_entities/NodeDrawGroup.h game_entities/Node.h \
+  game_entities/../essential/constants.h game_entities/NodeDrawGroup.h \
+  game_entities/CollisionHandler.h

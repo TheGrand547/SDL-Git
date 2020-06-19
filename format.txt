@@ -1,0 +1,44 @@
+Format details: Everything in alphabetical order by type, then name.
+Every new line is intentional, end files with a newline.
+This is subject to change, and not all files are up to this standard yet
+Last edited June 18th, 2020
+--------------------------------
+*.cpp
+#pragma statement
+#include guards
+#include statements(local)
+#include libraries
+
+#macros
+
+typedefs
+
+function declarations
+
+class declarations
+
+--------------------------------
+generic *.h
+#include statements(local)
+#include libraries
+
+#macros
+
+typedefs
+
+function definitions
+
+--------------------------------
+class *.h
+#include statements(local)
+#include libraries
+
+#macros
+
+typedefs
+
+constructors(order irrelevant)
+
+overridden method definitions, alphabetized by type then name
+
+member function definitions, alphabetized by type then name
