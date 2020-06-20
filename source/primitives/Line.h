@@ -1,4 +1,6 @@
 #pragma once
+#ifndef LINE_H
+#define LINE_H
 #include<cmath>
 #include<SDL2/SDL.h>
 #include<SDL2/SDL2_gfxPrimitives.h>
@@ -48,3 +50,4 @@ class Line: public MyBase {
 
 Line operator*(const double& delta, const Line& line);
 Line operator/(const double& delta, const Line& line);
+#endif

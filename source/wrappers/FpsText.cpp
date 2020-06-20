@@ -26,7 +26,7 @@ void FpsText::draw(SDL_Renderer* renderer) {
 }
 
 float FpsText::getRatio() {
-	return float(Screen::INTENDED_FRAME_RATE) / float(this->timer.getFps());
+	return this->timer2.getTicks() / 1000.f;
 }
 
 void FpsText::drawFrameTime(SDL_Renderer* renderer) {

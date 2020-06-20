@@ -5,6 +5,7 @@
 #include "../primitives/Point.h"
 #include "../primitives/Polygon.h"
 #include "../primitives/Rect.h"
+#include<map>
 #include<string>
 #include<vector>
 
@@ -14,6 +15,7 @@ class Sector {
 		// TODO: Rewrite for polygon instead of rect
 		Rect structure;
 		std::string data;
+		std::map<Sector*, Point> pointsOfContact;
 	public:
 		std::vector<std::weak_ptr<Sector>> attached;
 	

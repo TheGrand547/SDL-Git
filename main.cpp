@@ -10,6 +10,10 @@ void close(SDL_Window* window);
 void clearScreen(SDL_Renderer* renderer);
 void renderChanges(SDL_Renderer* renderer, SDL_Window* window);
 
+Point bez(Point start, Point end, Point control, double t);
+Point bez2(Point start, Point end, Point control, double t);
+
+
 // TODO: Static Member Variable Initialization should put somewhere less conspicuous
 SDL_Renderer* MegaBase::renderer = NULL;
 Point* MegaBase::offset = NULL;
@@ -85,10 +89,11 @@ int main(int argc, char* argv[]) {
 	
 	Line patrolLine(heck->getPosition(), heck->getPosition() + Point(200, 0));
 	patrolLine += Point(0, 5);
-	SpriteSheet g("resources/bigsprite.png", 50, 50, gRenderer);
-	g.addAnimation("dumb", 0, 4, 500);
+	SpriteSheet spriteSheetTest("resources/bigsprite.png", 50, 50, gRenderer);
+	spriteSheetTest.addAnimation("dumb", 0, 4, 500);
+	
 	LOG("Section: Main Loop");
-	while(!contra.quit) {
+	while (!contra.quit) {
 		clearScreen(gRenderer);
 		popo.zero(); // >:(
 		contra.handleEvents();
@@ -105,10 +110,7 @@ int main(int argc, char* argv[]) {
 		}
 		
 		// Testing stuff
-		g.draw("dumb", gRenderer, Point(200, 200), getDirectionFromAngle(dot->getAngle()));
-		NEF.drawLine(gRenderer, GAME.getOffset());
-		BOOM[0]->draw();
-		TME.draw();
+		spriteSheetTest.draw("dumb", gRenderer, {200, 200}, getDirectionFromAngle(dot->getAngle()));
 		patrolLine.drawLine(gRenderer);
 		
 		fps.draw(gRenderer);

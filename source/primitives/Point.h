@@ -46,4 +46,6 @@ class Point {
 		void yZero();
 		void zero();
 };
+
+Point operator*(const double& other, const Point& point);
 #endif

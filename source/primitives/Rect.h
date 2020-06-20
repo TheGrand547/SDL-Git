@@ -1,4 +1,6 @@
 #pragma once
+#ifndef RECT_H
+#define RECT_H
 #include<cassert>
 #include<iostream>
 #include "../essential/util.h"
@@ -28,6 +30,7 @@ class Rect: public Polygon {
 		
 		bool containsPoint(const Point& point) const override;
 		bool doesLineCollide(const Line& ray) const override;
+		bool isAxisAligned() const override;
 		int numberOfCollisions(const Line& line) const override;
 		int numLines() const override;
 		int numPoints() const override;
@@ -50,3 +53,4 @@ class Rect: public Polygon {
 		void setColorChannels(int r, int g, int b, int a);
 		void superDraw(SDL_Renderer* renderer, Point offset);
 };
+#endif

@@ -43,11 +43,19 @@ void Sector::connectToOthers(std::vector<std::shared_ptr<Sector>>& others) {
 		}
 	}
 	for (std::shared_ptr<Sector>& sector: others) {
+		if (this->contains(sector.get())) continue; // Shouldn't happen but edge cases :D
+		if (sector->contains(this)) {
+			this->attached.push_back(sector);
+			this->pointsOfContact[sector.get()] = sector->pointsOfContact[this];
+			continue;
+		}
 		for (Line line: lines) {
-			if (sector->contains(this) || sector->structure.doesLineCollide(line)) this->attached.push_back(sector);
+			if (sector->contains(this) || sector->structure.doesLineCollide(line)) {
+				this->attached.push_back(sector);
+				this->pointsOfContact[sector.get()] = sector->structure.collideLine(line);
+			}
 		}
 	}
-	std::cout << this->attached.size() << std::endl;
 }
 
 void Sector::draw() {

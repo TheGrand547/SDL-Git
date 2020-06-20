@@ -151,3 +151,7 @@ void Point::operator/=(const double& val) {
 	this->x /= val;
 	this->y /= val;
 }
+
+Point operator*(const double& other, const Point& point) {
+	return point * other;
+}

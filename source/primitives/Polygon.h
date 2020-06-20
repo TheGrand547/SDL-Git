@@ -20,6 +20,8 @@ class Polygon : public MyBase {
 		virtual std::vector<Line> getLines() const = 0;
 		virtual std::vector<Point> getPoints() const = 0;
 		
+		virtual bool isAxisAligned() const;
+		
 		bool operator==(const Polygon& other) const;
 		bool overlap(const Polygon& other) const;
 		Rect getBoundingRect() const;

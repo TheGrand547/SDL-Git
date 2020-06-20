@@ -21,6 +21,10 @@ bool Polygon::operator==(const Polygon& other) const {
 	return true;
 }
 
+bool Polygon::isAxisAligned() const {
+	return false;
+}
+
 bool Polygon::overlap(const Polygon& that) const {
 	// Arbitrary constant well outside the realms of the gamefield
 	const Point OUT_OF_BOUNDS = Point(-505532, 324323);
@@ -38,7 +42,7 @@ bool Polygon::overlap(const Polygon& that) const {
 	// If the bounding rectangles don't overlap, then the polygons can't overlap
 	if (!(xOver && yOver)) return false;
 	// If the bounding rectangles DO overlap, and both polygons are THEIR OWN bounding rectangles, they must overlap
-	if (me == *this && other == that) return true;
+	if (this->isAxisAligned() && that.isAxisAligned()) return true;
 	for (Line line: this->getLines()) {
 		if (that.doesLineCollide(line)) return true;
 	}

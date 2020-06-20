@@ -1010,3 +1010,5 @@ SectorGroup.o: game_entities/SectorGroup.cpp game_entities/SectorGroup.h \
   game_entities/../game_entities/NodeDrawGroup.h game_entities/Node.h \
   game_entities/../essential/constants.h game_entities/NodeDrawGroup.h \
   game_entities/CollisionHandler.h
+MathUtils.o: essential/MathUtils.cpp essential/MathUtils.h \
+  essential/../primitives/Point.h
