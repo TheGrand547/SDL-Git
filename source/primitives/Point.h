@@ -32,6 +32,7 @@ class Point {
 		bool operator!=(const Point& point) const;
 		double distanceToPoint(const Point& point = Point(0, 0)) const;
 		double distanceToPoint(double x, double y) const;
+		double fastDistanceToPoint(const Point& point = Point(0, 0)) const;
 		double getAngle() const;
 		double getMagnitude() const;
 		double getFastMagnitude() const;

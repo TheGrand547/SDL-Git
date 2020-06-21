@@ -49,13 +49,17 @@ std::ostream& operator<<(std::ostream &output, const Point &point) {
 }
 
 double Point::distanceToPoint(const Point& point) const {
-	double dx = this->x - point.x;
-	double dy = this->y - point.y;
-	return sqrt(dx * dx + dy * dy);
+	return sqrt(this->fastDistanceToPoint(point));
 }
 
 double Point::distanceToPoint(double x, double y) const {
 	return this->distanceToPoint(Point(x, y));
+}
+
+double Point::fastDistanceToPoint(const Point& point) const {
+	double dx = this->x - point.x;
+	double dy = this->y - point.y;
+	return dx * dx + dy * dy;
 }
 
 Point Point::getUnitVector() const {

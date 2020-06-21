@@ -11,12 +11,13 @@ class Rect;
 
 class Polygon : public MyBase {
 	public:
-		virtual Point collideLine(const Line& ray) const = 0;
 		virtual bool containsPoint(const Point& point) const = 0;
 		virtual bool doesLineCollide(const Line& line) const = 0;
 		virtual int numberOfCollisions(const Line& line) const = 0;
 		virtual int numLines() const = 0;
 		virtual int numPoints() const = 0;
+		virtual Point collideLine(const Line& ray) const = 0;
+		virtual Point getCenter() const = 0;
 		virtual std::vector<Line> getLines() const = 0;
 		virtual std::vector<Point> getPoints() const = 0;
 		

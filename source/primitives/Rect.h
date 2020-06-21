@@ -35,6 +35,7 @@ class Rect: public Polygon {
 		int numLines() const override;
 		int numPoints() const override;
 		Point collideLine(const Line& ray) const override;
+		Point getCenter() const override;
 		std::vector<Line> getLines() const override;
 		std::vector<Point> getPoints() const override;
 		
@@ -43,7 +44,6 @@ class Rect: public Polygon {
 		double getWidth() const;
 		Point getBottomLeft() const;
 		Point getBottomRight() const;
-		Point getCenter() const;
 		Point getTopLeft() const;
 		Point getTopRight() const;
 		SDL_Rect getSDLRect() const;

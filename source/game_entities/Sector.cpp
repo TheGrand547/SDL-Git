@@ -13,20 +13,6 @@ bool Sector::contains(Sector* pointer) const {
 	return false;
 }
 
-
-// SHITTY EXPIRIMENTAL FUNCTION
-Line Sector::iwannaline() {
-	std::vector<Line> tempLines = this->structure.getLines();
-	Point center = this->structure.getCenter();
-	for (Line line: tempLines) {
-		Point direction(line.getUnitVector().rotate90());
-		Line positive(center, line.midPoint() + direction * 5);
-		Line negative(center, line.midPoint() + direction * -5);
-		tempLines.push_back((positive.getFastMagnitude() > negative.getFastMagnitude()) ? positive: negative);
-	}
-	return tempLines[this->structure.numLines()];
-}
-
 std::string Sector::getData() const {
 	return this->data;
 }

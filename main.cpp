@@ -56,11 +56,6 @@ int main(int argc, char* argv[]) {
 	GAME.createThing<BigWall>(Rect(300, 450, 100, 300));
 	GAME.createThing<BigWall>(Rect(Line(Point(50, 0), Point(0, 50)), Line(Point(50, 0), Point(100, 50))));
 	
-	Rect NME(Rect(150, 50, 50, 50));
-	std::vector<std::shared_ptr<Sector>> BOOM = {std::make_shared<Sector>(Rect(201, 50, 50, 50))};
-	Sector TME(NME);
-	TME.connectToOthers(BOOM);
-	Line NEF(TME.iwannaline());
 	
 	// Enemy
 	std::shared_ptr<BadTest> heck = std::make_shared<BadTest>(Point(220, 360));
