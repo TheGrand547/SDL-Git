@@ -2,7 +2,9 @@
 #include "source/GameInstance.h"
 #include "source/wrappers/SpriteSheet.h"
 #include "source/essential/log.h"
-#include "source/game_entities/Sector.h"
+#include "source/game_entities/SectorGroup.h"
+#include "source/game_entities/SectorPath.h"
+
 bool init();
 SDL_Renderer* createRenderer(SDL_Window* window);
 SDL_Window* createWindow();
@@ -56,6 +58,14 @@ int main(int argc, char* argv[]) {
 	GAME.createThing<BigWall>(Rect(300, 450, 100, 300));
 	GAME.createThing<BigWall>(Rect(Line(Point(50, 0), Point(0, 50)), Line(Point(50, 0), Point(100, 50))));
 	
+	SectorGroup myGroupTest(&GAME);
+	myGroupTest.addSector(Rect(300, 100, 300, 100));
+	myGroupTest.addSector(Rect(100, 100, 200, 100));
+	myGroupTest.addSector(Rect(100, 200, 100, 100));
+	myGroupTest.addSector(Rect(100, 300, 400, 100));
+	myGroupTest.addSector(Rect(450, 50, 150, 50));
+	myGroupTest.connectSectors();
+	SectorPath myPath(myGroupTest[3], myGroupTest[0]);
 	
 	// Enemy
 	std::shared_ptr<BadTest> heck = std::make_shared<BadTest>(Point(220, 360));
@@ -107,7 +117,8 @@ int main(int argc, char* argv[]) {
 		// Testing stuff
 		spriteSheetTest.draw("dumb", gRenderer, {200, 200}, getDirectionFromAngle(dot->getAngle()));
 		patrolLine.drawLine(gRenderer);
-		
+		myPath.draw();
+
 		fps.draw(gRenderer);
 		fps.drawFrameTime(gRenderer);
 		renderChanges(gRenderer, gameWindow);

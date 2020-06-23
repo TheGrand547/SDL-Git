@@ -9,7 +9,7 @@ struct VALUE {
 };
 
 double getValue(SectorPtr sector, SectorPtr target) {
-	return sector->structure.getCenter().fastDistanceToPoint(target->structure.getCenter());
+	return sector->structure.getCenter().fastDistanceToPoint(target->structure.getCenter()) * ((sector->contains(target.get()) ? .25 : 1));
 }
 
 SectorPath::SectorPath() : stage(false), index(0) {}
@@ -35,7 +35,7 @@ SectorPath::SectorPath(SectorPtr startingSector, SectorPtr target) : stage(false
 				current = node;
 			}
 		}
-		if (getValue(current, target) < NODE::NODE_DISTANCE_MAX) {
+		if (current == target) {
 			std::vector<SectorPtr> temp;
 			std::map<SectorPtr, SectorPtr>::iterator it = path.find(current);
 			while (it != path.end()) {
@@ -43,6 +43,7 @@ SectorPath::SectorPath(SectorPtr startingSector, SectorPtr target) : stage(false
 				it = path.find(it->second);
 			}
 			std::vector<SectorPtr>::reverse_iterator iter = temp.rbegin();
+			this->stored.push_back(startingSector); // This *shouldn't* be necessary but it appears to be for the time being
 			for (; iter != temp.rend(); iter++) {
 				this->stored.push_back(iter[0]);
 			}
@@ -54,7 +55,7 @@ SectorPath::SectorPath(SectorPtr startingSector, SectorPtr target) : stage(false
 			SectorPtr node = weak.lock();
 			if (!node || valueInVector(closed, node)) continue;
 			if (valueNotInVector(unused, node)) unused.push_back(node);
-			double general = cost[current].value + current->getDistance(node);
+			double general = cost[current].value + getValue(node, current);
 			if (general < cost[node].value) {
 				path[node] = current;
 				cost[node].value = general;
@@ -77,7 +78,7 @@ SectorPath& SectorPath::operator=(const SectorPath& that) {
 }
 
 bool SectorPath::finished() const {
-	return this->stored.size() == this->index;
+	return this->stored.size() == (uint)this->index;
 }
 
 int SectorPath::size() {
@@ -86,20 +87,24 @@ int SectorPath::size() {
 
 Point SectorPath::currentTarget(Point currentPosition) {
 	if (!this->index) return Point();
-	if (this->index == 0) {
-		if (!this->stage) {
-			if (currentPosition.distanceToPoint(this->stored[index]->structure.getCenter()) < 2.5) this->stage = true;
-			return (this->stored[index]->structure.getCenter() - currentPosition).getUnitVector();
-		}
-		return (this->stored[index]->pointsOfContact[this->stored[index + 1].get()] - currentPosition).getUnitVector();
+	if ((this->stored[index]->pointsOfContact[this->stored[index + 1].get()] - currentPosition).getFastMagnitude() < 5) {
+		this->index++;
+		this->stage = false;
 	}
-	return Point(rand(), rand());
+	if (!this->stage && this->index != 0) {
+		if (currentPosition.distanceToPoint(this->stored[index]->structure.getCenter()) < 2.5) this->stage = true;
+		return (this->stored[index]->structure.getCenter() - currentPosition).getUnitVector();
+	}
+	return (this->stored[index]->pointsOfContact[this->stored[index + 1].get()] - currentPosition).getUnitVector();
 }
 
 void SectorPath::clear() {
 	this->stored.clear();
 }
 
-void SectorPath::draw(Point point) {
-	for (const SectorPtr& sec) sec->draw();
+void SectorPath::draw() {
+	for (SectorPtr& sec: this->stored) {
+		sec->structure.setColorChannels(0xFF, 0x00, 0x00, 0xFF);
+		sec->draw();
+	}
 }
