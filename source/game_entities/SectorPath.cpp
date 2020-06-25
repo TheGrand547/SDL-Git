@@ -1,4 +1,5 @@
 #include "SectorPath.h"
+#include "../essential/MegaBase.h"
 #include<map>
 #include<algorithm>
 
@@ -86,7 +87,7 @@ int SectorPath::size() {
 }
 
 Point SectorPath::currentTarget(Point currentPosition) {
-	if (!this->index) return Point();
+	if (!this->stored.size()) return Point();
 	if ((this->stored[index]->pointsOfContact[this->stored[index + 1].get()] - currentPosition).getFastMagnitude() < 5) {
 		this->index++;
 		this->stage = false;
@@ -103,6 +104,20 @@ void SectorPath::clear() {
 }
 
 void SectorPath::draw() {
+	for (uint i = 0; i + 1 < this->stored.size(); i++) {
+		Line p(this->stored[i]->structure.getCenter(), this->stored[i]->pointsOfContact[this->stored[i + 1].get()]);
+		p.setColor(0xFF, 0x00, 0xFF, 0xFF);
+		p.drawLine(MegaBase::renderer, *MegaBase::offset);
+		if (i != 0) {
+			Line g(this->stored[i]->structure.getCenter(), this->stored[i - 1]->pointsOfContact[this->stored[i].get()]);
+			g.setColor(0xFF, 0x00, 0xFF, 0xFF);
+			g.drawLine(MegaBase::renderer, *MegaBase::offset);
+			
+			Line pe(this->stored[i]->structure.getCenter(), this->stored[i]->pointsOfContact[this->stored[i - 1].get()]);
+			pe.setColor(0xFF, 0xFF, 0xFF, 0xFF);
+			pe.drawLine(MegaBase::renderer, *MegaBase::offset);
+		}
+	}
 	for (SectorPtr& sec: this->stored) {
 		sec->structure.setColorChannels(0xFF, 0x00, 0x00, 0xFF);
 		sec->draw();

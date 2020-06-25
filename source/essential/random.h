@@ -22,11 +22,6 @@ void mMax(T numA, T numB, T& iMin, T& iMax) {
 bool valueInRange(double value, double min, double max);
 
 template<class T>
-bool valueInModRange(T value, T min, T max){ 
-	return ((int(value) >= int(min) - 2) && (int(value) <= int(max) + 2)); 
-}
-
-template<class T>
 T toTicks(T seconds) {
 	return seconds * 1000.f;
 }

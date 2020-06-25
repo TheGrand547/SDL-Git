@@ -30,17 +30,27 @@ void Sector::connectToOthers(std::vector<std::shared_ptr<Sector>>& others) {
 	}
 	for (std::shared_ptr<Sector>& sector: others) {
 		if (sector.get() == this || this->contains(sector.get())) continue; // Shouldn't happen but edge cases :D
-		if (sector->contains(this)) {
-			this->attached.push_back(sector);
-			this->pointsOfContact[sector.get()] = sector->pointsOfContact[this];
-			continue;
-		}
 		for (Line line: lines) {
 			if (sector->structure.doesLineCollide(line)) {
 				this->attached.push_back(sector);
-				this->pointsOfContact[sector.get()] = sector->structure.collideLine(line);
+				Point point = sector->structure.collideLine(line);
+				if (!valueInVector(sector->structure.getPoints(), point)) {
+					this->pointsOfContact[sector.get()] = point;
+				}
 			}
 		}
+	}
+}
+
+void Sector::clean(std::vector<std::shared_ptr<Sector>>& others) {
+	for (std::shared_ptr<Sector>& sector: others) {
+		if (sector->contains(this) && !this->contains(sector.get())) {
+			this->attached.push_back(sector);
+		}
+		if (this->contains(sector.get()) && this->pointsOfContact[sector.get()].isNull()) {
+			this->pointsOfContact[sector.get()] = sector->pointsOfContact[this];
+		}
+		
 	}
 }
 

@@ -4,6 +4,7 @@
 #include "source/essential/log.h"
 #include "source/game_entities/SectorGroup.h"
 #include "source/game_entities/SectorPath.h"
+#include "source/game_entities/SectorPathFollower.h"
 
 bool init();
 SDL_Renderer* createRenderer(SDL_Window* window);
@@ -97,6 +98,8 @@ int main(int argc, char* argv[]) {
 	SpriteSheet spriteSheetTest("resources/bigsprite.png", 50, 50, gRenderer);
 	spriteSheetTest.addAnimation("dumb", 0, 4, 500);
 	
+	SectorPathFollower foodd(Rect(myGroupTest[3]->structure.getCenter(), myGroupTest[3]->structure.getCenter() + Point(10, 10)));
+	foodd.mine = myPath;
 	LOG("Section: Main Loop");
 	while (!contra.quit) {
 		clearScreen(gRenderer);
@@ -113,7 +116,8 @@ int main(int argc, char* argv[]) {
 				dot->rayCast();
 			}
 		}
-		
+		foodd.update();
+		foodd.draw(gRenderer, GAME.getOffset());
 		// Testing stuff
 		spriteSheetTest.draw("dumb", gRenderer, {200, 200}, getDirectionFromAngle(dot->getAngle()));
 		patrolLine.drawLine(gRenderer);

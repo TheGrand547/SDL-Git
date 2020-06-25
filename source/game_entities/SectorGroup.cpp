@@ -42,6 +42,7 @@ void SectorGroup::clearGroup() {
 
 void SectorGroup::connectSectors() {
 	for (SectorPtr sector: this->storage) sector->connectToOthers(this->storage);
+	for (SectorPtr sector: this->storage) sector->clean(this->storage);
 }
 
 void SectorGroup::drawGroup() {

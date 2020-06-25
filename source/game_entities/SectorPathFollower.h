@@ -1,0 +1,26 @@
+#pragma once
+#ifndef SECTOR_PATH_FOLLOWER_H
+#define SECTOR_PATH_FOLLOWER_H
+#include "../primitives/Rect.h"
+#include "base/ThingBase.h"
+#include "SectorPath.h"
+
+
+class SectorPathFollower : public ThingBase {
+	public:
+		Rect box;
+		SectorPath mine;
+		
+		SectorPathFollower(Rect rect);
+		~SectorPathFollower();
+		bool doesLineCollide(const Line& ray) const override;
+		bool overlap(const Rect& other) const override;
+		bool overlap(const std::shared_ptr<ThingBase>& other) const override;
+		double originDistance() const override;
+		Point collideLine(const Line& ray) const override;
+		Point getPosition() const override;
+		Rect getRect() const override;
+		void draw(SDL_Renderer* renderer, Point offset = Point(0, 0)) override;
+		void update() override;
+};
+#endif

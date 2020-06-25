@@ -23,6 +23,7 @@ class Sector {
 		bool contains(Sector* pointer) const;
 		std::string getData() const;
 		void connectToOthers(std::vector<std::shared_ptr<Sector>>& others);
+		void clean(std::vector<std::shared_ptr<Sector>>& others);
 		void draw();
 };
 #endif
