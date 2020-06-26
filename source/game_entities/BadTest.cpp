@@ -40,9 +40,6 @@ void BadTest::draw(SDL_Renderer* renderer, Point offset) {
 	}
 	EnemyBase::draw(renderer, offset);
 	
-	if (this->path.getFirst().isReal()) {
-		this->path.draw(this->getCenter());
-	}
 	/*
 	// Draw vision cone - Slopily
 	
@@ -76,12 +73,11 @@ void BadTest::update() {
 			break;
 		case State::GOTO: 
 			{
-				PointDelta temp = this->pathFindTo(this->targetPoint);
+				Point temp = this->pathFindTo(this->targetPoint);
 				if (temp.isReal()) {
 					this->move(temp);	
 				} else {
 					this->currentState = State::RETURN;
-					this->path.clear();
 				}
 			}
 			break;
@@ -91,7 +87,7 @@ void BadTest::update() {
 		case State::RETURN:
 			{
 				if (this->lastPatrolledPoint.isReal()) {
-					PointDelta temp = this->pathFindTo(this->lastPatrolledPoint);
+					Point temp = this->pathFindTo(this->lastPatrolledPoint);
 					if (temp.getNonZero()) {
 						this->move(temp);
 					} else {

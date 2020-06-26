@@ -34,8 +34,8 @@ Rect SectorPathFollower::getRect() const {
 }
 
 void SectorPathFollower::draw(SDL_Renderer* renderer, Point offset) {
-	this->box.setColorChannels(0xFF, 0x00, 0x00, 0xFF);
-	this->box.draw(renderer, offset);
+	if (!this->texture.isLoaded()) this->texture.loadFromFile(renderer, "resources/temp.png", 10, 10);
+	this->texture.draw(renderer, this->box.getCenter() - offset);
 }
 
 void SectorPathFollower::update() {

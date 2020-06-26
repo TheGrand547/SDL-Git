@@ -14,22 +14,6 @@ void EnemyBase::draw(SDL_Renderer* renderer, Point offset) {
 	}
 }
 
-std::shared_ptr<Node> EnemyBase::getClosestUnblockedNode() {
-	std::shared_ptr<Node> targ = this->parent->nodes.getFirst();
-	if (this->parent->nodes.size() > 1) {
-		Point center = this->getCenter();
-		for (int i = 1; i < this->parent->nodes.size(); i++) {
-			double distance = center.distanceToPoint(this->parent->nodes.at(i)->getPosition());
-			if (distance < center.distanceToPoint(targ->getPosition())) {
-				if (this->parent->collision.doesNotCollideWith(Line(center, this->parent->nodes.at(i)->getPosition()))) {
-					targ = this->parent->nodes.at(i);
-				}
-			}
-		}
-	}
-	return targ;
-}
-
 void EnemyBase::move(Point velocity) { 
 	// TODO: Fix this shit
 	// There must be a better way
@@ -78,31 +62,8 @@ std::ostream& operator<<(std::ostream& output, const EnemyBase& base) {
 	return output;
 }
 
-PointDelta EnemyBase::pathFindTo(Point target) {
-	if (this->parent->nodes.size() > 0 && target.isReal()) {
-		Point center = this->getCenter();
-		if (this->pathTimer.getTicks() > 250 || this->path.getFirst().isNull()) { 
-			// If it has been more than 250 milliseconds since the path has been calculated
-			this->path = NodePath(this->getClosestUnblockedNode(), target);
-			this->pathTimer.start();
-		} 
-		if (this->path.getFirst().isReal()) {
-			if (this->path.getFirst().distanceToPoint(center) < 2.5) { // Make the number a constant
-				this->path.removeLast();
-			}
-		}
-		Point temp = this->path.getFirst();
-		if (temp.isReal()) {
-			double angle = atan2(temp.y - center.y, temp.x - center.x);
-			return PointDelta(Vector(angle), 200) * 200;
-		} else {
-			if (center.distanceToPoint(target) > 50) {
-				double angle = atan2(target.y - center.y, target.x - center.x);
-				return PointDelta(Vector(angle), 200) * 200;
-			}
-		}
-	}
-	return PointDelta(0, 0, 0);
+Point EnemyBase::pathFindTo(Point target) {
+	return target * 2;
 }
 
 void EnemyBase::turn(double delta) {

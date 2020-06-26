@@ -5,7 +5,7 @@
 #include "AlertTextHandler.h"
 #include "game_entities/base/ThingBase.h"
 #include "game_entities/CollisionHandler.h"
-#include "game_entities/NodeDrawGroup.h"
+#include "BoundedPoint.h"
 #include<map>
 #include<memory>
 #include<set>
@@ -37,7 +37,6 @@ class GameInstance {
 		std::set<ThingBase*, compare> drawOrder;
 	public:
 		CollisionHandler collision;
-		NodeDrawGroup nodes{this};
 		std::map<std::string, int> gameState;
 	
 		GameInstance(SDL_Renderer* renderer, BoundedPoint offset);
@@ -47,7 +46,6 @@ class GameInstance {
 		SDL_Renderer* getRenderer();
 		void addThing(const std::shared_ptr<ThingBase>& thing);
 		void addPlayer(const std::shared_ptr<ThingBase>& thing);
-		void addNode(Point position, std::string data = "");
 		void instanceBegin();
 		void update();
 		void draw();

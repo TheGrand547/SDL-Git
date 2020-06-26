@@ -5,8 +5,6 @@
 #include "../../wrappers/Texture.h"
 #include "../../wrappers/Timer.h"
 #include "../../Dot.h"
-#include "../NodeDrawGroup.h"
-#include "../NodePath.h"
 #include "EntityBase.h"
 #include<math.h>
 #include<memory>
@@ -22,7 +20,6 @@ class EnemyBase : public ThingBase {
 		double angle = 0;
 		double maxVelocity;
 		bool turning = false;
-		NodePath path;
 		MovementWrapper mvmnt;
 	public:
 		EnemyBase(Point position = Point(0, 0), int flags = 0);
@@ -35,7 +32,6 @@ class EnemyBase : public ThingBase {
 		double getAngle() const;
 		void turn(double delta);
 		void toggleTurn();
-		std::shared_ptr<Node> getClosestUnblockedNode();
-		PointDelta pathFindTo(Point pos = Point());
+		Point pathFindTo(Point pos = Point());
 		friend std::ostream& operator<<(std::ostream& output, const EnemyBase& base);
 };

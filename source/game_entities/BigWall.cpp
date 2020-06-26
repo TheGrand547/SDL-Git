@@ -35,13 +35,7 @@ Rect BigWall::getRect() const {
 }
 
 void BigWall::addNodes() {
-	double horz[] = {-this->rect.getWidth() / 2 - 25,  this->rect.getWidth() / 2 + 25};
-	double vert[] = {-this->rect.getHeight() / 2 - 25,  this->rect.getHeight() / 2 + 25};
-	for (double x: horz) {
-		for (double y: vert) {
-			this->parent->addNode(this->getPosition() + Point(x, y), "CONSTRUCTION");
-		}
-	}
+	LOG("DEPRECATED -> REMOVE THIS");
 }
 
 void BigWall::draw(SDL_Renderer* renderer, Point offset) {

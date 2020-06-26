@@ -42,6 +42,7 @@ void GameInstance::addPlayer(const std::shared_ptr<ThingBase>& thing) {
 }
 
 void GameInstance::update() {
+	// TODO TODO TODO: COLLISION BY SECTOR'S THE THINGS ARE IN/TOUCHING AHHHHH
 	for (ThingPtr& thing: this->movingThings) {
 		Point position = thing->getPosition();
 		thing->update();
@@ -55,7 +56,6 @@ void GameInstance::update() {
 
 void GameInstance::draw() {
 	for (ThingBase* thing: this->drawOrder) thing->draw(this->renderer, this->offset);
-	//this->nodes.drawGroup();
 }
 
 Rect GameInstance::getPlayableArea() const {
@@ -70,20 +70,11 @@ Point& GameInstance::getOffset() {
 	return this->offset;
 }
 
-void GameInstance::addNode(Point position, std::string data) {
-	// For some reason it can't be placed inline?
-	if (!this->nodes.addNodeAt(position, data)) {
-		LOG("Failure Placing Node at (%.1f, %.1f)", position.x, position.y);
-	}
-}
-
 void GameInstance::instanceBegin() {
 	// Do final things before playing starts
 	for (const ThingPtr& p: this->allThings) {
 		p->addNodes();
 	}
-	this->nodes.connectNodes();
-	this->nodes.purge();
 }
 
 ThingPtr GameInstance::getPlayer() {

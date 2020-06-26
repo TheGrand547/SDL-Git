@@ -1,10 +1,5 @@
 #include "source/headers.h"
-#include "source/GameInstance.h"
-#include "source/wrappers/SpriteSheet.h"
-#include "source/essential/log.h"
-#include "source/game_entities/SectorGroup.h"
-#include "source/game_entities/SectorPath.h"
-#include "source/game_entities/SectorPathFollower.h"
+#include "source/essential/MathUtils.h"
 
 bool init();
 SDL_Renderer* createRenderer(SDL_Window* window);
@@ -91,7 +86,6 @@ int main(int argc, char* argv[]) {
 	contra.addPlayerKeys(popo); // Maybe allow for multiple bindings of the same command somehow? vectors likely? Also remove this dumb fix
 	FpsText fps(gFont, Point(100, 10), COLORS::RED); // TODO: Add handler for these things, also have this singular timer passed to all "groups" for consistency
 	handler.addMessage(AlertText("this shouldn't last long", Point(300, 150), COLORS::RED, 20, 2500));
-	// TODO: Standardize between draw and render, ie pick one you indecisive fuck
 	
 	Line patrolLine(heck->getPosition(), heck->getPosition() + Point(200, 0));
 	patrolLine += Point(0, 5);
@@ -100,6 +94,11 @@ int main(int argc, char* argv[]) {
 	
 	SectorPathFollower foodd(Rect(myGroupTest[3]->structure.getCenter(), myGroupTest[3]->structure.getCenter() + Point(10, 10)));
 	foodd.mine = myPath;
+	
+	Rect bez(Point(200,200), Point(210, 210));
+	Point target(100, 100);
+	double startDist = bez.getCenter().distanceToPoint(target);
+	
 	LOG("Section: Main Loop");
 	while (!contra.quit) {
 		clearScreen(gRenderer);
@@ -122,6 +121,10 @@ int main(int argc, char* argv[]) {
 		spriteSheetTest.draw("dumb", gRenderer, {200, 200}, getDirectionFromAngle(dot->getAngle()));
 		patrolLine.drawLine(gRenderer);
 		myPath.draw();
+
+		Point ggggg = Math::bezier2ndDegreeDerivative(Point(205, 205), target, Point(100, 205), 1 - (bez.getCenter().distanceToPoint(target) / startDist));
+		if (ggggg.isReal() && bez.getCenter().distanceToPoint(target) > 20) bez += ggggg.getUnitVector();
+		bez.draw(gRenderer, GAME.getOffset());
 
 		fps.draw(gRenderer);
 		fps.drawFrameTime(gRenderer);
