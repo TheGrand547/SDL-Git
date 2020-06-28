@@ -5,6 +5,7 @@
 
 /* Base class to handle everything in the world that can collide with other
  * things in the world, such as projectiles, walls, enemies, ect. */
+// TODO: Determine if this is deprecated
 class CollideBase : public ThingBase {
 	public:
 		CollideBase();

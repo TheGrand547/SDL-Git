@@ -10,7 +10,7 @@ int CollisionHandler::size() const {
 	return this->parent->collisionThings.size();
 }
 
-bool CollisionHandler::doesCollideWith(const Rect& rect, void* pointer) const {
+bool CollisionHandler::doesCollideWith(const Polygon& rect, void* pointer) const {
 	/* True - the rect DOES collide with this collide group
 	 * False - the rect DOESN'T collide with this collide group */
 	for (std::shared_ptr<ThingBase> thing: this->parent->collisionThings) {
@@ -19,7 +19,7 @@ bool CollisionHandler::doesCollideWith(const Rect& rect, void* pointer) const {
 	return false;
 }
 
-bool CollisionHandler::doesNotCollideWith(const Rect& rect, void* pointer) const {
+bool CollisionHandler::doesNotCollideWith(const Polygon& rect, void* pointer) const {
 	/* True - the rect DOESN'T collide with this collide group
 	 * False - the rect DOES collide with this collide group */
 	return !this->doesCollideWith(rect, pointer);

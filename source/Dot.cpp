@@ -45,7 +45,7 @@ float Dot::getAngle() {
 	return this->angle;
 }
 
-bool Dot::overlap(const Rect& other) const {
+bool Dot::overlap(const Polygon& other) const {
 	return this->getRect().overlap(other);
 }
 

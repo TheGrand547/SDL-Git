@@ -10,7 +10,7 @@ bool BigWall::doesLineCollide(const Line& ray) const {
 	return this->rect.doesLineCollide(ray);
 }
 
-bool BigWall::overlap(const Rect& other) const {
+bool BigWall::overlap(const Polygon& other) const {
 	return this->rect.overlap(other);
 }
 
@@ -34,17 +34,6 @@ Rect BigWall::getRect() const {
 	return this->rect;
 }
 
-void BigWall::addNodes() {
-	LOG("DEPRECATED -> REMOVE THIS");
-}
-
 void BigWall::draw(SDL_Renderer* renderer, Point offset) {
 	this->rect.draw(renderer, offset);
-}
-
-void BigWall::gimme(std::vector<Point>& vec) const {
-	vec.push_back(this->rect.getTopLeft());
-	vec.push_back(this->rect.getTopRight());
-	vec.push_back(this->rect.getBottomLeft());
-	vec.push_back(this->rect.getBottomRight());
 }

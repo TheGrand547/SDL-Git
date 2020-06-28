@@ -72,9 +72,7 @@ Point& GameInstance::getOffset() {
 
 void GameInstance::instanceBegin() {
 	// Do final things before playing starts
-	for (const ThingPtr& p: this->allThings) {
-		p->addNodes();
-	}
+	// TODO: implement sectors into this place
 }
 
 ThingPtr GameInstance::getPlayer() {

@@ -8,7 +8,7 @@ bool SectorPathFollower::doesLineCollide(const Line& ray) const {
 	return this->box.doesLineCollide(ray);
 }
 
-bool SectorPathFollower::overlap(const Rect& other) const {
+bool SectorPathFollower::overlap(const Polygon& other) const {
 	return this->box.overlap(other);
 }
 

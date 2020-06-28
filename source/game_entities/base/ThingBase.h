@@ -5,6 +5,7 @@ class ThingBase;
 class GameInstance;
 #include "../../GameInstance.h"
 #include "../../primitives/Point.h"
+#include "../../primitives/Polygon.h"
 #include "../../primitives/Rect.h"
 #include<memory>
 #include<SDL2/SDL.h>
@@ -38,7 +39,7 @@ class ThingBase {
 		 * overlap(shared_ptr<Thing>) -> Does this object collide with this object(ie call the objects 
 		 * 		overlap with each hitbox in this */ 
 		 // TODO: Make a HitBox class
-		virtual bool overlap(const Rect& other) const = 0;
+		virtual bool overlap(const Polygon& other) const = 0;
 		virtual bool overlap(const std::shared_ptr<ThingBase>& other) const = 0;
 		int getAbsoluteFlags() const;
 		int getFlags() const;
@@ -46,9 +47,7 @@ class ThingBase {
 		virtual Point collideLine(const Line& ray) const = 0;
 		virtual Point getPosition() const = 0;
 		virtual Rect getRect() const = 0;
-		virtual void addNodes(); // DEPRECATED
 		virtual void draw(SDL_Renderer* renderer, Point offset = Point(0, 0)) = 0;
-		virtual void gimme(std::vector<Point>& vec) const; // TODO: GIVE A GOOD NAME AND FUNCTIONALITY
 		virtual void update();
 		void setFlag(ENTITY_FLAG flag);
 		void setParent(GameInstance* parent);

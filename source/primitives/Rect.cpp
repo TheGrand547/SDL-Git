@@ -89,6 +89,13 @@ Rect::Rect(const Rect& that) {
 
 Rect::~Rect() {}
 
+Rect& Rect::operator=(const Rect& that) {
+	this->topLeft = that.topLeft;
+	this->widthVector = that.widthVector;
+	this->heightVector = that.heightVector;
+	return *this;
+}
+
 // ------------------------------------------------
 // ------------- Interface Methods ----------------
 // ------------------------------------------------
@@ -191,6 +198,10 @@ double Rect::getOriginDistance() const {
 	return dist;
 }
 
+void Rect::setCenter(const Point& point) {
+	this->topLeft = point - (this->heightVector + this->widthVector) / 2;
+}
+
 void Rect::setColorChannels(int r, int g, int b, int a) {
 	MyBase::setColorChannels(r, g, b, a);
 }
@@ -224,12 +235,18 @@ SDL_Rect Rect::getSDLRect() const {
 	return tempRect;
 }
 
-Rect Rect::operator+(const Point& point) {
+Rect Rect::operator+(const Point& point) const {
 	return Rect(this->topLeft + point, this->widthVector, this->heightVector);
 }
 
-Rect Rect::operator-(const Point& point) {
+Rect Rect::operator-(const Point& point) const {
 	return *this + point.negate();
+}
+
+Rect Rect::operator*(const double& value) const {
+	Rect temp(this->topLeft, this->widthVector * value, this->heightVector * value);
+	temp.setCenter(this->getCenter());
+	return temp;
 }
 
 void Rect::operator+=(const Point& point) {
@@ -240,13 +257,22 @@ void Rect::operator-=(const Point& point) {
 	*this += point.negate();
 }
 
-Rect& Rect::operator=(const Rect& that) {
-	this->topLeft = that.topLeft;
-	this->widthVector = that.widthVector;
-	this->heightVector = that.heightVector;
-	return *this;
+void Rect::operator*=(const double& value) {
+	*this = *this * value;
 }
 
 Point Rect::getCenter() const {
 	return this->topLeft + (this->widthVector + this->heightVector) / 2;
+}
+
+Rect operator+(const Point& point, const Rect& rect) {
+	return rect + point;
+}
+
+Rect operator-(const Point& point, const Rect& rect) {
+	return rect - point;
+}
+
+Rect operator*(const double& value, const Rect& rect) {
+	return rect * value;
 }

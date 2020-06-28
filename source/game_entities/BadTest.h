@@ -5,6 +5,7 @@
 #include "../essential/random.h"
 #include "../primitives/Line.h"
 #include "../primitives/Point.h"
+#include "../primitives/Polygon.h"
 #include "../wrappers/Texture.h"
 #include "../wrappers/Timer.h"
 #include "base/EnemyBase.h"
@@ -26,7 +27,7 @@ class BadTest : public EnemyBase {
 		BadTest(Point position);
 		~BadTest();
 		bool doesLineCollide(const Line& ray) const override;
-		bool overlap(const Rect& other) const override;
+		bool overlap(const Polygon& other) const override;
 		bool overlap(const std::shared_ptr<ThingBase>& other) const override;
 		bool isLocationInvalid() const override;
 		double originDistance() const override;

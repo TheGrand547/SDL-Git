@@ -4,6 +4,7 @@
 #include "../../GameInstance.h"
 #include "../../primitives/Point.h"
 #include "../../primitives/PointDelta.h"
+#include "../../primitives/Rect.h"
 #include "../../wrappers/Timer.h"
 #include "ThingBase.h"
 

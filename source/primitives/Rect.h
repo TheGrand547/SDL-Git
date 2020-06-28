@@ -25,8 +25,9 @@ class Rect: public Polygon {
 		Rect(double x, double y, double width, double height);
 		~Rect();
 		Rect& operator=(const Rect& that);
-		Rect operator+(const Point& point);
-		Rect operator-(const Point& point);
+		Rect operator+(const Point& point) const;
+		Rect operator-(const Point& point) const;
+		Rect operator*(const double& value) const;
 		
 		bool containsPoint(const Point& point) const override;
 		bool doesLineCollide(const Line& ray) const override;
@@ -50,7 +51,13 @@ class Rect: public Polygon {
 		void draw(SDL_Renderer* renderer, Point offset);
 		void operator+=(const Point& point);
 		void operator-=(const Point& point);
+		void operator*=(const double& value);
+		void setCenter(const Point& point);
 		void setColorChannels(int r, int g, int b, int a);
 		void superDraw(SDL_Renderer* renderer, Point offset);
 };
+
+Rect operator+(const Point& point, const Rect& rect);
+Rect operator-(const Point& point, const Rect& rect);
+Rect operator*(const double& value, const Rect& rect);
 #endif

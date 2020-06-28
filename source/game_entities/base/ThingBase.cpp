@@ -16,8 +16,6 @@ int ThingBase::getFlags() const {
 	return this->flags;
 }
 
-void ThingBase::addNodes() {}
-
 void ThingBase::unsetFlag(ENTITY_FLAG flag) {
 	if (this->flags & flag) {
 		this->flags &= ~flag;
@@ -28,12 +26,6 @@ void ThingBase::setFlag(ENTITY_FLAG flag) {
 	if (!(this->flags & flag)) {
 		this->flags |= flag;
 	}
-}
-
-void ThingBase::gimme(std::vector<Point>& vec) const {
-	// TODO: Make this pure virtual
-	int a = vec.size();
-	a++;
 }
 
 void ThingBase::update() {}

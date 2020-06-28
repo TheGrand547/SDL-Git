@@ -138,12 +138,12 @@ Rect BadTest::getRect() const {
 	return Rect(this->position, this->width, this->height);
 }
 
-bool BadTest::overlap(const Rect& other) const {
+bool BadTest::overlap(const Polygon& other) const {
 	return this->getRect().overlap(other);
 }
 
 bool BadTest::overlap(const std::shared_ptr<ThingBase>& other) const {
-	return this->overlap(other->getRect());
+	return other->overlap(this->getRect());
 }
 
 bool BadTest::doesLineCollide(const Line& ray) const {
