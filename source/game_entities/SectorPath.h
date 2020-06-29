@@ -6,7 +6,7 @@
 #include<memory>
 #include<vector>
 
-typedef std::shared_ptr<Sector> SectorPtr;
+typedef std::shared_ptr<SectorBase> SectorPtr;
 
 class SectorPath {
 	protected:

@@ -39,6 +39,7 @@ class Rect: public Polygon {
 		Point getCenter() const override;
 		std::vector<Line> getLines() const override;
 		std::vector<Point> getPoints() const override;
+		void draw(SDL_Renderer* renderer, Point offset) override;
 		
 		double getHeight() const;
 		double getOriginDistance() const;
@@ -48,7 +49,6 @@ class Rect: public Polygon {
 		Point getTopLeft() const;
 		Point getTopRight() const;
 		SDL_Rect getSDLRect() const;
-		void draw(SDL_Renderer* renderer, Point offset);
 		void operator+=(const Point& point);
 		void operator-=(const Point& point);
 		void operator*=(const double& value);

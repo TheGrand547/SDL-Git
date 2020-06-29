@@ -20,6 +20,7 @@ class Polygon : public MyBase {
 		virtual Point getCenter() const = 0;
 		virtual std::vector<Line> getLines() const = 0;
 		virtual std::vector<Point> getPoints() const = 0;
+		virtual void draw(SDL_Renderer* renderer, Point offset) = 0;
 		
 		virtual bool isAxisAligned() const;
 		

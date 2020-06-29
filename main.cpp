@@ -92,13 +92,13 @@ int main(int argc, char* argv[]) {
 	SpriteSheet spriteSheetTest("resources/bigsprite.png", 50, 50, gRenderer);
 	spriteSheetTest.addAnimation("dumb", 0, 4, 500);
 	
-	SectorPathFollower foodd(Rect(myGroupTest[3]->structure.getCenter(), myGroupTest[3]->structure.getCenter() + Point(10, 10)));
+	SectorPathFollower foodd(Rect(myGroupTest[3]->structure().getCenter(), myGroupTest[3]->structure().getCenter() + Point(10, 10)));
 	foodd.mine = myPath;
 	
 	Rect bez(Point(200,200), Point(210, 210));
 	Point target(100, 100);
 	double startDist = bez.getCenter().distanceToPoint(target);
-	
+		
 	LOG("Section: Main Loop");
 	while (!contra.quit) {
 		clearScreen(gRenderer);

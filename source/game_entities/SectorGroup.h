@@ -9,7 +9,7 @@ class GameInstance;
 #include<string>
 #include<utility>
 
-typedef std::shared_ptr<Sector> SectorPtr;
+typedef std::shared_ptr<SectorBase> SectorPtr;
 
 class SectorGroup : public DrawGroup {
 	private:

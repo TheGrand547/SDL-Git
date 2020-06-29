@@ -798,18 +798,34 @@ Animation.o: wrappers/Animation.cpp wrappers/Animation.h \
   wrappers/../essential/SDL_Headers.h wrappers/PixelMod.h \
   wrappers/../primitives/Pixel.h
 Sector.o: game_entities/Sector.cpp game_entities/Sector.h \
-  game_entities/../primitives/Line.h game_entities/../primitives/Point.h \
-  game_entities/../primitives/../MyBase.h \
-  game_entities/../primitives/../essential/random.h \
-  game_entities/../primitives/../essential/util.h \
-  game_entities/../primitives/../essential/../primitives/Point.h \
-  game_entities/../primitives/../essential/../MyBase.h \
-  game_entities/../primitives/Polygon.h \
-  game_entities/../primitives/Rect.h \
-  game_entities/../primitives/../essential/log.h \
   game_entities/../essential/MegaBase.h \
-  game_entities/../primitives/../essential/../BoundedPoint.h \
-  game_entities/../primitives/../primitives/Point.h
+  game_entities/../essential/../BoundedPoint.h \
+  game_entities/../essential/../primitives/Point.h \
+  game_entities/../primitives/Line.h \
+  game_entities/../essential/../primitives/../MyBase.h \
+  game_entities/../essential/../primitives/../essential/random.h \
+  game_entities/../essential/../primitives/../essential/util.h \
+  game_entities/../essential/../MyBase.h \
+  game_entities/../primitives/Point.h \
+  game_entities/../primitives/Polygon.h \
+  game_entities/../essential/../primitives/Line.h \
+  game_entities/../primitives/Rect.h \
+  game_entities/../essential/../primitives/../essential/log.h \
+  game_entities/../essential/../primitives/Polygon.h \
+  game_entities/base/ThingBase.h game_entities/base/../../GameInstance.h \
+  game_entities/../essential/../game_entities/base/ThingBase.h \
+  game_entities/../essential/../game_entities/CollisionHandler.h \
+  game_entities/../essential/../essential/log.h \
+  game_entities/../essential/../primitives/Rect.h \
+  game_entities/../essential/../AlertTextHandler.h \
+  game_entities/../essential/../wrappers/AlertText.h \
+  game_entities/../essential/../wrappers/Font.h \
+  game_entities/../essential/../wrappers/Timer.h \
+  game_entities/../essential/../wrappers/../essential/constants.h \
+  game_entities/../essential/../wrappers/../primitives/Point.h \
+  game_entities/base/../../primitives/Point.h \
+  game_entities/base/../../primitives/Polygon.h \
+  game_entities/base/../../primitives/Rect.h
 SectorGroup.o: game_entities/SectorGroup.cpp game_entities/SectorGroup.h \
   game_entities/../essential/random.h game_entities/DrawGroup.h \
   game_entities/../BoundedPoint.h game_entities/../primitives/Point.h \
@@ -824,36 +840,50 @@ SectorGroup.o: game_entities/SectorGroup.cpp game_entities/SectorGroup.h \
   game_entities/../primitives/Polygon.h \
   game_entities/../primitives/Rect.h \
   game_entities/../primitives/../essential/log.h \
-  game_entities/../GameInstance.h \
+  game_entities/base/ThingBase.h game_entities/base/../../GameInstance.h \
   game_entities/../game_entities/base/ThingBase.h \
-  game_entities/../game_entities/base/../../GameInstance.h \
-  game_entities/../game_entities/base/../../primitives/Point.h \
-  game_entities/../game_entities/base/../../primitives/Polygon.h \
-  game_entities/../game_entities/base/../../primitives/Rect.h \
   game_entities/../game_entities/CollisionHandler.h \
   game_entities/../essential/log.h game_entities/../AlertTextHandler.h \
   game_entities/../wrappers/AlertText.h game_entities/../wrappers/Font.h \
   game_entities/../wrappers/Timer.h \
   game_entities/../wrappers/../essential/constants.h \
   game_entities/../wrappers/../primitives/Point.h \
-  game_entities/CollisionHandler.h
+  game_entities/base/../../primitives/Point.h \
+  game_entities/base/../../primitives/Polygon.h \
+  game_entities/base/../../primitives/Rect.h \
+  game_entities/../GameInstance.h game_entities/CollisionHandler.h
 MathUtils.o: essential/MathUtils.cpp essential/MathUtils.h \
   essential/../primitives/Point.h
 SectorPath.o: game_entities/SectorPath.cpp game_entities/SectorPath.h \
-  game_entities/Sector.h game_entities/../primitives/Line.h \
+  game_entities/Sector.h game_entities/../essential/MegaBase.h \
+  game_entities/../essential/../BoundedPoint.h \
+  game_entities/../essential/../primitives/Point.h \
+  game_entities/../primitives/Line.h \
+  game_entities/../essential/../primitives/../MyBase.h \
+  game_entities/../essential/../primitives/../essential/random.h \
+  game_entities/../essential/../primitives/../essential/util.h \
+  game_entities/../essential/../MyBase.h \
   game_entities/../primitives/Point.h \
-  game_entities/../primitives/../MyBase.h \
-  game_entities/../primitives/../essential/random.h \
-  game_entities/../primitives/../essential/util.h \
-  game_entities/../primitives/../essential/../primitives/Point.h \
-  game_entities/../primitives/../essential/../MyBase.h \
   game_entities/../primitives/Polygon.h \
+  game_entities/../essential/../primitives/Line.h \
   game_entities/../primitives/Rect.h \
-  game_entities/../primitives/../essential/log.h \
-  game_entities/../essential/random.h \
-  game_entities/../essential/MegaBase.h \
-  game_entities/../primitives/../essential/../BoundedPoint.h \
-  game_entities/../primitives/../primitives/Point.h
+  game_entities/../essential/../primitives/../essential/log.h \
+  game_entities/../essential/../primitives/Polygon.h \
+  game_entities/base/ThingBase.h game_entities/base/../../GameInstance.h \
+  game_entities/../essential/../game_entities/base/ThingBase.h \
+  game_entities/../essential/../game_entities/CollisionHandler.h \
+  game_entities/../essential/../essential/log.h \
+  game_entities/../essential/../primitives/Rect.h \
+  game_entities/../essential/../AlertTextHandler.h \
+  game_entities/../essential/../wrappers/AlertText.h \
+  game_entities/../essential/../wrappers/Font.h \
+  game_entities/../essential/../wrappers/Timer.h \
+  game_entities/../essential/../wrappers/../essential/constants.h \
+  game_entities/../essential/../wrappers/../primitives/Point.h \
+  game_entities/base/../../primitives/Point.h \
+  game_entities/base/../../primitives/Polygon.h \
+  game_entities/base/../../primitives/Rect.h \
+  game_entities/../essential/random.h
 SectorPathFollower.o: game_entities/SectorPathFollower.cpp \
   game_entities/SectorPathFollower.h game_entities/../primitives/Rect.h \
   game_entities/../primitives/../essential/util.h \
@@ -880,7 +910,8 @@ SectorPathFollower.o: game_entities/SectorPathFollower.cpp \
   game_entities/base/../../primitives/Point.h \
   game_entities/base/../../primitives/Polygon.h \
   game_entities/base/../../primitives/Rect.h game_entities/SectorPath.h \
-  game_entities/Sector.h game_entities/../essential/random.h \
+  game_entities/Sector.h game_entities/../essential/MegaBase.h \
+  game_entities/../essential/random.h \
   game_entities/../wrappers/Texture.h \
   game_entities/../primitives/../essential/../wrappers/../essential/log.h \
   game_entities/../primitives/../essential/../wrappers/../essential/random.h \

@@ -2,7 +2,7 @@
 #include "../GameInstance.h"
 #include "CollisionHandler.h"
 
-typedef std::weak_ptr<Sector> WeakSectorPtr;
+typedef std::weak_ptr<SectorBase> WeakSectorPtr;
 typedef std::pair<SectorPtr, SectorPtr> sector_pair;
 typedef std::vector<SectorPtr> SectorPtrVector;
 
@@ -33,7 +33,7 @@ SectorPtr& SectorGroup::operator[](int index) {
 }
 
 void SectorGroup::addSector(Rect structure, std::string data) {
-	this->storage.push_back(std::make_shared<Sector>(structure, data));
+	this->storage.push_back(std::make_shared<Sector<Rect>>(structure, data));
 }
 
 void SectorGroup::clearGroup() {
@@ -54,7 +54,7 @@ void SectorGroup::purge() {
 	SectorPtrVector constructionSectors;
 	SectorPtrVector::iterator it = this->storage.begin();
 	while (it != this->storage.end()) {
-		if (!it[0] || it[0]->attached.size() == 0) {
+		if (!it[0] || it[0]->attached().size() == 0) {
 			it = this->storage.erase(it);
 			continue;
 		}
