@@ -50,7 +50,11 @@ bool Dot::overlap(const Polygon& other) const {
 }
 
 bool Dot::overlap(const std::shared_ptr<ThingBase>& other) const {
-	return this->overlap(other->getRect());
+	return other->overlap(this->getRect());
+}
+
+bool Dot::wideOverlap(const Polygon& other) const {
+	return (this->getRect() * 1.25).overlap(other);
 }
 
 void Dot::draw(SDL_Renderer* renderer, Point offset) {

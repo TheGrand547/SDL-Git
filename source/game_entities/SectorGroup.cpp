@@ -50,23 +50,21 @@ void SectorGroup::drawGroup() {
 }
 
 void SectorGroup::purge() {
-	LOG("Before Purging Sectors: %i", this->size());
-	SectorPtrVector constructionSectors;
+	LOG("Before Purging: %i Sector(s)", this->size());
 	SectorPtrVector::iterator it = this->storage.begin();
 	while (it != this->storage.end()) {
 		if (!it[0] || it[0]->attached().size() == 0) {
 			it = this->storage.erase(it);
 			continue;
 		}
-		if (!it[0]->getData().compare("CONSTRUCTION")) {
-			// INSERT THE CONSTRUCTION CODE
-			constructionSectors.push_back(it[0]);
-			//it = this->storage.erase(it); // Commented out for testing
-			it++; // should be removed after testing
-			continue;
-		}
 		it++;
 	}
-	LOG("After Purging Sectors: %i", this->size());
+	LOG("After Purging: %i Sector(s)", this->size());
+	
+	for (const ThingPtr& thing: this->parent->collisionThings) {
+		for (SectorPtr& sector: this->storage) {
+			if (thing->wideOverlap(sector->structure())) sector->getContained().push_back(thing);
+		}
+	}
 }
 

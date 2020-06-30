@@ -25,17 +25,18 @@ struct compare {
 class GameInstance {
 	private:
 		friend class CollisionHandler;
+		friend class SectorGroup; // TODO: Make this not sloppy
 		Point offset;
 		Rect playableArea;
 		SDL_Renderer* renderer;
 		std::shared_ptr<ThingBase> PLAYER;
-		std::vector<std::shared_ptr<ThingBase>> allThings;
-		std::vector<std::shared_ptr<ThingBase>> drawThings;
-		std::vector<std::shared_ptr<ThingBase>> collisionThings;
+		std::vector<ThingPtr> allThings;
+		std::vector<ThingPtr> drawThings;
+		std::vector<ThingPtr> collisionThings;
 		
-		std::vector<std::shared_ptr<ThingBase>> shortTermMemory; // Projectiles and such that might collide but can be removed with less overhead
+		std::vector<ThingPtr> shortTermMemory; // Projectiles and such that might collide but can be removed with less overhead
 		
-		std::vector<std::shared_ptr<ThingBase>> movingThings; // List of everything thats position can change
+		std::vector<ThingPtr> movingThings; // List of everything thats position can change
 		std::set<ThingBase*, compare> drawOrder;
 	public:
 		CollisionHandler collision;
@@ -46,14 +47,15 @@ class GameInstance {
 		Point& getOffset();
 		Rect getPlayableArea() const;
 		SDL_Renderer* getRenderer();
-		void addThing(const std::shared_ptr<ThingBase>& thing);
-		void addPlayer(const std::shared_ptr<ThingBase>& thing);
+		void addThing(const ThingPtr& thing);
+		void addPlayer(const ThingPtr& thing);
 		void instanceBegin();
 		void update();
 		void draw();
 		std::shared_ptr<ThingBase> getPlayer();
 		
 		template<typename T, typename... Args> void createThing(Args... args) {
+			static_assert(std::is_base_of<ThingBase, T>::value, "createThing must be templated with a class that derives from ThingBase.");
 			this->addThing(std::make_shared<T>(args...));
 		}
 };

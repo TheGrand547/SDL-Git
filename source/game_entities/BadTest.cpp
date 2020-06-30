@@ -146,6 +146,11 @@ bool BadTest::overlap(const std::shared_ptr<ThingBase>& other) const {
 	return other->overlap(this->getRect());
 }
 
+// TODO: Overlap constant
+bool BadTest::wideOverlap(const Polygon& other) const {
+	return (this->getRect() * 1.25).overlap(other);
+}
+
 bool BadTest::doesLineCollide(const Line& ray) const {
 	return this->getRect().doesLineCollide(ray);
 }

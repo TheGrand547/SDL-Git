@@ -20,6 +20,7 @@ class SectorBase {
 		virtual std::map<SectorBase*, Point>& pointsOfContact() = 0;
 		virtual std::string getData() const = 0;
 		virtual std::vector<std::weak_ptr<SectorBase>>& attached() = 0;
+		virtual std::vector<std::weak_ptr<ThingBase>>& getContained() = 0;
 		virtual void connectToOthers(std::vector<std::shared_ptr<SectorBase>>& others) = 0;
 		virtual void clean(std::vector<std::shared_ptr<SectorBase>>& others) = 0;
 		virtual void draw() = 0;
@@ -32,6 +33,7 @@ template<class T> class Sector : public SectorBase {
 		std::map<SectorBase*, Point> contact;
 		std::string data;
 		std::vector<std::weak_ptr<SectorBase>> connected;
+		std::vector<std::weak_ptr<ThingBase>> containedThings;
 	
 		Sector(T structure, std::string data = "");
 		~Sector();
@@ -40,6 +42,7 @@ template<class T> class Sector : public SectorBase {
 		std::map<SectorBase*, Point>& pointsOfContact() override;
 		std::string getData() const override;
 		std::vector<std::weak_ptr<SectorBase>>& attached() override;
+		std::vector<std::weak_ptr<ThingBase>>& getContained() override;
 		void connectToOthers(std::vector<std::shared_ptr<SectorBase>>& others) override;
 		void clean(std::vector<std::shared_ptr<SectorBase>>& others) override;
 		void draw() override;
@@ -72,6 +75,10 @@ template<class T> std::string Sector<T>::getData() const {
 
 template<class T> std::vector<std::weak_ptr<SectorBase>>& Sector<T>::attached() {
 	return this->connected;
+}
+
+template<class T> std::vector<std::weak_ptr<ThingBase>>& Sector<T>::getContained() {
+	return this->containedThings;
 }
 
 template<class T> void Sector<T>::connectToOthers(std::vector<std::shared_ptr<SectorBase>>& others) {
