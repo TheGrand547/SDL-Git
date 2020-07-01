@@ -54,14 +54,13 @@ int main(int argc, char* argv[]) {
 	GAME.createThing<BigWall>(Rect(300, 450, 100, 300));
 	GAME.createThing<BigWall>(Rect(Line(Point(50, 0), Point(0, 50)), Line(Point(50, 0), Point(100, 50))));
 	
-	SectorGroup myGroupTest(&GAME);
-	myGroupTest.addSector(Rect(300, 100, 300, 100));
-	myGroupTest.addSector(Rect(100, 100, 200, 100));
-	myGroupTest.addSector(Rect(100, 200, 100, 100));
-	myGroupTest.addSector(Rect(100, 300, 400, 100));
-	myGroupTest.addSector(Rect(450, 50, 150, 50));
-	myGroupTest.connectSectors();
-	SectorPath myPath(myGroupTest[3], myGroupTest[0]);
+	//SectorGroup myGroupTest(&GAME);
+	GAME.sectors.addSector(Rect(300, 100, 300, 100));
+	GAME.sectors.addSector(Rect(100, 100, 200, 100));
+	GAME.sectors.addSector(Rect(100, 200, 100, 100));
+	GAME.sectors.addSector(Rect(100, 300, 400, 100));
+	GAME.sectors.addSector(Rect(450, 50, 150, 50));
+	SectorPath myPath(GAME.sectors[3], GAME.sectors[0]);
 	
 	// Enemy
 	std::shared_ptr<BadTest> heck = std::make_shared<BadTest>(Point(220, 360));
@@ -92,13 +91,9 @@ int main(int argc, char* argv[]) {
 	SpriteSheet spriteSheetTest("resources/bigsprite.png", 50, 50, gRenderer);
 	spriteSheetTest.addAnimation("dumb", 0, 4, 500);
 	
-	SectorPathFollower foodd(Rect(myGroupTest[3]->structure().getCenter(), myGroupTest[3]->structure().getCenter() + Point(10, 10)));
+	SectorPathFollower foodd(Rect(GAME.sectors[3]->structure().getCenter(), GAME.sectors[3]->structure().getCenter() + Point(10, 10)));
 	foodd.mine = myPath;
 	
-	Rect bez(Point(200,200), Point(210, 210));
-	Point target(100, 100);
-	double startDist = bez.getCenter().distanceToPoint(target);
-		
 	LOG("Section: Main Loop");
 	while (!contra.quit) {
 		clearScreen(gRenderer);
@@ -121,10 +116,6 @@ int main(int argc, char* argv[]) {
 		spriteSheetTest.draw("dumb", gRenderer, {200, 200}, getDirectionFromAngle(dot->getAngle()));
 		patrolLine.drawLine(gRenderer);
 		myPath.draw();
-
-		Point ggggg = Math::bezier2ndDegreeDerivative(Point(205, 205), target, Point(100, 205), 1 - (bez.getCenter().distanceToPoint(target) / startDist));
-		if (ggggg.isReal() && bez.getCenter().distanceToPoint(target) > 20) bez += ggggg.getUnitVector();
-		bez.draw(gRenderer, GAME.getOffset());
 
 		fps.draw(gRenderer);
 		fps.drawFrameTime(gRenderer);

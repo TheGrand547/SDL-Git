@@ -1,6 +1,7 @@
 #pragma once
 #ifndef SECTOR_H
 #define SECTOR_H
+class SectorBase;
 #include "../essential/MegaBase.h"
 #include "../primitives/Line.h"
 #include "../primitives/Point.h"

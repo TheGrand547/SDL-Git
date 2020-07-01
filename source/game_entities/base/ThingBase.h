@@ -3,7 +3,6 @@
 #define THING_BASE_H
 class ThingBase;
 class GameInstance;
-#include "../../GameInstance.h"
 #include "../../primitives/Point.h"
 #include "../../primitives/Polygon.h"
 #include "../../primitives/Rect.h"

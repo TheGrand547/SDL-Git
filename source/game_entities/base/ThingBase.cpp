@@ -1,4 +1,6 @@
 #include "ThingBase.h"
+#include "../../GameInstance.h"
+
 
 ThingBase::ThingBase(int flags) : absoluteFlags(flags), flags(flags) {}
 

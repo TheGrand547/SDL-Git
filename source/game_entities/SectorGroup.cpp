@@ -3,7 +3,6 @@
 #include "CollisionHandler.h"
 
 typedef std::weak_ptr<SectorBase> WeakSectorPtr;
-typedef std::pair<SectorPtr, SectorPtr> sector_pair;
 typedef std::vector<SectorPtr> SectorPtrVector;
 
 SectorGroup::SectorGroup(GameInstance* parent) : parent(parent) {}
@@ -30,6 +29,14 @@ SectorPtr& SectorGroup::getFirst() {
 
 SectorPtr& SectorGroup::operator[](int index) {
 	return this->storage[index];
+}
+
+std::vector<SectorPtr> SectorGroup::sectorsThatTouch(const std::shared_ptr<ThingBase>& target) {
+	std::vector<SectorPtr> vector;
+	for (SectorPtr& sector: this->storage) {
+		if (target->overlap(sector->structure())) vector.push_back(sector);
+	}
+	return vector;
 }
 
 void SectorGroup::addSector(Rect structure, std::string data) {
@@ -63,7 +70,7 @@ void SectorGroup::purge() {
 	
 	for (const ThingPtr& thing: this->parent->collisionThings) {
 		for (SectorPtr& sector: this->storage) {
-			if (thing->wideOverlap(sector->structure())) sector->getContained().push_back(thing);
+			if (thing->overlap(sector->structure())) sector->getContained().push_back(thing);
 		}
 	}
 }

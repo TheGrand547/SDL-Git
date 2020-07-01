@@ -3,6 +3,7 @@
 #define GAME_INSTANCE_H
 #include "game_entities/base/ThingBase.h"
 #include "game_entities/CollisionHandler.h"
+#include "game_entities/SectorGroup.h"
 #include "essential/log.h"
 #include "primitives/Rect.h"
 #include "primitives/Polygon.h"
@@ -40,6 +41,7 @@ class GameInstance {
 		std::set<ThingBase*, compare> drawOrder;
 	public:
 		CollisionHandler collision;
+		SectorGroup sectors;
 		std::map<std::string, int> gameState;
 	
 		GameInstance(SDL_Renderer* renderer, BoundedPoint offset);

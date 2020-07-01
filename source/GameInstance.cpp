@@ -12,7 +12,7 @@ bool compare::operator()(const ThingBase* lhs, const ThingBase* rhs) const {
 }
 
 GameInstance::GameInstance(SDL_Renderer* renderer, BoundedPoint offset) : offset(offset), playableArea(0, 0, Screen::MAX_WIDTH, Screen::MAX_HEIGHT), 
-							renderer(renderer), collision(this) {}
+							renderer(renderer), collision(this), sectors(this) {}
 
 GameInstance::~GameInstance() {}
 
@@ -42,7 +42,7 @@ void GameInstance::addPlayer(const std::shared_ptr<ThingBase>& thing) {
 }
 
 void GameInstance::update() {
-	// TODO TODO TODO: COLLISION BY SECTOR'S THE THINGS ARE IN/TOUCHING AHHHHH
+	// TODO: Collision by objects in sectors, mid tier priority due to requiring sizeable reworking
 	for (ThingPtr& thing: this->movingThings) {
 		Point position = thing->getPosition();
 		thing->update();
@@ -72,7 +72,8 @@ Point& GameInstance::getOffset() {
 
 void GameInstance::instanceBegin() {
 	// Do final things before playing starts
-	// TODO: implement sectors into this place
+	this->sectors.connectSectors();
+	this->sectors.purge();
 }
 
 ThingPtr GameInstance::getPlayer() {
