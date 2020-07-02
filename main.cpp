@@ -38,7 +38,6 @@ int main(int argc, char* argv[]) {
 	dot->setColorChannels(0xFF);
 	Configuration config;	
 	// TODO: Create a file structure for containing level data so its not hardcoded 
-	// TODO: Have some DrawGroup pointers for collision, node, and other groups/structures needed
 	GameInstance GAME(gRenderer, screenPosition);
 	GAME.addPlayer(dot);
 	MegaBase::setOffset(&GAME.getOffset());
@@ -60,7 +59,6 @@ int main(int argc, char* argv[]) {
 	GAME.sectors.addSector(Rect(100, 200, 100, 100));
 	GAME.sectors.addSector(Rect(100, 300, 400, 100));
 	GAME.sectors.addSector(Rect(450, 50, 150, 50));
-	SectorPath myPath(GAME.sectors[3], GAME.sectors[0]);
 	
 	// Enemy
 	std::shared_ptr<BadTest> heck = std::make_shared<BadTest>(Point(220, 360));
@@ -92,7 +90,9 @@ int main(int argc, char* argv[]) {
 	spriteSheetTest.addAnimation("dumb", 0, 4, 500);
 	
 	SectorPathFollower foodd(Rect(GAME.sectors[3]->structure().getCenter(), GAME.sectors[3]->structure().getCenter() + Point(10, 10)));
+	SectorPath myPath(GAME.sectors[3], GAME.sectors[0]);
 	foodd.mine = myPath;
+	
 	
 	LOG("Section: Main Loop");
 	while (!contra.quit) {

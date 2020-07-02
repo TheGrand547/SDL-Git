@@ -34,6 +34,7 @@ class Texture {
 		void setBlend(SDL_BlendMode mode);
 		void setColorMod(Uint8 red, Uint8 green, Uint8 blue);
 		void setColorKey(Uint8 red, Uint8 green, Uint8 blue);
+		// TODO: Add drawing to a rectangle, with a given size
 		void draw(SDL_Renderer* renderer, Point position, SDL_COPY_EX_ARGS_DEFAULTS);
 		bool isLoaded();
 		bool notLoaded();
