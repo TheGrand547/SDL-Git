@@ -23,5 +23,6 @@ class SectorPath {
 		Point currentTarget(Point currentPosition);
 		void clear();
 		void draw();
+		void getPath(SectorPtr startingSector, SectorPtr target);
 };
 #endif

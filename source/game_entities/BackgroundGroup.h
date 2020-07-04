@@ -23,8 +23,7 @@ class BackgroundGroup : public DrawGroup {
 		~BackgroundGroup();
 		bool exists() override;
 		int size() override;
-		void add(Point position, std::string type = "missingTexture.jpg");
-		void add(Rect structure, std::string type = "missingTexture.jpg");
+		void add(Point position, const std::string& type = "missingTexture.jpg");
 		void clearGroup() override;
 		void drawGroup() override;
 		void setParent(GameInstance& parent);

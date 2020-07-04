@@ -41,6 +41,7 @@ std::vector<SectorPtr> SectorGroup::sectorsThatTouch(const std::shared_ptr<Thing
 
 void SectorGroup::addSector(Rect structure, std::string data) {
 	this->storage.push_back(std::make_shared<Sector<Rect>>(structure, data));
+	this->storage.back()->structure().setColorChannels(0xFF, 0xFF, 0x00, 0xFF);
 }
 
 void SectorGroup::clearGroup() {

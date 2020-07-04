@@ -53,12 +53,17 @@ int main(int argc, char* argv[]) {
 	GAME.createThing<BigWall>(Rect(300, 450, 100, 300));
 	GAME.createThing<BigWall>(Rect(Line(Point(50, 0), Point(0, 50)), Line(Point(50, 0), Point(100, 50))));
 	
-	//SectorGroup myGroupTest(&GAME);
+	
 	GAME.sectors.addSector(Rect(300, 100, 300, 100));
 	GAME.sectors.addSector(Rect(100, 100, 200, 100));
 	GAME.sectors.addSector(Rect(100, 200, 100, 100));
-	GAME.sectors.addSector(Rect(100, 300, 400, 100));
+	GAME.sectors.addSector(Rect(100, 300, 400, 150));
 	GAME.sectors.addSector(Rect(450, 50, 150, 50));
+	GAME.sectors.addSector(Rect(0, 500, 100, 460));
+	GAME.sectors.addSector(Rect(100, 450, 200, 510));
+	GAME.sectors.addSector(Rect(400, 450, 100, 300));
+	GAME.sectors.addSector(Rect(500, 600, 100, 150));
+	GAME.sectors.addSector(Rect(300, 750, 300, 210));
 	
 	// Enemy
 	std::shared_ptr<BadTest> heck = std::make_shared<BadTest>(Point(220, 360));
@@ -80,6 +85,7 @@ int main(int argc, char* argv[]) {
 	PointDelta popo = PointDelta(0, 0, 15);
 	Controller contra;
 	contra.addListener("Ray", 120);
+	contra.addListener("PathReset", 50);
 	contra.addPlayerKeys(popo); // Maybe allow for multiple bindings of the same command somehow? vectors likely? Also remove this dumb fix
 	FpsText fps(gFont, Point(100, 10), COLORS::RED); // TODO: Add handler for these things, also have this singular timer passed to all "groups" for consistency
 	handler.addMessage(AlertText("this shouldn't last long", Point(300, 150), COLORS::RED, 20, 2500));
@@ -89,10 +95,8 @@ int main(int argc, char* argv[]) {
 	SpriteSheet spriteSheetTest("resources/bigsprite.png", 50, 50, gRenderer);
 	spriteSheetTest.addAnimation("dumb", 0, 4, 500);
 	
-	SectorPathFollower foodd(Rect(GAME.sectors[3]->structure().getCenter(), GAME.sectors[3]->structure().getCenter() + Point(10, 10)));
-	SectorPath myPath(GAME.sectors[3], GAME.sectors[0]);
-	foodd.mine = myPath;
-	
+	std::shared_ptr<SectorPathFollower> foodd = std::make_shared<SectorPathFollower>(Rect(GAME.sectors[3]->structure().getCenter(), GAME.sectors[3]->structure().getCenter() + Point(10, 10)));
+	foodd->mine.getPath(GAME.sectors[3], GAME.sectors[0]);
 	
 	LOG("Section: Main Loop");
 	while (!contra.quit) {
@@ -110,12 +114,23 @@ int main(int argc, char* argv[]) {
 				dot->rayCast();
 			}
 		}
-		foodd.update();
-		foodd.draw(gRenderer, GAME.getOffset());
+		if (contra.checkListener(config["PathReset"]).getHeld()) {
+			auto twigs = GAME.sectors.sectorsThatTouch(dot);
+			if (twigs.size() > 0) {
+				auto twigsAgain = GAME.sectors.sectorsThatTouch(foodd);
+				if (twigsAgain.size() > 0) {
+					foodd->mine.getPath(twigsAgain[0], twigs[0]);
+				}
+			}
+		}
+		foodd->update();
+		foodd->draw(gRenderer, GAME.getOffset());
+		foodd->mine.draw();
 		// Testing stuff
 		spriteSheetTest.draw("dumb", gRenderer, {200, 200}, getDirectionFromAngle(dot->getAngle()));
 		patrolLine.drawLine(gRenderer);
-		myPath.draw();
+		//myPath.draw();
+		GAME.sectors.drawGroup();
 
 		fps.draw(gRenderer);
 		fps.drawFrameTime(gRenderer);

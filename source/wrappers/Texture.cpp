@@ -104,6 +104,7 @@ void Texture::setColorKey(Uint8 red, Uint8 green, Uint8 blue) { // Modified from
 }
 
 void Texture::draw(SDL_Renderer* renderer, Point position, SDL_COPY_EX_ARGS) {
+	if (this->renderer == NULL) this->renderer = renderer;
 	if (this->texture == NULL) return;
 	if (!this->width || !this->height) SDL_QueryTexture(this->texture, NULL, NULL, &this->width, &this->height);
 	SDL_Rect renderQuad = {(int)position.x, (int)position.y, this->width, this->height};
@@ -176,7 +177,7 @@ void Texture::normalizeTexture(SDL_Renderer* renderer) {
 	if (access == SDL_TEXTUREACCESS_STREAMING) {
 		return;
 	} else if (access == SDL_TEXTUREACCESS_STATIC) { // Don't know what to do with it :(
-		LOG("Texture was created with the Texture Access of Static -> Fix This");
+		//LOG("Texture was created with the Texture Access of Static -> Fix This");
 		SDL_Texture* streamingTexture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_TARGET, width, height);
 		
 		SDL_SetRenderTarget(renderer, streamingTexture);
