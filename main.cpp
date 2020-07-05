@@ -97,7 +97,7 @@ int main(int argc, char* argv[]) {
 	
 	std::shared_ptr<SectorPathFollower> foodd = std::make_shared<SectorPathFollower>(Rect(GAME.sectors[3]->structure().getCenter(), GAME.sectors[3]->structure().getCenter() + Point(10, 10)));
 	foodd->mine.getPath(GAME.sectors[3], GAME.sectors[0]);
-	
+	foodd->mine.parent = &GAME;
 	LOG("Section: Main Loop");
 	while (!contra.quit) {
 		clearScreen(gRenderer);

@@ -43,7 +43,7 @@ void SectorPathFollower::draw(SDL_Renderer* renderer, Point offset) {
 }
 
 void SectorPathFollower::update() {
-	Point p = this->mine.currentTarget(this->box.getCenter());
+	Point p = this->mine.currentTargetV2(this->box.getCenter());
 	if (p.isNull()) return;
 	this->box += p;
 }

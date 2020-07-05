@@ -7,6 +7,7 @@
 #include<vector>
 
 typedef std::shared_ptr<SectorBase> SectorPtr;
+class GameInstance;
 
 class SectorPath {
 	protected:
@@ -14,6 +15,7 @@ class SectorPath {
 		int index;
 		std::vector<SectorPtr> stored;
 	public:
+		GameInstance* parent; // TODO: Remove bandaid
 		SectorPath();
 		SectorPath(SectorPtr start, SectorPtr end);
 		SectorPath& operator=(const SectorPath& that);
@@ -21,6 +23,7 @@ class SectorPath {
 		bool finished() const;
 		int size();
 		Point currentTarget(Point currentPosition);
+		Point currentTargetV2(Point currentPosition);
 		void clear();
 		void draw();
 		void getPath(SectorPtr startingSector, SectorPtr target);

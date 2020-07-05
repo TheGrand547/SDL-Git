@@ -907,7 +907,19 @@ SectorPath.o: game_entities/SectorPath.cpp game_entities/SectorPath.h \
   game_entities/base/../../primitives/Point.h \
   game_entities/base/../../primitives/Polygon.h \
   game_entities/base/../../primitives/Rect.h \
-  game_entities/../essential/random.h
+  game_entities/../essential/random.h game_entities/../GameInstance.h \
+  game_entities/../essential/../game_entities/base/ThingBase.h \
+  game_entities/../essential/../game_entities/CollisionHandler.h \
+  game_entities/../essential/../game_entities/SectorGroup.h \
+  game_entities/DrawGroup.h game_entities/../BoundedPoint.h \
+  game_entities/../essential/../essential/log.h \
+  game_entities/../essential/../primitives/Rect.h \
+  game_entities/../essential/../AlertTextHandler.h \
+  game_entities/../essential/../wrappers/AlertText.h \
+  game_entities/../essential/../wrappers/Font.h \
+  game_entities/../essential/../wrappers/Timer.h \
+  game_entities/../essential/../wrappers/../essential/constants.h \
+  game_entities/../essential/../wrappers/../primitives/Point.h
 SectorPathFollower.o: game_entities/SectorPathFollower.cpp \
   game_entities/SectorPathFollower.h game_entities/../primitives/Rect.h \
   game_entities/../primitives/../essential/util.h \

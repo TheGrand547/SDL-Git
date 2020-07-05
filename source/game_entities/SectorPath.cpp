@@ -1,4 +1,5 @@
 #include "SectorPath.h"
+#include "../GameInstance.h"
 #include "../essential/MegaBase.h"
 #include<map>
 #include<algorithm>
@@ -47,7 +48,13 @@ int SectorPath::size() {
 
 Point SectorPath::currentTarget(Point currentPosition) {
 	if (!this->stored.size() || (int)this->stored.size() <= this->index) return Point();
-	
+	if (this->index + 1 == (int)this->stored.size()) {
+		if ((this->stored[this->index]->structure().getCenter() - currentPosition).getFastMagnitude() < 5) {
+			this->index++; 
+			return Point();
+		}
+		return (this->stored[this->index]->structure().getCenter() - currentPosition).getUnitVector();
+	}
 	if ((this->stored[index]->pointsOfContact()[this->stored[index + 1].get()] - currentPosition).getFastMagnitude() < 5) {
 		this->index++;
 		this->stage = false;
@@ -57,6 +64,22 @@ Point SectorPath::currentTarget(Point currentPosition) {
 		return (this->stored[this->index]->structure().getCenter() - currentPosition).getUnitVector();
 	}
 	return (this->stored[this->index]->pointsOfContact()[this->stored[this->index + 1].get()] - currentPosition).getUnitVector();
+}
+
+Point SectorPath::currentTargetV2(Point currentPosition) {
+	switch (this->stored.size()) {
+		case 1: 
+			if ((this->stored[0]->structure().getCenter() - currentPosition).getFastMagnitude() > 10) {
+				return (this->stored[0]->structure().getCenter() - currentPosition).getUnitVector();
+			}
+		case 0: return Point();
+		default:
+			if ((this->stored[0]->pointsOfContact()[this->stored[1].get()] - currentPosition).getFastMagnitude() < 10) this->stored.erase(this->stored.begin());
+			if (this->parent->collision.doesCollideWith(Line(currentPosition, this->stored[0]->pointsOfContact()[this->stored[1].get()]))) {
+				return (this->stored[this->index]->structure().getCenter() - currentPosition).getUnitVector();
+			}
+			return (this->stored[0]->pointsOfContact()[this->stored[1].get()] - currentPosition).getUnitVector();
+	}
 }
 
 void SectorPath::clear() {
@@ -89,6 +112,10 @@ void SectorPath::draw() {
 void SectorPath::getPath(SectorPtr startingSector, SectorPtr target) {
 	this->clear();
 	if (startingSector.get() == target.get()) return;
+	if (startingSector->contains(target.get())) {
+		this->stored = {startingSector, target};
+		return;
+	}
 	
 	std::vector<SectorPtr> unused = {startingSector};
 	std::map<SectorPtr, SectorPtr> path;
