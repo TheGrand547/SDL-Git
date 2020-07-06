@@ -11,8 +11,6 @@ class GameInstance;
 
 class SectorPath {
 	protected:
-		bool stage;
-		int index;
 		std::vector<SectorPtr> stored;
 	public:
 		GameInstance* parent; // TODO: Remove bandaid
@@ -23,7 +21,6 @@ class SectorPath {
 		bool finished() const;
 		int size();
 		Point currentTarget(Point currentPosition);
-		Point currentTargetV2(Point currentPosition);
 		void clear();
 		void draw();
 		void getPath(SectorPtr startingSector, SectorPtr target);

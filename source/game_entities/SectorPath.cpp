@@ -18,7 +18,7 @@ double edgeFunction(SectorPtr sector, SectorPtr target) {
 	return sector->pointsOfContact()[target.get()].fastDistanceToPoint(target->structure().getCenter());
 }
 
-SectorPath::SectorPath() : stage(false), index(0) {}
+SectorPath::SectorPath() {}
 
 SectorPath::SectorPath(SectorPtr startingSector, SectorPtr target) {
 	this->getPath(startingSector, target);
@@ -32,14 +32,12 @@ SectorPath& SectorPath::operator=(const SectorPath& that) {
 	if (this != &that) {
 		this->stored.clear();
 		this->stored = that.stored;
-		this->index = that.index;	
-		this->stage = that.stage;
 	}
 	return *this;
 }
 
 bool SectorPath::finished() const {
-	return this->stored.size() == (uint)this->index + 1;
+	return this->stored.size() <= 1;
 }
 
 int SectorPath::size() {
@@ -47,49 +45,33 @@ int SectorPath::size() {
 }
 
 Point SectorPath::currentTarget(Point currentPosition) {
-	if (!this->stored.size() || (int)this->stored.size() <= this->index) return Point();
-	if (this->index + 1 == (int)this->stored.size()) {
-		if ((this->stored[this->index]->structure().getCenter() - currentPosition).getFastMagnitude() < 5) {
-			this->index++; 
-			return Point();
-		}
-		return (this->stored[this->index]->structure().getCenter() - currentPosition).getUnitVector();
-	}
-	if ((this->stored[index]->pointsOfContact()[this->stored[index + 1].get()] - currentPosition).getFastMagnitude() < 5) {
-		this->index++;
-		this->stage = false;
-	}
-	if (!this->stage && this->index != 0) {
-		if (currentPosition.distanceToPoint(this->stored[this->index]->structure().getCenter()) < 2.5) this->stage = true;
-		return (this->stored[this->index]->structure().getCenter() - currentPosition).getUnitVector();
-	}
-	return (this->stored[this->index]->pointsOfContact()[this->stored[this->index + 1].get()] - currentPosition).getUnitVector();
-}
-
-Point SectorPath::currentTargetV2(Point currentPosition) {
+	Point centerDelta = (this->stored[0]->structure().getCenter() - currentPosition);
 	switch (this->stored.size()) {
 		case 1: 
-			if ((this->stored[0]->structure().getCenter() - currentPosition).getFastMagnitude() > 10) {
-				return (this->stored[0]->structure().getCenter() - currentPosition).getUnitVector();
+			// This is the end state
+			if (centerDelta.getFastMagnitude() > 10) {
+				return centerDelta.getUnitVector();
 			}
 		case 0: return Point();
 		default:
-			if ((this->stored[0]->pointsOfContact()[this->stored[1].get()] - currentPosition).getFastMagnitude() < 10) this->stored.erase(this->stored.begin());
-			if (this->parent->collision.doesCollideWith(Line(currentPosition, this->stored[0]->pointsOfContact()[this->stored[1].get()]))) {
-				return (this->stored[this->index]->structure().getCenter() - currentPosition).getUnitVector();
+			Point edgePoint = this->stored[0]->pointsOfContact()[this->stored[1].get()];
+			if ((edgePoint - currentPosition).getFastMagnitude() < 10) {
+				this->stored.erase(this->stored.begin());
+				edgePoint = this->stored[0]->pointsOfContact()[this->stored[1].get()];
 			}
-			return (this->stored[0]->pointsOfContact()[this->stored[1].get()] - currentPosition).getUnitVector();
+			if (this->parent->collision.doesCollideWith(Line(currentPosition, edgePoint))) {
+				return centerDelta.getUnitVector();
+			}
+			return (edgePoint - currentPosition).getUnitVector();
 	}
 }
 
 void SectorPath::clear() {
-	this->index = 0;
-	this->stage = false;
 	this->stored.clear();
 }
 
 void SectorPath::draw() {
-	for (uint i = this->index; i + 1 < this->stored.size(); i++) {
+	for (uint i = 0; i + 1 < this->stored.size(); i++) {
 		Line p(this->stored[i]->structure().getCenter(), this->stored[i]->pointsOfContact()[this->stored[i + 1].get()]);
 		p.setColor(0xFF, 0x00, 0xFF, 0xFF);
 		p.drawLine(MegaBase::renderer, *MegaBase::offset);

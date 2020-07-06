@@ -26,11 +26,12 @@ ENTITY_DIRECTION getDirectionFromAngle(const double angle);
 
 class ThingBase {
 	protected:
-		GameInstance* parent;
 		const int absoluteFlags; // List of attributes this object CAN have, but might not necessarily have at any given moment
 		int flags; // List of attributes the object CURRENTLY has
 		Point position;
 	public:
+		GameInstance* parent;
+	
 		ThingBase(int flags = 0);
 		virtual ~ThingBase() = 0;
 		virtual bool doesLineCollide(const Line& ray) const = 0;
