@@ -5,7 +5,6 @@
 #include<SDL2/SDL2_gfxPrimitives.h>
 #include "../../essential/Configuration.h"
 #include "../../primitives/Point.h"
-#include "../../primitives/PointDelta.h"
 #include "../HeldKey.h"
 #include "ButtonCommand.h"
 #include "ControllerCommand.h"
@@ -44,7 +43,7 @@ class Controller {
 		void addListener(std::string key, int threshold = 150);
 		void updateListeners();
 		HeldKey& checkListener(int key);
-		void addPlayerKeys(PointDelta& target);
+		void addPlayerKeys(Point& target);
 		void addCheat(std::string key, void(*func)()); // TODO: Make this not dependent on function pointers
 };
 #endif

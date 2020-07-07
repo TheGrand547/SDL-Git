@@ -31,7 +31,7 @@ Point Dot::getPosition() const {
 	return this->position;
 }
 
-Rect Dot::getRect() const {
+Rect Dot::getBoundingRect() const {
 	return Rect(this->position, Player::PLAYER_X_DIMENSION, Player::PLAYER_Y_DIMENSION);
 }
 
@@ -46,20 +46,20 @@ float Dot::getAngle() {
 }
 
 bool Dot::overlap(const Polygon& other) const {
-	return this->getRect().overlap(other);
+	return this->getBoundingRect().overlap(other);
 }
 
 bool Dot::overlap(const std::shared_ptr<ThingBase>& other) const {
-	return other->overlap(this->getRect());
+	return other->overlap(this->getBoundingRect());
 }
 
 bool Dot::wideOverlap(const Polygon& other) const {
-	return (this->getRect() * 1.25).overlap(other);
+	return (this->getBoundingRect() * 1.25).overlap(other);
 }
 
 void Dot::draw(SDL_Renderer* renderer, Point offset) {
 	SDL_SetRenderDrawColor(renderer, rChannel, gChannel, bChannel, aChannel);
-	SDL_Rect temp = tempF((this->getRect() - offset)).getSDLRect();
+	SDL_Rect temp = tempF((this->getBoundingRect() - offset)).getSDLRect();
 	temp.w = Player::PLAYER_X_DIMENSION;
 	temp.h = Player::PLAYER_Y_DIMENSION;
 	SDL_RenderFillRect(renderer, &temp);
@@ -68,8 +68,8 @@ void Dot::draw(SDL_Renderer* renderer, Point offset) {
 	p.draw(renderer, Point(0,0));
 }
 
-void Dot::velocityDelta(PointDelta acceleration) {
-	this->EntityBase::accelerate(acceleration);
+void Dot::velocityDelta(Point acceleration) {
+	this->EntityBase::accelerate(acceleration.getUnitVector());
 }
 
 void Dot::update() {
@@ -92,7 +92,7 @@ void Dot::collideTest() {
 	double xDelta = 0, yDelta = 0;
 	for (int i = 0; i < CHECKS; i++) {
 		Point temp = delta / CHECKS;
-		if (this->parent->collision.doesNotCollideWith(this->getRect() + temp)) {
+		if (this->parent->collision.doesNotCollideWith(this->getBoundingRect() + temp)) {
 			this->move(temp);
 			xDelta += temp.x;
 			yDelta += temp.y;
@@ -100,13 +100,13 @@ void Dot::collideTest() {
 		}
 		/*
 		if (not xDelta) {
-			if (this->parent->collision.doesNotCollideWith(this->getRect() + temp.onlyX())) {
+			if (this->parent->collision.doesNotCollideWith(this->getBoundingRect() + temp.onlyX())) {
 				xDelta = temp.x();
 				this->parent->getOffset() += temp.onlyX();
 			}
 		}
 		if (not yDelta) {
-			if (this->parent->collision.doesNotCollideWith(this->getRect() + temp.onlyY())) {
+			if (this->parent->collision.doesNotCollideWith(this->getBoundingRect() + temp.onlyY())) {
 				yDelta = temp.y();
 				this->parent->getOffset() += temp.onlyY();					
 			}
@@ -115,13 +115,8 @@ void Dot::collideTest() {
 			break;
 		}*/
 	}
-	// TODO: Make comparison constant
-	if (abs(yDelta) < 0.0000001) {
-		this->velocity.yZero();
-	}
-	if (abs(xDelta) < 0.0000001) {
-		this->velocity.xZero();
-	}
+	if (abs(yDelta) < ROUNDING) this->velocity.y = 0;
+	if (abs(xDelta) < ROUNDING) this->velocity.x = 0;
 	//this->move(Vector(xDelta, yDelta));
 	//this->lastDelta = Point(xDelta, yDelta);
 	// PUT THIS ELSEWHERE <- Will be handled when implementation is changed to being based around the Screen Class
@@ -150,11 +145,11 @@ void Dot::rayCast() {
 }
 
 bool Dot::doesLineCollide(const Line& ray) const {
-	return this->getRect().doesLineCollide(ray);
+	return this->getBoundingRect().doesLineCollide(ray);
 }
 
 Point Dot::collideLine(const Line& ray) const {
-	return this->getRect().collideLine(ray);
+	return this->getBoundingRect().collideLine(ray);
 }
 
 

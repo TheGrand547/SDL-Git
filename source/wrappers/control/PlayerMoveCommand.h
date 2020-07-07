@@ -2,13 +2,14 @@
 #ifndef PLAYER_MOVE_COMMAND_H
 #define PLAYER_MOVE_COMMAND_H
 #include "ButtonCommand.h"
-#include "../../primitives/PointDelta.h"
+#include "../../primitives/Point.h"
+
 class PlayerMoveCommand : public ButtonCommand {
 	private:
-		PointDelta* target;
-		void (*command)(PointDelta*);
+		Point* target;
+		void (*command)(Point*);
 	public:
-		PlayerMoveCommand(void(*command)(PointDelta*), PointDelta* target);
+		PlayerMoveCommand(void(*command)(Point*), Point* target);
 		~PlayerMoveCommand();
 		PlayerMoveCommand& operator=(const PlayerMoveCommand other);
 		void execute() override;

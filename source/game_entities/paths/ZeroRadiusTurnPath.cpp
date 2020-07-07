@@ -25,6 +25,7 @@ void ZeroRadiusTurnPath::stop() {
 }
 
 void ZeroRadiusTurnPath::modify(float delta) {
+	// TODO: Update this to 'modern standards'
 	float deltaAngle = (this->targetAngle - this->startingAngle) / (this->maxTicks * 10);
 	if (this-clockwise) {
 		this->target->turn(-deltaAngle);
@@ -32,5 +33,5 @@ void ZeroRadiusTurnPath::modify(float delta) {
 		this->target->turn(deltaAngle);
 	}
 	this->ticksDone += delta;
-	this->target->move(PointDelta(0, 0, 0));
+	this->target->move(Point(0, 0));
 }

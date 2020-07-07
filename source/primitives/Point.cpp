@@ -104,12 +104,12 @@ inline double Point::getFastMagnitude() const {
 }
 
 bool Point::getNonZero() const {
-	return ((std::abs(this->x) > .0001 || std::abs(this->y) > .0001) 
+	return ((std::abs(this->x) > ROUNDING || std::abs(this->y) > ROUNDING) 
 			&& (this->x == this->x || this->y == this->y)); // TODO: Define accuarcy constant
 }
 
 bool Point::operator==(const Point& point) const {
-	return std::abs(point.x - this->x) < 0.000001 && std::abs(point.y - this->y) < 0.000001;
+	return std::abs(point.x - this->x) < ROUNDING && std::abs(point.y - this->y) < ROUNDING;
 }
 
 bool Point::operator!=(const Point& point) const {

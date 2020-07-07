@@ -1,5 +1,4 @@
 #include "SectorPath.h"
-#include "../GameInstance.h"
 #include "../essential/MegaBase.h"
 #include<map>
 #include<algorithm>
@@ -18,11 +17,7 @@ double edgeFunction(SectorPtr sector, SectorPtr target) {
 	return sector->pointsOfContact()[target.get()].fastDistanceToPoint(target->structure().getCenter());
 }
 
-SectorPath::SectorPath() {}
-
-SectorPath::SectorPath(SectorPtr startingSector, SectorPtr target) {
-	this->getPath(startingSector, target);
-}
+SectorPath::SectorPath(ThingBase* target) : target(target) {}
 
 SectorPath::~SectorPath() {
 	this->clear();
@@ -31,6 +26,7 @@ SectorPath::~SectorPath() {
 SectorPath& SectorPath::operator=(const SectorPath& that) {
 	if (this != &that) {
 		this->stored.clear();
+		this->target = that.target;
 		this->stored = that.stored;
 	}
 	return *this;
@@ -55,11 +51,14 @@ Point SectorPath::currentTarget(Point currentPosition) {
 		case 0: return Point();
 		default:
 			Point edgePoint = this->stored[0]->pointsOfContact()[this->stored[1].get()];
-			if ((edgePoint - currentPosition).getFastMagnitude() < 10) {
+			if ((edgePoint - currentPosition).getFastMagnitude() < 5) {
 				this->stored.erase(this->stored.begin());
 				edgePoint = this->stored[0]->pointsOfContact()[this->stored[1].get()];
 			}
-			if (this->parent->collision.doesCollideWith(Line(currentPosition, edgePoint))) {
+			Line edge(currentPosition, edgePoint);
+			Rect rect(Point(0, 0), 20, 20);
+			rect.setCenter(edge.midPoint());
+			if (this->target->parent->collision.doesCollideWith(rect)) {
 				return centerDelta.getUnitVector();
 			}
 			return (edgePoint - currentPosition).getUnitVector();
@@ -70,28 +69,8 @@ void SectorPath::clear() {
 	this->stored.clear();
 }
 
-void SectorPath::draw() {
-	for (uint i = 0; i + 1 < this->stored.size(); i++) {
-		Line p(this->stored[i]->structure().getCenter(), this->stored[i]->pointsOfContact()[this->stored[i + 1].get()]);
-		p.setColor(0xFF, 0x00, 0xFF, 0xFF);
-		p.drawLine(MegaBase::renderer, *MegaBase::offset);
-		if (i != 0) {
-			Line g(this->stored[i]->structure().getCenter(), this->stored[i - 1]->pointsOfContact()[this->stored[i].get()]);
-			g.setColor(0xFF, 0x00, 0xFF, 0xFF);
-			g.drawLine(MegaBase::renderer, *MegaBase::offset);
-			
-			Line pe(this->stored[i]->structure().getCenter(), this->stored[i]->pointsOfContact()[this->stored[i - 1].get()]);
-			pe.setColor(0xFF, 0xFF, 0xFF, 0xFF);
-			pe.drawLine(MegaBase::renderer, *MegaBase::offset);
-		}
-	}
-	for (SectorPtr& sec: this->stored) {
-		sec->structure().setColorChannels(0xFF, 0x00, 0x00, 0xFF);
-		sec->draw();
-	}
-}
-
-void SectorPath::getPath(SectorPtr startingSector, SectorPtr target) {
+void SectorPath::createPath(SectorPtr startingSector, SectorPtr target) {
+	// A* implementation
 	this->clear();
 	if (startingSector.get() == target.get()) return;
 	if (startingSector->contains(target.get())) {
@@ -144,5 +123,27 @@ void SectorPath::getPath(SectorPtr startingSector, SectorPtr target) {
 				if (valueNotInVector(unused, node)) unused.push_back(node);
 			}
 		}
+	}
+}
+
+
+void SectorPath::draw() {
+	for (uint i = 0; i + 1 < this->stored.size(); i++) {
+		Line p(this->stored[i]->structure().getCenter(), this->stored[i]->pointsOfContact()[this->stored[i + 1].get()]);
+		p.setColor(0xFF, 0x00, 0xFF, 0xFF);
+		p.drawLine(MegaBase::renderer, *MegaBase::offset);
+		if (i != 0) {
+			Line g(this->stored[i]->structure().getCenter(), this->stored[i - 1]->pointsOfContact()[this->stored[i].get()]);
+			g.setColor(0xFF, 0x00, 0xFF, 0xFF);
+			g.drawLine(MegaBase::renderer, *MegaBase::offset);
+			
+			Line pe(this->stored[i]->structure().getCenter(), this->stored[i]->pointsOfContact()[this->stored[i - 1].get()]);
+			pe.setColor(0xFF, 0xFF, 0xFF, 0xFF);
+			pe.drawLine(MegaBase::renderer, *MegaBase::offset);
+		}
+	}
+	for (SectorPtr& sec: this->stored) {
+		sec->structure().setColorChannels(0xFF, 0x00, 0x00, 0xFF);
+		sec->draw();
 	}
 }

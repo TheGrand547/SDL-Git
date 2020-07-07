@@ -1,8 +1,8 @@
 #pragma once
 #ifndef COLLISION_HANDLER_H
 #define COLLISION_HANDLER_H
-class CollisionHandler;
 class GameInstance;
+class CollisionHandler;
 class ThingBase;
 class SectorBase;
 #include "../primitives/Line.h"
@@ -13,10 +13,8 @@ class SectorBase;
 
 // Interface to interact with the collidable objects from GameInstance
 class CollisionHandler {
-	private:
-		GameInstance* parent;
-		std::map<ThingBase*, std::shared_ptr<SectorBase>> collisionMap;
 	public:
+		GameInstance* parent;
 		CollisionHandler(GameInstance* parent);
 		~CollisionHandler();
 		int size() const;

@@ -46,7 +46,7 @@ class ThingBase {
 		virtual double originDistance() const = 0;
 		virtual Point collideLine(const Line& ray) const = 0;
 		virtual Point getPosition() const = 0;
-		virtual Rect getRect() const = 0;
+		virtual Rect getBoundingRect() const = 0;
 		virtual void draw(SDL_Renderer* renderer, Point offset = Point(0, 0)) = 0;
 		virtual void update();
 		void setFlag(ENTITY_FLAG flag);

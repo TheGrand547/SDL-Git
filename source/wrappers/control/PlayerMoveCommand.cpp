@@ -1,6 +1,6 @@
 #include "PlayerMoveCommand.h"
 
-PlayerMoveCommand::PlayerMoveCommand(void(*command)(PointDelta*), PointDelta* target) {
+PlayerMoveCommand::PlayerMoveCommand(void(*command)(Point*), Point* target) {
 	this->command = command;
 	this->target = target;
 }

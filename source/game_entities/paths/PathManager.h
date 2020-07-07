@@ -4,12 +4,14 @@
 #include<vector>
 #include<memory>
 
+typedef uint Uint;
+
 class PathManager {
 	protected:
 		std::vector<std::shared_ptr<Path>> paths;
 		EnemyBase* target;
 		bool repeat;
-		uint32_t index;
+		Uint index;
 	public:
 		PathManager(EnemyBase* target = NULL);
 		~PathManager();

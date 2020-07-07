@@ -8,6 +8,8 @@
 #include<vector>
 /* Misc functions with no dependencies */
 
+#define ROUNDING 0.000001
+
 template<class T>
 float radians(T degrees) {
 	return degrees * (M_PI / 180.0);

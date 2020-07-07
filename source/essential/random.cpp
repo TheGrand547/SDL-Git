@@ -5,5 +5,5 @@ double gaussian(double x, double sigma) { // Taken from https://github.com/anlcn
 }
 
 bool valueInRange(double value, double min, double max) {
-	return (value > min && value < max) || (std::abs(value - min) < 0.0001) || (std::abs(value - max) < 0.0001); 
+	return (value > min && value < max) || (std::abs(value - min) < ROUNDING) || (std::abs(value - max) < ROUNDING); 
 }

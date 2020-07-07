@@ -21,8 +21,8 @@ void GameInstance::addThing(const ThingPtr& thing) {
 		LOG("ERROR: Attempted to add duplicate object.");
 		return;
 	}
-	this->allThings.push_back(thing);
 	thing->setParent(this);
+	this->allThings.push_back(thing);
 	int flags = thing->getAbsoluteFlags();
 	if (flags & DRAW) {
 		this->drawThings.push_back(thing);

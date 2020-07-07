@@ -34,8 +34,8 @@ Point BigWall::getPosition() const {
 	return this->rect.getCenter();
 }
 
-Rect BigWall::getRect() const {
-	return this->rect;
+Rect BigWall::getBoundingRect() const {
+	return this->rect.getBoundingRect();
 }
 
 void BigWall::draw(SDL_Renderer* renderer, Point offset) {

@@ -1,9 +1,9 @@
 #pragma once
 #include "essential/constants.h"
 #include "essential/MegaBase.h"
+#include "essential/util.h"
 #include "game_entities/base/EntityBase.h"
 #include "primitives/Point.h"
-#include "primitives/PointDelta.h"
 #include "primitives/Rect.h"
 #include "primitives/Vector.h"
 #include "wrappers/FpsText.h"
@@ -29,13 +29,13 @@ class Dot : public EntityBase, public MyBase {
 		Point collideLine(const Line& ray) const override;
 		Point getCenter();
 		Point getPosition() const override;
-		Rect getRect() const override;
+		Rect getBoundingRect() const override;
 		void collideTest();
 		void draw(SDL_Renderer* renderer, Point offset = Point(0, 0)) override;
 		void move(Point delta);
 		void rayCast();
 		void update() override;
-		void velocityDelta(PointDelta acceleration);
+		void velocityDelta(Point acceleration);
 };
 
 int tempF(double val);

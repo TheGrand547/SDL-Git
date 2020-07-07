@@ -46,19 +46,21 @@ class GameInstance {
 	
 		GameInstance(SDL_Renderer* renderer, BoundedPoint offset);
 		~GameInstance();
+		void addThing(const ThingPtr& thing);
 		Point& getOffset();
 		Rect getPlayableArea() const;
 		SDL_Renderer* getRenderer();
-		void addThing(const ThingPtr& thing);
 		void addPlayer(const ThingPtr& thing);
 		void instanceBegin();
 		void update();
 		void draw();
 		std::shared_ptr<ThingBase> getPlayer();
 		
-		template<typename T, typename... Args> void createThing(Args... args) {
+		template<typename T, typename... Args> std::shared_ptr<T> createThing(Args... args) {
 			static_assert(std::is_base_of<ThingBase, T>::value, "createThing must be templated with a class that derives from ThingBase.");
-			this->addThing(std::make_shared<T>(args...));
+			std::shared_ptr<T> value = std::make_shared<T>(args...);
+			this->addThing(value);
+			return value;
 		}
 };
 

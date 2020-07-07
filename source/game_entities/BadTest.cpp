@@ -27,7 +27,7 @@ void BadTest::setTexture(SDL_Renderer* renderer) {
 }
 
 double BadTest::originDistance() const {
-	return this->getRect().getOriginDistance();
+	return this->getBoundingRect().getOriginDistance();
 }
 
 Point BadTest::getCenter() const {
@@ -134,27 +134,27 @@ Point BadTest::getPosition() const {
 	return this->position;
 }
 
-Rect BadTest::getRect() const {
+Rect BadTest::getBoundingRect() const {
 	return Rect(this->position, this->width, this->height);
 }
 
 bool BadTest::overlap(const Polygon& other) const {
-	return this->getRect().overlap(other);
+	return this->getBoundingRect().overlap(other);
 }
 
 bool BadTest::overlap(const std::shared_ptr<ThingBase>& other) const {
-	return other->overlap(this->getRect());
+	return other->overlap(this->getBoundingRect());
 }
 
 // TODO: Overlap constant
 bool BadTest::wideOverlap(const Polygon& other) const {
-	return (this->getRect() * 1.25).overlap(other);
+	return (this->getBoundingRect() * 1.25).overlap(other);
 }
 
 bool BadTest::doesLineCollide(const Line& ray) const {
-	return this->getRect().doesLineCollide(ray);
+	return this->getBoundingRect().doesLineCollide(ray);
 }
 
 Point BadTest::collideLine(const Line& ray) const {
-	return this->getRect().collideLine(ray);
+	return this->getBoundingRect().collideLine(ray);
 }

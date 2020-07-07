@@ -1,6 +1,7 @@
 #pragma once
 #ifndef POINT_H
 #define POINT_H
+#include "../essential/random.h"
 #include<math.h>
 #include<iostream>
 

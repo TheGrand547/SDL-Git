@@ -82,7 +82,7 @@ int main(int argc, char* argv[]) {
 	Font gFont;
 	std::string foo = "duck dev best dev";
 	AppearingText ap(foo, &gFont, Point(250, 0), 15, COLORS::RED, 300);
-	PointDelta popo = PointDelta(0, 0, 15);
+	Point popo(0, 0);
 	Controller contra;
 	contra.addListener("Ray", 120);
 	contra.addListener("PathReset", 50);
@@ -95,9 +95,8 @@ int main(int argc, char* argv[]) {
 	SpriteSheet spriteSheetTest("resources/bigsprite.png", 50, 50, gRenderer);
 	spriteSheetTest.addAnimation("dumb", 0, 4, 500);
 	
-	std::shared_ptr<SectorPathFollower> foodd = std::make_shared<SectorPathFollower>(Rect(GAME.sectors[3]->structure().getCenter(), GAME.sectors[3]->structure().getCenter() + Point(10, 10)));
-	foodd->mine.getPath(GAME.sectors[3], GAME.sectors[0]);
-	foodd->mine.parent = &GAME;
+	std::shared_ptr<SectorPathFollower> foodd = GAME.createThing<SectorPathFollower>(Rect(GAME.sectors[3]->structure().getCenter(), GAME.sectors[3]->structure().getCenter() + Point(10, 10)));
+	foodd->mine.createPath(GAME.sectors[3], GAME.sectors[0]);
 	LOG("Section: Main Loop");
 	while (!contra.quit) {
 		clearScreen(gRenderer);
@@ -119,12 +118,10 @@ int main(int argc, char* argv[]) {
 			if (twigs.size() > 0) {
 				auto twigsAgain = GAME.sectors.sectorsThatTouch(foodd);
 				if (twigsAgain.size() > 0) {
-					foodd->mine.getPath(twigsAgain[0], twigs[0]);
+					foodd->mine.createPath(twigsAgain[0], twigs[0]);
 				}
 			}
 		}
-		foodd->update();
-		foodd->draw(gRenderer, GAME.getOffset());
 		foodd->mine.draw();
 		// Testing stuff
 		spriteSheetTest.draw("dumb", gRenderer, {200, 200}, getDirectionFromAngle(dot->getAngle()));
