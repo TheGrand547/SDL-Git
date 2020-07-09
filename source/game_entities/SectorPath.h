@@ -18,7 +18,7 @@ class SectorPath {
 		SectorPath(ThingBase* target);
 		SectorPath& operator=(const SectorPath& that);
 		~SectorPath();
-		bool finished() const;
+		bool isFinished() const;
 		int size();
 		Point currentTarget(Point currentPosition);
 		void clear();

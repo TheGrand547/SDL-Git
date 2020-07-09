@@ -113,7 +113,7 @@ int main(int argc, char* argv[]) {
 				dot->rayCast();
 			}
 		}
-		if (contra.checkListener(config["PathReset"]).getHeld()) {
+		if (contra.checkListener(config["PathReset"]).getHeld() && GAME.gameState["PathFinished"]) {
 			auto twigs = GAME.sectors.sectorsThatTouch(dot);
 			if (twigs.size() > 0) {
 				auto twigsAgain = GAME.sectors.sectorsThatTouch(foodd);
@@ -122,7 +122,6 @@ int main(int argc, char* argv[]) {
 				}
 			}
 		}
-		foodd->mine.draw();
 		// Testing stuff
 		spriteSheetTest.draw("dumb", gRenderer, {200, 200}, getDirectionFromAngle(dot->getAngle()));
 		patrolLine.drawLine(gRenderer);

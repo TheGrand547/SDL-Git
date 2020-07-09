@@ -39,6 +39,7 @@ Rect SectorPathFollower::getBoundingRect() const {
 
 void SectorPathFollower::draw(SDL_Renderer* renderer, Point offset) {
 	if (!this->texture.isLoaded()) this->texture.loadFromFile(renderer, "resources/temp.png", 10, 10);
+	this->mine.draw();
 	this->texture.draw(renderer, this->box.getTopLeft() - offset);
 }
 
@@ -46,4 +47,5 @@ void SectorPathFollower::update() {
 	Point p = this->mine.currentTarget(this->box.getCenter());
 	if (p.isNull()) return;
 	this->box += p;
+	this->parent->gameState["PathFinished"] = (int) this->mine.isFinished();
 }

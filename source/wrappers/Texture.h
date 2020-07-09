@@ -35,6 +35,7 @@ class Texture {
 		void setColorMod(Uint8 red, Uint8 green, Uint8 blue);
 		void setColorKey(Uint8 red, Uint8 green, Uint8 blue);
 		void draw(SDL_Renderer* renderer, Point position, SDL_COPY_EX_ARGS_DEFAULTS);
+		void drawCentered(SDL_Renderer* renderer, Point position, SDL_COPY_EX_ARGS_DEFAULTS);
 		bool isLoaded();
 		bool notLoaded();
 		void createBlank(SDL_Renderer* renderer, int w, int h, Uint32 color = 0x0000000FF);

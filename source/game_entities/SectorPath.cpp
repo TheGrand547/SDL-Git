@@ -32,7 +32,7 @@ SectorPath& SectorPath::operator=(const SectorPath& that) {
 	return *this;
 }
 
-bool SectorPath::finished() const {
+bool SectorPath::isFinished() const {
 	return this->stored.size() <= 1;
 }
 
@@ -56,7 +56,7 @@ Point SectorPath::currentTarget(Point currentPosition) {
 				edgePoint = this->stored[0]->pointsOfContact()[this->stored[1].get()];
 			}
 			Line edge(currentPosition, edgePoint);
-			Rect rect(Point(0, 0), 20, 20);
+			Rect rect(this->target->getBoundingRect());
 			rect.setCenter(edge.midPoint());
 			if (this->target->parent->collision.doesCollideWith(rect)) {
 				return centerDelta.getUnitVector();

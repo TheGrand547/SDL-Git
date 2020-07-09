@@ -12,6 +12,7 @@
  * with more complicated behavior patterns than a particle */
 class EntityBase : public ThingBase {
 	protected:
+		// TODO: Friction should be based on math, do this at some point
 		double angle, frictionAmount, maxVelocity;
 		Point acceleration, velocity;
 		Timer timer;

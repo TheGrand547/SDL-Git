@@ -27,7 +27,8 @@ void EntityBase::evalAngle(const Point& delta) {
 }
 
 void EntityBase::accelerate(const Point& delta) {
-	Point copy = delta.getUnitVector();
+	// "Good enough" formula
+	Point copy = delta * this->maxVelocity / pow(this->frictionAmount, 1.15);
 	this->timer.tick();
 	if (abs(delta.x) < ROUNDING) {
 		copy -= Point(this->velocity.x, 0) / this->frictionAmount;
