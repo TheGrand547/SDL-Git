@@ -5,8 +5,11 @@
 #include "base/ThingBase.h"
 #include "SectorPath.h"
 #include "../wrappers/Texture.h"
+#include "../wrappers/MovementWrapper.h"
 
 class SectorPathFollower : public ThingBase {
+	protected:
+		MovementWrapper movement;
 	public:
 		Rect box;
 		SectorPath mine;

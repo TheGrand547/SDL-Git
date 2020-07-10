@@ -32,7 +32,7 @@ void Font::drawTexture(SDL_Renderer* renderer, SDL_Texture* texture, SDL_Rect re
 }
 
 void Font::drawText(int x, int y, std::string text, SDL_Renderer* renderer, SDL_Color color, SDL_Rect* clip, double angle, SDL_Point* center, SDL_RendererFlip flip) {
-	SDL_Surface *surface = TTF_RenderText_Blended(fontRenderer, text.c_str(), color);
+	SDL_Surface* surface = TTF_RenderText_Blended(fontRenderer, text.c_str(), color);
 	if (!(surface == NULL)) {
 		SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
 		if (!(texture == NULL)) {

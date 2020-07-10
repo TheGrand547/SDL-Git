@@ -46,6 +46,6 @@ void SectorPathFollower::draw(SDL_Renderer* renderer, Point offset) {
 void SectorPathFollower::update() {
 	Point p = this->mine.currentTarget(this->box.getCenter());
 	if (p.isNull()) return;
-	this->box += p;
+	this->box += p * this->movement.getValue() * 100;
 	this->parent->gameState["PathFinished"] = (int) this->mine.isFinished();
 }

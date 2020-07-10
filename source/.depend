@@ -64,9 +64,10 @@ main.o: ../main.cpp ../source/headers.h ../source/AlertTextHandler.h \
   ../source/game_entities/paths/PathManager.h \
   ../source/game_entities/paths/ZeroRadiusTurnPath.h \
   ../source/game_entities/BigWall.h ../source/game_entities/SectorPath.h \
-  ../source/game_entities/SectorPathFollower.h ../source/GameInstance.h \
-  ../source/MyBase.h ../source/primitives/Line.h \
-  ../source/wrappers/AppearingText.h \
+  ../source/game_entities/SectorPathFollower.h \
+  ../source/game_entities/../wrappers/MovementWrapper.h \
+  ../source/GameInstance.h ../source/MyBase.h \
+  ../source/primitives/Line.h ../source/wrappers/AppearingText.h \
   ../source/wrappers/control/Controller.h \
   ../source/wrappers/control/../../essential/Configuration.h \
   ../source/wrappers/control/../../primitives/Point.h \
@@ -955,4 +956,5 @@ SectorPathFollower.o: game_entities/SectorPathFollower.cpp \
   game_entities/../primitives/../essential/SDL_Headers.h \
   game_entities/../primitives/../essential/../wrappers/../essential/SDL_Headers.h \
   game_entities/../primitives/../essential/../wrappers/PixelMod.h \
-  game_entities/../primitives/../essential/../wrappers/../primitives/Pixel.h
+  game_entities/../primitives/../essential/../wrappers/../primitives/Pixel.h \
+  game_entities/../wrappers/MovementWrapper.h
