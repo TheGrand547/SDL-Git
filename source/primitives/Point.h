@@ -4,6 +4,7 @@
 #include "../essential/random.h"
 #include<math.h>
 #include<iostream>
+#include <cassert>
 
 class Point {
 	public:

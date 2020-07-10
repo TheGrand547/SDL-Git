@@ -1,8 +1,8 @@
 #pragma once
 #ifndef APPEARING_TEXT_H
 #define APPEARING_TEXT_H
-#include<SDL2/SDL.h>
-#include<SDL2_ttf/SDL_ttf.h>
+#include<SDL.h>
+#include<SDL_ttf.h>
 #include "Font.h"
 #include "Timer.h"
 #include "../primitives/Point.h"

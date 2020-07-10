@@ -1,6 +1,6 @@
 #pragma once
 #include<iostream>
-#include<SDL2_ttf/SDL_ttf.h>
+#include<SDL_ttf.h>
 class Font {
 	private:
 		int fontSize;

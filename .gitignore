@@ -13,3 +13,5 @@ s.supp.txt
 source/makefile2.txt
 valgrind_out.txt
 callgrind.*
+build/
+

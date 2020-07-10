@@ -1,5 +1,5 @@
-#include "source/headers.h"
-#include "source/essential/MathUtils.h"
+#include "headers.h"
+#include "essential/MathUtils.h"
 
 bool init();
 SDL_Renderer* createRenderer(SDL_Window* window);
@@ -154,7 +154,7 @@ bool init() {
 
 SDL_Window* createWindow() {
 	return SDL_CreateWindow(Screen::WINDOW_TITLE.c_str(), Screen::DEFAULT_POS, Screen::DEFAULT_POS, Screen::SCREEN_WIDTH, 
-							Screen::SCREEN_HEIGHT, Screen::WINDOW_ARGUMENTS);
+							Screen::SCREEN_HEIGHT, Screen::WINDOW_ARGUMENTS | SDL_RENDERER_PRESENTVSYNC);
 }
 
 SDL_Renderer* createRenderer(SDL_Window* window) {

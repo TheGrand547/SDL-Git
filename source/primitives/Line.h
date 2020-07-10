@@ -4,6 +4,7 @@
 #include<cmath>
 #include<SDL2/SDL.h>
 #include<SDL2/SDL2_gfxPrimitives.h>
+#include <cassert>
 #include "Point.h"
 #include "../MyBase.h"
 #include "../essential/random.h"
