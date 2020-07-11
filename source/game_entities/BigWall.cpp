@@ -39,5 +39,6 @@ Rect BigWall::getBoundingRect() const {
 }
 
 void BigWall::draw(SDL_Renderer* renderer, Point offset) {
+	this->rect.setColorChannels(0x00, 0x00, 0xFF, 0xFF);
 	this->rect.draw(renderer, offset);
 }

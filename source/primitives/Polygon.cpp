@@ -1,6 +1,8 @@
 #include "Polygon.h"
 #include "Rect.h"
 
+Polygon::~Polygon() {}
+
 bool Polygon::operator==(const Polygon& other) const {
 	// If they don't have the same amount of points they can't be the same
 	if (this->numPoints() != other.numPoints()) return false;

@@ -15,17 +15,10 @@ void EnemyBase::draw(SDL_Renderer* renderer, Point offset) {
 }
 
 void EnemyBase::move(Point velocity) { 
-	// TODO: Fix this shit
-	// There must be a better way
-	double gp = this->mvmnt.getValue();
-	if (gp > 2) return;
-	if (velocity.getMagnitude() > this->maxVelocity) {
-		velocity = velocity.getUnitVector() * this->maxVelocity;
-	}
-	Point px = velocity * gp;
-	if (px.isZero()) {
-		return;
-	}
+	double tickRatio = this->movement.getValue();
+	if (!tickRatio) return;
+	Point px = velocity.getUnitVector() * tickRatio * this->maxVelocity;
+	
 	// Seems really inefficent, investigate it
 	// Right now it's optimized for non-collision, might want to have some functionality to make it optimized for collision
 	double xflag = 0, yflag = 0;

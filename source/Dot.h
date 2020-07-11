@@ -7,6 +7,7 @@
 #include "primitives/Rect.h"
 #include "primitives/Vector.h"
 #include "wrappers/FpsText.h"
+#include "wrappers/MovementWrapper.h"
 #include<math.h>
 #include<memory>
 #include<SDL2/SDL.h>
@@ -14,8 +15,8 @@
 class Dot : public EntityBase, public MyBase { 
 	private:
 		BoundedPoint position;
+		MovementWrapper movement;
 		Point lastDelta;
-		Timer tmp, pf;
 	public:
 		Dot(Point startingCoordinate);
 		~Dot();

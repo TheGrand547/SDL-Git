@@ -2,8 +2,6 @@
 
 Dot::Dot(Point startingCoordinate) : EntityBase(DRAW | MOVEABLE) {
 	this->lastDelta = startingCoordinate;
-	this->pf.start();
-	this->tmp.start();
 	this->setMaxVelocity(200); // Per second
 	this->setFriction(10);
 	this->position = BoundedPoint(startingCoordinate, 0, 0, Screen::MAX_WIDTH - Player::PLAYER_X_DIMENSION, Screen::MAX_HEIGHT - Player::PLAYER_Y_DIMENSION);
@@ -78,17 +76,13 @@ void Dot::update() {
 
 void Dot::collideTest() {
 	const int CHECKS = 4;
-	double gp = tmp.getTicks();
-	if (gp) {
-		gp /= 1000.f;
-		tmp.start();
-	} else {
-		return;
-	}
-	Point delta = this->velocity * gp;
-	if (delta.isZero()) {
-		return;
-	}
+	
+	double tickRatio = this->movement.getValue();
+	if (!tickRatio) return;
+
+	Point delta = this->velocity * tickRatio;
+	if (delta.isZero()) return;
+	
 	double xDelta = 0, yDelta = 0;
 	for (int i = 0; i < CHECKS; i++) {
 		Point temp = delta / CHECKS;

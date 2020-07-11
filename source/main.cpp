@@ -16,7 +16,6 @@ Point bez2(Point start, Point end, Point control, double t);
 SDL_Renderer* MegaBase::renderer = NULL;
 Point* MegaBase::offset = NULL;
 
-// TODO: EDGEMAP EDGEMAP EDGEMAP -> MAP EDGES OF EACH SHAPE AND ESTABLISH SECTORS FROM THAT
 int main(int argc, char* argv[]) {
 	LOG("Section: Setup");
 	// TODO: Write command line args like in source/idtech1, in addition to command line args such as DRAW_PATHS_ENABLE
@@ -124,9 +123,8 @@ int main(int argc, char* argv[]) {
 		}
 		// Testing stuff
 		spriteSheetTest.draw("dumb", gRenderer, {200, 200}, getDirectionFromAngle(dot->getAngle()));
-		patrolLine.drawLine(gRenderer);
-		//myPath.draw();
-		GAME.sectors.drawGroup();
+		patrolLine.drawLine(gRenderer, GAME.getOffset());
+		//GAME.sectors.drawGroup();
 
 		fps.draw(gRenderer);
 		fps.drawFrameTime(gRenderer);

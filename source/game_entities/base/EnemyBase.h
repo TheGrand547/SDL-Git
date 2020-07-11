@@ -20,7 +20,7 @@ class EnemyBase : public ThingBase {
 		double angle = 0;
 		double maxVelocity;
 		bool turning = false;
-		MovementWrapper mvmnt;
+		MovementWrapper movement;
 	public:
 		EnemyBase(Point position = Point(0, 0), int flags = 0);
 		virtual ~EnemyBase();

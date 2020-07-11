@@ -8,9 +8,7 @@ BadTest::BadTest(Point position) : EnemyBase(position, DRAW | MOVEABLE) {
 	this->pathTimer.start();
 	int dist = 200;
 	this->c.addPath(std::make_shared<LinePath>(Point(50, 0), dist, Path::SINGLE_LOOP));
-	//this->c.addPath(std::make_shared<ZeroRadiusTurnPath>(0, 200));
 	this->c.addPath(std::make_shared<LinePath>(Point(-50, 0), dist, Path::SINGLE_LOOP));
-	//this->c.addPath(std::make_shared<ZeroRadiusTurnPath>(M_PI, 200));	
 	this->c.setRepeat(true);
 }
 
