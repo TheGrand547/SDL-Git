@@ -2,6 +2,8 @@
 #ifndef FILE_STUCTURE_ANALYZER_H
 #define FILE_STRUTURE_ANALYZER_H
 #include "../GameInstance.h"
+#include<iostream>
+#include<fstream>
 #include<string>
 
 // Takes a file input and creates all the things in the level from it

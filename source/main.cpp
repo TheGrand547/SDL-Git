@@ -1,5 +1,6 @@
 #include "headers.h"
 #include "essential/MathUtils.h"
+#include "game_entities/FileStructureAnalyzer.h"
 
 bool init();
 SDL_Renderer* createRenderer(SDL_Window* window);
@@ -38,6 +39,7 @@ int main(int argc, char* argv[]) {
 	Configuration config;	
 	// TODO: Create a file structure for containing level data so its not hardcoded 
 	GameInstance GAME(gRenderer, screenPosition);
+	
 	GAME.addPlayer(dot);
 	MegaBase::setOffset(&GAME.getOffset());
 	MegaBase::setRenderer(gRenderer);
@@ -58,11 +60,7 @@ int main(int argc, char* argv[]) {
 	GAME.sectors.addSector(Rect(100, 200, 100, 100));
 	GAME.sectors.addSector(Rect(100, 300, 400, 150));
 	GAME.sectors.addSector(Rect(450, 50, 150, 50));
-	GAME.sectors.addSector(Rect(0, 500, 100, 460));
-	GAME.sectors.addSector(Rect(100, 450, 200, 510));
-	GAME.sectors.addSector(Rect(400, 450, 100, 300));
-	GAME.sectors.addSector(Rect(500, 600, 100, 150));
-	GAME.sectors.addSector(Rect(300, 750, 300, 210));
+	analyzeFile("test.txt", GAME);
 	
 	// Enemy
 	std::shared_ptr<BadTest> heck = std::make_shared<BadTest>(Point(220, 360));
