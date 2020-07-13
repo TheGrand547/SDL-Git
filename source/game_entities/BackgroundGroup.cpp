@@ -1,6 +1,7 @@
 #include "BackgroundGroup.h"
+#include "../GameInstance.h"
 
-BackgroundGroup::BackgroundGroup() {}
+BackgroundGroup::BackgroundGroup(GameInstance* parent) : DrawGroup(parent) {}
 
 BackgroundGroup::~BackgroundGroup() {
 	this->clearGroup();

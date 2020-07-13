@@ -1,9 +1,11 @@
 #pragma once
 #ifndef BACKGROUND_GROUP_H
 #define BACKGROUND_GROUP_H
+
+class BackgroundGroup;
+
 #include "BackgroundElement.h"
 #include "DrawGroup.h"
-#include "../GameInstance.h"
 #include "../essential/constants.h"
 #include "../primitives/Point.h"
 #include "../wrappers/Texture.h"
@@ -15,11 +17,10 @@
 
 class BackgroundGroup : public DrawGroup {
 	private:
-		GameInstance* parent;
 		std::map<std::string, std::shared_ptr<Texture>> textures;
 		std::vector<std::shared_ptr<BackElement>> elements;
 	public:
-		BackgroundGroup();
+		BackgroundGroup(GameInstance* parent);
 		~BackgroundGroup();
 		bool exists() override;
 		int size() override;

@@ -5,7 +5,7 @@
 typedef std::weak_ptr<SectorBase> WeakSectorPtr;
 typedef std::vector<SectorPtr> SectorPtrVector;
 
-SectorGroup::SectorGroup(GameInstance* parent) : parent(parent) {}
+SectorGroup::SectorGroup(GameInstance* parent) : DrawGroup(parent) {}
 
 SectorGroup::~SectorGroup() {
 	this->clearGroup();
@@ -54,7 +54,7 @@ void SectorGroup::connectSectors() {
 }
 
 void SectorGroup::drawGroup() {
-	for (SectorPtr sector: this->storage) sector->draw();
+	for (SectorPtr sector: this->storage) sector->draw(this->parent->getRenderer(), this->parent->getOffset());
 }
 
 void SectorGroup::purge() {

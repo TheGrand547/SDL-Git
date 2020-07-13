@@ -1,15 +1,15 @@
 #pragma once
 #ifndef DRAW_GROUP_H
 #define DRAW_GROUP_H
-#include<SDL2/SDL.h>
-#include "../BoundedPoint.h"
-#include "../essential/MegaBase.h"
+
+class GameInstance;
+
 /* Base class for the various lists of entities or "things" that need to be drawn, updated, or otherwise 
  * be intereacted with as a group */
 class DrawGroup {
 	public:
-		// TODO: Write with functionality to not use MegaBase for the renderer and offset
-		DrawGroup() {}
+		GameInstance* parent;
+		DrawGroup(GameInstance* parent) : parent(parent) {}
 		virtual ~DrawGroup() {}
 		virtual bool exists() = 0;
 		virtual int size() = 0;

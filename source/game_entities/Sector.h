@@ -10,6 +10,7 @@ class SectorBase;
 #include "base/ThingBase.h"
 #include<map>
 #include<memory>
+#include<SDL2/SDL.h>
 #include<string>
 #include<vector>
 
@@ -24,7 +25,7 @@ class SectorBase {
 		virtual std::vector<std::weak_ptr<ThingBase>>& getContained() = 0;
 		virtual void connectToOthers(std::vector<std::shared_ptr<SectorBase>>& others) = 0;
 		virtual void clean(std::vector<std::shared_ptr<SectorBase>>& others) = 0;
-		virtual void draw() = 0;
+		virtual void draw(SDL_Renderer* renderer, Point offset = Point(0, 0)) = 0;
 };
 
 template<class T> class Sector : public SectorBase {
@@ -46,7 +47,7 @@ template<class T> class Sector : public SectorBase {
 		std::vector<std::weak_ptr<ThingBase>>& getContained() override;
 		void connectToOthers(std::vector<std::shared_ptr<SectorBase>>& others) override;
 		void clean(std::vector<std::shared_ptr<SectorBase>>& others) override;
-		void draw() override;
+		void draw(SDL_Renderer* renderer, Point offset = Point(0, 0)) override;
 };	
 
 
@@ -119,7 +120,7 @@ template<class T> void Sector<T>::clean(std::vector<std::shared_ptr<SectorBase>>
 	}
 }
 
-template<class T> void Sector<T>::draw() {
-	this->representation.draw(MegaBase::renderer, *MegaBase::offset);
+template<class T> void Sector<T>::draw(SDL_Renderer* renderer, Point offset) {
+	this->representation.draw(renderer, offset);
 }
 #endif

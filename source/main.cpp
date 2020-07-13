@@ -44,41 +44,34 @@ int main(int argc, char* argv[]) {
 	MegaBase::setOffset(&GAME.getOffset());
 	MegaBase::setRenderer(gRenderer);
 	AlertTextHandler handler;
-	BackgroundGroup groundGroup;
-	
+		
 	LOG("MAKING THINGS");
+	// TODO: Add to analyzer
 	GAME.createThing<BigWall>(Rect(0, 200, 100, 300));
 	GAME.createThing<BigWall>(Rect(200, 200, 300, 100));
 	GAME.createThing<BigWall>(Rect(500, 200, 100, 400));
 	GAME.createThing<BigWall>(Rect(600, 500, 100, 300));
 	GAME.createThing<BigWall>(Rect(300, 450, 100, 300));
 	GAME.createThing<BigWall>(Rect(Line(Point(50, 0), Point(0, 50)), Line(Point(50, 0), Point(100, 50))));
-	
-	
-	GAME.sectors.addSector(Rect(300, 100, 300, 100));
-	GAME.sectors.addSector(Rect(100, 100, 200, 100));
-	GAME.sectors.addSector(Rect(100, 200, 100, 100));
-	GAME.sectors.addSector(Rect(100, 300, 400, 150));
-	GAME.sectors.addSector(Rect(450, 50, 150, 50));
+		
 	analyzeFile("test.txt", GAME);
 	
 	// Enemy
 	std::shared_ptr<BadTest> heck = std::make_shared<BadTest>(Point(220, 360));
 	heck->setTexture(gRenderer);
 	GAME.addThing(heck);
-	groundGroup.setParent(GAME);
 
 	for (int x = 0; x <= Screen::MAX_WIDTH; x += 25) {
 		for (int y = 0; y <= Screen::MAX_HEIGHT; y += 25) {
 			if (x % 100 == 0 && y % 100 == 0) {
-				groundGroup.add(Point(x, y), Ground::filenames[Ground::GRASS]);
+				GAME.ground.add(Point(x, y), Ground::filenames[Ground::GRASS]);
 			}
 		}
 	}	
 	GAME.instanceBegin();
 	Font gFont;
 	std::string foo = "duck dev best dev";
-	AppearingText ap(foo, &gFont, Point(250, 0), 15, COLORS::RED, 300);
+	AppearingText ap(foo, &gFont, Point(250, 0), 10, COLORS::RED, 300);
 	Point popo(0, 0);
 	Controller contra;
 	contra.addListener("Ray", 120);
@@ -102,7 +95,6 @@ int main(int argc, char* argv[]) {
 		dot->velocityDelta(popo); // Update player
 		GAME.update();
 		/* Drawing */
-		groundGroup.drawGroup();
 		GAME.draw();
 		ap.update(gRenderer);
 		if (!gameState["RAY_CAST"]) {

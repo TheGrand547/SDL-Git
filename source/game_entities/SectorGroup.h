@@ -15,7 +15,6 @@ class SectorGroup : public DrawGroup {
 	private:
 		std::vector<SectorPtr> storage;
 	public:
-		GameInstance* parent;
 		SectorGroup(GameInstance* parent);
 		~SectorGroup();
 		bool exists() override;

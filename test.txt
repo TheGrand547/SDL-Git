@@ -1,11 +1,10 @@
-#Sector(Rect(0, 500, 100, 460));
-#Sector(Rect(100, 450, 200, 510));
-#Sector(Rect(400, 450, 100, 300));
-#Sector(Rect(500, 600, 100, 150));
-#Sector(Rect(300, 750, 300, 210));
-
-Sector 0 500 100 460
-Sector 100 450 200 510
-Sector 400 450 100 300
-Sector 500 600 100 150
-Sector 30 750 300 210
+Sector Rect 300 100 300 100
+Sector Rect 100 100 200 100
+Sector Rect 100 200 100 100
+Sector Rect 100 300 400 150
+Sector Rect 450 50  150 50
+Sector Rect 0   500 100 460
+Sector Rect 100 450 200 510
+Sector Rect 400 450 100 300
+Sector Rect 500 600 100 150
+Sector Rect 30  750 300 210

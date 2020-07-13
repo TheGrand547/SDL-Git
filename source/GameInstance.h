@@ -2,6 +2,7 @@
 #ifndef GAME_INSTANCE_H
 #define GAME_INSTANCE_H
 #include "game_entities/base/ThingBase.h"
+#include "game_entities/BackgroundGroup.h"
 #include "game_entities/CollisionHandler.h"
 #include "game_entities/SectorGroup.h"
 #include "essential/log.h"
@@ -24,9 +25,9 @@ struct compare {
 };
 
 class GameInstance {
-	private:
+	protected:
 		friend class CollisionHandler;
-		friend class SectorGroup; // TODO: Make this not sloppy
+		friend class SectorGroup;
 		Point offset;
 		Rect playableArea;
 		SDL_Renderer* renderer;
@@ -40,6 +41,7 @@ class GameInstance {
 		std::vector<ThingPtr> movingThings; // List of everything thats position can change
 		std::set<ThingBase*, compare> drawOrder;
 	public:
+		BackgroundGroup ground;
 		CollisionHandler collision;
 		SectorGroup sectors;
 		std::map<std::string, int> gameState;
