@@ -100,6 +100,10 @@ Rect& Rect::operator=(const Rect& that) {
 // ------------- Interface Methods ----------------
 // ------------------------------------------------
 
+bool Rect::isReal() const {
+	return this->widthVector.getFastMagnitude() != 0 && this->heightVector.getFastMagnitude() != 0;
+}
+
 bool Rect::containsPoint(const Point& point) const {
 	return this->numberOfCollisions(Line(point, OUT_OF_BOUNDS)) & 1;
 }

@@ -61,7 +61,7 @@ void SectorGroup::purge() {
 	LOG("Before Purging: %i Sector(s)", this->size());
 	SectorPtrVector::iterator it = this->storage.begin();
 	while (it != this->storage.end()) {
-		if (!it[0] || it[0]->attached().size() == 0) {
+		if (!it[0] || it[0]->attached().size() == 0 || !it[0]->structure().isReal()) {
 			it = this->storage.erase(it);
 			continue;
 		}

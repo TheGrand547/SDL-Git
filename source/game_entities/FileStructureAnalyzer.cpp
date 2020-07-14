@@ -5,6 +5,21 @@
 
 typedef std::string::size_type StringPos;
 
+Rect rectFromString(const std::string& string) {
+	try {
+		StringPos next;
+		std::string sub = string.substr(string.find("Rect") + 5);
+		double vals[4];
+		for (int i = 0; i < 4; i++) {
+			vals[i] = std::stod(sub, &next);
+			sub = sub.substr(next);
+		}
+		return Rect(vals[0], vals[1], vals[2], vals[3]);
+	} catch (...) {
+		return Rect();	
+	}
+}
+
 void analyzeFile(const std::string& source, GameInstance& instance) {
 	std::ifstream file(source);
 	std::string line, sub;
@@ -23,17 +38,9 @@ void analyzeFile(const std::string& source, GameInstance& instance) {
 		// Sloppy but gets the job done
 		if ((type = line.find("Sector", begin)) != std::string::npos) { // Sector
 			if ((next = line.find("Rect", type + 6)) != std::string::npos) {
-				try {
-					sub = line.substr(next + 5);
-					double vals[4];
-					for (int i = 0; i < 4; i++) {
-						vals[i] = std::stod(sub, &next);
-						sub = sub.substr(next);
-					}
-					instance.sectors.addSector(Rect(vals[0], vals[1], vals[2], vals[3]));
-				} catch (...) {
-					LOG("Improperly formatted 'Rect' 'Sector' on line %i of %s.", lineNumber, source.c_str());	
-				}
+				Rect rect(rectFromString(line));
+				if (rect.isReal()) instance.sectors.addSector(rect);
+				else LOG("Improperly formatted 'Rect' on line %i of %s.", lineNumber, source.c_str());
 				continue;
 			}
 		}

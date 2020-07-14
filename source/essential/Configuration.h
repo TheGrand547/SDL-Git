@@ -14,5 +14,5 @@ class Configuration {
 		Configuration();
 		int operator[](std::string key);
 		void output(std::ostream& output = std::cout);
-		void reload();
+		void load();
 };

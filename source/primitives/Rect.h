@@ -29,6 +29,7 @@ class Rect: public Polygon {
 		Rect operator-(const Point& point) const;
 		Rect operator*(const double& value) const;
 		
+		bool isReal() const override;
 		bool containsPoint(const Point& point) const override;
 		bool doesLineCollide(const Line& ray) const override;
 		bool isAxisAligned() const override;

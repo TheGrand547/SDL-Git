@@ -6,6 +6,8 @@
 #include<fstream>
 #include<string>
 
+Rect rectFromString(const std::string& string);
+
 // Takes a file input and creates all the things in the level from it
 void analyzeFile(const std::string& source, GameInstance& instance);
 

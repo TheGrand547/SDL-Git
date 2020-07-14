@@ -1,6 +1,24 @@
 #include "Configuration.h"
 
 Configuration::Configuration() {
+	this->load();
+}
+
+int Configuration::operator[](std::string key) {
+	int value = SDL_GetScancodeFromName(this->keyMap[key].c_str());
+	if (value == SDL_SCANCODE_UNKNOWN) {
+		value = this->configMap[key];
+	}
+	return value;
+}
+
+void Configuration::output(std::ostream& output) {
+	for (std::map<std::string, std::string>::iterator iter = keyMap.begin(); iter != keyMap.end(); iter++) {
+		output << iter->first << " = " << iter->second << std::endl;
+	}
+}
+
+void Configuration::load() {
 	std::ifstream file("config.cfg");
 	std::string s, key, value;
 	while (std::getline(file, s)) {
@@ -31,26 +49,8 @@ Configuration::Configuration() {
 	}
 	file.close();
 	if (this->keyMap["resolution"] != "") {
-		std::string::size_type fo = 0;
-		this->configMap["Width"]= stoi(this->keyMap["resolution"], &fo);
-		this->configMap["Height"] = stoi(this->keyMap["resolution"].substr(fo + 1));
+		std::string::size_type position = 0;
+		this->configMap["Width"]= stoi(this->keyMap["resolution"], &position);
+		this->configMap["Height"] = stoi(this->keyMap["resolution"].substr(position + 1));
 	}
-}
-
-int Configuration::operator[](std::string key) {
-	int value = SDL_GetScancodeFromName(this->keyMap[key].c_str());
-	if (value == SDL_SCANCODE_UNKNOWN) {
-		value = this->configMap[key];
-	}
-	return value;
-}
-
-void Configuration::output(std::ostream& output) {
-	for (std::map<std::string, std::string>::iterator iter = keyMap.begin(); iter != keyMap.end(); iter++) {
-		output << iter->first << " = " << iter->second << std::endl;
-	}
-}
-
-void Configuration::reload() {
-	*this = Configuration();
 }

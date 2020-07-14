@@ -4,6 +4,7 @@
 #include<algorithm>
 
 typedef std::shared_ptr<SectorBase> SectorPtr;
+typedef std::vector<SectorPtr> SectorVector;
 
 struct VALUE {
 	double value = 10000000;
@@ -78,8 +79,9 @@ void SectorPath::createPath(SectorPtr startingSector, SectorPtr target) {
 		return;
 	}
 	
-	std::vector<SectorPtr> unused = {startingSector};
+	SectorVector unused = {startingSector};
 	std::map<SectorPtr, SectorPtr> path;
+	path[startingSector] = NULL;
 	
 	std::map<SectorPtr, VALUE> cost;
 	cost[startingSector].value = 0;
@@ -87,7 +89,7 @@ void SectorPath::createPath(SectorPtr startingSector, SectorPtr target) {
 	std::map<SectorPtr, VALUE> currentCost;
 	currentCost[startingSector].value = 0;
 
-	std::vector<SectorPtr> closed;
+	SectorVector closed;
 	SectorPtr current = startingSector;
 	while (unused.size() > 0) {
 		current = unused[0];
@@ -97,14 +99,13 @@ void SectorPath::createPath(SectorPtr startingSector, SectorPtr target) {
 			}
 		}
 		if (current == target) {
-			std::vector<SectorPtr> temp;
+			SectorVector temp;
 			std::map<SectorPtr, SectorPtr>::iterator it = path.find(current);
 			while (it != path.end()) {
 				temp.push_back(it->first);
 				it = path.find(it->second);
 			}
-			std::vector<SectorPtr>::reverse_iterator iter = temp.rbegin();
-			this->stored.push_back(startingSector); // This *shouldn't* be necessary but it appears to be for the time being
+			SectorVector::reverse_iterator iter = temp.rbegin();
 			for (; iter != temp.rend(); iter++) {
 				this->stored.push_back(iter[0]);
 			}
