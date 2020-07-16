@@ -15,7 +15,9 @@ enum ENTITY_FLAG {
 	NOCLIP                  = 0x0002, // This doesn't collide with others
 	MOVEABLE                = 0x0004, // This object can move
 	DRAW                    = 0x0008, // This object can be drawn
-	BLOCKS_VISIBILTY        = 0x0010  // This object can block visibility
+	BLOCKS_VISIBILTY        = 0x0010, // This object can block visibility
+	PLAYER_ALLY             = 0x0020, // This object should not interact with player created damage zones, and should interact with non player damage zones
+	HAS_EFFECT_ZONES        = 0x0040  // This object might have zones that interact with other things
 };
 
 enum ENTITY_DIRECTION {
@@ -29,6 +31,7 @@ class ThingBase {
 		const int absoluteFlags; // List of attributes this object CAN have, but might not necessarily have at any given moment
 		int flags; // List of attributes the object CURRENTLY has
 		Point position;
+		std::vector<std::weak_ptr<ThingBase>> attached;
 	public:
 		GameInstance* parent;
 	

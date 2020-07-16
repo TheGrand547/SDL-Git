@@ -34,6 +34,9 @@ void GameInstance::addThing(const ThingPtr& thing) {
 	if (flags & MOVEABLE) {
 		this->movingThings.push_back(thing);
 	}
+	if (flags & HAS_EFFECT_ZONES) {
+		this->zoneThings.push_back(thing);
+	}
 }
 
 void GameInstance::addPlayer(const std::shared_ptr<ThingBase>& thing) {

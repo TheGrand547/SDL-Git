@@ -1,6 +1,4 @@
 #include "headers.h"
-#include "essential/MathUtils.h"
-#include "game_entities/FileStructureAnalyzer.h"
 
 bool init();
 SDL_Renderer* createRenderer(SDL_Window* window);
@@ -26,12 +24,13 @@ int main(int argc, char* argv[]) {
 			gameState["RAY_CAST"] = 1;
 		}
 	}
-	if(!init()) {
+	if (!init()) {
 		LOG("Failed to initialize!\n");
 		return 0;
 	}
 	SDL_Window* gameWindow = createWindow();
 	SDL_Renderer* gRenderer = createRenderer(gameWindow);
+	
 	srand(time(NULL));
 	BoundedPoint screenPosition = BoundedPoint(Screen::MAX_SCREEN_X_POS, Screen::MAX_SCREEN_Y_POS);
 	std::shared_ptr<Dot> dot = std::make_shared<Dot>(Point(190, 150));

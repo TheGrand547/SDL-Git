@@ -36,8 +36,8 @@ class GameInstance {
 		std::vector<ThingPtr> drawThings;
 		std::vector<ThingPtr> collisionThings;
 		
-		std::vector<ThingPtr> shortTermMemory; // Projectiles and such that might collide but can be removed with less overhead
-		
+		std::vector<ThingPtr> zoneThings;
+				
 		std::vector<ThingPtr> movingThings; // List of everything thats position can change
 		std::set<ThingBase*, compare> drawOrder;
 	public:
