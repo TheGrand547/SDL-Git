@@ -4,13 +4,17 @@
 #include "primitives/Point.h"
 
 class PositionLock {
-	protected:
-		bool locked;
+	private:
 		Point& reference;
-		const Point value;
+		Point value;
+		const Point initial;
 	public:
 		PositionLock(Point& initial);
 		~PositionLock();
-		void unlock();
+		double absoluteDistance() const;
+		double fastDistance() const;
+		Point delta() const;
+		void revert();
+		void update();
 };
 #endif

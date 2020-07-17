@@ -26,7 +26,7 @@ enum ENTITY_DIRECTION {
 
 ENTITY_DIRECTION getDirectionFromAngle(const double angle);
 
-class ThingBase {
+class ThingBase : public std::enable_shared_from_this<ThingBase> {
 	protected:
 		const int absoluteFlags; // List of attributes this object CAN have, but might not necessarily have at any given moment
 		int flags; // List of attributes the object CURRENTLY has

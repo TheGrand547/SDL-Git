@@ -1,5 +1,7 @@
 #include "headers.h"
 
+#define unless(condition) if(!condition)
+
 bool init();
 SDL_Renderer* createRenderer(SDL_Window* window);
 SDL_Window* createWindow();

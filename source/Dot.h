@@ -1,4 +1,5 @@
 #pragma once
+#include "PositionLock.h"
 #include "essential/constants.h"
 #include "essential/MegaBase.h"
 #include "essential/util.h"

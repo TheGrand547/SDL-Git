@@ -83,50 +83,22 @@ void Dot::collideTest() {
 	Point delta = this->velocity * tickRatio;
 	if (delta.isZero()) return;
 	
-	double xDelta = 0, yDelta = 0;
+	Point temp = delta / CHECKS;
+	PositionLock lock(this->position);
 	for (int i = 0; i < CHECKS; i++) {
-		Point temp = delta / CHECKS;
-		if (this->parent->collision.doesNotCollideWith(this->getBoundingRect() + temp)) {
-			this->move(temp);
-			xDelta += temp.x;
-			yDelta += temp.y;
-			this->parent->getOffset() += temp;
-		}
-		/*
-		if (not xDelta) {
-			if (this->parent->collision.doesNotCollideWith(this->getBoundingRect() + temp.onlyX())) {
-				xDelta = temp.x();
-				this->parent->getOffset() += temp.onlyX();
-			}
-		}
-		if (not yDelta) {
-			if (this->parent->collision.doesNotCollideWith(this->getBoundingRect() + temp.onlyY())) {
-				yDelta = temp.y();
-				this->parent->getOffset() += temp.onlyY();					
-			}
-		}
-		if (xDelta && yDelta) {
-			break;
-		}*/
+		this->position += temp;
+		if (this->parent->collision.isPositionOpen(this->shared_from_this())) {
+			lock.update();
+		} else break;
 	}
-	if (abs(yDelta) < ROUNDING) this->velocity.y = 0;
-	if (abs(xDelta) < ROUNDING) this->velocity.x = 0;
-	//this->move(Vector(xDelta, yDelta));
-	//this->lastDelta = Point(xDelta, yDelta);
-	// PUT THIS ELSEWHERE <- Will be handled when implementation is changed to being based around the Screen Class
-	if (this->getPosition().x < Screen::SCREEN_WIDTH / 2) {
-		this->parent->getOffset().xZero();
-	}
-	if (this->getPosition().y < Screen::SCREEN_HEIGHT / 2) {
-		this->parent->getOffset().yZero();
-	}
+	lock.revert();
+	this->lastDelta = lock.delta();
+	this->parent->getOffset() += this->lastDelta;
+	this->evalAngle(this->lastDelta);
 	
-	if (this->getPosition().x > Screen::MAX_X_SCROLL_DISTANCE) {
-		this->parent->getOffset() = Point(Screen::MAX_SCREEN_X_POS, this->parent->getOffset().y);
-	}
-	if (this->getPosition().y > Screen::MAX_Y_SCROLL_DISTANCE) {
-		this->parent->getOffset() = Point(this->parent->getOffset().x, Screen::MAX_SCREEN_Y_POS);
-	}
+	// Zero velocity if it's too small
+	if (abs(this->lastDelta.x) < ROUNDING) this->velocity.x = 0;
+	if (abs(this->lastDelta.y) < ROUNDING) this->velocity.y = 0;
 } 
 
 void Dot::rayCast() {

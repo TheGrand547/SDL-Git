@@ -58,8 +58,10 @@ bool CollisionHandler::doesNotCollideWith(const std::shared_ptr<ThingBase>& thin
 }
 
 bool CollisionHandler::isPositionOpen(const std::shared_ptr<ThingBase>& thing) const {
-	// TODO: Fix
-	return this->doesNotCollideWith(Rect(50, 50, 50, 50), thing);
+	for (const ThingPtr& something: this->parent->collisionThings) {
+		if (thing.get() != something.get() && something->overlap(thing)) return false;
+	}
+	return true;
 }
 
 
