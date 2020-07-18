@@ -8,6 +8,7 @@
 #include "essential/Configuration.h"
 #include "essential/log.h"
 #include "essential/MathUtils.h"
+#include "essential/MegaBase.h"
 #include "essential/random.h"
 #include "essential/util.h"
 #include "game_entities/BackgroundElement.h"

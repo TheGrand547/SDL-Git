@@ -1,5 +1,4 @@
 #include "SectorPath.h"
-#include "../essential/MegaBase.h"
 #include<map>
 #include<algorithm>
 

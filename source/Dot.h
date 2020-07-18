@@ -1,7 +1,6 @@
 #pragma once
 #include "PositionLock.h"
 #include "essential/constants.h"
-#include "essential/MegaBase.h"
 #include "essential/util.h"
 #include "game_entities/base/EntityBase.h"
 #include "primitives/Point.h"
@@ -34,12 +33,7 @@ class Dot : public EntityBase, public MyBase {
 		Rect getBoundingRect() const override;
 		void collideTest();
 		void draw(SDL_Renderer* renderer, Point offset = Point(0, 0)) override;
-		void move(Point delta);
 		void rayCast();
 		void update() override;
 		void velocityDelta(Point acceleration);
 };
-
-int tempF(double val);
-Rect tempF(Rect rect);
-Point tempF(Point point);

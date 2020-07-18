@@ -20,11 +20,6 @@ float Dot::calcAngle(Point point) {
 	return 0;
 }
 
-void Dot::move(Point delta) {
-	this->position += delta;
-	evalAngle(delta);
-}
-
 Point Dot::getPosition() const {
 	return this->position;
 }
@@ -57,7 +52,7 @@ bool Dot::wideOverlap(const Polygon& other) const {
 
 void Dot::draw(SDL_Renderer* renderer, Point offset) {
 	SDL_SetRenderDrawColor(renderer, rChannel, gChannel, bChannel, aChannel);
-	SDL_Rect temp = tempF((this->getBoundingRect() - offset)).getSDLRect();
+	SDL_Rect temp = (this->getBoundingRect() - offset).getSDLRect();
 	temp.w = Player::PLAYER_X_DIMENSION;
 	temp.h = Player::PLAYER_Y_DIMENSION;
 	SDL_RenderFillRect(renderer, &temp);
@@ -106,7 +101,7 @@ void Dot::rayCast() {
 	if (newPoint.isReal()) {
 		Line tempLine = Line(this->getCenter(), newPoint.copy());
 		tempLine.setColorChannelsTo(COLORS::CYAN);
-		tempLine.drawLine(MegaBase::renderer, MegaBase::offset);
+		tempLine.drawLine(this->parent->getRenderer(), this->parent->getOffset());
 	}
 }
 
@@ -116,24 +111,4 @@ bool Dot::doesLineCollide(const Line& ray) const {
 
 Point Dot::collideLine(const Line& ray) const {
 	return this->getBoundingRect().collideLine(ray);
-}
-
-
-// DUMB STUFF, PLEASE IGNORE
-/*
-int tempF(double val) {
-	return int(val) + ((val - int(val) > .005) ? 1 : 0);
-}*/
-
-int tempF(double val) {
-	return ((val - int(val) > (1 - .05)) ? 1 : 0);
-}
-
-Point tempF(Point point) {
-	return Point(tempF(point.x), tempF(point.y));
-}
-
-Rect tempF(Rect rect) {
-	rect += tempF(rect.getTopLeft());
-	return rect;
 }
