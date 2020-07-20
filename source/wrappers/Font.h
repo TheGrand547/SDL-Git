@@ -1,8 +1,13 @@
 #pragma once
+#ifndef FONT_H
+#define FONT_H
 #include<iostream>
 #include<SDL_ttf.h>
+#include "../essential/SDL_Headers.h"
+#include "../primitives/Point.h"
+
 class Font {
-	private:
+	protected:
 		int fontSize;
 		TTF_Font* fontRenderer;
 		std::string filename;
@@ -10,8 +15,6 @@ class Font {
 		Font(int size = 20, std::string filename = "font.ttf");
 		~Font();
 		Font& operator=(const Font& font);
-		// TODO: Rename this to bring up to standard, also format the fucking declarations to standard
-		void drawTexture(SDL_Renderer* renderer, SDL_Texture* texture, SDL_Rect rect, SDL_Rect* clip = NULL, double angle = 0.0, SDL_Point* center = NULL, SDL_RendererFlip flip = SDL_FLIP_NONE);
-		void drawText(int x, int y, std::string text, SDL_Renderer* renderer, SDL_Color color, SDL_Rect* clip = NULL, double angle = 0.0, SDL_Point* center = NULL, SDL_RendererFlip flip = SDL_FLIP_NONE);
-		void drawTextWrapped(int x, int y, std::string text, SDL_Renderer* renderer, SDL_Color color, int maxWidth,SDL_Rect* clip = NULL, double angle = 0.0, SDL_Point* center = NULL, SDL_RendererFlip flip = SDL_FLIP_NONE);
+		void drawText(Point position, const std::string& text, SDL_Renderer* renderer, SDL_Color color, int maxWidth = -1, SDL_COPY_EX_ARGS_DEFAULTS);
 };
+#endif

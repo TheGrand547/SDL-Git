@@ -6,16 +6,6 @@ bool init();
 SDL_Renderer* createRenderer(SDL_Window* window);
 SDL_Window* createWindow();
 void close(SDL_Window* window);
-void clearScreen(SDL_Renderer* renderer);
-void renderChanges(SDL_Renderer* renderer, SDL_Window* window);
-
-Point bez(Point start, Point end, Point control, double t);
-Point bez2(Point start, Point end, Point control, double t);
-
-
-// TODO: Static Member Variable Initialization should put somewhere less conspicuous
-SDL_Renderer* MegaBase::renderer = NULL;
-Point* MegaBase::offset = NULL;
 
 int main(int argc, char* argv[]) {
 	LOG("Section: Setup");
@@ -38,13 +28,11 @@ int main(int argc, char* argv[]) {
 	std::shared_ptr<Dot> dot = std::make_shared<Dot>(Point(190, 150));
 	dot->setColorChannels(0xFF);
 	Configuration config;	
-	// TODO: Create a file structure for containing level data so its not hardcoded 
-	GameInstance GAME(gRenderer, screenPosition);
+	GameInstance GAME(gameWindow, gRenderer, screenPosition);
 	
 	GAME.addPlayer(dot);
-	MegaBase::setOffset(&GAME.getOffset());
-	MegaBase::setRenderer(gRenderer);
 	AlertTextHandler handler;
+	handler.parent = &GAME;
 		
 	LOG("MAKING THINGS");
 	// TODO: Add to analyzer
@@ -55,13 +43,13 @@ int main(int argc, char* argv[]) {
 	GAME.createThing<BigWall>(Rect(300, 450, 100, 300));
 	GAME.createThing<BigWall>(Rect(Line(Point(50, 0), Point(0, 50)), Line(Point(50, 0), Point(100, 50))));
 		
-	analyzeFile("test.txt", GAME);
+	analyzeFile("test.txt", GAME); // Only adds sectors currently, also maybe make this an internal GameInstance method
 	
 	// Enemy
-	std::shared_ptr<BadTest> heck = std::make_shared<BadTest>(Point(220, 360));
+	std::shared_ptr<BadTest> heck = GAME.createThing<BadTest>(Point(220, 360));
 	heck->setTexture(gRenderer);
-	GAME.addThing(heck);
 
+	// TODO: Add to analyzer
 	for (int x = 0; x <= Screen::MAX_WIDTH; x += 25) {
 		for (int y = 0; y <= Screen::MAX_HEIGHT; y += 25) {
 			if (x % 100 == 0 && y % 100 == 0) {
@@ -73,35 +61,36 @@ int main(int argc, char* argv[]) {
 	Font gFont;
 	std::string foo = "duck dev best dev";
 	AppearingText ap(foo, &gFont, Point(250, 0), 10, COLORS::RED, 300);
-	Point popo(0, 0);
+	Point playerDelta(0, 0);
 	Controller contra;
 	contra.addListener("Ray", 120);
 	contra.addListener("PathReset", 50);
-	contra.addPlayerKeys(popo); // Maybe allow for multiple bindings of the same command somehow? vectors likely? Also remove this dumb fix
+	contra.addPlayerKeys(playerDelta); // Maybe allow for multiple bindings of the same command somehow? vectors likely? Also remove this dumb fix
 	FpsText fps(gFont, Point(100, 10), COLORS::RED); // TODO: Add handler for these things, also have this singular timer passed to all "groups" for consistency
 	handler.addMessage(AlertText("this shouldn't last long", Point(300, 150), COLORS::RED, 20, 2500));
 	
 	Line patrolLine(heck->getPosition(), heck->getPosition() + Point(200, 0));
 	patrolLine += Point(0, 5);
+	
 	SpriteSheet spriteSheetTest("resources/bigsprite.png", 50, 50, gRenderer);
 	spriteSheetTest.addAnimation("dumb", 0, 4, 500);
 	
-	std::shared_ptr<SectorPathFollower> foodd = GAME.createThing<SectorPathFollower>(Rect(GAME.sectors[3]->structure().getCenter(), GAME.sectors[3]->structure().getCenter() + Point(10, 10)));
+	std::shared_ptr<SectorPathFollower> foodd = GAME.createThing<SectorPathFollower>(Rect(GAME.sectors[3]->structure().getCenter(), 10, 10));
 	foodd->mine.createPath(GAME.sectors[3], GAME.sectors[0]);
 	LOG("Section: Main Loop");
 	while (!contra.quit) {
-		clearScreen(gRenderer);
-		popo.zero(); // >:(
+		SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
+		SDL_RenderClear(gRenderer);
+		
+		playerDelta.zero(); // >:(
 		contra.handleEvents();
-		dot->velocityDelta(popo); // Update player
+		dot->velocityDelta(playerDelta); // Update player
 		GAME.update();
 		/* Drawing */
 		GAME.draw();
 		ap.update(gRenderer);
-		if (!gameState["RAY_CAST"]) {
-			if (contra.checkListener(config["Ray"]).getHeld()) { // Raycasting
-				dot->rayCast();
-			}
+		if (!gameState["RAY_CAST"] && contra.checkListener(config["Ray"]).getHeld()) { // Raycasting
+			dot->rayCast();
 		}
 		if (contra.checkListener(config["PathReset"]).getHeld() && GAME.gameState["PathFinished"]) {
 			auto twigs = GAME.sectors.sectorsThatTouch(dot);
@@ -113,15 +102,15 @@ int main(int argc, char* argv[]) {
 			}
 		}
 		// Testing stuff
-		spriteSheetTest.draw("dumb", gRenderer, {200, 200}, getDirectionFromAngle(dot->getAngle()));
+		spriteSheetTest.draw("dumb", GAME.getRenderer(), {200, 200}, getDirectionFromAngle(dot->getAngle()));
 		patrolLine.drawLine(gRenderer, GAME.getOffset());
-		//GAME.sectors.drawGroup();
 
 		fps.draw(gRenderer);
 		fps.drawFrameTime(gRenderer);
-		renderChanges(gRenderer, gameWindow);
+		GAME.finalizeFrame();
 	}
 	LOG("Section: End of Program");
+	SDL_DestroyRenderer(gRenderer);
 	close(gameWindow);
 	return 0;
 }
@@ -153,14 +142,4 @@ SDL_Renderer* createRenderer(SDL_Window* window) {
 void close(SDL_Window* window) {
 	SDL_DestroyWindow(window);
 	SDL_Quit();
-}
-
-void clearScreen(SDL_Renderer* renderer) {
-	SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
-	SDL_RenderClear(renderer);
-}
-
-void renderChanges(SDL_Renderer* renderer, SDL_Window* window) {
-	SDL_RenderPresent(renderer);
-	SDL_UpdateWindowSurface(window);
 }

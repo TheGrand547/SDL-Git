@@ -21,9 +21,7 @@ void AppearingText::update(SDL_Renderer* renderer) {
 	if (this->timer.isStarted()) {
 		this->leftOver += int(this->timer.getTicks());
 		if (this->index < this->text.length()) {
-			for (int i = this->ticksPerLetter; i <= this->leftOver; i += ticksPerLetter) {
-				this->index++;
-			}
+			for (int i = this->ticksPerLetter; i <= this->leftOver; i += ticksPerLetter) this->index++;
 		}
 		this->leftOver %= this->ticksPerLetter;
 		this->timer.start();
@@ -32,11 +30,7 @@ void AppearingText::update(SDL_Renderer* renderer) {
 		for (uint i = 0; i < this->index; i++) {
 			temp << this->text.at(i);
 		}
-		if (this->charWrap) {
-			this->font->drawTextWrapped(this->position.x, this->position.y, temp.str(), renderer, this->color, this->charWrap);
-		} else {
-			this->font->drawText(this->position.x, this->position.y, temp.str(), renderer, this->color);
-		}
+		this->font->drawText(this->position, temp.str(), renderer, this->color, this->charWrap);
 		return;
 	}
 	this->timer.start();

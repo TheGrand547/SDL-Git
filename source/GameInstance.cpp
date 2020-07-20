@@ -11,8 +11,8 @@ bool compare::operator()(const ThingBase* lhs, const ThingBase* rhs) const {
 	return lhs < rhs;
 }
 
-GameInstance::GameInstance(SDL_Renderer* renderer, BoundedPoint offset) : offset(offset), playableArea(0, 0, Screen::MAX_WIDTH, Screen::MAX_HEIGHT), 
-							renderer(renderer), ground(this), collision(this), sectors(this) {}
+GameInstance::GameInstance(SDL_Window* window, SDL_Renderer* renderer, BoundedPoint offset) : offset(offset), playableArea(0, 0, Screen::MAX_WIDTH, Screen::MAX_HEIGHT), 
+							renderer(renderer), window(window), ground(this), collision(this), sectors(this) {}
 
 GameInstance::~GameInstance() {}
 
@@ -44,6 +44,36 @@ void GameInstance::addPlayer(const std::shared_ptr<ThingBase>& thing) {
 	this->addThing(thing);
 }
 
+void GameInstance::draw() {
+	// Update screen position before drawing is done
+	if (this->getPlayer()->getPosition().x < Screen::SCREEN_WIDTH / 2) this->offset.x = 0;
+	if (this->getPlayer()->getPosition().y < Screen::SCREEN_HEIGHT / 2) this->offset.y = 0;
+	if (this->getPlayer()->getPosition().x > Screen::MAX_X_SCROLL_DISTANCE) this->offset.x = Screen::MAX_SCREEN_X_POS;
+	if (this->getPlayer()->getPosition().y > Screen::MAX_Y_SCROLL_DISTANCE) this->offset.y = Screen::MAX_SCREEN_Y_POS;
+	
+	// Draw things
+	this->ground.drawGroup();
+	for (ThingBase* thing: this->drawOrder) thing->draw(this->renderer, this->offset);
+}
+
+void GameInstance::finalizeFrame() {
+	// Render changes to the window
+	SDL_RenderPresent(this->renderer);
+	SDL_UpdateWindowSurface(this->window);
+	
+	// Clear the window for the next frame to draw onto
+	/*
+	SDL_SetRenderDrawColor(this->renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+	SDL_RenderClear(this->renderer);*/
+}
+
+void GameInstance::instanceBegin() {
+	// Do final things before playing starts
+	this->sectors.connectSectors();
+	this->sectors.purge();
+}
+
+
 void GameInstance::update() {
 	// TODO: Collision by objects in sectors, mid tier priority due to requiring sizeable reworking
 	for (ThingPtr& thing: this->movingThings) {
@@ -57,18 +87,6 @@ void GameInstance::update() {
 	}
 }
 
-void GameInstance::draw() {
-	// Update screen position before drawing is done
-	if (this->getPlayer()->getPosition().x < Screen::SCREEN_WIDTH / 2) this->offset.x = 0;
-	if (this->getPlayer()->getPosition().y < Screen::SCREEN_HEIGHT / 2) this->offset.y = 0;
-	if (this->getPlayer()->getPosition().x > Screen::MAX_X_SCROLL_DISTANCE) this->offset.x = Screen::MAX_SCREEN_X_POS;
-	if (this->getPlayer()->getPosition().y > Screen::MAX_Y_SCROLL_DISTANCE) this->offset.y = Screen::MAX_SCREEN_Y_POS;
-	
-	// Draw things
-	this->ground.drawGroup();
-	for (ThingBase* thing: this->drawOrder) thing->draw(this->renderer, this->offset);
-}
-
 Rect GameInstance::getPlayableArea() const {
 	return this->playableArea;
 }
@@ -79,12 +97,6 @@ SDL_Renderer* GameInstance::getRenderer() {
 
 Point& GameInstance::getOffset() {
 	return this->offset;
-}
-
-void GameInstance::instanceBegin() {
-	// Do final things before playing starts
-	this->sectors.connectSectors();
-	this->sectors.purge();
 }
 
 ThingPtr GameInstance::getPlayer() {

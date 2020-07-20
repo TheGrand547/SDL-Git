@@ -1,5 +1,5 @@
 #include "AlertText.h"
-#include "../essential/MegaBase.h"
+
 AlertText::AlertText(std::string text, Point position, SDL_Color color, int textSize, float milliseconds, std::string filename) {
 	this->message = text;
 	this->position = position;
@@ -30,7 +30,7 @@ AlertText& AlertText::operator=(const AlertText& other) {
 	return *this;
 }
 
-void AlertText::render() {
+void AlertText::draw(SDL_Renderer* renderer, Point offset) {
 	if (!this->timer.isStarted()) {
 		this->timer.start();
 		return;
@@ -39,7 +39,7 @@ void AlertText::render() {
 		this->finished = true;
 		return;
 	}
-	this->font.drawText(this->position.x - MegaBase::offset->x, this->position.y - MegaBase::offset->y, this->message, MegaBase::renderer, this->color);
+	this->font.drawText(this->position - offset, this->message, renderer, this->color);
 }
 
 bool AlertText::isDone() {

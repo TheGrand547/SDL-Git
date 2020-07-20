@@ -31,6 +31,7 @@ class GameInstance {
 		Point offset;
 		Rect playableArea;
 		SDL_Renderer* renderer;
+		SDL_Window* window;
 		std::shared_ptr<ThingBase> PLAYER;
 		std::vector<ThingPtr> allThings;
 		std::vector<ThingPtr> drawThings;
@@ -46,16 +47,17 @@ class GameInstance {
 		SectorGroup sectors;
 		std::map<std::string, int> gameState;
 	
-		GameInstance(SDL_Renderer* renderer, BoundedPoint offset);
+		GameInstance(SDL_Window* window, SDL_Renderer* renderer, BoundedPoint offset);
 		~GameInstance();
 		void addThing(const ThingPtr& thing);
 		Point& getOffset();
 		Rect getPlayableArea() const;
 		SDL_Renderer* getRenderer();
 		void addPlayer(const ThingPtr& thing);
+		void draw();
+		void finalizeFrame();
 		void instanceBegin();
 		void update();
-		void draw();
 		std::shared_ptr<ThingBase> getPlayer();
 		
 		template<typename T, typename... Args> std::shared_ptr<T> createThing(Args... args) {

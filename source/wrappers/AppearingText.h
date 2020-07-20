@@ -19,7 +19,7 @@ class AppearingText {
 		Timer timer;
 		Font* font;
 	public:
-		AppearingText(std::string text, Font* font, Point position, double lettersPerSecond, SDL_Color color, int charWrap = 0, int startingIndex = 0);
+		AppearingText(std::string text, Font* font, Point position, double lettersPerSecond, SDL_Color color, int charWrap = -1, int startingIndex = 0);
 		~AppearingText();
 		void update(SDL_Renderer* renderer);
 		void setCharacterWrap(int wrap);

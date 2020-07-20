@@ -6,6 +6,8 @@
 #include "../primitives/Point.h"
 #include<string>
 #include<SDL2/SDL.h>
+
+// TODO: Make not shit
 class AlertText {
 	private:
 		Font font;
@@ -21,6 +23,6 @@ class AlertText {
 		AlertText(const AlertText& other);
 		AlertText& operator=(const AlertText& other);
 		bool isDone();
-		void render();
+		void draw(SDL_Renderer* renderer, Point offset);
 };
 #endif
