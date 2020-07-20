@@ -35,14 +35,13 @@ void Font::drawText(Point position, const std::string& text, SDL_Renderer* rende
 	if (maxWidth == -1) {
 		surface = TTF_RenderText_Blended(fontRenderer, text.c_str(), color);
 	} else {
-		std::cout << maxWidth << std::endl;
 		surface = TTF_RenderText_Blended_Wrapped(fontRenderer, text.c_str(), color, maxWidth);
 	}
 	if (surface) {
 		SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
 		if (texture) {
 			SDL_Rect rect = {(int)position.x, (int)position.y, surface->w, surface->h};
-			SDL_RenderCopyEx(renderer, texture, &rect, clip, angle, center, flip);
+			SDL_RenderCopyEx(renderer, texture, clip, &rect, angle, center, flip);
 		}
 		SDL_DestroyTexture(texture);
 	}

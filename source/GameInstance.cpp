@@ -62,9 +62,8 @@ void GameInstance::finalizeFrame() {
 	SDL_UpdateWindowSurface(this->window);
 	
 	// Clear the window for the next frame to draw onto
-	/*
 	SDL_SetRenderDrawColor(this->renderer, 0xFF, 0xFF, 0xFF, 0xFF);
-	SDL_RenderClear(this->renderer);*/
+	SDL_RenderClear(this->renderer);
 }
 
 void GameInstance::instanceBegin() {

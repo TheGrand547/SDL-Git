@@ -79,9 +79,6 @@ int main(int argc, char* argv[]) {
 	foodd->mine.createPath(GAME.sectors[3], GAME.sectors[0]);
 	LOG("Section: Main Loop");
 	while (!contra.quit) {
-		SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
-		SDL_RenderClear(gRenderer);
-		
 		playerDelta.zero(); // >:(
 		contra.handleEvents();
 		dot->velocityDelta(playerDelta); // Update player
