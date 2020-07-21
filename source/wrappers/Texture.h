@@ -39,7 +39,7 @@ class Texture {
 		bool isLoaded();
 		bool notLoaded();
 		void createBlank(SDL_Renderer* renderer, int w, int h, Uint32 color = 0x0000000FF);
-		SDL_Texture* getRawTexture();
+		SDL_Texture*& getRawTexture(); // ONLY USE IF YOU KNOW WHAT YOU'RE DOING
 		
 		void loadFromFile(SDL_Renderer* renderer, std::string path, int xSize = 0, int ySize = 0);
 		void normalizeTexture(SDL_Renderer* renderer);

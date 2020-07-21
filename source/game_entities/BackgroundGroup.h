@@ -19,6 +19,8 @@ class BackgroundGroup : public DrawGroup {
 	private:
 		std::map<std::string, std::shared_ptr<Texture>> textures;
 		std::vector<std::shared_ptr<BackElement>> elements;
+		SDL_Rect rect;
+		Texture texture;
 	public:
 		BackgroundGroup(GameInstance* parent);
 		~BackgroundGroup();
@@ -27,6 +29,7 @@ class BackgroundGroup : public DrawGroup {
 		void add(Point position, const std::string& type = "missingTexture.jpg");
 		void clearGroup() override;
 		void drawGroup() override;
+		void finalize();
 		void setParent(GameInstance& parent);
 };
 #endif

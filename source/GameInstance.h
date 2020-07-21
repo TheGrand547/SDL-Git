@@ -41,6 +41,7 @@ class GameInstance {
 				
 		std::vector<ThingPtr> movingThings; // List of everything thats position can change
 		std::set<ThingBase*, compare> drawOrder;
+		Timer temp; // Temporary fix
 	public:
 		BackgroundGroup ground;
 		CollisionHandler collision;

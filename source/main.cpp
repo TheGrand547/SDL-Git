@@ -9,13 +9,7 @@ void close(SDL_Window* window);
 
 int main(int argc, char* argv[]) {
 	LOG("Section: Setup");
-	// TODO: Write command line args like in source/idtech1, in addition to command line args such as DRAW_PATHS_ENABLE
-	std::map<std::string, int> gameState; 
-	for (int i = 1; i < argc; i++) {
-		if (!strcmp(argv[i], "RAY_CAST_ENABLE")) {
-			gameState["RAY_CAST"] = 1;
-		}
-	}
+	
 	if (!init()) {
 		LOG("Failed to initialize!\n");
 		return 0;
@@ -23,13 +17,22 @@ int main(int argc, char* argv[]) {
 	SDL_Window* gameWindow = createWindow();
 	SDL_Renderer* gRenderer = createRenderer(gameWindow);
 	
-	srand(time(NULL));
+	// TODO: Put this in a good place
 	BoundedPoint screenPosition = BoundedPoint(Screen::MAX_SCREEN_X_POS, Screen::MAX_SCREEN_Y_POS);
+	GameInstance GAME(gameWindow, gRenderer, screenPosition);
+	for (int i = 1; i < argc; i++) {
+		if (!strcmp(argv[i], "RAY_CAST_ENABLE")) {
+			GAME.gameState["RAY_CAST"] = 1;
+		}
+		if (!strcmp(argv[i], "-uncappedfps")) {
+			GAME.gameState["cv_capped_fps"] = 1;
+		}
+	}
+	
+	srand(time(NULL));
 	std::shared_ptr<Dot> dot = std::make_shared<Dot>(Point(190, 150));
 	dot->setColorChannels(0xFF);
-	Configuration config;	
-	GameInstance GAME(gameWindow, gRenderer, screenPosition);
-	
+	Configuration config;		
 	GAME.addPlayer(dot);
 	AlertTextHandler handler;
 	handler.parent = &GAME;
@@ -56,8 +59,8 @@ int main(int argc, char* argv[]) {
 				GAME.ground.add(Point(x, y), Ground::filenames[Ground::GRASS]);
 			}
 		}
-	}	
-	GAME.instanceBegin();
+	}
+	GAME.instanceBegin(); // Should be placed later...
 	Font gFont;
 	std::string foo = "duck dev best dev";
 	AppearingText ap(foo, &gFont, Point(250, 0), 10, COLORS::RED, 300);
@@ -86,7 +89,7 @@ int main(int argc, char* argv[]) {
 		/* Drawing */
 		GAME.draw();
 		ap.update(gRenderer);
-		if (!gameState["RAY_CAST"] && contra.checkListener(config["Ray"]).getHeld()) { // Raycasting
+		if (!GAME.gameState["RAY_CAST"] && contra.checkListener(config["Ray"]).getHeld()) { // Raycasting
 			dot->rayCast();
 		}
 		if (contra.checkListener(config["PathReset"]).getHeld() && GAME.gameState["PathFinished"]) {

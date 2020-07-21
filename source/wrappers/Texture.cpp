@@ -141,13 +141,12 @@ void Texture::createBlank(SDL_Renderer* renderer, int w, int h, Uint32 color) {
 			LOG("Unable to create blank texture: Error %s", SDL_GetError());
 		} else {
 			this->texture = tempTexture;
-			this->normalizeTexture(renderer);
 		}
 	}
 	SDL_FreeSurface(tempSurface);
 }
 
-SDL_Texture* Texture::getRawTexture() {
+SDL_Texture*& Texture::getRawTexture() {
 	return this->texture;
 }
 

@@ -12,7 +12,9 @@ bool compare::operator()(const ThingBase* lhs, const ThingBase* rhs) const {
 }
 
 GameInstance::GameInstance(SDL_Window* window, SDL_Renderer* renderer, BoundedPoint offset) : offset(offset), playableArea(0, 0, Screen::MAX_WIDTH, Screen::MAX_HEIGHT), 
-							renderer(renderer), window(window), ground(this), collision(this), sectors(this) {}
+							renderer(renderer), window(window), ground(this), collision(this), sectors(this) {
+	this->temp.start();
+}
 
 GameInstance::~GameInstance() {}
 
@@ -64,12 +66,22 @@ void GameInstance::finalizeFrame() {
 	// Clear the window for the next frame to draw onto
 	SDL_SetRenderDrawColor(this->renderer, 0xFF, 0xFF, 0xFF, 0xFF);
 	SDL_RenderClear(this->renderer);
+	
+	// If framerate is capped, delay if the framerate is over 1000
+	if (!this->gameState["cv_capped_fps"]) {
+		if (!this->temp.getTicks()) SDL_Delay(1);
+	}
+	// Reset timer
+	this->temp.start();
 }
 
-void GameInstance::instanceBegin() {
-	// Do final things before playing starts
+void GameInstance::instanceBegin() { // Do final things before playing starts
+	// Do cleanup on the pathfinding system
 	this->sectors.connectSectors();
 	this->sectors.purge();
+	
+	// Clean up the rendering for the background group
+	this->ground.finalize();
 }
 
 
