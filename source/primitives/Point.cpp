@@ -12,6 +12,10 @@ double Point::originDistance() const {
 	return this->distanceToPoint(0, 0);
 }
 
+Point Point::operator-() const {
+	return *this * -1;
+}
+
 Point Point::operator-(const Point& point) const {
 	return Point(this->x - point.x, this->y - point.y);
 }

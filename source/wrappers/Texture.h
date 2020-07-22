@@ -1,4 +1,6 @@
 #pragma once
+#ifndef TEXTURE_H
+#define TEXTURE_H
 #include<iostream>
 #include<SDL.h>
 #include<SDL2_rotozoom.h>
@@ -27,6 +29,8 @@ class Texture {
 		Texture(Texture&& that);
 		Texture& operator=(Texture& that);
 		Texture& operator=(Texture&& that);
+		Texture& operator=(SDL_Texture*& that);
+		Texture& operator=(SDL_Texture*&& that);
 		int getHeight() const;
 		int getWidth() const;
 		void free();
@@ -56,3 +60,8 @@ class Texture {
 		void testFilter();
 		void floatyEdges();
 };
+
+// TODO: Recreate SDL methods with Texture
+int SDL_SetRenderTarget(SDL_Renderer* renderer, Texture& texture);
+
+#endif

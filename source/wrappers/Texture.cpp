@@ -1,5 +1,9 @@
 #include "Texture.h"
 
+int SDL_SetRenderTarget(SDL_Renderer* renderer, Texture& texture) {
+	return SDL_SetRenderTarget(renderer, texture.getRawTexture());
+}
+
 Texture::Texture() : width(0), height(0), renderer(NULL), texture(NULL) {}
 
 Texture::~Texture() {
@@ -51,6 +55,18 @@ Texture& Texture::operator=(Texture& that) {
 		SDL_SetRenderTarget(that.renderer, NULL);
 		this->normalizeTexture(that.renderer);
 	}
+	return *this;
+}
+
+Texture& Texture::operator=(SDL_Texture*& that) {
+	this->texture = that;
+	that = NULL;
+	return *this;
+}
+
+Texture& Texture::operator=(SDL_Texture*&& that) {
+	// rvalue doesn't need to be cleared
+	this->texture = that;
 	return *this;
 }
 

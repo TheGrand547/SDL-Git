@@ -17,9 +17,8 @@ class BackgroundGroup;
 
 class BackgroundGroup : public DrawGroup {
 	private:
-		std::map<std::string, std::shared_ptr<Texture>> textures;
+		bool fullyRendered;
 		std::vector<std::shared_ptr<BackElement>> elements;
-		SDL_Rect rect;
 		Texture texture;
 	public:
 		BackgroundGroup(GameInstance* parent);

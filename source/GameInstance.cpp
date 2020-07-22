@@ -11,8 +11,9 @@ bool compare::operator()(const ThingBase* lhs, const ThingBase* rhs) const {
 	return lhs < rhs;
 }
 
-GameInstance::GameInstance(SDL_Window* window, SDL_Renderer* renderer, BoundedPoint offset) : offset(offset), playableArea(0, 0, Screen::MAX_WIDTH, Screen::MAX_HEIGHT), 
-							renderer(renderer), window(window), ground(this), collision(this), sectors(this) {
+GameInstance::GameInstance(SDL_Window* window, SDL_Renderer* renderer, BoundedPoint offset) : started(false), offset(offset), 
+							playableArea(0, 0, Screen::MAX_WIDTH, Screen::MAX_HEIGHT), renderer(renderer), window(window), ground(this), 
+							collision(this), sectors(this) {
 	this->temp.start();
 }
 
@@ -82,10 +83,13 @@ void GameInstance::instanceBegin() { // Do final things before playing starts
 	
 	// Clean up the rendering for the background group
 	this->ground.finalize();
+	
+	this->started = true;
 }
 
 
 void GameInstance::update() {
+	if (!this->started) this->instanceBegin();
 	// TODO: Collision by objects in sectors, mid tier priority due to requiring sizeable reworking
 	for (ThingPtr& thing: this->movingThings) {
 		Point position = thing->getPosition();

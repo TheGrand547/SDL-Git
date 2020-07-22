@@ -1,20 +1,16 @@
 #include "BackgroundGroup.h"
 #include "../GameInstance.h"
 
-BackgroundGroup::BackgroundGroup(GameInstance* parent) : DrawGroup(parent), mfe(NULL) {
-	this->rect = {0,0,0,0};
-}
+BackgroundGroup::BackgroundGroup(GameInstance* parent) : DrawGroup(parent), fullyRendered(false) {}
 
-BackgroundGroup::~BackgroundGroup() {
-	this->clearGroup();
-}
+BackgroundGroup::~BackgroundGroup() {}
 
 bool BackgroundGroup::exists() {
-	return this->elements.size() > 0;
+	return true;
 }
 
 int BackgroundGroup::size() {
-	return this->elements.size();
+	return 1;
 }
 
 void BackgroundGroup::clearGroup() {
@@ -22,28 +18,13 @@ void BackgroundGroup::clearGroup() {
 }
 
 void BackgroundGroup::add(Point position, const std::string& type) {
-	if (this->textures[type] == NULL) {
-		this->textures[type] = BackElement::createGroundTexture(this->parent->getRenderer(), type);
-		this->textures[type]->normalizeTexture(this->parent->getRenderer());
-	}
 	this->elements.push_back(std::make_shared<BackElement>(position, type));
-	this->elements.back()->setTexture(this->textures[type]);
-	
-	Point most = position + Point(this->textures[type]->getWidth(), this->textures[type]->getHeight());
-	if (most.isReal()) {
-		if (most.x > this->rect.w) this->rect.w = (int) most.x;
-		if (most.y > this->rect.h) this->rect.h = (int) most.y;
-	}
 }
 
 // TODO: Make this not god awful
 void BackgroundGroup::drawGroup() {
-	int x, y;
-	SDL_GetRendererOutputSize(this->parent->getRenderer(), &x, &y);
-	SDL_Rect temp = {0, 0, x, y};
-	SDL_Rect temp2 = {(int)this->parent->getOffset().x, (int)this->parent->getOffset().y, x, y};
-
-	SDL_RenderCopy(this->parent->getRenderer(), this->texture.getRawTexture(), &temp2, &temp);
+	if (!this->fullyRendered) this->finalize();
+	this->texture.draw(this->parent->getRenderer(), -this->parent->getOffset());
 }
 
 void BackgroundGroup::setParent(GameInstance& parent) {
@@ -51,12 +32,29 @@ void BackgroundGroup::setParent(GameInstance& parent) {
 }
 
 void BackgroundGroup::finalize() {
-	SDL_Texture* text = SDL_CreateTexture(this->parent->getRenderer(), SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_TARGET, this->rect.w, this->rect.h);
-	SDL_SetRenderTarget(this->parent->getRenderer(), text);
+	Uint32 tick = SDL_GetTicks();
+	int width = 0, height = 0;
+	std::map<std::string, std::shared_ptr<Texture>> textures;
+	
 	for (std::shared_ptr<BackElement>& element: this->elements) {
-		element->draw(this->parent->getRenderer(), Point(0, 0));
+		if (textures[element->type] == NULL) {
+			textures[element->type] = BackElement::createGroundTexture(this->parent->getRenderer(), element->type);
+			textures[element->type]->normalizeTexture(this->parent->getRenderer());
+		}
+		Point most = element->position + Point(textures[element->type]->getWidth(), textures[element->type]->getHeight());
+		if (most.isReal()) {
+			if (most.x > width) width = (int) most.x;
+			if (most.y > height) height = (int) most.y;
+		}
 	}
+	this->texture = SDL_CreateTexture(this->parent->getRenderer(), SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_TARGET, width, height);
+	
+	SDL_SetRenderTarget(this->parent->getRenderer(), this->texture);
+	for (std::shared_ptr<BackElement>& element: this->elements) textures[element->type]->draw(this->parent->getRenderer(), element->position);
 	SDL_SetRenderTarget(this->parent->getRenderer(), NULL);
+	
 	this->elements.clear();
-	this->texture.getRawTexture() = text;
+	this->fullyRendered = true;
+	
+	LOG("Took %i ms to internally render the background. ", (int) (SDL_GetTicks() - tick));
 }
