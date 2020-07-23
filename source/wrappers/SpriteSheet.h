@@ -22,7 +22,7 @@ class SpriteSheet {
 		Texture frame;
 		Uint width, height, maxX, maxY;
 	public:
-		SpriteSheet(const std::string& filename, int width, int height, SDL_Renderer* renderer);
+		SpriteSheet(SDL_Renderer* renderer, const std::string& filename, int width, int height);
 		~SpriteSheet();
 		bool draw(std::string tag, SDL_Renderer* renderer, Point position, EntityDir dir);
 		void addAnimation(std::string tag, Uint startingIndex, Uint endingIndex, Uint interval);

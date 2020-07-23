@@ -1,7 +1,7 @@
 #pragma once
 #ifndef TEXT_H
 #define TEXT_H
-#inlcude "Font.h"
+#include "Font.h"
 
 // Base class for all text related things so there can be a text container
 

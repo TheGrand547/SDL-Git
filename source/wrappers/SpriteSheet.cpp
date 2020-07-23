@@ -2,17 +2,15 @@
 // TODO: Implement this pipe dream lul
 /* 
 Animation definition structure should be something as follows, 
-example: file=SpritSheet.png;delay=50;size=50x50;
+example: file=SpritSheet.png;size=50x50;
 # Filename
 file = ...; 
-# Interval between frames, in milliseconds
-delay = 50; 
 # Following only apply to sprite sheets
 # Dimension of each sprite in 480x640 style
 size = ...;
 */
 
-SpriteSheet::SpriteSheet(const std::string& filename, int width, int height, SDL_Renderer* renderer) : key(""), width(width), height(height) {
+SpriteSheet::SpriteSheet(SDL_Renderer* renderer, const std::string& filename, int width, int height) : key(""), width(width), height(height) {
 	this->frame.loadFromFile(renderer, filename);
 	this->frame.setColorKey(0xFF, 0xFF, 0xFF);
 	this->maxX = this->frame.getWidth() / this->width;

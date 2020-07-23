@@ -33,9 +33,7 @@ Point BadTest::getCenter() const {
 }
 
 void BadTest::draw(SDL_Renderer* renderer, Point offset) {
-	if (this->texture.notLoaded()) {
-		this->setTexture(renderer);
-	}
+	if (this->texture.notLoaded()) this->setTexture(renderer);
 	EnemyBase::draw(renderer, offset);
 	
 	/*

@@ -18,7 +18,7 @@ class AlertText {
 		bool finished;
 		float maxMilliseconds;
 	public:
-		AlertText(std::string text, Point position, SDL_Color color, int textSize = 20, float milliseconds = 1000, std::string filename = "font.ttf");
+		AlertText(std::string text, Point position, SDL_Color color, int textSize = 20, float milliseconds = 1000, std::string filename = "resources/font.ttf");
 		~AlertText();
 		AlertText(const AlertText& other);
 		AlertText& operator=(const AlertText& other);

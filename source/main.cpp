@@ -39,19 +39,14 @@ int main(int argc, char* argv[]) {
 		
 	LOG("MAKING THINGS");
 	// TODO: Add to analyzer
-	GAME.createThing<BigWall>(Rect(0, 200, 100, 300));
-	GAME.createThing<BigWall>(Rect(200, 200, 300, 100));
-	GAME.createThing<BigWall>(Rect(500, 200, 100, 400));
-	GAME.createThing<BigWall>(Rect(600, 500, 100, 300));
-	GAME.createThing<BigWall>(Rect(300, 450, 100, 300));
-	GAME.createThing<BigWall>(Rect(Line(Point(50, 0), Point(0, 50)), Line(Point(50, 0), Point(100, 50))));
+	//GAME.createThing<BigWall>(Rect(Line(Point(50, 0), Point(0, 50)), Line(Point(50, 0), Point(100, 50))));
 		
 	analyzeFile("test.txt", GAME); // Only adds sectors currently, also maybe make this an internal GameInstance method
 	
 	// Enemy
-	std::shared_ptr<BadTest> heck = GAME.createThing<BadTest>(Point(220, 360));
-	heck->setTexture(gRenderer);
-
+	const Point BAD_POINT(220, 360);
+	std::shared_ptr<BadTest> heck = GAME.createThing<BadTest>(BAD_POINT);
+	
 	// TODO: Add to analyzer
 	for (int x = 0; x <= Screen::MAX_WIDTH; x += 25) {
 		for (int y = 0; y <= Screen::MAX_HEIGHT; y += 25) {
@@ -71,15 +66,15 @@ int main(int argc, char* argv[]) {
 	contra.addPlayerKeys(playerDelta); // Maybe allow for multiple bindings of the same command somehow? vectors likely? Also remove this dumb fix
 	FpsText fps(gFont, Point(100, 10), COLORS::RED); // TODO: Add handler for these things, also have this singular timer passed to all "groups" for consistency
 	handler.addMessage(AlertText("this shouldn't last long", Point(300, 150), COLORS::RED, 20, 2500));
-	
-	Line patrolLine(heck->getPosition(), heck->getPosition() + Point(200, 0));
+	Line patrolLine(BAD_POINT, BAD_POINT + Point(200, 0));
 	patrolLine += Point(0, 5);
 	
-	SpriteSheet spriteSheetTest("resources/bigsprite.png", 50, 50, gRenderer);
+	SpriteSheet spriteSheetTest(gRenderer, "resources/bigsprite.png", 50, 50);
 	spriteSheetTest.addAnimation("dumb", 0, 4, 500);
 	
 	std::shared_ptr<SectorPathFollower> foodd = GAME.createThing<SectorPathFollower>(Rect(GAME.sectors[3]->structure().getCenter(), 10, 10));
 	foodd->mine.createPath(GAME.sectors[3], GAME.sectors[0]);
+	
 	LOG("Section: Main Loop");
 	while (!contra.quit) {
 		playerDelta.zero(); // >:(
