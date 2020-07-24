@@ -9,8 +9,15 @@ class Text {
 	protected:
 		Font font;
 	public:
-		virtual ~Text() = 0;
+		virtual ~Text() {}
+		virtual bool finished() const = 0;
 		virtual void draw(SDL_Renderer* renderer, Point offset) = 0;
+		
+		void setFont(const Font& font) {
+			this->font = font;
+		}
+		void setFont(Font&& font) {
+			this->font = font;
+		}
 };
-
 #endif

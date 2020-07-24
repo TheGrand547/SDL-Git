@@ -16,14 +16,14 @@ Rect rectFromString(const std::string& string) {
 		while (next != std::string::npos) {
 			vals.push_back(std::stod(sub, &next));
 			sub = sub.substr(next + 1);
-			auto pp = sub.find_last_of(" \f\t\v");
-			if (pp == std::string::npos) {
+			StringPos end = sub.find_last_of(" \f\t\v");
+			if (end == std::string::npos) {
 				vals.push_back(std::stod(sub));
 				break;
 			}
 		}
-		if (vals.size() >= 8) return Rect(Line(Point(vals[0], vals[1]), Point(vals[2], vals[3])), Line(Point(vals[4], vals[5]), Point(vals[6], vals[7])));
-		if (vals.size() >= 4) return Rect(vals[0], vals[1], vals[2], vals[3]);
+		if (vals.size() > 7) return Rect(Line(Point(vals[0], vals[1]), Point(vals[2], vals[3])), Line(Point(vals[4], vals[5]), Point(vals[6], vals[7])));
+		if (vals.size() > 3) return Rect(vals[0], vals[1], vals[2], vals[3]);
 	} catch (...) {
 		return Rect();	
 	}

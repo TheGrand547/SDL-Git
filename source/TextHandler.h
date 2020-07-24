@@ -1,23 +1,24 @@
 #pragma once
-#ifndef ALERT_TEXT_HANDLER_H
-#define ALERT_TEXT_HANDLER_H
+#ifndef TEXT_HANDLER_H
+#define TEXT_HANDLER_H
 #include "wrappers/AlertText.h"
 #include "wrappers/Text.h"
 #include<memory>
 #include<vector>
 
+typedef std::shared_ptr<Text> TextPtr;
+typedef std::vector<TextPtr> TextVector;
+
 class GameInstance;
 
 // TODO: Make this compatible with all kinds of text
-class AlertTextHandler {
+class TextHandler {
 	private:
-		std::vector<AlertText> alerts;
-		std::vector<std::shared_ptr<Text>> stored;
+		TextVector stored;
 	public:
 		GameInstance* parent;
-		AlertTextHandler();
-		~AlertTextHandler();
-		void addMessage(AlertText message);
+		TextHandler();
+		~TextHandler();
 		void draw();
 		
 		template<typename T, typename... Args> std::shared_ptr<T> createText(Args... args) {

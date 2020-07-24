@@ -3,7 +3,7 @@
 #define HEADERS_H
 // Remove for alpha/beta/final releases
 //#define NDEBUG 
-#include "AlertTextHandler.h"
+#include "TextHandler.h"
 #include "Dot.h"
 #include "essential/Configuration.h"
 #include "essential/log.h"

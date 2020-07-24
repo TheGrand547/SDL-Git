@@ -8,7 +8,7 @@
 #include "essential/log.h"
 #include "primitives/Rect.h"
 #include "primitives/Polygon.h"
-#include "AlertTextHandler.h"
+#include "TextHandler.h"
 #include "BoundedPoint.h"
 #include<map>
 #include<memory>

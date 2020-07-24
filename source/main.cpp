@@ -34,7 +34,7 @@ int main(int argc, char* argv[]) {
 	dot->setColorChannels(0xFF);
 	Configuration config;		
 	GAME.addPlayer(dot);
-	AlertTextHandler handler;
+	TextHandler handler;
 	handler.parent = &GAME;
 		
 	LOG("MAKING THINGS");
@@ -58,14 +58,17 @@ int main(int argc, char* argv[]) {
 	GAME.instanceBegin(); // Should be placed later...
 	Font gFont;
 	std::string foo = "duck dev best dev";
-	AppearingText ap(foo, &gFont, Point(250, 0), 10, COLORS::RED, 300);
+	std::shared_ptr<AppearingText> ap = handler.createText<AppearingText>(foo, Point(250, 0), 10, COLORS::RED, 300);
+	ap->setFont(gFont);
 	Point playerDelta(0, 0);
 	Controller contra;
 	contra.addListener("Ray", 120);
 	contra.addListener("PathReset", 50);
 	contra.addPlayerKeys(playerDelta); // Maybe allow for multiple bindings of the same command somehow? vectors likely? Also remove this dumb fix
 	FpsText fps(gFont, Point(100, 10), COLORS::RED); // TODO: Add handler for these things, also have this singular timer passed to all "groups" for consistency
-	handler.addMessage(AlertText("this shouldn't last long", Point(300, 150), COLORS::RED, 20, 2500));
+	
+	handler.createText<AlertText>("this shouldn't last long", Point(300, 150), COLORS::RED, 20, 2500);
+	
 	Line patrolLine(BAD_POINT, BAD_POINT + Point(200, 0));
 	patrolLine += Point(0, 5);
 	
@@ -83,7 +86,6 @@ int main(int argc, char* argv[]) {
 		GAME.update();
 		/* Drawing */
 		GAME.draw();
-		ap.update(gRenderer);
 		if (!GAME.gameState["RAY_CAST"] && contra.checkListener(config["Ray"]).getHeld()) { // Raycasting
 			dot->rayCast();
 		}
@@ -99,7 +101,8 @@ int main(int argc, char* argv[]) {
 		// Testing stuff
 		spriteSheetTest.draw("dumb", GAME.getRenderer(), {200, 200}, getDirectionFromAngle(dot->getAngle()));
 		patrolLine.drawLine(gRenderer, GAME.getOffset());
-
+		handler.draw();
+		
 		fps.draw(gRenderer);
 		fps.drawFrameTime(gRenderer);
 		GAME.finalizeFrame();

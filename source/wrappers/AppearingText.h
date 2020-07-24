@@ -3,25 +3,27 @@
 #define APPEARING_TEXT_H
 #include<SDL.h>
 #include<SDL_ttf.h>
-#include "Font.h"
+#include "Text.h"
 #include "Timer.h"
 #include "../primitives/Point.h"
 #include "../essential/constants.h"
 
-/* TODO: Make the Constructor not a massive mistake */
-class AppearingText {
+typedef uint Uint;
+
+// TODO: Combine AppearingText and AlertText
+class AppearingText : public Text {
 	private:
+		int charWrap, leftOver, ticksPerLetter;
 		Point position;
 		SDL_Color color;
 		std::string text;
-		int ticksPerLetter, leftOver, charWrap;
-		uint index;
 		Timer timer;
-		Font* font;
+		Uint index;
 	public:
-		AppearingText(std::string text, Font* font, Point position, double lettersPerSecond, SDL_Color color, int charWrap = -1, int startingIndex = 0);
+		AppearingText(std::string text, Point position, double lettersPerSecond, SDL_Color color, int charWrap = -1, int startingIndex = 0);
 		~AppearingText();
-		void update(SDL_Renderer* renderer);
+		bool finished() const override;
+		void draw(SDL_Renderer* renderer, Point offset) override;
 		void setCharacterWrap(int wrap);
 };
 #endif
