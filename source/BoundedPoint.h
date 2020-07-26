@@ -1,24 +1,18 @@
 #pragma once
 #include "primitives/Point.h"
 
-// TODO: This is kinda stupid as shit, fix it up or remove it
-class BoundedPoint : public Point {
-	private:
-		float xMin, xMax;
-		float yMin, yMax;
-	public:
-		BoundedPoint();
-		BoundedPoint(float xMax, float yMax);
-		BoundedPoint(float xpos, float ypos, float xMin, float yMin, float xMax, float yMax);
-		BoundedPoint(Point pos, float xMin, float yMin, float xMax, float yMax);
-		BoundedPoint(const BoundedPoint &other);
-		BoundedPoint &operator=(BoundedPoint other);
-		~BoundedPoint();
-		void reduce();
-		void operator+=(Point delta);
-		void operator-=(Point delta);
-		void zeroX();
-		void zeroY();
-		void maxX();
-		void maxY();
+struct BoundedPoint : public Point {
+	double xMax, yMax;
+	BoundedPoint();
+	BoundedPoint(double xMax, double yMax);
+	BoundedPoint(double xpos, double ypos, double maxX, double maxY);
+	BoundedPoint(Point position, double xMax, double yMax);
+	BoundedPoint(const BoundedPoint& other);
+	BoundedPoint& operator=(const BoundedPoint& other);
+	~BoundedPoint();
+	void maxX();
+	void maxY();
+	void operator+=(Point delta);
+	void operator-=(Point delta);
+	void reduce();
 };

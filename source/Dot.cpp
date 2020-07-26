@@ -4,7 +4,7 @@ Dot::Dot(Point startingCoordinate) : EntityBase(DRAW | MOVEABLE) {
 	this->lastDelta = startingCoordinate;
 	this->setMaxVelocity(200); // Per second
 	this->setFriction(10);
-	this->position = BoundedPoint(startingCoordinate, 0, 0, Screen::MAX_WIDTH - Player::PLAYER_X_DIMENSION, Screen::MAX_HEIGHT - Player::PLAYER_Y_DIMENSION);
+	this->position = BoundedPoint(startingCoordinate, Screen::MAX_WIDTH - Player::PLAYER_X_DIMENSION, Screen::MAX_HEIGHT - Player::PLAYER_Y_DIMENSION);
 }
 
 Dot::~Dot() {}
@@ -51,7 +51,7 @@ bool Dot::wideOverlap(const Polygon& other) const {
 }
 
 void Dot::draw(SDL_Renderer* renderer, Point offset) {
-	SDL_SetRenderDrawColor(renderer, rChannel, gChannel, bChannel, aChannel);
+	SDL_SetRenderDrawColor(renderer, this->r, this->g, this->b, this->a);
 	SDL_Rect temp = (this->getBoundingRect() - offset).getSDLRect();
 	temp.w = Player::PLAYER_X_DIMENSION;
 	temp.h = Player::PLAYER_Y_DIMENSION;
@@ -100,7 +100,7 @@ void Dot::rayCast() {
 	Point newPoint = this->parent->collision.closestPointThatCollidesWith(this->getRay());
 	if (newPoint.isReal()) {
 		Line tempLine = Line(this->getCenter(), newPoint.copy());
-		tempLine.setColorChannelsTo(COLORS::CYAN);
+		tempLine.setColorChannels(COLORS::CYAN);
 		tempLine.drawLine(this->parent->getRenderer(), this->parent->getOffset());
 	}
 }

@@ -54,7 +54,6 @@ class Rect: public Polygon {
 		void operator-=(const Point& point);
 		void operator*=(const double& value);
 		void setCenter(const Point& point);
-		void setColorChannels(int r, int g, int b, int a);
 		void superDraw(SDL_Renderer* renderer, Point offset);
 };
 

@@ -38,10 +38,8 @@ int main(int argc, char* argv[]) {
 	handler.parent = &GAME;
 		
 	LOG("MAKING THINGS");
-	// TODO: Add to analyzer
-	//GAME.createThing<BigWall>(Rect(Line(Point(50, 0), Point(0, 50)), Line(Point(50, 0), Point(100, 50))));
-		
-	analyzeFile("test.txt", GAME); // Only adds sectors currently, also maybe make this an internal GameInstance method
+	
+	analyzeFile("test.txt", GAME); // Only adds sectors/walls currently, also maybe make this an internal GameInstance method
 	
 	// Enemy
 	const Point BAD_POINT(220, 360);

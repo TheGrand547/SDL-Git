@@ -116,7 +116,7 @@ std::ostream& operator<<(std::ostream& output, const Line& line) {
 }
 
 void Line::drawLine(SDL_Renderer* renderer, Point offset) {
-	aalineRGBA(renderer, this->originPoint - offset, this->endingPoint - offset, rChannel, gChannel, bChannel, aChannel);
+	aalineRGBA(renderer, this->originPoint - offset, this->endingPoint - offset, r, g, b, a);
 }				
 
 void Line::setColor(Uint8 red, Uint8 green, Uint8 blue, Uint8 alpha) {
@@ -125,15 +125,11 @@ void Line::setColor(Uint8 red, Uint8 green, Uint8 blue, Uint8 alpha) {
 
 Point Line::intersectionPoint(const Line& other) const {
 	double delta = (this->getAx() * other.getBy()) - (this->getBy() * other.getAx());
-	if (delta == 0) {
-		return Point();
-	}
+	if (delta == 0) return Point();
 	double x = ((this->getC() * other.getBy()) - (this->getBy() * other.getC())) / delta;
 	double y = ((this->getAx() * other.getC()) - (this->getC() * other.getAx())) / delta;
 	Point newPoint = Point(x, y);
-	if (this->collidePoint(newPoint) && other.collidePoint(newPoint)) {
-		return newPoint;
-	}
+	if (this->collidePoint(newPoint) && other.collidePoint(newPoint)) return newPoint;
 	return Point();
 }
 

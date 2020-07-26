@@ -1,14 +1,15 @@
 #pragma once
 #include<SDL2/SDL.h>
 
+typedef uint8_t Uint8;
+
 /* Really simple class to base any type of object that needs to have color channels defined. */ 
-class MyBase {
-	public:
-		uint8_t rChannel,  bChannel, gChannel, aChannel;
-		MyBase(uint8_t r = 0x00, uint8_t g = 0x00, uint8_t b = 0xFF, uint8_t a = 0xFF);
-		MyBase(SDL_Color color);
-		void setColorChannels(uint8_t r = 0x00, uint8_t g = 0x00, uint8_t b = 0xFF, uint8_t a = 0xFF);
-		void setColorChannelsTo(MyBase other);
-		void setColorChannelsOf(MyBase other);
-		void setColorChannels(SDL_Color color);
+struct MyBase {
+	Uint8 r, g, b, a;
+	MyBase(Uint8 r = 0x00, Uint8 g = 0x00, Uint8 b = 0xFF, Uint8 a = 0xFF);
+	MyBase(const SDL_Color& color);
+	MyBase(const MyBase& other);
+	void setColorChannels(Uint8 r = 0x00, Uint8 g = 0x00, Uint8 b = 0xFF, Uint8 a = 0xFF);
+	void setColorChannels(const MyBase& other);
+	void setColorChannels(const SDL_Color& color);
 };

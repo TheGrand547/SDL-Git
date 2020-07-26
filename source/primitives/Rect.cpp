@@ -186,7 +186,7 @@ void Rect::draw(SDL_Renderer* renderer, Point offset) {
 		x[i] = temp[i].x;
 		y[i] = temp[i].y;
 	}
-	polygonRGBA(renderer, x, y, temp.size(), this->rChannel, this->gChannel, this->bChannel, this->aChannel);
+	polygonRGBA(renderer, x, y, temp.size(), this->r, this->g, this->b, this->a);
 	delete[] x;
 	delete[] y;
 }
@@ -204,10 +204,6 @@ double Rect::getOriginDistance() const {
 
 void Rect::setCenter(const Point& point) {
 	this->topLeft = point - (this->heightVector + this->widthVector) / 2;
-}
-
-void Rect::setColorChannels(int r, int g, int b, int a) {
-	MyBase::setColorChannels(r, g, b, a);
 }
 
 Point Rect::getTopLeft() const {

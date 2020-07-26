@@ -1,37 +1,23 @@
 #include "MyBase.h"
 
-MyBase::MyBase(uint8_t r, uint8_t g, uint8_t b, uint8_t a) {
-	this->rChannel = r;
-	this->gChannel = g;
-	this->bChannel = b;
-	this->aChannel = a;
+MyBase::MyBase(Uint8 r, Uint8 g, Uint8 b, Uint8 a) : r(r), g(g), b(b), a(a) {}
+
+MyBase::MyBase(const SDL_Color& color) : r(color.r), g(color.g), b(color.b), a(color.a) {}
+
+MyBase::MyBase(const MyBase& other) : r(other.r), g(other.g), b(other.b), a(other.a){}
+
+void MyBase::setColorChannels(Uint8 r, Uint8 g, Uint8 b, Uint8 a) {
+	*this = MyBase(r, g, b, a);
 }
 
-MyBase::MyBase(SDL_Color color) {
-	this->rChannel = color.r;
-	this->gChannel = color.g;
-	this->bChannel = color.b;
-	this->aChannel = color.a;
+void MyBase::setColorChannels(const MyBase& other) {
+	*this = MyBase(other);
 }
 
-void MyBase::setColorChannels(uint8_t r, uint8_t g, uint8_t b, uint8_t a) { 
-	this->rChannel = r;
-	this->gChannel = g;
-	this->bChannel = b;
-	this->aChannel = a;
-}
-
-void MyBase::setColorChannelsTo(MyBase other) {
-	this->rChannel = other.rChannel;
-	this->gChannel = other.gChannel;
-	this->bChannel = other.bChannel;
-	this->aChannel = other.aChannel;
-}
-
-void MyBase::setColorChannels(SDL_Color color) {
-	this->rChannel = color.r;
-	this->gChannel = color.g;
-	this->bChannel = color.b;
-	this->aChannel = color.a;
+void MyBase::setColorChannels(const SDL_Color& color) {
+	this->r = color.r;
+	this->g = color.g;
+	this->b = color.b;
+	this->a = color.a;
 }
 
