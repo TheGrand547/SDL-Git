@@ -11,23 +11,30 @@ class SectorBase;
 #include<memory>
 #include<vector>
 
+typedef std::shared_ptr<ThingBase> ThingPtr;
+typedef std::shared_ptr<SectorBase> SectorPtr;
+
 // Interface to interact with the collidable objects from GameInstance
 class CollisionHandler {
+	protected:
+		std::map<SectorPtr, std::vector<ThingPtr>> oMap;
 	public:
 		GameInstance* parent;
 		CollisionHandler(GameInstance* parent);
 		~CollisionHandler();
 		int size() const;
 		
-		bool isPositionOpen(const std::shared_ptr<ThingBase>& thing) const;
+		bool isPositionOpen(const std::shared_ptr<ThingBase>& thing);
 		
-		bool doesCollideWith(const Polygon& rect, const std::shared_ptr<ThingBase>& something = NULL) const;
-		bool doesCollideWith(const Line& ray, const std::shared_ptr<ThingBase>& something = NULL) const;
-		bool doesCollideWith(const std::shared_ptr<ThingBase>& thing) const;
-		bool doesNotCollideWith(const Polygon& rect, const std::shared_ptr<ThingBase>& something = NULL) const;
-		bool doesNotCollideWith(const std::shared_ptr<ThingBase>& thing) const;
-		bool doesNotCollideWith(const Line& line, const std::shared_ptr<ThingBase>& something = NULL) const;
-		Point closestPointThatCollidesWith(const Line& ray, const std::shared_ptr<ThingBase>& something = NULL) const;
+		bool doesCollideWith(const Polygon& rect, const ThingPtr& something = NULL) const;
+		bool doesCollideWith(const Line& ray, const ThingPtr& something = NULL) const;
+		bool doesCollideWith(const ThingPtr& thing) const;
+		bool doesNotCollideWith(const Polygon& rect, const ThingPtr& something = NULL) const;
+		bool doesNotCollideWith(const ThingPtr& thing) const;
+		bool doesNotCollideWith(const Line& line, const ThingPtr& something = NULL) const;
+		Point closestPointThatCollidesWith(const Line& ray, const ThingPtr& something = NULL) const;
+		
+		void finalize();
 };
 
 #endif

@@ -4,8 +4,6 @@
 #include "SectorGroup.h"
 #include "base/ThingBase.h"
 
-typedef std::shared_ptr<ThingBase> ThingPtr;
-
 CollisionHandler::CollisionHandler(GameInstance* parent) : parent(parent) {}
 
 CollisionHandler::~CollisionHandler() {}
@@ -14,7 +12,7 @@ int CollisionHandler::size() const {
 	return this->parent->collisionThings.size();
 }
 
-bool CollisionHandler::doesCollideWith(const Polygon& rect, const std::shared_ptr<ThingBase>& something) const {
+bool CollisionHandler::doesCollideWith(const Polygon& rect, const ThingPtr& something) const {
 	/* True - the rect DOES collide with this collide group
 	 * False - the rect DOESN'T collide with this collide group */
 	for (const ThingPtr& thing: this->parent->collisionThings) {
@@ -23,13 +21,13 @@ bool CollisionHandler::doesCollideWith(const Polygon& rect, const std::shared_pt
 	return false;
 }
 
-bool CollisionHandler::doesNotCollideWith(const Polygon& rect, const std::shared_ptr<ThingBase>& something) const {
+bool CollisionHandler::doesNotCollideWith(const Polygon& rect, const ThingPtr& something) const {
 	/* True - the rect DOESN'T collide with this collide group
 	 * False - the rect DOES collide with this collide group */
 	return !this->doesCollideWith(rect, something);
 }
 
-bool CollisionHandler::doesCollideWith(const Line& line, const std::shared_ptr<ThingBase>& something) const {
+bool CollisionHandler::doesCollideWith(const Line& line, const ThingPtr& something) const {
 	/* True - the line DOES collide with this collide group
 	 * False - the line DOESN'T collide with this collide group */
 	for (const ThingPtr& thing: this->parent->collisionThings) {
@@ -38,13 +36,13 @@ bool CollisionHandler::doesCollideWith(const Line& line, const std::shared_ptr<T
 	return false;
 }
 
-bool CollisionHandler::doesNotCollideWith(const Line& line, const std::shared_ptr<ThingBase>& thing) const {
+bool CollisionHandler::doesNotCollideWith(const Line& line, const ThingPtr& thing) const {
 	/* True - the line DOESN'T collide with this collide group
 	 * False - the line DOES collide with this collide group */
 	return !this->doesCollideWith(line, thing);
 }
 
-bool CollisionHandler::doesCollideWith(const std::shared_ptr<ThingBase>& thing) const {
+bool CollisionHandler::doesCollideWith(const ThingPtr& thing) const {
 	/* True - the rect DOES collide with this collide group
 	 * False - the rect DOESN'T collide with this collide group */
 	for (const ThingPtr& ptr: this->parent->collisionThings) {
@@ -53,19 +51,21 @@ bool CollisionHandler::doesCollideWith(const std::shared_ptr<ThingBase>& thing) 
 	return false;
 }
 
-bool CollisionHandler::doesNotCollideWith(const std::shared_ptr<ThingBase>& thing) const {
+bool CollisionHandler::doesNotCollideWith(const ThingPtr& thing) const {
 	return !this->doesCollideWith(thing);
 }
 
-bool CollisionHandler::isPositionOpen(const std::shared_ptr<ThingBase>& thing) const {
-	for (const ThingPtr& something: this->parent->collisionThings) {
-		if (thing.get() != something.get() && something->overlap(thing)) return false;
+bool CollisionHandler::isPositionOpen(const ThingPtr& thing) {
+	for (const SectorPtr& sector : this->parent->sectors.allSectors(thing)){
+		for (const ThingPtr& something: this->oMap[sector]) {
+			if (thing.get() != something.get() && something->overlap(thing)) return false;
+		}
 	}
 	return true;
 }
 
 
-Point CollisionHandler::closestPointThatCollidesWith(const Line& ray, const std::shared_ptr<ThingBase>& something) const {
+Point CollisionHandler::closestPointThatCollidesWith(const Line& ray, const ThingPtr& something) const {
 	Point stored, temp;
 	for (const ThingPtr& thing: this->parent->collisionThings) {
 		if (thing.get() == something.get()) continue;
@@ -78,5 +78,12 @@ Point CollisionHandler::closestPointThatCollidesWith(const Line& ray, const std:
 	return stored;
 }
 
+void CollisionHandler::finalize() {
+	for (const ThingPtr& thing: this->parent->collisionThings) {
+		for (SectorPtr sector : this->parent->sectors.allSectors(thing)) {
+			this->oMap[sector].push_back(thing);
+		}
+	}
+}
 
 

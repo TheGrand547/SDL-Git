@@ -27,7 +27,7 @@ bool PixelMod::notLocked() {
 	return this->unlocked;
 }
 
-uint32& PixelMod::at(int x, int y) {
+Uint32& PixelMod::at(int x, int y) {
 	if (x < 0 || x > (this->width() - 1) || y < 0 || y > (this->height() - 1)) {
 		// If the requested position is outside of the array return a blank pixel with no data in it
 		if (this->edges) {
@@ -67,7 +67,7 @@ int PixelMod::width() const {
 	return this->textureWidth;
 }
 
-uint32 PixelMod::mapRGBA(const uint8 r, const uint8 g, const uint8 b, const uint8 a) const {
+Uint32 PixelMod::mapRGBA(const Uint8 r, const Uint8 g, const Uint8 b, const Uint8 a) const {
 	return SDL_MapRGBA(this->format, r, g, b, a);
 }
 
@@ -81,6 +81,6 @@ Pixel PixelMod::getPixel(int x, int y) {
 	return pixel;
 }
 
-uint32& PixelMod::operator[](const int index) {
+Uint32& PixelMod::operator[](const int index) {
 	return this->pixels[index];
 }

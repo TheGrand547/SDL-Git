@@ -15,6 +15,7 @@ class Polygon : public MyBase {
 		virtual bool isReal() const = 0;
 		virtual bool containsPoint(const Point& point) const = 0;
 		virtual bool doesLineCollide(const Line& line) const = 0;
+		virtual double getArea() const = 0;
 		virtual int numberOfCollisions(const Line& line) const = 0;
 		virtual int numLines() const = 0;
 		virtual int numPoints() const = 0;

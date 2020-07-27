@@ -88,11 +88,11 @@ int main(int argc, char* argv[]) {
 			dot->rayCast();
 		}
 		if (contra.checkListener(config["PathReset"]).getHeld() && GAME.gameState["PathFinished"]) {
-			auto twigs = GAME.sectors.sectorsThatTouch(dot);
-			if (twigs.size() > 0) {
-				auto twigsAgain = GAME.sectors.sectorsThatTouch(foodd);
-				if (twigsAgain.size() > 0) {
-					foodd->mine.createPath(twigsAgain[0], twigs[0]);
+			auto twigs = GAME.sectors.currentSector(dot);
+			if (twigs) {
+				auto twigsAgain = GAME.sectors.currentSector(foodd);
+				if (twigsAgain) {
+					foodd->mine.createPath(twigsAgain, twigs);
 				}
 			}
 		}

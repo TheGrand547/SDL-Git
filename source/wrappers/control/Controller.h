@@ -1,8 +1,8 @@
 #pragma once
 #ifndef CONTROLLER_H
 #define CONTROLLER_H
-#include<SDL2/SDL.h>
-#include<SDL2/SDL2_gfxPrimitives.h>
+#include<SDL.h>
+#include<SDL2_gfxPrimitives.h>
 #include "../../essential/Configuration.h"
 #include "../../primitives/Point.h"
 #include "../HeldKey.h"
@@ -13,14 +13,14 @@
 #include<memory>
 #include<vector>
 
-/* Class to handle event handling(haha) less messily and with easier functionality to implement new events */ 
+// Class to handle event handling(haha) less messily and with easier functionality to implement new events 
 class Controller {
 	/* There are three types of events the Controller will handle; Keys, Buttons, and Listeners 
 	 * Keys are for commands that have distinct states of down and up
 	 * Buttons are for actions that only activate when they key is held down, but don't care when released
 	 * Listeners are an extention of HeldKey for more complicated external usage */
 	private:
-		/* Low Priority TODO: Add controller support */
+		// Low Priority TODO: Add controller support
 		std::map<int, std::shared_ptr<CommandBase>> keys;
 		std::map<int, std::shared_ptr<ButtonCommand>> buttons;
 		std::map<int, HeldKey> listeners;

@@ -33,6 +33,7 @@ class Rect: public Polygon {
 		bool containsPoint(const Point& point) const override;
 		bool doesLineCollide(const Line& ray) const override;
 		bool isAxisAligned() const override;
+		double getArea() const override;
 		int numberOfCollisions(const Line& line) const override;
 		int numLines() const override;
 		int numPoints() const override;

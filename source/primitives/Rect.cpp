@@ -121,6 +121,10 @@ bool Rect::isAxisAligned() const { // Fuck off axis powers
 	return (this->heightVector.x == 0 && this->widthVector.y == 0) || (this->heightVector.y == 0 && this->widthVector.x == 0);
 }
 
+double Rect::getArea() const {
+	return this->heightVector.getMagnitude() * this->widthVector.getMagnitude();
+}
+
 int Rect::numberOfCollisions(const Line& ray) const {
 	int count = 0;
 	for (Line line: this->getLines()) {

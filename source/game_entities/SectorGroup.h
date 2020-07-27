@@ -22,7 +22,8 @@ class SectorGroup : public DrawGroup {
 		SectorPtr& at(int position);
 		SectorPtr& operator[](int position);
 		SectorPtr& getFirst();
-		std::vector<SectorPtr> sectorsThatTouch(const std::shared_ptr<ThingBase>& target);
+		SectorPtr currentSector(const std::shared_ptr<ThingBase>& target);
+		std::vector<SectorPtr> allSectors(const std::shared_ptr<ThingBase>& target);
 		void addSector(Rect structure, std::string data = "");
 		void clearGroup() override;
 		void drawGroup() override;

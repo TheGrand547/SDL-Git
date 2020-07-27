@@ -116,6 +116,7 @@ HeldKey& Controller::checkListener(int key) {
 }
 
 void Controller::addPlayerKeys(Point& target) {
+	// Fuck this
 	this->addButton(config["Right"], std::make_shared<PlayerMoveCommand>(BASIC::PLAYER_RIGHT_KEYDOWN, &target));
 	this->addButton(config["Left"], std::make_shared<PlayerMoveCommand>(BASIC::PLAYER_LEFT_KEYDOWN, &target));
 	this->addButton(config["Up"], std::make_shared<PlayerMoveCommand>(BASIC::PLAYER_UP_KEYDOWN, &target));

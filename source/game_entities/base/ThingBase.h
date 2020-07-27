@@ -31,14 +31,13 @@ class ThingBase : public std::enable_shared_from_this<ThingBase> {
 		const int absoluteFlags; // List of attributes this object CAN have, but might not necessarily have at any given moment
 		int flags; // List of attributes the object CURRENTLY has
 		Point position;
-		std::vector<std::weak_ptr<ThingBase>> attached;
 	public:
 		GameInstance* parent;
-	
+
 		ThingBase(int flags = 0);
 		virtual ~ThingBase() = 0;
 		virtual bool doesLineCollide(const Line& ray) const = 0;
-		/* overlap(Rect) -> Does /this/ collide with that specific rectangle
+		/* overlap(Polygon) -> Does /this/ collide with that specific polygon
 		 * overlap(shared_ptr<Thing>) -> Does this object collide with this object(ie call the objects 
 		 * 		overlap with each hitbox in this */ 
 		virtual bool overlap(const Polygon& other) const = 0;

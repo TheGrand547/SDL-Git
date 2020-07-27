@@ -2,6 +2,7 @@
 #include "../GameInstance.h"
 #include "CollisionHandler.h"
 
+typedef std::shared_ptr<SectorBase> SectorPtr;
 typedef std::weak_ptr<SectorBase> WeakSectorPtr;
 typedef std::vector<SectorPtr> SectorPtrVector;
 
@@ -31,7 +32,15 @@ SectorPtr& SectorGroup::operator[](int index) {
 	return this->storage[index];
 }
 
-std::vector<SectorPtr> SectorGroup::sectorsThatTouch(const std::shared_ptr<ThingBase>& target) {
+SectorPtr SectorGroup::currentSector(const std::shared_ptr<ThingBase>& target) {
+	SectorPtr value = NULL;
+	for (SectorPtr& sector: this->storage) {
+		if (target->overlap(sector->structure()) && (value == NULL || value->structure().getArea() > sector->structure().getArea())) value = sector;
+	}
+	return value;
+}
+
+std::vector<SectorPtr> SectorGroup::allSectors(const std::shared_ptr<ThingBase>& target) {
 	std::vector<SectorPtr> vector;
 	for (SectorPtr& sector: this->storage) {
 		if (target->overlap(sector->structure())) vector.push_back(sector);
@@ -41,6 +50,7 @@ std::vector<SectorPtr> SectorGroup::sectorsThatTouch(const std::shared_ptr<Thing
 
 void SectorGroup::addSector(Rect structure, std::string data) {
 	this->storage.push_back(std::make_shared<Sector<Rect>>(structure, data));
+	// Probably unneeded but whatever
 	this->storage.back()->structure().setColorChannels(0xFF, 0xFF, 0x00, 0xFF);
 }
 
