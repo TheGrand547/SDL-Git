@@ -30,18 +30,13 @@ class Rect: public Polygon {
 		Rect operator*(const double& value) const;
 		
 		bool isReal() const override;
-		bool containsPoint(const Point& point) const override;
-		bool doesLineCollide(const Line& ray) const override;
 		bool isAxisAligned() const override;
 		double getArea() const override;
-		int numberOfCollisions(const Line& line) const override;
 		int numLines() const override;
 		int numPoints() const override;
-		Point collideLine(const Line& ray) const override;
 		Point getCenter() const override;
 		std::vector<Line> getLines() const override;
 		std::vector<Point> getPoints() const override;
-		void draw(SDL_Renderer* renderer, Point offset) override;
 		
 		double getHeight() const;
 		double getOriginDistance() const;

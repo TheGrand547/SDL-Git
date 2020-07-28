@@ -1,7 +1,5 @@
 #include "Rect.h"
 
-#define OUT_OF_BOUNDS Point(-10547, -20547)
-
 // ------------------------------------------------
 // ---------------- Constructors ------------------
 // ------------------------------------------------
@@ -104,35 +102,12 @@ bool Rect::isReal() const {
 	return this->widthVector.getFastMagnitude() != 0 && this->heightVector.getFastMagnitude() != 0;
 }
 
-bool Rect::containsPoint(const Point& point) const {
-	return this->numberOfCollisions(Line(point, OUT_OF_BOUNDS)) & 1;
-}
-
-bool Rect::doesLineCollide(const Line& ray) const {
-	/* True - the Line DOES collide with this rect
-	 * False - the Line DOES NOT collide with this rect */
-	for (Line line: this->getLines()) {
-		if (line.intersectionPoint(ray).isReal()) return true;
-	}
-	return false;
-}
-
 bool Rect::isAxisAligned() const { // Fuck off axis powers
 	return (this->heightVector.x == 0 && this->widthVector.y == 0) || (this->heightVector.y == 0 && this->widthVector.x == 0);
 }
 
 double Rect::getArea() const {
-	return this->heightVector.getMagnitude() * this->widthVector.getMagnitude();
-}
-
-int Rect::numberOfCollisions(const Line& ray) const {
-	int count = 0;
-	for (Line line: this->getLines()) {
-		if (line.intersectionPoint(ray).isReal()) {
-			count++;
-		}
-	}
-	return count;
+	return sqrt(this->heightVector.getFastMagnitude() * this->widthVector.getFastMagnitude());
 }
 
 int Rect::numLines() const {
@@ -141,20 +116,6 @@ int Rect::numLines() const {
 
 int Rect::numPoints() const {
 	return 4;
-}
-
-Point Rect::collideLine(const Line& ray) const {
-	/* Returns the point where the line intersects the rect, if it doesn't intersect it returns a null point */
-	Point intersection, tempPoint;
-	for (Line line: this->getLines()) {
-		tempPoint = line.intersectionPoint(ray);
-		if (tempPoint.isReal()) {
-			if (intersection.isNull() || tempPoint.distanceToPoint(ray.getOrigin()) < intersection.distanceToPoint(ray.getOrigin())) {
-				intersection = tempPoint;
-			}
-		}
-	}
-	return intersection;
 }
 
 std::vector<Line> Rect::getLines() const {
@@ -179,20 +140,6 @@ void Rect::superDraw(SDL_Renderer* renderer, Point offset) {
 	SDL_GetRenderDrawColor(renderer, &r, &g, &b, &a);
 	this->setColorChannels(r, g, b, a);
 	this->draw(renderer, offset);
-}
-
-void Rect::draw(SDL_Renderer* renderer, Point offset) {
-	std::vector<Point> temp = this->getPoints();
-	short* x = new short[temp.size()];
-	short* y = new short[temp.size()];
-	for (Uint i = 0; i < temp.size(); i++) {
-		temp[i] -= offset;
-		x[i] = temp[i].x;
-		y[i] = temp[i].y;
-	}
-	polygonRGBA(renderer, x, y, temp.size(), this->r, this->g, this->b, this->a);
-	delete[] x;
-	delete[] y;
 }
 
 double Rect::getOriginDistance() const {

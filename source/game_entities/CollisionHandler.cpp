@@ -56,6 +56,9 @@ bool CollisionHandler::doesNotCollideWith(const ThingPtr& thing) const {
 }
 
 bool CollisionHandler::isPositionOpen(const ThingPtr& thing) {
+	for (const ThingPtr& something: this->oMap[NULL]) {
+		if (thing.get() != something.get() && something->overlap(thing)) return false;
+	}
 	for (const SectorPtr& sector : this->parent->sectors.allSectors(thing)){
 		for (const ThingPtr& something: this->oMap[sector]) {
 			if (thing.get() != something.get() && something->overlap(thing)) return false;
@@ -80,9 +83,12 @@ Point CollisionHandler::closestPointThatCollidesWith(const Line& ray, const Thin
 
 void CollisionHandler::finalize() {
 	for (const ThingPtr& thing: this->parent->collisionThings) {
+		int hit = 0;
 		for (SectorPtr sector : this->parent->sectors.allSectors(thing)) {
+			hit++;
 			this->oMap[sector].push_back(thing);
 		}
+		if (hit < 3) this->oMap[NULL].push_back(thing);
 	}
 }
 
