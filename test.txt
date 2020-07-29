@@ -9,6 +9,8 @@ Sector Rect 400 450 100 300
 Sector Rect 500 600 100 150
 Sector Rect 30  750 300 210
 Sector Rect 0 100 200 100
+Sector Tri 100 50 50 100 100 100
+
 
 BasicWall Rect 0   200 100 300
 BasicWall Rect 200 200 300 100

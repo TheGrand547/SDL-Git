@@ -27,8 +27,8 @@ Font& Font::operator=(Font&& font) {
 	this->fontSize = font.fontSize;
 	this->filename = font.filename;
 	if (this->fontRenderer != NULL) {	
-		TTF_CloseFont(fontRenderer);
-		fontRenderer = NULL;
+		TTF_CloseFont(this->fontRenderer);
+		this->fontRenderer = NULL;
 	}
 	this->fontRenderer = font.fontRenderer;
 	font.fontRenderer = NULL;

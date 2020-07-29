@@ -1,5 +1,4 @@
 #include "SpriteSheet.h"
-// TODO: Implement this pipe dream lul
 /* 
 Animation definition structure should be something as follows, 
 example: file=SpritSheet.png;size=50x50;
@@ -15,9 +14,7 @@ SpriteSheet::SpriteSheet(SDL_Renderer* renderer, const std::string& filename, in
 	this->frame.setColorKey(0xFF, 0xFF, 0xFF);
 	this->maxX = this->frame.getWidth() / this->width;
 	this->maxY = this->frame.getHeight() / this->height;
-	if (this->maxY != 8) {
-		LOG("Improperly formatted SpriteSheet! Expected 8 rows, got %i rows.", this->maxY);
-	}
+	if (this->maxY != 8) LOG("Improperly formatted SpriteSheet! Expected 8 rows, got %i rows.", this->maxY);
 }
 
 SpriteSheet::~SpriteSheet() {}

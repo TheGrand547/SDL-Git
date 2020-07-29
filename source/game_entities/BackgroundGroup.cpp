@@ -21,7 +21,6 @@ void BackgroundGroup::add(Point position, const std::string& type) {
 	this->elements.push_back(std::make_shared<BackElement>(position, type));
 }
 
-// TODO: Make this not god awful
 void BackgroundGroup::drawGroup() {
 	if (!this->fullyRendered) this->finalize();
 	this->texture.draw(this->parent->getRenderer(), -this->parent->getOffset());
@@ -32,7 +31,10 @@ void BackgroundGroup::setParent(GameInstance& parent) {
 }
 
 void BackgroundGroup::finalize() {
+	#ifndef NDEBUG
 	Uint32 tick = SDL_GetTicks();
+	#endif
+	
 	int width = 0, height = 0;
 	std::map<std::string, std::shared_ptr<Texture>> textures;
 	
@@ -56,5 +58,7 @@ void BackgroundGroup::finalize() {
 	this->elements.clear();
 	this->fullyRendered = true;
 	
+	#ifndef NDEBUG
 	LOG("Took %i ms to internally render the background. ", (int) (SDL_GetTicks() - tick));
+	#endif
 }

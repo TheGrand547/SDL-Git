@@ -77,8 +77,6 @@ int main(int argc, char* argv[]) {
 	std::shared_ptr<SectorPathFollower> foodd = GAME.createThing<SectorPathFollower>(Rect(GAME.sectors[3]->structure().getCenter(), 10, 10));
 	foodd->mine.createPath(GAME.sectors[3], GAME.sectors[0]);
 	
-	
-	Triangle tri(Point(200, 100), Point (200, 180), Point(300, 180));
 	LOG("Section: Main Loop");
 	while (!contra.quit) {
 		playerDelta.zero(); // >:(
@@ -100,12 +98,6 @@ int main(int argc, char* argv[]) {
 			}
 		}
 		// Testing stuff
-		if (dot->getBoundingRect().overlap(tri)) {
-			tri.setColorChannels(0xFF, 0x00, 0x00, 0xFF);
-		} else {
-			tri.setColorChannels(0x00, 0x00, 0xFF, 0xFF);
-		}
-		tri.draw(gRenderer, Point(0, 0));
 		spriteSheetTest.draw("dumb", GAME.getRenderer(), {200, 200}, getDirectionFromAngle(dot->getAngle()));
 		patrolLine.drawLine(gRenderer, GAME.getOffset());
 		handler.draw();

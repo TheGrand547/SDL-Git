@@ -31,7 +31,6 @@ bool Animation::update() {
 		this->currentIndex++;
 		this->started = this->currentIndex <= this->endingIndex;
 		this->timer.start();
-		//if (this->currentIndex > this->endingIndex) this->currentIndex = this->startingIndex;
 	}
 	return this->started;
 }

@@ -60,9 +60,23 @@ class Texture {
 		void dither();
 		void testFilter();
 		void floatyEdges();
+		
+		// TODO: Recreate SDL methods with Texture
+		// Friends
+		friend int SDL_GetTextureAlphaMod(Texture& texture, Uint8* blendMode);
+		friend int SDL_GetTextureAlphaMod(Texture& texture, Uint8& blendMode);
+		friend int SDL_GetTextureBlendMode(Texture& texture, SDL_BlendMode* blendMode);
+		friend int SDL_GetTextureBlendMode(Texture& texture, SDL_BlendMode& blendMode);
+		friend int SDL_QueryTexture(Texture& texture, Uint32* format, int* access, int* w, int* h);
+		friend int SDL_RenderCopy(SDL_Renderer* renderer, Texture& texture, const SDL_Rect* src, const SDL_Rect* dst);
+		friend int SDL_RenderCopyEx(SDL_Renderer* renderer, Texture& texture, const SDL_Rect* src, const SDL_Rect* dst);
+		friend int SDL_SetRenderTarget(SDL_Renderer* renderer, Texture& texture);
+		friend int SDL_SetTextureAlphaMod(Texture& texture, const Uint8& alpha);
+		friend int SDL_SetTextureBlendMode(Texture& texture, SDL_BlendMode blendMode);
+		friend int SDL_SetTextureColorMod(Texture& texture, const Uint8& r, const Uint8& g, const Uint8& b);
+		friend int SDL_SetTextureMod(Texture& texture, const SDL_Color& color);
+		friend int SDL_SetTextureMod(Texture& texture, const Uint32& color);
+		//friend Texture SDL_CreateTextureFromSurface(SDL_Renderer* renderer, SDL_Surface* surface);
+		friend void SDL_DestroyTexture(Texture& texture);
 };
-
-// TODO: Recreate SDL methods with Texture
-int SDL_SetRenderTarget(SDL_Renderer* renderer, Texture& texture);
-
 #endif

@@ -18,6 +18,7 @@ class Rect: public Polygon {
 		Rect();
 		Rect(Point topLeft, Line widthVector, Line heightVector);
 		Rect(Point topLeft, Point widthVector, Point heightVector);
+		Rect(Point a, Point b, Point c, Point d);
 		Rect(Line side1, Line side2);
 		Rect(Point position, double width, double height);
 		Rect(Point topLeft, Point bottomRight);

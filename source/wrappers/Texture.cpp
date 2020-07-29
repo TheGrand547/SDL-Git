@@ -1,29 +1,22 @@
 #include "Texture.h"
 
-int SDL_SetRenderTarget(SDL_Renderer* renderer, Texture& texture) {
-	return SDL_SetRenderTarget(renderer, texture.getRawTexture());
-}
-
 Texture::Texture() : width(0), height(0), renderer(NULL), texture(NULL) {}
 
 Texture::~Texture() {
 	this->free();
 }
 
-Texture::Texture(Texture&& that) {
+Texture::Texture(Texture&& that) : width(that.width), height(that.height) {
 	// rvalue texture constructor will be cleared
 	this->free();
 	this->texture = that.texture;
-	this->width = that.width;
-	this->height = that.height;
 	that.texture = NULL;
 }
 
-Texture::Texture(const Texture& that) {
+Texture::Texture(const Texture& that) : width(that.width), height(that.height) {
 	// lvalue texture should be copied
+	if (this == &that) return;
 	this->free();
-	this->width = that.width;
-	this->height = that.height;
 	if (that.renderer != NULL) {
 		this->texture = this->getBlankRenderTarget(that.renderer);
 		SDL_SetRenderTarget(that.renderer, this->texture);
@@ -45,15 +38,17 @@ Texture& Texture::operator=(Texture&& that) {
 
 Texture& Texture::operator=(Texture& that) {
 	// lvalue texture should be copied
-	this->free();
-	this->width = that.width;
-	this->height = that.height;
-	if (that.renderer != NULL) {
-		this->texture = this->getBlankRenderTarget(that.renderer);
-		SDL_SetRenderTarget(that.renderer, this->texture);
-		SDL_RenderCopy(that.renderer, that.texture, NULL, NULL);
-		SDL_SetRenderTarget(that.renderer, NULL);
-		this->normalizeTexture(that.renderer);
+	if (this != &that) {
+		this->free();
+		this->width = that.width;
+		this->height = that.height;
+		if (that.renderer != NULL) {
+			this->texture = this->getBlankRenderTarget(that.renderer);
+			SDL_SetRenderTarget(that.renderer, this->texture);
+			SDL_RenderCopy(that.renderer, that.texture, NULL, NULL);
+			SDL_SetRenderTarget(that.renderer, NULL);
+			this->normalizeTexture(that.renderer);
+		}
 	}
 	return *this;
 }
@@ -192,13 +187,13 @@ void Texture::normalizeTexture(SDL_Renderer* renderer) {
 	if (this->texture == NULL) return;
 	// TODO: Make this not shit
 	// Method to take a SDL_TEXTUREACCESS_TARGET and make it a SDL_TEXTUREACCESS_STREAMING for pixel modification
-	int access, width, height;
-	SDL_QueryTexture(this->texture, NULL, &access, &width, &height);
+	int access;
+	SDL_QueryTexture(this->texture, NULL, &access, &this->width, &this->height);
 	if (access == SDL_TEXTUREACCESS_STREAMING) {
 		return;
 	} else if (access == SDL_TEXTUREACCESS_STATIC) { // Don't know what to do with it :(
 		//LOG("Texture was created with the Texture Access of Static -> Fix This");
-		SDL_Texture* streamingTexture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_TARGET, width, height);
+		SDL_Texture* streamingTexture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_TARGET, this->width, this->height);
 		
 		SDL_SetRenderTarget(renderer, streamingTexture);
 		this->setBlend(SDL_BLENDMODE_BLEND);
@@ -212,7 +207,7 @@ void Texture::normalizeTexture(SDL_Renderer* renderer) {
 		return;
 	} else {
 		SDL_SetRenderTarget(renderer, this->texture);
-		SDL_Texture* streamingTexture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_STREAMING, width, height); 
+		SDL_Texture* streamingTexture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_STREAMING, this->width, this->height); 
 		void* streamingPixels;
 		int streamingPitch;
 		SDL_LockTexture(streamingTexture, NULL, &streamingPixels, &streamingPitch); 
@@ -262,22 +257,17 @@ void Texture::floatyEdges() {
 	this->setBlend(SDL_BLENDMODE_BLEND);
 	PixelMod mod(this->texture);
 	if (mod.notLocked()) return;
-	// TODO: Tidy this up at some point
 	int aAvg, count;
 	for (int x = 0; x < mod.width(); x++) {
 		for (int y = 0; y < mod.height(); y++) {
 			Pixel pixel = mod.getPixel(x, y);
-			if (pixel.alpha() < 0x4F) {
-				continue;
-			}
+			if (pixel.alpha() < 0x4F) continue;
 			aAvg = 0;
 			count = 0;
 			for (int subX = -1; subX <= 1; subX++) {
 				for (int subY = -1; subY <= 1; subY++) {
 					Pixel temp = mod.getPixel(x + subX, y + subY);
-					if (temp.alpha() == 0x00) {
-						count++;
-					}
+					if (temp.alpha() == 0x00) count++;
 					aAvg += temp.alpha();
 					count++;
 				}
@@ -371,4 +361,13 @@ void Texture::bilateralFilter(float valI, float valS, const int kernelSize,  con
 			}
 		}
 	}
+}
+
+
+// ------------------------------------------------
+// -------------- Friend Functions ----------------
+// ------------------------------------------------
+
+int SDL_SetRenderTarget(SDL_Renderer* renderer, Texture& texture) {
+	return SDL_SetRenderTarget(renderer, texture.texture);
 }
