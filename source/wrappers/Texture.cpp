@@ -368,6 +368,71 @@ void Texture::bilateralFilter(float valI, float valS, const int kernelSize,  con
 // -------------- Friend Functions ----------------
 // ------------------------------------------------
 
+int SDL_GetTextureAlphaMod(Texture& texture, Uint8* alpha) {
+	return SDL_GetTextureAlphaMod(texture.texture, alpha);
+}
+
+int SDL_GetTextureAlphaMod(Texture& texture, Uint8& alpha) {
+	return SDL_GetTextureAlphaMod(texture.texture, &alpha);
+}
+
+int SDL_GetTextureBlendMode(Texture& texture, SDL_BlendMode* blendMode) {
+	return SDL_GetTextureBlendMode(texture.texture, blendMode);
+}
+
+int SDL_GetTextureBlendMode(Texture& texture, SDL_BlendMode& blendMode) {
+	return SDL_GetTextureBlendMode(texture.texture, &blendMode);
+}
+
+int SDL_GetTextureColorMod(Texture& texture, Uint8* r, Uint8* g, Uint8* b) {
+	return SDL_GetTextureColorMod(texture.texture, r, g, b);
+}
+
+int SDL_GetTextureColorMod(Texture& texture, Uint8& r, Uint8& g, Uint8& b) {
+	return SDL_GetTextureColorMod(texture.texture, &r, &g, &b);
+}
+
+int SDL_LockTexture(Texture& texture, const SDL_Rect*& rect, void**& pixels, int*& pitch) {
+	return SDL_LockTexture(texture.texture, rect, pixels, pitch);
+}
+
+int SDL_LockTexture(Texture& texture, const SDL_Rect& rect, void*& pixels, int& pitch) {
+	return SDL_LockTexture(texture.texture, &rect, &pixels, &pitch);
+}
+
+int SDL_QueryTexture(Texture& texture, Uint32*& format, int* access, int* w, int* h) {
+	return SDL_QueryTexture(texture.texture, format, access, w, h);
+}
+
+int SDL_QueryTexture(Texture& texture, Uint32& format, int& access, int& w, int& h) {
+	return SDL_QueryTexture(texture.texture, &format, &access, &w, &h);
+}
+
+int SDL_RenderCopy(SDL_Renderer* renderer, Texture& texture, const SDL_Rect*& src = NULL, const SDL_Rect*& dst = NULL) {
+	return SDL_RenderCopy(renderer, texture.texture, src, dst);
+}
+
+//int SDL_RenderCopyEx(SDL_Renderer* renderer, Texture& texture, const SDL_Rect* src, const SDL_Rect* dst);
 int SDL_SetRenderTarget(SDL_Renderer* renderer, Texture& texture) {
 	return SDL_SetRenderTarget(renderer, texture.texture);
+}
+
+int SDL_SetTextureAlphaMod(Texture& texture, const Uint8& alpha) {
+	return SDL_SetTextureAlphaMod(texture.texture, alpha);
+}
+
+int SDL_SetTextureBlendMode(Texture& texture, SDL_BlendMode blendMode) {
+	return SDL_SetTextureBlendMode(texture.texture, blendMode);
+}
+
+int SDL_SetTextureColorMod(Texture& texture, const Uint8& r, const Uint8& g, const Uint8& b) {
+	return SDL_SetTextureColorMod(texture.texture, r, g, b);
+}
+
+void SDL_DestroyTexture(Texture& texture) {
+	texture.free();
+}
+
+void SDL_UnlockTexture(Texture& texture) {
+	SDL_UnlockTexture(texture.texture);
 }
