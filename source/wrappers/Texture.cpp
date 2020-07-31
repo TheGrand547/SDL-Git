@@ -408,11 +408,14 @@ int SDL_QueryTexture(Texture& texture, Uint32& format, int& access, int& w, int&
 	return SDL_QueryTexture(texture.texture, &format, &access, &w, &h);
 }
 
-int SDL_RenderCopy(SDL_Renderer* renderer, Texture& texture, const SDL_Rect*& src = NULL, const SDL_Rect*& dst = NULL) {
+int SDL_RenderCopy(SDL_Renderer* renderer, Texture& texture, const SDL_Rect* src = NULL, const SDL_Rect* dst = NULL) {
 	return SDL_RenderCopy(renderer, texture.texture, src, dst);
 }
 
-//int SDL_RenderCopyEx(SDL_Renderer* renderer, Texture& texture, const SDL_Rect* src, const SDL_Rect* dst);
+int SDL_RenderCopyEx(SDL_Renderer* renderer, Texture& texture, const SDL_Rect* src = NULL, const SDL_Rect* dst = NULL, const double& angle = 0, const SDL_Point* center = NULL, const SDL_RendererFlip& flip = SDL_FLIP_NONE) {
+	return SDL_RenderCopyEx(renderer, texture.texture, src, dst, angle, center, flip);
+}
+
 int SDL_SetRenderTarget(SDL_Renderer* renderer, Texture& texture) {
 	return SDL_SetRenderTarget(renderer, texture.texture);
 }

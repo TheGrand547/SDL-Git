@@ -4,7 +4,7 @@
 #define unless(condition) if(!condition)
 
 bool init();
-SDL_Renderer* createRenderer(SDL_Window* window);
+SDL_Renderer* createRenderer(SDL_Window*& window);
 SDL_Window* createWindow();
 void close(SDL_Window* window);
 
@@ -129,10 +129,10 @@ bool init() {
 
 SDL_Window* createWindow() {
 	return SDL_CreateWindow(Screen::WINDOW_TITLE.c_str(), Screen::DEFAULT_POS, Screen::DEFAULT_POS, Screen::SCREEN_WIDTH, 
-							Screen::SCREEN_HEIGHT, Screen::WINDOW_ARGUMENTS | SDL_RENDERER_PRESENTVSYNC);
+							Screen::SCREEN_HEIGHT, Screen::WINDOW_ARGUMENTS);
 }
 
-SDL_Renderer* createRenderer(SDL_Window* window) {
+SDL_Renderer* createRenderer(SDL_Window*& window) {
 	return SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 }
 

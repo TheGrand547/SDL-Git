@@ -78,8 +78,9 @@ class Texture {
 		friend int SDL_QueryTexture(Texture& texture, Uint32*& format, int* access, int* w, int* h);
 		friend int SDL_QueryTexture(Texture& texture, Uint32& format, int& access, int& w, int& h);
 		
-		friend int SDL_RenderCopy(SDL_Renderer* renderer, Texture& texture, const SDL_Rect*& src, const SDL_Rect*& dst);
-		friend int SDL_RenderCopyEx(SDL_Renderer* renderer, Texture& texture, const SDL_Rect* src, const SDL_Rect* dst);
+		friend int SDL_RenderCopy(SDL_Renderer* renderer, Texture& texture, const SDL_Rect* src, const SDL_Rect* dst);
+		friend int SDL_RenderCopyEx(SDL_Renderer* renderer, Texture& texture, const SDL_Rect* src, const SDL_Rect* dst, const double& angle, const SDL_Point* center, const SDL_RendererFlip& flip);
+		
 		friend int SDL_SetRenderTarget(SDL_Renderer* renderer, Texture& texture);
 		friend int SDL_SetTextureAlphaMod(Texture& texture, const Uint8& alpha);
 		friend int SDL_SetTextureBlendMode(Texture& texture, SDL_BlendMode blendMode);
