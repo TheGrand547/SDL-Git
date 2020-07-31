@@ -1,3 +1,6 @@
+#pragma once
+#ifndef SDL_HEADERS_HELP_H
+#define SDL_HEADERS_HELP_H
 #include<SDL.h>
 #include<SDL2_framerate.h>
 #include<SDL2_gfxPrimitives.h>
@@ -17,15 +20,15 @@ enum BLEND_MODE {
 
 enum COLOR_MASK {
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
-    RMASK = 0xff000000;
-	GMASK = 0x00ff0000;
-    BBASK = 0x0000ff00;
-    amask = 0x000000ff;
+    RMASK = 0xff000000,
+	GMASK = 0x00ff0000,
+    BBASK = 0x0000ff00,
+    amask = 0x000000ff
 #else
-    RMASK = 0x000000ff;
-    GMASK = 0x0000ff00;
-    BMASK = 0x00ff0000;
-    AMASK = 0xff000000;
+    RMASK = 0x000000ff,
+    GMASK = 0x0000ff00,
+    BMASK = 0x00ff0000,
+    AMASK = 0xff000000
 #endif
 };
 
@@ -38,3 +41,4 @@ enum COLOR_MASK {
 #define SDL_COPY_EX_ARGS SDL_Rect* clip, double angle, SDL_Point* center, SDL_RendererFlip flip
 
 // TODO: Maybe write a wrapper thingy for all of sdl things, like a SDL namespace with texture as a base class?
+#endif

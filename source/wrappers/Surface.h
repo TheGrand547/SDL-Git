@@ -4,7 +4,7 @@
 #include<SDL.h>
 #include<SDL2_rotozoom.h>
 #include "../essential/SDL_Headers.h"
-#inlcude "../primitives/Rect.h"
+#include "../primitives/Rect.h"
 
 class Surface {
 	private:
@@ -16,17 +16,21 @@ class Surface {
 	public:
 		// TODO: Rearrange
 		Surface();
+		Surface(const Surface& surface);
+		Surface(Surface&& surface);
+		Surface(SDL_Surface*& surface);
+		Surface(SDL_Surface*&& surface);
 		~Surface();
 		
 		Surface& operator=(SDL_Surface*&& surface);
 		Surface& operator=(Surface&& surface);
-		Surface& operator=(SDL_Surface*&& surface);
-		Surface& operator=(Surface&& surface);
+		Surface& operator=(SDL_Surface*& surface);
+		Surface& operator=(const Surface& surface);
 		
-		int blitTo(Surface& surface, const Rect& srcRect = Rect(), const Rect& dstRect = Rect());
+		int blitTo(Surface& surface, const Rect& srcRect = Rect(), const Rect& dstRect = Rect()) const;
 		void free();
 		int setAlpha(const Uint8& alpha);
-		int setBlend(const SDL_BLENDMODE& blend);
+		int setBlend(const SDL_BlendMode& blend);
 		int setBlend(const BLEND_MODE& blend);
 };
 #endif
