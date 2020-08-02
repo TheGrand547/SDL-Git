@@ -1,5 +1,4 @@
-#!/bin/bash
-
+#!/bin/sh
 
 if [ ! -f ./build/build.ninja ]; then
 	meson build

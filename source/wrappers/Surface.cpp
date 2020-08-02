@@ -22,7 +22,7 @@ Surface::~Surface() {
 	this->free();
 }
 
-SDL_Surface* Surface::createSurface(const int& width, const int& height) {
+SDL_Surface* Surface::createSurface(const int& width, const int& height) const {
 	// TODO: 8 should be constant'd, once we figure out what it does
 	return SDL_CreateRGBSurface(SURFACE_FLAGS, width, height, 8, RMASK, GMASK, BMASK, AMASK);
 }

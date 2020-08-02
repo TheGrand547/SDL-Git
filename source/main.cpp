@@ -40,7 +40,7 @@ int main(int argc, char* argv[]) {
 		
 	LOG("MAKING THINGS");
 	
-	analyzeFile("test.txt", GAME); // Only adds sectors/walls currently, also maybe make this an internal GameInstance method
+	analyzeFile("level.txt", GAME); // Only adds sectors/walls currently, also maybe make this an internal GameInstance method
 	
 	// Enemy
 	const Point BAD_POINT(220, 360);

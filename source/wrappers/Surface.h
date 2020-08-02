@@ -9,7 +9,7 @@
 class Surface {
 	private:
 		// Methods there is no reason anyone outside should need to call
-		SDL_Surface* createSurface(const int& width, const int& height);
+		SDL_Surface* createSurface(const int& width, const int& height) const;
 	protected:
 		SDL_Surface* surface;
 		
