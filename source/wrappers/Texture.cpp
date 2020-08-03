@@ -6,24 +6,45 @@ Texture::~Texture() {
 	this->free();
 }
 
-Texture::Texture(Texture&& that) : width(that.width), height(that.height) {
-	// rvalue texture constructor will be cleared
-	this->free();
+Texture::Texture(Texture&& that) {
+	// rvalue texture constructor, rvalue will be cleared
 	this->texture = that.texture;
 	that.texture = NULL;
+	SDL_QueryTexture(this->texture, NULL, NULL, &this->width, &this->height);
 }
 
-Texture::Texture(const Texture& that) : width(that.width), height(that.height) {
+Texture::Texture(const Texture& that) {
 	// lvalue texture should be copied
 	if (this == &that) return;
-	this->free();
 	if (that.renderer != NULL) {
 		this->texture = this->getBlankRenderTarget(that.renderer);
 		SDL_SetRenderTarget(that.renderer, this->texture);
 		SDL_RenderCopy(that.renderer, that.texture, NULL, NULL);
 		SDL_SetRenderTarget(that.renderer, NULL);
 		this->normalizeTexture(that.renderer);
+		SDL_QueryTexture(this->texture, NULL, NULL, &this->width, &this->height);
 	}
+}
+
+Texture::Texture(SDL_Texture*& texture) {
+	// Figure out how to do do this
+	/*
+	if (this->renderer) {
+		this->free();
+		SDL_QueryTexture(texture, NULL, NULL, &this->width, &this->height);
+		this->texture = this->getBlankRenderTarget(this->renderer);
+		
+	}*/
+	std::cout << &texture << std::endl;
+	LOG("This should never be called");
+	SDL_QueryTexture(this->texture, NULL, NULL, &this->height, &this->height);
+}
+
+Texture::Texture(SDL_Texture*&& texture) : width(0), height(0){
+	// rvalue
+	this->texture = texture;
+	texture = NULL;
+	SDL_QueryTexture(this->texture, NULL, NULL, &this->width, &this->height);
 }
 
 Texture& Texture::operator=(Texture&& that) {
@@ -36,7 +57,7 @@ Texture& Texture::operator=(Texture&& that) {
 	return *this;
 }
 
-Texture& Texture::operator=(Texture& that) {
+Texture& Texture::operator=(const Texture& that) {
 	// lvalue texture should be copied
 	if (this != &that) {
 		this->free();
@@ -54,6 +75,8 @@ Texture& Texture::operator=(Texture& that) {
 }
 
 Texture& Texture::operator=(SDL_Texture*& that) {
+	// lvalue copy MAKE IT FUCKING COPY
+	LOG("This should never be called");
 	this->texture = that;
 	that = NULL;
 	return *this;
@@ -61,7 +84,9 @@ Texture& Texture::operator=(SDL_Texture*& that) {
 
 Texture& Texture::operator=(SDL_Texture*&& that) {
 	// rvalue doesn't need to be cleared
+	this->free();
 	this->texture = that;
+	that = NULL;
 	return *this;
 }
 
@@ -123,6 +148,7 @@ void Texture::draw(SDL_Renderer* renderer, Point position, SDL_COPY_EX_ARGS) {
 		renderQuad.w = clip->w;
 		renderQuad.h = clip->h;
 	}
+	//std::cout << renderQuad.x << ", " << renderQuad.y << ", " << renderQuad.w << ", " << renderQuad.h << std::endl;
 	SDL_RenderCopyEx(renderer, this->texture, clip, &renderQuad, angle, center, flip);
 }
 

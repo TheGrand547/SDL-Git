@@ -1,5 +1,6 @@
 #include "headers.h"
 #include "primitives/Triangle.h"
+#include "wrappers/Surface.h"
 
 #define unless(condition) if(!condition)
 
@@ -77,6 +78,9 @@ int main(int argc, char* argv[]) {
 	std::shared_ptr<SectorPathFollower> foodd = GAME.createThing<SectorPathFollower>(Rect(GAME.sectors[3]->structure().getCenter(), 10, 10));
 	foodd->mine.createPath(GAME.sectors[3], GAME.sectors[0]);
 	
+	Surface surf;
+	surf.load("resources/missingTexture.jpg");
+	surf.scale(400, 400);
 	LOG("Section: Main Loop");
 	while (!contra.quit) {
 		playerDelta.zero(); // >:(
@@ -96,6 +100,9 @@ int main(int argc, char* argv[]) {
 					foodd->mine.createPath(twigsAgain, twigs);
 				}
 			}
+		}
+		if (contra.checkListener(config["PathReset"]).getHeld()) {
+			surf.draw(gRenderer, Point(25, 25));
 		}
 		// Testing stuff
 		spriteSheetTest.draw("dumb", GAME.getRenderer(), {200, 200}, getDirectionFromAngle(dot->getAngle()));

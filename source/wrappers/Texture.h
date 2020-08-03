@@ -27,7 +27,9 @@ class Texture {
 		~Texture();
 		Texture(const Texture& that);
 		Texture(Texture&& that);
-		Texture& operator=(Texture& that);
+		Texture(SDL_Texture*& that);
+		Texture(SDL_Texture*&& that);
+		Texture& operator=(const Texture& that);
 		Texture& operator=(Texture&& that);
 		Texture& operator=(SDL_Texture*& that);
 		Texture& operator=(SDL_Texture*&& that);
