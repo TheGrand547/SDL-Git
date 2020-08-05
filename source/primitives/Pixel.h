@@ -3,36 +3,37 @@
 #include<SDL2/SDL.h>
 #include "Point.h"
 
-typedef uint8_t uint8;
-typedef uint32_t uint32;
+typedef uint8_t Uint8;
+typedef uint32_t Uint32;
+
 class Pixel {
-	private:
+	protected:
 		Point position;
 		SDL_PixelFormat* format;
-		uint32* original;
-		uint8 r, g, b, a;
+		Uint32* original;
+		Uint8 r, g, b, a;
 	public:
 		Pixel();
-		Pixel(uint32& data, SDL_PixelFormat* format);
-		Pixel(Point position, uint32& data, SDL_PixelFormat* format);
-		Pixel(float x, float y, uint32& data, SDL_PixelFormat* format);
+		Pixel(Uint32& data, SDL_PixelFormat* format);
+		Pixel(Point position, Uint32& data, SDL_PixelFormat* format);
+		Pixel(double x, double y, Uint32& data, SDL_PixelFormat* format);
 		Pixel(const Pixel& that);
 		~Pixel();
 		void empty();
-		void setRed(const uint8 red);
-		void setBlue(const uint8 blue);
-		void setGreen(const uint8 green);
-		void setAlpha(const uint8 alpha);
+		void setRed(const Uint8& red);
+		void setBlue(const Uint8& blue);
+		void setGreen(const Uint8& green);
+		void setAlpha(const Uint8& alpha);
 		void update();
-		uint8& red();
-		uint8& green();
-		uint8& blue();
-		uint8& alpha();
-		uint32& source() const;
-		Pixel& operator=(const uint32& other);
+		Uint8& red();
+		Uint8& green();
+		Uint8& blue();
+		Uint8& alpha();
+		Uint32& source() const;
+		Pixel& operator=(const Uint32& other);
 };
-bool operator==(const Pixel& lhs, const uint32& rhs);
-bool operator==(const uint32& lhs, const Pixel& rhs);
-bool operator!=(const Pixel& lhs, const uint32& rhs);
-bool operator!=(const uint32& lhs, const Pixel& rhs);
+bool operator==(const Pixel& lhs, const Uint32& rhs);
+bool operator==(const Uint32& lhs, const Pixel& rhs);
+bool operator!=(const Pixel& lhs, const Uint32& rhs);
+bool operator!=(const Uint32& lhs, const Pixel& rhs);
 #endif

@@ -1,12 +1,16 @@
 #include "PathManager.h"
 
-PathManager::PathManager(EnemyBase* target) : target(target), repeat(false), index(0) {}
+PathManager::PathManager(EnemyBase* target) : repeat(false), target(target), index(0) {}
 
 PathManager::~PathManager() {
 	paths.clear();
 }
 
-bool PathManager::paused() {
+void PathManager::pause() {
+	this->paths[this->index]->pause();
+}
+
+bool PathManager::paused() const {
 	return this->paths[this->index]->isPaused();
 }
 
@@ -25,6 +29,10 @@ void PathManager::setRepeat(bool val) {
 	this->repeat = val;
 }
 
+void PathManager::unpause() {
+	this->paths[this->index]->unpause();
+}
+
 void PathManager::update() {
 	if (this->index < this->paths.size()) {
 		if (this->paths[this->index]->isFinished()) {
@@ -41,12 +49,4 @@ void PathManager::update() {
 		}
 		
 	}
-}
-
-void PathManager::pause() {
-	this->paths[this->index]->pause();
-}
-
-void PathManager::unpause() {
-	this->paths[this->index]->unpause();
 }

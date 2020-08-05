@@ -5,14 +5,14 @@
 
 class ZeroRadiusTurnPath : public Path {
 	private:
-		float startingAngle, targetAngle, maxTicks;
 		bool clockwise;
+		double maxTicks, startingAngle, targetAngle;
 	public:
-		ZeroRadiusTurnPath(float targetAngle, float time, bool clockwise = false);
+		ZeroRadiusTurnPath(double targetAngle, double time, bool clockwise = false);
 		~ZeroRadiusTurnPath();
 		bool isFinished() const override;
+		void modify(double delta) override;
 		void start() override;
 		void stop() override;
-		void modify(float delta) override;
 };
 #endif

@@ -107,7 +107,7 @@ void Polygon::draw(SDL_Renderer* renderer, Point offset) {
 	std::vector<Point> temp = this->getPoints();
 	short* x = new short[this->numPoints()];
 	short* y = new short[this->numPoints()];
-	for (Uint i = 0; i < this->numPoints(); i++) {
+	for (int i = 0; i < this->numPoints(); i++) {
 		temp[i] -= offset;
 		x[i] = temp[i].x;
 		y[i] = temp[i].y;

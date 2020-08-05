@@ -73,6 +73,7 @@ int Surface::blitTo(Surface& surface, const Rect& srcRect, const Rect& dstRect) 
 void Surface::free() {
 	if (this->surface) {
 		SDL_FreeSurface(this->surface);
+		this->internal.free();
 		this->surface = NULL;
 		this->changed = true;
 	}

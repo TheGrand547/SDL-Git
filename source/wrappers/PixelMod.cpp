@@ -12,7 +12,7 @@ PixelMod::PixelMod(SDL_Texture* texture, bool wrapEdges) : texture(texture) {
 	}
 	SDL_QueryTexture(this->texture, &format, NULL, &this->textureWidth, &this->textureHeight);
 	this->format = SDL_AllocFormat(format);
-	this->pixels = (uint32*)rawPixels;
+	this->pixels = (Uint32*)rawPixels;
 	this->pixelCount = (this->texturePitch / 4) * this->textureHeight;
 }
 

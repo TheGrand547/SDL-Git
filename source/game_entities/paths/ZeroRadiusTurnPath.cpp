@@ -1,8 +1,7 @@
 #include "ZeroRadiusTurnPath.h"
 
-ZeroRadiusTurnPath::ZeroRadiusTurnPath(float targetAngle, float time, bool clockwise) : Path(), targetAngle(targetAngle), clockwise(clockwise) {
-	this->maxTicks = time / 10;
-}
+ZeroRadiusTurnPath::ZeroRadiusTurnPath(double targetAngle, double time, bool clockwise) : Path(), clockwise(clockwise), maxTicks(time / 10), 
+										targetAngle(targetAngle) {}
 
 ZeroRadiusTurnPath::~ZeroRadiusTurnPath() {}
 
@@ -24,14 +23,10 @@ void ZeroRadiusTurnPath::stop() {
 	this->started = false;
 }
 
-void ZeroRadiusTurnPath::modify(float delta) {
+void ZeroRadiusTurnPath::modify(double delta) {
 	// TODO: Update this to 'modern standards'
-	float deltaAngle = (this->targetAngle - this->startingAngle) / (this->maxTicks * 10);
-	if (this-clockwise) {
-		this->target->turn(-deltaAngle);
-	} else {
-		this->target->turn(deltaAngle);
-	}
+	double deltaAngle = (this->targetAngle - this->startingAngle) / (this->maxTicks * 10);
+	this->target->turn(deltaAngle * ((this->clockwise) ? -1 : 1));
 	this->ticksDone += delta;
 	this->target->move(Point(0, 0));
 }

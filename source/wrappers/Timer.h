@@ -1,25 +1,25 @@
 #pragma once
 #include "../essential/constants.h"
 #include<SDL2/SDL.h>
+
 typedef uint32_t Uint32;
 
 /** Lightly modified from the timer on lazyfoo.net **/
 class Timer {
-	private:
-		Uint32 mStartTicks, mPausedTicks;
-		bool mPaused, mStarted;
+	protected:
+		bool paused, started;
 		int countedTicks;
+		Uint32 pausedTicks, startTicks;
     public:
 		Timer();
 		~Timer();
+		bool isStarted() const;
+		bool isPaused() const;
+		double getFps() const;
+		Uint32 getTicks() const;
 		void start();
 		void stop();
 		void pause();
 		void unpause();
 		void tick();
-		float getFps();
-		float getRatio();
-		Uint32 getTicks();
-		bool isStarted();
-		bool isPaused();
 };

@@ -1,52 +1,45 @@
 #include "Timer.h"
 
-Timer::Timer() {
-	this->mStartTicks = 0;
-	this->mPausedTicks = 0;
-	this->mPaused = false;
-	this->mStarted = false;
-}
+Timer::Timer() : paused(false), started(false), countedTicks(0), pausedTicks(0), startTicks(0) {}
 
 Timer::~Timer() {}
 
 void Timer::start() {
-	this->mStarted = true;
-	this->mPaused = false;
-	this->mStartTicks = SDL_GetTicks();
-	this->mPausedTicks = 0;
+	this->started = true;
+	this->paused = false;
+	this->startTicks = SDL_GetTicks();
+	this->pausedTicks = 0;
 	this->countedTicks = 0;
 }
 
 void Timer::stop() {
-	this->mStarted = false;
-	this->mPaused = false;
-	this->mStartTicks = 0;
-	this->mPausedTicks = 0;
+	this->started = false;
+	this->paused = false;
+	this->startTicks = 0;
+	this->pausedTicks = 0;
 	this->countedTicks = 0;
 }
 
-void Timer::pause() {
-	if(this->mStarted && !this->mPaused) {
-		//Pause the timer
-		mPaused = true;
-		//Calculate the paused ticks
-		mPausedTicks = SDL_GetTicks() - mStartTicks;
-		mStartTicks = 0;
-		return;
-	}
-	this->unpause();
+bool Timer::isPaused() const {
+	return this->paused && this->started;
 }
 
-void Timer::unpause() {
-	// If the timer is running and paused
-	if(mStarted && mPaused){
-		mPaused = false;
-		// Reset the starting ticks
-		mStartTicks = SDL_GetTicks() - mPausedTicks;
-		// Reset the paused ticks
-		mPausedTicks = 0;
-		this->countedTicks = 0;
-	}
+bool Timer::isStarted() const {
+	return this->started;
+}
+
+double Timer::getFps() const {
+	return (double) (this->countedTicks + 1) / ((double) (this->getTicks() + 1) / 1000.f);
+}
+
+void Timer::pause() {
+	if (this->started && !this->paused) {
+		// Pause the timer
+		this->paused = true;
+		// Calculate the paused ticks
+		this->pausedTicks = SDL_GetTicks() - this->startTicks;
+		this->startTicks = 0;
+	} else this->unpause();
 }
 
 void Timer::tick() {
@@ -57,33 +50,29 @@ void Timer::tick() {
 	this->countedTicks++;
 }
 
-float Timer::getFps() {
-	return float(this->countedTicks + 1) / (float(this->getTicks() + 1) / 1000.f);
+void Timer::unpause() {
+	// If the timer is running and paused
+	if (this->started && this->paused){
+		this->paused = false;
+		// Reset the starting ticks
+		this->startTicks = SDL_GetTicks() - this->pausedTicks;
+		// Reset the paused ticks
+		this->pausedTicks = 0;
+		this->countedTicks = 0;
+	}
 }
 
-Uint32 Timer::getTicks() {
+Uint32 Timer::getTicks() const {
 	Uint32 time = 0;
 	// If the timer is running
-	if(mStarted){
-		if(mPaused){
+	if (this->started){
+		if (this->paused){
 			// Return the number of ticks when the timer was paused
-			time = mPausedTicks;
+			time = this->pausedTicks;
 		} else {
-			//Return the current time minus the start time
-			time = SDL_GetTicks() - mStartTicks;
+			// Return the current time minus the start time
+			time = SDL_GetTicks() - this->startTicks;
 		}
 	}
 	return time;
-}
-
-bool Timer::isStarted() {
-	return mStarted;
-}
-
-bool Timer::isPaused() {
-	return mPaused && mStarted;
-}
-
-float Timer::getRatio() {
-	return float(Screen::INTENDED_FRAME_RATE) / float(this->getFps());
 }

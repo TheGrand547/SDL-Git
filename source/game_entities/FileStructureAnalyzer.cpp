@@ -96,6 +96,7 @@ void analyzeFile(const std::string& source, GameInstance& instance) {
 	file.close();
 }
 
+// TODO: Implement
 void analyzeStructure(const std::string& source, GameInstance& instance, StringMap& map) {
-	std::cout << source << "->" << &instance << std::endl;
+	std::cout << source << "->" << &instance << &map << std::endl;
 }

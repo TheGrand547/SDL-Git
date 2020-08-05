@@ -4,24 +4,24 @@
 
 class Path {
 	protected:
-		Timer timer;
-		float ticksDone;
+		bool started;
+		double ticksDone;
 		EnemyBase* target;
-		bool started = false;
+		Timer timer;
 	public:
 		static const int REPEAT;
 		static const int SINGLE_LOOP;
 		
 		Path(EnemyBase* target = NULL);
-		bool isStarted() const;
 		virtual ~Path();
 		virtual void stop() = 0;
 		virtual void start() = 0;
 		virtual bool isFinished() const = 0;
-		virtual void modify(float time) = 0;
+		virtual void modify(double time) = 0;
+		bool isPaused() const;
+		bool isStarted() const;
 		void setTarget(EnemyBase* target);
 		void update();
 		void pause();
 		void unpause();
-		bool isPaused();
 };

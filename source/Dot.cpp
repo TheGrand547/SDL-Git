@@ -13,31 +13,6 @@ Point Dot::getCenter() {
 	return this->position + (Point(Player::PLAYER_X_DIMENSION, Player::PLAYER_Y_DIMENSION) / 2);
 }
 
-float Dot::calcAngle(Point point) {
-	if (point.y != 0 || point.x != 0) {
-		 return atan2(-point.y, point.x);
-	}
-	return 0;
-}
-
-Point Dot::getPosition() const {
-	return this->position;
-}
-
-Rect Dot::getBoundingRect() const {
-	return Rect(this->position, Player::PLAYER_X_DIMENSION, Player::PLAYER_Y_DIMENSION);
-}
-
-Line Dot::getRay() {
-	Point temp = Point(this->getCenter());
-	temp += Point(Player::PLAYER_RAY_CAST_LENGTH * cos(this->angle), Player::PLAYER_RAY_CAST_LENGTH * sin(this->angle));
-	return Line(this->getCenter(), temp);
-}
-
-float Dot::getAngle() {
-	return this->angle;
-}
-
 bool Dot::overlap(const Polygon& other) const {
 	return this->getBoundingRect().overlap(other);
 }
@@ -50,29 +25,42 @@ bool Dot::wideOverlap(const Polygon& other) const {
 	return (this->getBoundingRect() * 1.25).overlap(other);
 }
 
-void Dot::draw(SDL_Renderer* renderer, Point offset) {
-	SDL_SetRenderDrawColor(renderer, this->r, this->g, this->b, this->a);
-	SDL_Rect temp = (this->getBoundingRect() - offset).getSDLRect();
-	temp.w = Player::PLAYER_X_DIMENSION;
-	temp.h = Player::PLAYER_Y_DIMENSION;
-	SDL_RenderFillRect(renderer, &temp);
-	Rect p(temp.x, temp.y, Player::PLAYER_X_DIMENSION, Player::PLAYER_Y_DIMENSION);
-	p.setColorChannels(0xFF, 0x00, 0x00, 0xFF);
-	p.draw(renderer, Point(0,0));
+bool Dot::doesLineCollide(const Line& ray) const {
+	return this->getBoundingRect().doesLineCollide(ray);
 }
 
-void Dot::velocityDelta(Point acceleration) {
-	this->EntityBase::accelerate(acceleration.getUnitVector());
+double Dot::calcAngle(Point point) {
+	if (point.y != 0 || point.x != 0) return atan2(-point.y, point.x);
+	return 0;
 }
 
-void Dot::update() {
-	this->collideTest();
+double Dot::getAngle() {
+	return this->angle;
+}
+
+
+Point Dot::getPosition() const {
+	return this->position;
+}
+
+Line Dot::getRay() {
+	Point temp = Point(this->getCenter());
+	temp += Point(Player::PLAYER_RAY_CAST_LENGTH * cos(this->angle), Player::PLAYER_RAY_CAST_LENGTH * sin(this->angle));
+	return Line(this->getCenter(), temp);
+}
+
+Rect Dot::getBoundingRect() const {
+	return Rect(this->position, Player::PLAYER_X_DIMENSION, Player::PLAYER_Y_DIMENSION);
+}
+
+Point Dot::collideLine(const Line& ray) const {
+	return this->getBoundingRect().collideLine(ray);
 }
 
 void Dot::collideTest() {
 	const int CHECKS = 4;
 	
-	double tickRatio = this->movement.getValue();
+	double tickRatio = this->mvmt.getValue();
 	if (!tickRatio) return;
 
 	Point delta = this->velocity * tickRatio;
@@ -96,6 +84,17 @@ void Dot::collideTest() {
 	if (abs(this->lastDelta.y) < ROUNDING) this->velocity.y = 0;
 } 
 
+void Dot::draw(SDL_Renderer* renderer, Point offset) {
+	SDL_SetRenderDrawColor(renderer, this->r, this->g, this->b, this->a);
+	SDL_Rect temp = (this->getBoundingRect() - offset).getSDLRect();
+	temp.w = Player::PLAYER_X_DIMENSION;
+	temp.h = Player::PLAYER_Y_DIMENSION;
+	SDL_RenderFillRect(renderer, &temp);
+	Rect p(temp.x, temp.y, Player::PLAYER_X_DIMENSION, Player::PLAYER_Y_DIMENSION);
+	p.setColorChannels(0xFF, 0x00, 0x00, 0xFF);
+	p.draw(renderer, Point(0,0));
+}
+
 void Dot::rayCast() {
 	Point newPoint = this->parent->collision.closestPointThatCollidesWith(this->getRay());
 	if (newPoint.isReal()) {
@@ -105,10 +104,10 @@ void Dot::rayCast() {
 	}
 }
 
-bool Dot::doesLineCollide(const Line& ray) const {
-	return this->getBoundingRect().doesLineCollide(ray);
+void Dot::update() {
+	this->collideTest();
 }
 
-Point Dot::collideLine(const Line& ray) const {
-	return this->getBoundingRect().collideLine(ray);
+void Dot::velocityDelta(Point acceleration) {
+	this->EntityBase::accelerate(acceleration.getUnitVector());
 }

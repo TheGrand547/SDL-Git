@@ -1,15 +1,14 @@
 #include "CirclePath.h"
 
-CirclePath::CirclePath() : Path() {
-	this->outsideMult = 0;
-	this->periodModify = 0;
+CirclePath::CirclePath() : Path(), outsideMult(0), periodModify(0), maxTicks(0), plot(0), startingMaxTicks(0), startingTicks(0) {
+	this->ticksDone = 0;
 }
 
-CirclePath::CirclePath(int radius, float periodModify, int maxTicks, bool clockwise, int startingTicks) : Path() {
+CirclePath::CirclePath(int radius, double periodModify, int maxTicks, bool clockwise, int startingTicks) : Path(), 
+						outsideMult(radius * pow(periodModify, 2.0)), periodModify(periodModify), startingTicks(startingTicks) {
 	// TODO: Make this class functional
 	this->outsideMult = radius * pow(periodModify, 2.0);
-	this->periodModify = periodModify;
-	
+	this->ticksDone = startingTicks;
 	if (maxTicks == Path::SINGLE_LOOP) {
 		this->maxTicks = 360 / periodModify;
 	} else if (maxTicks == Path::REPEAT) {
@@ -22,11 +21,6 @@ CirclePath::CirclePath(int radius, float periodModify, int maxTicks, bool clockw
 	} else {
 		this->plot = 1;
 	}
-	this->ticksDone = startingTicks;
-	
-	/* Kind of messy stuff for looping */
-	this->startingTicks = int(startingTicks);
-	this->startingMaxTicks = int(this->maxTicks);
 };
 
 CirclePath::~CirclePath() {}
@@ -48,7 +42,7 @@ bool CirclePath::isFinished() const {
 	return this->maxTicks != Path::REPEAT && this->ticksDone >= this->maxTicks;
 }
 
-void CirclePath::modify(float time) {
+void CirclePath::modify(double time) {
 	float tempdx = (this->outsideMult) * cos(this->ticksDone * M_PI / 180.f * this->periodModify);
 	float tempdy = (this->plot * this->outsideMult) * sin(this->ticksDone * M_PI / 180.f * this->periodModify);
 	this->target->move(Point(tempdx, tempdy) * time);

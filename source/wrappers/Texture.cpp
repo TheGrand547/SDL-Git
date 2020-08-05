@@ -337,45 +337,41 @@ void Texture::testFilter() {
 }
 
 // This sucks please ignore
-void Texture::bilateralFilter(float valI, float valS, const int kernelSize,  const int xStart, const int yStart, int width, int height) {
+void Texture::bilateralFilter(double valI, double valS, const int kernelSize,  const int xStart, const int yStart, int width, int height) {
 	if (this->texture == NULL) return;
 	PixelMod mod(this->texture, true);
 	if (mod.notLocked()) return;
 	{
-		Pixel pixels[mod.width()][mod.height()]; // Using a static array is not only more elegant, it's also more performant
+		std::vector<std::vector<Pixel>> pixels;
 		for (int y = 0; y < mod.width(); y++) {
 			for (int x = 0; x < mod.height(); x++) {
 				pixels[x][y] = mod.getPixel(x, y);
 			}
 		}
 		int half = kernelSize / 2;
-		if (width == 0) {
-			width = mod.width() - 2 - xStart;
-		}
-		if (height == 0) {
-			height = mod.height() - 2 - yStart;
-		}
+		if (width == 0) width = mod.width() - 2 - xStart;
+		if (height == 0) height = mod.height() - 2 - yStart;
 		for (int x = xStart; x - xStart < width; x++) {
 			for (int y = yStart; y - yStart < height; y++) {
 				// For each pixel apply the filter
-				float totalR(0), totalG(0), totalB(0);
-				float weightR(0), weightG(0), weightB(0);
+				double totalR(0), totalG(0), totalB(0);
+				double weightR(0), weightG(0), weightB(0);
 				for (int i = 0; i < kernelSize; i++) {
 					for (int j = 0; j < kernelSize; j++) {
 						int otherX = x - (half - i);
 						int otherY = y - (half - j);
-						float gaussIR = gaussian(pixels[otherX][otherY].red() - pixels[x][y].red(), valI);
-						float gaussS = gaussian(Point(x, y).distanceToPoint(Point(otherX, otherY)), valS);
+						double gaussIR = gaussian(pixels[otherX][otherY].red() - pixels[x][y].red(), valI);
+						double gaussS = gaussian(Point(x, y).distanceToPoint(Point(otherX, otherY)), valS);
 						double deltaR = gaussIR * gaussS;
 						totalR += pixels[otherX][otherY].red() * deltaR;
 						weightR += deltaR;
 						
-						float gaussIG = gaussian(pixels[otherX][otherY].green() - pixels[x][y].green(), valI);
+						double gaussIG = gaussian(pixels[otherX][otherY].green() - pixels[x][y].green(), valI);
 						double deltaG = gaussIG * gaussS;
 						totalG += pixels[otherX][otherY].green() * deltaG;
 						weightG += deltaG;
 						
-						float gaussIB = gaussian(pixels[otherX][otherY].blue() - pixels[x][y].blue(), valI);
+						double gaussIB = gaussian(pixels[otherX][otherY].blue() - pixels[x][y].blue(), valI);
 						double deltaB = gaussIB * gaussS;
 						totalB += pixels[otherX][otherY].blue() * deltaB;
 						weightB += deltaB;

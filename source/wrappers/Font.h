@@ -15,6 +15,7 @@ class Font {
 		std::string filename;
 	public:
 		Font(int size = 20, const std::string& filename = "resources/font.ttf");
+		// TODO: COPY CONSTRUCTOR
 		~Font();
 		Font& operator=(const Font& font);
 		Font& operator=(Font&& font);

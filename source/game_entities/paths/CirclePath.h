@@ -15,16 +15,14 @@ class CirclePath : public Path {
 		 * dx = r / a * -sin(t / a)
 		 * dy = r / a * cos(t / a)
 		 * Where r is the intended radius and 2pi * a is the period in seconds */
-		float outsideMult, periodModify;
-		int maxTicks, plot;
-		int startingTicks = 0;
-		int startingMaxTicks = 0;
+		double outsideMult, periodModify;
+		int maxTicks, plot, startingMaxTicks, startingTicks;
 	public:
 		CirclePath();
-		CirclePath(int radius = 10, float periodModify = .5, int maxTicks = Path::SINGLE_LOOP, bool clockwise = true, int startingTicks = 0);
+		CirclePath(int radius = 10, double periodModify = .5, int maxTicks = Path::SINGLE_LOOP, bool clockwise = true, int startingTicks = 0);
 		~CirclePath();
-		void stop();
-		void start();
-		bool isFinished() const;
-		void modify(float time);
+		bool isFinished() const override;
+		void modify(double time) override;
+		void stop() override;
+		void start() override;
 };

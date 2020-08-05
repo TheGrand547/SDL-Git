@@ -1,31 +1,22 @@
 #include "Pixel.h"
 
-Pixel::Pixel() {
-	this->format = NULL;
-	this->original = NULL;
-}
+Pixel::Pixel() : format(NULL), original(NULL) {}
 
-Pixel::Pixel(uint32& data, SDL_PixelFormat* format) {
-	this->original = &data;
-	this->format = format;
+Pixel::Pixel(Uint32& data, SDL_PixelFormat* format) : format(format), original(&data) {
 	SDL_GetRGBA(data, this->format, &this->r, &this->g, &this->b, &this->a);
 }
 
-Pixel::Pixel(Point position, uint32& data, SDL_PixelFormat* format) {
-	this->position = position;
-	this->format = format;
-	this->original = &data; // Pointer to the original data for the purposes of changing the original
+Pixel::Pixel(Point position, Uint32& data, SDL_PixelFormat* format) : position(position), format(format), original(&data) {
+	// Pointer to the original data for the purposes of changing the original
 	SDL_GetRGBA(data, this->format, &this->r, &this->g, &this->b, &this->a);
 }
 
-Pixel::Pixel(float x, float y, uint32& data, SDL_PixelFormat* format) {
+Pixel::Pixel(double x, double y, Uint32& data, SDL_PixelFormat* format) {
 	*this = Pixel(Point(x, y), data, format);
 }
 
-Pixel::Pixel(const Pixel& that) {
-	this->position = that.position;
-	this->format = that.format;
-	this->original = that.original; // Directly copy the pointer so they keep the same target
+Pixel::Pixel(const Pixel& that) : position(that.position), format(that.format), original(that.original) {
+	// Directly copy the pointer so they keep the same target
 	SDL_GetRGBA(*this->original, this->format, &this->r, &this->g, &this->b, &this->a);
 }
 
@@ -36,45 +27,45 @@ Pixel::~Pixel() {
 	}
 }
 
-uint8& Pixel::red() {
-	return this->r;
-}
-
-uint8& Pixel::green() {
-	return this->g;
-}
-
-uint8& Pixel::blue() {
-	return this->b;
-}
-
-uint8& Pixel::alpha() {
-	return this->a;
-}
-
-uint32& Pixel::source() const {
-	return *this->original;
-}
-
-Pixel& Pixel::operator=(const uint32& other) {
+Pixel& Pixel::operator=(const Uint32& other) {
 	*this->original = other;
 	SDL_GetRGBA(other, this->format, &this->r, &this->g, &this->b, &this->a);
 	return *this;
 }
 
-void Pixel::setRed(const uint8 red) {
+Uint8& Pixel::red() {
+	return this->r;
+}
+
+Uint8& Pixel::green() {
+	return this->g;
+}
+
+Uint8& Pixel::blue() {
+	return this->b;
+}
+
+Uint8& Pixel::alpha() {
+	return this->a;
+}
+
+Uint32& Pixel::source() const {
+	return *this->original;
+}
+
+void Pixel::setRed(const Uint8& red) {
 	this->r = red;
 }
 
-void Pixel::setBlue(const uint8 blue) {
+void Pixel::setBlue(const Uint8& blue) {
 	this->b = blue;
 }
 
-void Pixel::setGreen(const uint8 green) {
+void Pixel::setGreen(const Uint8& green) {
 	this->g = green;
 }
 
-void Pixel::setAlpha(const uint8 alpha) {
+void Pixel::setAlpha(const Uint8& alpha) {
 	this->a = alpha;
 }
 
@@ -89,19 +80,18 @@ void Pixel::empty() {
 	this->original = NULL;
 }
 
-bool operator==(const Pixel& lhs, const uint32& rhs) {
+bool operator==(const Pixel& lhs, const Uint32& rhs) {
 	return lhs.source() == rhs;
 }
 
-bool operator==(const uint32& lhs, const Pixel& rhs) {
+bool operator==(const Uint32& lhs, const Pixel& rhs) {
 	return rhs.source() == lhs;
 }
 
-bool operator!=(const Pixel& lhs, const uint32& rhs) {
+bool operator!=(const Pixel& lhs, const Uint32& rhs) {
 	return !(lhs == rhs);
 }
 
-bool operator!=(const uint32& lhs, const Pixel& rhs) {
+bool operator!=(const Uint32& lhs, const Pixel& rhs) {
 	return !(lhs == rhs);
 }
-

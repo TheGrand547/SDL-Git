@@ -5,6 +5,7 @@
 #include "../../GameInstance.h"
 #include "../../primitives/Point.h"
 #include "../../primitives/Rect.h"
+#include "../../wrappers/MovementWrapper.h"
 #include "../../wrappers/Timer.h"
 #include "ThingBase.h"
 
@@ -14,8 +15,8 @@ class EntityBase : public ThingBase {
 	protected:
 		// TODO: Friction should be based on math, do this at some point
 		double angle, frictionAmount, maxVelocity;
+		MovementWrapper movement;
 		Point acceleration, velocity;
-		Timer timer;
 	public:
 		EntityBase(int flags);
 		~EntityBase();

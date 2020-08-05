@@ -15,7 +15,7 @@
 class Dot : public EntityBase, public MyBase { 
 	private:
 		BoundedPoint position;
-		MovementWrapper movement;
+		MovementWrapper mvmt; // >:(
 		Point lastDelta;
 	public:
 		Dot(Point startingCoordinate);
@@ -24,8 +24,8 @@ class Dot : public EntityBase, public MyBase {
 		bool overlap(const Polygon& other) const override;
 		bool overlap(const std::shared_ptr<ThingBase>& other) const override;
 		bool wideOverlap(const Polygon& other) const override;
-		float getAngle();
-		float calcAngle(Point point);
+		double calcAngle(Point point);
+		double getAngle();
 		Line getRay();
 		Point collideLine(const Line& ray) const override;
 		Point getCenter();

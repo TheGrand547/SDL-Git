@@ -8,18 +8,18 @@ typedef uint Uint;
 
 class PathManager {
 	protected:
-		std::vector<std::shared_ptr<Path>> paths;
-		EnemyBase* target;
 		bool repeat;
+		EnemyBase* target;
+		std::vector<std::shared_ptr<Path>> paths;
 		Uint index;
 	public:
 		PathManager(EnemyBase* target = NULL);
 		~PathManager();
-		bool paused();
+		bool paused() const;
 		void addPath(std::shared_ptr<Path> path);
+		void pause();
 		void removePath(int index);
 		void setRepeat(bool val);
-		void update();
-		void pause();
 		void unpause();
+		void update();
 };

@@ -3,7 +3,7 @@
 #define EFFECT_ZONE_H
 #include "../primitives/Polygon.h"
 #include "base/ThingBase.h"
-
+#include<iostream>
 
 // TODO: Probably deprecated
 template<typename T> class EffectZone : public ThingBase {
@@ -11,7 +11,7 @@ template<typename T> class EffectZone : public ThingBase {
 	protected:
 		T zone;
 	public:
-		EffectZone(T poly) {}
+		EffectZone(T poly) {std::cout << &poly << std::endl;}
 		virtual ~EffectZone() {}
 };
 #endif

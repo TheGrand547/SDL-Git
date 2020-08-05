@@ -7,17 +7,19 @@
 #include<string>
 #include<SDL2/SDL.h>
 
+typedef uint Uint;
+
 // TODO: Maybe 
 class AlertText : public Text {
 	protected:
 		bool done;
-		float duration;
+		Uint duration;
 		Point position;
 		SDL_Color color;
 		std::string message;
 		Timer timer;
 	public:
-		AlertText(const std::string& text, Point position, SDL_Color color, int textSize = 20, float ms = 1000, const std::string& filename = "resources/font.ttf");
+		AlertText(const std::string& text, Point position, SDL_Color color, int textSize = 20, int ms = 1000, const std::string& filename = "resources/font.ttf");
 		~AlertText();
 		bool finished() const override;
 		void draw(SDL_Renderer* renderer, Point offset) override;
