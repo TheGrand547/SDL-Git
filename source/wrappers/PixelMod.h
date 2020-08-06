@@ -11,13 +11,17 @@ typedef uint32_t Uint32;
 
 class PixelMod {
 	protected:
-		SDL_Texture* texture;
-		Uint32 UGLY = 0x00000000;
-		bool unlocked, edges;
-		Uint32* pixels;
+		bool edges, isSurface, unlocked;
+		int _height, _pitch, _width, pixelCount;
 		SDL_PixelFormat* format;
-		int texturePitch, textureWidth, textureHeight, pixelCount;
-	public:		
+		
+		SDL_Surface* surface;
+		SDL_Texture* texture;
+		
+		Uint32 UGLY = 0x00000000;
+		Uint32* pixels;
+	public:	
+		PixelMod(SDL_Surface* texture, bool wrapEdges = false);
 		PixelMod(SDL_Texture* texture, bool wrapEdges = false);
 		~PixelMod();
 		bool notLocked();

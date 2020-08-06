@@ -81,7 +81,9 @@ int main(int argc, char* argv[]) {
 	Surface surf;
 	surf.load("resources/missingTexture.jpg");
 	surf.scale(400, 400);
+	surf.bilateralFilter(50, 20);
 	LOG("Section: Main Loop");
+		
 	while (!contra.quit) {
 		playerDelta.zero(); // >:(
 		contra.handleEvents();

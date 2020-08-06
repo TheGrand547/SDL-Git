@@ -4,7 +4,6 @@
 
 AppearingText::AppearingText(std::string text, Point position, double lettersPerSecond, SDL_Color color, int charWrap, int startingIndex) : 
 							charWrap(charWrap), leftOver(0), ticksPerLetter(1000 / lettersPerSecond), position(position), color(color), text(text), index(startingIndex) {
-	this->timer.start();
 }
 
 AppearingText::~AppearingText() {}
@@ -15,9 +14,10 @@ bool AppearingText::finished() const {
 
 void AppearingText::draw(SDL_Renderer* renderer, Point offset) {
 	// TODO: Seems inefficient, find out why
+	if (!this->timer.isStarted()) this->timer.start();
 	this->leftOver += int(this->timer.getTicks());
 	if (this->index < this->text.length()) {
-		for (int i = this->ticksPerLetter; i <= this->leftOver; i += ticksPerLetter) this->index++;
+		for (int i = this->ticksPerLetter; i <= this->leftOver; i += this->ticksPerLetter) this->index++;
 	}
 	this->leftOver %= this->ticksPerLetter;
 	this->timer.start();

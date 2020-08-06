@@ -13,17 +13,6 @@ namespace COLORS {
 	const SDL_Color LIGHT_GRAY = {0xC0, 0xC0, 0xC0, 0xFF};
 }
 
-
-namespace BOX {
-	const std::string BOX_TEXTURE = "resources/missingTexture.jpg";
-	const int BOX_WIDTH = 100;
-	const int BOX_HEIGHT = 100;
-	const float BOX_OUTDENT = .5;
-	const SDL_Color BOX_INNER_BORDER_COLOR = COLORS::DARK_GRAY;
-	const SDL_Color BOX_OUTER_BORDER_COLOR = COLORS::BLACK;
-	const SDL_Color BOX_INNER_COLOR = COLORS::LIGHT_GRAY;
-}
-
 namespace Ground {
 	enum Type {
 		GRASS = 0, METAL = 1
@@ -45,7 +34,6 @@ namespace Screen {
 	const int MAX_WIDTH = SCREEN_WIDTH * 2;
 	const int MAX_HEIGHT = SCREEN_HEIGHT * 2;
 	const int DEFAULT_POS = SDL_WINDOWPOS_CENTERED;
-	const float INTENDED_FRAME_RATE = 100.0;
 	const std::string WINDOW_TITLE = "Testing";
 	const uint32_t WINDOW_ARGUMENTS = SDL_WINDOW_SHOWN;// | SDL_WINDOW_FULLSCREEN;
 	/* Stupider Constants */

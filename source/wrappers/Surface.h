@@ -43,5 +43,8 @@ class Surface {
 		void load(const std::string& path);
 		void free();
 		void scale(const double& width, const double& height, bool smooth = true);
+		
+		void bilateralFilter(const double valI, const double valS, const int kernelSize = 5, 
+		        const int xStart = 2, const int yStart = 2, int width = 0, int height = 0);
 };
 #endif

@@ -341,8 +341,10 @@ void Texture::bilateralFilter(double valI, double valS, const int kernelSize,  c
 	if (this->texture == NULL) return;
 	PixelMod mod(this->texture, true);
 	if (mod.notLocked()) return;
+	Uint32 start = SDL_GetTicks();
 	{
-		std::vector<std::vector<Pixel>> pixels;
+		Pixel** pixels = new Pixel*[mod.width()];
+		for (int i = 0; i < mod.width(); i++) pixels[i] = new Pixel[mod.height()];
 		for (int y = 0; y < mod.width(); y++) {
 			for (int x = 0; x < mod.height(); x++) {
 				pixels[x][y] = mod.getPixel(x, y);
@@ -382,7 +384,10 @@ void Texture::bilateralFilter(double valI, double valS, const int kernelSize,  c
 				pixels[x][y].blue() = totalB / weightB;
 			}
 		}
+		for (int i = 0; i < mod.width(); i++) delete[] pixels[i];
+		delete[] pixels;
 	}
+	LOG("Filter Time: %i", (int) SDL_GetTicks() - start)
 }
 
 
