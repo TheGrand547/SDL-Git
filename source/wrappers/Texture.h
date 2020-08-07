@@ -58,7 +58,7 @@ class Texture {
 		// TODO: Add more Filters
 		// Filters
 		void bilateralFilter(const double valI, const double valS, const int kernelSize = 5, 
-		        const int xStart = 2, const int yStart = 2, int width = 0, int height = 0);
+		        int xStart = -1, int yStart = -1, int width = 0, int height = 0);
 		void dither();
 		void testFilter();
 		void floatyEdges();

@@ -131,55 +131,59 @@ void Surface::scale(const double& width, const double& height, bool smooth) {
 }
 
 
-void Surface::bilateralFilter(double valI, double valS, const int kernelSize,  const int xStart, const int yStart, int width, int height) {
+void Surface::bilateralFilter(double valI, double valS, const int kernelSize, int xStart, int yStart, int width, int height) {
+	if (kernelSize % 2 == 0) {
+		LOG("KernalSize MUST be odd.");
+		return;
+	}
 	if (this->surface == NULL) return;
 	this->changed = true;
 	PixelMod mod(this->surface, true);
+	
+	#ifndef NDEBUG
 	Uint32 start = SDL_GetTicks();
-	{
-		Pixel** pixels = new Pixel*[mod.width()];
-		for (int i = 0; i < mod.width(); i++) pixels[i] = new Pixel[mod.height()];
-		for (int y = 0; y < mod.width(); y++) {
-			for (int x = 0; x < mod.height(); x++) {
-				pixels[x][y] = mod.getPixel(x, y);
-			}
-		}
-		int half = kernelSize / 2;
-		if (width == 0) width = mod.width() - 2 - xStart;
-		if (height == 0) height = mod.height() - 2 - yStart;
-		for (int x = xStart; x - xStart < width; x++) {
-			for (int y = yStart; y - yStart < height; y++) {
-				// For each pixel apply the filter
-				double totalR(0), totalG(0), totalB(0);
-				double weightR(0), weightG(0), weightB(0);
-				for (int i = 0; i < kernelSize; i++) {
-					for (int j = 0; j < kernelSize; j++) {
-						int otherX = x - (half - i);
-						int otherY = y - (half - j);
-						double gaussIR = gaussian(pixels[otherX][otherY].red() - pixels[x][y].red(), valI);
-						double gaussS = gaussian(Point(x, y).distanceToPoint(Point(otherX, otherY)), valS);
-						double deltaR = gaussIR * gaussS;
-						totalR += pixels[otherX][otherY].red() * deltaR;
-						weightR += deltaR;
-						
-						double gaussIG = gaussian(pixels[otherX][otherY].green() - pixels[x][y].green(), valI);
-						double deltaG = gaussIG * gaussS;
-						totalG += pixels[otherX][otherY].green() * deltaG;
-						weightG += deltaG;
-						
-						double gaussIB = gaussian(pixels[otherX][otherY].blue() - pixels[x][y].blue(), valI);
-						double deltaB = gaussIB * gaussS;
-						totalB += pixels[otherX][otherY].blue() * deltaB;
-						weightB += deltaB;
-					}
+	#endif
+	
+	int half = kernelSize / 2;
+	if (width == 0) width = mod.width();
+	if (height == 0) height = mod.height();
+	if (xStart == -1) xStart = kernelSize / 2;
+	if (yStart == -1) yStart = kernelSize / 2;
+	for (int x = xStart; x - xStart < width; x++) {
+		for (int y = yStart; y - yStart < height; y++) {
+			// For each pixel apply the filter
+			double totalR(0), totalG(0), totalB(0);
+			double weightR(0), weightG(0), weightB(0);
+			SDL_Color current = mod.getPixel(x, y).getOriginalChannels();
+			for (int i = 0; i < kernelSize; i++) {
+				for (int j = 0; j < kernelSize; j++) {
+					int otherX = x - (half - i);
+					int otherY = y - (half - j);
+					SDL_Color other = mod.getPixel(otherX, otherY).getOriginalChannels();
+					double gaussIR = gaussian(other.r - current.r, valI);
+					double gaussS = gaussian(Point(x, y).distanceToPoint(Point(otherX, otherY)), valS);
+					double deltaR = gaussIR * gaussS;
+					totalR += other.r * deltaR;
+					weightR += deltaR;
+					
+					double gaussIG = gaussian(other.g - current.g, valI);
+					double deltaG = gaussIG * gaussS;
+					totalG += other.g * deltaG;
+					weightG += deltaG;
+					
+					double gaussIB = gaussian(other.b - current.b, valI);
+					double deltaB = gaussIB * gaussS;
+					totalB += other.b * deltaB;
+					weightB += deltaB;
 				}
-				pixels[x][y].red() = totalR / weightR;
-				pixels[x][y].green() = totalG / weightG;
-				pixels[x][y].blue() = totalB / weightB;
 			}
+			mod.getPixel(x, y).red() = totalR / weightR;
+			mod.getPixel(x, y).green() = totalG / weightG;
+			mod.getPixel(x, y).blue() = totalB / weightB;
 		}
-		for (int i = 0; i < mod.width(); i++) delete[] pixels[i];
-		delete[] pixels;
 	}
+	
+	#ifndef NDEBUG
 	LOG("Filter Time: %i", (int) SDL_GetTicks() - start);
+	#endif
 }

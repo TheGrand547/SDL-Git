@@ -81,7 +81,6 @@ int main(int argc, char* argv[]) {
 	Surface surf;
 	surf.load("resources/missingTexture.jpg");
 	surf.scale(400, 400);
-	surf.bilateralFilter(50, 20);
 	LOG("Section: Main Loop");
 		
 	while (!contra.quit) {
@@ -104,12 +103,14 @@ int main(int argc, char* argv[]) {
 			}
 		}
 		if (contra.checkListener(config["PathReset"]).getHeld()) {
-			surf.draw(gRenderer, Point(25, 25));
+			surf.draw(gRenderer, Point(0, 0));
 		}
 		// Testing stuff
 		spriteSheetTest.draw("dumb", GAME.getRenderer(), {200, 200}, getDirectionFromAngle(dot->getAngle()));
 		patrolLine.drawLine(gRenderer, GAME.getOffset());
 		handler.draw();
+		
+		GAME.sectors.drawGroup();
 		
 		fps.draw(gRenderer);
 		fps.drawFrameTime(gRenderer);

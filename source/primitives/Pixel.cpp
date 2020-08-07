@@ -33,6 +33,12 @@ Pixel& Pixel::operator=(const Uint32& other) {
 	return *this;
 }
 
+SDL_Color Pixel::getOriginalChannels() const {
+	SDL_Color color;
+	SDL_GetRGBA(*this->original, this->format, &color.r, &color.g, &color.b, &color.a);
+	return color;
+}
+
 Uint8& Pixel::red() {
 	return this->r;
 }

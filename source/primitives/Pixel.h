@@ -20,6 +20,7 @@ class Pixel {
 		Pixel(const Pixel& that);
 		~Pixel();
 		Pixel& operator=(const Uint32& other);
+		SDL_Color getOriginalChannels() const;
 		Uint8& red();
 		Uint8& green();
 		Uint8& blue();

@@ -10,12 +10,13 @@ double EntityBase::originDistance() const {
 
 void EntityBase::accelerate(const Point& delta) {
 	// "Good enough" formula
-	Point copy = delta * this->maxVelocity;// / pow(this->frictionAmount, 1.15);
+	Point copy = delta * this->maxVelocity;
 	double value = this->movement.getValue();
 	
-	if (abs(delta.x) < ROUNDING) copy -= Point(this->velocity.x, 0) / this->frictionAmount;
-	if (abs(delta.y) < ROUNDING) copy -= Point(0, this->velocity.y) / this->frictionAmount;
-	this->acceleration = copy * value;
+	if (abs(delta.x) < ROUNDING) copy -= Point(this->velocity.x, 0);
+	if (abs(delta.y) < ROUNDING) copy -= Point(0, this->velocity.y);
+	
+	this->acceleration = copy * value * 5;
 	this->velocity += this->acceleration;
 	if (this->velocity.getMagnitude() > this->maxVelocity) this->velocity = this->velocity.getUnitVector() * this->maxVelocity;
 	this->evalAngle(this->velocity);
