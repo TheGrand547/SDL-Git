@@ -23,7 +23,6 @@ class Dot : public EntityBase, public MyBase {
 		bool doesLineCollide(const Line& ray) const override;
 		bool overlap(const Polygon& other) const override;
 		bool overlap(const std::shared_ptr<ThingBase>& other) const override;
-		bool wideOverlap(const Polygon& other) const override;
 		double calcAngle(Point point);
 		double getAngle();
 		Line getRay();

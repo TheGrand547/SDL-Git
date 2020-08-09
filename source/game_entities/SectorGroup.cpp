@@ -41,6 +41,7 @@ SectorPtr SectorGroup::currentSector(const std::shared_ptr<ThingBase>& target) {
 }
 
 std::vector<SectorPtr> SectorGroup::allSectors(const std::shared_ptr<ThingBase>& target) {
+	// TODO: Make it so this is only calculated at MOST once per frame
 	std::vector<SectorPtr> vector;
 	for (SectorPtr& sector: this->storage) {
 		if (target->overlap(sector->structure())) vector.push_back(sector);

@@ -3,8 +3,6 @@
 #define HEADERS_H
 // Remove for alpha/beta/final releases
 //#define NDEBUG 
-#include "TextHandler.h"
-#include "Dot.h"
 #include "essential/Configuration.h"
 #include "essential/log.h"
 #include "essential/MathUtils.h"
@@ -15,13 +13,10 @@
 #include "game_entities/BadTest.h"
 #include "game_entities/BigWall.h"
 #include "game_entities/DrawGroup.h"
-#include "game_entities/EffectZone.h"
 #include "game_entities/FileStructureAnalyzer.h"
 #include "game_entities/SectorGroup.h"
 #include "game_entities/SectorPath.h"
 #include "game_entities/SectorPathFollower.h"
-#include "GameInstance.h"
-#include "MyBase.h"
 #include "primitives/Line.h"
 #include "primitives/Point.h"
 #include "primitives/Rect.h"
@@ -36,6 +31,10 @@
 #include "wrappers/SpriteSheet.h"
 #include "wrappers/Texture.h"
 #include "wrappers/Timer.h"
+#include "Dot.h"
+#include "GameInstance.h"
+#include "MyBase.h"
+#include "TextHandler.h"
 #include<iostream>
 #include<math.h>
 #include<memory>

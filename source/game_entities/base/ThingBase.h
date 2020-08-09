@@ -16,8 +16,7 @@ enum ENTITY_FLAG {
 	MOVEABLE                = 0x0004, // This object can move
 	DRAW                    = 0x0008, // This object can be drawn
 	BLOCKS_VISIBILTY        = 0x0010, // This object can block visibility
-	PLAYER_ALLY             = 0x0020, // This object should not interact with player created damage zones, and should interact with non player damage zones
-	HAS_EFFECT_ZONES        = 0x0040  // This object might have zones that interact with other things
+	PLAYER_ALLY             = 0x0020  // This object should not interact with player created damage zones, and should interact with non player damage zones
 };
 
 enum ENTITY_DIRECTION {
@@ -42,7 +41,6 @@ class ThingBase : public std::enable_shared_from_this<ThingBase> {
 		 * 		overlap with each hitbox in this */ 
 		virtual bool overlap(const Polygon& other) const = 0;
 		virtual bool overlap(const std::shared_ptr<ThingBase>& other) const = 0;
-		virtual bool wideOverlap(const Polygon& other) const = 0; // TODO: get rid of this fucking bullshit
 		int getAbsoluteFlags() const;
 		int getFlags() const;
 		virtual double originDistance() const = 0;

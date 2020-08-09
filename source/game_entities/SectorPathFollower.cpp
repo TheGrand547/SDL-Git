@@ -16,10 +16,6 @@ bool SectorPathFollower::overlap(const std::shared_ptr<ThingBase>& other) const 
 	return other->overlap(this->box);
 }
 
-bool SectorPathFollower::wideOverlap(const Polygon& other) const {
-	return (this->box * 1.25).overlap(other);
-}
-
 double SectorPathFollower::originDistance() const {
 	return this->box.getCenter().distanceToPoint();
 }

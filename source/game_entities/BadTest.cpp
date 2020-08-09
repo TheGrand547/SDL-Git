@@ -14,22 +14,42 @@ BadTest::BadTest(Point position) : EnemyBase(position, DRAW | MOVEABLE) {
 
 BadTest::~BadTest() {}
 
+bool BadTest::doesLineCollide(const Line& ray) const {
+	return this->getBoundingRect().doesLineCollide(ray);
+}
+
 bool BadTest::isLocationInvalid() const {
 	/* True  -> Invalid location, collision or some other predefined metric doesn't satisfy
 	 * False -> Valid location */
 	return this->parent->collision.doesCollideWith(Rect(this->position, this->width, this->height));
 }
 
-void BadTest::setTexture(SDL_Renderer* renderer) {
-	this->texture.createBlank(renderer, 50, 50, 0xFF0000FF);
+bool BadTest::overlap(const Polygon& other) const {
+	return this->getBoundingRect().overlap(other);
+}
+
+bool BadTest::overlap(const std::shared_ptr<ThingBase>& other) const {
+	return other->overlap(this->getBoundingRect());
 }
 
 double BadTest::originDistance() const {
 	return this->getBoundingRect().getOriginDistance();
 }
 
+Point BadTest::collideLine(const Line& ray) const {
+	return this->getBoundingRect().collideLine(ray);
+}
+
 Point BadTest::getCenter() const {
 	return this->position + (Point(this->width, this->height) / 2);
+}
+
+Point BadTest::getPosition() const {
+	return this->position;
+}
+
+Rect BadTest::getBoundingRect() const {
+	return Rect(this->position, this->width, this->height);
 }
 
 void BadTest::draw(SDL_Renderer* renderer, Point offset) {
@@ -52,6 +72,11 @@ void BadTest::draw(SDL_Renderer* renderer, Point offset) {
 		temp.drawLine(this->parent->getRenderer(), this->parent->getOffset());
 	}*/
 }
+
+void BadTest::setTexture(SDL_Renderer* renderer) {
+	this->texture.createBlank(renderer, 50, 50, 0xFF0000FF);
+}
+
 
 void BadTest::update() {
 	// TODO: Switch to only one move() call per frame
@@ -124,33 +149,4 @@ void BadTest::update() {
 			}
 		}
 	}*/
-}
-
-Point BadTest::getPosition() const {
-	return this->position;
-}
-
-Rect BadTest::getBoundingRect() const {
-	return Rect(this->position, this->width, this->height);
-}
-
-bool BadTest::overlap(const Polygon& other) const {
-	return this->getBoundingRect().overlap(other);
-}
-
-bool BadTest::overlap(const std::shared_ptr<ThingBase>& other) const {
-	return other->overlap(this->getBoundingRect());
-}
-
-// TODO: Overlap constant
-bool BadTest::wideOverlap(const Polygon& other) const {
-	return (this->getBoundingRect() * 1.25).overlap(other);
-}
-
-bool BadTest::doesLineCollide(const Line& ray) const {
-	return this->getBoundingRect().doesLineCollide(ray);
-}
-
-Point BadTest::collideLine(const Line& ray) const {
-	return this->getBoundingRect().collideLine(ray);
 }

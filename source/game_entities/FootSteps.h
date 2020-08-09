@@ -3,16 +3,18 @@
 #define FOOT_STEPS_H
 #include "base/ThingBase.h"
 #include "../wrappers/Timer.h"
-#include<queue>
+#include<deque>
 
 
 class FootSteps : public ThingBase {
 	protected:
-		std::queue<Point> storage;
+		Timer interval;
+		std::deque<Point> storage;
 	public:
 		FootSteps();
 		~FootSteps();
-		bool overlap(const Polygon& other) const override
+		bool doesLineCollide(const Line& ray) const override;
+		bool overlap(const Polygon& other) const override;
 		bool overlap(const std::shared_ptr<ThingBase>& other) const override;
 		
 		double originDistance() const override;

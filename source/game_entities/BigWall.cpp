@@ -18,10 +18,6 @@ bool BigWall::overlap(const std::shared_ptr<ThingBase>& other) const {
 	return other->overlap(this->rect);
 }
 
-bool BigWall::wideOverlap(const Polygon& other) const {
-	return (this->rect * 1.25).overlap(other);
-}
-
 double BigWall::originDistance() const {
 	return this->rect.getBottomRight().distanceToPoint(Point(0, 0));
 }

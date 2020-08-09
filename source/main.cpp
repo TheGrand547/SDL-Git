@@ -1,8 +1,7 @@
 #include "headers.h"
 #include "primitives/Triangle.h"
 #include "wrappers/Surface.h"
-
-#define unless(condition) if(!condition)
+#include "game_entities/FootSteps.h"
 
 bool init();
 SDL_Renderer* createRenderer(SDL_Window*& window);
@@ -83,6 +82,8 @@ int main(int argc, char* argv[]) {
 	surf.scale(400, 400);
 	LOG("Section: Main Loop");
 		
+		
+	std::shared_ptr<FootSteps> foots = GAME.createThing<FootSteps>();
 	while (!contra.quit) {
 		playerDelta.zero(); // >:(
 		contra.handleEvents();

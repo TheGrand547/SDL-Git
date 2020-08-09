@@ -9,7 +9,7 @@
 #include<SDL2/SDL.h>
 
 class BigWall : public ThingBase {
-	private:
+	protected:
 		Rect rect;
 	public:
 		BigWall(Rect rect);
@@ -17,7 +17,6 @@ class BigWall : public ThingBase {
 		bool doesLineCollide(const Line& ray) const override;
 		bool overlap(const Polygon& other) const override;
 		bool overlap(const std::shared_ptr<ThingBase>& other) const override;
-		bool wideOverlap(const Polygon& other) const override;
 		double originDistance() const override;
 		Point collideLine(const Line& ray) const override;
 		Point getPosition() const override;

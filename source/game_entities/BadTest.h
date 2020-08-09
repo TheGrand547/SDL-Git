@@ -29,7 +29,6 @@ class BadTest : public EnemyBase {
 		bool doesLineCollide(const Line& ray) const override;
 		bool overlap(const Polygon& other) const override;
 		bool overlap(const std::shared_ptr<ThingBase>& other) const override;
-		bool wideOverlap(const Polygon& other) const override;
 		bool isLocationInvalid() const override;
 		double originDistance() const override;
 		Point collideLine(const Line& ray) const override;

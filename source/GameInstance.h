@@ -39,7 +39,7 @@ class GameInstance {
 		std::vector<ThingPtr> drawThings;
 		std::vector<ThingPtr> collisionThings;
 		
-		std::vector<ThingPtr> zoneThings;
+		std::vector<ThingPtr> updateThings;
 				
 		std::vector<ThingPtr> movingThings; // List of everything thats position can change
 		std::set<ThingBase*, compare> drawOrder;

@@ -21,16 +21,12 @@ bool Dot::overlap(const std::shared_ptr<ThingBase>& other) const {
 	return other->overlap(this->getBoundingRect());
 }
 
-bool Dot::wideOverlap(const Polygon& other) const {
-	return (this->getBoundingRect() * 1.25).overlap(other);
-}
-
 bool Dot::doesLineCollide(const Line& ray) const {
 	return this->getBoundingRect().doesLineCollide(ray);
 }
 
 double Dot::calcAngle(Point point) {
-	if (point.y != 0 || point.x != 0) return atan2(-point.y, point.x);
+	if (point.getNonZero()) return atan2(-point.y, point.x);
 	return 0;
 }
 
