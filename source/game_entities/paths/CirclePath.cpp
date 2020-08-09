@@ -21,7 +21,7 @@ CirclePath::CirclePath(int radius, double periodModify, int maxTicks, bool clock
 	} else {
 		this->plot = 1;
 	}
-};
+}
 
 CirclePath::~CirclePath() {}
 
