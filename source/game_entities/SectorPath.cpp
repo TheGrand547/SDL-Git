@@ -48,6 +48,7 @@ Point SectorPath::currentTarget(Point currentPosition) {
 			if (centerDelta.getFastMagnitude() > 10) {
 				return centerDelta.getUnitVector();
 			}
+			[[fallthrough]];
 		case 0: return Point();
 		default:
 			Point edgePoint = this->stored[0]->pointsOfContact()[this->stored[1].get()];
