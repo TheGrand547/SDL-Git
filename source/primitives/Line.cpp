@@ -12,7 +12,7 @@ Line::Line(Point pointA, Point pointB, uint8_t r, uint8_t g, uint8_t b, uint8_t 
 
 Line::~Line() {}
 
-Line::Line(const Line& line) : originPoint(line.originPoint), endingPoint(line.endingPoint) {
+Line::Line(const Line& line) : MyBase(line), originPoint(line.originPoint), endingPoint(line.endingPoint) {
 	orderPoints(this->originPoint, this->endingPoint);
 }
 
