@@ -4,7 +4,7 @@
 #include "../essential/constants.h"
 
 FpsText::FpsText(Font& font, Point position, SDL_Color color) : position(position), color(color) {
-	font = font;
+	this->font = font;
 	this->fpsTimer.start();
 	this->frameTimer.start();
 }
