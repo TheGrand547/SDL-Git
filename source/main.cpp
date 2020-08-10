@@ -32,7 +32,7 @@ int main(int argc, char* argv[]) {
 	
 	srand(time(NULL));
 	std::shared_ptr<Dot> dot = std::make_shared<Dot>(Point(190, 150));
-	dot->setColorChannels(0xFF);
+	dot->setColorChannels((Uint8)0xFF);
 	Configuration config;		
 	GAME.addPlayer(dot);
 	TextHandler handler;
@@ -81,8 +81,7 @@ int main(int argc, char* argv[]) {
 	surf.load("resources/missingTexture.jpg");
 	surf.scale(400, 400);
 	LOG("Section: Main Loop");
-		
-		
+	
 	std::shared_ptr<FootSteps> foots = GAME.createThing<FootSteps>();
 	while (!contra.quit) {
 		playerDelta.zero(); // >:(
@@ -112,7 +111,6 @@ int main(int argc, char* argv[]) {
 		handler.draw();
 		
 		GAME.sectors.drawGroup();
-		
 		fps.draw(gRenderer);
 		fps.drawFrameTime(gRenderer);
 		GAME.finalizeFrame();

@@ -9,29 +9,52 @@
 #include<SDL_image.h>
 #include<SDL_ttf.h>
 
+typedef uint8_t  Uint8;
+typedef uint32_t Uint32;
 
+// It might look stupid but I promise it is NOT
 #define SURFACE_FLAGS 0
+
 enum BLEND_MODE {
-	NONE = SDL_BLENDMODE_NONE,
+	NONE  = SDL_BLENDMODE_NONE,
 	BLEND = SDL_BLENDMODE_BLEND,
-	ADD = SDL_BLENDMODE_ADD,
-	MOD = SDL_BLENDMODE_MOD
+	ADD   = SDL_BLENDMODE_ADD,
+	MOD   = SDL_BLENDMODE_MOD
 };
 
-enum COLOR_MASK {
+enum COLOR_MASK : Uint32 {
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
-    RMASK = 0xff000000,
-	GMASK = 0x00ff0000,
-    BBASK = 0x0000ff00,
-    amask = 0x000000ff
+    RMASK = 0xFF000000,
+	GMASK = 0x00FF0000,
+    BMASK = 0x0000FF00,
+    AMASK = 0x000000FF
+    
+    RSHIFT = 24,
+    GSHIFT = 16,
+    BSHIFT = 8,
+    ASHIFT = 0
 #else
-    RMASK = 0x000000ff,
-    GMASK = 0x0000ff00,
-    BMASK = 0x00ff0000,
-    AMASK = 0xff000000
+    RMASK = 0x000000FF,
+    GMASK = 0x0000FF00,
+    BMASK = 0x00FF0000,
+    AMASK = 0xFF000000,
+    
+    RSHIFT = 0,
+    GSHIFT = 8,
+    BSHIFT = 16,
+    ASHIFT = 24
 #endif
 };
 
+/*
+struct Color : SDL_Color {
+	Color(Uint32 color) {
+		this->r = (color & RMASK) >> RSHIFT;
+		this->g = (color & RMASK) >> RSHIFT;
+		this->b = (color & RMASK) >> RSHIFT;
+		this->a = (color & RMASK) >> RSHIFT;
+	}
+};*/
 
 
 // Two macros for arguments that are unlikely to be used in rendering, but should be there for extra functionality
