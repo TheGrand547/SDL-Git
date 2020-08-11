@@ -3,9 +3,6 @@
 #include<SDL2/SDL.h>
 #include "Point.h"
 
-typedef uint8_t Uint8;
-typedef uint32_t Uint32;
-
 class Pixel {
 	protected:
 		Point position;

@@ -3,7 +3,7 @@
 #include<SDL2/SDL_thread.h>
 #include<SDL2/SDL2_gfxPrimitives.h>
 #include "../primitives/Point.h"
-#include "../MyBase.h"
+#include "../Color.h"
 
 #define M_PI_8 (M_PI_4 / 2)
 

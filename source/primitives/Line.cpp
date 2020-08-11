@@ -1,25 +1,23 @@
 #include "Line.h"
 
-Line::Line(Point pointA, Point pointB, uint8_t r, uint8_t g, uint8_t b, uint8_t a) : originPoint(pointA), endingPoint(pointB) {
-	if (pointA.isNull()) {
-		this->originPoint = Point(0, 0);
-	}
-	if (pointB.isNull()) {
-		this->endingPoint = Point(0, 0);
-	}
+Line::Line(Point pointA, Point pointB, Uint8 r, Uint8 g, Uint8 b, Uint8 a) : originPoint(pointA), endingPoint(pointB) {
+	if (pointA.isNull()) this->originPoint = Point(0, 0);
+	if (pointB.isNull()) this->endingPoint = Point(0, 0);
 	setColorChannels(r, g, b, a);
 }
 
 Line::~Line() {}
 
-Line::Line(const Line& line) : MyBase(line), originPoint(line.originPoint), endingPoint(line.endingPoint) {
+Line::Line(const Line& line) : Color(line), originPoint(line.originPoint), endingPoint(line.endingPoint) {
 	orderPoints(this->originPoint, this->endingPoint);
 }
 
 Line& Line::operator=(const Line& that) {
-	this->originPoint = that.originPoint;
-	this->endingPoint = that.endingPoint;
-	orderPoints(this->originPoint, this->endingPoint);
+	if (this != &that){
+		this->originPoint = that.originPoint;
+		this->endingPoint = that.endingPoint;
+		orderPoints(this->originPoint, this->endingPoint);
+	}
 	return *this;
 }
 
@@ -27,9 +25,7 @@ bool Line::isCollinear(const Line& other) const {
 	/* True -> This line IS on the same unbounded line
 	 * False -> This line IS NOT on the same unbounded line
 	 */
-	if (this->isParallel(other)) {
-		return std::abs(other.getC() * this->getBy() - this->getC() * other.getBy()) < 0.00001;
-	}
+	if (this->isParallel(other)) return std::abs(other.getC() * this->getBy() - this->getC() * other.getBy()) < 0.00001;
 	return false;
 }
 

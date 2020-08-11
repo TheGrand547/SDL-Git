@@ -6,13 +6,13 @@
 #include<SDL2/SDL2_gfxPrimitives.h>
 #include <cassert>
 #include "Point.h"
-#include "../MyBase.h"
+#include "../Color.h"
 #include "../essential/random.h"
 #include "../essential/util.h"
 
 typedef Uint8 uint8_t;
 
-class Line: public MyBase {
+class Line: public Color {
 	/* Represents a line segment in the form, ax+by=c, bounded by the points A and B */
 	private:
 		Point originPoint, endingPoint;

@@ -7,15 +7,13 @@
 #include "../primitives/Line.h"
 #include "../primitives/Point.h"
 #include "../primitives/Rect.h"
-#include "../MyBase.h"
+#include "../Color.h"
 #include "../essential/util.h"
 #include "Texture.h"
 
-typedef uint8_t Uint8; 
-
 
 // TODO: Either revamp or remove this class
-class SuperTexture : public Texture, public MyBase {
+class SuperTexture : public Texture, public Color {
 	protected:
 	 public:
 		SuperTexture(Uint8 r = 0x00, Uint8 g = 0x00, Uint8 b = 0x00, Uint8 a = 0xFF);

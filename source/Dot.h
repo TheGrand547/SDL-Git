@@ -1,4 +1,5 @@
 #pragma once
+#include "Color.h"
 #include "PositionLock.h"
 #include "essential/constants.h"
 #include "essential/util.h"
@@ -12,7 +13,7 @@
 #include<memory>
 #include<SDL2/SDL.h>
 
-class Dot : public EntityBase, public MyBase { 
+class Dot : public EntityBase, public Color { 
 	private:
 		BoundedPoint position;
 		MovementWrapper mvmt; // >:(

@@ -33,7 +33,7 @@
 #include "wrappers/Timer.h"
 #include "Dot.h"
 #include "GameInstance.h"
-#include "MyBase.h"
+#include "Color.h"
 #include "TextHandler.h"
 #include<iostream>
 #include<math.h>

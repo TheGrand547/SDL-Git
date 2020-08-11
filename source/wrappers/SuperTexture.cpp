@@ -1,6 +1,6 @@
 #include "SuperTexture.h"
 
-SuperTexture::SuperTexture(Uint8 r, Uint8 g, Uint8 b, Uint8 a) : Texture(), MyBase(r, g, b, a) {}
+SuperTexture::SuperTexture(Uint8 r, Uint8 g, Uint8 b, Uint8 a) : Texture(), Color(r, g, b, a) {}
 
 SuperTexture::~SuperTexture() {}
 

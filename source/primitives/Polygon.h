@@ -4,12 +4,12 @@
 
 class Rect;
 
-#include<vector>
-#include "../MyBase.h"
+#include "../Color.h"
 #include "Line.h"
 #include "Point.h"
+#include<vector>
 
-class Polygon : public MyBase {
+class Polygon : public Color {
 	public:
 		virtual ~Polygon();
 		virtual bool isReal() const = 0;
