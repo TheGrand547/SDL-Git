@@ -12,9 +12,11 @@
 #include "../essential/SDLUtil.h"
 #include "../essential/SDL_Headers.h"
 #include "PixelMod.h"
+
 typedef uint8_t Uint8;
 typedef uint32_t Uint32;
 
+// There is no reason for most users to directly access this
 class Texture {
 	protected:
 		int width, height;
@@ -51,17 +53,14 @@ class Texture {
 		void loadFromFile(SDL_Renderer* renderer, std::string path, int xSize = 0, int ySize = 0);
 		void normalizeTexture(SDL_Renderer* renderer);
 		
-		// TODO: Add more static methods
 		static Texture load(SDL_Renderer* renderer, std::string path);
-		static Texture scaleTextureBy(SDL_Renderer* renderer, Texture texture, double xFactor, double yFactor);
 		
-		// TODO: Add more Filters
 		// Filters
 		void bilateralFilter(const double valI, const double valS, const int kernelSize = 5, 
 		        int xStart = -1, int yStart = -1, int width = 0, int height = 0);
 		void dither();
-		void testFilter();
 		void floatyEdges();
+		void testFilter();
 		
 		// TODO: Recreate SDL methods with Texture
 		// Friends

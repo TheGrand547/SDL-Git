@@ -14,7 +14,6 @@
 
 // TODO: Either revamp or remove this class
 class SuperTexture : public Texture, public Color {
-	protected:
 	 public:
 		SuperTexture(Uint8 r = 0x00, Uint8 g = 0x00, Uint8 b = 0x00, Uint8 a = 0xFF);
 		~SuperTexture();

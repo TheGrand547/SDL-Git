@@ -266,15 +266,6 @@ Texture Texture::load(SDL_Renderer* renderer, std::string path) {
 	return temp;
 }
 
-Texture Texture::scaleTextureBy(SDL_Renderer* renderer, Texture texture, double xFactor, double yFactor) {
-	// TODO: Fill in
-	texture.getWidth();
-	SDL_SetRenderTarget(renderer, NULL);
-	xFactor++;
-	yFactor++;
-	return Texture();
-}
-
 // ------------------------------------------------
 // ------------ Non Essential Extras --------------
 // ------------------------------------------------

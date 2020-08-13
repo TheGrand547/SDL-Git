@@ -6,7 +6,6 @@
 typedef uint8_t Uint8;
 typedef uint32_t Uint32;
 
-/* Really simple class to base any type of object that needs to have color channels defined. */ 
 struct Color : public SDL_Color {
 	Color();
 	Color(Uint8 r, Uint8 g, Uint8 b, Uint8 a);

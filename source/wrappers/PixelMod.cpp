@@ -8,6 +8,7 @@ PixelMod::PixelMod(SDL_Surface* surface, bool wrapEdges) : edges(wrapEdges), isS
 	}
 	this->_height = this->surface->h;
 	this->_width = this->surface->w;
+	this->_pitch = this->surface->pitch;
 	this->format = this->surface->format;
 	this->pixels = (Uint32*) this->surface->pixels;
 	this->pixelCount = (this->_pitch / 4) * this->_height;

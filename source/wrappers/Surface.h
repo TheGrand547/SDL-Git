@@ -44,7 +44,14 @@ class Surface {
 		void free();
 		void scale(const double& width, const double& height, bool smooth = true);
 		
+		
+		// Filters
 		void bilateralFilter(const double valI, const double valS, const int kernelSize = 5, 
 		        int xStart = -1, int yStart = -1, int width = 0, int height = 0);
+		void dither();
+		void floatyEdges();
+		void limitPalette();
+		void testFilter();
+		
 };
 #endif

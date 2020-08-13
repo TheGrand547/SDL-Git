@@ -130,6 +130,9 @@ void Surface::scale(const double& width, const double& height, bool smooth) {
 	else this->surface = old;
 }
 
+// ------------------------------------------------
+// ------------ Non Essential Extras --------------
+// ------------------------------------------------
 
 void Surface::bilateralFilter(double valI, double valS, const int kernelSize, int xStart, int yStart, int width, int height) {
 	if (kernelSize % 2 == 0) {
@@ -186,4 +189,81 @@ void Surface::bilateralFilter(double valI, double valS, const int kernelSize, in
 	#ifndef NDEBUG
 	LOG("Filter Time: %i", (int) SDL_GetTicks() - start);
 	#endif
+}
+
+void Surface::dither() {
+	if (this->surface == NULL) return;
+	PixelMod mod(this->surface);
+	this->changed = true;
+	Uint8 matrix[2][2] = {{0x40, 0x80}, 
+						  {0xC0, 0x00}};
+	Uint8 value;
+	for (int i = 0; i < mod.count(); i++) {
+		Pixel pixel = mod.getPixel(i);
+		value = matrix[(i / mod.width()) % 2][(i / mod.height()) % 2];
+		pixel.red() = (pixel.red() < value) ? 0x00 : 0xFF;
+		pixel.green() = (pixel.green() < value) ? 0x00 : 0xFF;
+		pixel.blue() = (pixel.blue() < value) ? 0x00 : 0xFF;
+	}
+	/* TODO: Floyd–Steinberg dithering
+	for (int x = 1; x < mod.width(); x++) {
+		for (int y = 0; y < mod.height(); y++) {
+			Pixel pixel = mod.getPixel(x, y);
+			Pixel old = 
+		}
+	}*/
+}
+
+void Surface::floatyEdges() {
+	if (this->surface == NULL) return;
+	this->setBlend(BLEND);
+	PixelMod mod(this->surface);
+	this->changed = true;
+	int aAvg, count;
+	for (int x = 0; x < mod.width(); x++) {
+		for (int y = 0; y < mod.height(); y++) {
+			Pixel pixel = mod.getPixel(x, y);
+			if (pixel.alpha() < 0x4F) continue;
+			aAvg = 0;
+			count = 0;
+			for (int subX = -1; subX <= 1; subX++) {
+				for (int subY = -1; subY <= 1; subY++) {
+					Pixel temp = mod.getPixel(x + subX, y + subY);
+					if (temp.alpha() == 0x00) count++;
+					aAvg += temp.alpha();
+					count++;
+				}
+			}
+			aAvg /= count;
+			pixel.setAlpha(aAvg);
+		}
+	}
+}
+
+void Surface::limitPalette() {
+	if (this->surface == NULL) return;
+	PixelMod mod(this->surface);
+	this->changed = true;
+	for (int i = 0; i < mod.count(); i++) {
+		Pixel pixel = mod.getPixel(i);
+		pixel.red() = (pixel.red() / 16) * 16;
+		pixel.green() = (pixel.green() / 16) * 16;
+		pixel.blue() = (pixel.blue() / 16) * 16;
+	}
+}
+
+void Surface::testFilter() {
+	if (this->surface == NULL) return;
+	PixelMod mod(this->surface);
+	this->changed = true;
+	for (int x = 0; x < mod.width(); x++) {
+		for (int y = 0; y < mod.height(); y++) {
+			Pixel main = mod.getPixel(x, y);
+			Pixel left = mod.getPixel(x - 1, y);
+			Pixel right = mod.getPixel(x + 1, y);
+			main.red() = (main.red() + left.red() + right.red()) / 3;
+			main.green() = (main.green() + left.green() + right.green()) / 3;
+			main.blue() = (main.blue() + left.blue() + right.blue()) / 3;
+		}
+	}
 }
