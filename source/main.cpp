@@ -81,7 +81,6 @@ int main(int argc, char* argv[]) {
 	surf.load("resources/missingTexture.jpg");
 	surf.scale(400, 400);
 	surf.limitPalette();
-	surf.bilateralFilter(100, 500, 3);
 	LOG("Section: Main Loop");
 	
 	std::shared_ptr<FootSteps> foots = GAME.createThing<FootSteps>();

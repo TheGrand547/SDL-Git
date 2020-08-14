@@ -1,20 +1,24 @@
 #include "Surface.h"
 
-Surface::Surface() : changed(false), surface(NULL) {}
+// Stupid macro
+#define CHECK if (this->locked) LOG("Attempting to modify a locked surface!"); \
+				if (!this->surface) return;
 
-Surface::Surface(const Surface& surface) : changed(false) {
+Surface::Surface() : changed(false), locked(false), surface(NULL) {}
+
+Surface::Surface(const Surface& surface) : changed(false), locked(false) {
 	*this = surface;
 }
 
-Surface::Surface(Surface&& surface) : changed(false) {
+Surface::Surface(Surface&& surface) : changed(false), locked(false) {
 	*this = std::forward<Surface>(surface);
 }
 
-Surface::Surface(SDL_Surface*& surface) : changed(false){
+Surface::Surface(SDL_Surface*& surface) : changed(false), locked(false) {
 	*this = surface;
 }
 
-Surface::Surface(SDL_Surface*&& surface) : changed(false){
+Surface::Surface(SDL_Surface*&& surface) : changed(false), locked(false) {
 	*this = std::forward<SDL_Surface*>(surface);
 }
 
@@ -24,12 +28,14 @@ Surface::~Surface() {
 
 SDL_Surface* Surface::createSurface(const int& width, const int& height) const {
 	// TODO: 8 should be constant'd, once we figure out what it does
-	return SDL_CreateRGBSurface(SURFACE_FLAGS, width, height, 8, RMASK, GMASK, BMASK, AMASK);
+	return SDL_CreateRGBSurface(SURFACE_FLAGS, width, height, PIXEL_DEPTH, RMASK, GMASK, BMASK, AMASK);
 }
 
 Surface& Surface::operator=(SDL_Surface*&& surface) {
 	// rvalue, clear
 	this->free();
+	this->locked = false;
+	this->changed = true;
 	this->surface = surface;
 	surface = NULL;
 	return *this;
@@ -38,6 +44,8 @@ Surface& Surface::operator=(SDL_Surface*&& surface) {
 Surface& Surface::operator=(Surface&& surface) {
 	// rvalue, clear
 	this->free();
+	this->locked = false;
+	this->changed = true;
 	this->surface = surface.surface;
 	surface.surface = NULL;
 	return *this;
@@ -47,6 +55,8 @@ Surface& Surface::operator=(Surface&& surface) {
 Surface& Surface::operator=(SDL_Surface*& surface) {
 	// lvalue, copy
 	this->free();
+	this->locked = false;
+	this->changed = true;
 	this->surface = this->createSurface(surface->w, surface->h);
 	if (this->surface) SDL_BlitSurface(surface, NULL, this->surface, NULL);
 	else LOG("Created Invalid Blank Surface. ");
@@ -57,6 +67,8 @@ Surface& Surface::operator=(const Surface& surface) {
 	// lvalue, copy
 	if (this != &surface) {
 		this->free();
+		this->locked = false;
+		this->changed = true;
 		this->surface = this->createSurface(surface.surface->w, surface.surface->h);
 		if (this->surface) surface.blitTo(*this);
 		else LOG("Created Invalid Blank Surface. ");
@@ -73,10 +85,10 @@ int Surface::blitTo(Surface& surface, const Rect& srcRect, const Rect& dstRect) 
 void Surface::free() {
 	if (this->surface) {
 		SDL_FreeSurface(this->surface);
-		this->internal.free();
 		this->surface = NULL;
 		this->changed = true;
 	}
+	this->internal.free();
 }
 
 int Surface::setAlpha(const Uint8& alpha) {
@@ -102,8 +114,8 @@ int Surface::width() const {
 }
 
 void Surface::draw(SDL_Renderer* renderer, Point position) {
-	if (!this->surface) {
-		LOG("Attempting to draw a null surface!");
+	if (!this->surface && !this->locked) {
+		LOG("Attempting to draw a NULL surface!");
 		return;
 	}
 	if (this->changed) {
@@ -120,6 +132,7 @@ void Surface::load(const std::string& path) {
 }
 
 void Surface::scale(const double& width, const double& height, bool smooth) {
+	CHECK;
 	if (std::abs(width) < ROUNDING || std::abs(height) < ROUNDING) return;
 	SDL_Surface* old = this->surface;
 	this->surface = rotozoomSurfaceXY(this->surface, 0, std::abs(width) / this->width(), std::abs(height) / this->height(), smooth);
@@ -130,11 +143,21 @@ void Surface::scale(const double& width, const double& height, bool smooth) {
 	else this->surface = old;
 }
 
+void Surface::finalize(SDL_Renderer* renderer) {
+	if (this->surface) {
+		this->internal = SDL_CreateTextureFromSurface(renderer, this->surface);
+		SDL_FreeSurface(this->surface);
+		this->surface = NULL;
+	} else LOG("Attempting to finalize a NULL surface.");
+	
+}
+
 // ------------------------------------------------
 // ------------ Non Essential Extras --------------
 // ------------------------------------------------
 
 void Surface::bilateralFilter(double valI, double valS, const int kernelSize, int xStart, int yStart, int width, int height) {
+	CHECK;
 	if (kernelSize % 2 == 0) {
 		LOG("KernalSize MUST be odd.");
 		return;
@@ -192,7 +215,7 @@ void Surface::bilateralFilter(double valI, double valS, const int kernelSize, in
 }
 
 void Surface::dither() {
-	if (this->surface == NULL) return;
+	CHECK;
 	PixelMod mod(this->surface);
 	this->changed = true;
 	Uint8 matrix[2][2] = {{0x40, 0x80}, 
@@ -215,7 +238,7 @@ void Surface::dither() {
 }
 
 void Surface::floatyEdges() {
-	if (this->surface == NULL) return;
+	CHECK;
 	this->setBlend(BLEND);
 	PixelMod mod(this->surface);
 	this->changed = true;
@@ -241,7 +264,7 @@ void Surface::floatyEdges() {
 }
 
 void Surface::limitPalette() {
-	if (this->surface == NULL) return;
+	CHECK;
 	PixelMod mod(this->surface);
 	this->changed = true;
 	for (int i = 0; i < mod.count(); i++) {
@@ -253,7 +276,7 @@ void Surface::limitPalette() {
 }
 
 void Surface::testFilter() {
-	if (this->surface == NULL) return;
+	CHECK;
 	PixelMod mod(this->surface);
 	this->changed = true;
 	for (int x = 0; x < mod.width(); x++) {

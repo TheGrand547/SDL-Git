@@ -13,7 +13,7 @@ class Surface {
 		// Methods there is no reason anyone outside should need to call
 		SDL_Surface* createSurface(const int& width, const int& height) const;
 	protected:
-		bool changed;
+		bool changed, locked;
 		SDL_Surface* surface;
 		Texture internal;
 		
@@ -44,6 +44,7 @@ class Surface {
 		void free();
 		void scale(const double& width, const double& height, bool smooth = true);
 		
+		void finalize(SDL_Renderer* renderer); // Fully hardware accelerate the surface, making it completely a texture
 		
 		// Filters
 		void bilateralFilter(const double valI, const double valS, const int kernelSize = 5, 

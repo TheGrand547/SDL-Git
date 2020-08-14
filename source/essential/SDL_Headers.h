@@ -14,6 +14,7 @@ typedef uint32_t Uint32;
 
 // It might look stupid but I promise it is NOT
 #define SURFACE_FLAGS 0
+#define PIXEL_DEPTH 32
 
 enum BLEND_MODE {
 	NONE  = SDL_BLENDMODE_NONE,

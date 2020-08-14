@@ -59,3 +59,7 @@ void Color::setColorChannels(const SDL_Color& color) {
 	this->a = color.a;
 }
 
+std::ostream& operator<<(std::ostream& output, const Color& color) {
+	output << "R: " << color.r << " G: " << color.g << " B: " << color.b << " A: " << color.a;
+	return output;
+}

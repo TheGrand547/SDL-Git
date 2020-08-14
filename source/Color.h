@@ -1,6 +1,7 @@
 #pragma once
 #ifndef COLOR_H
 #define COLOR_H
+#include<iostream>
 #include<SDL2/SDL.h>
 
 typedef uint8_t Uint8;
@@ -16,5 +17,7 @@ struct Color : public SDL_Color {
 	void setColorChannels(const Uint8& r, const Uint8& g, const Uint8& b, const Uint8& a);
 	void setColorChannels(const Color& other);
 	void setColorChannels(const SDL_Color& color);
+	
+	friend std::ostream& operator<<(std::ostream& output, const Color& color);
 };
 #endif

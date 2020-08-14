@@ -35,6 +35,8 @@ class Texture {
 		Texture& operator=(Texture&& that);
 		Texture& operator=(SDL_Texture*& that);
 		Texture& operator=(SDL_Texture*&& that);
+		bool isLoaded();
+		bool notLoaded();
 		int getHeight() const;
 		int getWidth() const;
 		void free();
@@ -45,8 +47,6 @@ class Texture {
 		void draw(SDL_Renderer* renderer, Point position, SDL_COPY_EX_ARGS_DEFAULTS);
 		void draw(SDL_Renderer* renderer, const SDL_Rect& rect, SDL_COPY_EX_ARGS_DEFAULTS);
 		void drawCentered(SDL_Renderer* renderer, Point position, SDL_COPY_EX_ARGS_DEFAULTS);
-		bool isLoaded();
-		bool notLoaded();
 		void createBlank(SDL_Renderer* renderer, int w, int h, Uint32 color = 0x0000000FF);
 		SDL_Texture*& getRawTexture(); // ONLY USE IF YOU KNOW WHAT YOU'RE DOING
 		
@@ -63,7 +63,7 @@ class Texture {
 		void testFilter();
 		
 		// TODO: Recreate SDL methods with Texture
-		// Friends
+		// Friends		
 		friend int SDL_GetTextureAlphaMod(Texture& texture, Uint8* blendMode);
 		friend int SDL_GetTextureAlphaMod(Texture& texture, Uint8& blendMode);
 		

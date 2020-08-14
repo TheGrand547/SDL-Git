@@ -40,7 +40,7 @@ struct Point {
 	double getFastMagnitude() const;
 	double operator*(const Point& other) const;
 	double originDistance() const;
-	friend std::ostream &operator<<(std::ostream &output, const Point& point);
+	friend std::ostream& operator<<(std::ostream &output, const Point& point);
 	void operator+=(const Point& delta);
 	void operator-=(const Point& delta);
 	void operator*=(const double& val);

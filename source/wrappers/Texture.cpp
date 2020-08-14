@@ -68,7 +68,6 @@ Texture& Texture::operator=(const Texture& that) {
 			SDL_SetRenderTarget(that.renderer, this->texture);
 			SDL_RenderCopy(that.renderer, that.texture, NULL, NULL);
 			SDL_SetRenderTarget(that.renderer, NULL);
-			this->normalizeTexture(that.renderer);
 		}
 	}
 	return *this;
@@ -76,14 +75,23 @@ Texture& Texture::operator=(const Texture& that) {
 
 Texture& Texture::operator=(SDL_Texture*& that) {
 	// lvalue copy MAKE IT FUCKING COPY
-	LOG("This should never be called");
-	this->texture = that;
-	that = NULL;
+	this->free();
+	if (this->renderer) {
+		SDL_QueryTexture(that, NULL, NULL, &this->width, &this->height);
+		this->texture = this->getBlankRenderTarget(this->renderer);
+		SDL_SetRenderTarget(this->renderer, this->texture);
+		SDL_RenderCopy(this->renderer, that, NULL, NULL);
+		SDL_SetRenderTarget(this->renderer, NULL);
+	} else {
+		LOG("This should never be called");
+		this->texture = that;
+		that = NULL;	
+	}
 	return *this;
 }
 
 Texture& Texture::operator=(SDL_Texture*&& that) {
-	// rvalue doesn't need to be cleared
+	// rvalue clear
 	this->free();
 	this->texture = that;
 	that = NULL;
@@ -148,7 +156,6 @@ void Texture::draw(SDL_Renderer* renderer, Point position, SDL_COPY_EX_ARGS) {
 		renderQuad.w = clip->w;
 		renderQuad.h = clip->h;
 	}
-	//std::cout << renderQuad.x << ", " << renderQuad.y << ", " << renderQuad.w << ", " << renderQuad.h << std::endl;
 	SDL_RenderCopyEx(renderer, this->texture, clip, &renderQuad, angle, center, flip);
 }
 
