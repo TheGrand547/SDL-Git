@@ -35,6 +35,8 @@ class Surface {
 		int setAlpha(const Uint8& alpha);
 		int setBlend(const SDL_BlendMode& blend);
 		int setBlend(const BLEND_MODE& blend);
+		void setColorKey(const Uint32& color);
+		void setColorKey(const SDL_Color& color);
 		
 		int height() const;
 		int width() const;

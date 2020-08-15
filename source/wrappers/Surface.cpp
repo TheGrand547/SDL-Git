@@ -79,6 +79,9 @@ Surface& Surface::operator=(const Surface& surface) {
 
 int Surface::blitTo(Surface& surface, const Rect& srcRect, const Rect& dstRect) const {
 	SDL_Rect src = srcRect.getSDLRect(), dst = dstRect.getSDLRect();
+	// Accelerate blitting if possible
+	if (!SDL_MUSTLOCK(this->surface)) SDL_SetSurfaceRLE(this->surface, true);
+	if (!SDL_MUSTLOCK(surface.surface)) SDL_SetSurfaceRLE(surface.surface, true);
 	return SDL_BlitSurface(this->surface, (srcRect.isReal()) ? &src : NULL, surface.surface, (dstRect.isReal()) ? &dst : NULL);
 }
 
@@ -101,6 +104,21 @@ int Surface::setBlend(const SDL_BlendMode& blend) {
 
 int Surface::setBlend(const BLEND_MODE& blend) {
 	return SDL_SetSurfaceBlendMode(this->surface, (SDL_BlendMode) blend);
+}
+
+void Surface::setColorKey(const Uint32& color) {
+	this->setColorKey(Color(SDL_MapRGBA(this->surface->format, color.r, color.g, color.b, color.a)));
+}
+
+void Surface::setColorKey(const SDL_Color& color) {
+	CHECK;
+	this->setBlend(BLEND);
+	PixelMod mod(this->surface);
+	for (int i = 0; i < mod.count(); i++) {
+		if (mod.getPixel(i).getRaw().keyCompare(color)) {
+			mod.getPixel(i).alpha() = 0x00;
+		}
+	}
 }
 
 int Surface::height() const {

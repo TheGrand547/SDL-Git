@@ -1,6 +1,8 @@
+#pragma once
 #ifndef PIXEL_CLASS_H
 #define PIXEL_CLASS_H
 #include<SDL2/SDL.h>
+#include "../Color.h"
 #include "Point.h"
 
 class Pixel {
@@ -17,6 +19,7 @@ class Pixel {
 		Pixel(const Pixel& that);
 		~Pixel();
 		Pixel& operator=(const Uint32& other);
+		Color getRaw() const;
 		SDL_Color getOriginalChannels() const;
 		Uint8& red();
 		Uint8& green();

@@ -135,14 +135,13 @@ void Texture::setBlend(SDL_BlendMode mode) {
 
 void Texture::setColorKey(Uint8 red, Uint8 green, Uint8 blue) { // Modified from lazyfoo.net
 	if (this->texture == NULL) return;
-	this->setBlend(SDL_BLENDMODE_BLEND);
+	this->setBlend((SDL_BlendMode) BLEND);
 	PixelMod mod(this->texture);
 	if (mod.notLocked()) return;
-	Uint32 colorKey = mod.mapRGBA(red, green, blue);
-	Uint32 transparent = mod.mapRGBA(0xFF, 0xFF, 0xFF, 0x00);
+	Color colorKey(red, green, blue, 0);
 	for (int i = 0; i < mod.count(); i++) {
-		if (mod[i] == colorKey) {
-			mod[i] = transparent;
+		if (mod.getPixel(i).getRaw().keyCompare(colorKey)) {
+			mod.getPixel(i).alpha() = 0x00;
 		}
 	}
 }
@@ -175,7 +174,7 @@ bool Texture::notLoaded() {
 void Texture::createBlank(SDL_Renderer* renderer, int w, int h, Uint32 color) {
 	if (this->renderer == NULL) this->renderer = renderer;
 	this->free();
-	SDL_Surface* tempSurface = SDL_CreateRGBSurface(0, w, h, 32, 0, 0, 0, 0);
+	SDL_Surface* tempSurface = SDL_CreateRGBSurface(SURFACE_FLAGS, w, h, PIXEL_DEPTH, RMASK, GMASK, BMASK, AMASK);
 	if (tempSurface != NULL) {
 		this->width = w;
 		this->height = h;

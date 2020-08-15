@@ -31,6 +31,10 @@ Color::Color(const Color& other) {
 	this->a = other.a;
 }
 
+bool Color::keyCompare(const SDL_Color& color) {
+	return this->r == color.r && this->g == color.g  && this->b == color.b;
+}
+
 void Color::setColorChannels(const Uint8& r, const Uint8& g, const Uint8& b, const Uint8& a) {
 	this->r = r;
 	this->g = g;
@@ -60,6 +64,6 @@ void Color::setColorChannels(const SDL_Color& color) {
 }
 
 std::ostream& operator<<(std::ostream& output, const Color& color) {
-	output << "R: " << color.r << " G: " << color.g << " B: " << color.b << " A: " << color.a;
+	output << "R: " << (int) color.r << " G: " << (int) color.g << " B: " << (int) color.b << " A: " << (int) color.a;
 	return output;
 }
