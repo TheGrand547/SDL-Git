@@ -90,6 +90,7 @@ void Surface::free() {
 		SDL_FreeSurface(this->surface);
 		this->surface = NULL;
 		this->changed = true;
+		this->locked = false;
 	}
 	this->internal.free();
 }
@@ -106,7 +107,8 @@ int Surface::setBlend(const BLEND_MODE& blend) {
 	return SDL_SetSurfaceBlendMode(this->surface, (SDL_BlendMode) blend);
 }
 
-void Surface::setColorKey(const Uint32& color) {
+void Surface::setColorKey(const Uint32& _color) {
+	Color color(_color);
 	this->setColorKey(Color(SDL_MapRGBA(this->surface->format, color.r, color.g, color.b, color.a)));
 }
 
@@ -166,6 +168,8 @@ void Surface::finalize(SDL_Renderer* renderer) {
 		this->internal = SDL_CreateTextureFromSurface(renderer, this->surface);
 		SDL_FreeSurface(this->surface);
 		this->surface = NULL;
+		this->locked = true;
+		this->changed = false;
 	} else LOG("Attempting to finalize a NULL surface.");
 	
 }

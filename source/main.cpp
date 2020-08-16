@@ -54,7 +54,6 @@ int main(int argc, char* argv[]) {
 			}
 		}
 	}
-	GAME.instanceBegin(); // Should be placed later...
 	Font gFont;
 	std::string foo = "duck dev best dev";
 	std::shared_ptr<AppearingText> ap = handler.createText<AppearingText>(foo, Point(250, 0), 10, COLORS::RED, 300);
@@ -74,18 +73,31 @@ int main(int argc, char* argv[]) {
 	SpriteSheet spriteSheetTest(gRenderer, "resources/bigsprite.png", 50, 50);
 	spriteSheetTest.addAnimation("dumb", 0, 4, 500);
 	
-	std::shared_ptr<SectorPathFollower> foodd = GAME.createThing<SectorPathFollower>(Rect(GAME.sectors[3]->structure().getCenter(), 10, 10));
-	foodd->mine.createPath(GAME.sectors[3], GAME.sectors[0]);
+	std::shared_ptr<SectorPathFollower> foodd = GAME.createThing<SectorPathFollower>(Rect(GAME.sectors[3]->structure().getCenter(), 10, 10));	
 	
+	// Mani/jakob test this with and without line 86 uncommented please, then report the time in ms to me :D
 	Surface surf;
 	surf.load("resources/missingTexture.jpg");
 	surf.scale(400, 400);
 	surf.limitPalette();
 	surf.setBlend(BLEND);
 	surf.setColorKey({32, 32, 32, 0});
-	LOG("Section: Main Loop");
+	
+	surf.finalize(gRenderer);
+	Uint32 start = SDL_GetTicks();
+	for (int i = 0; i < 1000000; i++) surf.draw(gRenderer, Point(0, 0));
+	LOG("Unaccelerated: %i ", (int) SDL_GetTicks() - start);
+	
+	SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
+	SDL_RenderClear(gRenderer);
+	
 	
 	std::shared_ptr<FootSteps> foots = GAME.createThing<FootSteps>();
+	
+	GAME.instanceBegin();
+	LOG("Section: Main Loop");
+	foodd->mine.createPath(GAME.sectors[3], GAME.sectors[0]);
+
 	while (!contra.quit) {
 		playerDelta.zero(); // >:(
 		contra.handleEvents();
@@ -108,6 +120,7 @@ int main(int argc, char* argv[]) {
 		if (contra.checkListener(config["PathReset"]).getHeld()) {
 			surf.draw(gRenderer, Point(0, 0));
 		}
+		
 		// Testing stuff
 		spriteSheetTest.draw("dumb", GAME.getRenderer(), {200, 200}, getDirectionFromAngle(dot->getAngle()));
 		patrolLine.drawLine(gRenderer, GAME.getOffset());

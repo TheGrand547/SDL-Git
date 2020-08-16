@@ -20,6 +20,8 @@ GameInstance::GameInstance(SDL_Window* window, SDL_Renderer* renderer, BoundedPo
 GameInstance::~GameInstance() {}
 
 void GameInstance::addThing(const ThingPtr& thing) {
+	TRACE("Adding thing at %ld", (long int) thing.get());
+	
 	if (valueInVector(this->allThings, thing)) {
 		LOG("ERROR: Attempted to add duplicate object.");
 		return;
@@ -75,6 +77,8 @@ void GameInstance::finalizeFrame() {
 }
 
 void GameInstance::instanceBegin() { // Do final things before playing starts
+	TRACE("Instance Begin");
+	
 	if (this->started) return; // Don't needlessly bog down the system
 	// Do cleanup on the pathfinding system
 	this->sectors.connectSectors();
@@ -89,6 +93,7 @@ void GameInstance::instanceBegin() { // Do final things before playing starts
 
 
 void GameInstance::update() {
+	TRACE("Update Begin");
 	if (!this->started) this->instanceBegin();
 	// TODO: Collision by objects in sectors, mid tier priority due to requiring sizeable reworking
 	for (ThingPtr& thing: this->movingThings) {
@@ -100,7 +105,9 @@ void GameInstance::update() {
 			this->drawOrder.insert(thing.get());
 		}
 	}
+	TRACE("Update Mid");
 	for (ThingPtr& thing: this->updateThings) thing->update();
+	TRACE("Update End");
 }
 
 Rect GameInstance::getPlayableArea() const {
