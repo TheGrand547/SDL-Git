@@ -75,18 +75,12 @@ int main(int argc, char* argv[]) {
 	
 	std::shared_ptr<SectorPathFollower> foodd = GAME.createThing<SectorPathFollower>(Rect(GAME.sectors[3]->structure().getCenter(), 10, 10));	
 	
-	// Mani/jakob test this with and without line 86 uncommented please, then report the time in ms to me :D
 	Surface surf;
 	surf.load("resources/missingTexture.jpg");
 	surf.scale(400, 400);
 	surf.limitPalette();
 	surf.setBlend(BLEND);
 	surf.setColorKey({32, 32, 32, 0});
-	
-	surf.finalize(gRenderer);
-	Uint32 start = SDL_GetTicks();
-	for (int i = 0; i < 1000000; i++) surf.draw(gRenderer, Point(0, 0));
-	LOG("Unaccelerated: %i ", (int) SDL_GetTicks() - start);
 	
 	SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
 	SDL_RenderClear(gRenderer);

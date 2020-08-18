@@ -76,6 +76,14 @@ Surface& Surface::operator=(const Surface& surface) {
 	return *this;
 }
 
+Color Surface::getColorKey() const {
+	if (!this->surface) return Color();
+	Color color;
+	Uint32 key;
+	SDL_GetColorKey(this->surface, &key);
+	SDL_GetRGBA(key, this->surface->format, &color.r, &color.g, &color.b, &color.a);
+	return color;
+}
 
 int Surface::blitTo(Surface& surface, const Rect& srcRect, const Rect& dstRect) const {
 	SDL_Rect src = srcRect.getSDLRect(), dst = dstRect.getSDLRect();
@@ -83,16 +91,6 @@ int Surface::blitTo(Surface& surface, const Rect& srcRect, const Rect& dstRect) 
 	if (!SDL_MUSTLOCK(this->surface)) SDL_SetSurfaceRLE(this->surface, true);
 	if (!SDL_MUSTLOCK(surface.surface)) SDL_SetSurfaceRLE(surface.surface, true);
 	return SDL_BlitSurface(this->surface, (srcRect.isReal()) ? &src : NULL, surface.surface, (dstRect.isReal()) ? &dst : NULL);
-}
-
-void Surface::free() {
-	if (this->surface) {
-		SDL_FreeSurface(this->surface);
-		this->surface = NULL;
-		this->changed = true;
-		this->locked = false;
-	}
-	this->internal.free();
 }
 
 int Surface::setAlpha(const Uint8& alpha) {
@@ -107,20 +105,22 @@ int Surface::setBlend(const BLEND_MODE& blend) {
 	return SDL_SetSurfaceBlendMode(this->surface, (SDL_BlendMode) blend);
 }
 
-void Surface::setColorKey(const Uint32& _color) {
-	Color color(_color);
-	this->setColorKey(Color(SDL_MapRGBA(this->surface->format, color.r, color.g, color.b, color.a)));
+int Surface::setColorMod(const Uint8& r, const Uint8& g, const Uint8& b) const {
+	return SDL_SetSurfaceColorMod(this->surface, r, g, b);
 }
 
-void Surface::setColorKey(const SDL_Color& color) {
-	CHECK;
-	this->setBlend(BLEND);
-	PixelMod mod(this->surface);
-	for (int i = 0; i < mod.count(); i++) {
-		if (mod.getPixel(i).getRaw().keyCompare(color)) {
-			mod.getPixel(i).alpha() = 0x00;
-		}
+int Surface::setColorMod(const Color& color) const {
+	return SDL_SetSurfaceColorMod(this->surface, color.r, color.g, color.b);
+}
+
+void Surface::free() {
+	if (this->surface) {
+		SDL_FreeSurface(this->surface);
+		this->surface = NULL;
+		this->changed = true;
+		this->locked = false;
 	}
+	this->internal.free();
 }
 
 int Surface::height() const {
@@ -163,6 +163,17 @@ void Surface::scale(const double& width, const double& height, bool smooth) {
 	else this->surface = old;
 }
 
+void Surface::setColorKey(const Uint32& _color) {
+	// Assume it is already in 0xRRGGBBAA
+	Color color(_color);
+	this->setColorKey(Color(SDL_MapRGBA(this->surface->format, color.r, color.g, color.b, color.a)));
+}
+
+void Surface::setColorKey(const SDL_Color& color) {
+	// Should be in 0xRRGGBBAA format already so just map it
+	SDL_SetColorKey(this->surface, true, SDL_MapRGBA(this->surface->format, color.r, color.g, color.b, color.a));
+}
+
 void Surface::finalize(SDL_Renderer* renderer) {
 	if (this->surface) {
 		this->internal = SDL_CreateTextureFromSurface(renderer, this->surface);
@@ -172,6 +183,17 @@ void Surface::finalize(SDL_Renderer* renderer) {
 		this->changed = false;
 	} else LOG("Attempting to finalize a NULL surface.");
 	
+}
+
+void Surface::fillRects(std::vector<Rect>& vec, const Uint32& color) {
+	// Assume RGBA
+	Color _color(color);
+	Uint32 fill = SDL_MapRGBA(this->surface->format, _color.r, _color.g, _color.b, _color.a);
+	SDL_Rect* rects = new SDL_Rect[vec.size()];
+	for (uint i = 0; i < vec.size(); i++) rects[i] = vec[i].getSDLRect();
+	SDL_FillRects(this->surface, rects, vec.size(), fill);
+	delete[] rects;
+
 }
 
 // ------------------------------------------------

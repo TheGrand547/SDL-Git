@@ -11,8 +11,8 @@ Pixel::Pixel(Point position, Uint32& data, SDL_PixelFormat* format) : position(p
 	SDL_GetRGBA(data, this->format, &this->r, &this->g, &this->b, &this->a);
 }
 
-Pixel::Pixel(double x, double y, Uint32& data, SDL_PixelFormat* format) {
-	*this = Pixel(Point(x, y), data, format);
+Pixel::Pixel(double x, double y, Uint32& data, SDL_PixelFormat* format) : position(x, y), format(format), original(&data) {
+	SDL_GetRGBA(data, this->format, &this->r, &this->g, &this->b, &this->a);
 }
 
 Pixel::Pixel(const Pixel& that) : position(that.position), format(that.format), original(that.original) {
