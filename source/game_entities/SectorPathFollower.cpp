@@ -8,6 +8,10 @@ bool SectorPathFollower::doesLineCollide(const Line& ray) const {
 	return this->box.doesLineCollide(ray);
 }
 
+bool SectorPathFollower::isAlive() const {
+	return !this->parent->getPlayer()->overlap(this->box);
+}
+
 bool SectorPathFollower::overlap(const Polygon& other) const {
 	return this->box.overlap(other);
 }

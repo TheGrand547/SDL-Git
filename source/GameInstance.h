@@ -54,6 +54,7 @@ class GameInstance {
 		GameInstance(SDL_Window* window, SDL_Renderer* renderer, BoundedPoint offset);
 		~GameInstance();
 		void addThing(const ThingPtr& thing);
+		void removeThing(const ThingPtr& thing);
 		Point& getOffset();
 		Rect getPlayableArea() const;
 		SDL_Renderer* getRenderer();

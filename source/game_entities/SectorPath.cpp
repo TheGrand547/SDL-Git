@@ -42,7 +42,7 @@ int SectorPath::size() {
 
 Point SectorPath::currentTarget(Point currentPosition) {
 	if (!this->stored.size()) {
-		LOG("Uninitialized path");
+		TRACE("Uninitialized path");
 	}
 	Point centerDelta = (this->stored[0]->structure().getCenter() - currentPosition);
 	switch (this->stored.size()) {

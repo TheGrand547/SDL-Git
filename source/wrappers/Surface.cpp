@@ -1,4 +1,5 @@
 #include "Surface.h"
+#include "PixelMod.h"
 
 // Stupid macro
 #define CHECK if (this->locked) LOG("Attempting to modify a locked surface!"); \

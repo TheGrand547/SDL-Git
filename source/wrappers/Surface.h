@@ -18,6 +18,7 @@ class Surface {
 		Texture internal;
 		
 	public:
+		friend class PixelMod;
 		// TODO: Rearrange
 		Surface();
 		Surface(const Surface& surface);

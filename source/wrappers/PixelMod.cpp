@@ -1,5 +1,19 @@
 #include "PixelMod.h"
 
+PixelMod::PixelMod(const Surface& surface, bool wrapEdges) : edges(wrapEdges), isSurface(true), unlocked(!SDL_MUSTLOCK(surface.surface)), surface(surface.surface) {
+	if (this->unlocked && SDL_LockSurface(this->surface)) {
+		LOG("Error Locking Surface: %s", SDL_GetError());
+		this->unlocked = true;
+		return;
+	}
+	this->_height = this->surface->h;
+	this->_width = this->surface->w;
+	this->_pitch = this->surface->pitch;
+	this->format = this->surface->format;
+	this->pixels = (Uint32*) this->surface->pixels;
+	this->pixelCount = (this->_pitch / 4) * this->_height;
+}
+
 PixelMod::PixelMod(SDL_Surface* surface, bool wrapEdges) : edges(wrapEdges), isSurface(true), unlocked(!SDL_MUSTLOCK(surface)), surface(surface) {
 	if (this->unlocked && SDL_LockSurface(this->surface)) {
 		LOG("Error Locking Surface: %s", SDL_GetError());
@@ -29,14 +43,7 @@ PixelMod::PixelMod(SDL_Texture* texture, bool wrapEdges) : edges(wrapEdges), isS
 }
 
 PixelMod::~PixelMod() {
-	if (!this->unlocked) {
-		if (this->isSurface) {
-			SDL_LockSurface(this->surface);
-			return;
-		}
-		SDL_UnlockTexture(this->texture);
-		SDL_FreeFormat(this->format);	
-	}
+	this->deallocate();
 }
 
 bool PixelMod::notLocked() {
@@ -91,4 +98,15 @@ Uint32& PixelMod::at(int x, int y) {
 
 Uint32 PixelMod::mapRGBA(const Uint8 r, const Uint8 g, const Uint8 b, const Uint8 a) const {
 	return SDL_MapRGBA(this->format, r, g, b, a);
+}
+
+void PixelMod::deallocate() {
+	if (!this->unlocked) {
+		if (this->isSurface) {
+			SDL_LockSurface(this->surface);
+			return;
+		}
+		SDL_UnlockTexture(this->texture);
+		SDL_FreeFormat(this->format);	
+	}
 }

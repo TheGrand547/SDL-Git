@@ -5,6 +5,7 @@
 #include "../essential/SDL_Headers.h"
 #include "../essential/log.h"
 #include "../primitives/Pixel.h"
+#include "Surface.h"
 
 typedef uint8_t Uint8;
 typedef uint32_t Uint32;
@@ -20,9 +21,11 @@ class PixelMod {
 		
 		Uint32 UGLY = 0x00000000;
 		Uint32* pixels;
+		void deallocate();
 	public:	
-		PixelMod(SDL_Surface* texture, bool wrapEdges = false);
-		PixelMod(SDL_Texture* texture, bool wrapEdges = false);
+		PixelMod(const Surface& surface, bool wrapEdges = true);
+		PixelMod(SDL_Surface* texture, bool wrapEdges = true);
+		PixelMod(SDL_Texture* texture, bool wrapEdges = true);
 		~PixelMod();
 		bool notLocked();
 		int count() const;

@@ -1,4 +1,5 @@
 #include "Texture.h"
+#include "PixelMod.h"
 
 Texture::Texture() : width(0), height(0), renderer(NULL), texture(NULL) {}
 

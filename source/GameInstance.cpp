@@ -43,6 +43,22 @@ void GameInstance::addThing(const ThingPtr& thing) {
 	}
 }
 
+void GameInstance::removeThing(const ThingPtr& thing) {
+	removeValue(this->allThings, thing);
+	int flags = thing->getAbsoluteFlags();
+	if (flags & SOLID) removeValue(this->collisionThings, thing);
+	if (flags & DRAW) {
+		removeValue(this->drawThings, thing);
+		this->drawOrder.erase(this->drawOrder.find(thing.get()));
+	}
+	if (flags & MOVEABLE) {
+		removeValue(this->movingThings, thing);
+	} else {
+		removeValue(this->updateThings, thing);
+	}
+	
+}
+
 void GameInstance::addPlayer(const std::shared_ptr<ThingBase>& thing) {
 	this->PLAYER = thing;
 	this->addThing(thing);
@@ -95,10 +111,12 @@ void GameInstance::instanceBegin() { // Do final things before playing starts
 void GameInstance::update() {
 	TRACE("Update Begin");
 	if (!this->started) this->instanceBegin();
+	std::vector<ThingPtr> toDie;
 	// TODO: Collision by objects in sectors, mid tier priority due to requiring sizeable reworking
 	for (ThingPtr& thing: this->movingThings) {
 		Point position = thing->getPosition();
 		thing->update();
+		if (!thing->isAlive()) toDie.push_back(thing);
 		// If the object has moved, its relative draw order might need to be adjusted
 		if (position != thing->getPosition()) {
 			this->drawOrder.erase(thing.get());
@@ -106,7 +124,11 @@ void GameInstance::update() {
 		}
 	}
 	TRACE("Update Mid");
-	for (ThingPtr& thing: this->updateThings) thing->update();
+	for (ThingPtr& thing: this->updateThings) {
+		thing->update();
+		if (!thing->isAlive()) toDie.push_back(thing);
+	}
+	for (ThingPtr& thing: toDie) this->removeThing(thing);
 	TRACE("Update End");
 }
 

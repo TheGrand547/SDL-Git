@@ -11,7 +11,6 @@
 #include "../essential/random.h"
 #include "../essential/SDLUtil.h"
 #include "../essential/SDL_Headers.h"
-#include "PixelMod.h"
 
 typedef uint8_t Uint8;
 typedef uint32_t Uint32;
