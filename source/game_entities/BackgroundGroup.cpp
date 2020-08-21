@@ -31,17 +31,15 @@ void BackgroundGroup::setParent(GameInstance& parent) {
 }
 
 void BackgroundGroup::finalize() {
-	#ifndef NDEBUG
 	Uint32 tick = SDL_GetTicks();
-	#endif
 	
 	int width = 0, height = 0;
-	std::map<std::string, std::shared_ptr<Texture>> textures;
+	std::map<std::string, std::shared_ptr<Surface>> textures;
 	
 	for (std::shared_ptr<BackElement>& element: this->elements) {
 		if (textures[element->type] == NULL) {
-			textures[element->type] = BackElement::createGroundTexture(this->parent->getRenderer(), element->type);
-			textures[element->type]->normalizeTexture(this->parent->getRenderer());
+			textures[element->type] = BackElement::createGroundTexture(element->type);
+			textures[element->type]->finalize(this->parent->getRenderer());
 		}
 		Point most = element->position + Point(textures[element->type]->getWidth(), textures[element->type]->getHeight());
 		if (most.isReal()) {
@@ -58,7 +56,5 @@ void BackgroundGroup::finalize() {
 	this->elements.clear();
 	this->fullyRendered = true;
 	
-	#ifndef NDEBUG
-	LOG("Took %i ms to internally render the background. ", (int) (SDL_GetTicks() - tick));
-	#endif
+	if (this->parent->gameState["verbose"]) LOG("Took %i ms to internally render the background. ", (int) (SDL_GetTicks() - tick));
 }

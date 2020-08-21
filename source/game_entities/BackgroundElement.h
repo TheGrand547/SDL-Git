@@ -5,7 +5,7 @@
 #include "../essential/constants.h"
 #include "../primitives/Point.h"
 #include "../primitives/Rect.h"
-#include "../wrappers/Texture.h"
+#include "../wrappers/Surface.h"
 #include<string>
 
 // Background element of the map, notably the ground
@@ -17,6 +17,6 @@ struct BackElement {
 	BackElement(const BackElement& other);
 	~BackElement();
 	BackElement& operator=(BackElement& other);
-	static std::shared_ptr<Texture> createGroundTexture(SDL_Renderer* renderer, const std::string& type = "missingTexture.jpg");
+	static std::shared_ptr<Surface> createGroundTexture(const std::string& type = "missingTexture.jpg");
 };
 #endif

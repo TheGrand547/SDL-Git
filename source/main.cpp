@@ -45,12 +45,12 @@ int main(int argc, char* argv[]) {
 	// Enemy
 	const Point BAD_POINT(220, 360);
 	std::shared_ptr<BadTest> heck = GAME.createThing<BadTest>(BAD_POINT);
-	
+	GAME.gameState["verbose"] = 1;
 	// TODO: Add to analyzer
 	for (int x = 0; x <= Screen::MAX_WIDTH; x += 25) {
 		for (int y = 0; y <= Screen::MAX_HEIGHT; y += 25) {
 			if (x % 100 == 0 && y % 100 == 0) {
-				GAME.ground.add(Point(x, y), Ground::filenames[Ground::GRASS]);
+				GAME.ground.add(Point(x, y), "resources/grass.png");
 			}
 		}
 	}

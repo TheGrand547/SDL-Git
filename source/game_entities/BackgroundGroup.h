@@ -8,7 +8,7 @@ class BackgroundGroup;
 #include "DrawGroup.h"
 #include "../essential/constants.h"
 #include "../primitives/Point.h"
-#include "../wrappers/Texture.h"
+#include "../wrappers/Surface.h"
 #include<map>
 #include<memory>
 #include<SDL2/SDL.h>

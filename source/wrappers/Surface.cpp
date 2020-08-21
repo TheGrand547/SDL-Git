@@ -27,9 +27,22 @@ Surface::~Surface() {
 	this->free();
 }
 
-SDL_Surface* Surface::createSurface(const int& width, const int& height) const {
+SDL_Surface* Surface::createSurface(const int& width, const int& height) {
 	// TODO: 8 should be constant'd, once we figure out what it does
 	return SDL_CreateRGBSurface(SURFACE_FLAGS, width, height, PIXEL_DEPTH, RMASK, GMASK, BMASK, AMASK);
+}
+
+SDL_Surface* Surface::errorSurface(const int& width, const int& height) {
+	// TODO: 8 should be constant'd, once we figure out what it does
+	SDL_Surface* surface = SDL_CreateRGBSurface(SURFACE_FLAGS, width, height, PIXEL_DEPTH, RMASK, GMASK, BMASK, AMASK);
+	if (surface) {
+		Uint32 pink = SDL_MapRGBA(surface->format, 0xFF, 0xC0, 0xCB, 0xFF);
+		Uint32 grey = SDL_MapRGBA(surface->format, 0x80, 0x80, 0x80, 0xFF);
+		SDL_FillRect(surface, NULL, pink);
+		SDL_Rect rect = {0, 0, width / 2, height / 2};
+		SDL_FillRect(surface, &rect, grey);
+	} else LOG("Failed to create error surface! This is very very BAD!");
+	return surface;
 }
 
 Surface& Surface::operator=(SDL_Surface*&& surface) {
@@ -58,7 +71,7 @@ Surface& Surface::operator=(SDL_Surface*& surface) {
 	this->free();
 	this->locked = false;
 	this->changed = true;
-	this->surface = this->createSurface(surface->w, surface->h);
+	this->surface = Surface::createSurface(surface->w, surface->h);
 	if (this->surface) SDL_BlitSurface(surface, NULL, this->surface, NULL);
 	else LOG("Created Invalid Blank Surface. ");
 	return *this;
@@ -70,7 +83,7 @@ Surface& Surface::operator=(const Surface& surface) {
 		this->free();
 		this->locked = false;
 		this->changed = true;
-		this->surface = this->createSurface(surface.surface->w, surface.surface->h);
+		this->surface = Surface::createSurface(surface.surface->w, surface.surface->h);
 		if (this->surface) surface.blitTo(*this);
 		else LOG("Created Invalid Blank Surface. ");
 	}
@@ -124,6 +137,17 @@ void Surface::free() {
 	this->internal.free();
 }
 
+// Redundancy, cause why not
+int Surface::getHeight() const {
+	if (this->surface) return this->surface->h;
+	return -1;
+}
+
+int Surface::getWidth() const {
+	if (this->surface) return this->surface->w;
+	return -1;
+}
+
 int Surface::height() const {
 	if (this->surface) return this->surface->h;
 	return -1;
@@ -149,7 +173,10 @@ void Surface::draw(SDL_Renderer* renderer, Point position) {
 void Surface::load(const std::string& path) {
 	this->free();
 	this->surface = IMG_Load(path.c_str());
-	if (!this->surface) LOG("Unable to load image %s! SDL_image Error: %s\n", path.c_str(), IMG_GetError());
+	if (!this->surface) {
+		LOG("Unable to load image %s! SDL_image Error: %s\n", path.c_str(), IMG_GetError());
+		this->surface = Surface::errorSurface(50, 50);
+	}
 }
 
 void Surface::scale(const double& width, const double& height, bool smooth) {

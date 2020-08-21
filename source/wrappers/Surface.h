@@ -11,7 +11,8 @@
 class Surface {
 	private:
 		// Methods there is no reason anyone outside should need to call
-		SDL_Surface* createSurface(const int& width, const int& height) const;
+		static SDL_Surface* createSurface(const int& width, const int& height);
+		static SDL_Surface* errorSurface(const int& width, const int& height);
 	protected:
 		bool changed, locked;
 		SDL_Surface* surface;
@@ -35,12 +36,14 @@ class Surface {
 		Color getColorKey() const;
 		
 		int blitTo(Surface& surface, const Rect& srcRect = Rect(), const Rect& dstRect = Rect()) const;
+		int getHeight() const;
 		int height() const;
 		int setAlpha(const Uint8& alpha);
 		int setBlend(const SDL_BlendMode& blend);
 		int setBlend(const BLEND_MODE& blend);
 		int setColorMod(const Uint8& r, const Uint8& g, const Uint8& b) const;
 		int setColorMod(const Color& color) const;
+		int getWidth() const;
 		int width() const;
 
 		void setColorKey(const Uint32& color);

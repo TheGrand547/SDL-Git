@@ -15,8 +15,8 @@ BackElement& BackElement::operator=(BackElement& other) {
 	return *this;
 }
 
-std::shared_ptr<Texture> BackElement::createGroundTexture(SDL_Renderer* renderer, const std::string& type) {
-	std::shared_ptr<Texture> temp = std::make_shared<Texture>();
-	temp->loadFromFile(renderer, type);
+std::shared_ptr<Surface> BackElement::createGroundTexture(const std::string& type) {
+	std::shared_ptr<Surface> temp = std::make_shared<Surface>();
+	temp->load(type);
 	return temp;
 }
