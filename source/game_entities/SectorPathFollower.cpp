@@ -44,6 +44,7 @@ void SectorPathFollower::draw(SDL_Renderer* renderer, Point offset) {
 }
 
 void SectorPathFollower::update() {
+	if (this->parent->getPlayer()->overlap(this->box)) this->parent->removeThing(this->shared_from_this());
 	Point p = this->mine.currentTarget(this->box.getCenter());
 	double value = this->movement.getValue();
 	if (p.isNull() || !value) return;
