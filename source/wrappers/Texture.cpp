@@ -172,6 +172,10 @@ bool Texture::notLoaded() {
 	return this->texture == NULL;
 }
 
+Point Texture::getSize() const {
+	return {(double) this->width, (double) this->height};
+}
+
 void Texture::createBlank(SDL_Renderer* renderer, int w, int h, Uint32 color) {
 	if (this->renderer == NULL) this->renderer = renderer;
 	this->free();

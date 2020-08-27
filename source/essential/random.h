@@ -44,23 +44,13 @@ bool valueNotInVector(const std::vector<T>& vector, const T& element) {
 	return std::find(vector.begin(), vector.end(), element) == vector.end();
 }
 
-// TODO: Make this templated for ALL possible containers with T.end() and t.begin()
-template<typename T>
-bool removeValue(std::vector<T>& type, const T& element) {
-	// True: Value removed
-	// False: Value not removed
-	typename std::vector<T>::iterator iterator = std::find(type.begin(), type.end(), element);
-	if (iterator != type.end()) type.erase(iterator);
-	return iterator != type.end();
-}
-
 template<typename T, typename U>
-bool removeValue(std::set<T, U>& type, const T& element) {
+bool removeValue(T& type, const U& element) {
 	// True: Value removed
 	// False: Value not removed
-	typename std::set<T, U>::iterator iterator = std::find(type.begin(), type.end(), element);
-	if (iterator != type.end()) type.erase(iterator);
-	return iterator != type.end();
+	typename T::iterator iterator = std::find(std::begin(type), std::end(type), element);
+	if (iterator != std::end(type)) type.erase(iterator);
+	return iterator != std::end(type);
 }
 	
 

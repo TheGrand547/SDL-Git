@@ -47,8 +47,8 @@ int main(int argc, char* argv[]) {
 	std::shared_ptr<BadTest> heck = GAME.createThing<BadTest>(BAD_POINT);
 	GAME.gameState["verbose"] = 1;
 	// TODO: Add to analyzer
-	for (int x = 0; x <= Screen::MAX_WIDTH; x += 25) {
-		for (int y = 0; y <= Screen::MAX_HEIGHT; y += 25) {
+	for (int x = 0; x <= Screen::MAX_WIDTH + 100; x += 25) {
+		for (int y = 0; y <= Screen::MAX_HEIGHT + 100; y += 25) {
 			if (x % 100 == 0 && y % 100 == 0) {
 				GAME.ground.add(Point(x, y), "resources/grass.png");
 			}
@@ -63,7 +63,7 @@ int main(int argc, char* argv[]) {
 	contra.addListener("Ray", 120);
 	contra.addListener("PathReset", 50);
 	contra.addPlayerKeys(playerDelta); // Maybe allow for multiple bindings of the same command somehow? vectors likely? Also remove this dumb fix
-	FpsText fps(gFont, Point(100, 10), COLORS::RED); // TODO: Add handler for these things, also have this singular timer passed to all "groups" for consistency
+	FpsText fps(gFont, Point(100, 10), COLORS::RED);
 	
 	handler.createText<AlertText>("this shouldn't last long", Point(300, 150), COLORS::RED, 20, 2500);
 	
@@ -84,7 +84,6 @@ int main(int argc, char* argv[]) {
 	
 	SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
 	SDL_RenderClear(gRenderer);
-	
 	
 	std::shared_ptr<FootSteps> foots = GAME.createThing<FootSteps>();
 	

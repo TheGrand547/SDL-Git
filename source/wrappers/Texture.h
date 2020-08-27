@@ -38,6 +38,7 @@ class Texture {
 		bool notLoaded();
 		int getHeight() const;
 		int getWidth() const;
+		Point getSize() const;
 		void free();
 		void setAlpha(Uint8 alpha);
 		void setBlend(SDL_BlendMode mode);

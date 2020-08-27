@@ -150,12 +150,18 @@ int Surface::getWidth() const {
 
 int Surface::height() const {
 	if (this->surface) return this->surface->h;
+	if (this->locked) return this->internal.getHeight();
 	return -1;
 }
 
 int Surface::width() const {
 	if (this->surface) return this->surface->w;
+	if (this->locked) return this->internal.getWidth();
 	return -1;
+}
+
+Point Surface::getSize() const {
+	return {(double) this->width(), (double) this->height()};
 }
 
 void Surface::draw(SDL_Renderer* renderer, Point position) {

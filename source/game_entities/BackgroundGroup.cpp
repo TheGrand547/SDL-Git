@@ -41,7 +41,7 @@ void BackgroundGroup::finalize() {
 			textures[element->type] = BackElement::createGroundTexture(element->type);
 			textures[element->type]->finalize(this->parent->getRenderer());
 		}
-		Point most = element->position + Point(textures[element->type]->getWidth(), textures[element->type]->getHeight());
+		Point most = element->position + textures[element->type]->getSize();
 		if (most.isReal()) {
 			if (most.x > width) width = (int) most.x;
 			if (most.y > height) height = (int) most.y;

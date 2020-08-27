@@ -45,6 +45,8 @@ class Surface {
 		int setColorMod(const Color& color) const;
 		int getWidth() const;
 		int width() const;
+		
+		Point getSize() const;
 
 		void setColorKey(const Uint32& color);
 		void setColorKey(const SDL_Color& color);
