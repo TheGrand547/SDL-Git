@@ -54,30 +54,49 @@ Point Dot::collideLine(const Line& ray) const {
 }
 
 void Dot::collideTest() {
-	const int CHECKS = 4;
+	const int CHECKS = 4; // Probably put this somewhere else...
 	
-	double tickRatio = this->mvmt.getValue();
-	if (!tickRatio) return;
-
-	Point delta = this->velocity * tickRatio;
+	Point delta = this->velocity * this->mvmt.getValue();
 	if (delta.isZero()) return;
 	
 	Point temp = delta / CHECKS;
 	PositionLock lock(this->position);
 	for (int i = 0; i < CHECKS; i++) {
-		this->position += temp;
+		// TODO: Increase velocity of the other section so that the other velocity is boosted slightly when going diagonally
+		// TODO: Feels sloppy as shit
+		if (temp.isZero()) break;
+		this->position.x += temp.x;
 		if (this->parent->collision.isPositionOpen(this->shared_from_this())) {
 			lock.update();
-		} else break;
+		} else {
+			temp.x = 0;
+			lock.revert();
+		}
+		this->position.y += temp.y;
+		if (this->parent->collision.isPositionOpen(this->shared_from_this())) {
+			lock.update();
+		}  else {
+			temp.y = 0;
+			lock.revert();
+		}
 	}
 	lock.revert();
+	if (lock.delta().isZero()) {
+		for (int i = 0; i < CHECKS; i++) {
+			this->position += temp;
+			if (this->parent->collision.isPositionOpen(this->shared_from_this())) {
+				lock.update();
+			} else break;
+		}
+		lock.revert();
+	}
 	this->lastDelta = lock.delta();
 	this->parent->getOffset() += this->lastDelta;
 	this->evalAngle(this->lastDelta);
 	
 	// Zero velocity if it's too small
-	if (abs(this->lastDelta.x) < ROUNDING) this->velocity.x = 0;
-	if (abs(this->lastDelta.y) < ROUNDING) this->velocity.y = 0;
+	if (std::abs(this->lastDelta.x) < ROUNDING) this->velocity.x = 0;
+	if (std::abs(this->lastDelta.y) < ROUNDING) this->velocity.y = 0;
 } 
 
 void Dot::draw(SDL_Renderer* renderer, Point offset) {

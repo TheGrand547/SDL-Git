@@ -28,7 +28,10 @@ class Rect: public Polygon {
 		Rect& operator=(const Rect& that);
 		Rect operator+(const Point& point) const;
 		Rect operator-(const Point& point) const;
-		Rect operator*(const double& value) const;
+		Rect operator+(const double& num) = delete;
+		Rect operator-(const double& num) = delete;
+		Rect operator*(const double& num) const;
+		Rect operator/(const double& num) const;
 		
 		bool isReal() const override;
 		bool isAxisAligned() const override;
@@ -49,12 +52,18 @@ class Rect: public Polygon {
 		SDL_Rect getSDLRect() const;
 		void operator+=(const Point& point);
 		void operator-=(const Point& point);
-		void operator*=(const double& value);
+		void operator+=(const double& num) = delete;
+		void operator-=(const double& num) = delete;
+		void operator*=(const double& num);
+		void operator/=(const double& num);
 		void setCenter(const Point& point);
 		void superDraw(SDL_Renderer* renderer, Point offset);
 };
 
 Rect operator+(const Point& point, const Rect& rect);
 Rect operator-(const Point& point, const Rect& rect);
-Rect operator*(const double& value, const Rect& rect);
+Rect operator+(const double& num, const Rect& rect) = delete;
+Rect operator-(const double& num, const Rect& rect) = delete;
+Rect operator*(const double& num, const Rect& rect);
+Rect operator/(const double& num, const Rect& rect) = delete;
 #endif

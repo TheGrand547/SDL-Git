@@ -29,7 +29,7 @@ class Controller {
 		std::map<std::string, void(*)()> mymp;
 		
 		Configuration config;
-		const Uint8* stuff = SDL_GetKeyboardState(NULL);
+		const Uint8* keyboard = SDL_GetKeyboardState(NULL);
 	public:
 		int mouseX, mouseY;
 		bool quit = false;

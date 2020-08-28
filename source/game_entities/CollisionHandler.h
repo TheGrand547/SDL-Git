@@ -17,7 +17,7 @@ typedef std::shared_ptr<SectorBase> SectorPtr;
 // Interface to interact with the collidable objects from GameInstance
 class CollisionHandler {
 	protected:
-		std::map<SectorPtr, std::vector<ThingPtr>> oMap;
+		std::map<SectorPtr, std::vector<ThingPtr>> collisionMap;
 	public:
 		GameInstance* parent;
 		CollisionHandler(GameInstance* parent);

@@ -8,6 +8,8 @@ SDL_Renderer* createRenderer(SDL_Window*& window);
 SDL_Window* createWindow();
 void close(SDL_Window* window);
 
+// TODO: Pick and stick to standard names for arguments, like all `const double&` should be num if theres just one etc
+
 int main(int argc, char* argv[]) {
 	LOG("Section: Setup");
 	

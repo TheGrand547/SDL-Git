@@ -8,15 +8,17 @@
 
 struct Point {
 	double x, y;
-	
-	Point(double xCoordinate = 0.0 / 0.0, double yCoordinate = 0.0 / 0.0);
+	Point();
+	Point(const double& x, const double& y = 0);
 	Point(const Point& point);
 	Point(const Point* point);
 	~Point();
 	Point operator-() const;
-	Point operator-(const Point& point) const;
 	Point operator+(const Point& point) const;
-	Point& operator=(const Point& that);
+	Point operator-(const Point& point) const;
+	Point operator+(const double& num) = delete;
+	Point operator-(const double& num) = delete;
+	Point& operator=(const Point& point);
 	Point operator/(const double& num) const;
 	Point operator*(const double& num) const;
 	Point copy() const;
@@ -33,7 +35,7 @@ struct Point {
 	bool operator==(const Point& point) const;
 	bool operator!=(const Point& point) const;
 	double distanceToPoint(const Point& point = Point(0, 0)) const;
-	double distanceToPoint(double x, double y) const;
+	double distanceToPoint(const double& x, const double& y) const;
 	double fastDistanceToPoint(const Point& point = Point(0, 0)) const;
 	double getAngle() const;
 	double getMagnitude() const;
@@ -43,12 +45,17 @@ struct Point {
 	friend std::ostream& operator<<(std::ostream &output, const Point& point);
 	void operator+=(const Point& delta);
 	void operator-=(const Point& delta);
-	void operator*=(const double& val);
-	void operator/=(const double& val);
+	void operator+=(const double& num) = delete;
+	void operator-=(const double& num) = delete;
+	void operator*=(const double& num);
+	void operator/=(const double& num);
 	void xZero();
 	void yZero();
 	void zero();
 };
 
 Point operator*(const double& other, const Point& point);
+Point operator+(const double& num, const Point& point) = delete;
+Point operator-(const double& num, const Point& point) = delete;
+Point operator/(const double& num, const Point& point) = delete;
 #endif

@@ -50,20 +50,20 @@ bool Line::collidePoint(const Point& point) const {
 	return this->isPointOnThisLine(point);
 }
 
-void Line::operator+=(const Point& b) {
-	*this = Line(this->originPoint + b, this->endingPoint + b);
+void Line::operator+=(const Point& point) {
+	*this = Line(this->originPoint + point, this->endingPoint + point);
 }
 
-void Line::operator-=(const Point& b) {
-	*this += b.negate();
+void Line::operator-=(const Point& point) {
+	*this += point.negate();
 }
 
-Line Line::operator+(const Point& b) const {
-	return Line(this->originPoint + b, this->endingPoint + b);
+Line Line::operator+(const Point& point) const {
+	return Line(this->originPoint + point, this->endingPoint + point);
 }
 
-Line Line::operator-(const Point& b) const {
-	return Line(this->originPoint - b, this->endingPoint - b);
+Line Line::operator-(const Point& point) const {
+	return *this + (-point);
 }
 	
 double Line::getAx() const { 
@@ -129,21 +129,21 @@ Point Line::intersectionPoint(const Line& other) const {
 	return Point();
 }
 
-Line Line::operator*(const double& delta) const {
-	return Line(this->getOrigin(), this->getOrigin() + this->getVector() * delta);
+Line Line::operator*(const double& num) const {
+	return Line(this->getOrigin(), this->getOrigin() + this->getVector() * num);
 }
 
-Line Line::operator/(const double& delta) const {
-	return Line(this->getOrigin(), this->getVector() / delta);
+Line Line::operator/(const double& num) const {
+	return Line(this->getOrigin(), this->getVector() / num);
 }
 
-Line operator*(const double& delta, const Line& line) {
-	return line * delta;
+Line operator*(const double& num, const Line& line) {
+	return line * num;
 }
 
-Line operator/(const double& delta, const Line& line) {
-	assert(delta != 0);
-	return line / delta;
+Line operator/(const double& num, const Line& line) {
+	assert(num != 0);
+	return line / num;
 }
 
 bool Line::shareNoPoints(const Line& other) const {

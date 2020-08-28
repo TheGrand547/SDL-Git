@@ -76,10 +76,8 @@ void Controller::handleEvents() {
 	}
 	std::map<int, std::shared_ptr<ButtonCommand>>::iterator iterator = buttons.begin();
 	for (; iterator != buttons.end(); iterator++) {
-		if (this->stuff[iterator->first]) {
-			if (iterator->second != NULL) {
-				iterator->second->execute();
-			}
+		if (this->keyboard[iterator->first]) {
+			if (iterator->second != NULL) iterator->second->execute();
 		}
 	}
 	this->updateListeners();
@@ -107,7 +105,7 @@ void Controller::addListener(std::string key, int threshold) {
 
 void Controller::updateListeners() {
 	for(std::map<int, HeldKey>::iterator iterator = this->listeners.begin(); iterator != listeners.end(); iterator++) {
-		iterator->second.set(this->stuff[iterator->first]);
+		iterator->second.set(this->keyboard[iterator->first]);
 	}
 }
 

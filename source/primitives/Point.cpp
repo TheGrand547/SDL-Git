@@ -1,6 +1,8 @@
 #include "Point.h"
 
-Point::Point(double xCoordinate, double yCoordinate) : x(xCoordinate), y(yCoordinate) {}
+Point::Point() : x(0.0 / 0.0), y(0.0 / 0.0) {}
+
+Point::Point(const double& x, const double& y) : x(x), y(y) {}
 
 Point::~Point() {}
 
@@ -33,9 +35,11 @@ void Point::operator+=(const Point& delta) {
 	this->y += delta.y;
 }
 
-Point& Point::operator=(const Point& that) {
-	x = that.x;
-	y = that.y;
+Point& Point::operator=(const Point& point) {
+	if (this != &point){
+		x = point.x;
+		y = point.y;
+	}
 	return *this;
 }
 
@@ -56,7 +60,7 @@ double Point::distanceToPoint(const Point& point) const {
 	return sqrt(this->fastDistanceToPoint(point));
 }
 
-double Point::distanceToPoint(double x, double y) const {
+double Point::distanceToPoint(const double& x, const double& y) const {
 	return this->distanceToPoint(Point(x, y));
 }
 
@@ -109,11 +113,11 @@ inline double Point::getFastMagnitude() const {
 
 bool Point::getNonZero() const {
 	return ((std::abs(this->x) > ROUNDING || std::abs(this->y) > ROUNDING) 
-			&& (this->x == this->x || this->y == this->y)); // TODO: Define accuarcy constant
+			&& (this->x == this->x && this->y == this->y)); // This part is too make sure it isn't nan
 }
 
 bool Point::operator==(const Point& point) const {
-	return std::abs(point.x - this->x) < ROUNDING && std::abs(point.y - this->y) < ROUNDING;
+	return (std::abs(point.x - this->x) < ROUNDING) && (std::abs(point.y - this->y) < ROUNDING);
 }
 
 bool Point::operator!=(const Point& point) const {
@@ -133,7 +137,6 @@ Point Point::onlyY() const {
 }
 
 Point Point::operator/(const double& num) const {
-	assert(num);
 	return Point(this->x / num, this->y / num);
 }
 
@@ -147,17 +150,18 @@ void Point::zero() {
 }
 
 double Point::operator*(const Point& other) const {
+	// Dot product
 	return (this->x * other.x) + (this->y * other.y);
 }
 
-void Point::operator*=(const double& val) {
-	this->x *= val;
-	this->y *= val;
+void Point::operator*=(const double& num) {
+	this->x *= num;
+	this->y *= num;
 }
 
-void Point::operator/=(const double& val) {
-	this->x /= val;
-	this->y /= val;
+void Point::operator/=(const double& num) {
+	this->x /= num;
+	this->y /= num;
 }
 
 Point operator*(const double& other, const Point& point) {

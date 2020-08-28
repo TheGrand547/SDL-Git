@@ -103,12 +103,12 @@ Rect& Rect::operator=(const Rect& that) {
 // ------------- Interface Methods ----------------
 // ------------------------------------------------
 
-bool Rect::isReal() const {
-	return this->widthVector.getFastMagnitude() != 0 && this->heightVector.getFastMagnitude() != 0;
-}
-
 bool Rect::isAxisAligned() const { // Fuck off axis powers
 	return (this->heightVector.x == 0 && this->widthVector.y == 0) || (this->heightVector.y == 0 && this->widthVector.x == 0);
+}
+
+bool Rect::isReal() const {
+	return (this->widthVector.getFastMagnitude() != 0) && (this->heightVector.getFastMagnitude() != 0);
 }
 
 double Rect::getArea() const {
@@ -140,13 +140,6 @@ std::vector<Point> Rect::getPoints() const {
 // ------------ Specialized Methods ---------------
 // ------------------------------------------------
 
-void Rect::superDraw(SDL_Renderer* renderer, Point offset) {
-	uint8_t r, g, b, a;
-	SDL_GetRenderDrawColor(renderer, &r, &g, &b, &a);
-	this->setColorChannels(r, g, b, a);
-	this->draw(renderer, offset);
-}
-
 double Rect::getOriginDistance() const {
 	double dist = 0;
 	for (Point point: this->getPoints()) {
@@ -156,10 +149,6 @@ double Rect::getOriginDistance() const {
 		}
 	}
 	return dist;
-}
-
-void Rect::setCenter(const Point& point) {
-	this->topLeft = point - (this->heightVector + this->widthVector) / 2;
 }
 
 Point Rect::getTopLeft() const {
@@ -191,6 +180,10 @@ SDL_Rect Rect::getSDLRect() const {
 	return tempRect;
 }
 
+Point Rect::getCenter() const {
+	return this->topLeft + (this->widthVector + this->heightVector) / 2;
+}
+
 Rect Rect::operator+(const Point& point) const {
 	return Rect(this->topLeft + point, this->widthVector, this->heightVector);
 }
@@ -199,10 +192,14 @@ Rect Rect::operator-(const Point& point) const {
 	return *this + point.negate();
 }
 
-Rect Rect::operator*(const double& value) const {
-	Rect temp(this->topLeft, this->widthVector * value, this->heightVector * value);
+Rect Rect::operator*(const double& num) const {
+	Rect temp(this->topLeft, this->widthVector * num, this->heightVector * num);
 	temp.setCenter(this->getCenter());
 	return temp;
+}
+
+Rect Rect::operator/(const double& num) const {
+	return *this * (1 / num);
 }
 
 void Rect::operator+=(const Point& point) {
@@ -213,13 +210,28 @@ void Rect::operator-=(const Point& point) {
 	*this += point.negate();
 }
 
-void Rect::operator*=(const double& value) {
-	*this = *this * value;
+void Rect::operator*=(const double& num) {
+	*this = *this * num;
 }
 
-Point Rect::getCenter() const {
-	return this->topLeft + (this->widthVector + this->heightVector) / 2;
+void Rect::operator/=(const double& num) {
+	*this = *this / num;
 }
+
+void Rect::setCenter(const Point& point) {
+	this->topLeft = point - (this->heightVector + this->widthVector) / 2;
+}
+
+void Rect::superDraw(SDL_Renderer* renderer, Point offset) {
+	Uint8 r, g, b, a;
+	SDL_GetRenderDrawColor(renderer, &r, &g, &b, &a);
+	this->setColorChannels(r, g, b, a);
+	this->draw(renderer, offset);
+}
+
+// ------------------------------------------------
+// --------- Related Non-class Methods ------------
+// ------------------------------------------------
 
 Rect operator+(const Point& point, const Rect& rect) {
 	return rect + point;
@@ -229,6 +241,6 @@ Rect operator-(const Point& point, const Rect& rect) {
 	return rect - point;
 }
 
-Rect operator*(const double& value, const Rect& rect) {
-	return rect * value;
+Rect operator*(const double& num, const Rect& rect) {
+	return rect * num;
 }

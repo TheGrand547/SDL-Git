@@ -56,11 +56,18 @@ bool CollisionHandler::doesNotCollideWith(const ThingPtr& thing) const {
 }
 
 bool CollisionHandler::isPositionOpen(const ThingPtr& thing) {
-	for (const ThingPtr& something: this->oMap[NULL]) {
-		if (thing.get() != something.get() && something->overlap(thing)) return false;
-	}
-	for (const SectorPtr& sector : this->parent->sectors.allSectors(thing)){
-		for (const ThingPtr& something: this->oMap[sector]) {
+	std::vector<SectorPtr> sectors = this->parent->sectors.allSectors(thing);
+	if (sectors.size()) {
+		for (const ThingPtr& something: this->collisionMap[NULL]) {
+			if (thing.get() != something.get() && something->overlap(thing)) return false;
+		}
+		for (const SectorPtr& sector : sectors) {
+			for (const ThingPtr& something: this->collisionMap[sector]) {
+				if (thing.get() != something.get() && something->overlap(thing)) return false;
+			}
+		}
+	} else {
+		for (const ThingPtr& something: this->parent->collisionThings) {
 			if (thing.get() != something.get() && something->overlap(thing)) return false;
 		}
 	}
@@ -86,9 +93,9 @@ void CollisionHandler::finalize() {
 		int hit = 0;
 		for (SectorPtr sector : this->parent->sectors.allSectors(thing)) {
 			hit++;
-			this->oMap[sector].push_back(thing);
+			this->collisionMap[sector].push_back(thing);
 		}
-		if (hit < 3) this->oMap[NULL].push_back(thing);
+		if (hit < 3) this->collisionMap[NULL].push_back(thing);
 	}
 }
 

@@ -13,7 +13,7 @@
 typedef Uint8 uint8_t;
 
 class Line: public Color {
-	/* Represents a line segment in the form, ax+by=c, bounded by the points A and B */
+	// Represents a line segment in the form, ax+by=c, bounded by the points A and B
 	private:
 		Point originPoint, endingPoint;
 	public:	
@@ -27,12 +27,16 @@ class Line: public Color {
 		bool isPointOnThisLine(const Point& point) const;
 		bool collidePoint(const Point& point) const;
 		bool shareNoPoints(const Line& other) const;
-		void operator+=(const Point& b);
-		void operator-=(const Point& b);
+		void operator+=(const Point& point);
+		void operator-=(const Point& point);
+		void operator+=(const double& num) = delete;
+		void operator-=(const double& num) = delete;
 		Line operator*(const double& delta) const;
 		Line operator/(const double& delta) const;
-		Line operator+(const Point& b) const;
-		Line operator-(const Point& b) const;
+		Line operator+(const Point& point) const;
+		Line operator-(const Point& point) const;
+		Line operator+(const double& num) = delete;
+		Line operator-(const double& num) = delete;
 		double getAx() const;
 		double getBy() const;
 		double getC() const;
@@ -49,6 +53,6 @@ class Line: public Color {
 		void setColor(Uint8 red, Uint8 green, Uint8 blue, Uint8 alpha);
 };
 
-Line operator*(const double& delta, const Line& line);
-Line operator/(const double& delta, const Line& line);
+Line operator*(const double& num, const Line& line);
+Line operator/(const double& num, const Line& line);
 #endif
