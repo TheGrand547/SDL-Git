@@ -11,7 +11,6 @@ struct Point {
 	Point();
 	Point(const double& x, const double& y = 0);
 	Point(const Point& point);
-	Point(const Point* point);
 	~Point();
 	Point operator-() const;
 	Point operator+(const Point& point) const;

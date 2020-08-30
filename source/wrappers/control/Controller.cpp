@@ -12,7 +12,7 @@ int scanCodeFromEvent(SDL_Event event) {
 	return event.key.keysym.scancode;
 }
 
-Controller::Controller() {}
+Controller::Controller() : keyboard(SDL_GetKeyboardState(NULL)) {}
 
 Controller::~Controller() {
 	this->keys.clear();
@@ -33,7 +33,7 @@ void Controller::handleEvents() {
 				break;
 			case SDL_KEYDOWN:
 				if (e.key.repeat == 0) {
-					this->myq.push_back(*SDL_GetKeyName(e.key.keysym.sym));
+					this->cheatQueue.push_back(*SDL_GetKeyName(e.key.keysym.sym));
 					if (this->keys[scanCodeFromEvent(e)] != NULL) {
 						this->keys[scanCodeFromEvent(e)]->keyDownCommand();
 					}
@@ -57,25 +57,23 @@ void Controller::handleEvents() {
 				break;
 		}
 	}
-	if (this->myq.size() > 0) {
-		std::stringstream tmp;
-		tmp.str("");
-		for (uint i = 0; i < this->myq.size(); i++) {
-			tmp << char(tolower(this->myq[i]));
-			std::map<std::string, void(*)()>::iterator iterator = this->mymp.begin();
-			for (; iterator != this->mymp.end(); iterator++) {
-				if (tmp.str().find(iterator->first) != std::string::npos) {
+	if (this->cheatQueue.size() > 0) {
+		std::stringstream stream;
+		stream.str("");
+		for (uint i = 0; i < this->cheatQueue.size(); i++) {
+			stream << char(tolower(this->cheatQueue[i]));
+			for (std::map<std::string, void(*)()>::iterator iterator = this->cheatMap.begin(); iterator != this->cheatMap.end(); iterator++) {
+				if (stream.str().find(iterator->first) != std::string::npos) {
 					if (iterator->second != NULL) {
 						iterator->second();
-						this->myq.clear();
+						this->cheatQueue.clear();
 						break;
 					}
 				}
 			}
 		}
 	}
-	std::map<int, std::shared_ptr<ButtonCommand>>::iterator iterator = buttons.begin();
-	for (; iterator != buttons.end(); iterator++) {
+	for (std::map<int, std::shared_ptr<ButtonCommand>>::iterator iterator = buttons.begin(); iterator != buttons.end(); iterator++) {
 		if (this->keyboard[iterator->first]) {
 			if (iterator->second != NULL) iterator->second->execute();
 		}
@@ -122,5 +120,5 @@ void Controller::addPlayerKeys(Point& target) {
 }
 
 void Controller::addCheat(std::string key, void(*func)()) {
-	this->mymp[key] = func;
+	this->cheatMap[key] = func;
 }

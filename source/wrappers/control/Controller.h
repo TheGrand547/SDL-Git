@@ -25,11 +25,11 @@ class Controller {
 		std::map<int, std::shared_ptr<ButtonCommand>> buttons;
 		std::map<int, HeldKey> listeners;
 		
-		std::vector<char> myq;
-		std::map<std::string, void(*)()> mymp;
+		std::vector<char> cheatQueue;
+		std::map<std::string, void(*)()> cheatMap;
 		
 		Configuration config;
-		const Uint8* keyboard = SDL_GetKeyboardState(NULL);
+		const Uint8* keyboard;
 	public:
 		int mouseX, mouseY;
 		bool quit = false;

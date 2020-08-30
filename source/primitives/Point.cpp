@@ -8,8 +8,6 @@ Point::~Point() {}
 
 Point::Point(const Point& point) : x(point.x), y(point.y) {}
 
-Point::Point(const Point* point) : x(point->x), y(point->y) {}
-
 double Point::originDistance() const {
 	return this->distanceToPoint(0, 0);
 }
@@ -36,7 +34,7 @@ void Point::operator+=(const Point& delta) {
 }
 
 Point& Point::operator=(const Point& point) {
-	if (this != &point){
+	if (this != &point) {
 		x = point.x;
 		y = point.y;
 	}

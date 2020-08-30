@@ -65,14 +65,14 @@ void Dot::collideTest() {
 		// TODO: Increase velocity of the other section so that the other velocity is boosted slightly when going diagonally
 		// TODO: Feels sloppy as shit
 		if (temp.isZero()) break;
-		this->position.x += temp.x;
+		this->position += temp.onlyX();
 		if (this->parent->collision.isPositionOpen(this->shared_from_this())) {
 			lock.update();
 		} else {
 			temp.x = 0;
 			lock.revert();
 		}
-		this->position.y += temp.y;
+		this->position += temp.onlyY();
 		if (this->parent->collision.isPositionOpen(this->shared_from_this())) {
 			lock.update();
 		}  else {

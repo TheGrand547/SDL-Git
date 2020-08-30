@@ -10,11 +10,13 @@ Animation::Animation(const Animation& other) : started(other.started), endingInd
 Animation::~Animation() {}
 
 Animation& Animation::operator=(const Animation& other) {
-	this->started = other.started;
-	this->currentIndex = other.currentIndex;
-	this->endingIndex = other.endingIndex;
-	this->interval = other.interval;
-	this->startingIndex = other.startingIndex;
+	if (this != &other) {
+		this->started = other.started;
+		this->currentIndex = other.currentIndex;
+		this->endingIndex = other.endingIndex;
+		this->interval = other.interval;
+		this->startingIndex = other.startingIndex;
+	}
 	return *this;
 }
 

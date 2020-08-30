@@ -1,4 +1,5 @@
 #include "BoundedPoint.h"
+#include "essential/log.h"
 
 BoundedPoint::BoundedPoint() : Point(), xMax(0), yMax(0) {}
 
@@ -10,11 +11,13 @@ BoundedPoint::BoundedPoint(Point pos, double xMax, double yMax) : Point(pos), xM
 
 BoundedPoint::BoundedPoint(const BoundedPoint& other) : Point(other.x, other.y), xMax(other.xMax), yMax(other.yMax) {}
 
-BoundedPoint& BoundedPoint::operator=(const BoundedPoint& other){
-	this->x = other.x;
-	this->y = other.y;
-	this->xMax = other.xMax;
-	this->yMax = other.yMax;
+BoundedPoint& BoundedPoint::operator=(const BoundedPoint& other) {
+	if (this != &other) {
+		this->x = other.x;
+		this->y = other.y;
+		this->xMax = other.xMax;
+		this->yMax = other.yMax;
+	}
 	return *this;
 }
 
