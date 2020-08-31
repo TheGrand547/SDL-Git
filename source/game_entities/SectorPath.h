@@ -13,9 +13,9 @@ typedef std::shared_ptr<SectorBase> SectorPtr;
 class SectorPath {
 	protected:
 		std::vector<SectorPtr> stored;
-		ThingBase* target;
+		ThingBase* owner;
 	public:
-		SectorPath(ThingBase* target);
+		SectorPath(ThingBase* owner);
 		SectorPath& operator=(const SectorPath& that);
 		~SectorPath();
 		bool isFinished() const;

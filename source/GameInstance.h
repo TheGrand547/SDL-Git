@@ -15,10 +15,11 @@
 #include<set>
 #include<vector>
 
+class Dot;
+
 typedef uint32_t Uint32;
 typedef uint8_t Uint8;
 typedef std::shared_ptr<ThingBase> ThingPtr;
-
 
 struct compare {
 	bool operator()(const ThingBase* lhs, const ThingBase* rhs) const;
@@ -28,6 +29,7 @@ class GameInstance {
 	protected:
 		friend class CollisionHandler;
 		friend class SectorGroup;
+		friend class Dot;
 		bool started;
 		
 		Point offset;

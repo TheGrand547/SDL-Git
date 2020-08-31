@@ -77,13 +77,6 @@ int main(int argc, char* argv[]) {
 	
 	std::shared_ptr<SectorPathFollower> foodd = GAME.createThing<SectorPathFollower>(Rect(GAME.sectors[3]->structure().getCenter(), 10, 10));	
 	
-	Surface surf;
-	surf.load("resources/missingTexture.jpg");
-	surf.scale(400, 400);
-	surf.limitPalette();
-	surf.setBlend(BLEND);
-	surf.setColorKey({32, 32, 32, 0});
-	
 	SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
 	SDL_RenderClear(gRenderer);
 	
@@ -108,12 +101,10 @@ int main(int argc, char* argv[]) {
 			if (twigs) {
 				auto twigsAgain = GAME.sectors.currentSector(foodd);
 				if (twigsAgain) {
+					LOG("I'll get you yet vile swine!");
 					foodd->mine.createPath(twigsAgain, twigs);
 				}
 			}
-		}
-		if (contra.checkListener(config["PathReset"]).getHeld()) {
-			surf.draw(gRenderer, Point(0, 0));
 		}
 		
 		// Testing stuff

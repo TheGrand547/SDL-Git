@@ -26,8 +26,8 @@ BoundedPoint::~BoundedPoint() {}
 void BoundedPoint::reduce() {
 	this->x = (this->x <= 0) ? 0 : this->x;
 	this->y = (this->y <= 0) ? 0 : this->y;
-	this->x = (this->x >= this->xMax) ? this->xMax : this->x;
-	this->y = (this->y >= this->yMax) ? this->yMax : this->y;
+	this->x = (this->xMax <= this->x) ? this->xMax : this->x;
+	this->y = (this->yMax <= this->y) ? this->yMax : this->y;
 }
 
 void BoundedPoint::operator+=(Point delta) {

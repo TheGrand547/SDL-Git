@@ -1,7 +1,7 @@
 #include "BadTest.h"
 
 BadTest::BadTest(Point position) : EnemyBase(position, DRAW | MOVEABLE) {
-	this->maxVelocity = 200;
+	this->maxVelocity = 150;
 	this->currentState = State::PATROL;
 	
 	this->lastPatrolledPoint = Point();
@@ -58,10 +58,9 @@ void BadTest::draw(SDL_Renderer* renderer, Point offset) {
 	
 	/*
 	// Draw vision cone - Slopily
-	
 	for (int i = -20; i <= 20; i++) {
 		Point pTemp = this->getCenter();
-		pTemp += Point(300 * cos(this->angle + radians(i)), 300 * sin(this->angle + radians(i)));
+		pTemp += 300 * Point(cos(this->angle + radians(i)), sin(this->angle + radians(i)));
 		Line temp = Line(this->getCenter(), pTemp);
 
 		Point newTemp = this->parent->collision.closestPointThatCollidesWith(temp);
@@ -123,30 +122,4 @@ void BadTest::update() {
 			LOG("ERROR: BadTest has entered the ERROR State.");
 			break;
 	}
-	/*
-	// SLOPPY
-	
-	if (this->currentState == State::PATROL || this->currentState == State::GOTO) {
-		for (int i = -20; i <= 20; i++) {
-			Point pTemp = this->getCenter();
-			pTemp += Point(cos(this->angle + radians(i)), sin(this->angle + radians(i))) * 300;
-			Line temp = Line(this->getCenter(), pTemp);
-
-			Point newTemp = this->parent->collision.closestPointThatCollidesWith(temp);
-			if (newTemp.isReal()) {
-				temp = Line(this->getCenter(), newTemp);
-			}
-			
-			if (this->parent->getPlayer()->getRect().doesLineCollide(temp)) {
-				this->targetPoint = this->parent->getPlayer()->getPosition();
-				if (this->currentState == State::PATROL) {
-					//std::cout << "NOW GOTO: " << this->position << std::endl;
-					this->lastPatrolledPoint = this->getCenter();
-					this->c.pause();
-				}
-				this->currentState = State::GOTO;
-				break;
-			}
-		}
-	}*/
 }

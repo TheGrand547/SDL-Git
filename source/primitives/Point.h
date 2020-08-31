@@ -5,6 +5,7 @@
 #include<math.h>
 #include<iostream>
 #include <cassert>
+// TODO: Add directional indicators
 
 struct Point {
 	double x, y;
@@ -28,9 +29,13 @@ struct Point {
 	Point rotate90() const;
 	Point toInt() const;
 	bool getNonZero() const;
-	bool isZero() const;
+	bool isAbove(const Point& point) const;
+	bool isBelow(const Point& point) const;
+	bool isLeftOf(const Point& point) const;
 	bool isNull() const;
 	bool isReal() const;
+	bool isRightOf(const Point& point) const;
+	bool isZero() const;
 	bool operator==(const Point& point) const;
 	bool operator!=(const Point& point) const;
 	double distanceToPoint(const Point& point = Point(0, 0)) const;
@@ -41,7 +46,6 @@ struct Point {
 	double getFastMagnitude() const;
 	double operator*(const Point& other) const;
 	double originDistance() const;
-	friend std::ostream& operator<<(std::ostream &output, const Point& point);
 	void operator+=(const Point& delta);
 	void operator-=(const Point& delta);
 	void operator+=(const double& num) = delete;
@@ -57,4 +61,5 @@ Point operator*(const double& other, const Point& point);
 Point operator+(const double& num, const Point& point) = delete;
 Point operator-(const double& num, const Point& point) = delete;
 Point operator/(const double& num, const Point& point) = delete;
+std::ostream& operator<<(std::ostream& output, const Point& point);
 #endif

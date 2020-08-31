@@ -17,7 +17,7 @@ double edgeFunction(SectorPtr sector, SectorPtr target) {
 	return sector->pointsOfContact()[target.get()].fastDistanceToPoint(target->structure().getCenter());
 }
 
-SectorPath::SectorPath(ThingBase* target) : target(target) {}
+SectorPath::SectorPath(ThingBase* owner) : owner(owner) {}
 
 SectorPath::~SectorPath() {
 	this->clear();
@@ -26,7 +26,7 @@ SectorPath::~SectorPath() {
 SectorPath& SectorPath::operator=(const SectorPath& that) {
 	if (this != &that) {
 		this->stored.clear();
-		this->target = that.target;
+		this->owner = that.owner;
 		this->stored = that.stored;
 	}
 	return *this;
@@ -54,17 +54,30 @@ Point SectorPath::currentTarget(Point currentPosition) {
 			[[fallthrough]];
 		case 0: return Point();
 		default:
+			// Get the point of contact between the current sector and the next sector
 			Point edgePoint = this->stored[0]->pointsOfContact()[this->stored[1].get()];
+			// If we are at the contact point then we need to calculate the next vector to the next point of contact
 			if ((edgePoint - currentPosition).getFastMagnitude() < 5) {
 				this->stored.erase(this->stored.begin());
 				edgePoint = this->stored[0]->pointsOfContact()[this->stored[1].get()];
 			}
+			// Create line between the current position and the (current) target point
 			Line edge(currentPosition, edgePoint);
-			Rect rect(this->target->getBoundingRect());
+			// Get a simple collision box of the owner of this path
+			Rect rect(this->owner->getBoundingRect());
 			rect.setCenter(edge.midPoint());
-			if (this->target->parent->collision.doesCollideWith(rect)) {
+			// Check if the simple collision box has to just proceeed to the center of the current setor
+			if (this->owner->parent->collision.doesCollideWith(rect)) {
 				return centerDelta.getUnitVector();
 			}
+			/* Shelved for now
+			if (this->stored.size() > 1) {
+				edge = Line(currentPosition, this->stored[1]->structure().getCenter());
+				rect.setCenter(edge.midPoint());
+				if (!this->owner->parent->collision.doesCollideWith(rect)) {
+					return (this->stored[1]->structure().getCenter() - currentPosition).getUnitVector();
+				}
+			}*/
 			return (edgePoint - currentPosition).getUnitVector();
 	}
 }
@@ -135,19 +148,19 @@ void SectorPath::draw() {
 	for (uint i = 0; i + 1 < this->stored.size(); i++) {
 		Line p(this->stored[i]->structure().getCenter(), this->stored[i]->pointsOfContact()[this->stored[i + 1].get()]);
 		p.setColor(0xFF, 0x00, 0xFF, 0xFF);
-		p.drawLine(this->target->parent->getRenderer(), this->target->parent->getOffset());
+		p.drawLine(this->owner->parent->getRenderer(), this->owner->parent->getOffset());
 		if (i != 0) {
 			Line g(this->stored[i]->structure().getCenter(), this->stored[i - 1]->pointsOfContact()[this->stored[i].get()]);
 			g.setColor(0xFF, 0x00, 0xFF, 0xFF);
-			g.drawLine(this->target->parent->getRenderer(), this->target->parent->getOffset());
+			g.drawLine(this->owner->parent->getRenderer(), this->owner->parent->getOffset());
 			
 			Line pe(this->stored[i]->structure().getCenter(), this->stored[i]->pointsOfContact()[this->stored[i - 1].get()]);
 			pe.setColor(0xFF, 0xFF, 0xFF, 0xFF);
-			pe.drawLine(this->target->parent->getRenderer(), this->target->parent->getOffset());
+			pe.drawLine(this->owner->parent->getRenderer(), this->owner->parent->getOffset());
 		}
 	}
 	for (SectorPtr& sec: this->stored) {
 		sec->structure().setColorChannels(0xFF, 0x00, 0x00, 0xFF);
-		sec->draw(this->target->parent->getRenderer(), this->target->parent->getOffset());
+		sec->draw(this->owner->parent->getRenderer(), this->owner->parent->getOffset());
 	}
 }
