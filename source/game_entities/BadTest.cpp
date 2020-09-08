@@ -73,7 +73,7 @@ void BadTest::draw(SDL_Renderer* renderer, Point offset) {
 }
 
 void BadTest::setTexture(SDL_Renderer* renderer) {
-	this->texture.createBlank(renderer, 50, 50, 0xFF0000FF);
+	this->texture.createBlank(renderer, 50, 50, 0x0000FFFF);
 }
 
 

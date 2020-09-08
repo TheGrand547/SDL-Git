@@ -1,6 +1,8 @@
 #include "Texture.h"
 #include "PixelMod.h"
 
+// TODO: Organize this
+
 Texture::Texture() : width(0), height(0), renderer(NULL), texture(NULL) {}
 
 Texture::~Texture() {
@@ -164,11 +166,11 @@ void Texture::drawCentered(SDL_Renderer* renderer, Point position, SDL_COPY_EX_A
 	this->draw(renderer, position - Point(this->width, this->height) / 2.0, clip, angle, center, flip);
 }
 
-bool Texture::isLoaded() {
+bool Texture::isLoaded() const {
 	return this->texture != NULL;
 }
 
-bool Texture::notLoaded() {
+bool Texture::notLoaded() const {
 	return this->texture == NULL;
 }
 

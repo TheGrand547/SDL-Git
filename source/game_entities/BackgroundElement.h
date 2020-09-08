@@ -17,6 +17,6 @@ struct BackElement {
 	BackElement(const BackElement& other);
 	~BackElement();
 	BackElement& operator=(BackElement& other);
-	static std::shared_ptr<Surface> createGroundTexture(const std::string& type = "missingTexture.jpg");
+	static std::shared_ptr<Surface> createGroundSurface(const std::string& type = "missingTexture.jpg");
 };
 #endif

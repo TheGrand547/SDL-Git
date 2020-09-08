@@ -38,7 +38,10 @@ Rect SectorPathFollower::getBoundingRect() const {
 }
 
 void SectorPathFollower::draw(SDL_Renderer* renderer, Point offset) {
-	if (!this->texture.isLoaded()) this->texture.loadFromFile(renderer, "resources/temp.png", 10, 10);
+	if (!this->texture.isLoaded()) {
+		this->texture.load("resources/temp.png");
+		this->texture.scale(10, 10);
+	}
 	this->mine.draw();
 	this->texture.draw(renderer, this->box.getTopLeft() - offset);
 }

@@ -15,7 +15,7 @@ BackElement& BackElement::operator=(BackElement& other) {
 	return *this;
 }
 
-std::shared_ptr<Surface> BackElement::createGroundTexture(const std::string& type) {
+std::shared_ptr<Surface> BackElement::createGroundSurface(const std::string& type) {
 	std::shared_ptr<Surface> temp = std::make_shared<Surface>();
 	temp->load(type);
 	return temp;

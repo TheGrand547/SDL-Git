@@ -38,7 +38,7 @@ void BackgroundGroup::finalize() {
 	
 	for (std::shared_ptr<BackElement>& element: this->elements) {
 		if (textures[element->type] == NULL) {
-			textures[element->type] = BackElement::createGroundTexture(element->type);
+			textures[element->type] = BackElement::createGroundSurface(element->type);
 			textures[element->type]->finalize(this->parent->getRenderer());
 		}
 		Point most = element->position + textures[element->type]->getSize();

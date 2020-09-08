@@ -90,6 +90,10 @@ Surface& Surface::operator=(const Surface& surface) {
 	return *this;
 }
 
+bool Surface::isLoaded() const {
+	return ((bool) this->surface) || (this->locked && this->internal.isLoaded());
+}
+
 Color Surface::getColorKey() const {
 	if (!this->surface) return Color();
 	Color color;

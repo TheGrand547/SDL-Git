@@ -34,8 +34,8 @@ class Texture {
 		Texture& operator=(Texture&& that);
 		Texture& operator=(SDL_Texture*& that);
 		Texture& operator=(SDL_Texture*&& that);
-		bool isLoaded();
-		bool notLoaded();
+		bool isLoaded() const;
+		bool notLoaded() const;
 		int getHeight() const;
 		int getWidth() const;
 		Point getSize() const;

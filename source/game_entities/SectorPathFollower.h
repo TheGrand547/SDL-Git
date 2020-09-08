@@ -4,7 +4,7 @@
 #include "../primitives/Rect.h"
 #include "base/ThingBase.h"
 #include "SectorPath.h"
-#include "../wrappers/Texture.h"
+#include "../wrappers/Surface.h"
 #include "../wrappers/MovementWrapper.h"
 
 class SectorPathFollower : public ThingBase {
@@ -13,7 +13,7 @@ class SectorPathFollower : public ThingBase {
 	public:
 		Rect box;
 		SectorPath mine;
-		Texture texture;
+		Surface texture;
 		
 		SectorPathFollower(Rect rect);
 		~SectorPathFollower();

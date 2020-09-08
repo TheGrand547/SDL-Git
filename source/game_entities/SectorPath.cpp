@@ -57,7 +57,7 @@ Point SectorPath::currentTarget(Point currentPosition) {
 			// Get the point of contact between the current sector and the next sector
 			Point edgePoint = this->stored[0]->pointsOfContact()[this->stored[1].get()];
 			// If we are at the contact point then we need to calculate the next vector to the next point of contact
-			if ((edgePoint - currentPosition).getFastMagnitude() < 5) {
+			if ((edgePoint - currentPosition).getFastMagnitude() < 5 ) {//|| (currentPosition - this->stored[1]->structure().getCenter()).getFastMagnitude() < 5) {
 				this->stored.erase(this->stored.begin());
 				edgePoint = this->stored[0]->pointsOfContact()[this->stored[1].get()];
 			}
@@ -70,11 +70,13 @@ Point SectorPath::currentTarget(Point currentPosition) {
 			if (this->owner->parent->collision.doesCollideWith(rect)) {
 				return centerDelta.getUnitVector();
 			}
-			/* Shelved for now
+			// Shelved for now
+			/*
 			if (this->stored.size() > 1) {
 				edge = Line(currentPosition, this->stored[1]->structure().getCenter());
 				rect.setCenter(edge.midPoint());
-				if (!this->owner->parent->collision.doesCollideWith(rect)) {
+				if (!this->owner->parent->collision.doesCollideWith(rect) && !this->owner->parent->collision.doesCollideWith(edge)) {
+					std::cout << (currentPosition - this->stored[1]->structure().getCenter()) << std::endl;
 					return (this->stored[1]->structure().getCenter() - currentPosition).getUnitVector();
 				}
 			}*/

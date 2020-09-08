@@ -32,9 +32,11 @@ class Surface {
 		Surface& operator=(Surface&& surface);
 		Surface& operator=(SDL_Surface*& surface);
 		Surface& operator=(const Surface& surface);
+	
+		bool isLoaded() const;
 		
 		Color getColorKey() const;
-		
+	
 		int blitTo(Surface& surface, const Rect& srcRect = Rect(), const Rect& dstRect = Rect()) const;
 		int getHeight() const;
 		int height() const;
