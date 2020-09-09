@@ -9,6 +9,7 @@
 #include "primitives/Vector.h"
 #include "wrappers/FpsText.h"
 #include "wrappers/MovementWrapper.h"
+#include "wrappers/Surface.h"
 #include<math.h>
 #include<memory>
 #include<SDL2/SDL.h>
@@ -18,6 +19,8 @@ class Dot : public EntityBase, public Color {
 		BoundedPoint position;
 		MovementWrapper mvmt; // >:(
 		Point lastDelta;
+		
+		Surface surface;
 	public:
 		Dot(Point startingCoordinate);
 		~Dot();

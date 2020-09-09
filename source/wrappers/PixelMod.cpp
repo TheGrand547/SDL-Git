@@ -11,7 +11,7 @@ PixelMod::PixelMod(const Surface& surface, bool wrapEdges) : edges(wrapEdges), i
 	this->_pitch = this->surface->pitch;
 	this->format = this->surface->format;
 	this->pixels = (Uint32*) this->surface->pixels;
-	this->pixelCount = (this->_pitch / 4) * this->_height;
+	this->pixelCount = (this->_pitch / this->format->BytesPerPixel) * this->_height;
 }
 
 PixelMod::PixelMod(SDL_Surface* surface, bool wrapEdges) : edges(wrapEdges), isSurface(true), unlocked(!SDL_MUSTLOCK(surface)), surface(surface) {
@@ -25,7 +25,10 @@ PixelMod::PixelMod(SDL_Surface* surface, bool wrapEdges) : edges(wrapEdges), isS
 	this->_pitch = this->surface->pitch;
 	this->format = this->surface->format;
 	this->pixels = (Uint32*) this->surface->pixels;
-	this->pixelCount = (this->_pitch / 4) * this->_height;
+	this->pixelCount = (this->_pitch / this->format->BytesPerPixel) * this->_height;
+	std::cout << (int) this->format->BytesPerPixel << std::endl;
+	std::cout << surface->w * surface->h << ", " << this->pixelCount << std::endl;
+	//std::cout << this->pixelCount << ", " << this->_height * this->_width << std::endl;
 }
 
 PixelMod::PixelMod(SDL_Texture* texture, bool wrapEdges) : edges(wrapEdges), isSurface(false), unlocked(false), texture(texture) {
@@ -39,7 +42,7 @@ PixelMod::PixelMod(SDL_Texture* texture, bool wrapEdges) : edges(wrapEdges), isS
 	SDL_QueryTexture(this->texture, &format, NULL, &this->_width, &this->_height);
 	this->format = SDL_AllocFormat(format);
 	this->pixels = (Uint32*) rawPixels;
-	this->pixelCount = (this->_pitch / 4) * this->_height;
+	this->pixelCount = (this->_pitch / this->format->BytesPerPixel) * this->_height;
 }
 
 PixelMod::~PixelMod() {
@@ -103,7 +106,7 @@ Uint32 PixelMod::mapRGBA(const Uint8 r, const Uint8 g, const Uint8 b, const Uint
 void PixelMod::deallocate() {
 	if (!this->unlocked) {
 		if (this->isSurface) {
-			SDL_LockSurface(this->surface);
+			SDL_UnlockSurface(this->surface);
 			return;
 		}
 		SDL_UnlockTexture(this->texture);

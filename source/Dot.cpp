@@ -1,6 +1,8 @@
 #include "Dot.h"
 
 Dot::Dot(Point startingCoordinate) : EntityBase(DRAW | MOVEABLE) {
+	this->surface.load("resources/cat.jpg");
+	this->surface.scale(Player::PLAYER_X_DIMENSION, Player::PLAYER_Y_DIMENSION);
 	this->lastDelta = startingCoordinate;
 	this->setMaxVelocity(200); // Per second
 	this->setFriction(10);
@@ -82,6 +84,7 @@ void Dot::collideTest() {
 	}
 	lock.revert();
 	if (lock.delta().isZero()) {
+		// Diagonal Check
 		for (int i = 0; i < CHECKS; i++) {
 			this->position += temp;
 			if (this->parent->collision.isPositionOpen(this->shared_from_this())) {
@@ -100,14 +103,7 @@ void Dot::collideTest() {
 } 
 
 void Dot::draw(SDL_Renderer* renderer, Point offset) {
-	SDL_SetRenderDrawColor(renderer, this->r, this->g, this->b, this->a);
-	SDL_Rect temp = (this->getBoundingRect() - offset).getSDLRect();
-	temp.w = Player::PLAYER_X_DIMENSION;
-	temp.h = Player::PLAYER_Y_DIMENSION;
-	SDL_RenderFillRect(renderer, &temp);
-	Rect p(temp.x, temp.y, Player::PLAYER_X_DIMENSION, Player::PLAYER_Y_DIMENSION);
-	p.setColorChannels(0xFF, 0x00, 0x00, 0xFF);
-	p.draw(renderer, Point(0,0));
+	this->surface.draw(renderer, this->position - offset);
 }
 
 void Dot::rayCast() {
