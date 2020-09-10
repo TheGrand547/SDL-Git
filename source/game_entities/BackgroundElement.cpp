@@ -18,6 +18,6 @@ BackElement& BackElement::operator=(BackElement& other) {
 std::shared_ptr<Surface> BackElement::createGroundSurface(const std::string& type) {
 	std::shared_ptr<Surface> temp = std::make_shared<Surface>();
 	temp->load(type);
-	temp->dither();
+	//temp->dither(); // only there for testing
 	return temp;
 }

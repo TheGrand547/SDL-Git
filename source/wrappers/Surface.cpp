@@ -186,6 +186,12 @@ void Surface::load(const std::string& path) {
 	if (!this->surface) {
 		LOG("Unable to load image %s! SDL_image Error: %s\n", path.c_str(), IMG_GetError());
 		this->surface = Surface::errorSurface(50, 50);
+	} else {
+		SDL_Surface* copy = this->surface;
+		SDL_Surface* temp = this->createSurface(1, 1);
+		this->surface = SDL_ConvertSurface(copy, temp->format, 0);
+		SDL_FreeSurface(copy);
+		SDL_FreeSurface(temp);
 	}
 }
 
@@ -215,7 +221,6 @@ void Surface::setColorKey(const SDL_Color& color) {
 void Surface::finalize(SDL_Renderer* renderer) {
 	if (this->surface) {
 		SDL_UnlockSurface(this->surface);
-		std::cout << "UCK" << std::endl;
 		this->internal = SDL_CreateTextureFromSurface(renderer, this->surface);
 		SDL_FreeSurface(this->surface);
 		this->surface = NULL;
@@ -302,27 +307,15 @@ void Surface::dither() {
 	CHECK;
 	PixelMod mod(this->surface);
 	this->changed = true;
-	Uint8 value;
-	/*
 	for (int i = 0; i < mod.count(); i++) {
 		Pixel pixel = mod.getPixel(i);
-		value = matrix[(i / mod.width()) % 2][(i / mod.height()) % 2];
-		pixel.red() = (pixel.red() < value) ? 0x00 : 0xFF;
-		pixel.green() = (pixel.green() < value) ? 0x00 : 0xFF;
-		pixel.blue() = (pixel.blue() < value) ? 0x00 : 0xFF;
-	}*/
-	
-	value = 0x80;
-	for (int i = 0; i < mod.count(); i++) {
-		Pixel pixel = mod.getPixel(i);
-		//value = (Uint8) (rand() % 256);
-		//std::cout << (int) value << std::endl;
+		Uint8 value = (Uint8) (rand() % 256);
 		pixel.red() = (pixel.red() < value) ? 0x00 : pixel.red();
 		pixel.green() = (pixel.green() < value) ? 0x00 : pixel.green();
 		pixel.blue() = (pixel.blue() < value) ? 0x00 : pixel.blue();
 	}
 	/* TODO: Floyd–Steinberg dithering
-	for (int x = 1; x + 1< mod.width(); x++) {
+	for (int x = 1; x + 1 < mod.width(); x++) {
 		for (int y = 0; y + 1 < mod.height(); y++) {
 			Pixel pixel = mod.getPixel(x, y);
 			Pixel old = 
