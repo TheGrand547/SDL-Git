@@ -9,16 +9,18 @@ class FileInput {
 	protected:
 		bool open;
 		std::ifstream file;
+		std::string currentLine;
 	public:
 		FileInput();
+		FileInput(const std::string& filename);
 		~FileInput();
-		bool isOpen() const;
 		bool atEOS() const;
+		bool isOpen() const;
 		std::string nextChar();
 		std::string nextLine();
 		std::string nextWord();
-		void open(const std::string& file);
 		void close();
+		void open(const std::string& filename);
 		
 };
 #endif
