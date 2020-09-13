@@ -102,8 +102,8 @@ void Dot::collideTest() {
 	if (std::abs(this->lastDelta.y) < ROUNDING) this->velocity.y = 0;
 } 
 
-void Dot::draw(SDL_Renderer* renderer, Point offset) {
-	this->surface.draw(renderer, this->position - offset);
+void Dot::draw() {
+	this->surface.draw(this->parent->getRenderer());
 }
 
 void Dot::rayCast() {
@@ -111,7 +111,7 @@ void Dot::rayCast() {
 	if (newPoint.isReal()) {
 		Line tempLine = Line(this->getCenter(), newPoint.copy());
 		tempLine.setColorChannels(COLORS::CYAN);
-		tempLine.drawLine(this->parent->getRenderer(), this->parent->getOffset());
+		tempLine.draw(this->parent->getRenderer());
 	}
 }
 

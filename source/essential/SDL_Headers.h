@@ -1,6 +1,8 @@
 #pragma once
 #ifndef SDL_HEADERS_HELP_H
 #define SDL_HEADERS_HELP_H
+#include "typedefs.h"
+#include "../primitives/Point.h"
 #include<SDL.h>
 #include<SDL2_framerate.h>
 #include<SDL2_gfxPrimitives.h>
@@ -9,12 +11,15 @@
 #include<SDL_image.h>
 #include<SDL_ttf.h>
 
-typedef uint8_t  Uint8;
-typedef uint32_t Uint32;
+// Package rendering conext and the relevant offset in one tidy package
+struct Renderer {
+	Point offset = Point(0, 0);
+	SDL_Renderer* renderer = NULL;
+};
 
 // It might look stupid but I promise it is NOT
 #define SURFACE_FLAGS 0
-#define PIXEL_DEPTH 32
+#define PIXEL_DEPTH  32
 
 enum BLEND_MODE {
 	NONE  = SDL_BLENDMODE_NONE,

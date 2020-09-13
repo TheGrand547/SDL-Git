@@ -33,10 +33,10 @@ int main(int argc, char* argv[]) {
 	}
 	
 	srand(time(NULL));
-	std::shared_ptr<Dot> dot = std::make_shared<Dot>(Point(190, 150));
-	dot->setColorChannels((Uint8)0xFF);
+	std::shared_ptr<Dot> player = std::make_shared<Dot>(Point(190, 150));
+	player->setColorChannels((Uint8) 0xFF);
 	Configuration config;		
-	GAME.addPlayer(dot);
+	GAME.addPlayer(player);
 	TextHandler handler;
 	handler.parent = &GAME;
 		
@@ -89,15 +89,15 @@ int main(int argc, char* argv[]) {
 	while (!contra.quit) {
 		playerDelta.zero(); // >:(
 		contra.handleEvents();
-		dot->velocityDelta(playerDelta); // Update player
+		player->velocityDelta(playerDelta); // Update player
 		GAME.update();
 		/* Drawing */
 		GAME.draw();
 		if (!GAME.gameState["RAY_CAST"] && contra.checkListener(config["Ray"]).getHeld()) { // Raycasting
-			dot->rayCast();
+			player->rayCast();
 		}
 		if (contra.checkListener(config["PathReset"]).getHeld() && GAME.gameState["PathFinished"]) {
-			auto twigs = GAME.sectors.currentSector(dot);
+			auto twigs = GAME.sectors.currentSector(player);
 			if (twigs) {
 				auto twigsAgain = GAME.sectors.currentSector(foodd);
 				if (twigsAgain) {
@@ -108,13 +108,13 @@ int main(int argc, char* argv[]) {
 		}
 		
 		// Testing stuff
-		spriteSheetTest.draw("dumb", GAME.getRenderer(), {200, 200}, getDirectionFromAngle(dot->getAngle()));
-		patrolLine.drawLine(gRenderer, GAME.getOffset());
+		spriteSheetTest.draw("dumb", GAME.getTrueRenderer(), {200, 200}, getDirectionFromAngle(player->getAngle()));
+		patrolLine.draw(GAME.getRenderer());
 		handler.draw();
 		
 		GAME.sectors.drawGroup();
-		fps.draw(gRenderer);
-		fps.drawFrameTime(gRenderer);
+		fps.draw(GAME.getRenderer());
+		fps.drawFrameTime(GAME.getRenderer());
 		GAME.finalizeFrame();
 	}
 	LOG("Section: End of Program");

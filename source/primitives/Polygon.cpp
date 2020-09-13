@@ -103,6 +103,10 @@ Rect Polygon::getBoundingRect() const {
 	return Rect(Point(minX, minY), Point(maxX, maxY));
 }
 
+void Polygon::draw(Renderer renderer) {
+	this->draw(renderer.renderer, renderer.offset);
+}
+
 void Polygon::draw(SDL_Renderer* renderer, Point offset) {
 	std::vector<Point> temp = this->getPoints();
 	short* x = new short[this->numPoints()];

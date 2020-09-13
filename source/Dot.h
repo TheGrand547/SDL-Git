@@ -35,7 +35,7 @@ class Dot : public EntityBase, public Color {
 		Point getPosition() const override;
 		Rect getBoundingRect() const override;
 		void collideTest();
-		void draw(SDL_Renderer* renderer, Point offset = Point(0, 0)) override;
+		void draw() override;
 		void rayCast();
 		void update() override;
 		void velocityDelta(Point acceleration);

@@ -1,7 +1,7 @@
 #include "GameInstance.h"
 
 // Comparator for the sake of the draw order pointer set
-bool compare::operator()(const ThingBase* lhs, const ThingBase* rhs) const {
+bool Draw::compare::operator()(const ThingBase* lhs, const ThingBase* rhs) const {
 	if (lhs->originDistance() < rhs->originDistance()) {
 		return true;
 	}
@@ -11,8 +11,8 @@ bool compare::operator()(const ThingBase* lhs, const ThingBase* rhs) const {
 	return lhs < rhs;
 }
 
-GameInstance::GameInstance(SDL_Window* window, SDL_Renderer* renderer, BoundedPoint offset) : started(false), offset(offset), 
-							playableArea(0, 0, Screen::MAX_WIDTH, Screen::MAX_HEIGHT), renderer(renderer), window(window), ground(this), 
+GameInstance::GameInstance(SDL_Window* window, SDL_Renderer* renderer, BoundedPoint offset) : started(false), renderer({offset, renderer}), 
+							playableArea(0, 0, Screen::MAX_WIDTH, Screen::MAX_HEIGHT), window(window), ground(this), 
 							collision(this), sectors(this) {
 	this->frameTimer.start();
 }
@@ -66,24 +66,24 @@ void GameInstance::addPlayer(const std::shared_ptr<ThingBase>& thing) {
 
 void GameInstance::draw() {
 	// Update screen position before drawing is done
-	if (this->getPlayer()->getPosition().x < Screen::SCREEN_WIDTH / 2) this->offset.x = 0;
-	if (this->getPlayer()->getPosition().y < Screen::SCREEN_HEIGHT / 2) this->offset.y = 0;
-	if (this->getPlayer()->getPosition().x > Screen::MAX_X_SCROLL_DISTANCE) this->offset.x = Screen::MAX_SCREEN_X_POS;
-	if (this->getPlayer()->getPosition().y > Screen::MAX_Y_SCROLL_DISTANCE) this->offset.y = Screen::MAX_SCREEN_Y_POS;
+	if (this->getPlayer()->getPosition().x < Screen::SCREEN_WIDTH / 2) this->renderer.offset.x = 0;
+	if (this->getPlayer()->getPosition().y < Screen::SCREEN_HEIGHT / 2) this->renderer.offset.y = 0;
+	if (this->getPlayer()->getPosition().x > Screen::MAX_X_SCROLL_DISTANCE) this->renderer.offset.x = Screen::MAX_SCREEN_X_POS;
+	if (this->getPlayer()->getPosition().y > Screen::MAX_Y_SCROLL_DISTANCE) this->renderer.offset.y = Screen::MAX_SCREEN_Y_POS;
 	
 	// Draw things
 	this->ground.drawGroup();
-	for (ThingBase* thing: this->drawOrder) thing->draw(this->renderer, this->offset);
+	for (ThingBase* thing: this->drawOrder) thing->draw();
 }
 
 void GameInstance::finalizeFrame() {
 	// Render changes to the window
-	SDL_RenderPresent(this->renderer);
+	SDL_RenderPresent(this->renderer.renderer);
 	SDL_UpdateWindowSurface(this->window);
 	
 	// Clear the window for the next frame to draw onto
-	SDL_SetRenderDrawColor(this->renderer, 0xFF, 0xFF, 0xFF, 0xFF);
-	SDL_RenderClear(this->renderer);
+	SDL_SetRenderDrawColor(this->renderer.renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+	SDL_RenderClear(this->renderer.renderer);
 	
 	// If framerate is soft capped, delay if the framerate is over 1000
 	if (!this->gameState["cv_capped_fps"] && !this->frameTimer.getTicks()) SDL_Delay(1);
@@ -117,9 +117,9 @@ void GameInstance::update() {
 		thing->update();
 		// If the object has moved, its relative draw order might need to be adjusted
 		if (position != thing->getPosition()) {
-			std::set<ThingBase*, compare>::iterator iterator = this->drawOrder.find(thing.get());
+			std::set<ThingBase*, Draw::compare>::iterator iterator = this->drawOrder.find(thing.get());
 			if (iterator != this->drawOrder.end()) {
-				this->drawOrder.erase(this->drawOrder.find(thing.get()));
+				this->drawOrder.erase(iterator);
 				this->drawOrder.insert(thing.get());
 			}
 		}
@@ -133,12 +133,16 @@ Rect GameInstance::getPlayableArea() const {
 	return this->playableArea;
 }
 
-SDL_Renderer* GameInstance::getRenderer() {
+Renderer& GameInstance::getRenderer() {
 	return this->renderer;
 }
 
+SDL_Renderer* GameInstance::getTrueRenderer() {
+	return this->renderer.renderer;
+}
+
 Point& GameInstance::getOffset() {
-	return this->offset;
+	return this->renderer.offset;
 }
 
 ThingPtr GameInstance::getPlayer() {

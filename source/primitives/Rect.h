@@ -3,13 +3,12 @@
 #define RECT_H
 #include<cassert>
 #include<iostream>
-#include "../essential/util.h"
 #include "../essential/log.h"
+#include "../essential/util.h"
+#include "../essential/SDL_Headers.h"
 #include "Line.h"
 #include "Point.h"
 #include "Polygon.h"
-
-typedef uint Uint;
 
 class Rect: public Polygon {
 	protected:

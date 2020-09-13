@@ -149,6 +149,10 @@ void Texture::setColorKey(Uint8 red, Uint8 green, Uint8 blue) { // Modified from
 	}
 }
 
+void Texture::draw(Renderer renderer, SDL_COPY_EX_ARGS) {
+	this->draw(renderer.renderer, renderer.offset, SDL_COPY_EX_ARGS_PASS);
+}
+
 void Texture::draw(SDL_Renderer* renderer, Point position, SDL_COPY_EX_ARGS) {
 	if (this->renderer == NULL) this->renderer = renderer;
 	if (this->texture == NULL) return;

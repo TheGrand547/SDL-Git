@@ -12,7 +12,7 @@ bool AppearingText::finished() const {
 	return false;
 }
 
-void AppearingText::draw(SDL_Renderer* renderer, Point offset) {
+void AppearingText::draw(Renderer renderer) {
 	// TODO: Seems inefficient, find out why
 	if (!this->timer.isStarted()) this->timer.start();
 	this->leftOver += int(this->timer.getTicks());
@@ -26,5 +26,5 @@ void AppearingText::draw(SDL_Renderer* renderer, Point offset) {
 	for (Uint i = 0; i < this->index; i++) { // Exception was caught here, investigate
 		temp << this->text.at(i);
 	}
-	this->font.drawText(this->position - offset, temp.str(), renderer, this->color, this->charWrap);
+	this->font.drawText(this->position - renderer.offset, temp.str(), renderer.renderer, this->color, this->charWrap);
 }

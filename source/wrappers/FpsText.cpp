@@ -15,18 +15,18 @@ double FpsText::getFps() const {
 	return this->fpsTimer.getFps();
 }
 
-void FpsText::draw(SDL_Renderer* renderer) {
+void FpsText::draw(Renderer renderer) {
 	this->fpsTimer.tick();
 	std::stringstream fpsStr;
 	fpsStr.str("");
 	fpsStr << "FPS: " << int(this->fpsTimer.getFps());
-	this->font.drawText(this->position, fpsStr.str(), renderer, this->color);
+	this->font.drawText(this->position, fpsStr.str(), renderer.renderer, this->color);
 }
 
-void FpsText::drawFrameTime(SDL_Renderer* renderer) {
+void FpsText::drawFrameTime(Renderer renderer) {
 	std::stringstream fpsStr;
 	fpsStr.str("");
 	fpsStr << "Frame Time: " << this->frameTimer.getTicks() << " ms";
-	this->font.drawText(this->position + Point(0, 20), fpsStr.str(), renderer, this->color);
+	this->font.drawText(this->position + Point(0, 20), fpsStr.str(), renderer.renderer, this->color);
 	this->frameTimer.start();
 }

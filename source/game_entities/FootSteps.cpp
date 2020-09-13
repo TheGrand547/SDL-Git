@@ -40,12 +40,12 @@ Rect FootSteps::getBoundingRect() const {
 	return Rect();
 }
 
-void FootSteps::draw(SDL_Renderer* renderer, Point offset) {
+void FootSteps::draw() {
 	Rect drawin(0, 0, 10, 10);
 	drawin.setColorChannels(0x00, 0x00, 0xF0, 0x80);
 	for (Point point: this->storage) {
 		drawin.setCenter(point);
-		drawin.draw(renderer, offset);
+		drawin.draw(this->parent->getRenderer());
 	}
 }
 

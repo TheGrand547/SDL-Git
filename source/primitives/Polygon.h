@@ -25,6 +25,7 @@ class Polygon : public Color {
 		virtual bool isAxisAligned() const;
 		virtual int numberOfCollisions(const Line& line) const;
 		virtual Point collideLine(const Line& ray) const;
+		virtual void draw(Renderer renderer);
 		virtual void draw(SDL_Renderer* renderer, Point offset);
 		
 		bool operator==(const Polygon& other) const;

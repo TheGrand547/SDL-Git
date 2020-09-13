@@ -150,19 +150,19 @@ void SectorPath::draw() {
 	for (uint i = 0; i + 1 < this->stored.size(); i++) {
 		Line p(this->stored[i]->structure().getCenter(), this->stored[i]->pointsOfContact()[this->stored[i + 1].get()]);
 		p.setColor(0xFF, 0x00, 0xFF, 0xFF);
-		p.drawLine(this->owner->parent->getRenderer(), this->owner->parent->getOffset());
+		p.draw(this->owner->parent->getRenderer());
 		if (i != 0) {
 			Line g(this->stored[i]->structure().getCenter(), this->stored[i - 1]->pointsOfContact()[this->stored[i].get()]);
 			g.setColor(0xFF, 0x00, 0xFF, 0xFF);
-			g.drawLine(this->owner->parent->getRenderer(), this->owner->parent->getOffset());
+			g.draw(this->owner->parent->getRenderer());
 			
 			Line pe(this->stored[i]->structure().getCenter(), this->stored[i]->pointsOfContact()[this->stored[i - 1].get()]);
 			pe.setColor(0xFF, 0xFF, 0xFF, 0xFF);
-			pe.drawLine(this->owner->parent->getRenderer(), this->owner->parent->getOffset());
+			pe.draw(this->owner->parent->getRenderer());
 		}
 	}
 	for (SectorPtr& sec: this->stored) {
 		sec->structure().setColorChannels(0xFF, 0x00, 0x00, 0xFF);
-		sec->draw(this->owner->parent->getRenderer(), this->owner->parent->getOffset());
+		sec->draw(this->owner->parent->getRenderer());
 	}
 }

@@ -21,6 +21,6 @@ class BigWall : public ThingBase {
 		Point collideLine(const Line& ray) const override;
 		Point getPosition() const override;
 		Rect getBoundingRect() const override;
-		void draw(SDL_Renderer* renderer, Point offset = Point(0, 0)) override;
+		void draw() override;
 };
 #endif

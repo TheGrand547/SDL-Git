@@ -23,7 +23,7 @@ class AppearingText : public Text {
 		AppearingText(std::string text, Point position, double lettersPerSecond, SDL_Color color, int charWrap = -1, int startingIndex = 0);
 		~AppearingText();
 		bool finished() const override;
-		void draw(SDL_Renderer* renderer, Point offset) override;
+		void draw(Renderer renderer) override;
 		void setCharacterWrap(int wrap);
 };
 #endif

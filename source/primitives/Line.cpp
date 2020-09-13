@@ -106,13 +106,8 @@ Point Line::midPoint() const {
 	return (this->endingPoint + this->originPoint) / 2;
 }
 
-std::ostream& operator<<(std::ostream& output, const Line& line) {
-	output << line.getOrigin() << " -> " << line.getEnd();
-	return output;
-}
-
-void Line::drawLine(SDL_Renderer* renderer, Point offset) {
-	aalineRGBA(renderer, this->originPoint - offset, this->endingPoint - offset, r, g, b, a);
+void Line::draw(Renderer renderer) {
+	aalineRGBA(renderer.renderer, this->originPoint - renderer.offset, this->endingPoint - renderer.offset, r, g, b, a);
 }				
 
 void Line::setColor(Uint8 red, Uint8 green, Uint8 blue, Uint8 alpha) {
@@ -149,4 +144,9 @@ Line operator/(const double& num, const Line& line) {
 bool Line::shareNoPoints(const Line& other) const {
 	return this->originPoint != other.originPoint && this->originPoint != other.endingPoint &&
 			this->endingPoint != other.originPoint && this->endingPoint != other.endingPoint;
+}
+
+std::ostream& operator<<(std::ostream& output, const Line& line) {
+	output << line.getOrigin() << " -> " << line.getEnd();
+	return output;
 }

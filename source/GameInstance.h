@@ -1,11 +1,15 @@
 #pragma once
 #ifndef GAME_INSTANCE_H
 #define GAME_INSTANCE_H
+
+class GameInstance;
+
+#include "essential/log.h"
+#include "essential/SDL_Headers.h"
 #include "game_entities/base/ThingBase.h"
 #include "game_entities/BackgroundGroup.h"
 #include "game_entities/CollisionHandler.h"
 #include "game_entities/SectorGroup.h"
-#include "essential/log.h"
 #include "primitives/Rect.h"
 #include "primitives/Polygon.h"
 #include "TextHandler.h"
@@ -15,15 +19,15 @@
 #include<set>
 #include<vector>
 
-class Dot;
-
 typedef uint32_t Uint32;
 typedef uint8_t Uint8;
 typedef std::shared_ptr<ThingBase> ThingPtr;
 
-struct compare {
-	bool operator()(const ThingBase* lhs, const ThingBase* rhs) const;
-};
+namespace Draw {
+	struct compare {
+		bool operator()(const ThingBase* lhs, const ThingBase* rhs) const;
+	};
+}
 
 class GameInstance {
 	protected:
@@ -32,9 +36,8 @@ class GameInstance {
 		friend class Dot;
 		bool started;
 		
-		Point offset;
+		Renderer renderer;
 		Rect playableArea;
-		SDL_Renderer* renderer;
 		SDL_Window* window;
 		std::shared_ptr<ThingBase> PLAYER;
 		std::vector<ThingPtr> allThings;
@@ -44,7 +47,7 @@ class GameInstance {
 		std::vector<ThingPtr> updateThings;
 				
 		std::vector<ThingPtr> movingThings; // List of everything thats position can change
-		std::set<ThingBase*, compare> drawOrder;
+		std::set<ThingBase*, Draw::compare> drawOrder;
 		Timer frameTimer;
 		
 	public:
@@ -59,7 +62,8 @@ class GameInstance {
 		void removeThing(const ThingPtr& thing);
 		Point& getOffset();
 		Rect getPlayableArea() const;
-		SDL_Renderer* getRenderer();
+		Renderer& getRenderer();
+		SDL_Renderer* getTrueRenderer();
 		void addPlayer(const ThingPtr& thing);
 		void draw();
 		void finalizeFrame();

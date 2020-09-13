@@ -1,11 +1,12 @@
 #pragma once
+#ifndef ENEMY_BASE_H
+#define ENEMY_BASE_H
 #include "../../essential/constants.h"
 #include "../../primitives/Vector.h"
 #include "../../wrappers/MovementWrapper.h"
 #include "../../wrappers/Texture.h"
 #include "../../wrappers/Timer.h"
 #include "../../Dot.h"
-#include "EntityBase.h"
 #include<math.h>
 #include<memory>
 #include<SDL2/SDL.h>
@@ -27,11 +28,13 @@ class EnemyBase : public ThingBase {
 		virtual bool isLocationInvalid() const = 0;
 		virtual Point getCenter() const = 0;
 		virtual void update() = 0;
-		virtual void draw(SDL_Renderer* renderer, Point offset = Point(0, 0));
+		virtual void draw();
 		virtual void move(Point velocity);
 		double getAngle() const;
 		void turn(double delta);
 		void toggleTurn();
 		Point pathFindTo(Point pos = Point());
-		friend std::ostream& operator<<(std::ostream& output, const EnemyBase& base);
 };
+
+std::ostream& operator<<(std::ostream& output, const EnemyBase& base);
+#endif

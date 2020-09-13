@@ -9,10 +9,8 @@ EnemyBase::EnemyBase(Point position, int flags) : ThingBase(flags | DRAW), maxVe
 
 EnemyBase::~EnemyBase() {}
 
-void EnemyBase::draw(SDL_Renderer* renderer, Point offset) {
-	if (this->texture.isLoaded()) {
-		this->texture.draw(renderer, this->position - offset);
-	}
+void EnemyBase::draw() {
+	if (this->texture.isLoaded()) this->texture.draw(this->parent->getRenderer());
 }
 
 // TODO: Make this generic
@@ -36,11 +34,6 @@ void EnemyBase::move(Point velocity) {
 	}
 }
 
-std::ostream& operator<<(std::ostream& output, const EnemyBase& base) {
-	output << base.position;
-	return output;
-}
-
 Point EnemyBase::pathFindTo(Point target) {
 	return target * 2;
 }
@@ -59,4 +52,7 @@ double EnemyBase::getAngle() const {
 	return this->angle;
 }
 
-
+std::ostream& operator<<(std::ostream& output, const EnemyBase& base) {
+	output << base.getPosition();
+	return output;
+}

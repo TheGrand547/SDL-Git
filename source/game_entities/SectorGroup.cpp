@@ -65,7 +65,7 @@ void SectorGroup::connectSectors() {
 }
 
 void SectorGroup::drawGroup() {
-	for (SectorPtr sector: this->storage) sector->draw(this->parent->getRenderer(), this->parent->getOffset());
+	for (SectorPtr sector: this->storage) sector->draw(this->parent->getRenderer());
 }
 
 void SectorGroup::purge() {

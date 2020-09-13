@@ -1,5 +1,6 @@
 #include "FileInput.h"
 
+// TODO: test and stuff
 FileInput::FileInput() : open(false), currentLine("") {}
 
 FileInput::FileInput(const std::string& filename) {
@@ -22,7 +23,7 @@ std::string FileInput::nextChar() {
 	std::string character = "";
 	if (this->isOpen()) {
 		// I swear this isn't sloppy
-		// ok it is sloppy but i gotta say it is
+		// ok it is sloppy but i gotta say it isn't
 		if (!this->currentLine.compare("")) {
 			this->currentLine = this->nextLine();
 		}

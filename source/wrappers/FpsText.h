@@ -15,7 +15,7 @@ class FpsText {
 		FpsText(Font& font, Point position, SDL_Color color);
 		~FpsText();
 		double getFps() const;
-		void draw(SDL_Renderer* renderer);
-		void drawFrameTime(SDL_Renderer* renderer);
+		void draw(Renderer renderer);
+		void drawFrameTime(Renderer renderer);
 };
 #endif

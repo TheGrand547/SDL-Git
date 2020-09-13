@@ -168,6 +168,10 @@ Point Surface::getSize() const {
 	return {(double) this->width(), (double) this->height()};
 }
 
+void Surface::draw(Renderer renderer) {
+	this->draw(renderer.renderer, renderer.offset);
+}
+
 void Surface::draw(SDL_Renderer* renderer, Point position) {
 	if (!this->surface && !this->locked) {
 		LOG("Attempting to draw a NULL surface!");

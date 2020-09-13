@@ -24,6 +24,7 @@ class SectorBase {
 		virtual std::vector<std::weak_ptr<ThingBase>>& getContained() = 0;
 		virtual void connectToOthers(std::vector<std::shared_ptr<SectorBase>>& others) = 0;
 		virtual void clean(std::vector<std::shared_ptr<SectorBase>>& others) = 0;
+		virtual void draw(Renderer renderer) = 0;
 		virtual void draw(SDL_Renderer* renderer, Point offset = Point(0, 0)) = 0;
 };
 
@@ -46,6 +47,7 @@ template<class T> class Sector : public SectorBase {
 		std::vector<std::weak_ptr<ThingBase>>& getContained() override;
 		void connectToOthers(std::vector<std::shared_ptr<SectorBase>>& others) override;
 		void clean(std::vector<std::shared_ptr<SectorBase>>& others) override;
+		void draw(Renderer renderer) override;
 		void draw(SDL_Renderer* renderer, Point offset = Point(0, 0)) override;
 };	
 
@@ -117,6 +119,10 @@ template<class T> void Sector<T>::clean(std::vector<std::shared_ptr<SectorBase>>
 		}
 		
 	}
+}
+
+template<class T> void Sector<T>::draw(Renderer renderer) {
+	this->representation.draw(renderer);
 }
 
 template<class T> void Sector<T>::draw(SDL_Renderer* renderer, Point offset) {

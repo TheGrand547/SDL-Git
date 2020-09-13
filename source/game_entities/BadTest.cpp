@@ -52,9 +52,9 @@ Rect BadTest::getBoundingRect() const {
 	return Rect(this->position, this->width, this->height);
 }
 
-void BadTest::draw(SDL_Renderer* renderer, Point offset) {
-	if (this->texture.notLoaded()) this->setTexture(renderer);
-	EnemyBase::draw(renderer, offset);
+void BadTest::draw() {
+	if (this->texture.notLoaded()) this->setTexture();
+	EnemyBase::draw();
 	
 	/*
 	// Draw vision cone - Slopily
@@ -72,8 +72,8 @@ void BadTest::draw(SDL_Renderer* renderer, Point offset) {
 	}*/
 }
 
-void BadTest::setTexture(SDL_Renderer* renderer) {
-	this->texture.createBlank(renderer, 50, 50, 0x0000FFFF);
+void BadTest::setTexture() {
+	this->texture.createBlank(this->parent->getTrueRenderer(), 50, 50, 0x0000FFFF);
 }
 
 

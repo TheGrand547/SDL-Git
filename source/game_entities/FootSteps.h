@@ -21,7 +21,7 @@ class FootSteps : public ThingBase {
 		Point collideLine(const Line& ray) const override;
 		Point getPosition() const override;
 		Rect getBoundingRect() const override;
-		void draw(SDL_Renderer* renderer, Point offset = Point(0, 0)) override;
+		void draw() override;
 		void update() override; // Add a new foot step if the player has moved and it's been a certain amount of time
 		
 };

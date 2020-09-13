@@ -23,7 +23,7 @@ void BackgroundGroup::add(Point position, const std::string& type) {
 
 void BackgroundGroup::drawGroup() {
 	if (!this->fullyRendered) this->finalize();
-	this->texture.draw(this->parent->getRenderer(), -this->parent->getOffset());
+	this->texture.draw(this->parent->getTrueRenderer(), -this->parent->getOffset());
 }
 
 void BackgroundGroup::setParent(GameInstance& parent) {
@@ -35,11 +35,11 @@ void BackgroundGroup::finalize() {
 	
 	int width = 0, height = 0;
 	std::map<std::string, std::shared_ptr<Surface>> textures;
-	
+	SDL_Renderer* renderer = this->parent->getRenderer().renderer;
 	for (std::shared_ptr<BackElement>& element: this->elements) {
 		if (textures[element->type] == NULL) {
 			textures[element->type] = BackElement::createGroundSurface(element->type);
-			textures[element->type]->finalize(this->parent->getRenderer());
+			textures[element->type]->finalize(renderer);
 		}
 		Point most = element->position + textures[element->type]->getSize();
 		if (most.isReal()) {
@@ -47,11 +47,11 @@ void BackgroundGroup::finalize() {
 			if (most.y > height) height = (int) most.y;
 		}
 	}
-	this->texture = SDL_CreateTexture(this->parent->getRenderer(), SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_TARGET, width, height);
+	this->texture = SDL_CreateTexture(this->parent->getTrueRenderer(), SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_TARGET, width, height);
 	
-	SDL_SetRenderTarget(this->parent->getRenderer(), this->texture);
-	for (std::shared_ptr<BackElement>& element: this->elements) textures[element->type]->draw(this->parent->getRenderer(), element->position);
-	SDL_SetRenderTarget(this->parent->getRenderer(), NULL);
+	SDL_SetRenderTarget(renderer, this->texture);
+	for (std::shared_ptr<BackElement>& element: this->elements) textures[element->type]->draw(renderer, element->position);
+	SDL_SetRenderTarget(renderer, NULL);
 	
 	this->elements.clear();
 	this->fullyRendered = true;

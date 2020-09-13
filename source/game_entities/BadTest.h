@@ -35,7 +35,7 @@ class BadTest : public EnemyBase {
 		Point getPosition() const override;
 		Point getCenter() const override;
 		Rect getBoundingRect() const override;
-		void draw(SDL_Renderer* renderer, Point offset = Point(0, 0)) override;
-		void setTexture(SDL_Renderer* renderer);
+		void draw() override;
+		void setTexture();
 		void update() override;
 };

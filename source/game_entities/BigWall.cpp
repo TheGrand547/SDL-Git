@@ -1,4 +1,5 @@
 #include "BigWall.h"
+#include "../GameInstance.h"
 
 BigWall::BigWall(Rect rect) : ThingBase(SOLID | DRAW | BLOCKS_VISIBILTY), rect(rect) {
 	this->position = rect.getCenter();
@@ -34,7 +35,7 @@ Rect BigWall::getBoundingRect() const {
 	return this->rect.getBoundingRect();
 }
 
-void BigWall::draw(SDL_Renderer* renderer, Point offset) {
+void BigWall::draw() {
 	this->rect.setColorChannels(0x00, 0x00, 0xFF, 0xFF);
-	this->rect.draw(renderer, offset);
+	this->rect.draw(this->parent->getRenderer());
 }

@@ -11,7 +11,7 @@ class Text {
 	public:
 		virtual ~Text() {}
 		virtual bool finished() const = 0;
-		virtual void draw(SDL_Renderer* renderer, Point offset) = 0;
+		virtual void draw(Renderer renderer) = 0;
 		
 		void setFont(const Font& font) {
 			this->font = font;

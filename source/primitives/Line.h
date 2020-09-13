@@ -9,6 +9,7 @@
 #include "../Color.h"
 #include "../essential/random.h"
 #include "../essential/util.h"
+#include "../essential/SDL_Headers.h"
 
 typedef Uint8 uint8_t;
 
@@ -48,11 +49,11 @@ class Line: public Color {
 		Point getVector() const;
 		Point intersectionPoint(const Line& other) const;
 		Point midPoint() const;
-		friend std::ostream& operator<<(std::ostream& output, const Line& line);
-		void drawLine(SDL_Renderer* renderer, Point offset = Point(0, 0));
+		void draw(Renderer renderer);
 		void setColor(Uint8 red, Uint8 green, Uint8 blue, Uint8 alpha);
 };
 
 Line operator*(const double& num, const Line& line);
 Line operator/(const double& num, const Line& line);
+std::ostream& operator<<(std::ostream& output, const Line& line);
 #endif

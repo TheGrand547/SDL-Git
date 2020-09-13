@@ -1,8 +1,7 @@
 #pragma once
 #ifndef THING_BASE_H
 #define THING_BASE_H
-class ThingBase;
-class GameInstance;
+#include "../../essential/SDL_Headers.h"
 #include "../../primitives/Point.h"
 #include "../../primitives/Polygon.h"
 #include "../../primitives/Rect.h"
@@ -24,6 +23,8 @@ enum ENTITY_DIRECTION {
 };
 
 ENTITY_DIRECTION getDirectionFromAngle(const double angle);
+
+class GameInstance;
 
 class ThingBase : public std::enable_shared_from_this<ThingBase> {
 	protected:
@@ -48,7 +49,7 @@ class ThingBase : public std::enable_shared_from_this<ThingBase> {
 		virtual Point collideLine(const Line& ray) const = 0;
 		virtual Point getPosition() const = 0;
 		virtual Rect getBoundingRect() const = 0;
-		virtual void draw(SDL_Renderer* renderer, Point offset = Point(0, 0)) = 0;
+		virtual void draw() = 0;
 		virtual void update();
 		void setFlag(ENTITY_FLAG flag);
 		void setParent(GameInstance* parent);
