@@ -29,7 +29,7 @@ Point SectorPathFollower::collideLine(const Line& ray) const {
 }
 
 Point SectorPathFollower::getPosition() const {
-	return this->box.getCenter();
+	return this->box.getTopLeft();
 }
 
 
@@ -43,8 +43,7 @@ void SectorPathFollower::draw() {
 		this->texture.scale(10, 10);
 	}
 	this->mine.draw();
-	//this->texture.draw(this->parent->getRenderer() - this->box.getTopLeft());
-	this->texture.draw(this->parent->getRenderer());
+	this->texture.draw(this->getPosition() - this->parent->getRenderer());
 }
 
 void SectorPathFollower::update() {

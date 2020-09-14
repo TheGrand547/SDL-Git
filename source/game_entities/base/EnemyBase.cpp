@@ -10,7 +10,7 @@ EnemyBase::EnemyBase(Point position, int flags) : ThingBase(flags | DRAW), maxVe
 EnemyBase::~EnemyBase() {}
 
 void EnemyBase::draw() {
-	if (this->texture.isLoaded()) this->texture.draw(this->parent->getRenderer());
+	if (this->texture.isLoaded()) this->texture.draw(this->position - this->parent->getRenderer());
 }
 
 // TODO: Make this generic

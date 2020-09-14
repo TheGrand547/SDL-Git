@@ -15,7 +15,13 @@
 struct Renderer {
 	Point offset = Point(0, 0);
 	SDL_Renderer* renderer = NULL;
+	Renderer operator+(const Point& point) const;
+	Renderer operator-(const Point& point) const;
+	void operator+=(const Point& point);
+	void operator-=(const Point& point);
 };
+Renderer operator+(const Point& point, const Renderer& renderer);
+Renderer operator-(const Point& point, const Renderer& renderer);
 
 // It might look stupid but I promise it is NOT
 #define SURFACE_FLAGS 0

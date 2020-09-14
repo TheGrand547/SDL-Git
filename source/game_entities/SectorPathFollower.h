@@ -11,6 +11,7 @@ class SectorPathFollower : public ThingBase {
 	protected:
 		MovementWrapper movement;
 	public:
+		// Why are these public again?
 		Rect box;
 		SectorPath mine;
 		Surface texture;

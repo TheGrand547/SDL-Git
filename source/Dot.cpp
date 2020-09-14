@@ -103,7 +103,7 @@ void Dot::collideTest() {
 } 
 
 void Dot::draw() {
-	this->surface.draw(this->parent->getRenderer());
+	this->surface.draw(this->position - this->parent->getRenderer());
 }
 
 void Dot::rayCast() {
