@@ -9,6 +9,9 @@
 #include<SDL2/SDL.h>
 #include<vector>
 
+class ThingBase;
+typedef std::shared_ptr<ThingBase> ThingPtr;
+
 enum ENTITY_FLAG {
 	SOLID                   = 0x0001, // Other objects can collide with this at some point
 	NOCLIP                  = 0x0002, // This doesn't collide with others
@@ -31,6 +34,7 @@ class ThingBase : public std::enable_shared_from_this<ThingBase> {
 		const int absoluteFlags; // List of attributes this object CAN have, but might not necessarily have at any given moment
 		int flags; // List of attributes the object CURRENTLY has
 		Point position;
+		std::vector<ThingPtr> myThings;
 	public:
 		GameInstance* parent;
 
@@ -42,13 +46,14 @@ class ThingBase : public std::enable_shared_from_this<ThingBase> {
 		 * overlap(shared_ptr<Thing>) -> Does this object collide with this object(ie call the objects 
 		 * 		overlap with each hitbox in this */ 
 		virtual bool overlap(const Polygon& other) const = 0;
-		virtual bool overlap(const std::shared_ptr<ThingBase>& other) const = 0;
+		virtual bool overlap(const ThingPtr& other) const = 0;
 		int getAbsoluteFlags() const;
 		int getFlags() const;
 		virtual double originDistance() const = 0;
 		virtual Point collideLine(const Line& ray) const = 0;
 		virtual Point getPosition() const = 0;
 		virtual Rect getBoundingRect() const = 0;
+		virtual std::vector<ThingPtr>& getMyThings();
 		virtual void draw() = 0;
 		virtual void update();
 		void setFlag(ENTITY_FLAG flag);

@@ -19,6 +19,11 @@ bool ThingBase::isAlive() const {
 	return true;
 }
 
+std::vector<ThingPtr>& ThingBase::getMyThings() {
+	return this->myThings;
+}
+
+
 void ThingBase::setFlag(ENTITY_FLAG flag) {
 	if (!(this->flags & flag)) {
 		this->flags |= flag;

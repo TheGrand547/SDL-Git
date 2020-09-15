@@ -43,7 +43,7 @@ int main(int argc, char* argv[]) {
 	LOG("MAKING THINGS");
 	
 	analyzeFile("level.txt", GAME); // Only adds sectors/walls currently, also maybe make this an internal GameInstance method
-	
+		
 	// Enemy
 	const Point BAD_POINT(220, 360);
 	std::shared_ptr<BadTest> heck = GAME.createThing<BadTest>(BAD_POINT);

@@ -191,3 +191,7 @@ std::ostream& operator<<(std::ostream& output, const Point &point) {
 	output << "(" << double(point.x) << ", " << double(point.y) << ")";
 	return output;
 }
+
+Point Point::vectorFromAngle(const double& angle) {
+	return {cos(angle), -sin(angle)};
+}
