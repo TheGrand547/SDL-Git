@@ -3,11 +3,16 @@
 #define BASIC_BULLET_H
 #include "base/ThingBase.h"
 #include "../wrappers/MovementWrapper.h"
+#include "../wrappers/Surface.h"
 
 class BasicBullet : public ThingBase {
 	protected:
+		double angle;
 		MovementWrapper mvmt;
 		Point delta;
+		Surface myine;
+		
+		void setImage();
 	public:
 		BasicBullet(double angle, double speed);
 		BasicBullet(Point delta);

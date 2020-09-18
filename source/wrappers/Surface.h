@@ -55,8 +55,8 @@ class Surface {
 		
 		void fillRects(std::vector<Rect>& vec, const Uint32& color);
 		
-		void draw(Renderer renderer);
-		void draw(SDL_Renderer* renderer, Point position);
+		void draw(Renderer renderer, SDL_COPY_EX_ARGS_DEFAULTS);
+		void draw(SDL_Renderer* renderer, Point position, SDL_COPY_EX_ARGS_DEFAULTS);
 		void load(const std::string& path);
 		void free();
 		void scale(const double& width, const double& height, bool smooth = true);

@@ -192,6 +192,10 @@ std::ostream& operator<<(std::ostream& output, const Point &point) {
 	return output;
 }
 
+double Point::angleFromVector(const Point& vector) {
+	return atan2(-vector.y, vector.x);
+}
+
 Point Point::vectorFromAngle(const double& angle) {
 	return {cos(angle), -sin(angle)};
 }

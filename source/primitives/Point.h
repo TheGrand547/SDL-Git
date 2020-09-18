@@ -56,6 +56,7 @@ struct Point {
 	void yZero();
 	void zero();
 	
+	static double angleFromVector(const Point& vector);
 	static Point vectorFromAngle(const double& angle);
 };
 

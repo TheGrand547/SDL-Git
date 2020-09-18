@@ -21,7 +21,6 @@ GameInstance::~GameInstance() {}
 
 void GameInstance::addThing(const ThingPtr& thing) {
 	TRACE("Adding thing at %ld", (long int) thing.get());
-	
 	if (valueInVector(this->allThings, thing)) {
 		LOG("ERROR: Attempted to add duplicate object.");
 		return;
@@ -113,6 +112,7 @@ void GameInstance::update() {
 	if (!this->started) this->instanceBegin();
 	// TODO: Collision by objects in sectors, mid tier priority due to requiring sizeable reworking
 	for (ThingPtr& thing: this->movingThings) {
+		if (!thing) break;
 		Point position = thing->getPosition();
 		thing->update();
 		// If the object has moved, its relative draw order might need to be adjusted

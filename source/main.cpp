@@ -2,6 +2,8 @@
 #include "primitives/Triangle.h"
 #include "wrappers/Surface.h"
 #include "game_entities/FootSteps.h"
+#include "game_entities/BasicBullet.h"
+
 
 bool init();
 SDL_Renderer* createRenderer(SDL_Window*& window);
@@ -33,7 +35,7 @@ int main(int argc, char* argv[]) {
 	}
 	
 	srand(time(NULL));
-	std::shared_ptr<Dot> player = std::make_shared<Dot>(Point(190, 150));
+	std::shared_ptr<Dot> player = std::make_shared<Dot>(Point(150, 150));
 	player->setColorChannels((Uint8) 0xFF);
 	Configuration config;		
 	GAME.addPlayer(player);
@@ -75,7 +77,8 @@ int main(int argc, char* argv[]) {
 	SpriteSheet spriteSheetTest(gRenderer, "resources/bigsprite.png", 50, 50);
 	spriteSheetTest.addAnimation("dumb", 0, 4, 500);
 	
-	std::shared_ptr<SectorPathFollower> foodd = GAME.createThing<SectorPathFollower>(Rect(GAME.sectors[3]->structure().getCenter(), 10, 10));	
+	std::shared_ptr<SectorPathFollower> foodd = GAME.createThing<SectorPathFollower>(Rect(GAME.sectors[3]->structure().getCenter(), 10, 10));
+	std::shared_ptr<BasicBullet> bb = GAME.createThing<BasicBullet>(Point(100, 100));
 	
 	SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
 	SDL_RenderClear(gRenderer);

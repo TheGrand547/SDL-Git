@@ -52,7 +52,6 @@ bool removeValue(T& type, const U& element) {
 	if (iterator != std::end(type)) type.erase(iterator);
 	return iterator != std::end(type);
 }
-	
 
 double gaussian(double x, double sigma);
 

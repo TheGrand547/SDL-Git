@@ -168,11 +168,11 @@ Point Surface::getSize() const {
 	return {(double) this->width(), (double) this->height()};
 }
 
-void Surface::draw(Renderer renderer) {
-	this->draw(renderer.renderer, renderer.offset);
+void Surface::draw(Renderer renderer, SDL_COPY_EX_ARGS) {
+	this->draw(renderer.renderer, renderer.offset, SDL_COPY_EX_ARGS_PASS);
 }
 
-void Surface::draw(SDL_Renderer* renderer, Point position) {
+void Surface::draw(SDL_Renderer* renderer, Point position, SDL_COPY_EX_ARGS) {
 	if (!this->surface && !this->locked) {
 		LOG("Attempting to draw a NULL surface!");
 		return;
@@ -181,7 +181,7 @@ void Surface::draw(SDL_Renderer* renderer, Point position) {
 		this->internal = SDL_CreateTextureFromSurface(renderer, this->surface);
 		this->changed = false;
 	}
-	this->internal.draw(renderer, position); 
+	this->internal.draw(renderer, position, SDL_COPY_EX_ARGS_PASS); 
 }
 
 void Surface::load(const std::string& path) {

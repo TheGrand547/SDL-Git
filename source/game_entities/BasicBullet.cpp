@@ -1,10 +1,14 @@
 #include "BasicBullet.h"
+#include "../GameInstance.h"
 
-// TODO: Actually implement these
+BasicBullet::BasicBullet(double angle, double speed) : ThingBase(MOVEABLE | DRAW), angle(angle), delta(Point::vectorFromAngle(angle) * speed) {
+	this->setImage();
+}
 
-BasicBullet::BasicBullet(double angle, double speed) : delta(Point::vectorFromAngle(angle) * speed) {}
-
-BasicBullet::BasicBullet(Point delta) : delta(delta) {}
+BasicBullet::BasicBullet(Point delta) : ThingBase(MOVEABLE | DRAW), angle(Point::angleFromVector(delta) * -180.0 / M_PI), delta(delta) {
+	this->setImage();
+	this->position = {50, 50};
+}
 
 BasicBullet::~BasicBullet() {}
 
@@ -21,10 +25,10 @@ bool BasicBullet::overlap(const ThingPtr& other) const {
 }
 
 double BasicBullet::originDistance() const {
-	return 0;
+	return this->position.distanceToPoint();
 }
 Point BasicBullet::getPosition() const {
-	return Point(0, 0);
+	return this->position;
 }
 
 Point BasicBullet::collideLine(const Line& ray) const {
@@ -35,6 +39,15 @@ Rect BasicBullet::getBoundingRect() const {
 	return Rect();
 }
 
-void BasicBullet::draw() {}
+void BasicBullet::draw() {
+	this->myine.draw(this->position - this->parent->getRenderer(), NULL, this->angle);
+}
 
-void BasicBullet::update() {}
+void BasicBullet::setImage() {
+	this->myine.load("resources/cat.jpg");
+	this->myine.scale(11, 5);
+}
+
+void BasicBullet::update() {
+	this->position += this->mvmt.getValue() * this->delta;
+}
