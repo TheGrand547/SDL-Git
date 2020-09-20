@@ -47,12 +47,10 @@ Rect BasicBullet::getBoundingRect() const {
 
 void BasicBullet::draw() {
 	this->myine.drawCentered(this->position - this->parent->getRenderer(), NULL, this->angle);
-	//this->pain.draw(this->parent->getRenderer());
 }
 
 void BasicBullet::setImage() {
-	this->myine.load("resources/cat.jpg");
-	this->myine.scale(11, 5);
+	this->myine.load("resources/stupid.png");
 }
 
 void BasicBullet::calculate() {

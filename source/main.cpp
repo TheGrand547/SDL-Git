@@ -87,9 +87,9 @@ int main(int argc, char* argv[]) {
 	std::shared_ptr<FootSteps> foots = GAME.createThing<FootSteps>();
 	
 	GAME.instanceBegin();
-	LOG("Section: Main Loop");
 	foodd->mine.createPath(GAME.sectors[3], GAME.sectors[0]);
-
+	
+	LOG("Section: Main Loop");
 	while (!contra.quit) {
 		playerDelta.zero(); // >:(
 		contra.handleEvents();

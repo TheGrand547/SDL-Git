@@ -5,21 +5,21 @@
 #define CHECK if (this->locked) LOG("Attempting to modify a locked surface!"); \
 				if (!this->surface) return;
 
-Surface::Surface() : changed(false), locked(false), surface(NULL) {}
+Surface::Surface() : changed(true), locked(false), surface(NULL) {}
 
-Surface::Surface(const Surface& surface) : changed(false), locked(false) {
+Surface::Surface(const Surface& surface) : changed(true), locked(false) {
 	*this = surface;
 }
 
-Surface::Surface(Surface&& surface) : changed(false), locked(false) {
+Surface::Surface(Surface&& surface) : changed(true), locked(false) {
 	*this = std::forward<Surface>(surface);
 }
 
-Surface::Surface(SDL_Surface*& surface) : changed(false), locked(false) {
+Surface::Surface(SDL_Surface*& surface) : changed(true), locked(false) {
 	*this = surface;
 }
 
-Surface::Surface(SDL_Surface*&& surface) : changed(false), locked(false) {
+Surface::Surface(SDL_Surface*&& surface) : changed(true), locked(false) {
 	*this = std::forward<SDL_Surface*>(surface);
 }
 
