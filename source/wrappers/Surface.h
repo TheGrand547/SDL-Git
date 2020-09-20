@@ -57,6 +57,8 @@ class Surface {
 		
 		void draw(Renderer renderer, SDL_COPY_EX_ARGS_DEFAULTS);
 		void draw(SDL_Renderer* renderer, Point position, SDL_COPY_EX_ARGS_DEFAULTS);
+		void drawCentered(Renderer renderer, SDL_COPY_EX_ARGS_DEFAULTS);
+		void drawCentered(SDL_Renderer* renderer, Point position, SDL_COPY_EX_ARGS_DEFAULTS);
 		void load(const std::string& path);
 		void free();
 		void scale(const double& width, const double& height, bool smooth = true);

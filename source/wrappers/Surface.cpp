@@ -183,6 +183,22 @@ void Surface::draw(SDL_Renderer* renderer, Point position, SDL_COPY_EX_ARGS) {
 	}
 	this->internal.draw(renderer, position, SDL_COPY_EX_ARGS_PASS); 
 }
+// TODO: Repeated code hmmmm, probably should investigate this
+void Surface::drawCentered(Renderer renderer, SDL_COPY_EX_ARGS) {
+	this->drawCentered(renderer.renderer, renderer.offset, SDL_COPY_EX_ARGS_PASS);
+}
+
+void Surface::drawCentered(SDL_Renderer* renderer, Point position, SDL_COPY_EX_ARGS) {
+	if (!this->surface && !this->locked) {
+		LOG("Attempting to draw a NULL surface!");
+		return;
+	}
+	if (this->changed) {
+		this->internal = SDL_CreateTextureFromSurface(renderer, this->surface);
+		this->changed = false;
+	}
+	this->internal.drawCentered(renderer, position, SDL_COPY_EX_ARGS_PASS); 
+}
 
 void Surface::load(const std::string& path) {
 	this->free();

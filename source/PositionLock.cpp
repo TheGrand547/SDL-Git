@@ -2,7 +2,9 @@
 
 PositionLock::PositionLock(Point& initial) : reference(initial), value(initial), initial(initial) {}
 
-PositionLock::~PositionLock() {}
+PositionLock::~PositionLock() {
+	
+}
 
 double PositionLock::absoluteDistance() const {
 	return this->reference.distanceToPoint(this->value);

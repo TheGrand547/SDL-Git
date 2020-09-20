@@ -50,6 +50,8 @@ class GameInstance {
 		std::set<ThingBase*, Draw::compare> drawOrder;
 		Timer frameTimer;
 		
+		std::vector<ThingPtr> remove;
+		void removeThing(const ThingPtr& thing);
 	public:
 		BackgroundGroup ground;
 		CollisionHandler collision;
@@ -58,18 +60,18 @@ class GameInstance {
 	
 		GameInstance(SDL_Window* window, SDL_Renderer* renderer, BoundedPoint offset);
 		~GameInstance();
-		void addThing(const ThingPtr& thing);
-		void removeThing(const ThingPtr& thing);
 		Point& getOffset();
 		Rect getPlayableArea() const;
 		Renderer& getRenderer();
 		SDL_Renderer* getTrueRenderer();
+		std::shared_ptr<ThingBase> getPlayer();
+		void addThing(const ThingPtr& thing);
 		void addPlayer(const ThingPtr& thing);
 		void draw();
 		void finalizeFrame();
 		void instanceBegin();
+		void queueRemoval(const ThingPtr& thing);
 		void update();
-		std::shared_ptr<ThingBase> getPlayer();
 		
 		template<typename T, typename... Args> std::shared_ptr<T> createThing(Args... args) {
 			static_assert(std::is_base_of<ThingBase, T>::value, "createThing must be templated with a class that derives from ThingBase.");

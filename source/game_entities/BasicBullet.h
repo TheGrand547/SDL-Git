@@ -4,18 +4,21 @@
 #include "base/ThingBase.h"
 #include "../wrappers/MovementWrapper.h"
 #include "../wrappers/Surface.h"
+#include "../primitives/Rect.h"
 
 class BasicBullet : public ThingBase {
 	protected:
 		double angle;
 		MovementWrapper mvmt;
 		Point delta;
+		Rect pain;
 		Surface myine;
 		
+		void calculate();
 		void setImage();
 	public:
-		BasicBullet(double angle, double speed);
-		BasicBullet(Point delta);
+		BasicBullet(Point position, double angle, double speed);
+		BasicBullet(Point position, Point delta);
 		~BasicBullet();
 		bool doesLineCollide(const Line& ray) const override;
 		bool overlap(const Polygon& other) const override;

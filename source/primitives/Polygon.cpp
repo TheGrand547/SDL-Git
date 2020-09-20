@@ -56,6 +56,7 @@ bool Polygon::overlap(const Polygon& that) const {
 	if (!(xOver && yOver)) return false;
 	// If the bounding rectangles DO overlap, and both polygons are THEIR OWN bounding rectangles, they must overlap
 	if (this->isAxisAligned() && that.isAxisAligned()) return true;
+	
 	for (Line line: this->getLines()) {
 		if (that.doesLineCollide(line)) return true;
 	}
@@ -63,6 +64,10 @@ bool Polygon::overlap(const Polygon& that) const {
 	for (Point point: that.getPoints()) {
 		// Even-odd rule, if the number of collisions with a polygon of a line is odd, then the starting point IS inside the polygon
 		if (this->numberOfCollisions(Line(point, OUT_OF_BOUNDS)) & 1) return true;
+	}
+	for (Point point: this->getPoints()) {
+		// Even-odd rule, if the number of collisions with a polygon of a line is odd, then the starting point IS inside the polygon
+		if (that.numberOfCollisions(Line(point, OUT_OF_BOUNDS)) & 1) return true;
 	}
 	// Default case where the bounding rectangles overlap but no points are inside the other polygon
 	return false;

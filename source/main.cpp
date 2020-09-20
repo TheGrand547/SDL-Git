@@ -66,6 +66,7 @@ int main(int argc, char* argv[]) {
 	Controller contra;
 	contra.addListener("Ray", 120);
 	contra.addListener("PathReset", 50);
+	contra.addListener("Shoot", 100);
 	contra.addPlayerKeys(playerDelta); // Maybe allow for multiple bindings of the same command somehow? vectors likely? Also remove this dumb fix
 	FpsText fps(gFont, Point(100, 10), COLORS::RED);
 	
@@ -78,7 +79,7 @@ int main(int argc, char* argv[]) {
 	spriteSheetTest.addAnimation("dumb", 0, 4, 500);
 	
 	std::shared_ptr<SectorPathFollower> foodd = GAME.createThing<SectorPathFollower>(Rect(GAME.sectors[3]->structure().getCenter(), 10, 10));
-	std::shared_ptr<BasicBullet> bb = GAME.createThing<BasicBullet>(Point(100, 100));
+	//std::shared_ptr<BasicBullet> bb = GAME.createThing<BasicBullet>(Point(100, 100));
 	
 	SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
 	SDL_RenderClear(gRenderer);
@@ -108,6 +109,10 @@ int main(int argc, char* argv[]) {
 					foodd->mine.createPath(twigsAgain, twigs);
 				}
 			}
+		}
+		if (contra.checkListener(config["Shoot"]).getHeld()) {
+			GAME.createThing<BasicBullet>(player->getBoundingRect().getCenter(), player->getAngle(), 100);
+			contra.checkListener(config["Shoot"]).reset();
 		}
 		
 		// Testing stuff

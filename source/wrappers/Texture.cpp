@@ -167,7 +167,7 @@ void Texture::draw(SDL_Renderer* renderer, Point position, SDL_COPY_EX_ARGS) {
 
 void Texture::drawCentered(SDL_Renderer* renderer, Point position, SDL_COPY_EX_ARGS) {
 	if (!this->width || !this->height) SDL_QueryTexture(this->texture, NULL, NULL, &this->width, &this->height);
-	this->draw(renderer, position - Point(this->width, this->height) / 2.0, clip, angle, center, flip);
+	this->draw(renderer, position - (Point(this->width, this->height) / 2.0), clip, angle, center, flip);
 }
 
 bool Texture::isLoaded() const {
