@@ -66,7 +66,7 @@ int main(int argc, char* argv[]) {
 	Controller contra;
 	contra.addListener("Ray", 120);
 	contra.addListener("PathReset", 50);
-	contra.addListener("Shoot", 100);
+	contra.addListener("Shoot", 500);
 	contra.addPlayerKeys(playerDelta); // Maybe allow for multiple bindings of the same command somehow? vectors likely? Also remove this dumb fix
 	FpsText fps(gFont, Point(100, 10), COLORS::RED);
 	
@@ -111,7 +111,7 @@ int main(int argc, char* argv[]) {
 			}
 		}
 		if (contra.checkListener(config["Shoot"]).getHeld()) {
-			GAME.createThing<BasicBullet>(player->getBoundingRect().getCenter(), player->getAngle(), 100);
+			GAME.createThing<BasicBullet>(player->getBoundingRect().getCenter(), player->getAngle(), 500);
 			contra.checkListener(config["Shoot"]).reset();
 		}
 		

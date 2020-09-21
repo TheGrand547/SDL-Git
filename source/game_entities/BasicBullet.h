@@ -8,7 +8,7 @@
 
 class BasicBullet : public ThingBase {
 	protected:
-		double angle;
+		double angle; // IN RADIANS
 		MovementWrapper mvmt;
 		Point delta;
 		Rect pain;

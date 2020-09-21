@@ -197,5 +197,5 @@ double Point::angleFromVector(const Point& vector) {
 }
 
 Point Point::vectorFromAngle(const double& angle) {
-	return {cos(angle), -sin(angle)};
+	return {cos(angle), sin(angle)};
 }

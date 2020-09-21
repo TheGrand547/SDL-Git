@@ -46,7 +46,7 @@ Rect BasicBullet::getBoundingRect() const {
 }
 
 void BasicBullet::draw() {
-	this->myine.drawCentered(this->position - this->parent->getRenderer(), NULL, this->angle);
+	this->myine.drawCentered(this->position - this->parent->getRenderer(), NULL, this->angle * 180 / M_PI);
 }
 
 void BasicBullet::setImage() {
@@ -60,6 +60,7 @@ void BasicBullet::calculate() {
 }
 
 void BasicBullet::update() {
+	if (!this->pain.overlap(this->parent->getPlayableArea())) this->parent->queueRemoval(this->shared_from_this());
 	PositionLock lock(this->position);
 	this->position += this->mvmt.getValue() * this->delta;
 	if (this->parent->collision.isPositionOpen(this->shared_from_this())) {
