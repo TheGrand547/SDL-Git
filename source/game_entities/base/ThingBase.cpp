@@ -2,7 +2,7 @@
 #include "../../GameInstance.h"
 
 
-ThingBase::ThingBase(int flags) : absoluteFlags(flags), flags(flags) {}
+ThingBase::ThingBase(int flags) : absoluteFlags(flags), flags(flags), owner(NULL), parent(NULL) {}
 
 ThingBase::~ThingBase() {}
 
@@ -23,21 +23,22 @@ std::vector<ThingPtr>& ThingBase::getMyThings() {
 	return this->myThings;
 }
 
+void ThingBase::ping() {}
 
 void ThingBase::setFlag(ENTITY_FLAG flag) {
-	if (!(this->flags & flag)) {
-		this->flags |= flag;
-	}
+	if (!(this->flags & flag)) this->flags |= flag;
+}
+
+void ThingBase::setOwner(ThingBase* owner) {
+	if (!this->owner) this->owner = owner;
 }
 
 void ThingBase::setParent(GameInstance* parent) {
-	this->parent = parent;
+	if (!this->parent) this->parent = parent;
 }
 
 void ThingBase::unsetFlag(ENTITY_FLAG flag) {
-	if (this->flags & flag) {
-		this->flags &= ~flag;
-	}
+	if (this->flags & flag) this->flags &= ~flag;
 }
 
 void ThingBase::update() {}

@@ -59,8 +59,13 @@ void BasicBullet::calculate() {
 	this->pain.setCenter(this->position);
 }
 
+void BasicBullet::ping() {
+	this->parent->queueRemoval(this->shared_from_this());
+	if (this->owner) removeValue(this->owner->getMyThings(), this->shared_from_this());
+}
+
 void BasicBullet::update() {
-	if (!this->pain.overlap(this->parent->getPlayableArea())) this->parent->queueRemoval(this->shared_from_this());
+	if (!this->pain.overlap(this->parent->getPlayableArea())) this->ping();
 	PositionLock lock(this->position);
 	this->position += this->mvmt.getValue() * this->delta;
 	if (this->parent->collision.isPositionOpen(this->shared_from_this())) {

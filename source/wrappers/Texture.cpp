@@ -1,7 +1,7 @@
 #include "Texture.h"
 #include "PixelMod.h"
 
-// TODO: Organize this
+// TODO: Organize this clusterfuck
 
 Texture::Texture() : width(0), height(0), renderer(NULL), texture(NULL) {}
 
@@ -200,6 +200,10 @@ void Texture::createBlank(SDL_Renderer* renderer, int w, int h, Uint32 color) {
 	SDL_FreeSurface(tempSurface);
 }
 
+Rect Texture::getRect() const {
+	return Rect({0, 0}, this->getSize());
+}
+
 SDL_Texture*& Texture::getRawTexture() {
 	return this->texture;
 }
@@ -208,7 +212,7 @@ void Texture::loadFromFile(SDL_Renderer* renderer, std::string path, int xSize, 
 	if (this->renderer == NULL) this->renderer = renderer;
 	this->free();
 	SDL_Texture* newTexture = NULL;
-	SDL_Surface* tempSurface = IMG_Load(path.c_str());	
+	SDL_Surface* tempSurface = IMG_Load(path.c_str());
 	if (tempSurface == NULL) {
 		LOG("Unable to load image %s! SDL_image Error: %s\n", path.c_str(), IMG_GetError());
 	} else {

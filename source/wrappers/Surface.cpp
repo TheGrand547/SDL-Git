@@ -111,6 +111,22 @@ int Surface::blitTo(Surface& surface, const Rect& srcRect, const Rect& dstRect) 
 	return SDL_BlitSurface(this->surface, (srcRect.isReal()) ? &src : NULL, surface.surface, (dstRect.isReal()) ? &dst : NULL);
 }
 
+int Surface::getHeight() const {
+	if (this->surface) return this->surface->h;
+	return -1;
+}
+
+int Surface::getWidth() const {
+	if (this->surface) return this->surface->w;
+	return -1;
+}
+
+int Surface::height() const {
+	if (this->surface) return this->surface->h;
+	if (this->locked) return this->internal.getHeight();
+	return -1;
+}
+
 int Surface::setAlpha(const Uint8& alpha) {
 	return SDL_SetSurfaceAlphaMod(this->surface, alpha);
 }
@@ -131,33 +147,6 @@ int Surface::setColorMod(const Color& color) const {
 	return SDL_SetSurfaceColorMod(this->surface, color.r, color.g, color.b);
 }
 
-void Surface::free() {
-	if (this->surface) {
-		SDL_FreeSurface(this->surface);
-		this->surface = NULL;
-		this->changed = true;
-		this->locked = false;
-	}
-	this->internal.free();
-}
-
-// Redundancy, cause why not
-int Surface::getHeight() const {
-	if (this->surface) return this->surface->h;
-	return -1;
-}
-
-int Surface::getWidth() const {
-	if (this->surface) return this->surface->w;
-	return -1;
-}
-
-int Surface::height() const {
-	if (this->surface) return this->surface->h;
-	if (this->locked) return this->internal.getHeight();
-	return -1;
-}
-
 int Surface::width() const {
 	if (this->surface) return this->surface->w;
 	if (this->locked) return this->internal.getWidth();
@@ -166,6 +155,10 @@ int Surface::width() const {
 
 Point Surface::getSize() const {
 	return {(double) this->width(), (double) this->height()};
+}
+
+Rect Surface::getRect() const {
+	return Rect(0, 0, this->width(), this->height());
 }
 
 void Surface::draw(Renderer renderer, SDL_COPY_EX_ARGS) {
@@ -198,6 +191,16 @@ void Surface::drawCentered(SDL_Renderer* renderer, Point position, SDL_COPY_EX_A
 		this->changed = false;
 	}
 	this->internal.drawCentered(renderer, position, SDL_COPY_EX_ARGS_PASS); 
+}
+
+void Surface::free() {
+	if (this->surface) {
+		SDL_FreeSurface(this->surface);
+		this->surface = NULL;
+		this->changed = true;
+		this->locked = false;
+	}
+	this->internal.free();
 }
 
 void Surface::load(const std::string& path) {

@@ -1,16 +1,17 @@
 #pragma once
 #ifndef TEXTURE_H
 #define TEXTURE_H
-#include<iostream>
-#include<SDL.h>
-#include<SDL2_rotozoom.h>
-#include<SDL_image.h>
-#include "../primitives/Point.h"
 #include "../essential/constants.h"
 #include "../essential/log.h"
 #include "../essential/random.h"
 #include "../essential/SDLUtil.h"
 #include "../essential/SDL_Headers.h"
+#include "../primitives/Point.h"
+#include "../primitives/Rect.h"
+#include<iostream>
+#include<SDL.h>
+#include<SDL2_rotozoom.h>
+#include<SDL_image.h>
 
 // There is no reason for most users to directly access this
 class Texture {
@@ -36,21 +37,22 @@ class Texture {
 		int getHeight() const;
 		int getWidth() const;
 		Point getSize() const;
+		Rect getRect() const;
+		SDL_Texture*& getRawTexture(); // ONLY USE IF YOU KNOW WHAT YOU'RE DOING
 		void free();
-		void setAlpha(Uint8 alpha);
-		void setBlend(SDL_BlendMode mode);
-		void setColorMod(Uint8 red, Uint8 green, Uint8 blue);
-		void setColorKey(Uint8 red, Uint8 green, Uint8 blue);
+		void createBlank(SDL_Renderer* renderer, int w, int h, Uint32 color = 0x0000000FF);
 		void draw(Renderer renderer, SDL_COPY_EX_ARGS_DEFAULTS);
 		void draw(SDL_Renderer* renderer, Point position, SDL_COPY_EX_ARGS_DEFAULTS);
 		void draw(SDL_Renderer* renderer, const SDL_Rect& rect, SDL_COPY_EX_ARGS_DEFAULTS);
 		void drawCentered(SDL_Renderer* renderer, Point position, SDL_COPY_EX_ARGS_DEFAULTS);
-		void createBlank(SDL_Renderer* renderer, int w, int h, Uint32 color = 0x0000000FF);
-		SDL_Texture*& getRawTexture(); // ONLY USE IF YOU KNOW WHAT YOU'RE DOING
-		
 		void loadFromFile(SDL_Renderer* renderer, std::string path, int xSize = 0, int ySize = 0);
 		void normalizeTexture(SDL_Renderer* renderer);
+		void setAlpha(Uint8 alpha);
+		void setBlend(SDL_BlendMode mode);
+		void setColorMod(Uint8 red, Uint8 green, Uint8 blue);
+		void setColorKey(Uint8 red, Uint8 green, Uint8 blue);
 		
+		// TODO: Probably need some more statics
 		static Texture load(SDL_Renderer* renderer, std::string path);
 		
 		// Filters
@@ -61,7 +63,7 @@ class Texture {
 		void testFilter();
 		
 		// TODO: Recreate SDL methods with Texture
-		// Friends		
+		// Friends
 		friend int SDL_GetTextureAlphaMod(Texture& texture, Uint8* blendMode);
 		friend int SDL_GetTextureAlphaMod(Texture& texture, Uint8& blendMode);
 		

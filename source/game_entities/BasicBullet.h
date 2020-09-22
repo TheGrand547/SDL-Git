@@ -28,6 +28,7 @@ class BasicBullet : public ThingBase {
 		Point collideLine(const Line& ray) const override;
 		Rect getBoundingRect() const override;
 		void draw() override;
+		void ping() override;
 		void update() override;
 };
 #endif

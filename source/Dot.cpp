@@ -1,4 +1,5 @@
 #include "Dot.h"
+#include "game_entities/BasicBullet.h"
 
 Dot::Dot(Point startingCoordinate) : EntityBase(DRAW | MOVEABLE) {
 	this->surface.load("resources/cat.jpg");
@@ -113,6 +114,12 @@ void Dot::rayCast() {
 		tempLine.setColorChannels(COLORS::CYAN);
 		tempLine.draw(this->parent->getRenderer());
 	}
+}
+
+void Dot::shoot() {
+	ThingPtr thing = this->parent->createThing<BasicBullet>(this->getBoundingRect().getCenter(), this->angle, 500);
+	this->myThings.push_back(thing);
+	thing->setOwner(this);
 }
 
 void Dot::update() {

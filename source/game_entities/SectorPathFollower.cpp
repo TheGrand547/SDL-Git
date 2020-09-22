@@ -40,14 +40,20 @@ Rect SectorPathFollower::getBoundingRect() const {
 void SectorPathFollower::draw() {
 	if (!this->texture.isLoaded()) {
 		this->texture.load("resources/temp.png");
-		this->texture.scale(10, 10);
+		this->texture.scale(this->box.getWidth(), this->box.getHeight());
 	}
 	this->mine.draw();
 	this->texture.draw(this->getPosition() - this->parent->getRenderer());
 }
 
 void SectorPathFollower::update() {
-	if (this->parent->getPlayer()->overlap(this->box)) this->parent->queueRemoval(this->shared_from_this());
+	for (const ThingPtr& thing: this->parent->getPlayer()->getMyThings()) {
+		if (thing->overlap(this->box)) {
+			this->parent->queueRemoval(this->shared_from_this());
+			thing->ping();
+			break;
+		}
+	}
 	Point p = this->mine.currentTarget(this->box.getCenter());
 	double value = this->movement.getValue();
 	if (p.isNull() || !value) return;

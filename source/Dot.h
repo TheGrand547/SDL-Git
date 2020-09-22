@@ -37,6 +37,7 @@ class Dot : public EntityBase, public Color {
 		void collideTest();
 		void draw() override;
 		void rayCast();
+		void shoot();
 		void update() override;
 		void velocityDelta(Point acceleration);
 };

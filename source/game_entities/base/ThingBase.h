@@ -18,7 +18,6 @@ enum ENTITY_FLAG {
 	MOVEABLE                = 0x0004, // This object can move
 	DRAW                    = 0x0008, // This object can be drawn
 	BLOCKS_VISIBILTY        = 0x0010, // This object can block visibility
-	PLAYER_ALLY             = 0x0020  // This object should not interact with player created damage zones, and should interact with non player damage zones
 };
 
 enum ENTITY_DIRECTION {
@@ -35,6 +34,7 @@ class ThingBase : public std::enable_shared_from_this<ThingBase> {
 		int flags; // List of attributes the object CURRENTLY has
 		Point position;
 		std::vector<ThingPtr> myThings;
+		ThingBase* owner; // For whatever you need to have it do
 	public:
 		GameInstance* parent;
 
@@ -55,8 +55,10 @@ class ThingBase : public std::enable_shared_from_this<ThingBase> {
 		virtual Rect getBoundingRect() const = 0;
 		virtual std::vector<ThingPtr>& getMyThings();
 		virtual void draw() = 0;
+		virtual void ping();
 		virtual void update();
 		void setFlag(ENTITY_FLAG flag);
+		void setOwner(ThingBase* ptr);
 		void setParent(GameInstance* parent);
 		void unsetFlag(ENTITY_FLAG flag);
 };

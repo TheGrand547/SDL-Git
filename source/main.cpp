@@ -78,7 +78,7 @@ int main(int argc, char* argv[]) {
 	SpriteSheet spriteSheetTest(gRenderer, "resources/bigsprite.png", 50, 50);
 	spriteSheetTest.addAnimation("dumb", 0, 4, 500);
 	
-	std::shared_ptr<SectorPathFollower> foodd = GAME.createThing<SectorPathFollower>(Rect(GAME.sectors[3]->structure().getCenter(), 10, 10));
+	std::shared_ptr<SectorPathFollower> foodd = GAME.createThing<SectorPathFollower>(Rect(GAME.sectors[3]->structure().getCenter(), 25, 25));
 	//std::shared_ptr<BasicBullet> bb = GAME.createThing<BasicBullet>(Point(100, 100));
 	
 	SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
@@ -111,7 +111,7 @@ int main(int argc, char* argv[]) {
 			}
 		}
 		if (contra.checkListener(config["Shoot"]).getHeld()) {
-			GAME.createThing<BasicBullet>(player->getBoundingRect().getCenter(), player->getAngle(), 500);
+			player->shoot();
 			contra.checkListener(config["Shoot"]).reset();
 		}
 		
