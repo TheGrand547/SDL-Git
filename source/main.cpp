@@ -2,8 +2,6 @@
 #include "primitives/Triangle.h"
 #include "wrappers/Surface.h"
 #include "game_entities/FootSteps.h"
-#include "game_entities/BasicBullet.h"
-
 
 bool init();
 SDL_Renderer* createRenderer(SDL_Window*& window);
@@ -14,14 +12,14 @@ void close(SDL_Window* window);
 
 int main(int argc, char* argv[]) {
 	LOG("Section: Setup");
-	
+
 	if (!init()) {
 		LOG("Failed to initialize!\n");
 		return 0;
 	}
 	SDL_Window* gameWindow = createWindow();
 	SDL_Renderer* gRenderer = createRenderer(gameWindow);
-	
+
 	// TODO: Put this in a good place
 	BoundedPoint screenPosition = BoundedPoint(Screen::MAX_SCREEN_X_POS, Screen::MAX_SCREEN_Y_POS);
 	GameInstance GAME(gameWindow, gRenderer, screenPosition);
@@ -33,19 +31,19 @@ int main(int argc, char* argv[]) {
 			GAME.gameState["cv_capped_fps"] = 1;
 		}
 	}
-	
+
 	srand(time(NULL));
 	std::shared_ptr<Dot> player = std::make_shared<Dot>(Point(150, 150));
 	player->setColorChannels((Uint8) 0xFF);
-	Configuration config;		
+	Configuration config;
 	GAME.addPlayer(player);
 	TextHandler handler;
 	handler.parent = &GAME;
-		
+
 	LOG("MAKING THINGS");
-	
+
 	analyzeFile("level.txt", GAME); // Only adds sectors/walls currently, also maybe make this an internal GameInstance method
-		
+
 	// Enemy
 	const Point BAD_POINT(220, 360);
 	std::shared_ptr<BadTest> heck = GAME.createThing<BadTest>(BAD_POINT);
@@ -74,21 +72,21 @@ int main(int argc, char* argv[]) {
 	
 	Line patrolLine(BAD_POINT, BAD_POINT + Point(200, 0));
 	patrolLine += Point(0, 5);
-	
+
 	SpriteSheet spriteSheetTest(gRenderer, "resources/bigsprite.png", 50, 50);
 	spriteSheetTest.addAnimation("dumb", 0, 4, 500);
-	
+
 	std::shared_ptr<SectorPathFollower> foodd = GAME.createThing<SectorPathFollower>(Rect(GAME.sectors[3]->structure().getCenter(), 25, 25));
 	//std::shared_ptr<BasicBullet> bb = GAME.createThing<BasicBullet>(Point(100, 100));
-	
+
 	SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
 	SDL_RenderClear(gRenderer);
-	
+
 	std::shared_ptr<FootSteps> foots = GAME.createThing<FootSteps>();
-	
+
 	GAME.instanceBegin();
 	foodd->mine.createPath(GAME.sectors[3], GAME.sectors[0]);
-	
+
 	LOG("Section: Main Loop");
 	while (!contra.quit) {
 		playerDelta.zero(); // >:(

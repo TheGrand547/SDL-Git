@@ -171,6 +171,7 @@ void Surface::draw(SDL_Renderer* renderer, Point position, SDL_COPY_EX_ARGS) {
 		return;
 	}
 	if (this->changed) {
+		// Crashes... for some reason
 		this->internal = SDL_CreateTextureFromSurface(renderer, this->surface);
 		this->changed = false;
 	}
@@ -205,15 +206,12 @@ void Surface::free() {
 
 void Surface::load(const std::string& path) {
 	this->free();
-	this->surface = IMG_Load(path.c_str());
-	if (!this->surface) {
+	SDL_Surface* temp = IMG_Load(path.c_str());
+	if (!temp) {
 		LOG("Unable to load image %s! SDL_image Error: %s\n", path.c_str(), IMG_GetError());
 		this->surface = Surface::errorSurface(50, 50);
 	} else {
-		SDL_Surface* copy = this->surface;
-		SDL_Surface* temp = this->createSurface(1, 1);
-		this->surface = SDL_ConvertSurface(copy, temp->format, 0);
-		SDL_FreeSurface(copy);
+		this->surface = SDL_ConvertSurfaceFormat(temp, SDL_PIXELFORMAT_RGBA32, SURFACE_FLAGS);
 		SDL_FreeSurface(temp);
 	}
 }
@@ -277,11 +275,11 @@ void Surface::bilateralFilter(double valI, double valS, const int kernelSize, in
 	if (this->surface == NULL) return;
 	this->changed = true;
 	PixelMod mod(this->surface, true);
-	
+
 	#ifndef NDEBUG
 	Uint32 start = SDL_GetTicks();
 	#endif
-	
+
 	int half = kernelSize / 2;
 	if (width == 0) width = mod.width();
 	if (height == 0) height = mod.height();
@@ -303,12 +301,12 @@ void Surface::bilateralFilter(double valI, double valS, const int kernelSize, in
 					double deltaR = gaussIR * gaussS;
 					totalR += other.r * deltaR;
 					weightR += deltaR;
-					
+
 					double gaussIG = gaussian(other.g - current.g, valI);
 					double deltaG = gaussIG * gaussS;
 					totalG += other.g * deltaG;
 					weightG += deltaG;
-					
+
 					double gaussIB = gaussian(other.b - current.b, valI);
 					double deltaB = gaussIB * gaussS;
 					totalB += other.b * deltaB;
@@ -320,7 +318,7 @@ void Surface::bilateralFilter(double valI, double valS, const int kernelSize, in
 			mod.getPixel(x, y).blue() = totalB / weightB;
 		}
 	}
-	
+
 	#ifndef NDEBUG
 	LOG("Filter Time: %i", (int) SDL_GetTicks() - start);
 	#endif
@@ -330,12 +328,24 @@ void Surface::dither() {
 	CHECK;
 	PixelMod mod(this->surface);
 	this->changed = true;
+	/*
 	for (int i = 0; i < mod.count(); i++) {
 		Pixel pixel = mod.getPixel(i);
 		Uint8 value = (Uint8) (rand() % 256);
 		pixel.red() = (pixel.red() < value) ? 0x00 : pixel.red();
 		pixel.green() = (pixel.green() < value) ? 0x00 : pixel.green();
 		pixel.blue() = (pixel.blue() < value) ? 0x00 : pixel.blue();
+	}*/
+	for (int x = 0; x + 2 < mod.width(); x++) {
+		for (int y = 0; y + 2 < mod.height(); y++) {
+			Pixel pixel = mod.getPixel(x, y);
+			Pixel p1 = mod.getPixel(x + 1, y);
+			Pixel p2 = mod.getPixel(x, y + 1);
+			Pixel p3 = mod.getPixel(x + 1, y + 1);
+			pixel.red() = pixel.red() * (7.0 / 16.0) + p1.red() * (2.0 / 16.0) + p2.red() * (2.0 / 16.0) + p3.red() * (5.0 / 16.0);
+			pixel.green() = pixel.green() * (7.0 / 16.0) + p1.green() * (2.0 / 16.0) + p2.green() * (2.0 / 16.0) + p3.green() * (5.0 / 16.0);
+			pixel.blue() = pixel.blue() * (7.0 / 16.0) + p1.blue() * (2.0 / 16.0) + p2.blue() * (2.0 / 16.0) + p3.blue() * (5.0 / 16.0);
+		}
 	}
 	/* TODO: Floyd–Steinberg dithering
 	for (int x = 1; x + 1 < mod.width(); x++) {

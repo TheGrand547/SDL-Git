@@ -37,7 +37,6 @@ double Dot::getAngle() {
 	return this->angle;
 }
 
-
 Point Dot::getPosition() const {
 	return this->position;
 }
@@ -58,10 +57,10 @@ Point Dot::collideLine(const Line& ray) const {
 
 void Dot::collideTest() {
 	const int CHECKS = 4; // Probably put this somewhere else...
-	
+
 	Point delta = this->velocity * this->mvmt.getValue();
 	if (delta.isZero()) return;
-	
+
 	Point temp = delta / CHECKS;
 	PositionLock lock(this->position);
 	for (int i = 0; i < CHECKS; i++) {
@@ -97,7 +96,7 @@ void Dot::collideTest() {
 	this->lastDelta = lock.delta();
 	this->parent->getOffset() += this->lastDelta;
 	this->evalAngle(this->lastDelta);
-	
+
 	// Zero velocity if it's too small
 	if (std::abs(this->lastDelta.x) < ROUNDING) this->velocity.x = 0;
 	if (std::abs(this->lastDelta.y) < ROUNDING) this->velocity.y = 0;
