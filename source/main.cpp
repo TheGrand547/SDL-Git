@@ -19,7 +19,6 @@ int main(int argc, char* argv[]) {
 	}
 	SDL_Window* gameWindow = createWindow();
 	SDL_Renderer* gRenderer = createRenderer(gameWindow);
-
 	// TODO: Put this in a good place
 	BoundedPoint screenPosition = BoundedPoint(Screen::MAX_SCREEN_X_POS, Screen::MAX_SCREEN_Y_POS);
 	GameInstance GAME(gameWindow, gRenderer, screenPosition);

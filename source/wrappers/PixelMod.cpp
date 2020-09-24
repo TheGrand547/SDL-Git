@@ -1,9 +1,9 @@
 #include "PixelMod.h"
 
-PixelMod::PixelMod(const Surface& surface, bool wrapEdges) : edges(wrapEdges), isSurface(true), unlocked(!SDL_MUSTLOCK(surface.surface)), surface(surface.surface) {
-	if (this->unlocked && SDL_LockSurface(this->surface)) {
+PixelMod::PixelMod(const Surface& surface, bool wrapEdges) : edges(wrapEdges), isSurface(true), surface(surface.surface) {
+	if ((this->locked = SDL_MUSTLOCK(surface.surface)) && SDL_LockSurface(this->surface)) {
 		LOG("Error Locking Surface: %s", SDL_GetError());
-		this->unlocked = true;
+		this->locked = false;
 		return;
 	}
 	this->_height = this->surface->h;
@@ -14,10 +14,10 @@ PixelMod::PixelMod(const Surface& surface, bool wrapEdges) : edges(wrapEdges), i
 	this->pixelCount = (this->_pitch / this->format->BytesPerPixel) * this->_height;
 }
 
-PixelMod::PixelMod(SDL_Surface* surface, bool wrapEdges) : edges(wrapEdges), isSurface(true), unlocked(!SDL_MUSTLOCK(surface)), surface(surface) {
-	if (this->unlocked && SDL_LockSurface(this->surface)) {
+PixelMod::PixelMod(SDL_Surface* surface, bool wrapEdges) : edges(wrapEdges), isSurface(true), surface(surface) {
+	if ((this->locked = SDL_MUSTLOCK(surface)) && SDL_LockSurface(this->surface)) {
 		LOG("Error Locking Surface: %s", SDL_GetError());
-		this->unlocked = true;
+		this->locked = false;
 		return;
 	}
 	this->_height = this->surface->h;
@@ -28,7 +28,7 @@ PixelMod::PixelMod(SDL_Surface* surface, bool wrapEdges) : edges(wrapEdges), isS
 	this->pixelCount = (this->_pitch / this->format->BytesPerPixel) * this->_height;
 }
 
-PixelMod::PixelMod(SDL_Texture* texture, bool wrapEdges) : edges(wrapEdges), isSurface(false), unlocked(false), texture(texture) {
+PixelMod::PixelMod(SDL_Texture* texture, bool wrapEdges) : edges(wrapEdges), isSurface(false), locked(true), texture(texture) {
 	void* rawPixels;
 	Uint32 format;
 	SDL_QueryTexture(this->texture, &format, NULL, &this->_width, &this->_height);
@@ -36,7 +36,8 @@ PixelMod::PixelMod(SDL_Texture* texture, bool wrapEdges) : edges(wrapEdges), isS
 	
 	if (SDL_LockTexture(texture, NULL, &rawPixels, &this->_pitch) || this->format->BytesPerPixel < 4) {
 		LOG("Error Locking Texture: %s", SDL_GetError());
-		this->unlocked = true;
+		this->locked = false;
+		SDL_FreeFormat(this->format);
 		return;
 	}
 	this->pixels = (Uint32*) rawPixels;
@@ -48,7 +49,7 @@ PixelMod::~PixelMod() {
 }
 
 bool PixelMod::notLocked() {
-	return this->unlocked;
+	return !this->locked;
 }
 
 int PixelMod::count() const {
@@ -102,12 +103,12 @@ Uint32 PixelMod::mapRGBA(const Uint8 r, const Uint8 g, const Uint8 b, const Uint
 }
 
 void PixelMod::deallocate() {
-	if (this->format) SDL_FreeFormat(this->format);
-	if (!this->unlocked) {
+	if (this->locked) {
 		if (this->isSurface) {
 			SDL_UnlockSurface(this->surface);
 			return;
 		}
+		if (this->format) SDL_FreeFormat(this->format);
 		SDL_UnlockTexture(this->texture);
 	}
 }

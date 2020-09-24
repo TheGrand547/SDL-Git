@@ -35,6 +35,7 @@ bool SpriteSheet::draw(std::string tag, SDL_Renderer* renderer, Point position, 
 		LOG("ERROR: Sprite Sheet Index out of bounds! %i is greater than the width of %i!", index, this->maxX);
 		return false;
 	}
+	
 	SDL_Rect rectangle;
 	rectangle.x = index * this->width;
 	rectangle.y = dir * this->height;

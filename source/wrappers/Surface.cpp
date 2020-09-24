@@ -171,7 +171,6 @@ void Surface::draw(SDL_Renderer* renderer, Point position, SDL_COPY_EX_ARGS) {
 		return;
 	}
 	if (this->changed) {
-		// Crashes... for some reason
 		this->internal = SDL_CreateTextureFromSurface(renderer, this->surface);
 		this->changed = false;
 	}
@@ -212,8 +211,8 @@ void Surface::load(const std::string& path) {
 		this->surface = Surface::errorSurface(50, 50);
 	} else {
 		this->surface = SDL_ConvertSurfaceFormat(temp, SDL_PIXELFORMAT_RGBA32, SURFACE_FLAGS);
-		SDL_FreeSurface(temp);
 	}
+	SDL_FreeSurface(temp);
 }
 
 void Surface::scale(const double& width, const double& height, bool smooth) {
@@ -336,8 +335,9 @@ void Surface::dither() {
 		pixel.green() = (pixel.green() < value) ? 0x00 : pixel.green();
 		pixel.blue() = (pixel.blue() < value) ? 0x00 : pixel.blue();
 	}*/
-	for (int x = 0; x + 2 < mod.width(); x++) {
-		for (int y = 0; y + 2 < mod.height(); y++) {
+	
+	for (int x = 0; x + 1 < mod.width(); x++) {
+		for (int y = 0; y + 1 < mod.height(); y++) {
 			Pixel pixel = mod.getPixel(x, y);
 			Pixel p1 = mod.getPixel(x + 1, y);
 			Pixel p2 = mod.getPixel(x, y + 1);

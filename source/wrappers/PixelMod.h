@@ -12,7 +12,7 @@ typedef uint32_t Uint32;
 
 class PixelMod {
 	protected:
-		bool edges, isSurface, unlocked;
+		bool edges, isSurface, locked;
 		int _height, _pitch, _width, pixelCount;
 		SDL_PixelFormat* format;
 		

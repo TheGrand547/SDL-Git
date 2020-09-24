@@ -88,7 +88,7 @@ Texture& Texture::operator=(SDL_Texture*& that) {
 	} else {
 		LOG("This should never be called");
 		this->texture = that;
-		that = NULL;	
+		that = NULL;
 	}
 	return *this;
 }
