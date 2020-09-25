@@ -3,6 +3,7 @@
 #include<ctime>
 #include<chrono>
 
+void logTimeNow();
 void logFormat(const char* file, const char* function, int line);
 
 // Used like printf(...);

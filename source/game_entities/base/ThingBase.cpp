@@ -23,7 +23,15 @@ std::vector<ThingPtr>& ThingBase::getMyThings() {
 	return this->myThings;
 }
 
-void ThingBase::ping() {}
+void ThingBase::ping(const std::string& info, const double& data) {
+	Point p = this->getPosition();
+	logTimeNow();
+	printf("[PingLog] %p at (%.2f, %.2f) pinged with message '%s' and the data of '%.3f'\n", (void*) this, p.x, p.y, info.c_str(), data);
+	fflush(stdout);
+	this->pingInternal(info, data);
+}
+
+void ThingBase::pingInternal([[maybe_unused]] const std::string& info, [[maybe_unused]] const double& data) {}
 
 void ThingBase::setFlag(ENTITY_FLAG flag) {
 	if (!(this->flags & flag)) this->flags |= flag;

@@ -33,7 +33,7 @@ PixelMod::PixelMod(SDL_Texture* texture, bool wrapEdges) : edges(wrapEdges), isS
 	Uint32 format;
 	SDL_QueryTexture(this->texture, &format, NULL, &this->_width, &this->_height);
 	this->format = SDL_AllocFormat(format);
-	
+
 	if (SDL_LockTexture(texture, NULL, &rawPixels, &this->_pitch) || this->format->BytesPerPixel < 4) {
 		LOG("Error Locking Texture: %s", SDL_GetError());
 		this->locked = false;

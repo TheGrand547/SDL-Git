@@ -35,6 +35,8 @@ class ThingBase : public std::enable_shared_from_this<ThingBase> {
 		Point position;
 		std::vector<ThingPtr> myThings;
 		ThingBase* owner; // For whatever you need to have it do
+		
+		virtual void pingInternal([[maybe_unused]] const std::string& info = "", [[maybe_unused]] const double& data = 0.0);
 	public:
 		GameInstance* parent;
 
@@ -55,8 +57,8 @@ class ThingBase : public std::enable_shared_from_this<ThingBase> {
 		virtual Rect getBoundingRect() const = 0;
 		virtual std::vector<ThingPtr>& getMyThings();
 		virtual void draw() = 0;
-		virtual void ping();
 		virtual void update();
+		void ping(const std::string& info = "", const double& data = 0.0);
 		void setFlag(ENTITY_FLAG flag);
 		void setOwner(ThingBase* ptr);
 		void setParent(GameInstance* parent);

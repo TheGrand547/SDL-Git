@@ -86,6 +86,7 @@ int main(int argc, char* argv[]) {
 	GAME.instanceBegin();
 	foodd->mine.createPath(GAME.sectors[3], GAME.sectors[0]);
 
+	player->ping();
 	LOG("Section: Main Loop");
 	while (!contra.quit) {
 		playerDelta.zero(); // >:(

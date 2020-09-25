@@ -16,6 +16,8 @@ class BasicBullet : public ThingBase {
 		
 		void calculate();
 		void setImage();
+		void pingInternal(const std::string& info = "", const double& data = 0.0) override;
+		void remove();
 	public:
 		BasicBullet(Point position, double angle, double speed);
 		BasicBullet(Point position, Point delta);
@@ -28,7 +30,6 @@ class BasicBullet : public ThingBase {
 		Point collideLine(const Line& ray) const override;
 		Rect getBoundingRect() const override;
 		void draw() override;
-		void ping() override;
 		void update() override;
 };
 #endif
