@@ -1,8 +1,9 @@
 #pragma once
 #ifndef RECT_H
 #define RECT_H
-#include<cassert>
-#include<iostream>
+#include <cassert>
+#include <iostream>
+#include <unordered_set>
 #include "../essential/log.h"
 #include "../essential/util.h"
 #include "../essential/SDL_Headers.h"
@@ -65,4 +66,12 @@ Rect operator+(const double& num, const Rect& rect) = delete;
 Rect operator-(const double& num, const Rect& rect) = delete;
 Rect operator*(const double& num, const Rect& rect);
 Rect operator/(const double& num, const Rect& rect) = delete;
+
+namespace std {
+	template<> struct hash<Rect> {
+		std::size_t operator()(const Rect& thing) const noexcept {
+			return std::hash<Point>{}(thing.getTopLeft()) ^ (std::hash<Point>{}(thing.getBottomRight()) >> 5);
+		}
+	};
+}
 #endif

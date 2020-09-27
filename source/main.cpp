@@ -84,8 +84,10 @@ int main(int argc, char* argv[]) {
 	std::shared_ptr<FootSteps> foots = GAME.createThing<FootSteps>();
 
 	GAME.instanceBegin();
-	foodd->mine.createPath(GAME.sectors[3], GAME.sectors[0]);
-
+	auto pfera = SDL_GetTicks();
+	for (int i = 0; i < 100000; i++)
+		foodd->mine.createPath(GAME.sectors[3], GAME.sectors[0]);
+	std::cout << SDL_GetTicks() - pfera << std::endl;
 	player->ping();
 	LOG("Section: Main Loop");
 	while (!contra.quit) {

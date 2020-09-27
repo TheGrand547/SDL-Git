@@ -5,9 +5,10 @@
 #include "../../primitives/Point.h"
 #include "../../primitives/Polygon.h"
 #include "../../primitives/Rect.h"
-#include<memory>
-#include<SDL2/SDL.h>
-#include<vector>
+#include <memory>
+#include <SDL2/SDL.h>
+#include <unordered_set>
+#include <vector>
 
 class ThingBase;
 typedef std::shared_ptr<ThingBase> ThingPtr;
@@ -35,7 +36,6 @@ class ThingBase : public std::enable_shared_from_this<ThingBase> {
 		Point position;
 		std::vector<ThingPtr> myThings;
 		ThingBase* owner; // For whatever you need to have it do
-		
 		virtual void pingInternal([[maybe_unused]] const std::string& info = "", [[maybe_unused]] const double& data = 0.0);
 	public:
 		GameInstance* parent;
@@ -55,6 +55,7 @@ class ThingBase : public std::enable_shared_from_this<ThingBase> {
 		virtual Point collideLine(const Line& ray) const = 0;
 		virtual Point getPosition() const = 0;
 		virtual Rect getBoundingRect() const = 0;
+		virtual std::size_t hash() const; // TODO: make this pure virtual
 		virtual std::vector<ThingPtr>& getMyThings();
 		virtual void draw() = 0;
 		virtual void update();
@@ -64,4 +65,12 @@ class ThingBase : public std::enable_shared_from_this<ThingBase> {
 		void setParent(GameInstance* parent);
 		void unsetFlag(ENTITY_FLAG flag);
 };
+
+namespace std {
+	template<> struct hash<ThingPtr> {
+		std::size_t operator()(const ThingPtr& thing) {
+			return thing->hash();
+		}
+	};
+}
 #endif

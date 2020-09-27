@@ -65,4 +65,12 @@ Point operator+(const double& num, const Point& point) = delete;
 Point operator-(const double& num, const Point& point) = delete;
 Point operator/(const double& num, const Point& point) = delete;
 std::ostream& operator<<(std::ostream& output, const Point& point);
+
+namespace std {
+	template<> struct hash<Point> {
+		std::size_t operator()(const Point& thing) const noexcept {
+			return std::hash<double>{}(thing.x) ^ (std::hash<double>{}(thing.y) >> 5);
+		}
+	};
+}
 #endif

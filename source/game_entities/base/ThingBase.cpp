@@ -19,6 +19,10 @@ bool ThingBase::isAlive() const {
 	return true;
 }
 
+std::size_t ThingBase::hash() const {
+	return ((long long) this) >> 5;
+}
+
 std::vector<ThingPtr>& ThingBase::getMyThings() {
 	return this->myThings;
 }

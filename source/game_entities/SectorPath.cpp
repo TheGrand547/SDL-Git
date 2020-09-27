@@ -1,9 +1,22 @@
 #include "SectorPath.h"
-#include<map>
-#include<algorithm>
+#include <algorithm>
+#include <map>
+#include <unordered_map>
+#include <unordered_set>
 
 typedef std::shared_ptr<SectorBase> SectorPtr;
 typedef std::vector<SectorPtr> SectorVector;
+typedef std::unordered_set<SectorPtr> SectorSet;
+typedef std::map<double, SectorPtr> SectorSet2;
+
+
+namespace std {
+	template<> struct hash<SectorPtr> {
+		std::size_t operator()(const SectorPtr& thing) const noexcept {
+			return std::hash<Point>{}(thing->structure().getCenter());
+		}
+	};
+}
 
 struct VALUE {
 	double value = 10000000;
@@ -41,10 +54,12 @@ int SectorPath::size() {
 }
 
 Point SectorPath::currentTarget(Point currentPosition) {
+	Point centerDelta;
 	if (!this->stored.size()) {
 		TRACE("Uninitialized path");
+	} else {
+		centerDelta = (this->stored[0]->structure().getCenter() - currentPosition);
 	}
-	Point centerDelta = (this->stored[0]->structure().getCenter() - currentPosition);
 	switch (this->stored.size()) {
 		case 1: 
 			// This is the end state
@@ -97,7 +112,7 @@ void SectorPath::createPath(SectorPtr startingSector, SectorPtr target) {
 		return;
 	}
 	
-	SectorVector unused = {startingSector};
+	SectorSet2 unused = {{0, startingSector}};
 	std::map<SectorPtr, SectorPtr> path;
 	path[startingSector] = NULL;
 	
@@ -107,15 +122,13 @@ void SectorPath::createPath(SectorPtr startingSector, SectorPtr target) {
 	std::map<SectorPtr, VALUE> currentCost;
 	currentCost[startingSector].value = 0;
 
-	SectorVector closed;
+	SectorSet closed;
 	SectorPtr current = startingSector;
+	double dub = 0;
 	while (unused.size() > 0) {
-		current = unused[0];
-		for (SectorPtr node: unused) {
-			if (currentCost[node].value < currentCost[current].value) {
-				current = node;
-			}
-		}
+		auto g = unused.begin();
+		dub = g->first;
+		current = g->second;
 		if (current == target) {
 			SectorVector temp;
 			std::map<SectorPtr, SectorPtr>::iterator it = path.find(current);
@@ -129,8 +142,8 @@ void SectorPath::createPath(SectorPtr startingSector, SectorPtr target) {
 			}
 			break;
 		}
-		unused.erase(std::find(unused.begin(), unused.end(), current));
-		closed.push_back(current);
+		unused.erase(g);
+		closed.insert(current);
 		for (std::weak_ptr<SectorBase> weak: current->attached()) {
 			SectorPtr node = weak.lock();
 			if (!node) continue;
@@ -139,7 +152,7 @@ void SectorPath::createPath(SectorPtr startingSector, SectorPtr target) {
 				path[node] = current;
 				cost[node].value = general;
 				currentCost[node].value = cost[node].value + getValue(node, target);
-				if (valueNotInVector(unused, node)) unused.push_back(node);
+				if (unused.find(general) == unused.end()) unused[general] = node; 
 			}
 		}
 	}
