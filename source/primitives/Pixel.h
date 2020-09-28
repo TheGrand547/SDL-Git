@@ -1,9 +1,9 @@
 #pragma once
 #ifndef PIXEL_CLASS_H
 #define PIXEL_CLASS_H
-#include<SDL2/SDL.h>
 #include "../Color.h"
 #include "Point.h"
+#include <SDL.h>
 
 class Pixel {
 	protected:

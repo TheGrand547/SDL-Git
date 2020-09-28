@@ -1,7 +1,7 @@
 #pragma once
-#include<iostream>
-#include<ctime>
-#include<chrono>
+#include <ctime>
+#include <chrono>
+#include <iostream>
 
 void logTimeNow();
 void logFormat(const char* file, const char* function, int line);

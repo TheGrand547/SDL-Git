@@ -4,8 +4,8 @@
 #include "../primitives/Point.h"
 #include "Text.h"
 #include "Timer.h"
-#include<string>
-#include<SDL2/SDL.h>
+#include <SDL2/SDL.h>
+#include <string>
 
 typedef uint Uint;
 

@@ -1,11 +1,11 @@
 #pragma once
 #ifndef PIXEL_MOD_H
 #define PIXEL_MOD_H
-#include<SDL2/SDL.h>
-#include "../essential/SDL_Headers.h"
 #include "../essential/log.h"
+#include "../essential/SDL_Headers.h"
 #include "../primitives/Pixel.h"
 #include "Surface.h"
+#include <SDL2/SDL.h>
 
 typedef uint8_t Uint8;
 typedef uint32_t Uint32;
@@ -15,10 +15,10 @@ class PixelMod {
 		bool edges, isSurface, locked;
 		int _height, _pitch, _width, pixelCount;
 		SDL_PixelFormat* format;
-		
+
 		SDL_Surface* surface;
 		SDL_Texture* texture;
-		
+
 		Uint32 UGLY = 0x00000000;
 		Uint32* pixels;
 		void deallocate();

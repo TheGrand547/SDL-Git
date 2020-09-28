@@ -1,12 +1,12 @@
 #pragma once
 #ifndef SURFACE_H
 #define SURFACE_H
-#include<string>
-#include<SDL.h>
-#include<SDL2_rotozoom.h>
 #include "../essential/SDL_Headers.h"
 #include "../primitives/Rect.h"
 #include "Texture.h"
+#include <SDL.h>
+#include <SDL2_rotozoom.h>
+#include <string>
 
 class Surface {
 	private:

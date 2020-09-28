@@ -1,6 +1,7 @@
 #pragma once
 #ifndef BUTTON_COMMAND_H
 #define BUTTON_COMMAND_H
+
 class ButtonCommand {
 	public:
 		ButtonCommand() {}

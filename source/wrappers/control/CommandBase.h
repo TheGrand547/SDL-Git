@@ -1,6 +1,7 @@
 #pragma once
 #ifndef COMMAND_BASE_H
 #define COMMAND_BASE_H
+
 class CommandBase {
 	public:
 		CommandBase();

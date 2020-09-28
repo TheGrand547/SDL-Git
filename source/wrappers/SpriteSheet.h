@@ -1,22 +1,22 @@
 #pragma once
 #ifndef SPRITE_SHEET_H
 #define SPRITE_SHEET_H
-#include<map>
-#include<string>
 #include "../primitives/Point.h"
 #include "../game_entities/base/ThingBase.h"
 
 class SpriteSheet;
-
+// TODO: Put animation as a subclass of Spritesheet
 #include "Animation.h"
 #include "Texture.h"
 #include "Timer.h"
+#include <map>
+#include <string>
 
 typedef uint Uint;
 typedef ENTITY_DIRECTION EntityDir;
 
 class SpriteSheet {
-	private:
+	protected:
 		std::map<std::string, Animation> animations;
 		std::string key;
 		Texture frame;

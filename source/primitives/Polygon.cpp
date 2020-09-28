@@ -56,7 +56,7 @@ bool Polygon::overlap(const Polygon& that) const {
 	if (!(xOver && yOver)) return false;
 	// If the bounding rectangles DO overlap, and both polygons are THEIR OWN bounding rectangles, they must overlap
 	if (this->isAxisAligned() && that.isAxisAligned()) return true;
-	
+
 	for (Line line: this->getLines()) {
 		if (that.doesLineCollide(line)) return true;
 	}

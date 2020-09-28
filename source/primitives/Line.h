@@ -1,15 +1,14 @@
 #pragma once
 #ifndef LINE_H
 #define LINE_H
-#include<cmath>
-#include<SDL2/SDL.h>
-#include<SDL2/SDL2_gfxPrimitives.h>
-#include <cassert>
-#include "Point.h"
-#include "../Color.h"
 #include "../essential/random.h"
 #include "../essential/util.h"
 #include "../essential/SDL_Headers.h"
+#include "../Color.h"
+#include <cassert>
+#include <cmath>
+#include <SDL.h>
+#include <SDL2_gfx>
 
 typedef Uint8 uint8_t;
 

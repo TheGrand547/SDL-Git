@@ -19,7 +19,7 @@ void EnemyBase::move(Point velocity) {
 	if (!tickRatio) return;
 	Point px = velocity.getUnitVector() * tickRatio * this->maxVelocity;
 	if (!px.isReal()) return;
-	
+
 	PositionLock lock(this->position);	
 	Point modified = px / 4.0;
 	for (int i = 0; i < 4; i++) {

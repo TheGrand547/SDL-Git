@@ -1,3 +1,4 @@
+#pragma once
 #include "../../primitives/Point.h"
 
 namespace BASIC {

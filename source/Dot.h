@@ -10,9 +10,9 @@
 #include "wrappers/FpsText.h"
 #include "wrappers/MovementWrapper.h"
 #include "wrappers/Surface.h"
-#include<math.h>
-#include<memory>
-#include<SDL2/SDL.h>
+#include <math.h>
+#include <memory>
+#include <SDL2/SDL.h>
 
 class Dot : public EntityBase, public Color { 
 	private:

@@ -1,9 +1,9 @@
 #pragma once
 #ifndef FILE_INPUT_H
 #define FILE_INPUT_H
-#include<iostream>
-#include<fstream>
-#include<string>
+#include <iostream>
+#include <fstream>
+#include <string>
 
 class FileInput {
 	protected:
@@ -21,6 +21,5 @@ class FileInput {
 		std::string nextWord();
 		void close();
 		void open(const std::string& filename);
-		
 };
 #endif

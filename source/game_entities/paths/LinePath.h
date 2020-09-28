@@ -1,10 +1,10 @@
 #pragma once
 #ifndef LINE_PATH_H
 #define LINE_PATH_H
-#include "Path.h"
-#include "../../primitives/Point.h"
 #include "../../essential/random.h"
-#include<iostream>
+#include "../../primitives/Point.h"
+#include "Path.h"
+#include <iostream>
 
 class LinePath : public Path {
 	private:

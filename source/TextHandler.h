@@ -3,8 +3,8 @@
 #define TEXT_HANDLER_H
 #include "wrappers/AlertText.h"
 #include "wrappers/Text.h"
-#include<memory>
-#include<vector>
+#include <memory>
+#include <vector>
 
 typedef std::shared_ptr<Text> TextPtr;
 typedef std::vector<TextPtr> TextVector;

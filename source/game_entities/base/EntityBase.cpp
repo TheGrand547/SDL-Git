@@ -12,10 +12,10 @@ void EntityBase::accelerate(const Point& delta) {
 	// "Good enough" formula
 	Point copy = delta * this->maxVelocity;
 	double value = this->movement.getValue();
-	
+
 	if (abs(delta.x) < ROUNDING) copy -= Point(this->velocity.x, 0);
 	if (abs(delta.y) < ROUNDING) copy -= Point(0, this->velocity.y);
-	
+
 	this->acceleration = copy * value * 5;
 	this->velocity += this->acceleration;
 	if (this->velocity.getMagnitude() > this->maxVelocity) this->velocity = this->velocity.getUnitVector() * this->maxVelocity;

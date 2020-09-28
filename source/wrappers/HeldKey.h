@@ -1,3 +1,4 @@
+#pragma once
 #ifndef HELD_KEY_H
 #define HELD_KEY_H
 #include "Timer.h"

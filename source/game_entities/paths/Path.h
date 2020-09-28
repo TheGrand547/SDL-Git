@@ -1,4 +1,6 @@
 #pragma once
+#ifndef PATH_H
+#define PATH_H
 #include "../base/EnemyBase.h"
 #include "../../wrappers/Timer.h"
 
@@ -11,7 +13,7 @@ class Path {
 	public:
 		static const int REPEAT;
 		static const int SINGLE_LOOP;
-		
+
 		Path(EnemyBase* target = NULL);
 		virtual ~Path();
 		virtual void stop() = 0;
@@ -25,3 +27,4 @@ class Path {
 		void pause();
 		void unpause();
 };
+#endif

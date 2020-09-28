@@ -7,10 +7,10 @@
 #include "../../wrappers/Texture.h"
 #include "../../wrappers/Timer.h"
 #include "../../Dot.h"
-#include<math.h>
-#include<memory>
-#include<SDL2/SDL.h>
-#include<vector>
+#include <cmath>
+#include <memory>
+#include <SDL2/SDL.h>
+#include <vector>
 
 class EnemyBase : public ThingBase {
 	protected:

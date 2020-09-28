@@ -1,6 +1,8 @@
 #pragma once
+#ifndef TIMER_H
+#define TIMER_H
 #include "../essential/constants.h"
-#include<SDL2/SDL.h>
+#include <SDL2/SDL.h>
 
 typedef uint32_t Uint32;
 
@@ -23,3 +25,4 @@ class Timer {
 		void unpause();
 		void tick();
 };
+#endif

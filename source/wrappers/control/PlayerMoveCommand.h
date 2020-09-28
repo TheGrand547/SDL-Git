@@ -1,8 +1,8 @@
 #pragma once
 #ifndef PLAYER_MOVE_COMMAND_H
 #define PLAYER_MOVE_COMMAND_H
-#include "ButtonCommand.h"
 #include "../../primitives/Point.h"
+#include "ButtonCommand.h"
 
 class PlayerMoveCommand : public ButtonCommand {
 	private:

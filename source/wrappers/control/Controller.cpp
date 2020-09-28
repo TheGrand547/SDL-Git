@@ -1,12 +1,13 @@
 #include "Controller.h"
-#include "ControllerCommand.h"
+// TODO: These are kind obselete, remove em
+#include "../../essential/util.h"
 #include "BasicCommands.h"
+#include "ControllerCommand.h"
 #include "PlayerMoveCommand.h"
-#include<iostream>
-#include<SDL2/SDL.h>
-#include<string>
-#include<sstream>
-#include "../../essential/util.h"  
+#include <iostream>
+#include <SDL2/SDL.h>
+#include <string>
+#include <sstream>
 
 int scanCodeFromEvent(SDL_Event event) {
 	return event.key.keysym.scancode;
@@ -112,7 +113,7 @@ HeldKey& Controller::checkListener(int key) {
 }
 
 void Controller::addPlayerKeys(Point& target) {
-	// Fuck this
+	// TODO: Fuck this
 	this->addButton(config["Right"], std::make_shared<PlayerMoveCommand>(BASIC::PLAYER_RIGHT_KEYDOWN, &target));
 	this->addButton(config["Left"], std::make_shared<PlayerMoveCommand>(BASIC::PLAYER_LEFT_KEYDOWN, &target));
 	this->addButton(config["Up"], std::make_shared<PlayerMoveCommand>(BASIC::PLAYER_UP_KEYDOWN, &target));

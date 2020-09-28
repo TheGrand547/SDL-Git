@@ -14,10 +14,10 @@ class GameInstance;
 #include "primitives/Polygon.h"
 #include "TextHandler.h"
 #include "BoundedPoint.h"
-#include<map>
-#include<memory>
-#include<set>
-#include<vector>
+#include <map>
+#include <memory>
+#include <set>
+#include <vector>
 
 typedef uint32_t Uint32;
 typedef uint8_t Uint8;

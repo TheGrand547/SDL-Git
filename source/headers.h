@@ -35,20 +35,20 @@
 #include "GameInstance.h"
 #include "Color.h"
 #include "TextHandler.h"
-#include<iostream>
-#include<math.h>
-#include<memory>
-#include<queue>
-#include<SDL.h>
-#include<SDL2_framerate.h>
-#include<SDL2_gfxPrimitives.h>
-#include<SDL2_rotozoom.h>
-#include<SDL_thread.h>
-#include<SDL_image.h>
-#include<SDL_ttf.h>
-#include<sstream>
-#include<stdio.h>
-#include<stdlib.h>
-#include<time.h>
-#include<vector>
+#include <iostream>
+#include <math.h>
+#include <memory>
+#include <queue>
+#include <SDL.h>
+#include <SDL_thread.h>
+#include <SDL_image.h>
+#include <SDL_ttf.h>
+#include <SDL2_framerate.h>
+#include <SDL2_gfxPrimitives.h>
+#include <SDL2_rotozoom.h>
+#include <sstream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <vector>
 #endif

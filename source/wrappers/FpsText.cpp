@@ -1,7 +1,7 @@
 #include "FpsText.h"
-#include<string>
-#include<sstream>
 #include "../essential/constants.h"
+#include <string>
+#include <sstream>
 
 FpsText::FpsText(Font& font, Point position, SDL_Color color) : position(position), color(color) {
 	this->font = font;

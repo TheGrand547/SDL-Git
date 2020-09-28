@@ -1,6 +1,6 @@
 #include "AppearingText.h"
-#include<string>
-#include<sstream>
+#include <sstream>
+#include <string>
 
 AppearingText::AppearingText(std::string text, Point position, double lettersPerSecond, SDL_Color color, int charWrap, int startingIndex) : 
 							charWrap(charWrap), leftOver(0), ticksPerLetter(1000 / lettersPerSecond), position(position), color(color), text(text), index(startingIndex) {

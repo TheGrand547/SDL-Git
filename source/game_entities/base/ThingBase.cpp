@@ -1,11 +1,9 @@
 #include "ThingBase.h"
 #include "../../GameInstance.h"
 
-
 ThingBase::ThingBase(int flags) : absoluteFlags(flags), flags(flags), owner(NULL), parent(NULL) {}
 
 ThingBase::~ThingBase() {}
-
 
 int ThingBase::getAbsoluteFlags() const {
 	return this->flags;

@@ -2,9 +2,9 @@
 #ifndef POINT_H
 #define POINT_H
 #include "../essential/random.h"
-#include<math.h>
-#include<iostream>
 #include <cassert>
+#include <iostream>
+#include <math.h>
 // TODO: Add directional indicators
 
 struct Point {

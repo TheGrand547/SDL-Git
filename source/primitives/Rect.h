@@ -1,15 +1,14 @@
 #pragma once
 #ifndef RECT_H
 #define RECT_H
-#include <cassert>
-#include <iostream>
-#include <unordered_set>
 #include "../essential/log.h"
-#include "../essential/util.h"
 #include "../essential/SDL_Headers.h"
+#include "../essential/util.h"
 #include "Line.h"
 #include "Point.h"
 #include "Polygon.h"
+#include <cassert>
+#include <iostream>
 
 class Rect: public Polygon {
 	protected:
@@ -32,7 +31,7 @@ class Rect: public Polygon {
 		Rect operator-(const double& num) = delete;
 		Rect operator*(const double& num) const;
 		Rect operator/(const double& num) const;
-		
+
 		bool isReal() const override;
 		bool isAxisAligned() const override;
 		double getArea() const override;
@@ -41,7 +40,7 @@ class Rect: public Polygon {
 		Point getCenter() const override;
 		std::vector<Line> getLines() const override;
 		std::vector<Point> getPoints() const override;
-		
+
 		double getHeight() const;
 		double getOriginDistance() const;
 		double getWidth() const;

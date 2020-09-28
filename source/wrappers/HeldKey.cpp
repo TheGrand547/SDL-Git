@@ -1,5 +1,5 @@
 #include "HeldKey.h"
-#include<iostream>
+#include <iostream>
 
 HeldKey::HeldKey() {
 	this->down = false;

@@ -2,8 +2,9 @@
 #ifndef VECTOR_H
 #define VECTOR_H
 #include "Point.h"
-#include<math.h>
+#include <cmath>
 
+// TODO: Investigate if this is actually ever used?s
 class Vector: public Point {
 	public:
 		Vector(double angle = 0);

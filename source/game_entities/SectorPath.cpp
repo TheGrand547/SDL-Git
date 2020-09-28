@@ -1,14 +1,9 @@
 #include "SectorPath.h"
 #include <algorithm>
 #include <map>
-#include <unordered_map>
-#include <unordered_set>
 
 typedef std::shared_ptr<SectorBase> SectorPtr;
 typedef std::vector<SectorPtr> SectorVector;
-typedef std::unordered_set<SectorPtr> SectorSet;
-typedef std::map<double, SectorPtr> SectorSet2;
-
 
 namespace std {
 	template<> struct hash<SectorPtr> {
@@ -112,7 +107,7 @@ void SectorPath::createPath(SectorPtr startingSector, SectorPtr target) {
 		return;
 	}
 	
-	SectorSet2 unused = {{0, startingSector}};
+	SectorVector unused = {startingSector};
 	std::map<SectorPtr, SectorPtr> path;
 	path[startingSector] = NULL;
 	
@@ -120,18 +115,18 @@ void SectorPath::createPath(SectorPtr startingSector, SectorPtr target) {
 	cost[startingSector].value = 0;
 	
 	std::map<SectorPtr, VALUE> currentCost;
-	currentCost[startingSector].value = 0;
+	currentCost[startingSector].value = getValue(startingSector, target);
 
-	SectorSet closed;
-	SectorPtr current = startingSector;
-	double dub = 0;
 	while (unused.size() > 0) {
-		auto g = unused.begin();
-		dub = g->first;
-		current = g->second;
-		if (current == target) {
+		SectorVector::iterator index = unused.begin();
+		for (std::size_t i = 0; i < unused.size(); i++) {
+			if (currentCost[unused.begin()[i]].value < currentCost[*index].value) {
+				index = unused.begin() + i;
+			}
+		}
+		if (*index == target) {
 			SectorVector temp;
-			std::map<SectorPtr, SectorPtr>::iterator it = path.find(current);
+			std::map<SectorPtr, SectorPtr>::iterator it = path.find(*index);
 			while (it != path.end()) {
 				temp.push_back(it->first);
 				it = path.find(it->second);
@@ -142,17 +137,16 @@ void SectorPath::createPath(SectorPtr startingSector, SectorPtr target) {
 			}
 			break;
 		}
-		unused.erase(g);
-		closed.insert(current);
-		for (std::weak_ptr<SectorBase> weak: current->attached()) {
+		unused.erase(index);
+		for (std::weak_ptr<SectorBase> weak: (*index)->attached()) {
 			SectorPtr node = weak.lock();
 			if (!node) continue;
-			double general = cost[current].value + edgeFunction(node, current);
+			double general = cost[*index].value + edgeFunction(node, *index);
 			if (general < cost[node].value) {
-				path[node] = current;
+				path[node] = *index;
 				cost[node].value = general;
-				currentCost[node].value = cost[node].value + getValue(node, target);
-				if (unused.find(general) == unused.end()) unused[general] = node; 
+				currentCost[node].value = general + getValue(node, target);
+				if (valueNotInVector(unused, node)) unused.push_back(node);
 			}
 		}
 	}

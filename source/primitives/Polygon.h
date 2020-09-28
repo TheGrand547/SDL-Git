@@ -7,7 +7,7 @@ class Rect;
 #include "../Color.h"
 #include "Line.h"
 #include "Point.h"
-#include<vector>
+#include <vector>
 
 class Polygon : public Color {
 	public:

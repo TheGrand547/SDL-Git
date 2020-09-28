@@ -1,12 +1,12 @@
 #pragma once
 #ifndef APPEARING_TEXT_H
 #define APPEARING_TEXT_H
-#include<SDL.h>
-#include<SDL_ttf.h>
+#include "../essential/constants.h"
+#include "../primitives/Point.h"
 #include "Text.h"
 #include "Timer.h"
-#include "../primitives/Point.h"
-#include "../essential/constants.h"
+#include <SDL.h>
+#include <SDL_ttf.h>
 
 typedef uint Uint;
 

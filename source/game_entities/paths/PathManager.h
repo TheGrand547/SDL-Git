@@ -1,8 +1,8 @@
 #pragma once
 #include "../base/EnemyBase.h"
 #include "Path.h"
-#include<vector>
-#include<memory>
+#include <memory>
+#include <vector>
 
 typedef uint Uint;
 

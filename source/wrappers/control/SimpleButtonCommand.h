@@ -2,6 +2,7 @@
 #ifndef SIMPLE_BUTTON_COMMAND_H
 #define SIMPLE_BUTTON_COMMAND_H
 #include "ButtonCommand.h"
+
 class SimpleButtonCommand : public ButtonCommand {
 	private:
 		void (*command)();

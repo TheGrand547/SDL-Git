@@ -1,6 +1,5 @@
 #include "Animation.h"
 
-
 Animation::Animation(Uint startingIndex, Uint endingIndex, Uint interval) : started(false), endingIndex(endingIndex), 
 					interval(interval), startingIndex(startingIndex), currentIndex(0) {}
 

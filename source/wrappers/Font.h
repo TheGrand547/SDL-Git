@@ -1,12 +1,12 @@
 #pragma once
 #ifndef FONT_H
 #define FONT_H
-#include<iostream>
-#include<SDL.h>
-#include<SDL_ttf.h>
 #include "../essential/log.h"
 #include "../essential/SDL_Headers.h"
 #include "../primitives/Point.h"
+#include <iostream>
+#include <SDL.h>
+#include <SDL_ttf.h>
 
 class Font {
 	protected:
