@@ -137,13 +137,14 @@ void SectorPath::createPath(SectorPtr startingSector, SectorPtr target) {
 			}
 			break;
 		}
+		SectorPtr current = *index;
 		unused.erase(index);
-		for (std::weak_ptr<SectorBase> weak: (*index)->attached()) {
+		for (std::weak_ptr<SectorBase> weak: current->attached()) {
 			SectorPtr node = weak.lock();
 			if (!node) continue;
-			double general = cost[*index].value + edgeFunction(node, *index);
+			double general = cost[current].value + edgeFunction(node, current);
 			if (general < cost[node].value) {
-				path[node] = *index;
+				path[node] = current;
 				cost[node].value = general;
 				currentCost[node].value = general + getValue(node, target);
 				if (valueNotInVector(unused, node)) unused.push_back(node);

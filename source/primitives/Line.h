@@ -8,7 +8,7 @@
 #include <cassert>
 #include <cmath>
 #include <SDL.h>
-#include <SDL2_gfx>
+#include <SDL2_gfxPrimitives.h>
 
 typedef Uint8 uint8_t;
 

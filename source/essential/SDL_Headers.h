@@ -1,15 +1,15 @@
 #pragma once
 #ifndef SDL_HEADERS_HELP_H
 #define SDL_HEADERS_HELP_H
-#include "typedefs.h"
 #include "../primitives/Point.h"
-#include<SDL.h>
-#include<SDL2_framerate.h>
-#include<SDL2_gfxPrimitives.h>
-#include<SDL2_rotozoom.h>
-#include<SDL_thread.h>
-#include<SDL_image.h>
-#include<SDL_ttf.h>
+#include "typedefs.h"
+#include <SDL.h>
+#include <SDL2_framerate.h>
+#include <SDL2_gfxPrimitives.h>
+#include <SDL2_rotozoom.h>
+#include <SDL_thread.h>
+#include <SDL_image.h>
+#include <SDL_ttf.h>
 
 // Package rendering conext and the relevant offset in one tidy package
 struct Renderer {
