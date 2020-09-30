@@ -1,6 +1,6 @@
 #pragma once
 #include "SDL_Headers.h"
-#include<string>
+#include <string>
 /* File to store all constants */
 
 namespace COLORS {

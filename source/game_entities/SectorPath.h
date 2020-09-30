@@ -5,8 +5,8 @@
 #include "base/ThingBase.h"
 #include "../essential/random.h"
 #include "../GameInstance.h"
-#include<memory>
-#include<vector>
+#include <memory>
+#include <vector>
 
 typedef std::shared_ptr<SectorBase> SectorPtr;
 

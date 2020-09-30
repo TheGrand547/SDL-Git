@@ -79,7 +79,6 @@ void SectorGroup::purge() {
 		it++;
 	}
 	LOG("After Purging: %i Sector(s)", this->size());
-	
 	for (const ThingPtr& thing: this->parent->collisionThings) {
 		for (SectorPtr& sector: this->storage) {
 			if (thing->overlap(sector->structure())) sector->getContained().push_back(thing);

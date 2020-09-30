@@ -1,17 +1,19 @@
 #pragma once
 #ifndef SECTOR_H
 #define SECTOR_H
+
 class SectorBase;
+
 #include "../primitives/Line.h"
 #include "../primitives/Point.h"
 #include "../primitives/Polygon.h"
 #include "../primitives/Rect.h"
 #include "base/ThingBase.h"
-#include<map>
-#include<memory>
-#include<SDL2/SDL.h>
-#include<string>
-#include<vector>
+#include <map>
+#include <memory>
+#include <SDL.h>
+#include <string>
+#include <vector>
 
 class SectorBase {
 	public:
@@ -36,7 +38,7 @@ template<class T> class Sector : public SectorBase {
 		std::string data;
 		std::vector<std::weak_ptr<SectorBase>> connected;
 		std::vector<std::weak_ptr<ThingBase>> containedThings;
-	
+
 		Sector(T structure, std::string data = "");
 		~Sector();
 		bool contains(SectorBase* pointer) const override;

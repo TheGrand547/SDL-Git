@@ -4,16 +4,16 @@
 
 class BackgroundGroup;
 
-#include "BackgroundElement.h"
-#include "DrawGroup.h"
 #include "../essential/constants.h"
 #include "../primitives/Point.h"
 #include "../wrappers/Surface.h"
-#include<map>
-#include<memory>
-#include<SDL2/SDL.h>
-#include<string>
-#include<vector>
+#include "BackgroundElement.h"
+#include "DrawGroup.h"
+#include <map>
+#include <memory>
+#include <SDL.h>
+#include <string>
+#include <vector>
 
 class BackgroundGroup : public DrawGroup {
 	private:

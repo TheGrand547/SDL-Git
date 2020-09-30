@@ -1,12 +1,11 @@
 #pragma once
-#include<algorithm>
-#include<cmath>
-#include<math.h>
-#include<set>
-#include<stdlib.h>
-#include<memory>
-#include<utility>
-#include<vector>
+#include <algorithm>
+#include <cmath>
+#include <memory>
+#include <set>
+#include <stdlib.h>
+#include <utility>
+#include <vector>
 /* Misc functions with no dependencies */
 
 #define ROUNDING 0.000001

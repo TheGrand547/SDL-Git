@@ -1,7 +1,7 @@
 #pragma once
 #ifndef TYPE_DEFS_H
 #define TYPE_DEFS_H
-#include<SDL.h>
+#include <SDL.h>
 
 typedef uint       Uint;
 typedef uint8_t   Uint8;

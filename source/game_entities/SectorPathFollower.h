@@ -2,10 +2,10 @@
 #ifndef SECTOR_PATH_FOLLOWER_H
 #define SECTOR_PATH_FOLLOWER_H
 #include "../primitives/Rect.h"
-#include "base/ThingBase.h"
-#include "SectorPath.h"
 #include "../wrappers/Surface.h"
 #include "../wrappers/MovementWrapper.h"
+#include "base/ThingBase.h"
+#include "SectorPath.h"
 
 class SectorPathFollower : public ThingBase {
 	protected:

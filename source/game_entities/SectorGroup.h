@@ -1,13 +1,15 @@
 #pragma once
 #ifndef SECTOR_GROUP_H
 #define SECTOR_GROUP_H
+
 class GameInstance;
+
 #include "../essential/random.h"
 #include "DrawGroup.h"
 #include "Sector.h"
-#include<memory>
-#include<string>
-#include<utility>
+#include <memory>
+#include <string>
+#include <utility>
 
 typedef std::shared_ptr<SectorBase> SectorPtr;
 
@@ -29,7 +31,7 @@ class SectorGroup : public DrawGroup {
 		void drawGroup() override;
 		void connectSectors();
 		void purge();
-		
+
 		template<typename T, typename... Args> SectorPtr createSector(Args... args) {
 			SectorPtr sector = std::make_shared<Sector<T>>(T(args...));
 			this->storage.push_back(sector);

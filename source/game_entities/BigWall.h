@@ -5,8 +5,8 @@
 #include "../primitives/Polygon.h"
 #include "../primitives/Rect.h"
 #include "base/ThingBase.h"
-#include<memory>
-#include<SDL2/SDL.h>
+#include <memory>
+#include <SDL.h>
 
 class BigWall : public ThingBase {
 	protected:

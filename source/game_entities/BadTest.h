@@ -1,7 +1,6 @@
 #pragma once
-#include<SDL2/SDL.h>
-#include<cmath>
-#include<math.h>
+#ifndef BAD_TEST_H
+#define BAD_TEST_H
 #include "../essential/random.h"
 #include "../primitives/Line.h"
 #include "../primitives/Point.h"
@@ -13,6 +12,8 @@
 #include "paths/LinePath.h"
 #include "paths/PathManager.h"
 #include "paths/ZeroRadiusTurnPath.h"
+#include <cmath>
+#include <SDL.h>
 
 class BadTest : public EnemyBase {
 	private:
@@ -39,3 +40,4 @@ class BadTest : public EnemyBase {
 		void setTexture();
 		void update() override;
 };
+#endif

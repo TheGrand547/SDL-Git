@@ -4,7 +4,7 @@
 #include "Point.h"
 #include <cmath>
 
-// TODO: Investigate if this is actually ever used?s
+// TODO: Investigate if this is actually ever used?
 class Vector: public Point {
 	public:
 		Vector(double angle = 0);

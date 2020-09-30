@@ -106,14 +106,13 @@ void SectorPath::createPath(SectorPtr startingSector, SectorPtr target) {
 		this->stored = {startingSector, target};
 		return;
 	}
-	
 	SectorVector unused = {startingSector};
 	std::map<SectorPtr, SectorPtr> path;
 	path[startingSector] = NULL;
-	
+
 	std::map<SectorPtr, VALUE> cost;
 	cost[startingSector].value = 0;
-	
+
 	std::map<SectorPtr, VALUE> currentCost;
 	currentCost[startingSector].value = getValue(startingSector, target);
 
@@ -163,7 +162,6 @@ void SectorPath::draw() {
 			Line g(this->stored[i]->structure().getCenter(), this->stored[i - 1]->pointsOfContact()[this->stored[i].get()]);
 			g.setColor(0xFF, 0x00, 0xFF, 0xFF);
 			g.draw(this->owner->parent->getRenderer());
-			
 			Line pe(this->stored[i]->structure().getCenter(), this->stored[i]->pointsOfContact()[this->stored[i - 1].get()]);
 			pe.setColor(0xFF, 0xFF, 0xFF, 0xFF);
 			pe.draw(this->owner->parent->getRenderer());

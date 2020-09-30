@@ -46,7 +46,7 @@ Triangle triFromString(const std::string& string) {
 		}
 		if (vals.size() > 5) return Triangle(Point(vals[0], vals[1]), Point(vals[2], vals[3]), Point(vals[4], vals[5]));
 	} catch (...) {
-		return Triangle();	
+		return Triangle();
 	}
 	return Triangle();
 }

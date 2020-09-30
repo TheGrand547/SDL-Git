@@ -68,9 +68,6 @@ int main(int argc, char* argv[]) {
 	FpsText fps(gFont, Point(100, 10), COLORS::RED);
 	
 	handler.createText<AlertText>("this shouldn't last long", Point(300, 150), COLORS::RED, 20, 2500);
-	
-	Line patrolLine(BAD_POINT, BAD_POINT + Point(200, 0));
-	patrolLine += Point(0, 5);
 
 	SpriteSheet spriteSheetTest(gRenderer, "resources/bigsprite.png", 50, 50);
 	spriteSheetTest.addAnimation("dumb", 0, 4, 500);
@@ -103,7 +100,6 @@ int main(int argc, char* argv[]) {
 			if (twigs) {
 				auto twigsAgain = GAME.sectors.currentSector(foodd);
 				if (twigsAgain) {
-					LOG("I'll get you yet vile swine!");
 					foodd->mine.createPath(twigsAgain, twigs);
 				}
 			}
@@ -115,7 +111,6 @@ int main(int argc, char* argv[]) {
 		
 		// Testing stuff
 		spriteSheetTest.draw("dumb", GAME.getTrueRenderer(), {200, 200}, getDirectionFromAngle(player->getAngle()));
-		patrolLine.draw(GAME.getRenderer());
 		handler.draw();
 		
 		GAME.sectors.drawGroup();

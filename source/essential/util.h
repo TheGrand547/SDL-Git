@@ -1,9 +1,9 @@
 #pragma once
-#include<SDL2/SDL.h>
-#include<SDL2/SDL_thread.h>
-#include<SDL2/SDL2_gfxPrimitives.h>
 #include "../primitives/Point.h"
 #include "../Color.h"
+#include <SDL.h>
+#include <SDL_thread.h>
+#include <SDL2_gfxPrimitives.h>
 
 #define M_PI_8 (M_PI_4 / 2)
 

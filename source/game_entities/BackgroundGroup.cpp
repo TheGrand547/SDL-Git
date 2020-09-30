@@ -32,7 +32,7 @@ void BackgroundGroup::setParent(GameInstance& parent) {
 
 void BackgroundGroup::finalize() {
 	Uint32 tick = SDL_GetTicks();
-	
+
 	int width = 0, height = 0;
 	std::map<std::string, std::shared_ptr<Surface>> textures;
 	SDL_Renderer* renderer = this->parent->getRenderer().renderer;
@@ -48,13 +48,13 @@ void BackgroundGroup::finalize() {
 		}
 	}
 	this->texture = SDL_CreateTexture(this->parent->getTrueRenderer(), SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_TARGET, width, height);
-	
+
 	SDL_SetRenderTarget(renderer, this->texture);
 	for (std::shared_ptr<BackElement>& element: this->elements) textures[element->type]->draw(renderer, element->position);
 	SDL_SetRenderTarget(renderer, NULL);
-	
+
 	this->elements.clear();
 	this->fullyRendered = true;
-	
+
 	if (this->parent->gameState["verbose"]) LOG("Took %i ms to internally render the background. ", (int) (SDL_GetTicks() - tick));
 }

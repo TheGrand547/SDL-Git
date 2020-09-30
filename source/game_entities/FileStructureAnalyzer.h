@@ -3,9 +3,9 @@
 #define FILE_STRUTURE_ANALYZER_H
 #include "../GameInstance.h"
 #include "../primitives/Triangle.h"
-#include<iostream>
-#include<fstream>
-#include<string>
+#include <iostream>
+#include <fstream>
+#include <string>
 
 typedef std::map<std::string, std::string> StringMap;
 
