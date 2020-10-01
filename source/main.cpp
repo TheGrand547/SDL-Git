@@ -1,7 +1,4 @@
 #include "headers.h"
-#include "primitives/Triangle.h"
-#include "wrappers/Surface.h"
-#include "game_entities/FootSteps.h"
 
 bool init();
 SDL_Renderer* createRenderer(SDL_Window*& window);

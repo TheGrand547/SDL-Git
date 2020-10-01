@@ -1,10 +1,12 @@
 #pragma once
 #ifndef COLLISION_HANDLER_H
 #define COLLISION_HANDLER_H
+
 class GameInstance;
 class CollisionHandler;
 class ThingBase;
 class SectorBase;
+
 #include "../primitives/Line.h"
 #include "../primitives/Polygon.h"
 #include <map>
@@ -12,12 +14,15 @@ class SectorBase;
 #include <vector>
 
 typedef std::shared_ptr<ThingBase> ThingPtr;
+typedef std::weak_ptr<ThingBase> WeakThingPtr;
 typedef std::shared_ptr<SectorBase> SectorPtr;
+typedef std::vector<WeakThingPtr> WeakThingVector;
 
 // Interface to interact with the collidable objects from GameInstance
 class CollisionHandler {
 	protected:
-		std::map<SectorPtr, std::vector<ThingPtr>> collisionMap;
+		friend class GameInstance;
+		std::map<SectorPtr, std::vector<WeakThingPtr>> collisionMap;
 	public:
 		GameInstance* parent;
 		CollisionHandler(GameInstance* parent);

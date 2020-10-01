@@ -1,8 +1,6 @@
 #pragma once
 #ifndef HEADERS_H
 #define HEADERS_H
-// Remove for alpha/beta/final releases
-//#define NDEBUG 
 #include "essential/Configuration.h"
 #include "essential/log.h"
 #include "essential/MathUtils.h"
@@ -14,12 +12,14 @@
 #include "game_entities/BigWall.h"
 #include "game_entities/DrawGroup.h"
 #include "game_entities/FileStructureAnalyzer.h"
+#include "game_entities/FootSteps.h"
 #include "game_entities/SectorGroup.h"
 #include "game_entities/SectorPath.h"
 #include "game_entities/SectorPathFollower.h"
 #include "primitives/Line.h"
 #include "primitives/Point.h"
 #include "primitives/Rect.h"
+#include "primitives/Triangle.h"
 #include "primitives/Vector.h"
 #include "wrappers/AlertText.h"
 #include "wrappers/AppearingText.h"
@@ -29,14 +29,18 @@
 #include "wrappers/FpsText.h"
 #include "wrappers/HeldKey.h"
 #include "wrappers/SpriteSheet.h"
+#include "wrappers/Surface.h"
 #include "wrappers/Texture.h"
 #include "wrappers/Timer.h"
+#include "Color.h"
 #include "Dot.h"
 #include "GameInstance.h"
-#include "Color.h"
 #include "TextHandler.h"
+#include <cmath>
+#include <cstdio>
+#include <cstdlib>
+#include <ctime>
 #include <iostream>
-#include <math.h>
 #include <memory>
 #include <queue>
 #include <SDL.h>
@@ -47,8 +51,5 @@
 #include <SDL2_gfxPrimitives.h>
 #include <SDL2_rotozoom.h>
 #include <sstream>
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
 #include <vector>
 #endif

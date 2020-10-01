@@ -1,8 +1,8 @@
 #include "CollisionHandler.h"
 #include "../GameInstance.h"
+#include "base/ThingBase.h"
 #include "Sector.h"
 #include "SectorGroup.h"
-#include "base/ThingBase.h"
 
 CollisionHandler::CollisionHandler(GameInstance* parent) : parent(parent) {}
 
@@ -58,13 +58,22 @@ bool CollisionHandler::doesNotCollideWith(const ThingPtr& thing) const {
 bool CollisionHandler::isPositionOpen(const ThingPtr& thing) {
 	std::vector<SectorPtr> sectors = this->parent->sectors.allSectors(thing);
 	if (sectors.size()) {
-		for (const ThingPtr& something: this->collisionMap[NULL]) {
+		ThingPtr something;
+		for (WeakThingVector::iterator iter = this->collisionMap[NULL].begin(); iter != this->collisionMap[NULL].end(); iter++) {
+			if (!(something = iter->lock())) {
+				iter = this->collisionMap[NULL].erase(iter)--;
+				continue;
+			}
 			if (thing.get() != something.get() && something->overlap(thing)) return false;
 		}
 		for (const SectorPtr& sector : sectors) {
-			for (const ThingPtr& something: this->collisionMap[sector]) {
-				if (thing.get() != something.get() && something->overlap(thing)) return false;
+			for (WeakThingVector::iterator iter = this->collisionMap[sector].begin(); iter != this->collisionMap[sector].end(); iter++) {
+			if (!(something = iter->lock())) {
+				iter = this->collisionMap[sector].erase(iter)--;
+				continue;
 			}
+			if (thing.get() != something.get() && something->overlap(thing)) return false;
+		}
 		}
 	} else {
 		for (const ThingPtr& something: this->parent->collisionThings) {

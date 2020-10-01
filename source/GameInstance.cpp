@@ -2,12 +2,8 @@
 
 // Comparator for the sake of the draw order pointer set
 bool Draw::compare::operator()(const ThingBase* lhs, const ThingBase* rhs) const {
-	if (lhs->originDistance() < rhs->originDistance()) {
-		return true;
-	}
-	if (lhs->originDistance() > rhs->originDistance()) {
-		return false;
-	}
+	if (lhs->originDistance() < rhs->originDistance()) return true;
+	if (lhs->originDistance() > rhs->originDistance()) return false;
 	return lhs < rhs;
 }
 
@@ -55,7 +51,6 @@ void GameInstance::removeThing(const ThingPtr& thing) {
 	} else {
 		removeValue(this->updateThings, thing);
 	}
-	
 }
 
 void GameInstance::addPlayer(const std::shared_ptr<ThingBase>& thing) {
@@ -69,7 +64,7 @@ void GameInstance::draw() {
 	if (this->getPlayer()->getPosition().y < Screen::SCREEN_HEIGHT / 2) this->renderer.offset.y = 0;
 	if (this->getPlayer()->getPosition().x > Screen::MAX_X_SCROLL_DISTANCE) this->renderer.offset.x = Screen::MAX_SCREEN_X_POS;
 	if (this->getPlayer()->getPosition().y > Screen::MAX_Y_SCROLL_DISTANCE) this->renderer.offset.y = Screen::MAX_SCREEN_Y_POS;
-	
+
 	// Draw things
 	this->ground.drawGroup();
 	for (ThingBase* thing: this->drawOrder) thing->draw();
@@ -79,30 +74,30 @@ void GameInstance::finalizeFrame() {
 	// Render changes to the window
 	SDL_RenderPresent(this->renderer.renderer);
 	SDL_UpdateWindowSurface(this->window);
-	
+
 	// Clear the window for the next frame to draw onto
 	SDL_SetRenderDrawColor(this->renderer.renderer, 0xFF, 0xFF, 0xFF, 0xFF);
 	SDL_RenderClear(this->renderer.renderer);
-	
+
 	// If framerate is soft capped, delay if the framerate is over 1000
 	if (!this->gameState["cv_capped_fps"] && !this->frameTimer.getTicks()) SDL_Delay(1);
-	
+
 	// Reset timer
 	this->frameTimer.start();
 }
 
 void GameInstance::instanceBegin() { // Do final things before playing starts
 	TRACE("Instance Begin");
-	
+
 	if (this->started) return; // Don't needlessly bog down the system
 	// Do cleanup on the pathfinding system
 	this->sectors.connectSectors();
 	this->sectors.purge();
 	this->collision.finalize();
-	
+
 	// Clean up the rendering for the background group
 	this->ground.finalize();
-	
+
 	this->started = true;
 }
 
