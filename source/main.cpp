@@ -1,4 +1,5 @@
 #include "headers.h"
+#include "DataStructure.h"
 
 bool init();
 SDL_Renderer* createRenderer(SDL_Window*& window);
