@@ -5,10 +5,9 @@
 #include <iterator>
 #include <memory>
 
-// TODO: Give this a good name
 template<typename T> class LinkedList {
 	/* Type LinkedList<T> is modeled by a finite set of T
-	 * Only intended for iteration, not efficient if things will be removed/added often
+	 * Only intended for iteration, not efficient if things will be removed/searched for often
 	 * Constant time insertion, constant time deletion, and linear search
 	 * Order does NOT matter
 	 * */
@@ -21,86 +20,71 @@ template<typename T> class LinkedList {
 		Node* front;
 		Node* last; // past the end iterator
 		unsigned int length;
+		void _clear();
+		void reset();
 	public:
 		class iterator : public std::iterator<std::bidirectional_iterator_tag, T> {
 			friend class LinkedList;
 			private:
 				Node* element;
-				Node*& get() {
-					return this->element;
-				}
+				Node*& get();
 			public:
-				iterator(Node* current) : element(current) {}
-				T& operator->() {
-					return this->element->data;
-				}
-				T& operator*() {
-					return this->element->data;
-				}
-				iterator& operator++() {
-					this->element = this->element->next;
-					return *this;
-				}
-				iterator operator++(int) {
-					iterator copy(this->element);
-					this->operator++();
-					return copy;
-				}
-				iterator& operator--() {
-					this->element = this->element->prev;
-					return *this;
-				}
-				iterator operator--(int) {
-					iterator copy(this->element);
-					this->operator--();
-					return copy;
-				}
-				bool operator!=(const iterator& iter) {
-					return this->element != iter.element;
-				}
-				bool operator==(const iterator& iter) {
-					return !(*this != iter);
-				}
+				iterator(Node* current);
+				bool operator==(const iterator& iter);
+				bool operator!=(const iterator& iter);
+				iterator operator++(int);
+				iterator operator--(int);
+				iterator& operator++();
+				iterator& operator--();
+				T& operator->();
+				T& operator*();
 		};
 		LinkedList();
 		~LinkedList();
-		
 		iterator begin() const;
 		iterator end() const;
 		iterator erase(iterator iter);
 		iterator erase(iterator first, iterator last);
-		iterator find(const T& data);
+		iterator find(const T& data) const;
 		iterator rbegin() const;
 		iterator rend() const;
-		
 		unsigned int size() const;
 		void clear();
 		void push_back(const T& data);
 };
 
-template<typename T> LinkedList<T>::LinkedList() {
-	this->clear();
+template<typename T> LinkedList<T>::LinkedList() : length(0) {
+	this->reset();
 }
 
 template<typename T> LinkedList<T>::~LinkedList() {
-	this->clear();
+	this->_clear();
 }
 
 template<typename T> unsigned int LinkedList<T>::size() const {
 	return this->length;
 }
 
-template<typename T> void LinkedList<T>::clear() {
+template<typename T> void LinkedList<T>::_clear() {
 	Node* element = this->front;
 	Node* next;
-	while (element != this->last) {
+	while (this->length) {
 		next = element->next;
 		delete element;
 		element = next;
 		this->length--;
 	}
 	assert(this->length == 0);
+}
+
+template<typename T> void LinkedList<T>::clear() {
+	this->_clear();
+	this->_reset();
+}
+
+template<typename T> void LinkedList<T>::reset() {
 	this->last = new Node();
+	this->front = new Node();
 }
 
 template<typename T> typename LinkedList<T>::iterator LinkedList<T>::begin() const {
@@ -151,5 +135,49 @@ template<typename T> void LinkedList<T>::push_back(const T& data) {
 	this->front = newest;
 	this->front->next->prev = this->front;
 	this->length++;
+}
+
+template<typename T> LinkedList<T>::iterator::iterator(Node* current) : element(current) {}
+
+template<typename T> bool LinkedList<T>::iterator::operator!=(const iterator& iter) {
+	return this->element != iter.element;
+}
+
+template<typename T> bool LinkedList<T>::iterator::operator==(const iterator& iter) {
+	return !(*this != iter);
+}
+
+template<typename T> typename LinkedList<T>::iterator& LinkedList<T>::iterator::operator++() {
+	this->element = this->element->next;
+	return *this;
+}
+
+template<typename T> typename LinkedList<T>::iterator LinkedList<T>::iterator::operator++(int) {
+	iterator copy(this->element);
+	this->operator++();
+	return copy;
+}
+
+template<typename T> typename LinkedList<T>::iterator& LinkedList<T>::iterator::operator--() {
+	this->element = this->element->prev;
+	return *this;
+}
+
+template<typename T> typename LinkedList<T>::iterator LinkedList<T>::iterator::operator--(int) {
+	iterator copy(this->element);
+	this->operator--();
+	return copy;
+}
+
+template<typename T> typename LinkedList<T>::Node*& LinkedList<T>::iterator::get() {
+	return this->element;
+}
+
+template<typename T> T& LinkedList<T>::iterator::operator->() {
+	return this->element->data;
+}
+
+template<typename T>T& LinkedList<T>::iterator::operator*() {
+	return this->element->data;
 }
 #endif

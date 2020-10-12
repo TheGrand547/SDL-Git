@@ -14,6 +14,7 @@ class GameInstance;
 #include "primitives/Rect.h"
 #include "BoundedPoint.h"
 #include "TextHandler.h"
+//#include "DataStructure.h"
 #include <map>
 #include <memory>
 #include <set>
@@ -43,6 +44,7 @@ class GameInstance {
 		ThingVector drawThings;
 		ThingVector collisionThings;
 
+		//LinkedList<ThingPtr> updateThings;
 		ThingVector updateThings;
 
 		ThingVector movingThings; // List of everything that can change position
