@@ -110,7 +110,7 @@ void Dot::rayCast() {
 	Point newPoint = this->parent->collision.closestPointThatCollidesWith(this->getRay());
 	if (newPoint.isReal()) {
 		Line tempLine = Line(this->getCenter(), newPoint.copy());
-		tempLine.setColorChannels(COLORS::CYAN);
+		tempLine.setColorChannels(Colors::Cyan);
 		tempLine.draw(this->parent->getRenderer());
 	}
 }

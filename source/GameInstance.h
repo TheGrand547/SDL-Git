@@ -14,7 +14,6 @@ class GameInstance;
 #include "primitives/Rect.h"
 #include "BoundedPoint.h"
 #include "TextHandler.h"
-//#include "DataStructure.h"
 #include <map>
 #include <memory>
 #include <set>
@@ -34,23 +33,24 @@ class GameInstance {
 		friend class CollisionHandler;
 		friend class SectorGroup;
 		friend class Dot;
+
 		bool started;
 
 		Renderer renderer;
 		Rect playableArea;
+
 		SDL_Window* window;
 		std::shared_ptr<ThingBase> PLAYER;
+		std::set<ThingBase*, Draw::compare> drawOrder;
+
+		TextHandler text;
+		Timer frameTimer;
+
 		ThingVector allThings;
 		ThingVector drawThings;
 		ThingVector collisionThings;
-
-		//LinkedList<ThingPtr> updateThings;
 		ThingVector updateThings;
-
 		ThingVector movingThings; // List of everything that can change position
-		std::set<ThingBase*, Draw::compare> drawOrder;
-		Timer frameTimer;
-
 		ThingVector remove;
 		void removeThing(const ThingPtr& thing);
 	public:
@@ -79,6 +79,11 @@ class GameInstance {
 			std::shared_ptr<T> value = std::make_shared<T>(args...);
 			this->addThing(value);
 			return value;
+		}
+
+		template<typename T, typename... Args> std::shared_ptr<T> createText(Args... args) {
+			static_assert(std::is_base_of<Text, T>::value, "createText must be templated with a class that derives from Text.");
+			return this->text.createText<T>(args...);
 		}
 };
 

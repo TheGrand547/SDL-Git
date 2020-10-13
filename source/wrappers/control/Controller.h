@@ -1,17 +1,21 @@
 #pragma once
 #ifndef CONTROLLER_H
 #define CONTROLLER_H
-#include<SDL.h>
-#include<SDL2_gfxPrimitives.h>
 #include "../../essential/Configuration.h"
 #include "../../primitives/Point.h"
 #include "../HeldKey.h"
 #include "ButtonCommand.h"
 #include "ControllerCommand.h"
 #include "CommandBase.h"
-#include<map>
-#include<memory>
-#include<vector>
+#include <map>
+#include <memory>
+#include <vector>
+#include <SDL.h>
+#include <SDL2_gfxPrimitives.h>
+
+class GameInstance;
+
+typedef void (*GameCommand)(GameInstance*);
 
 // Class to handle event handling(haha) less messily and with easier functionality to implement new events 
 class Controller {
@@ -26,11 +30,12 @@ class Controller {
 		std::map<int, HeldKey> listeners;
 		
 		std::vector<char> cheatQueue;
-		std::map<std::string, void(*)()> cheatMap;
+		std::map<std::string, GameCommand> cheatMap;
 		
 		Configuration config;
 		const Uint8* keyboard;
 	public:
+		GameInstance* parent; // TODO: Elegance please
 		int mouseX, mouseY;
 		bool quit = false;
 		Controller();
@@ -44,6 +49,6 @@ class Controller {
 		void updateListeners();
 		HeldKey& checkListener(int key);
 		void addPlayerKeys(Point& target);
-		void addCheat(std::string key, void(*func)()); // TODO: Make this not dependent on function pointers
+		void addCheat(std::string key, GameCommand); // TODO: Make this not dependent on function pointers
 };
 #endif

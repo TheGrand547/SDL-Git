@@ -34,8 +34,6 @@ int main(int argc, char* argv[]) {
 	player->setColorChannels((Uint8) 0xFF);
 	Configuration config;
 	GAME.addPlayer(player);
-	TextHandler handler;
-	handler.parent = &GAME;
 
 	LOG("MAKING THINGS");
 
@@ -55,17 +53,19 @@ int main(int argc, char* argv[]) {
 	}
 	Font gFont;
 	std::string foo = "duck dev best dev";
-	std::shared_ptr<AppearingText> ap = handler.createText<AppearingText>(foo, Point(250, 0), 10, COLORS::RED, 300);
+	std::shared_ptr<AppearingText> ap = GAME.createText<AppearingText>(foo, Point(250, 0), 10, Colors::Red, 300);
 	ap->setFont(gFont);
 	Point playerDelta(0, 0);
 	Controller contra;
+	contra.parent = &GAME;
+	contra.addCheat("hell", [](GameInstance* g) {g->createText<AppearingText>("u suck dum dum", Point(250, 100), 10, Colors::Red, 300);});
 	contra.addListener("Ray", 120);
 	contra.addListener("PathReset", 50);
 	contra.addListener("Shoot", 500);
 	contra.addPlayerKeys(playerDelta); // Maybe allow for multiple bindings of the same command somehow? vectors likely? Also remove this dumb fix
-	FpsText fps(gFont, Point(100, 10), COLORS::RED);
+	FpsText fps(gFont, Point(100, 10), Colors::Red);
 	
-	handler.createText<AlertText>("this shouldn't last long", Point(300, 150), COLORS::RED, 20, 2500);
+	GAME.createText<AlertText>("this shouldn't last long", Point(300, 150), Colors::Red, 20, 2500);
 
 	SpriteSheet spriteSheetTest(gRenderer, "resources/bigsprite.png", 50, 50);
 	spriteSheetTest.addAnimation("dumb", 0, 4, 500);
@@ -109,8 +109,7 @@ int main(int argc, char* argv[]) {
 		
 		// Testing stuff
 		spriteSheetTest.draw("dumb", GAME.getTrueRenderer(), {200, 200}, getDirectionFromAngle(player->getAngle()));
-		handler.draw();
-		
+
 		GAME.sectors.drawGroup();
 		fps.draw(GAME.getRenderer());
 		fps.drawFrameTime(GAME.getRenderer());

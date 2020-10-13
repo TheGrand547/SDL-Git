@@ -11,6 +11,7 @@ GameInstance::GameInstance(SDL_Window* window, SDL_Renderer* renderer, BoundedPo
 							playableArea(0, 0, Screen::MAX_WIDTH, Screen::MAX_HEIGHT), window(window), ground(this), 
 							collision(this), sectors(this) {
 	this->frameTimer.start();
+	this->text.parent = this;
 }
 
 GameInstance::~GameInstance() {}
@@ -68,6 +69,7 @@ void GameInstance::draw() {
 	// Draw things
 	this->ground.drawGroup();
 	for (ThingBase* thing: this->drawOrder) thing->draw();
+	this->text.draw();
 }
 
 void GameInstance::finalizeFrame() {

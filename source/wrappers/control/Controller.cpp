@@ -63,10 +63,11 @@ void Controller::handleEvents() {
 		stream.str("");
 		for (uint i = 0; i < this->cheatQueue.size(); i++) {
 			stream << char(tolower(this->cheatQueue[i]));
-			for (std::map<std::string, void(*)()>::iterator iterator = this->cheatMap.begin(); iterator != this->cheatMap.end(); iterator++) {
+			// TODO: Make sure this isn't nearly as stupid as I think it is
+			for (std::map<std::string, GameCommand>::iterator iterator = this->cheatMap.begin(); iterator != this->cheatMap.end(); iterator++) {
 				if (stream.str().find(iterator->first) != std::string::npos) {
 					if (iterator->second != NULL) {
-						iterator->second();
+						iterator->second(this->parent);
 						this->cheatQueue.clear();
 						break;
 					}
@@ -120,6 +121,6 @@ void Controller::addPlayerKeys(Point& target) {
 	this->addButton(config["Down"], std::make_shared<PlayerMoveCommand>(BASIC::PLAYER_DOWN_KEYDOWN, &target));
 }
 
-void Controller::addCheat(std::string key, void(*func)()) {
+void Controller::addCheat(std::string key, void(*func)(GameInstance*)) {
 	this->cheatMap[key] = func;
 }
