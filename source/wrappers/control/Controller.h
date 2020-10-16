@@ -49,6 +49,6 @@ class Controller {
 		void updateListeners();
 		HeldKey& checkListener(int key);
 		void addPlayerKeys(Point& target);
-		void addCheat(std::string key, GameCommand); // TODO: Make this not dependent on function pointers
+		void addCheat(std::string key, GameCommand func); // TODO: Make this not dependent on function pointers
 };
 #endif

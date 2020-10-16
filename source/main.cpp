@@ -18,7 +18,7 @@ int main(int argc, char* argv[]) {
 	SDL_Window* gameWindow = createWindow();
 	SDL_Renderer* gRenderer = createRenderer(gameWindow);
 	// TODO: Put this in a good place
-	BoundedPoint screenPosition = BoundedPoint(Screen::MAX_SCREEN_X_POS, Screen::MAX_SCREEN_Y_POS);
+	BoundedPoint screenPosition = BoundedPoint(Screen::xPositionMax, Screen::yPositionMax);
 	GameInstance GAME(gameWindow, gRenderer, screenPosition);
 	for (int i = 1; i < argc; i++) {
 		if (!strcmp(argv[i], "RAY_CAST_ENABLE")) {
@@ -44,8 +44,8 @@ int main(int argc, char* argv[]) {
 	std::shared_ptr<BadTest> heck = GAME.createThing<BadTest>(BAD_POINT);
 	GAME.gameState["verbose"] = 1;
 	// TODO: Add to analyzer
-	for (int x = 0; x <= Screen::MAX_WIDTH + 100; x += 25) {
-		for (int y = 0; y <= Screen::MAX_HEIGHT + 100; y += 25) {
+	for (int x = 0; x <= Screen::maxWidth + 100; x += 25) {
+		for (int y = 0; y <= Screen::maxWidth + 100; y += 25) {
 			if (x % 100 == 0 && y % 100 == 0) {
 				GAME.ground.add(Point(x, y), "resources/grass.png");
 			}
@@ -88,7 +88,7 @@ int main(int argc, char* argv[]) {
 		contra.handleEvents();
 		player->velocityDelta(playerDelta); // Update player
 		GAME.update();
-		/* Drawing */
+		// Drawing
 		GAME.draw();
 		if (!GAME.gameState["RAY_CAST"] && contra.checkListener(config["Ray"]).getHeld()) { // Raycasting
 			player->rayCast();
@@ -123,7 +123,7 @@ int main(int argc, char* argv[]) {
 
 bool init() {
 	bool success = true;
-	//Initialize SDL
+	// Initialize SDL
 	if(SDL_Init(SDL_INIT_EVERYTHING) < 0) {
 		LOG("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
 		success = false;
@@ -137,8 +137,8 @@ bool init() {
 }
 
 SDL_Window* createWindow() {
-	return SDL_CreateWindow(Screen::WINDOW_TITLE.c_str(), Screen::DEFAULT_POS, Screen::DEFAULT_POS, Screen::SCREEN_WIDTH, 
-							Screen::SCREEN_HEIGHT, Screen::WINDOW_ARGUMENTS);
+	return SDL_CreateWindow(Screen::title.c_str(), Screen::defaultPos, Screen::defaultPos, Screen::width, 
+							Screen::height, Screen::arguments);
 }
 
 SDL_Renderer* createRenderer(SDL_Window*& window) {

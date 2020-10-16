@@ -121,6 +121,6 @@ void Controller::addPlayerKeys(Point& target) {
 	this->addButton(config["Down"], std::make_shared<PlayerMoveCommand>(BASIC::PLAYER_DOWN_KEYDOWN, &target));
 }
 
-void Controller::addCheat(std::string key, void(*func)(GameInstance*)) {
+void Controller::addCheat(std::string key, GameCommand func) {
 	this->cheatMap[key] = func;
 }

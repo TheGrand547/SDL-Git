@@ -25,7 +25,8 @@ enum ENTITY_DIRECTION {
 	RIGHT, UP_RIGHT, UP, UP_LEFT, LEFT, DOWN_LEFT, DOWN, DOWN_RIGHT
 };
 
-ENTITY_DIRECTION getDirectionFromAngle(const double angle);
+double getAngleFromDirection(const ENTITY_DIRECTION& direction);
+ENTITY_DIRECTION getDirectionFromAngle(double angle);
 
 class GameInstance;
 
@@ -36,6 +37,7 @@ class ThingBase : public std::enable_shared_from_this<ThingBase> {
 		Point position;
 		std::vector<ThingPtr> myThings;
 		ThingBase* owner; // For whatever you need to have it do
+		const std::size_t hashValue;
 		virtual void pingInternal([[maybe_unused]] const std::string& info = "", [[maybe_unused]] const double& data = 0.0);
 	public:
 		GameInstance* parent;
@@ -55,7 +57,7 @@ class ThingBase : public std::enable_shared_from_this<ThingBase> {
 		virtual Point collideLine(const Line& ray) const = 0;
 		virtual Point getPosition() const = 0;
 		virtual Rect getBoundingRect() const = 0;
-		virtual std::size_t hash() const; // TODO: make this pure virtual
+		virtual std::size_t hash() const;
 		virtual std::vector<ThingPtr>& getMyThings();
 		virtual void draw() = 0;
 		virtual void update();

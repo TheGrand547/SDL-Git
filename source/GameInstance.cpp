@@ -8,7 +8,7 @@ bool Draw::compare::operator()(const ThingBase* lhs, const ThingBase* rhs) const
 }
 
 GameInstance::GameInstance(SDL_Window* window, SDL_Renderer* renderer, BoundedPoint offset) : started(false), renderer({offset, renderer}), 
-							playableArea(0, 0, Screen::MAX_WIDTH, Screen::MAX_HEIGHT), window(window), ground(this), 
+							playableArea(0, 0, Screen::maxWidth, Screen::maxHeight), window(window), ground(this), 
 							collision(this), sectors(this) {
 	this->frameTimer.start();
 	this->text.parent = this;
@@ -61,10 +61,10 @@ void GameInstance::addPlayer(const std::shared_ptr<ThingBase>& thing) {
 
 void GameInstance::draw() {
 	// Update screen position before drawing is done
-	if (this->getPlayer()->getPosition().x < Screen::SCREEN_WIDTH / 2) this->renderer.offset.x = 0;
-	if (this->getPlayer()->getPosition().y < Screen::SCREEN_HEIGHT / 2) this->renderer.offset.y = 0;
-	if (this->getPlayer()->getPosition().x > Screen::MAX_X_SCROLL_DISTANCE) this->renderer.offset.x = Screen::MAX_SCREEN_X_POS;
-	if (this->getPlayer()->getPosition().y > Screen::MAX_Y_SCROLL_DISTANCE) this->renderer.offset.y = Screen::MAX_SCREEN_Y_POS;
+	if (this->getPlayer()->getPosition().x < Screen::width / 2) this->renderer.offset.x = 0;
+	if (this->getPlayer()->getPosition().y < Screen::height / 2) this->renderer.offset.y = 0;
+	if (this->getPlayer()->getPosition().x > Screen::xScrollMax) this->renderer.offset.x = Screen::xScrollMax;
+	if (this->getPlayer()->getPosition().y > Screen::yScrollMax) this->renderer.offset.y = Screen::yScrollMax;
 
 	// Draw things
 	this->ground.drawGroup();

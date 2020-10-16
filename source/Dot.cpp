@@ -3,17 +3,17 @@
 
 Dot::Dot(Point startingCoordinate) : EntityBase(DRAW | MOVEABLE) {
 	this->surface.load("resources/cat.jpg");
-	this->surface.scale(Player::PLAYER_X_DIMENSION, Player::PLAYER_Y_DIMENSION);
+	this->surface.scale(Player::xDimension, Player::yDimension);
 	this->lastDelta = startingCoordinate;
 	this->setMaxVelocity(200); // Per second
 	this->setFriction(10);
-	this->position = BoundedPoint(startingCoordinate, Screen::MAX_WIDTH - Player::PLAYER_X_DIMENSION, Screen::MAX_HEIGHT - Player::PLAYER_Y_DIMENSION);
+	this->position = BoundedPoint(startingCoordinate, Screen::maxWidth - Player::xDimension, Screen::maxHeight - Player::yDimension);
 }
 
 Dot::~Dot() {}
 
 Point Dot::getCenter() {
-	return this->position + (Point(Player::PLAYER_X_DIMENSION, Player::PLAYER_Y_DIMENSION) / 2);
+	return this->position + (Point(Player::xDimension, Player::yDimension) / 2);
 }
 
 bool Dot::overlap(const Polygon& other) const {
@@ -43,12 +43,12 @@ Point Dot::getPosition() const {
 
 Line Dot::getRay() {
 	Point temp = Point(this->getCenter());
-	temp += Point(Player::PLAYER_RAY_CAST_LENGTH * cos(this->angle), Player::PLAYER_RAY_CAST_LENGTH * sin(this->angle));
+	temp += Player::rayCastLength * Point::vectorFromAngle(this->angle);
 	return Line(this->getCenter(), temp);
 }
 
 Rect Dot::getBoundingRect() const {
-	return Rect(this->position, Player::PLAYER_X_DIMENSION, Player::PLAYER_Y_DIMENSION);
+	return Rect(this->position, Player::xDimension, Player::yDimension);
 }
 
 Point Dot::collideLine(const Line& ray) const {
@@ -116,7 +116,8 @@ void Dot::rayCast() {
 }
 
 void Dot::shoot() {
-	ThingPtr thing = this->parent->createThing<BasicBullet>(this->getBoundingRect().getCenter(), this->angle, 500);
+	double ang = (((((int) (this->angle * 180.0 / M_PI)) / 45) * 45) * M_PI / 180.0);
+	ThingPtr thing = this->parent->createThing<BasicBullet>(this->getBoundingRect().getCenter(), ang, 500);
 	this->myThings.push_back(thing);
 	thing->setOwner(this);
 }

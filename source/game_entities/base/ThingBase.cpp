@@ -1,7 +1,8 @@
 #include "ThingBase.h"
 #include "../../GameInstance.h"
 
-ThingBase::ThingBase(int flags) : absoluteFlags(flags), flags(flags), owner(NULL), parent(NULL) {}
+ThingBase::ThingBase(int flags) : absoluteFlags(flags), flags(flags), owner(NULL),
+									hashValue(((long long) this) >> ((SDL_GetTicks() % 5) * 4) % 7), parent(NULL) {}
 
 ThingBase::~ThingBase() {}
 
@@ -18,7 +19,7 @@ bool ThingBase::isAlive() const {
 }
 
 std::size_t ThingBase::hash() const {
-	return ((long long) this) >> 5;
+	return this->hashValue;
 }
 
 std::vector<ThingPtr>& ThingBase::getMyThings() {
@@ -27,8 +28,8 @@ std::vector<ThingPtr>& ThingBase::getMyThings() {
 
 void ThingBase::ping(const std::string& info, const double& data) {
 	Point p = this->getPosition();
-	logTimeNow();
-	printf("[PingLog] %p at (%.2f, %.2f) pinged with message '%s' and the data of '%.3f'\n", (void*) this, p.x, p.y, info.c_str(), data);
+	logFormat(__FILE__, __PRETTY_FUNCTION__, "Ping", __LINE__);
+	printf("%p at (%.2f, %.2f) pinged with message '%s' and the data of '%.3f'\n", (void*) this, p.x, p.y, info.c_str(), data);
 	fflush(stdout);
 	this->pingInternal(info, data);
 }
@@ -52,6 +53,36 @@ void ThingBase::unsetFlag(ENTITY_FLAG flag) {
 }
 
 void ThingBase::update() {}
+
+double getAngleFromDirection(const ENTITY_DIRECTION& direction) {
+	double angle = 0;
+	switch (direction) {
+		case RIGHT:
+			break;
+		case UP_RIGHT: 
+			angle = M_PI_4;
+			break;
+		case UP:
+			angle = M_PI_2;
+			break;
+		case UP_LEFT:
+			angle = M_PI_2 + M_PI_4;
+			break;
+		case LEFT:
+			angle = M_PI;
+			break;
+		case DOWN_LEFT:
+			angle = M_PI + M_PI_4;
+			break;
+		case DOWN:
+			angle = M_PI + M_PI_2;
+			break;
+		case DOWN_RIGHT:
+			angle = M_PI + M_PI_2 + M_PI_4;
+			break;
+	}
+	return angle;
+}
 
 ENTITY_DIRECTION getDirectionFromAngle(double angle) {
 	while (angle < 0 || angle > 2 * M_PI) {

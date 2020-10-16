@@ -7,7 +7,7 @@ void logTimeNow() {
 	printf("[%02i:%02i:%02i:%03i]", ltm->tm_hour, ltm->tm_min, ltm->tm_sec, millis);
 }
 
-void logFormat(const char* file, const char* function, int line) {
+void logFormat(const char* file, const char* function, const char* type, int line) {
 	logTimeNow();
-	printf("[%s][%s] Line %i: ", file, function, line);
+	printf("[%s][%s][%s] Line %i: ", type, file, function, line);
 }
