@@ -35,6 +35,7 @@ class PixelMod {
 		Pixel getPixel(int index);
 		Pixel getPixel(int x, int y);
 		Uint32& at(int x, int y);
+		Uint32& ghostAt(int x, int y);
 		Uint32& operator[](const int index);
 		Uint32 mapRGBA(const Uint8 r, const Uint8 g, const Uint8 b, const Uint8 a = 0xFF) const;
 };

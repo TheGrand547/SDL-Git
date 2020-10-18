@@ -1,5 +1,6 @@
 #include "Surface.h"
 #include "PixelMod.h"
+#include "../essential/random.h"
 
 // Stupid macro
 #define CHECK if (this->locked) LOG("Attempting to modify a locked surface!"); \
@@ -265,7 +266,7 @@ void Surface::fillRects(std::vector<Rect>& vec, const Uint32& color) {
 // ------------ Non Essential Extras --------------
 // ------------------------------------------------
 
-void Surface::bilateralFilter(double valI, double valS, const int kernelSize, int xStart, int yStart, int width, int height) {
+void Surface::bilateralFilter(const double valI, const double valS, const int kernelSize, int xStart, int yStart, int width, int height) {
 	CHECK;
 	if (kernelSize % 2 == 0) {
 		LOG("KernalSize MUST be odd.");
@@ -282,10 +283,8 @@ void Surface::bilateralFilter(double valI, double valS, const int kernelSize, in
 	int half = kernelSize / 2;
 	if (width == 0) width = mod.width();
 	if (height == 0) height = mod.height();
-	if (xStart == -1) xStart = kernelSize / 2;
-	if (yStart == -1) yStart = kernelSize / 2;
-	for (int x = xStart; x - xStart < width; x++) {
-		for (int y = yStart; y - yStart < height; y++) {
+	for (int x = xStart; x + half < width; x++) {
+		for (int y = yStart; y + half < height; y++) {
 			// For each pixel apply the filter
 			double totalR(0), totalG(0), totalB(0);
 			double weightR(0), weightG(0), weightB(0);
@@ -312,12 +311,12 @@ void Surface::bilateralFilter(double valI, double valS, const int kernelSize, in
 					weightB += deltaB;
 				}
 			}
-			mod.getPixel(x, y).red() = totalR / weightR;
-			mod.getPixel(x, y).green() = totalG / weightG;
-			mod.getPixel(x, y).blue() = totalB / weightB;
+			Pixel pf = mod.getPixel(x, y);
+			pf.red() = totalR / weightR;
+			pf.green() = totalG / weightG;
+			pf.blue() = totalB / weightB;
 		}
 	}
-
 	#ifndef NDEBUG
 	LOG("Filter Time: %i", (int) SDL_GetTicks() - start);
 	#endif

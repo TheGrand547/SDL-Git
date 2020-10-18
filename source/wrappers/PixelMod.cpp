@@ -83,13 +83,30 @@ Uint32& PixelMod::operator[](const int index) {
 }
 
 Uint32& PixelMod::at(int x, int y) {
-	if (x < 0 || x > (this->width() - 1) || y < 0 || y > (this->height() - 1)) {
+	if (x < 0 || (x > (this->width() - 1)) || y < 0 || (y > (this->height() - 1))) {
 		// If the requested position is outside of the array return a blank pixel with no data in it
 		if (this->edges) {
-			if (x < 0) x += this->width();
-			if (y < 0) y += this->height();
-			if (x > this->width() - 1) x -= this->width();
-			if (y > this->height() - 1) y -= this->height();
+			if (x < 0) x += this->_width;
+			if (y < 0) y += this->_height;
+			if (x > this->_width - 1) x -= this->_width;
+			if (y > this->_height - 1) y -= this->_height;
+			return this->at(x, y);
+		}
+		this->UGLY = 0x00000000; // Reset the UGLY value
+		return this->UGLY;
+	}
+	// SWAPPING y * width for y * height creates absurdly amazing ghost effect
+	return this->pixels[x + (y * this->width())];
+}
+
+Uint32& PixelMod::ghostAt(int x, int y) {
+	if (x < 0 || (x > (this->width() - 1)) || y < 0 || (y > (this->height() - 1))) {
+		// If the requested position is outside of the array return a blank pixel with no data in it
+		if (this->edges) {
+			if (x < 0) x += this->_width;
+			if (y < 0) y += this->_height;
+			if (x > this->_width - 1) x -= this->_width;
+			if (y > this->_height - 1) y -= this->_height;
 			return this->at(x, y);
 		}
 		this->UGLY = 0x00000000; // Reset the UGLY value

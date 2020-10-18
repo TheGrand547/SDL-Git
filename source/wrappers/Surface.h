@@ -59,7 +59,7 @@ class Surface {
 		
 		// Filters
 		void bilateralFilter(const double valI, const double valS, const int kernelSize = 5, 
-		        int xStart = -1, int yStart = -1, int width = 0, int height = 0);
+		        int xStart = 0, int yStart = 0, int width = 0, int height = 0);
 		void dither();
 		void floatyEdges();
 		void limitPalette();

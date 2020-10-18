@@ -22,9 +22,7 @@ Pixel::Pixel(const Pixel& that) : position(that.position), format(that.format), 
 
 Pixel::~Pixel() {
 	// When the object goes out of scope, apply changes
-	if (this->original != NULL) {
-		*this->original = SDL_MapRGBA(this->format, this->r, this->g, this->b, this->a); 
-	}
+	this->update();
 }
 
 Pixel& Pixel::operator=(const Uint32& other) {

@@ -78,6 +78,11 @@ int main(int argc, char* argv[]) {
 
 	std::shared_ptr<FootSteps> foots = GAME.createThing<FootSteps>();
 
+	Surface surf;
+	surf.load("resources/missingTexture.jpg");
+	//surf.limitPalette();
+	surf.bilateralFilter(50, 10, 5);
+	surf.limitPalette();
 	GAME.instanceBegin();
 	// TODO: Do more testing on pathfinding
 	foodd->mine.createPath(GAME.sectors[3], GAME.sectors[0]);
@@ -113,6 +118,7 @@ int main(int argc, char* argv[]) {
 		GAME.sectors.drawGroup();
 		fps.draw(GAME.getRenderer());
 		fps.drawFrameTime(GAME.getRenderer());
+		surf.draw(gRenderer, Point(0,0));
 		GAME.finalizeFrame();
 	}
 	LOG("Section: End of Program");

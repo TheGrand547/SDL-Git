@@ -349,7 +349,7 @@ void Texture::testFilter() {
 }
 
 // This sucks please ignore
-void Texture::bilateralFilter(double valI, double valS, const int kernelSize, int xStart, int yStart, int width, int height) {
+void Texture::bilateralFilter(const double valI, const double valS, const int kernelSize, int xStart, int yStart, int width, int height) {
 	if (this->texture == NULL) return;
 	PixelMod mod(this->texture, true);
 	if (mod.notLocked()) return;
@@ -357,12 +357,11 @@ void Texture::bilateralFilter(double valI, double valS, const int kernelSize, in
 	#ifndef NDEBUG
 	Uint32 start = SDL_GetTicks();
 	#endif
-	
 	int half = kernelSize / 2;
 	if (width == 0) width = mod.width();
 	if (height == 0) height = mod.height();
-	if (xStart == -1) xStart = kernelSize / 2;
-	if (yStart == -1) yStart = kernelSize / 2;
+	if (xStart == -1) xStart = half;
+	if (yStart == -1) yStart = half;
 	for (int x = xStart; x - xStart < width; x++) {
 		for (int y = yStart; y - yStart < height; y++) {
 			// For each pixel apply the filter
