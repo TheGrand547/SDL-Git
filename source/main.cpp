@@ -63,7 +63,6 @@ int main(int argc, char* argv[]) {
 	contra.addListener("PathReset", 50);
 	contra.addListener("Shoot", 500);
 	contra.addPlayerKeys(playerDelta); // Maybe allow for multiple bindings of the same command somehow? vectors likely? Also remove this dumb fix
-	FpsText fps(gFont, Point(100, 10), Colors::Red);
 	
 	GAME.createText<AlertText>("this shouldn't last long", Point(300, 150), Colors::Red, 20, 2500);
 
@@ -71,18 +70,12 @@ int main(int argc, char* argv[]) {
 	spriteSheetTest.addAnimation("dumb", 0, 4, 500);
 
 	std::shared_ptr<SectorPathFollower> foodd = GAME.createThing<SectorPathFollower>(Rect(GAME.sectors[3]->structure().getCenter(), 25, 25));
-	//std::shared_ptr<BasicBullet> bb = GAME.createThing<BasicBullet>(Point(100, 100));
 
 	SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
 	SDL_RenderClear(gRenderer);
 
 	std::shared_ptr<FootSteps> foots = GAME.createThing<FootSteps>();
-
-	Surface surf;
-	surf.load("resources/missingTexture.jpg");
-	//surf.limitPalette();
-	surf.bilateralFilter(50, 10, 5);
-	surf.limitPalette();
+	std::shared_ptr<FpsText> fps = GAME.createText<FpsText>(gFont, Point(100, 10), Colors::Red);
 	GAME.instanceBegin();
 	// TODO: Do more testing on pathfinding
 	foodd->mine.createPath(GAME.sectors[3], GAME.sectors[0]);
@@ -95,6 +88,8 @@ int main(int argc, char* argv[]) {
 		GAME.update();
 		// Drawing
 		GAME.draw();
+
+		// Player actions outside of movement
 		if (!GAME.gameState["RAY_CAST"] && contra.checkListener(config["Ray"]).getHeld()) { // Raycasting
 			player->rayCast();
 		}
@@ -112,13 +107,13 @@ int main(int argc, char* argv[]) {
 			contra.checkListener(config["Shoot"]).reset();
 		}
 		
-		// Testing stuff
+		// Misc testing
 		spriteSheetTest.draw("dumb", GAME.getTrueRenderer(), {200, 200}, getDirectionFromAngle(player->getAngle()));
 
-		GAME.sectors.drawGroup();
-		fps.draw(GAME.getRenderer());
-		fps.drawFrameTime(GAME.getRenderer());
-		surf.draw(gRenderer, Point(0,0));
+		// For debug help
+		fps->drawFrameTime(GAME.getRenderer());
+
+		// Does what it says on the tin
 		GAME.finalizeFrame();
 	}
 	LOG("Section: End of Program");

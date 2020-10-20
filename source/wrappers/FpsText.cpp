@@ -11,6 +11,10 @@ FpsText::FpsText(Font& font, Point position, SDL_Color color) : position(positio
 
 FpsText::~FpsText() {}
 
+bool FpsText::finished() const {
+	return false;
+}
+
 double FpsText::getFps() const {
 	return this->fpsTimer.getFps();
 }
