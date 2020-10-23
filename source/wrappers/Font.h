@@ -14,10 +14,9 @@ class Font {
 		TTF_Font* font;
 		std::string name;
 	public:
-		Font(int size = 20, const std::string& filename = "resources/font.ttf");
+		Font(int size = 20, const std::string& filename = "resources/fonts/default.ttf");
 		Font(const Font& font);
 		Font(Font&& font);
-		// TODO: COPY CONSTRUCTOR
 		~Font();
 		Font& operator=(const Font& font);
 		Font& operator=(Font&& font);

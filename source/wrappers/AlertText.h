@@ -19,7 +19,8 @@ class AlertText : public Text {
 		std::string message;
 		Timer timer;
 	public:
-		AlertText(const std::string& text, Point position, SDL_Color color, int textSize = 20, int ms = 1000, const std::string& filename = "resources/font.ttf");
+		AlertText(const std::string& text, Point position, SDL_Color color, int ms);
+		AlertText(const std::string& text, Point position, SDL_Color color, int ms, Font& font);
 		~AlertText();
 		bool finished() const override;
 		void draw(Renderer renderer) override;

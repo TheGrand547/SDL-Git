@@ -1,6 +1,6 @@
 #include "Font.h"
 
-Font::Font(int size, const std::string& name) : size(size), name(name) {
+Font::Font(int size, const std::string& name) : font(NULL) {
 	this->loadFont(size, name);
 }
 
@@ -8,8 +8,8 @@ Font::~Font() {
 	this->closeFont();
 }
 
-Font::Font(const Font& font) : size(font.size), name(font.name) {
-	this->loadFont(this->size, this->name);
+Font::Font(const Font& font) : font(NULL) {
+	this->loadFont(font.size, font.name);
 }
 
 Font::Font(Font&& font) : size(font.size), font(font.font), name(font.name) {
@@ -20,11 +20,7 @@ Font::Font(Font&& font) : size(font.size), font(font.font), name(font.name) {
 
 Font& Font::operator=(const Font& font) {
 	if (this != &font) {
-		this->closeFont();
-		this->name = font.name;
-		this->size = font.size;
-		if (!strcmp(this->name.c_str(), "resources/font.ttf")) this->font = TTF_OpenFont("resources/font.ttf", font.size);
-		else this->font = TTF_OpenFont(font.name.c_str(), font.size);
+		this->loadFont(font.size, font.name);
 	}
 	return *this;
 }
@@ -48,10 +44,7 @@ void Font::closeFont() {
 }
 
 void Font::drawText(Point position, const std::string& text, SDL_Renderer* renderer, SDL_Color color, int maxWidth, SDL_COPY_EX_ARGS) {
-	if (!this->font) {
-        LOG("TTF_OpenFont: %s\n", TTF_GetError());
-        return;
-	}
+	if (!this->font) return;
 	SDL_Surface* surface;
 	if (maxWidth == -1) surface = TTF_RenderText_Blended(font, text.c_str(), color);
 	else surface = TTF_RenderText_Blended_Wrapped(font, text.c_str(), color, maxWidth);
@@ -67,6 +60,7 @@ void Font::drawText(Point position, const std::string& text, SDL_Renderer* rende
 }
 
 void Font::loadFont(int size, const std::string& name) {
+	this->closeFont();
 	this->name = name;
 	this->size = size;
 	this->font = TTF_OpenFont(this->name.c_str(), size);

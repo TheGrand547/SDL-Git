@@ -2,7 +2,7 @@
 #include "game_entities/BasicBullet.h"
 
 Dot::Dot(Point startingCoordinate) : EntityBase(DRAW | MOVEABLE) {
-	this->surface.load("resources/cat.jpg");
+	this->surface.load("resources/images/cat.jpg");
 	this->surface.scale(Player::xDimension, Player::yDimension);
 	this->lastDelta = startingCoordinate;
 	this->setMaxVelocity(200); // Per second

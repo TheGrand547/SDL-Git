@@ -39,7 +39,7 @@ Rect SectorPathFollower::getBoundingRect() const {
 
 void SectorPathFollower::draw() {
 	if (!this->texture.isLoaded()) {
-		this->texture.load("resources/temp.png");
+		this->texture.load("resources/images/temp.png");
 		this->texture.scale(this->box.getWidth(), this->box.getHeight());
 	}
 	this->mine.draw();

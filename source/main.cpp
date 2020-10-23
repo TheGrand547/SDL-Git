@@ -47,7 +47,7 @@ int main(int argc, char* argv[]) {
 	for (int x = 0; x <= Screen::maxWidth + 100; x += 25) {
 		for (int y = 0; y <= Screen::maxWidth + 100; y += 25) {
 			if (x % 100 == 0 && y % 100 == 0) {
-				GAME.ground.add(Point(x, y), "resources/grass.png");
+				GAME.ground.add(Point(x, y), "resources/images/grass.png");
 			}
 		}
 	}
@@ -58,15 +58,15 @@ int main(int argc, char* argv[]) {
 	Point playerDelta(0, 0);
 	Controller contra;
 	contra.parent = &GAME;
-	contra.addCheat("hell", [](GameInstance* g) {g->createText<AppearingText>("u suck dum dum", Point(250, 100), 10, Colors::Red, 300);});
+	contra.addCheat("hell", [](GameInstance* g) {g->createText<AppearingText>("u suck dum dum", Point(250, 100), 5, Colors::Red, 300);});
 	contra.addListener("Ray", 120);
 	contra.addListener("PathReset", 50);
 	contra.addListener("Shoot", 500);
 	contra.addPlayerKeys(playerDelta); // Maybe allow for multiple bindings of the same command somehow? vectors likely? Also remove this dumb fix
 	
-	GAME.createText<AlertText>("this shouldn't last long", Point(300, 150), Colors::Red, 20, 2500);
+	GAME.createText<AlertText>("this shouldn't last long", Point(300, 150), Colors::Red, 2500);
 
-	SpriteSheet spriteSheetTest(gRenderer, "resources/bigsprite.png", 50, 50);
+	SpriteSheet spriteSheetTest(gRenderer, "resources/images/bigsprite.png", 50, 50);
 	spriteSheetTest.addAnimation("dumb", 0, 4, 500);
 
 	std::shared_ptr<SectorPathFollower> foodd = GAME.createThing<SectorPathFollower>(Rect(GAME.sectors[3]->structure().getCenter(), 25, 25));
