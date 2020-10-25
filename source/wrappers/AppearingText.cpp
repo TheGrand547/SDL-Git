@@ -2,8 +2,18 @@
 #include <sstream>
 #include <string>
 
-AppearingText::AppearingText(std::string text, Point position, double lettersPerSecond, SDL_Color color, int charWrap, int startingIndex) : 
+AppearingText::AppearingText(const std::string& text, Point position, double lettersPerSecond, SDL_Color color, int charWrap, int startingIndex) : 
 							charWrap(charWrap), leftOver(0), ticksPerLetter(1000 / lettersPerSecond), position(position), color(color), text(text), index(startingIndex) {
+}
+
+AppearingText::AppearingText(const std::string& text, Point position, double lettersPerSecond, SDL_Color color, int charWrap, int startingIndex, const Font& font) : 
+							charWrap(charWrap), leftOver(0), ticksPerLetter(1000 / lettersPerSecond), position(position), color(color), text(text), index(startingIndex) {
+	this->font = font;
+}
+
+AppearingText::AppearingText(const std::string& text, Point position, double lettersPerSecond, SDL_Color color, int charWrap, int startingIndex, Font&& font) : 
+							charWrap(charWrap), leftOver(0), ticksPerLetter(1000 / lettersPerSecond), position(position), color(color), text(text), index(startingIndex) {
+	this->font = std::forward<Font>(font);
 }
 
 AppearingText::~AppearingText() {}

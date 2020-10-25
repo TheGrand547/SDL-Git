@@ -20,7 +20,9 @@ class AppearingText : public Text {
 		Timer timer;
 		Uint index;
 	public:
-		AppearingText(std::string text, Point position, double lettersPerSecond, SDL_Color color, int charWrap = -1, int startingIndex = 0);
+		AppearingText(const std::string& text, Point position, double lettersPerSecond, SDL_Color color, int charWrap = -1, int startingIndex = 0);
+		AppearingText(const std::string& text, Point position, double lettersPerSecond, SDL_Color color, int charWrap, int startingIndex, const Font& font);
+		AppearingText(const std::string& text, Point position, double lettersPerSecond, SDL_Color color, int charWrap, int startingIndex, Font&& font);
 		~AppearingText();
 		bool finished() const override;
 		void draw(Renderer renderer) override;

@@ -1,11 +1,16 @@
 #include "AlertText.h"
 
 AlertText::AlertText(const std::string& text, Point position, SDL_Color color, int ms) : 
-					done(false), duration(ms), position(position), color(color), message(text) {}
-					
-AlertText::AlertText(const std::string& text, Point position, SDL_Color color, int ms, Font& font) : 
-					done(false), duration(ms), position(position), color(color), message(text) {
+					done(false), position(position), color(color), message(text), duration(ms) {}
+
+AlertText::AlertText(const std::string& text, Point position, SDL_Color color, int ms, const Font& font) : 
+					done(false), position(position), color(color), message(text), duration(ms) {
 	this->font = font;
+}
+
+AlertText::AlertText(const std::string& text, Point position, SDL_Color color, int ms, Font&& font) : 
+					done(false), position(position), color(color), message(text), duration(ms) {
+	this->font = std::forward<Font>(font);
 }
 
 AlertText::~AlertText() {}

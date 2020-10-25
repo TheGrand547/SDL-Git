@@ -21,12 +21,8 @@ int main(int argc, char* argv[]) {
 	BoundedPoint screenPosition = BoundedPoint(Screen::xPositionMax, Screen::yPositionMax);
 	GameInstance GAME(gameWindow, gRenderer, screenPosition);
 	for (int i = 1; i < argc; i++) {
-		if (!strcmp(argv[i], "RAY_CAST_ENABLE")) {
-			GAME.gameState["RAY_CAST"] = 1;
-		}
-		if (!strcmp(argv[i], "-uncappedfps")) {
-			GAME.gameState["cv_capped_fps"] = 1;
-		}
+		if (!strcmp(argv[i], "RAY_CAST_ENABLE")) GAME.gameState["RAY_CAST"] = 1;
+		if (!strcmp(argv[i], "-uncappedfps")) GAME.gameState["cv_capped_fps"] = 1;
 	}
 
 	srand(time(NULL));
