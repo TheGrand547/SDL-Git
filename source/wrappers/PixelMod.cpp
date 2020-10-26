@@ -1,4 +1,5 @@
 #include "PixelMod.h"
+#include "../essential/log.h"
 
 PixelMod::PixelMod(const Surface& surface, bool wrapEdges) : edges(wrapEdges), isSurface(true), surface(surface.surface) {
 	if ((this->locked = SDL_MUSTLOCK(surface.surface)) && SDL_LockSurface(this->surface)) {

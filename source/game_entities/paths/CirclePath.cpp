@@ -1,4 +1,6 @@
 #include "CirclePath.h"
+#include <math.h>
+
 
 CirclePath::CirclePath() : Path(), outsideMult(0), periodModify(0), maxTicks(0), plot(0), startingMaxTicks(0), startingTicks(0) {
 	this->ticksDone = 0;

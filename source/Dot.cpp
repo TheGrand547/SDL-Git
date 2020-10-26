@@ -1,5 +1,9 @@
 #include "Dot.h"
+#include "essential/constants.h"
+#include "essential/util.h"
 #include "game_entities/BasicBullet.h"
+#include "GameInstance.h"
+#include "PositionLock.h"
 
 Dot::Dot(Point startingCoordinate) : EntityBase(DRAW | MOVEABLE) {
 	this->surface.load("resources/images/cat.jpg");

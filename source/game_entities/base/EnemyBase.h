@@ -1,15 +1,11 @@
 #pragma once
 #ifndef ENEMY_BASE_H
 #define ENEMY_BASE_H
-#include "../../essential/constants.h"
-#include "../../primitives/Vector.h"
 #include "../../wrappers/MovementWrapper.h"
 #include "../../wrappers/Texture.h"
 #include "../../wrappers/Timer.h"
-#include "../../Dot.h"
-#include <cmath>
+#include "ThingBase.h"
 #include <memory>
-#include <SDL2/SDL.h>
 #include <vector>
 
 class EnemyBase : public ThingBase {

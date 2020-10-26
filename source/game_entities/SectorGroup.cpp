@@ -1,6 +1,9 @@
 #include "SectorGroup.h"
+#include "../essential/misc.h"
 #include "../GameInstance.h"
 #include "CollisionHandler.h"
+
+#include <utility>
 
 typedef std::shared_ptr<SectorBase> SectorPtr;
 typedef std::weak_ptr<SectorBase> WeakSectorPtr;

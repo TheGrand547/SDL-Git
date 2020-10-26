@@ -1,10 +1,8 @@
 #pragma once
 #ifndef SECTOR_PATH_H
 #define SECTOR_PATH_H
-#include "Sector.h"
 #include "base/ThingBase.h"
-#include "../essential/random.h"
-#include "../GameInstance.h"
+#include "Sector.h"
 #include <memory>
 #include <vector>
 

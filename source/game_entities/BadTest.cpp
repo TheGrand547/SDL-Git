@@ -1,4 +1,13 @@
 #include "BadTest.h"
+#include "../essential/misc.h"
+#include "../wrappers/Timer.h"
+#include "../wrappers/Texture.h"
+#include "../GameInstance.h"
+#include "paths/CirclePath.h"
+#include "paths/LinePath.h"
+#include "paths/ZeroRadiusTurnPath.h"
+#include <math.h>
+#include <SDL.h>
 
 BadTest::BadTest(Point position) : EnemyBase(position, DRAW | MOVEABLE) {
 	this->maxVelocity = 150;

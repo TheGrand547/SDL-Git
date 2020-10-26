@@ -1,8 +1,8 @@
 #pragma once
 #ifndef COLOR_H
 #define COLOR_H
-#include<iostream>
-#include<SDL2/SDL.h>
+#include <iostream>
+#include <SDL.h>
 
 typedef uint8_t Uint8;
 typedef uint32_t Uint32;

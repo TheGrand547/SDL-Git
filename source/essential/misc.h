@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <utility>
 #include <vector>
-/* Misc functions with no dependencies */
+// Misc functions with no dependencies
 
 #define ROUNDING 0.000001
 

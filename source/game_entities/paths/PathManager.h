@@ -1,4 +1,6 @@
 #pragma once
+#ifndef PATH_MANAGER_H
+#define PATH_MANAGER_H
 #include "../base/EnemyBase.h"
 #include "Path.h"
 #include <memory>
@@ -23,3 +25,4 @@ class PathManager {
 		void unpause();
 		void update();
 };
+#endif

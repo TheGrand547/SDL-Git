@@ -1,17 +1,9 @@
 #pragma once
 #ifndef TEXTURE_H
 #define TEXTURE_H
-#include "../essential/constants.h"
-#include "../essential/log.h"
-#include "../essential/random.h"
-#include "../essential/SDLUtil.h"
 #include "../essential/SDL_Headers.h"
 #include "../primitives/Point.h"
 #include "../primitives/Rect.h"
-#include <iostream>
-#include <SDL.h>
-#include <SDL_image.h>
-#include <SDL2_rotozoom.h>
 
 // There is no reason for most users to directly access this
 class Texture {

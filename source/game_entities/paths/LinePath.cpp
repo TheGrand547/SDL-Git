@@ -1,4 +1,5 @@
 #include "LinePath.h"
+#include "../../essential/misc.h"
 
 LinePath::LinePath() : Path() {
 	// TODO: Log error in initialization

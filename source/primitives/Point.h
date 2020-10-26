@@ -1,11 +1,8 @@
 #pragma once
 #ifndef POINT_H
 #define POINT_H
-#include "../essential/random.h"
-#include <cassert>
 #include <iostream>
-#include <math.h>
-// TODO: Add directional indicators
+// TODO: Add directional indicators <- what does this mean
 
 struct Point {
 	double x, y;

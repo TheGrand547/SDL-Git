@@ -7,6 +7,7 @@ class Rect;
 #include "../Color.h"
 #include "Line.h"
 #include "Point.h"
+#include <iostream>
 #include <vector>
 
 class Polygon : public Color {
@@ -27,9 +28,11 @@ class Polygon : public Color {
 		virtual Point collideLine(const Line& ray) const;
 		virtual void draw(Renderer renderer);
 		virtual void draw(SDL_Renderer* renderer, Point offset);
-		
+
 		bool operator==(const Polygon& other) const;
 		bool overlap(const Polygon& other) const;
 		Rect getBoundingRect() const;
 };
+
+std::ostream& operator<<(std::ostream& output, const Polygon& poly);
 #endif

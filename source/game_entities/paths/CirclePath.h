@@ -1,7 +1,6 @@
 #pragma once
 #include "../../wrappers/Timer.h"
 #include "Path.h"
-#include <cmath>
 
 class CirclePath : public Path {
 	protected:

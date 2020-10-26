@@ -125,3 +125,10 @@ void Polygon::draw(SDL_Renderer* renderer, Point offset) {
 	delete[] x;
 	delete[] y;
 }
+
+std::ostream& operator<<(std::ostream& output, const Polygon& poly) {
+	for (Point point: poly.getPoints()) {
+		output << point << " ";
+	}
+	return output;
+}

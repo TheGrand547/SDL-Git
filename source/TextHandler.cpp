@@ -1,9 +1,6 @@
 #include "TextHandler.h"
 #include "GameInstance.h"
 
-typedef std::shared_ptr<Text> TextPtr;
-typedef std::vector<TextPtr> TextVector;
-
 TextHandler::TextHandler() {}
 
 TextHandler::~TextHandler() {}

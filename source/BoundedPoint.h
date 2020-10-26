@@ -1,4 +1,6 @@
 #pragma once
+#ifndef BOUNDED_POINT_H
+#define BOUNDED_POINT_H
 #include "primitives/Point.h"
 
 struct BoundedPoint : public Point {
@@ -16,3 +18,4 @@ struct BoundedPoint : public Point {
 	void operator-=(Point delta);
 	void reduce();
 };
+#endif

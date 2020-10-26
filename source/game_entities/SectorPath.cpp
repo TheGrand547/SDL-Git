@@ -1,4 +1,6 @@
 #include "SectorPath.h"
+#include "../essential/misc.h"
+#include "../GameInstance.h"
 #include <algorithm>
 #include <map>
 

@@ -1,24 +1,16 @@
 #pragma once
 #ifndef BAD_TEST_H
 #define BAD_TEST_H
-#include "../essential/random.h"
 #include "../primitives/Line.h"
 #include "../primitives/Point.h"
 #include "../primitives/Polygon.h"
-#include "../wrappers/Texture.h"
-#include "../wrappers/Timer.h"
 #include "base/EnemyBase.h"
-#include "paths/CirclePath.h"
-#include "paths/LinePath.h"
 #include "paths/PathManager.h"
-#include "paths/ZeroRadiusTurnPath.h"
-#include <cmath>
-#include <SDL.h>
 
 class BadTest : public EnemyBase {
 	private:
 		PathManager c{this};
-		/* Quick and dirty mockup of the finite-state machine AI */
+		// Quick and dirty mockup of the finite-state machine AI
 		enum State {
 			PATROL, GOTO, ENGAGE, RETURN, ERROR, STANDBY
 		};

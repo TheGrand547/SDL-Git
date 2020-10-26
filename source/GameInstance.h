@@ -12,6 +12,7 @@ class GameInstance;
 #include "game_entities/SectorGroup.h"
 #include "primitives/Polygon.h"
 #include "primitives/Rect.h"
+#include "wrappers/Timer.h"
 #include "BoundedPoint.h"
 #include "TextHandler.h"
 #include <map>

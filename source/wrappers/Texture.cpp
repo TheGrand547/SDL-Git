@@ -1,8 +1,12 @@
 #include "Texture.h"
+#include "../essential/constants.h"
+#include "../essential/log.h"
+#include "../essential/misc.h"
+#include "../essential/SDLUtil.h"
 #include "PixelMod.h"
+#include <iostream>
 
 // TODO: Organize this clusterfuck
-
 Texture::Texture() : width(0), height(0), renderer(NULL), texture(NULL) {}
 
 Texture::~Texture() {

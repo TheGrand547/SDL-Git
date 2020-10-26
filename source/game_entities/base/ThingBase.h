@@ -6,8 +6,7 @@
 #include "../../primitives/Polygon.h"
 #include "../../primitives/Rect.h"
 #include <memory>
-#include <SDL2/SDL.h>
-#include <unordered_set>
+#include <SDL.h>
 #include <vector>
 
 class ThingBase;

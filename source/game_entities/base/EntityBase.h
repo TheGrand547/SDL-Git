@@ -1,8 +1,6 @@
 #pragma once
 #ifndef ENTITY_BASE_H
 #define ENTITY_BASE_H
-#include "../../essential/util.h"
-#include "../../GameInstance.h"
 #include "../../primitives/Point.h"
 #include "../../primitives/Rect.h"
 #include "../../wrappers/MovementWrapper.h"

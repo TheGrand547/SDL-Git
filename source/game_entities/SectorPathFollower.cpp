@@ -1,4 +1,5 @@
 #include "SectorPathFollower.h"
+#include "../GameInstance.h"
 
 SectorPathFollower::SectorPathFollower(Rect rect) : ThingBase(DRAW | MOVEABLE), box(rect), mine(this) {}
 

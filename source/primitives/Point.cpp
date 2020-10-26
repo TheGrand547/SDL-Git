@@ -1,4 +1,7 @@
 #include "Point.h"
+#include "../essential/misc.h"
+#include <assert.h>
+#include <math.h>
 // TODO: Order these things ffs
 
 Point::Point() : x(0.0 / 0.0), y(0.0 / 0.0) {}

@@ -1,4 +1,6 @@
 #include "EntityBase.h"
+#include "../../essential/util.h"
+
 
 EntityBase::EntityBase(int flags) : ThingBase(flags), angle(0), frictionAmount(1), maxVelocity(0), acceleration(0, 0), velocity(0, 0) {}
 

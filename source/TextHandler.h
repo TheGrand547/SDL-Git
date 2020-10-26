@@ -1,7 +1,6 @@
 #pragma once
 #ifndef TEXT_HANDLER_H
 #define TEXT_HANDLER_H
-#include "wrappers/AlertText.h"
 #include "wrappers/Text.h"
 #include <memory>
 #include <vector>
@@ -11,7 +10,6 @@ typedef std::vector<TextPtr> TextVector;
 
 class GameInstance;
 
-// TODO: Make this compatible with all kinds of text
 class TextHandler {
 	private:
 		TextVector stored;

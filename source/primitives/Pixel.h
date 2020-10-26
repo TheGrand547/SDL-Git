@@ -1,6 +1,7 @@
 #pragma once
 #ifndef PIXEL_CLASS_H
 #define PIXEL_CLASS_H
+#include "../essential/typedefs.h"
 #include "../Color.h"
 #include "Point.h"
 #include <SDL.h>

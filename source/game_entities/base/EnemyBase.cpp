@@ -1,5 +1,8 @@
 #include "EnemyBase.h"
+#include "../../essential/constants.h"
 #include "../../PositionLock.h"
+#include "../../GameInstance.h"
+#include <math.h>
 
 EnemyBase::EnemyBase(Point position, int flags) : ThingBase(flags | DRAW), maxVelocity(200) {
 	this->position = position;

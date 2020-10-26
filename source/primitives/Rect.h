@@ -7,7 +7,6 @@
 #include "Line.h"
 #include "Point.h"
 #include "Polygon.h"
-#include <cassert>
 #include <iostream>
 
 class Rect: public Polygon {
@@ -58,7 +57,6 @@ class Rect: public Polygon {
 		void setCenter(const Point& point);
 		void superDraw(SDL_Renderer* renderer, Point offset);
 };
-
 Rect operator+(const Point& point, const Rect& rect);
 Rect operator-(const Point& point, const Rect& rect);
 Rect operator+(const double& num, const Rect& rect) = delete;

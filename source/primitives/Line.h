@@ -1,7 +1,7 @@
 #pragma once
 #ifndef LINE_H
 #define LINE_H
-#include "../essential/random.h"
+#include "../essential/misc.h"
 #include "../essential/util.h"
 #include "../essential/SDL_Headers.h"
 #include "../Color.h"
@@ -10,14 +10,12 @@
 #include <SDL.h>
 #include <SDL2_gfxPrimitives.h>
 
-typedef Uint8 uint8_t;
-
 class Line: public Color {
 	// Represents a line segment in the form, ax+by=c, bounded by the points A and B
 	private:
 		Point originPoint, endingPoint;
 	public:	
-		Line(Point pointA = Point(), Point pointB = Point(), uint8_t r = 0x00, uint8_t g = 0x00, uint8_t b = 0xFF, uint8_t a = 0xFF);
+		Line(Point pointA = Point(), Point pointB = Point(), Uint8 r = 0x00, Uint8 g = 0x00, Uint8 b = 0xFF, Uint8 a = 0xFF);
 		~Line();
 		Line(const Line& line);
 		Line& operator=(const Line& that);

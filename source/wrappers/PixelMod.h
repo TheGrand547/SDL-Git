@@ -1,11 +1,11 @@
 #pragma once
 #ifndef PIXEL_MOD_H
 #define PIXEL_MOD_H
-#include "../essential/log.h"
 #include "../essential/SDL_Headers.h"
 #include "../primitives/Pixel.h"
 #include "Surface.h"
-#include <SDL2/SDL.h>
+#include <SDL.h>
+
 
 typedef uint8_t Uint8;
 typedef uint32_t Uint32;

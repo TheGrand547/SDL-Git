@@ -1,25 +1,24 @@
 #pragma once
-#include "Color.h"
-#include "PositionLock.h"
-#include "essential/constants.h"
-#include "essential/util.h"
+#ifndef PLAYER_H
+#define PLAYER_H
 #include "game_entities/base/EntityBase.h"
 #include "primitives/Point.h"
 #include "primitives/Rect.h"
-#include "primitives/Vector.h"
 #include "wrappers/FpsText.h"
 #include "wrappers/MovementWrapper.h"
 #include "wrappers/Surface.h"
+#include "BoundedPoint.h"
+#include "Color.h"
 #include <math.h>
 #include <memory>
-#include <SDL2/SDL.h>
+#include <SDL.h>
 
 class Dot : public EntityBase, public Color { 
 	private:
 		BoundedPoint position;
 		MovementWrapper mvmt; // >:(
 		Point lastDelta;
-		
+
 		Surface surface;
 	public:
 		Dot(Point startingCoordinate);
@@ -41,3 +40,4 @@ class Dot : public EntityBase, public Color {
 		void update() override;
 		void velocityDelta(Point acceleration);
 };
+#endif
