@@ -50,7 +50,7 @@ void BasicBullet::draw() {
 }
 
 void BasicBullet::setImage() {
-	this->myine.load("resources/stupid.png");
+	this->myine.load("resources/images/stupid.png");
 }
 
 void BasicBullet::calculate() {

@@ -9,7 +9,9 @@
 #include <SDL.h>
 #include <vector>
 
+class GameInstance;
 class ThingBase;
+
 typedef std::shared_ptr<ThingBase> ThingPtr;
 
 enum ENTITY_FLAG {
@@ -26,8 +28,6 @@ enum ENTITY_DIRECTION {
 
 double getAngleFromDirection(const ENTITY_DIRECTION& direction);
 ENTITY_DIRECTION getDirectionFromAngle(double angle);
-
-class GameInstance;
 
 class ThingBase : public std::enable_shared_from_this<ThingBase> {
 	protected:

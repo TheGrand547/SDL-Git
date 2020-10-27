@@ -256,7 +256,7 @@ void Surface::fillRects(std::vector<Rect>& vec, const Uint32& color) {
 	Color _color(color);
 	Uint32 fill = SDL_MapRGBA(this->surface->format, _color.r, _color.g, _color.b, _color.a);
 	SDL_Rect* rects = new SDL_Rect[vec.size()];
-	for (uint i = 0; i < vec.size(); i++) rects[i] = vec[i].getSDLRect();
+	for (Uint i = 0; i < vec.size(); i++) rects[i] = vec[i].getSDLRect();
 	SDL_FillRects(this->surface, rects, vec.size(), fill);
 	delete[] rects;
 

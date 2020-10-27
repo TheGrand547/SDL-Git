@@ -1,10 +1,10 @@
 #pragma once
 #ifndef BASIC_BULLET_H
 #define BASIC_BULLET_H
-#include "base/ThingBase.h"
+#include "../primitives/Rect.h"
 #include "../wrappers/MovementWrapper.h"
 #include "../wrappers/Surface.h"
-#include "../primitives/Rect.h"
+#include "base/ThingBase.h"
 
 class BasicBullet : public ThingBase {
 	protected:

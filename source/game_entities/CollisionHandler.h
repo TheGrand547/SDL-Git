@@ -22,7 +22,6 @@ typedef std::vector<WeakThingPtr> WeakThingVector;
 class CollisionHandler {
 	protected:
 		friend class GameInstance;
-		std::map<SectorPtr, std::vector<WeakThingPtr>> collisionMap;
 	public:
 		GameInstance* parent;
 		CollisionHandler(GameInstance* parent);

@@ -56,29 +56,8 @@ bool CollisionHandler::doesNotCollideWith(const ThingPtr& thing) const {
 }
 
 bool CollisionHandler::isPositionOpen(const ThingPtr& thing) {
-	std::vector<SectorPtr> sectors = this->parent->sectors.allSectors(thing);
-	if (sectors.size()) {
-		ThingPtr something;
-		for (WeakThingVector::iterator iter = this->collisionMap[NULL].begin(); iter != this->collisionMap[NULL].end(); iter++) {
-			if (!(something = iter->lock())) {
-				iter = this->collisionMap[NULL].erase(iter)--;
-				continue;
-			}
-			if (thing.get() != something.get() && something->overlap(thing)) return false;
-		}
-		for (const SectorPtr& sector : sectors) {
-			for (WeakThingVector::iterator iter = this->collisionMap[sector].begin(); iter != this->collisionMap[sector].end(); iter++) {
-			if (!(something = iter->lock())) {
-				iter = this->collisionMap[sector].erase(iter)--;
-				continue;
-			}
-			if (thing.get() != something.get() && something->overlap(thing)) return false;
-		}
-		}
-	} else {
-		for (const ThingPtr& something: this->parent->collisionThings) {
-			if (thing.get() != something.get() && something->overlap(thing)) return false;
-		}
+	for (const ThingPtr& something: this->parent->collisionThings) {
+		if (thing.get() != something.get() && something->overlap(thing)) return false;
 	}
 	return true;
 }
@@ -98,14 +77,7 @@ Point CollisionHandler::closestPointThatCollidesWith(const Line& ray, const Thin
 }
 
 void CollisionHandler::finalize() {
-	for (const ThingPtr& thing: this->parent->collisionThings) {
-		int hit = 0;
-		for (SectorPtr sector : this->parent->sectors.allSectors(thing)) {
-			hit++;
-			this->collisionMap[sector].push_back(thing);
-		}
-		if (hit < 3) this->collisionMap[NULL].push_back(thing);
-	}
+	// TODO: Maybe remove?
 }
 
 

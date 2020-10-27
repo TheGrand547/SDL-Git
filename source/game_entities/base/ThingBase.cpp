@@ -1,6 +1,7 @@
 #include "ThingBase.h"
 #include "../../GameInstance.h"
 
+// TODO: This is bad
 ThingBase::ThingBase(int flags) : absoluteFlags(flags), flags(flags), owner(NULL),
 									hashValue(((long long) this) >> ((SDL_GetTicks() % 5) * 4) % 7), parent(NULL) {}
 
