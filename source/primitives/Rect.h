@@ -10,6 +10,7 @@
 #include <iostream>
 
 class Rect: public Polygon {
+	friend struct Polygon;
 	protected:
 		Point topLeft, heightVector, widthVector;
 	public:

@@ -1,4 +1,5 @@
 #include "Polygon.h"
+#include "../essential/SDL_Headers.h"
 #include "Rect.h"
 
 #define OUT_OF_BOUNDS Point(-10547, -20547)
@@ -8,6 +9,9 @@ Polygon::~Polygon() {}
 bool Polygon::operator==(const Polygon& other) const {
 	// If they don't have the same amount of points they can't be the same
 	if (this->numPoints() != other.numPoints()) return false;
+	// If the bounding rect isn't the same they can't be the same
+	Rect mine = this->getBoundingRect(), rect = other.getBoundingRect();
+	if (!(mine.topLeft == rect.topLeft) && (mine.widthVector == rect.widthVector) && (mine.heightVector == rect.heightVector)) return false;
 	// Get the individual points
 	std::vector<Point> myArray = this->getPoints();
 	std::vector<Point> otherArray = other.getPoints();
@@ -23,6 +27,10 @@ bool Polygon::operator==(const Polygon& other) const {
 		if (!flag) return false;
 	}
 	return true;
+}
+
+bool Polygon::operator!=(const Polygon& other) const {
+	return !(*this == other);
 }
 
 bool Polygon::containsPoint(const Point& point) const {
@@ -113,6 +121,7 @@ void Polygon::draw(Renderer renderer) {
 }
 
 void Polygon::draw(SDL_Renderer* renderer, Point offset) {
+	// TODO: Accelerate this possibly?
 	std::vector<Point> temp = this->getPoints();
 	short* x = new short[this->numPoints()];
 	short* y = new short[this->numPoints()];
@@ -121,6 +130,7 @@ void Polygon::draw(SDL_Renderer* renderer, Point offset) {
 		x[i] = temp[i].x;
 		y[i] = temp[i].y;
 	}
+	//filledPolygonRGBA(renderer, x, y, temp.size(), this->r, this->g, this->b, this->a);
 	polygonRGBA(renderer, x, y, temp.size(), this->r, this->g, this->b, this->a);
 	delete[] x;
 	delete[] y;

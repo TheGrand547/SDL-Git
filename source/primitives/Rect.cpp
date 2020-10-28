@@ -146,9 +146,7 @@ double Rect::getOriginDistance() const {
 	double dist = 0;
 	for (Point point: this->getPoints()) {
 		double temp = point.originDistance();
-		if (temp > dist) {
-			dist = temp;
-		}
+		if (temp > dist) dist = temp;
 	}
 	return dist;
 }

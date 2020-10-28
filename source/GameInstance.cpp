@@ -63,8 +63,8 @@ void GameInstance::draw() {
 	// Update screen position before drawing is done
 	if (this->getPlayer()->getPosition().x < Screen::width / 2) this->renderer.offset.x = 0;
 	if (this->getPlayer()->getPosition().y < Screen::height / 2) this->renderer.offset.y = 0;
-	if (this->getPlayer()->getPosition().x > Screen::xScrollMax) this->renderer.offset.x = Screen::xScrollMax;
-	if (this->getPlayer()->getPosition().y > Screen::yScrollMax) this->renderer.offset.y = Screen::yScrollMax;
+	if (this->getPlayer()->getPosition().x > Screen::xScrollMax) this->renderer.offset.x = Screen::xPositionMax;
+	if (this->getPlayer()->getPosition().y > Screen::yScrollMax) this->renderer.offset.y = Screen::yPositionMax;
 
 	// Draw things
 	this->ground.drawGroup();

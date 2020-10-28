@@ -85,6 +85,12 @@ int main(int argc, char* argv[]) {
 		// Drawing
 		GAME.draw();
 
+		if (GAME.sectors.currentSector(player)) {
+			for (auto sec2: GAME.sectors.currentSector(player)->attached()) {
+				auto locsec = sec2.lock();
+				if (locsec) locsec->draw(GAME.getRenderer());
+			}
+		}
 		// Player actions outside of movement
 		if (!GAME.gameState["RAY_CAST"] && contra.checkListener(config["Ray"]).getHeld()) { // Raycasting
 			player->rayCast();

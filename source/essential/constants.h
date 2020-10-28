@@ -1,7 +1,6 @@
 #pragma once
 #include "SDL_Headers.h"
-#include <string>
-// File to store all constants*
+// File to store all constants
 
 namespace Colors {
 	const SDL_Color Red = {0xFF, 0x00, 0x00, 0xFF};
@@ -20,6 +19,7 @@ namespace Player {
 }
 
 namespace Screen {
+	// TODO: Some of these should be made dynamic with the loaded level, and some should be constant for all instances
 	const int width = 640;
 	const int height = 480;
 	const int maxWidth = width * 2;
@@ -27,7 +27,7 @@ namespace Screen {
 	const int defaultPos = SDL_WINDOWPOS_CENTERED;
 	const std::string title = "Testing";
 	const Uint32 arguments = SDL_WINDOW_SHOWN;// | SDL_WINDOW_FULLSCREEN;
-	/* Stupider Constants */
+	// Stupider Constants
 	const int xPositionMax = maxWidth - width;
 	const int yPositionMax = maxHeight - height;
 	const int xScrollMax = maxWidth - (width / 2);
