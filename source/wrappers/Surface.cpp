@@ -1,4 +1,5 @@
 #include "Surface.h"
+#include "../essential/MathUtils.h"
 #include "../essential/misc.h"
 #include "PixelMod.h"
 
@@ -294,18 +295,18 @@ void Surface::bilateralFilter(const double valI, const double valS, const int ke
 					int otherX = x - (half - i);
 					int otherY = y - (half - j);
 					SDL_Color other = mod.getPixel(otherX, otherY).getOriginalChannels();
-					double gaussIR = gaussian(other.r - current.r, valI);
-					double gaussS = gaussian(Point(x, y).distanceToPoint(Point(otherX, otherY)), valS);
+					double gaussIR = Math::gaussian(other.r - current.r, valI);
+					double gaussS = Math::gaussian(Point(x, y).distanceToPoint(Point(otherX, otherY)), valS);
 					double deltaR = gaussIR * gaussS;
 					totalR += other.r * deltaR;
 					weightR += deltaR;
 
-					double gaussIG = gaussian(other.g - current.g, valI);
+					double gaussIG = Math::gaussian(other.g - current.g, valI);
 					double deltaG = gaussIG * gaussS;
 					totalG += other.g * deltaG;
 					weightG += deltaG;
 
-					double gaussIB = gaussian(other.b - current.b, valI);
+					double gaussIB = Math::gaussian(other.b - current.b, valI);
 					double deltaB = gaussIB * gaussS;
 					totalB += other.b * deltaB;
 					weightB += deltaB;

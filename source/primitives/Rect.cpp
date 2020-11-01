@@ -38,31 +38,7 @@ Rect::Rect(Line side1, Line side2) {
 		LOG("Undefined behavior in Rect Initialization");
 		return;
 	}
-	// TODO: Make this not vomit inducing
-	Point check[] = {side1.getOrigin(), side1.getEnd(), side2.getOrigin(), side2.getEnd()};
-	while (true) {
-		Point ar[] = {this->getTopLeft(), this->getTopRight(), this->getBottomRight(), this->getBottomLeft()};
-		int ctr = 0;
-		for (Point g: check) {
-			bool f = false;
-			for (Point p: ar) {
-				if (g == p) {
-					f = true;
-					break;
-				}
-			}
-			if (!f) {
-				//this->widthVector *= -1;
-				this->heightVector *= -1;
-				break;
-			} else {
-				ctr++;
-			}
-		}
-		if (ctr > 3) {
-			break;
-		}
-	}
+	// NOTE: There used to be a check here, removing it *shouldn't* change anything but if Rect fucks up check here
 }
 
 Rect::Rect(Point a, Point b, Point c, Point d) {
@@ -78,19 +54,11 @@ Rect::Rect(Point topLeft, Point bottomRight) {
 	widthVector = Point(bottomRight.x - topLeft.x, 0);
 }
 
-Rect::Rect(double x, double y, double width, double height) {
-	*this = Rect(Point(x, y), width, height);
-}
+Rect::Rect(double x, double y, double width, double height) : topLeft(x, y), heightVector(0, height), widthVector(width, 0) {}
 
-Rect::Rect(Point position, double width, double height) {
-	*this = Rect(position, position + Point(width, height));
-}
+Rect::Rect(Point position, double width, double height) : topLeft(position), heightVector(0, height), widthVector(width, 0) {}
 
-Rect::Rect(const Rect& that) {
-	this->topLeft = that.topLeft;
-	this->widthVector = that.widthVector;
-	this->heightVector = that.heightVector;
-}
+Rect::Rect(const Rect& that) : topLeft(that.topLeft), heightVector(that.heightVector), widthVector(that.widthVector) {}
 
 Rect::~Rect() {}
 

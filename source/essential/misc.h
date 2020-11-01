@@ -10,6 +10,8 @@
 
 #define ROUNDING 0.000001
 
+bool isZero(const double& num);
+
 template<typename T> double radians(T degrees) {
 	return degrees * (M_PI / 180.0);
 }
@@ -44,8 +46,6 @@ template<typename T, typename U> bool removeValue(T& type, const U& element) {
 	if (iterator != std::end(type)) type.erase(iterator);
 	return iterator != std::end(type);
 }
-
-double gaussian(double x, double sigma);
 
 template<typename T> bool shareNoElements(std::pair<std::shared_ptr<T>, std::shared_ptr<T>> pair, std::pair<std::shared_ptr<T>, std::shared_ptr<T>> otherPair) {
 	bool result = pair.first.get() != otherPair.first.get() && pair.second.get() != otherPair.first.get() 

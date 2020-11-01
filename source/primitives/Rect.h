@@ -24,6 +24,7 @@ class Rect: public Polygon {
 		Rect(const Rect& that);
 		Rect(double x, double y, double width, double height);
 		~Rect();
+
 		Rect& operator=(const Rect& that);
 		Rect operator+(const Point& point) const;
 		Rect operator-(const Point& point) const;
@@ -31,6 +32,9 @@ class Rect: public Polygon {
 		Rect operator-(const double& num) = delete;
 		Rect operator*(const double& num) const;
 		Rect operator/(const double& num) const;
+		// These deletes are throwing errors for some reason???
+		//Rect operator*(const Point& point) = delete;
+		//Rect operator/(const Point& point) = delete;
 
 		bool isReal() const override;
 		bool isAxisAligned() const override;
@@ -49,12 +53,14 @@ class Rect: public Polygon {
 		Point getTopLeft() const;
 		Point getTopRight() const;
 		SDL_Rect getSDLRect() const;
-		void operator+=(const Point& point);
-		void operator-=(const Point& point);
 		void operator+=(const double& num) = delete;
 		void operator-=(const double& num) = delete;
 		void operator*=(const double& num);
 		void operator/=(const double& num);
+		void operator+=(const Point& point);
+		void operator-=(const Point& point);
+		void operator*=(const Point& point) = delete;
+		void operator/=(const Point& point) = delete;
 		void setCenter(const Point& point);
 		void superDraw(SDL_Renderer* renderer, Point offset);
 };
@@ -64,6 +70,8 @@ Rect operator+(const double& num, const Rect& rect) = delete;
 Rect operator-(const double& num, const Rect& rect) = delete;
 Rect operator*(const double& num, const Rect& rect);
 Rect operator/(const double& num, const Rect& rect) = delete;
+Rect operator*(const Point& point, const Rect& rect) = delete;
+Rect operator/(const Point& point, const Rect& rect) = delete;
 
 namespace std {
 	template<> struct hash<Rect> {
