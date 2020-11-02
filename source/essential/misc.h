@@ -1,4 +1,6 @@
 #pragma once
+#ifndef MISC_H
+#define MISC_H
 #include <algorithm>
 #include <cmath>
 #include <memory>
@@ -52,3 +54,4 @@ template<typename T> bool shareNoElements(std::pair<std::shared_ptr<T>, std::sha
 				&& pair.first.get() != otherPair.second.get() && pair.second.get() != otherPair.second.get();
 	return result;
 }
+#endif

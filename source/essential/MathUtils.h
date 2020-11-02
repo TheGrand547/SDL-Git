@@ -5,7 +5,8 @@
 #include <math.h>
 
 namespace Math {
-	double gaussian(double x, double sigma);
+	double gauss(double x, double sigma);
+
 	Point bezier2ndDegreeDerivative(Point start, Point end, Point control, double t);
 }
 #endif

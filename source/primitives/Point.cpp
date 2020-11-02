@@ -33,7 +33,7 @@ Point& Point::operator=(const Point& point) {
 }
 
 bool Point::getNonZero() const {
-	return ((std::abs(this->x) > ROUNDING || std::abs(this->y) > ROUNDING) 
+	return ((!::isZero(this->x) || !::isZero(this->y)) 
 			&& (this->x == this->x && this->y == this->y)); // This part is too make sure it isn't nan
 }
 
@@ -70,7 +70,7 @@ bool Point::isZero() const {
 }
 
 bool Point::operator==(const Point& point) const {
-	return (std::abs(point.x - this->x) < ROUNDING) && (std::abs(point.y - this->y) < ROUNDING);
+	return ::isZero(point.x - this->x) && ::isZero(point.y - this->y);
 }
 
 bool Point::operator!=(const Point& point) const {
@@ -114,7 +114,7 @@ double Point::originDistance() const {
 
 Point Point::getUnitVector() const {
 	double magnitude = this->getMagnitude();
-	if (magnitude < 0.0001) return Point(0, 0);
+	if (::isZero(magnitude)) return Point(0, 0);
 	return (*this) / magnitude;
 }
 

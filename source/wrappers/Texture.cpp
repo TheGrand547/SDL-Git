@@ -378,18 +378,18 @@ void Texture::bilateralFilter(const double valI, const double valS, const int ke
 					int otherX = x - (half - i);
 					int otherY = y - (half - j);
 					SDL_Color other = mod.getPixel(otherX, otherY).getOriginalChannels();
-					double gaussIR = Math::gaussian(other.r - current.r, valI);
-					double gaussS = Math::gaussian(Point(x, y).distanceToPoint(Point(otherX, otherY)), valS);
+					double gaussIR = Math::gauss(other.r - current.r, valI);
+					double gaussS = Math::gauss(Point(x, y).distanceToPoint(Point(otherX, otherY)), valS);
 					double deltaR = gaussIR * gaussS;
 					totalR += other.r * deltaR;
 					weightR += deltaR;
 					
-					double gaussIG = Math::gaussian(other.g - current.g, valI);
+					double gaussIG = Math::gauss(other.g - current.g, valI);
 					double deltaG = gaussIG * gaussS;
 					totalG += other.g * deltaG;
 					weightG += deltaG;
 					
-					double gaussIB = Math::gaussian(other.b - current.b, valI);
+					double gaussIB = Math::gauss(other.b - current.b, valI);
 					double deltaB = gaussIB * gaussS;
 					totalB += other.b * deltaB;
 					weightB += deltaB;
