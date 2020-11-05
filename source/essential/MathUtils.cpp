@@ -9,4 +9,3 @@ double Math::gauss(double x, double sigma) { // Taken from https://github.com/an
 Point Math::bezier2ndDegreeDerivative(Point start, Point end, Point control, double t) {
 	return (control - start) * 2 * (1 - t) + (end - control) * 2 * t;
 }
-

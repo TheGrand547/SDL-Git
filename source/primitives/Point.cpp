@@ -1,8 +1,6 @@
 #include "Point.h"
 #include "../essential/misc.h"
-#include <assert.h>
 #include <math.h>
-// TODO: Order these things ffs
 
 Point::Point() : x(0.0 / 0.0), y(0.0 / 0.0) {}
 
@@ -12,29 +10,9 @@ Point::~Point() {}
 
 Point::Point(const Point& point) : x(point.x), y(point.y) {}
 
-Point Point::operator-() const {
-	return *this * -1;
-}
-
-Point Point::operator-(const Point& point) const {
-	return Point(this->x - point.x, this->y - point.y);
-}
-
-Point Point::operator+(const Point& point) const {
-	return Point(this->x + point.x, this->y + point.y);
-}
-
-Point& Point::operator=(const Point& point) {
-	if (this != &point) {
-		x = point.x;
-		y = point.y;
-	}
-	return *this;
-}
-
 bool Point::getNonZero() const {
 	return ((!::isZero(this->x) || !::isZero(this->y)) 
-			&& (this->x == this->x && this->y == this->y)); // This part is too make sure it isn't nan
+		&& (this->x == this->x && this->y == this->y)); // This part is too make sure it isn't nan
 }
 
 bool Point::isAbove(const Point& point) const {
@@ -112,22 +90,14 @@ double Point::originDistance() const {
 	return this->distanceToPoint(0, 0);
 }
 
-Point Point::getUnitVector() const {
-	double magnitude = this->getMagnitude();
-	if (::isZero(magnitude)) return Point(0, 0);
-	return (*this) / magnitude;
-}
-
 Point Point::copy() const {
 	return Point(this->x, this->y);
 }
 
-Point Point::rotate90() const {
-	return Point(this->y, -this->x);
-}
-
-Point Point::toInt() const {
-	return Point(int(this->x), int(this->y));
+Point Point::getUnitVector() const {
+	double magnitude = this->getMagnitude();
+	if (::isZero(magnitude)) return Point(0, 0);
+	return (*this) / magnitude;
 }
 
 Point Point::negate() const {
@@ -142,12 +112,40 @@ Point Point::onlyY() const {
 	return Point(0, this->y);
 }
 
+Point Point::operator-() const {
+	return *this.negate();
+}
+
+Point Point::operator-(const Point& point) const {
+	return Point(this->x - point.x, this->y - point.y);
+}
+
+Point Point::operator+(const Point& point) const {
+	return Point(this->x + point.x, this->y + point.y);
+}
+
 Point Point::operator/(const double& num) const {
 	return Point(this->x / num, this->y / num);
 }
 
 Point Point::operator*(const double& num) const {
  	return Point(this->x * num, this->y * num);
+}
+
+Point& Point::operator=(const Point& point) {
+	if (this != &point) {
+		x = point.x;
+		y = point.y;
+	}
+	return *this;
+}
+
+Point Point::rotate90() const {
+	return Point(this->y, -this->x);
+}
+
+Point Point::toInt() const {
+	return Point(int(this->x), int(this->y));
 }
 
 void Point::operator+=(const Point& delta) {

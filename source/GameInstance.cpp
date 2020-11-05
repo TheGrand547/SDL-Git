@@ -110,7 +110,10 @@ void GameInstance::queueRemoval(const ThingPtr& thing) {
 void GameInstance::update() {
 	TRACE("Update Begin");
 	if (!this->started) this->instanceBegin();
-	// TODO: Collision by objects in sectors, mid tier priority due to requiring sizeable reworking
+
+	TRACE("Update Statics");
+	for (ThingPtr& thing: this->updateThings) thing->update();
+	TRACE("Update Moving");
 	for (ThingPtr& thing: this->movingThings) {
 		Point position = thing->getPosition();
 		thing->update();
@@ -123,8 +126,6 @@ void GameInstance::update() {
 			}
 		}
 	}
-	TRACE("Update Mid");
-	for (ThingPtr& thing: this->updateThings) thing->update();
 	TRACE("Update Removal");
 	for (ThingPtr& thing: this->remove) this->removeThing(thing);
 	this->remove.clear();

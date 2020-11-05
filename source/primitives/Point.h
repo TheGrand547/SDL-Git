@@ -10,21 +10,6 @@ struct Point {
 	Point(const double& x, const double& y = 0);
 	Point(const Point& point);
 	~Point();
-	Point operator-() const;
-	Point operator+(const Point& point) const;
-	Point operator-(const Point& point) const;
-	Point operator+(const double& num) = delete;
-	Point operator-(const double& num) = delete;
-	Point& operator=(const Point& point);
-	Point operator/(const double& num) const;
-	Point operator*(const double& num) const;
-	Point copy() const;
-	Point getUnitVector() const;
-	Point negate() const;
-	Point onlyX() const;
-	Point onlyY() const;
-	Point rotate90() const;
-	Point toInt() const;
 	bool getNonZero() const;
 	bool isAbove(const Point& point) const;
 	bool isBelow(const Point& point) const;
@@ -43,6 +28,21 @@ struct Point {
 	double getFastMagnitude() const;
 	double operator*(const Point& other) const;
 	double originDistance() const;
+	Point copy() const;
+	Point getUnitVector() const;
+	Point negate() const;
+	Point onlyX() const;
+	Point onlyY() const;
+	Point operator-() const;
+	Point operator+(const Point& point) const;
+	Point operator-(const Point& point) const;
+	Point operator+(const double& num) = delete;
+	Point operator-(const double& num) = delete;
+	Point operator/(const double& num) const;
+	Point operator*(const double& num) const;
+	Point& operator=(const Point& point);
+	Point rotate90() const;
+	Point toInt() const;
 	void operator+=(const Point& delta);
 	void operator-=(const Point& delta);
 	void operator+=(const double& num) = delete;
@@ -52,7 +52,7 @@ struct Point {
 	void xZero();
 	void yZero();
 	void zero();
-	
+
 	static double angleFromVector(const Point& vector);
 	static Point vectorFromAngle(const double& angle);
 };

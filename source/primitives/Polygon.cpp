@@ -15,7 +15,7 @@ bool Polygon::operator==(const Polygon& other) const {
 	// Get the individual points
 	std::vector<Point> myArray = this->getPoints();
 	std::vector<Point> otherArray = other.getPoints();
-	// Iterate through the points
+	// Check that every point in each polygon exists in the other one
 	for (const Point& pointA: myArray) {
 		bool flag = false;
 		for (const Point& pointB: otherArray) {

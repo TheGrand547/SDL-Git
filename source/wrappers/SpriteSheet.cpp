@@ -51,5 +51,62 @@ void SpriteSheet::addAnimation(std::string tag, Uint startingIndex, Uint endingI
 		LOG("ERROR: Sprite Sheet Index out of bounds! %i or %i is greater than the width of %i!", startingIndex, endingIndex, this->maxX);
 		return;
 	}
-	this->animations[tag] = Animation(startingIndex, endingIndex, interval);
+	this->animations[tag] = SpriteSheet::Animation(startingIndex, endingIndex, interval);
+}
+
+
+SpriteSheet::Animation::Animation(Uint startingIndex, Uint endingIndex, Uint interval) : started(false), endingIndex(endingIndex), 
+					interval(interval), startingIndex(startingIndex), currentIndex(0) {}
+
+SpriteSheet::Animation::Animation(const Animation& other) : started(other.started), endingIndex(other.endingIndex), 
+					interval(other.interval), startingIndex(other.startingIndex), currentIndex(other.currentIndex) {}
+
+SpriteSheet::Animation::~Animation() {}
+
+SpriteSheet::Animation& SpriteSheet::Animation::operator=(const SpriteSheet::Animation& other) {
+	if (this != &other) {
+		this->started = other.started;
+		this->currentIndex = other.currentIndex;
+		this->endingIndex = other.endingIndex;
+		this->interval = other.interval;
+		this->startingIndex = other.startingIndex;
+	}
+	return *this;
+}
+
+bool SpriteSheet::Animation::isReal() const {
+	return this->interval;
+}
+
+bool SpriteSheet::Animation::isStarted() const {
+	return this->started;
+}
+
+bool SpriteSheet::Animation::update() {
+	if (this->started && this->timer.getTicks() >= this->interval) {
+		this->currentIndex++;
+		this->started = this->currentIndex <= this->endingIndex;
+		this->timer.start();
+	}
+	return this->started;
+}
+
+void SpriteSheet::Animation::exit() {
+	this->currentIndex = this->startingIndex;
+	this->started = false;
+	this->timer.stop();
+}
+
+void SpriteSheet::Animation::pause() {
+	this->timer.pause();
+}
+
+void SpriteSheet::Animation::start() {
+	this->started = true;
+	this->timer.start();
+	this->currentIndex = this->startingIndex;
+}
+
+void SpriteSheet::Animation::reset() {
+	this->start();
 }
