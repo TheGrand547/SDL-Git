@@ -127,9 +127,8 @@ void Dot::shoot() {
 }
 
 void Dot::update() {
+	this->EntityBase::accelerate({this->parent->gameState["p_x"], this->parent->gameState["p_y"]});
+	this->parent->gameState["p_x"] = 0;
+	this->parent->gameState["p_y"] = 0;
 	this->collideTest();
-}
-
-void Dot::velocityDelta(Point acceleration) {
-	this->EntityBase::accelerate(acceleration.getUnitVector());
 }

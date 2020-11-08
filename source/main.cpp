@@ -51,14 +51,13 @@ int main(int argc, char* argv[]) {
 	std::string foo = "duck dev best dev";
 	std::shared_ptr<AppearingText> ap = GAME.createText<AppearingText>(foo, Point(250, 0), 10, Colors::Red, 300);
 	ap->setFont(gFont);
-	Point playerDelta(0, 0);
 	Controller contra;
 	contra.parent = &GAME;
 	contra.addCheat("hell", [](GameInstance* g) {g->createText<AppearingText>("u suck dum dum", Point(250, 100), 5, Colors::Red, 300);});
 	contra.addListener("Ray", 120);
 	contra.addListener("PathReset", 50);
 	contra.addListener("Shoot", 500);
-	contra.addPlayerKeys(playerDelta); // Maybe allow for multiple bindings of the same command somehow? vectors likely? Also remove this dumb fix
+	contra.addPlayerKeys(); // Maybe allow for multiple bindings of the same command somehow? vectors likely? Also remove this dumb fix
 	
 	GAME.createText<AlertText>("this shouldn't last long", Point(300, 150), Colors::Red, 2500);
 
@@ -78,9 +77,9 @@ int main(int argc, char* argv[]) {
 	player->ping();
 	LOG("Section: Main Loop");
 	while (!contra.quit) {
-		playerDelta.zero(); // >:(
+		// Handle events
 		contra.handleEvents();
-		player->velocityDelta(playerDelta); // Update player
+		// Update
 		GAME.update();
 		// Drawing
 		GAME.draw();

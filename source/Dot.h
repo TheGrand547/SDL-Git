@@ -38,6 +38,5 @@ class Dot : public EntityBase, public Color {
 		void rayCast();
 		void shoot();
 		void update() override;
-		void velocityDelta(Point acceleration);
 };
 #endif

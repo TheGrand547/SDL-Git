@@ -113,7 +113,7 @@ Point Point::onlyY() const {
 }
 
 Point Point::operator-() const {
-	return *this.negate();
+	return this->negate();
 }
 
 Point Point::operator-(const Point& point) const {
@@ -134,8 +134,8 @@ Point Point::operator*(const double& num) const {
 
 Point& Point::operator=(const Point& point) {
 	if (this != &point) {
-		x = point.x;
-		y = point.y;
+		this->x = point.x;
+		this->y = point.y;
 	}
 	return *this;
 }
