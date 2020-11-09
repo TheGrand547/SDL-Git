@@ -1,24 +1,24 @@
-Sector Rect 300 100 300 100
-Sector Rect 100 100 200 100
-Sector Rect 100 200 100 100
-Sector Rect 100 300 400 150
-Sector Rect 100   0 500 100
-Sector Rect 0   500 100 460
-Sector Rect 100 450 200 510
-Sector Rect 400 450 100 300
-Sector Rect 500 600 100 150
-Sector Rect 300 750 300 210
-Sector Rect 0   100 200 100
-Sector Rect 600   0 680 500
-Sector Rect 600 800 100 160
-Sector Rect 700 800 580 160
-Sector Rect 700 500 580 300
+Sector Rect 300 100 600 200
+Sector Rect 100 100 300 200
+Sector Rect 100 200 200 300
+Sector Rect 100 300 500 450
+Sector Rect 100   0 600 100
+Sector Rect 0   500 100 960
+Sector Rect 100 450 300 960
+Sector Rect 400 450 500 750
+Sector Rect 500 600 600 750
+Sector Rect 300 750 600 960
+Sector Rect 0   100 200 200
+Sector Rect 600   0 1280 500
+Sector Rect 600 800 700 960
+Sector Rect 700 800 1280 960
+Sector Rect 700 500 1280 800
 Sector Tri 100 50 50 100 100 100
 
 
-BasicWall Rect 0   200 100 300
-BasicWall Rect 200 200 300 100
-BasicWall Rect 500 200 100 400
-BasicWall Rect 600 500 100 300
-BasicWall Rect 300 450 100 300
+BasicWall Rect 0   200 100 500
+BasicWall Rect 200 200 500 300
+BasicWall Rect 500 200 600 600
+BasicWall Rect 600 500 700 800
+BasicWall Rect 300 450 400 750
 BasicWall Rect 50  0   0   50  50  0   100 50

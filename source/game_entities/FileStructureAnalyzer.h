@@ -9,6 +9,7 @@
 
 typedef std::map<std::string, std::string> StringMap;
 
+Point parsePoint(const std::string& string);
 Rect rectFromString(const std::string& string);
 Triangle triFromString(const std::string& string);
 
