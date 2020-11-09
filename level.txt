@@ -2,13 +2,17 @@ Sector Rect 300 100 300 100
 Sector Rect 100 100 200 100
 Sector Rect 100 200 100 100
 Sector Rect 100 300 400 150
-Sector Rect 450 50  150 50
+Sector Rect 100   0 500 100
 Sector Rect 0   500 100 460
 Sector Rect 100 450 200 510
 Sector Rect 400 450 100 300
 Sector Rect 500 600 100 150
 Sector Rect 300 750 300 210
-Sector Rect 0 100 200 100
+Sector Rect 0   100 200 100
+Sector Rect 600   0 680 500
+Sector Rect 600 800 100 160
+Sector Rect 700 800 580 160
+Sector Rect 700 500 580 300
 Sector Tri 100 50 50 100 100 100
 
 

@@ -1,11 +1,8 @@
 #pragma once
 #ifndef CONTROLLER_H
 #define CONTROLLER_H
-#include "../../essential/Configuration.h"
-#include "../../primitives/Point.h"
-#include "../HeldKey.h"
-#include "ButtonCommand.h"
-#include "CommandBase.h"
+#include "../essential/Configuration.h"
+#include "HeldKey.h"
 #include <map>
 #include <memory>
 #include <vector>
@@ -26,31 +23,29 @@ class Controller {
 	private:
 		// Low Priority TODO: Add controller support
 
-		// TODO: You're next on the chopping blocks
-		std::map<int, std::shared_ptr<CommandBase>> keys;
-		std::map<int, HeldKey> listeners;
-
-		std::stringstream cheatStream;
-		std::map<int, GameCommand> buttons;
-		std::map<std::string, GameCommand> cheatMap;
-
 		Configuration config;
 		const Uint8* keyboard;
+		std::map<int, GameCommand> buttons;
+		std::map<int, std::pair<GameCommand, GameCommand>> keys;
+		std::map<int, HeldKey> listeners;
+		std::map<std::string, GameCommand> cheatMap;
+		std::stringstream cheatStream;
 	public:
-		GameInstance* parent; // TODO: Elegance please
+		GameInstance* parent;
 		int mouseX, mouseY;
-		bool quit = false;
+		bool quit;
 		Controller();
 		~Controller();
+		HeldKey& checkListener(int key);
 		void handleEvents();
 		void addButton(int value, GameCommand func);
-		void addButton(std::string str, GameCommand func);
-		void addKey(int value, std::shared_ptr<CommandBase> command);
+		void addButton(const std::string& str, GameCommand func);
+		void addKey(int value, GameCommand down, GameCommand up);
+		void addKey(const std::string& str, GameCommand down, GameCommand up);
 		void addListener(int key, int threshold = 150);
-		void addListener(std::string key, int threshold = 150);
+		void addListener(const std::string& key, int threshold = 150);
 		void updateListeners();
-		HeldKey& checkListener(int key);
 		void addPlayerKeys();
-		void addCheat(std::string key, GameCommand func); // TODO: Make this not dependent on function pointers
+		void addCheat(const std::string& key, GameCommand func);
 };
 #endif

@@ -3,9 +3,6 @@
 #define SPRITE_SHEET_H
 #include "../primitives/Point.h"
 #include "../game_entities/base/ThingBase.h"
-
-class SpriteSheet;
-
 #include "Texture.h"
 #include "Timer.h"
 #include <map>

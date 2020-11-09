@@ -1,5 +1,4 @@
 #include "headers.h"
-#include "DataStructure.h"
 
 bool init();
 SDL_Renderer* createRenderer(SDL_Window*& window);
@@ -74,7 +73,6 @@ int main(int argc, char* argv[]) {
 	GAME.instanceBegin();
 	// TODO: Do more testing on pathfinding
 	foodd->mine.createPath(GAME.sectors[3], GAME.sectors[0]);
-	player->ping();
 	LOG("Section: Main Loop");
 	while (!contra.quit) {
 		// Handle events
