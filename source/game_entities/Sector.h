@@ -2,7 +2,7 @@
 #ifndef SECTOR_H
 #define SECTOR_H
 
-class SectorBase;
+struct SectorBase;
 
 #include "../primitives/Line.h"
 #include "../primitives/Point.h"
@@ -15,46 +15,44 @@ class SectorBase;
 #include <string>
 #include <vector>
 
-class SectorBase {
-	public:
-		virtual ~SectorBase() {}
-		virtual bool contains(SectorBase* pointer) const = 0;
-		virtual Polygon& structure() = 0;
-		virtual std::map<SectorBase*, Point>& pointsOfContact() = 0;
-		virtual std::string getData() const = 0;
-		virtual std::vector<std::weak_ptr<SectorBase>>& attached() = 0;
-		virtual std::vector<std::weak_ptr<ThingBase>>& getContained() = 0;
-		virtual void connectToOthers(std::vector<std::shared_ptr<SectorBase>>& others) = 0;
-		virtual void clean(std::vector<std::shared_ptr<SectorBase>>& others) = 0;
-		virtual void draw(Renderer renderer) = 0;
-		virtual void draw(SDL_Renderer* renderer, Point offset = Point(0, 0)) = 0;
+struct SectorBase {
+	virtual ~SectorBase() {}
+	virtual bool contains(SectorBase* pointer) const = 0;
+	virtual Polygon& structure() = 0;
+	virtual std::map<SectorBase*, Point>& pointsOfContact() = 0;
+	virtual std::string getData() const = 0;
+	virtual std::vector<std::weak_ptr<SectorBase>>& attached() = 0;
+	virtual std::vector<std::weak_ptr<ThingBase>>& getContained() = 0;
+	virtual void connectToOthers(std::vector<std::shared_ptr<SectorBase>>& others) = 0;
+	virtual void clean(std::vector<std::shared_ptr<SectorBase>>& others) = 0;
+	virtual void draw(Renderer renderer) = 0;
+	virtual void draw(SDL_Renderer* renderer, Point offset = Point(0, 0)) = 0;
 };
 
-template<class T> class Sector : public SectorBase {
+template<class T> struct Sector : public SectorBase {
 	static_assert(std::is_base_of<Polygon, T>::value, "Sector must be templated with a parameter of type polygon.");
-	public:
-		T representation;
-		std::map<SectorBase*, Point> contact;
-		std::string data;
-		std::vector<std::weak_ptr<SectorBase>> connected;
-		std::vector<std::weak_ptr<ThingBase>> containedThings;
+	T representation;
+	std::map<SectorBase*, Point> contact;
+	std::string data;
+	std::vector<std::weak_ptr<SectorBase>> connected;
+	std::vector<std::weak_ptr<ThingBase>> containedThings;
 
-		Sector(T structure, std::string data = "");
-		~Sector();
-		bool contains(SectorBase* pointer) const override;
-		Polygon& structure() override;
-		std::map<SectorBase*, Point>& pointsOfContact() override;
-		std::string getData() const override;
-		std::vector<std::weak_ptr<SectorBase>>& attached() override;
-		std::vector<std::weak_ptr<ThingBase>>& getContained() override;
-		void connectToOthers(std::vector<std::shared_ptr<SectorBase>>& others) override;
-		void clean(std::vector<std::shared_ptr<SectorBase>>& others) override;
-		void draw(Renderer renderer) override;
-		void draw(SDL_Renderer* renderer, Point offset = Point(0, 0)) override;
+	Sector(T structure, const std::string& data = "");
+	~Sector();
+	bool contains(SectorBase* pointer) const override;
+	Polygon& structure() override;
+	std::map<SectorBase*, Point>& pointsOfContact() override;
+	std::string getData() const override;
+	std::vector<std::weak_ptr<SectorBase>>& attached() override;
+	std::vector<std::weak_ptr<ThingBase>>& getContained() override;
+	void connectToOthers(std::vector<std::shared_ptr<SectorBase>>& others) override;
+	void clean(std::vector<std::shared_ptr<SectorBase>>& others) override;
+	void draw(Renderer renderer) override;
+	void draw(SDL_Renderer* renderer, Point offset = Point(0, 0)) override;
 };	
 
 
-template<class T> Sector<T>::Sector(T structure, std::string data) : representation(structure), data(data) {}
+template<class T> Sector<T>::Sector(T structure, const std::string& data) : representation(structure), data(data) {}
 
 template<class T> Sector<T>::~Sector() {}
 

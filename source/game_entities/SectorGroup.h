@@ -23,7 +23,6 @@ class SectorGroup : public DrawGroup {
 		SectorPtr& getFirst();
 		SectorPtr currentSector(const std::shared_ptr<ThingBase>& target);
 		std::vector<SectorPtr> allSectors(const std::shared_ptr<ThingBase>& target);
-		void addSector(Rect structure, std::string data = "");
 		void clearGroup() override;
 		void drawGroup() override;
 		void connectSectors();
@@ -32,6 +31,7 @@ class SectorGroup : public DrawGroup {
 		template<typename T, typename... Args> SectorPtr createSector(Args... args) {
 			SectorPtr sector = std::make_shared<Sector<T>>(T(args...));
 			this->storage.push_back(sector);
+			sector->structure().setColorChannels(0xFF, 0xFF, 0x00, 0xFF);
 			return sector;
 		}
 };

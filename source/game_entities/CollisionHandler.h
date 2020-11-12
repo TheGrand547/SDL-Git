@@ -5,7 +5,6 @@
 class GameInstance;
 class CollisionHandler;
 class ThingBase;
-class SectorBase;
 
 #include "../primitives/Line.h"
 #include "../primitives/Polygon.h"
@@ -15,7 +14,6 @@ class SectorBase;
 
 typedef std::shared_ptr<ThingBase> ThingPtr;
 typedef std::weak_ptr<ThingBase> WeakThingPtr;
-typedef std::shared_ptr<SectorBase> SectorPtr;
 typedef std::vector<WeakThingPtr> WeakThingVector;
 
 // Interface to interact with the collidable objects from GameInstance

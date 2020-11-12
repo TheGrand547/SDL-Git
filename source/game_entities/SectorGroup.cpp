@@ -52,12 +52,6 @@ std::vector<SectorPtr> SectorGroup::allSectors(const std::shared_ptr<ThingBase>&
 	return vector;
 }
 
-void SectorGroup::addSector(Rect structure, std::string data) {
-	this->storage.push_back(std::make_shared<Sector<Rect>>(structure, data));
-	// Probably unneeded but whatever
-	this->storage.back()->structure().setColorChannels(0xFF, 0xFF, 0x00, 0xFF);
-}
-
 void SectorGroup::clearGroup() {
 	this->storage.clear();
 }
