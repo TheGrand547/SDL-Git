@@ -4,6 +4,7 @@ sdl2 = dependency('SDL2')
 sdl2_ttf = dependency('SDL2_ttf')
 sdl2_image = dependency('SDL2_image')
 sdl2_gfx = dependency('SDL2_gfx')
+boost = dependency('boost')
 
 subdir('source')
 

@@ -5,20 +5,24 @@
 #include <map>
 #include <vector>
 
-struct VALUE {
-	double value = DBL_MAX;
-};
-
 namespace AStar {
-	template<typename T> struct Node {
-		T value;
-		bool contains(const Node<T>& t) {
-			return ((std::size_t)&t) % 3; 
-		}
+	struct VALUE {
+		double value = DBL_MAX;
 	};
+	template<typename T> struct Node {
+		virtual ~Node() {}
+		//virtual T value() = 0;
+		virtual T representation() = 0;
+		virtual bool contains(Node<T>* node) const = 0;
+		//virtual bool canSee(const Node<T>& node);
+	};
+	/*
+	template<typename T> struct TrivialNode : public Node<T> {
+		
+	}*/
 
-	template<typename T> std::vector<T> generatePath(const Node<T>& start, const Node<T>& end, double(*heuristic)(const T&, const T&), 
-													double(*edgeHeuristic)(const T&, const T&)) {
+	template<typename T, typename H> std::vector<T> generatePath(const Node<T>& start, const Node<T>& end, H heuristic, 
+													H edgeHeuristic) {
 		using TVector = std::vector<Node<T>>;
 		// A* implementation
 		TVector result;
@@ -62,11 +66,11 @@ namespace AStar {
 				for (auto& weak: current->attached()) {
 					Node<T>* node = weak;
 					if (!node) continue;
-					double general = cost[current].value + edgeFunction(node, current);
+					double general = cost[current].value + edgeHeuristic(node, current);
 					if (general < cost[node].value) {
 						path[node] = current;
 						cost[node].value = general;
-						currentCost[node].value = general + getValue(node, end);
+						currentCost[node].value = general + heuristic(node, end);
 						if (valueNotInVector(unused, node)) unused.push_back(node);
 					}
 				}
@@ -75,5 +79,4 @@ namespace AStar {
 		return result;
 	}
 }
-
-#endif;
+#endif

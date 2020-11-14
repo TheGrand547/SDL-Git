@@ -8,6 +8,7 @@ struct SectorBase;
 #include "../primitives/Point.h"
 #include "../primitives/Polygon.h"
 #include "../primitives/Rect.h"
+#include "../Astar.h"
 #include "base/ThingBase.h"
 #include <map>
 #include <memory>
@@ -15,8 +16,9 @@ struct SectorBase;
 #include <string>
 #include <vector>
 
-struct SectorBase {
+struct SectorBase : AStar::Node<Polygon&> {
 	virtual ~SectorBase() {}
+	bool contains(AStar::Node<Polygon&>* ptr) const override;
 	virtual bool contains(SectorBase* pointer) const = 0;
 	virtual Polygon& structure() = 0;
 	virtual std::map<SectorBase*, Point>& pointsOfContact() = 0;
@@ -31,7 +33,7 @@ struct SectorBase {
 
 template<class T> struct Sector : public SectorBase {
 	static_assert(std::is_base_of<Polygon, T>::value, "Sector must be templated with a parameter of type polygon.");
-	T representation;
+	T rep;
 	std::map<SectorBase*, Point> contact;
 	std::string data;
 	std::vector<std::weak_ptr<SectorBase>> connected;
@@ -40,6 +42,7 @@ template<class T> struct Sector : public SectorBase {
 	Sector(T structure, const std::string& data = "");
 	~Sector();
 	bool contains(SectorBase* pointer) const override;
+	Polygon& representation() override;
 	Polygon& structure() override;
 	std::map<SectorBase*, Point>& pointsOfContact() override;
 	std::string getData() const override;
@@ -51,8 +54,11 @@ template<class T> struct Sector : public SectorBase {
 	void draw(SDL_Renderer* renderer, Point offset = Point(0, 0)) override;
 };	
 
+bool SectorBase::contains([[maybe_unused]] AStar::Node<Polygon&>* ptr) const {
+	return false;
+}
 
-template<class T> Sector<T>::Sector(T structure, const std::string& data) : representation(structure), data(data) {}
+template<class T> Sector<T>::Sector(T structure, const std::string& data) : rep(structure), data(data) {}
 
 template<class T> Sector<T>::~Sector() {}
 
@@ -64,8 +70,12 @@ template<class T> bool Sector<T>::contains(SectorBase* pointer) const {
 	return false;
 }
 
+template<class T> Polygon& Sector<T>::representation() {
+	return this->rep;
+}
+
 template<class T> Polygon& Sector<T>::structure() {
-	return this->representation;
+	return this->rep;
 }
 
 template<class T> std::map<SectorBase*, Point>& Sector<T>::pointsOfContact() {
@@ -87,8 +97,8 @@ template<class T> std::vector<std::weak_ptr<ThingBase>>& Sector<T>::getContained
 template<class T> void Sector<T>::connectToOthers(std::vector<std::shared_ptr<SectorBase>>& others) {
 	std::vector<Line> lines;
 	{
-		Point center = this->representation.getCenter();
-		for (Line line: this->representation.getLines()) {
+		Point center = this->rep.getCenter();
+		for (Line line: this->rep.getLines()) {
 			Point direction(line.getUnitVector().rotate90());
 			Line positive(center, line.midPoint() + direction * 15);
 			Line negative(center, line.midPoint() + direction * -15);
@@ -122,10 +132,10 @@ template<class T> void Sector<T>::clean(std::vector<std::shared_ptr<SectorBase>>
 }
 
 template<class T> void Sector<T>::draw(Renderer renderer) {
-	this->representation.draw(renderer);
+	this->rep.draw(renderer);
 }
 
 template<class T> void Sector<T>::draw(SDL_Renderer* renderer, Point offset) {
-	this->representation.draw(renderer, offset);
+	this->rep.draw(renderer, offset);
 }
 #endif
