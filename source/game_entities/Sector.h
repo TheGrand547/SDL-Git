@@ -16,8 +16,8 @@ struct SectorBase;
 #include <string>
 #include <vector>
 
-struct SectorBase : AStar::Node<Polygon&> {
-	virtual ~SectorBase() {}
+struct SectorBase : public AStar::Node<Polygon&> {
+	virtual ~SectorBase();
 	bool contains(AStar::Node<Polygon&>* ptr) const override;
 	virtual bool contains(SectorBase* pointer) const = 0;
 	virtual Polygon& structure() = 0;
@@ -53,10 +53,6 @@ template<class T> struct Sector : public SectorBase {
 	void draw(Renderer renderer) override;
 	void draw(SDL_Renderer* renderer, Point offset = Point(0, 0)) override;
 };	
-
-bool SectorBase::contains([[maybe_unused]] AStar::Node<Polygon&>* ptr) const {
-	return false;
-}
 
 template<class T> Sector<T>::Sector(T structure, const std::string& data) : rep(structure), data(data) {}
 
