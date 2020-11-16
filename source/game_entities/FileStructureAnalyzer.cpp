@@ -1,7 +1,4 @@
 #include "FileStructureAnalyzer.h"
-#include "Sector.h"
-#include "SectorGroup.h"
-#include "BigWall.h"
 #include "../essential/log.h"
 #include <map>
 #include <array>

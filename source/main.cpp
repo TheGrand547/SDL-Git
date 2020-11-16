@@ -1,5 +1,5 @@
 #include "headers.h"
-
+#include <type_traits>
 bool init();
 SDL_Renderer* createRenderer(SDL_Window*& window);
 SDL_Window* createWindow();
@@ -9,7 +9,6 @@ void close(SDL_Window* window);
 
 int main(int argc, char* argv[]) {
 	LOG("Section: Setup");
-
 	if (!init()) {
 		LOG("Failed to initialize!\n");
 		return 0;

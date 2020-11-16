@@ -2,6 +2,6 @@
 
 SectorBase::~SectorBase() {}
 
-bool SectorBase::contains([[maybe_unused]] AStar::Node<Polygon&>* ptr) const {
-	return false;
+bool SectorBase::contains(std::shared_ptr<SectorBase> pointer) const {
+	return this->contains(pointer.get());
 }

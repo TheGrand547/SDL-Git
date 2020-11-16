@@ -3,6 +3,9 @@
 #define FILE_STRUTURE_ANALYZER_H
 #include "../GameInstance.h"
 #include "../primitives/Triangle.h"
+#include "BigWall.h"
+#include "Sector.h"
+#include "SectorGroup.h"
 #include <iostream>
 #include <fstream>
 #include <string>
