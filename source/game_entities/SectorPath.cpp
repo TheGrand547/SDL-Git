@@ -104,6 +104,27 @@ void SectorPath::clear() {
 void SectorPath::createPath(SectorPtr startingSector, SectorPtr target) {
 	this->clear();
 	this->stored = AStar::generatePath(startingSector, target, getValue, edgeFunction);
+	std::vector<std::shared_ptr<AStar::Node<Point>>> points;
+	std::shared_ptr<AStar::Node<Point>> last, first;
+	for (SectorPtr ptr : this->stored) {
+		for (Point p : ptr->structure().getPoints()) {
+			std::shared_ptr<AStar::Node<Point>> current = std::make_shared<AStar::Node<Point>>(p);
+			for (std::shared_ptr<AStar::Node<Point>> _p : points) {
+				if (!this->owner->parent->collision.doesCollideWith(Line(p, _p->t))) {
+					_p->attach.push_back(current);
+					current->attach.push_back(_p);
+					if (!first) first = current;
+					last = current;
+				}
+			}
+			points.push_back(current);
+		}
+	}
+	auto lamb = [](std::shared_ptr<AStar::Node<Point>> a, std::shared_ptr<AStar::Node<Point>> b) {return a->t.fastDistanceToPoint(b->t);};
+	auto ggwp = AStar::generatePath(first, last, lamb, lamb);
+	for (auto ptr : ggwp) {
+		std::cout << ptr->t << std::endl;
+	}
 }
 
 
