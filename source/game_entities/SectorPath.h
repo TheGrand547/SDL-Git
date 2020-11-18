@@ -11,6 +11,7 @@ typedef std::shared_ptr<SectorBase> SectorPtr;
 class SectorPath {
 	protected:
 		std::vector<SectorPtr> stored;
+		std::vector<Point> pointers;
 		ThingBase* owner;
 	public:
 		SectorPath(ThingBase* owner);
@@ -21,6 +22,7 @@ class SectorPath {
 		Point currentTarget(Point currentPosition);
 		void clear();
 		void createPath(SectorPtr startingSector, SectorPtr target);
+		void createPath(Point start, Point target);
 		void draw();
 };
 #endif

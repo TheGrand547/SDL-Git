@@ -92,13 +92,15 @@ int main(int argc, char* argv[]) {
 			player->rayCast();
 		}
 		if (contra.checkListener(config["PathReset"]).getHeld() && GAME.gameState["PathFinished"]) {
+			foodd->mine.createPath(foodd->getPosition(), player->getPosition());
+			/*
 			auto twigs = GAME.sectors.currentSector(player);
 			if (twigs) {
 				auto twigsAgain = GAME.sectors.currentSector(foodd);
 				if (twigsAgain) {
 					foodd->mine.createPath(twigsAgain, twigs);
 				}
-			}
+			}*/
 		}
 		if (contra.checkListener(config["Shoot"]).getHeld()) {
 			player->shoot();

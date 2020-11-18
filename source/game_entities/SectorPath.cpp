@@ -16,10 +16,6 @@ namespace std {
 	};
 }
 
-struct VALUE {
-	double value = 10000000;
-};
-
 double getValue(SectorPtr sector, SectorPtr target) {
 	return sector->structure().getCenter().fastDistanceToPoint(target->structure().getCenter()) * ((sector->contains(target.get()) ? .25 : 1));
 }
@@ -83,16 +79,6 @@ Point SectorPath::currentTarget(Point currentPosition) {
 			if (this->owner->parent->collision.doesCollideWith(rect)) {
 				return centerDelta.getUnitVector();
 			}
-			// Shelved for now
-			/*
-			if (this->stored.size() > 1) {
-				edge = Line(currentPosition, this->stored[1]->structure().getCenter());
-				rect.setCenter(edge.midPoint());
-				if (!this->owner->parent->collision.doesCollideWith(rect) && !this->owner->parent->collision.doesCollideWith(edge)) {
-					std::cout << (currentPosition - this->stored[1]->structure().getCenter()) << std::endl;
-					return (this->stored[1]->structure().getCenter() - currentPosition).getUnitVector();
-				}
-			}*/
 			return (edgePoint - currentPosition).getUnitVector();
 	}
 }
@@ -104,32 +90,29 @@ void SectorPath::clear() {
 void SectorPath::createPath(SectorPtr startingSector, SectorPtr target) {
 	this->clear();
 	this->stored = AStar::generatePath(startingSector, target, getValue, edgeFunction);
-	std::vector<std::shared_ptr<AStar::Node<Point>>> points;
-	std::shared_ptr<AStar::Node<Point>> last, first;
-	for (SectorPtr ptr : this->stored) {
-		for (Point p : ptr->structure().getPoints()) {
-			std::shared_ptr<AStar::Node<Point>> current = std::make_shared<AStar::Node<Point>>(p);
-			for (std::shared_ptr<AStar::Node<Point>> _p : points) {
-				if (!this->owner->parent->collision.doesCollideWith(Line(p, _p->t))) {
-					_p->attach.push_back(current);
-					current->attach.push_back(_p);
-					if (!first) first = current;
-					last = current;
-				}
-			}
-			points.push_back(current);
+}
+void SectorPath::createPath(Point start, Point target) {
+	SectorPtr startSector, endSector = NULL;
+	if (!startSector || !endSector) return;
+	this->clear();
+	this->stored = AStar::generatePath(startSector, endSector, getValue, edgeFunction);
+	this->pointers = {start};
+	for (Uint i = 0; i + 2 < this->stored.size(); i++) {
+		Point current = this->pointers.back();
+		Line line(current, target);
+		// Straight shot
+		if (!this->owner->parent->collision.doesCollideWith(line)) break;
+		if (this->stored[i]->structure().containsPoint(current)) {
+			// TODO: Fill this in, you know what to do i hope
 		}
+		//line = Line(current,);
 	}
-	auto lamb = [](std::shared_ptr<AStar::Node<Point>> a, std::shared_ptr<AStar::Node<Point>> b) {return a->t.fastDistanceToPoint(b->t);};
-	auto ggwp = AStar::generatePath(first, last, lamb, lamb);
-	for (auto ptr : ggwp) {
-		std::cout << ptr->t << std::endl;
-	}
+	this->pointers.push_back(target);
 }
 
 
 void SectorPath::draw() {
-	for (uint i = 0; i + 1 < this->stored.size(); i++) {
+	for (Uint i = 0; i + 1 < this->stored.size(); i++) {
 		Line p(this->stored[i]->structure().getCenter(), this->stored[i]->pointsOfContact()[this->stored[i + 1].get()]);
 		p.setColor(0xFF, 0x00, 0xFF, 0xFF);
 		p.draw(this->owner->parent->getRenderer());

@@ -35,18 +35,26 @@ SectorPtr& SectorGroup::operator[](int index) {
 	return this->storage[index];
 }
 
-SectorPtr SectorGroup::currentSector(const std::shared_ptr<ThingBase>& target) {
+SectorPtr SectorGroup::currentSector(const Point& target) const {
 	SectorPtr value = NULL;
-	for (SectorPtr& sector: this->storage) {
+	for (const SectorPtr& sector: this->storage) {
+		if (sector->structure().containsPoint(target) && (value == NULL || value->structure().getArea() > sector->structure().getArea())) value = sector;
+	}
+	return value;
+}
+
+SectorPtr SectorGroup::currentSector(const std::shared_ptr<ThingBase>& target) const {
+	SectorPtr value = NULL;
+	for (const SectorPtr& sector: this->storage) {
 		if (target->overlap(sector->structure()) && (value == NULL || value->structure().getArea() > sector->structure().getArea())) value = sector;
 	}
 	return value;
 }
 
-std::vector<SectorPtr> SectorGroup::allSectors(const std::shared_ptr<ThingBase>& target) {
+std::vector<SectorPtr> SectorGroup::allSectors(const std::shared_ptr<ThingBase>& target) const {
 	// TODO: Make it so this is only calculated at MOST once per frame
 	std::vector<SectorPtr> vector;
-	for (SectorPtr& sector: this->storage) {
+	for (const SectorPtr& sector: this->storage) {
 		if (target->overlap(sector->structure())) vector.push_back(sector);
 	}
 	return vector;

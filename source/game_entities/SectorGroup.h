@@ -21,8 +21,9 @@ class SectorGroup : public DrawGroup {
 		SectorPtr& at(int position);
 		SectorPtr& operator[](int position);
 		SectorPtr& getFirst();
-		SectorPtr currentSector(const std::shared_ptr<ThingBase>& target);
-		std::vector<SectorPtr> allSectors(const std::shared_ptr<ThingBase>& target);
+		SectorPtr currentSector(const Point& point) const;
+		SectorPtr currentSector(const std::shared_ptr<ThingBase>& target) const;
+		std::vector<SectorPtr> allSectors(const std::shared_ptr<ThingBase>& target) const;
 		void clearGroup() override;
 		void drawGroup() override;
 		void connectSectors();
