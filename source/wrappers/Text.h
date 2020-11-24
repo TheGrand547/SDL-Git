@@ -4,20 +4,23 @@
 #include "Font.h"
 
 // Base class for all text related things so there can be a text container
-
 class Text {
 	protected:
+		// Add the attribute stuff
+		struct Attribute {
+			
+		};
 		Font font;
 	public:
-		virtual ~Text() {}
+		Text();
+		// TODO: See if std::forward can work its magic
+		Text(const Font& font);
+		Text(Font&& font);
+		virtual ~Text();
 		virtual bool finished() const = 0;
 		virtual void draw(Renderer renderer) = 0;
-		
-		void setFont(const Font& font) {
-			this->font = font;
-		}
-		void setFont(Font&& font) {
-			this->font = font;
+		template<typename T> void setFont(T font) {
+			this->font = std::forward<Font>(font);
 		}
 };
 #endif

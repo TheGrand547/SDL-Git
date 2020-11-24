@@ -1,5 +1,5 @@
 #include "headers.h"
-#include <type_traits>
+
 bool init();
 SDL_Renderer* createRenderer(SDL_Window*& window);
 SDL_Window* createWindow();
@@ -93,20 +93,12 @@ int main(int argc, char* argv[]) {
 		}
 		if (contra.checkListener(config["PathReset"]).getHeld() && GAME.gameState["PathFinished"]) {
 			foodd->mine.createPath(foodd->getPosition(), player->getPosition());
-			/*
-			auto twigs = GAME.sectors.currentSector(player);
-			if (twigs) {
-				auto twigsAgain = GAME.sectors.currentSector(foodd);
-				if (twigsAgain) {
-					foodd->mine.createPath(twigsAgain, twigs);
-				}
-			}*/
 		}
 		if (contra.checkListener(config["Shoot"]).getHeld()) {
 			player->shoot();
 			contra.checkListener(config["Shoot"]).reset();
 		}
-		
+
 		// Misc testing
 		spriteSheetTest.draw("dumb", GAME.getTrueRenderer(), {200, 200}, getDirectionFromAngle(player->getAngle()));
 
