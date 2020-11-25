@@ -31,6 +31,7 @@ ENTITY_DIRECTION getDirectionFromAngle(double angle);
 
 class ThingBase : public std::enable_shared_from_this<ThingBase> {
 	protected:
+		double angle;
 		const int absoluteFlags; // List of attributes this object CAN have, but might not necessarily have at any given moment
 		int flags; // List of attributes the object CURRENTLY has
 		Point position;
@@ -50,6 +51,7 @@ class ThingBase : public std::enable_shared_from_this<ThingBase> {
 		 * 		overlap with each hitbox in this */ 
 		virtual bool overlap(const Polygon& other) const = 0;
 		virtual bool overlap(const ThingPtr& other) const = 0;
+		double getAngle() const;
 		int getAbsoluteFlags() const;
 		int getFlags() const;
 		virtual double originDistance() const = 0;

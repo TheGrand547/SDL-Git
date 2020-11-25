@@ -6,7 +6,7 @@
 
 namespace Math {
 	double gauss(double x, double sigma);
-
+	double angleBetween(const Point& origin, const Point& end);
 	Point bezier2ndDegreeDerivative(Point start, Point end, Point control, double t);
 }
 #endif

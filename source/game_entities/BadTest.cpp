@@ -12,7 +12,7 @@
 BadTest::BadTest(Point position) : EnemyBase(position, DRAW | MOVEABLE) {
 	this->maxVelocity = 150;
 	this->currentState = State::PATROL;
-	
+
 	this->lastPatrolledPoint = Point();
 	this->pathTimer.start();
 	int dist = 200;
@@ -64,21 +64,6 @@ Rect BadTest::getBoundingRect() const {
 void BadTest::draw() {
 	if (this->texture.notLoaded()) this->setTexture();
 	EnemyBase::draw();
-	
-	/*
-	// Draw vision cone - Slopily
-	for (int i = -20; i <= 20; i++) {
-		Point pTemp = this->getCenter();
-		pTemp += 300 * Point(cos(this->angle + radians(i)), sin(this->angle + radians(i)));
-		Line temp = Line(this->getCenter(), pTemp);
-
-		Point newTemp = this->parent->collision.closestPointThatCollidesWith(temp);
-		if (newTemp.isReal()) {
-			temp = Line(this->getCenter(), newTemp);
-		}
-		temp.setColorChannels(COLORS::BLACK);
-		temp.drawLine(this->parent->getRenderer(), this->parent->getOffset());
-	}*/
 }
 
 void BadTest::setTexture() {

@@ -20,7 +20,7 @@ class Controller {
 	 * Keys are for commands that have distinct states of down and up
 	 * Buttons are for actions that only activate when they key is held down, but don't care when released
 	 * Listeners are an extention of HeldKey for more complicated external usage */
-	private:
+	protected:
 		// Low Priority TODO: Add controller support
 
 		Configuration config;

@@ -2,7 +2,7 @@
 #include "../../GameInstance.h"
 
 // TODO: This is bad
-ThingBase::ThingBase(int flags) : absoluteFlags(flags), flags(flags), owner(NULL),
+ThingBase::ThingBase(int flags) : angle(0.0 / 0.0), absoluteFlags(flags), flags(flags), owner(NULL),
 									hashValue(((long long) this) >> ((SDL_GetTicks() % 5) * 4) % 7), parent(NULL) {}
 
 ThingBase::~ThingBase() {}
@@ -17,6 +17,10 @@ int ThingBase::getFlags() const {
 
 bool ThingBase::isAlive() const {
 	return true;
+}
+
+double ThingBase::getAngle() const {
+	return this->angle;
 }
 
 std::size_t ThingBase::hash() const {
