@@ -92,8 +92,11 @@ void SectorPath::createPath(SectorPtr startingSector, SectorPtr target) {
 	this->stored = AStar::generatePath(startingSector, target, getValue, edgeFunction);
 }
 void SectorPath::createPath(Point start, Point target) {
-	SectorPtr startSector, endSector = NULL;
-	if (!startSector || !endSector) return;
+	SectorPtr startSector = this->owner->parent->sectors.currentSector(start), endSector = this->owner->parent->sectors.currentSector(target);
+	if (!startSector || !endSector) {
+		LOG("One or of more of the points are not on the pathfinding grid");
+		return;
+	}
 	this->clear();
 	this->stored = AStar::generatePath(startSector, endSector, getValue, edgeFunction);
 	this->pointers = {start};

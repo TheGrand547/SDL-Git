@@ -17,11 +17,13 @@ class GameInstance;
 #include "TextHandler.h"
 #include <map>
 #include <memory>
+#include <queue>
 #include <set>
 #include <vector>
 
 typedef std::shared_ptr<ThingBase> ThingPtr;
 typedef std::vector<ThingPtr> ThingVector;
+typedef std::queue<ThingPtr> ThingQueue;
 
 namespace Draw {
 	struct compare {
@@ -35,7 +37,7 @@ class GameInstance {
 		friend class SectorGroup;
 		friend class Dot;
 
-		bool started;
+		bool iterating, started;
 
 		Renderer renderer;
 		Rect playableArea;
@@ -47,12 +49,15 @@ class GameInstance {
 		TextHandler text;
 		Timer frameTimer;
 
+		ThingQueue delayed;
+		ThingQueue remove;
+
 		ThingVector allThings;
 		ThingVector drawThings;
 		ThingVector collisionThings;
 		ThingVector updateThings;
 		ThingVector movingThings; // List of everything that can change position
-		ThingVector remove;
+
 		void removeThing(const ThingPtr& thing);
 	public:
 		BackgroundGroup ground;

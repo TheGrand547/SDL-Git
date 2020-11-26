@@ -1,4 +1,5 @@
 #include "headers.h"
+#include "wrappers/LinkedText.h"
 
 bool init();
 SDL_Renderer* createRenderer(SDL_Window*& window);
@@ -73,6 +74,10 @@ int main(int argc, char* argv[]) {
 	// TODO: Do more testing on pathfinding
 	foodd->mine.createPath(GAME.sectors[3], GAME.sectors[0]);
 	LOG("Section: Main Loop");
+	/*
+	int gaminx;
+	gaminx = SDL_GetTicks();
+	std::shared_ptr<LinkedText<int>> linked = GAME.createText<LinkedText<int>>(Point(100, 100), gaminx);*/
 	while (!contra.quit) {
 		// Handle events
 		contra.handleEvents();

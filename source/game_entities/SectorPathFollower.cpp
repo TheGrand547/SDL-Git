@@ -49,7 +49,7 @@ void SectorPathFollower::draw() {
 	this->texture.draw(this->getPosition() - this->parent->getRenderer());
 	int angle = this->getAngle() * 180.0 / M_PI;
 	Point p = (this->box.getCenter() - this->parent->getRenderer()).offset;
-	filledPieRGBA(this->parent->getRenderer().renderer, (int) p.x, (int) p.y, 200, angle - 10, angle + 10, 0x00, 0x00, 0x00, 0x40);
+	filledPieRGBA(this->parent->getRenderer().renderer, (int) p.x, (int) p.y, 200, angle - 20, angle + 20, 0x00, 0x00, 0x00, 0x40);
 }
 
 void SectorPathFollower::update() {
@@ -61,11 +61,12 @@ void SectorPathFollower::update() {
 		}
 	}
 	auto p12 = this->box.getCenter();
-	auto pp2 = this->parent->getPlayer()->getPosition();
-	if (p12.distanceToPoint(pp2) < 150 && Math::angleBetween(p12, pp2) < (30 * M_PI / 180.0)) {
+	auto pp2 = this->parent->getPlayer()->getBoundingRect().getCenter();
+	if (p12.distanceToPoint(pp2) < 150 && abs(Math::angleBetween(p12, pp2) - this->angle) < (20 * M_PI / 180.0)) {
+		/*
 		ThingPtr thing = this->parent->createThing<BasicBullet>(p12, this->angle, 500);
 		this->myThings.push_back(thing);
-		thing->setOwner(this);
+		thing->setOwner(this);*/
 	}
 	Point p = this->mine.currentTarget(this->box.getCenter());
 	double value = this->movement.getValue();

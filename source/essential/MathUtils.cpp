@@ -7,7 +7,7 @@ double Math::gauss(double x, double sigma) { // Taken from https://github.com/an
 }
 
 double Math::angleBetween(const Point& origin, const Point& end) {
-	return atan2(end.y - origin.y, origin.x - end.x);
+	return atan2(origin.y - end.y, end.x - origin.x);
 }
 
 Point Math::bezier2ndDegreeDerivative(Point start, Point end, Point control, double t) {

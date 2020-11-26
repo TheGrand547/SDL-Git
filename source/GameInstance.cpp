@@ -7,9 +7,9 @@ bool Draw::compare::operator()(const ThingBase* lhs, const ThingBase* rhs) const
 	return lhs < rhs;
 }
 
-GameInstance::GameInstance(SDL_Window* window, SDL_Renderer* renderer, BoundedPoint offset) : started(false), renderer({offset, renderer}), 
-							playableArea(0, 0, Screen::maxWidth, Screen::maxHeight), window(window), ground(this), 
-							collision(this), sectors(this) {
+GameInstance::GameInstance(SDL_Window* window, SDL_Renderer* renderer, BoundedPoint offset) : iterating(false), started(false), 
+							renderer({offset, renderer}), playableArea(0, 0, Screen::maxWidth, Screen::maxHeight), window(window),
+							ground(this), collision(this), sectors(this) {
 	this->frameTimer.start();
 	this->text.parent = this;
 }
@@ -17,6 +17,10 @@ GameInstance::GameInstance(SDL_Window* window, SDL_Renderer* renderer, BoundedPo
 GameInstance::~GameInstance() {}
 
 void GameInstance::addThing(const ThingPtr& thing) {
+	if (this->iterating) {
+		this->delayed.push(thing);
+		return;
+	}
 	TRACE("Adding thing at %ld", (long int) thing.get());
 	if (valueInVector(this->allThings, thing)) {
 		LOG("ERROR: Attempted to add duplicate object.");
@@ -37,6 +41,7 @@ void GameInstance::addThing(const ThingPtr& thing) {
 	} else {
 		this->updateThings.push_back(thing);
 	}
+	TRACE("Finished adding thing");
 }
 
 void GameInstance::removeThing(const ThingPtr& thing) {
@@ -104,13 +109,13 @@ void GameInstance::instanceBegin() { // Do final things before playing starts
 }
 
 void GameInstance::queueRemoval(const ThingPtr& thing) {
-	this->remove.push_back(thing);
+	this->remove.push(thing);
 }
 
 void GameInstance::update() {
+	this->iterating = true;
 	TRACE("Update Begin");
 	if (!this->started) this->instanceBegin();
-
 	TRACE("Update Statics");
 	for (ThingPtr& thing: this->updateThings) thing->update();
 	TRACE("Update Moving");
@@ -127,8 +132,16 @@ void GameInstance::update() {
 		}
 	}
 	TRACE("Update Removal");
-	for (ThingPtr& thing: this->remove) this->removeThing(thing);
-	this->remove.clear();
+	while (this->remove.size()) {
+		this->removeThing(this->remove.front());
+		this->remove.pop();
+	}
+	this->iterating = false;
+	TRACE("Update Add Delayed Objects");
+	while (this->delayed.size()) {
+		this->addThing(this->delayed.front());
+		this->delayed.pop();
+	}
 	TRACE("Update End");
 }
 
