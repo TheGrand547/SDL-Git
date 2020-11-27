@@ -74,11 +74,12 @@ int main(int argc, char* argv[]) {
 	// TODO: Do more testing on pathfinding
 	foodd->mine.createPath(GAME.sectors[3], GAME.sectors[0]);
 	LOG("Section: Main Loop");
-	/*
+	
 	int gaminx;
-	gaminx = SDL_GetTicks();
-	std::shared_ptr<LinkedText<int>> linked = GAME.createText<LinkedText<int>>(Point(100, 100), gaminx);*/
+	gaminx = 5;
+	std::shared_ptr<LinkedText<int>> linked = GAME.createText<LinkedText<int>>(Point(100, 100), gaminx);
 	while (!contra.quit) {
+		gaminx++;
 		// Handle events
 		contra.handleEvents();
 		// Update
@@ -92,6 +93,7 @@ int main(int argc, char* argv[]) {
 				if (locsec) locsec->draw(GAME.getRenderer());
 			}
 		}
+
 		// Player actions outside of movement
 		if (!GAME.gameState["RAY_CAST"] && contra.checkListener(config["Ray"]).getHeld()) { // Raycasting
 			player->rayCast();

@@ -46,7 +46,7 @@ class GameInstance {
 		std::shared_ptr<ThingBase> PLAYER;
 		std::set<ThingBase*, Draw::compare> drawOrder;
 
-		TextHandler text;
+		//TextHandler text;
 		Timer frameTimer;
 
 		ThingQueue delayed;
@@ -60,6 +60,7 @@ class GameInstance {
 
 		void removeThing(const ThingPtr& thing);
 	public:
+		TextHandler text;
 		BackgroundGroup ground;
 		CollisionHandler collision;
 		SectorGroup sectors;
@@ -80,16 +81,17 @@ class GameInstance {
 		void queueRemoval(const ThingPtr& thing);
 		void update();
 
-		template<typename T, typename... Args> std::shared_ptr<T> createThing(Args... args) {
+		template<typename T, typename... Args> std::shared_ptr<T> createThing(Args&&... args) {
 			static_assert(std::is_base_of<ThingBase, T>::value, "createThing must be templated with a class that derives from ThingBase.");
-			std::shared_ptr<T> value = std::make_shared<T>(args...);
+			std::shared_ptr<T> value = std::make_shared<T>(std::forward<Args>(args)...);
 			this->addThing(value);
 			return value;
 		}
 
-		template<typename T, typename... Args> std::shared_ptr<T> createText(Args... args) {
+		template<typename T, typename... Args> std::shared_ptr<T> createText(Args&&... args) {
 			static_assert(std::is_base_of<Text, T>::value, "createText must be templated with a class that derives from Text.");
-			return this->text.createText<T>(args...);
+			LOG("Gamer");
+			return this->text.createText<T>(std::forward<Args>(args)...);
 		}
 };
 

@@ -20,8 +20,8 @@ template<class T> class LinkedText : public Text {
 
 template<class T> LinkedText<T>::LinkedText(Point position, const T& reference, const std::string& text) : position(position), 
 										message(text), reference(reference) {
-											std::cout << "D:" << this->reference << ", " << &reference <<std::endl;
-										}
+	LOG("Gameing");
+}
 
 template<class T> LinkedText<T>::~LinkedText() {}
 
@@ -31,7 +31,7 @@ template<class T> bool LinkedText<T>::finished() const {
 
 template<class T> void LinkedText<T>::draw(Renderer renderer) {
 	std::stringstream stream;
-	stream << this->reference;
+	stream << this->message << this->reference;
 	this->font.drawText(this->position, stream.str(), renderer.renderer, Colors::Red);
 }
 
