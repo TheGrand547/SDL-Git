@@ -74,12 +74,7 @@ int main(int argc, char* argv[]) {
 	// TODO: Do more testing on pathfinding
 	foodd->mine.createPath(GAME.sectors[3], GAME.sectors[0]);
 	LOG("Section: Main Loop");
-	
-	int gaminx;
-	gaminx = 5;
-	std::shared_ptr<LinkedText<int>> linked = GAME.createText<LinkedText<int>>(Point(100, 100), gaminx);
 	while (!contra.quit) {
-		gaminx++;
 		// Handle events
 		contra.handleEvents();
 		// Update

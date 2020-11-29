@@ -5,8 +5,13 @@
 #include <math.h>
 
 namespace Math {
-	double gauss(double x, double sigma);
+	inline double radians(const double& degrees);
 	double angleBetween(const Point& origin, const Point& end);
-	Point bezier2ndDegreeDerivative(Point start, Point end, Point control, double t);
+	double gauss(const double& x, const double& sigma);
+	Point bezier2ndDegreeDerivative(const Point& start, const Point& end, const Point& control, const double& t);
+}
+
+inline double Math::radians(const double& degrees) {
+	return degrees * (M_PI / 180.0);
 }
 #endif

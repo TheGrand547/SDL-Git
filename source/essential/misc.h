@@ -12,21 +12,15 @@
 
 #define ROUNDING 0.000001
 
-bool isZero(const double& num);
+inline bool isZero(const double& num);
 
-template<typename T> double radians(T degrees) {
-	return degrees * (M_PI / 180.0);
-}
+inline double toTicks(const double& num);
 
-template<typename T> void mMax(T numA, T numB, T& iMin, T& iMax) {
-	iMin = (numA > numB) ? numB : numA;
-	iMax = (numA > numB) ? numA : numB;
-}
+bool valueInRange(const double& value, const double& min, const double& max);
 
-bool valueInRange(double value, double min, double max);
-
-template<typename T> T toTicks(T seconds) {
-	return seconds * 1000.f;
+template<typename T> void minMax(T a, T b, T& min, T& max) {
+	min = (a > b) ? b : a;
+	max = (a > b) ? a : b;
 }
 
 template<typename T> T& choice(const std::vector<T>& vector) {
@@ -53,5 +47,15 @@ template<typename T> bool shareNoElements(std::pair<std::shared_ptr<T>, std::sha
 	bool result = pair.first.get() != otherPair.first.get() && pair.second.get() != otherPair.first.get() 
 				&& pair.first.get() != otherPair.second.get() && pair.second.get() != otherPair.second.get();
 	return result;
+}
+
+
+// ----Inline Definitions----
+inline bool isZero(const double& num) {
+	return std::abs(num) < ROUNDING;
+}
+
+inline double toTicks(const double& num) {
+	return num * 1000.f;
 }
 #endif

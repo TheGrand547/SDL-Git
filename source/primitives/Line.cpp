@@ -41,8 +41,8 @@ bool Line::isOrthogonal(const Line& other) const {
 
 bool Line::isPointOnThisLine(const Point& point) const {
 	double minX, maxX, minY, maxY;
-	mMax(this->originPoint.x, this->endingPoint.x, minX, maxX);
-	mMax(this->originPoint.y, this->endingPoint.y, minY, maxY);
+	minMax<double>(this->originPoint.x, this->endingPoint.x, minX, maxX);
+	minMax<double>(this->originPoint.y, this->endingPoint.y, minY, maxY);
 	return valueInRange(point.x, minX, maxX) && valueInRange(point.y, minY, maxY);
 }
 
