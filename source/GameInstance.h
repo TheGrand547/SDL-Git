@@ -84,13 +84,16 @@ class GameInstance {
 		template<typename T, typename... Args> std::shared_ptr<T> createThing(Args&&... args) {
 			static_assert(std::is_base_of<ThingBase, T>::value, "createThing must be templated with a class that derives from ThingBase.");
 			std::shared_ptr<T> value = std::make_shared<T>(std::forward<Args>(args)...);
-			this->addThing(value);
+			if (value) {
+				this->addThing(value);
+			} else {
+				LOG("Failed to create 'Thing'");
+			}
 			return value;
 		}
 
 		template<typename T, typename... Args> std::shared_ptr<T> createText(Args&&... args) {
 			static_assert(std::is_base_of<Text, T>::value, "createText must be templated with a class that derives from Text.");
-			LOG("Gamer");
 			return this->text.createText<T>(std::forward<Args>(args)...);
 		}
 };

@@ -19,9 +19,7 @@ template<class T> class LinkedText : public Text {
 };
 
 template<class T> LinkedText<T>::LinkedText(Point position, const T& reference, const std::string& text) : position(position), 
-										message(text), reference(reference) {
-	LOG("Gameing");
-}
+										message(text), reference(reference) {}
 
 template<class T> LinkedText<T>::~LinkedText() {}
 

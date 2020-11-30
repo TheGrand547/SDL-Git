@@ -15,7 +15,7 @@
 
 class Dot : public EntityBase, public Color { 
 	private:
-		BoundedPoint position;
+		BoundedPoint position; // >:(
 		MovementWrapper mvmt; // >:(
 		Point lastDelta;
 

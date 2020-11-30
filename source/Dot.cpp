@@ -1,5 +1,6 @@
 #include "Dot.h"
 #include "essential/constants.h"
+#include "essential/MathUtils.h"
 #include "essential/util.h"
 #include "game_entities/BasicBullet.h"
 #include "GameInstance.h"
@@ -120,7 +121,7 @@ void Dot::rayCast() {
 }
 
 void Dot::shoot() {
-	double ang = (((((int) (this->angle * 180.0 / M_PI)) / 45) * 45) * M_PI / 180.0);
+	double ang = Math::radians((((int) Math::degrees(this->angle)) / 45) * 45);
 	ThingPtr thing = this->parent->createThing<BasicBullet>(this->getBoundingRect().getCenter(), ang, 500);
 	this->myThings.push_back(thing);
 	thing->setOwner(this);

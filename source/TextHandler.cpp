@@ -1,4 +1,5 @@
 #include "TextHandler.h"
+#include "wrappers/Text.h"
 #include "GameInstance.h"
 
 TextHandler::TextHandler() {}

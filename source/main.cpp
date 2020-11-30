@@ -1,5 +1,4 @@
 #include "headers.h"
-#include "wrappers/LinkedText.h"
 
 bool init();
 SDL_Renderer* createRenderer(SDL_Window*& window);
@@ -46,10 +45,7 @@ int main(int argc, char* argv[]) {
 			}
 		}
 	}
-	Font gFont;
-	std::string foo = "duck dev best dev";
-	std::shared_ptr<AppearingText> ap = GAME.createText<AppearingText>(foo, Point(250, 0), 10, Colors::Red, 300);
-	ap->setFont(gFont);
+	std::shared_ptr<AppearingText> ap = GAME.createText<AppearingText>("ducky dev best dev", Point(250, 0), 10, Colors::Red, 300);
 	Controller contra;
 	contra.parent = &GAME;
 	contra.addCheat("hell", [](GameInstance* g) {g->createText<AppearingText>("u suck dum dum", Point(250, 100), 5, Colors::Red, 300);});
@@ -57,7 +53,7 @@ int main(int argc, char* argv[]) {
 	contra.addListener("PathReset", 50);
 	contra.addListener("Shoot", 500);
 	contra.addPlayerKeys(); // Maybe allow for multiple bindings of the same command somehow? vectors likely? Also remove this dumb fix
-	
+
 	GAME.createText<AlertText>("this shouldn't last long", Point(300, 150), Colors::Red, 2500);
 
 	SpriteSheet spriteSheetTest(gRenderer, "resources/images/bigsprite.png", 50, 50);
@@ -69,7 +65,7 @@ int main(int argc, char* argv[]) {
 	SDL_RenderClear(gRenderer);
 
 	std::shared_ptr<FootSteps> foots = GAME.createThing<FootSteps>();
-	std::shared_ptr<FpsText> fps = GAME.createText<FpsText>(gFont, Point(100, 10), Colors::Red);
+	std::shared_ptr<FpsText> fps = GAME.createText<FpsText>(Point(100, 10), Colors::Red);
 	GAME.instanceBegin();
 	// TODO: Do more testing on pathfinding
 	foodd->mine.createPath(GAME.sectors[3], GAME.sectors[0]);

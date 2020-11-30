@@ -1,6 +1,6 @@
 #pragma once
 #ifndef BIG_WALL_H
-#define BILL_WALL_H
+#define BIG_WALL_H
 #include "../primitives/Point.h"
 #include "../primitives/Polygon.h"
 #include "../primitives/Rect.h"

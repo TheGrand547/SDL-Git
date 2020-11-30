@@ -26,6 +26,7 @@
 #include "wrappers/Font.h"
 #include "wrappers/FpsText.h"
 #include "wrappers/HeldKey.h"
+#include "wrappers/LinkedText.h"
 #include "wrappers/SpriteSheet.h"
 #include "wrappers/Surface.h"
 #include "wrappers/Texture.h"
