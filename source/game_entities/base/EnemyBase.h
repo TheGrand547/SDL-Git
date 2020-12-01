@@ -14,7 +14,6 @@ class EnemyBase : public ThingBase {
 		Timer pathTimer, timer;
 		int width = 50;
 		int height = 50;
-		double angle = 0;
 		double maxVelocity;
 		bool turning = false;
 		MovementWrapper movement;
@@ -26,7 +25,6 @@ class EnemyBase : public ThingBase {
 		virtual void update() = 0;
 		virtual void draw();
 		virtual void move(Point velocity);
-		double getAngle() const;
 		void turn(double delta);
 		void toggleTurn();
 		Point pathFindTo(Point pos = Point());

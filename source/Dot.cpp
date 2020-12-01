@@ -38,10 +38,6 @@ double Dot::calcAngle(Point point) {
 	return 0;
 }
 
-double Dot::getAngle() {
-	return this->angle;
-}
-
 Point Dot::getPosition() const {
 	return this->position;
 }

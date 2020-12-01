@@ -51,9 +51,6 @@ class ThingBase : public std::enable_shared_from_this<ThingBase> {
 		 * 		overlap with each hitbox in this */ 
 		virtual bool overlap(const Polygon& other) const = 0;
 		virtual bool overlap(const ThingPtr& other) const = 0;
-		double getAngle() const;
-		int getAbsoluteFlags() const;
-		int getFlags() const;
 		virtual double originDistance() const = 0;
 		virtual Point collideLine(const Line& ray) const = 0;
 		virtual Point getPosition() const = 0;
@@ -62,6 +59,9 @@ class ThingBase : public std::enable_shared_from_this<ThingBase> {
 		virtual std::vector<ThingPtr>& getMyThings();
 		virtual void draw() = 0;
 		virtual void update();
+		double getAngle() const;
+		int getAbsoluteFlags() const;
+		int getFlags() const;
 		void ping(const std::string& info = "", const double& data = 0.0);
 		void setFlag(ENTITY_FLAG flag);
 		void setOwner(ThingBase* ptr);
@@ -71,9 +71,7 @@ class ThingBase : public std::enable_shared_from_this<ThingBase> {
 
 namespace std {
 	template<> struct hash<ThingPtr> {
-		std::size_t operator()(const ThingPtr& thing) {
-			return thing->hash();
-		}
+		std::size_t operator()(const ThingPtr& thing) const noexcept;
 	};
 }
 #endif

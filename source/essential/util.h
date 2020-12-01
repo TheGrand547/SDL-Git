@@ -1,4 +1,6 @@
 #pragma once
+#ifndef UTIL_H
+#define UTIL_H
 #include "../primitives/Point.h"
 #include "../Color.h"
 #include <SDL.h>
@@ -22,3 +24,4 @@ int keyCodeFromEvent(SDL_Event event);
 void createDetatchedThread(int(*method)(void*), void* arg = NULL, const char* name = "new thread");
 
 int threadTest(void* ptr);
+#endif

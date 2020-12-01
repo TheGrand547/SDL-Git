@@ -29,11 +29,13 @@ class SectorGroup : public DrawGroup {
 		void connectSectors();
 		void purge();
 
-		template<typename T, typename... Args> SectorPtr createSector(Args... args) {
-			SectorPtr sector = std::make_shared<Sector<T>>(T(args...));
-			this->storage.push_back(sector);
-			sector->structure().setColorChannels(0xFF, 0xFF, 0x00, 0xFF);
-			return sector;
-		}
+		template<typename T, typename... Args> SectorPtr createSector(Args&&... args);
 };
+
+template<typename T, typename... Args> SectorPtr SectorGroup::createSector(Args&&... args) {
+	SectorPtr sector = std::make_shared<Sector<T>>(std::forward<T>(args)...);
+	this->storage.push_back(sector);
+	sector->structure().setColorChannels(0xFF, 0xFF, 0x00, 0xFF);
+	return sector;
+}
 #endif

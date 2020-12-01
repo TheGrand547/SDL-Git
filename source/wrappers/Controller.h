@@ -31,9 +31,9 @@ class Controller {
 		std::map<std::string, GameCommand> cheatMap;
 		std::stringstream cheatStream;
 	public:
+		bool quit;
 		GameInstance* parent;
 		int mouseX, mouseY;
-		bool quit;
 		Controller();
 		~Controller();
 		HeldKey& checkListener(int key);

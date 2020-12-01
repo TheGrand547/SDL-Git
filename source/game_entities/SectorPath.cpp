@@ -10,9 +10,7 @@ typedef std::vector<SectorPtr> SectorVector;
 
 namespace std {
 	template<> struct hash<SectorPtr> {
-		std::size_t operator()(const SectorPtr& thing) const noexcept {
-			return std::hash<Point>{}(thing->structure().getCenter());
-		}
+		std::size_t operator()(const SectorPtr& thing) const noexcept;
 	};
 }
 
@@ -132,4 +130,8 @@ void SectorPath::draw() {
 		sec->structure().setColorChannels(0xFF, 0x00, 0x00, 0xFF);
 		sec->draw(this->owner->parent->getRenderer());
 	}
+}
+
+std::size_t std::hash<SectorPtr>::operator()(const SectorPtr& thing) const noexcept {
+	return std::hash<Point>{}(thing->structure().getCenter());
 }

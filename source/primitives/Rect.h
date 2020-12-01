@@ -75,9 +75,7 @@ Rect operator/(const Point& point, const Rect& rect) = delete;
 
 namespace std {
 	template<> struct hash<Rect> {
-		std::size_t operator()(const Rect& thing) const noexcept {
-			return std::hash<Point>{}(thing.getTopLeft()) ^ (std::hash<Point>{}(thing.getBottomRight()) >> 5);
-		}
+		std::size_t operator()(const Rect& thing) const noexcept;
 	};
 }
 #endif

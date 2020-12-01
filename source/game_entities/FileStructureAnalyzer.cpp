@@ -15,11 +15,7 @@ BOOST_FUSION_ADAPT_STRUCT(
 
 template<typename Iterator> struct PointParser : boost::spirit::qi::grammar<Iterator, Point(), boost::spirit::qi::ascii::space_type> {
 	boost::spirit::qi::rule<Iterator, Point(), boost::spirit::qi::ascii::space_type> start;
-	PointParser() : PointParser::base_type(this->start) {
-		this->start %= boost::spirit::qi::double_ >> boost::spirit::qi::double_ | 
-						boost::spirit::qi::double_ >>  ',' >> boost::spirit::qi::double_ |
-						'(' >> this->start >> ')';
-	}
+	PointParser();
 };
 
 Point parsePoint(const std::string& string) {
@@ -105,4 +101,11 @@ void analyzeFile(const std::string& source, GameInstance& instance) {
 // TODO: Implement
 void analyzeStructure(const std::string& source, GameInstance& instance, StringMap& map) {
 	std::cout << source << "->" << &instance << &map << std::endl;
+}
+
+
+template<typename Iterator> PointParser<Iterator>::PointParser() : PointParser::base_type(this->start) {
+	this->start %= boost::spirit::qi::double_ >> boost::spirit::qi::double_ | 
+					boost::spirit::qi::double_ >>  ',' >> boost::spirit::qi::double_ |
+					'(' >> this->start >> ')';
 }

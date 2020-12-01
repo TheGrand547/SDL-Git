@@ -200,3 +200,7 @@ double Point::angleFromVector(const Point& vector) {
 Point Point::vectorFromAngle(const double& angle) {
 	return {cos(angle), sin(angle)};
 }
+
+std::size_t std::hash<Point>::operator()(const Point& thing) const noexcept {
+	return std::hash<double>{}(thing.x) ^ (std::hash<double>{}(thing.y) >> 5);
+}

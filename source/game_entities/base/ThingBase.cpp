@@ -116,3 +116,8 @@ ENTITY_DIRECTION getDirectionFromAngle(double angle) {
 		return RIGHT;
 	}
 }
+
+std::size_t std::hash<ThingPtr>::operator()(const ThingPtr& thing) const noexcept {
+	if (!thing) return 0;
+	return thing->hash();
+}

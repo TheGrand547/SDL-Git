@@ -212,3 +212,7 @@ Rect operator-(const Point& point, const Rect& rect) {
 Rect operator*(const double& num, const Rect& rect) {
 	return rect * num;
 }
+
+std::size_t std::hash<Rect>::operator()(const Rect& thing) const noexcept {
+	return std::hash<Point>{}(thing.getTopLeft()) ^ (std::hash<Point>{}(thing.getBottomRight()) >> 5);
+}

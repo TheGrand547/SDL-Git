@@ -51,10 +51,6 @@ void EnemyBase::toggleTurn() {
 	this->turning = !this->turning;
 }
 
-double EnemyBase::getAngle() const {
-	return this->angle;
-}
-
 std::ostream& operator<<(std::ostream& output, const EnemyBase& base) {
 	output << base.getPosition();
 	return output;

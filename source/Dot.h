@@ -27,8 +27,6 @@ class Dot : public EntityBase, public Color {
 		bool overlap(const Polygon& other) const override;
 		bool overlap(const std::shared_ptr<ThingBase>& other) const override;
 		double calcAngle(Point point);
-		// TODO: Remove duplicates of this and such
-		double getAngle();
 		Line getRay();
 		Point collideLine(const Line& ray) const override;
 		Point getCenter();
