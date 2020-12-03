@@ -1,10 +1,10 @@
 #pragma once
 #ifndef LINKED_TEXT_H
 #define LINKED_TEXT_H
+#include "../essential/constants.h"
 #include "Text.h"
 #include <sstream>
 #include <string>
-#include "../essential/constants.h"
 
 template<class T> class LinkedText : public Text {
 	protected:
@@ -32,5 +32,4 @@ template<class T> void LinkedText<T>::draw(Renderer renderer) {
 	stream << this->message << this->reference;
 	this->font.drawText(this->position, stream.str(), renderer.renderer, Colors::Red);
 }
-
 #endif

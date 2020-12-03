@@ -2,14 +2,17 @@
 #ifndef SECTOR_PATH_FOLLOWER_H
 #define SECTOR_PATH_FOLLOWER_H
 #include "../primitives/Rect.h"
-#include "../wrappers/Surface.h"
 #include "../wrappers/MovementWrapper.h"
+#include "../wrappers/Surface.h"
+#include "../wrappers/Timer.h"
 #include "base/ThingBase.h"
 #include "SectorPath.h"
 
 class SectorPathFollower : public ThingBase {
 	protected:
+		int seen;
 		MovementWrapper movement;
+		Timer timer;
 	public:
 		// Why are these public again?
 		Rect box;

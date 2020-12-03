@@ -104,7 +104,7 @@ void SectorPath::createPath(Point start, Point target) {
 		// Straight shot
 		if (!this->owner->parent->collision.doesCollideWith(line)) break;
 		if (this->stored[i]->structure().containsPoint(current)) {
-			// TODO: Fill this in, you know what to do i hope
+			// TODO: Fill this in, you know what to do i hope <- what did this dumbass mean
 		}
 		//line = Line(current,);
 	}

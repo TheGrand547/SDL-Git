@@ -1,9 +1,10 @@
 #include "SectorPathFollower.h"
 #include "../essential/MathUtils.h"
+#include "../wrappers/AlertText.h"
 #include "../GameInstance.h"
 #include "BasicBullet.h"
 
-SectorPathFollower::SectorPathFollower(Rect rect) : ThingBase(DRAW | MOVEABLE), box(rect), mine(this) {}
+SectorPathFollower::SectorPathFollower(Rect rect) : ThingBase(DRAW | MOVEABLE), seen(0), box(rect), mine(this) {}
 
 SectorPathFollower::~SectorPathFollower() {}
 
@@ -60,14 +61,20 @@ void SectorPathFollower::update() {
 			break;
 		}
 	}
-	auto p12 = this->box.getCenter();
-	auto pp2 = this->parent->getPlayer()->getBoundingRect().getCenter();
+	Point p12 = this->box.getCenter();
+	Point pp2 = this->parent->getPlayer()->getBoundingRect().getCenter();
+	// TODO: Make sure this is relatively accurate instead of rarely accurate
 	if (p12.distanceToPoint(pp2) < 150 && abs(Math::angleBetween(p12, pp2) - this->angle) < (20 * M_PI / 180.0)) {
-		/*
-		ThingPtr thing = this->parent->createThing<BasicBullet>(p12, this->angle, 500);
-		this->myThings.push_back(thing);
-		thing->setOwner(this);*/
+		this->seen += this->timer.getTicks();
+		if (this->seen > 250) {
+			this->seen = 0;
+			this->parent->createText<AlertText>("Spotted a dumbo :D", p12, Colors::Red, 2500);
+		}
+		// this->createOwnedThing<BasicBullet>(p12, this->angle, 500);
+	} else {
+		this->seen -= (this->seen > 0) ? this->timer.getTicks() : -this->seen;
 	}
+	this->timer.start();
 	Point p = this->mine.currentTarget(this->box.getCenter());
 	double value = this->movement.getValue();
 	if (p.isNull() || !value) return;

@@ -2,13 +2,14 @@
 #ifndef POINT_H
 #define POINT_H
 #include <iostream>
+#include <math.h>
 // TODO: Add directional indicators <- what does this mean
 
 struct Point {
 	double x, y;
-	Point();
-	Point(const double& x, const double& y = 0);
-	Point(const Point& point);
+	constexpr Point();
+	constexpr Point(const double& x, const double& y = 0);
+	constexpr Point(const Point& point);
 	~Point();
 	bool getNonZero() const;
 	bool isAbove(const Point& point) const;
@@ -57,7 +58,7 @@ struct Point {
 	static Point vectorFromAngle(const double& angle);
 };
 
-Point operator*(const double& other, const Point& point);
+Point operator*(const double& num, const Point& point);
 Point operator+(const double& num, const Point& point) = delete;
 Point operator-(const double& num, const Point& point) = delete;
 Point operator/(const double& num, const Point& point) = delete;
@@ -68,4 +69,9 @@ namespace std {
 		std::size_t operator()(const Point& thing) const noexcept;
 	};
 }
+
+// Constexpression defintions
+constexpr Point::Point() : x(NAN), y(NAN) {}
+constexpr Point::Point(const double& x, const double& y) : x(x), y(y) {}
+constexpr Point::Point(const Point& point) : x(point.x), y(point.y) {}
 #endif

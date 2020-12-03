@@ -29,6 +29,4 @@ class EnemyBase : public ThingBase {
 		void toggleTurn();
 		Point pathFindTo(Point pos = Point());
 };
-
-std::ostream& operator<<(std::ostream& output, const EnemyBase& base);
 #endif

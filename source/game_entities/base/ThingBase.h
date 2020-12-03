@@ -67,6 +67,7 @@ class ThingBase : public std::enable_shared_from_this<ThingBase> {
 		void setOwner(ThingBase* ptr);
 		void setParent(GameInstance* parent);
 		void unsetFlag(ENTITY_FLAG flag);
+		//template<typename T, typename... Args> std::shared_ptr<T> createOwnedThing(Args&&... args);
 };
 
 namespace std {
@@ -74,4 +75,13 @@ namespace std {
 		std::size_t operator()(const ThingPtr& thing) const noexcept;
 	};
 }
+// TODO: Figure out how to do this without creating a nightmare
+/*
+template<typename T, typename... Args> std::shared_ptr<T> ThingBase::createOwnedThing(Args&&... args) {
+	static_assert(std::is_base_of<ThingBase, T>::value, "createOwnedThing must be templated with a class that derives from ThingBase.");
+	std::shared_ptr<T> thing = this->parent->createThing<T>(std::forward<Args>(args)...);
+	this->myThings.push_back(thing);
+	thing->setOwner(this);
+	return thing;
+}*/
 #endif

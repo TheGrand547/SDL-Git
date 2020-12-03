@@ -1,14 +1,9 @@
 #include "Point.h"
 #include "../essential/misc.h"
-#include <math.h>
 
-Point::Point() : x(0.0 / 0.0), y(0.0 / 0.0) {}
-
-Point::Point(const double& x, const double& y) : x(x), y(y) {}
+//Point::Point() : x(0.0 / 0.0), y(0.0 / 0.0) {}
 
 Point::~Point() {}
-
-Point::Point(const Point& point) : x(point.x), y(point.y) {}
 
 bool Point::getNonZero() const {
 	return ((!::isZero(this->x) || !::isZero(this->y)) 
@@ -184,8 +179,8 @@ void Point::zero() {
 // --------- Related Non-class Methods ------------
 // ------------------------------------------------
 
-Point operator*(const double& other, const Point& point) {
-	return point * other;
+Point operator*(const double& num, const Point& point) {
+	return point * num;
 }
 
 std::ostream& operator<<(std::ostream& output, const Point &point) {

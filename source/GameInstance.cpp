@@ -1,4 +1,5 @@
 #include "GameInstance.h"
+#include "game_entities/base/ThingBase.h"
 
 // Comparator for the sake of the draw order pointer set
 bool Draw::compare::operator()(const ThingBase* lhs, const ThingBase* rhs) const {

@@ -16,14 +16,14 @@ void EnemyBase::draw() {
 	if (this->texture.isLoaded()) this->texture.draw(this->position - this->parent->getRenderer());
 }
 
-// TODO: Make this generic
+// TODO: Make this generic <- what?
 void EnemyBase::move(Point velocity) { 
 	double tickRatio = this->movement.getValue();
 	if (!tickRatio) return;
 	Point px = velocity.getUnitVector() * tickRatio * this->maxVelocity;
 	if (!px.isReal()) return;
 
-	PositionLock lock(this->position);	
+	PositionLock lock(this->position);
 	Point modified = px / 4.0;
 	for (int i = 0; i < 4; i++) {
 		this->position += modified;
@@ -49,9 +49,4 @@ void EnemyBase::turn(double delta) {
 
 void EnemyBase::toggleTurn() {
 	this->turning = !this->turning;
-}
-
-std::ostream& operator<<(std::ostream& output, const EnemyBase& base) {
-	output << base.getPosition();
-	return output;
 }

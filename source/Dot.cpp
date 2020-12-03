@@ -118,9 +118,8 @@ void Dot::rayCast() {
 
 void Dot::shoot() {
 	double ang = Math::radians((((int) Math::degrees(this->angle)) / 45) * 45);
-	ThingPtr thing = this->parent->createThing<BasicBullet>(this->getBoundingRect().getCenter(), ang, 500);
-	this->myThings.push_back(thing);
-	thing->setOwner(this);
+	std::cout << ang << std::endl;
+	//this->createOwnedThing<BasicBullet>(this->getBoundingRect().getCenter(), ang, 500);
 }
 
 void Dot::update() {
