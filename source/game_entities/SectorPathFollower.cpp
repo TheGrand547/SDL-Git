@@ -66,7 +66,7 @@ void SectorPathFollower::update() {
 	// TODO: Make sure this is relatively accurate instead of rarely accurate
 	if (p12.distanceToPoint(pp2) < 150 && abs(Math::angleBetween(p12, pp2) - this->angle) < (20 * M_PI / 180.0)) {
 		this->seen += this->timer.getTicks();
-		if (this->seen > 250) {
+		if (this->seen > 750) {
 			this->seen = 0;
 			this->parent->createText<AlertText>("Spotted a dumbo :D", p12, Colors::Red, 2500);
 		}
@@ -80,7 +80,7 @@ void SectorPathFollower::update() {
 	if (p.isNull() || !value) return;
 	this->box += p * value * 100;
 	if (this->parent->collision.isPositionOpen(this->shared_from_this())) {
-		this->angle = p.getAngle();
+		this->setAngle(p);
 	} else {
 		// Don't move, but removed cause that's not relevant to current testing
 		//LOG("I'm stuck at (%f, %f)", this->box.getCenter().x, this->box.getCenter().y);

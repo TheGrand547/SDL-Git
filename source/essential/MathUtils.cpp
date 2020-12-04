@@ -2,8 +2,10 @@
 
 // TODO: Potentially rename this file
 // TODO: Add more math
+
+// TODO: This feels really fucking wrong for some reason
 double Math::angleBetween(const Point& origin, const Point& end) {
-	return atan2(origin.y - end.y, end.x - origin.x);
+	return atan2(end.y - origin.y, end.x - origin.x);
 }
 
 double Math::gauss(const double& x, const double& sigma) { // Taken from https://github.com/anlcnydn/bilateral/blob/master/bilateral_filter.cpp

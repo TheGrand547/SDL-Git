@@ -6,7 +6,7 @@
 
 typedef uint32_t Uint32;
 
-/** Lightly modified from the timer on lazyfoo.net **/
+// Lightly modified from the timer on lazyfoo.net
 class Timer {
 	protected:
 		bool paused, started;

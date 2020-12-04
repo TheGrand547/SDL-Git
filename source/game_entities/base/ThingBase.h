@@ -63,6 +63,7 @@ class ThingBase : public std::enable_shared_from_this<ThingBase> {
 		int getAbsoluteFlags() const;
 		int getFlags() const;
 		void ping(const std::string& info = "", const double& data = 0.0);
+		void setAngle(const Point& point);
 		void setFlag(ENTITY_FLAG flag);
 		void setOwner(ThingBase* ptr);
 		void setParent(GameInstance* parent);

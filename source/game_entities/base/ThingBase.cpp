@@ -41,6 +41,10 @@ void ThingBase::ping(const std::string& info, const double& data) {
 
 void ThingBase::pingInternal([[maybe_unused]] const std::string& info, [[maybe_unused]] const double& data) {}
 
+void ThingBase::setAngle(const Point& point) {
+	this->angle = point.getAngle();
+}
+
 void ThingBase::setFlag(ENTITY_FLAG flag) {
 	if (!(this->flags & flag)) this->flags |= flag;
 }
