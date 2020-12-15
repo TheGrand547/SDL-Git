@@ -11,6 +11,7 @@
 class SectorPathFollower : public ThingBase {
 	protected:
 		int seen;
+		bool created = false;
 		MovementWrapper movement;
 		Timer timer;
 	public:

@@ -38,11 +38,9 @@ int main(int argc, char* argv[]) {
 	std::shared_ptr<BadTest> heck = GAME.createThing<BadTest>(BAD_POINT);
 	GAME.gameState["verbose"] = 1;
 	// TODO: Add to analyzer
-	for (int x = 0; x <= Screen::maxWidth + 100; x += 25) {
-		for (int y = 0; y <= Screen::maxWidth + 100; y += 25) {
-			if (x % 100 == 0 && y % 100 == 0) {
-				GAME.ground.add(Point(x, y), "resources/images/grass.png");
-			}
+	for (int x = 0; x <= Screen::maxWidth + 100; x += 100) {
+		for (int y = 0; y <= Screen::maxWidth + 100; y += 100) {
+			GAME.ground.add(Point(x, y), "resources/images/grass.png");
 		}
 	}
 	std::shared_ptr<AppearingText> ap = GAME.createText<AppearingText>("ducky dev best dev", Point(250, 0), 10, Colors::Red, 300);

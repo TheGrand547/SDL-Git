@@ -1,6 +1,7 @@
 #include "SectorPathFollower.h"
 #include "../essential/MathUtils.h"
 #include "../wrappers/AlertText.h"
+#include "../wrappers/LinkedText.h"
 #include "../GameInstance.h"
 #include "BasicBullet.h"
 
@@ -54,6 +55,10 @@ void SectorPathFollower::draw() {
 }
 
 void SectorPathFollower::update() {
+	if (!this->created)  {
+		this->created = true;
+		this->parent->createText<LinkedText<int>>(Point(500, 100), this->seen);
+	}
 	for (const ThingPtr& thing: this->parent->getPlayer()->getMyThings()) {
 		if (thing->overlap(this->box)) {
 			this->parent->queueRemoval(this->shared_from_this());
@@ -64,15 +69,16 @@ void SectorPathFollower::update() {
 	Point p12 = this->box.getCenter();
 	Point pp2 = this->parent->getPlayer()->getBoundingRect().getCenter();
 	// TODO: Make sure this is relatively accurate instead of rarely accurate
+	int ticks = this->timer.getTicks();
 	if (p12.distanceToPoint(pp2) < 150 && abs(Math::angleBetween(p12, pp2) - this->angle) < (20 * M_PI / 180.0)) {
-		this->seen += this->timer.getTicks();
+		this->seen += ticks;
 		if (this->seen > 750) {
 			this->seen = 0;
 			this->parent->createText<AlertText>("Spotted a dumbo :D", p12, Colors::Red, 2500);
 		}
 		// this->createOwnedThing<BasicBullet>(p12, this->angle, 500);
 	} else {
-		this->seen -= (this->seen > 0) ? this->timer.getTicks() : -this->seen;
+		this->seen = (this->seen > ticks) ? this->seen - (ticks * .25) : 0;
 	}
 	this->timer.start();
 	Point p = this->mine.currentTarget(this->box.getCenter());
