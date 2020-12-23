@@ -25,12 +25,6 @@ typedef std::shared_ptr<ThingBase> ThingPtr;
 typedef std::vector<ThingPtr> ThingVector;
 typedef std::queue<ThingPtr> ThingQueue;
 
-namespace Draw {
-	struct compare {
-		bool operator()(const ThingBase* lhs, const ThingBase* rhs) const;
-	};
-}
-
 class GameInstance {
 	protected:
 		friend class CollisionHandler;
@@ -44,7 +38,6 @@ class GameInstance {
 
 		SDL_Window* window;
 		std::shared_ptr<ThingBase> PLAYER;
-		std::set<ThingBase*, Draw::compare> drawOrder;
 
 		TextHandler text;
 		Timer frameTimer;

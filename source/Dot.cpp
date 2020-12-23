@@ -6,6 +6,11 @@
 #include "GameInstance.h"
 #include "PositionLock.h"
 
+// TODO: This should be made less utterly awful
+Rect shorten(Rect r) {
+	return Rect(r.getTopLeft() + Point(0, r.getHeight() / 2), r.getWidth(), r.getHeight() / 2);
+}
+
 Dot::Dot(Point startingCoordinate) : EntityBase(DRAW | MOVEABLE) {
 	this->surface.load("resources/images/cat.jpg");
 	this->surface.scale(Player::xDimension, Player::yDimension);
@@ -22,11 +27,11 @@ Point Dot::getCenter() {
 }
 
 bool Dot::overlap(const Polygon& other) const {
-	return this->getBoundingRect().overlap(other);
+	return shorten(this->getBoundingRect()).overlap(other);
 }
 
 bool Dot::overlap(const std::shared_ptr<ThingBase>& other) const {
-	return other->overlap(this->getBoundingRect());
+	return other->overlap(shorten(this->getBoundingRect()));
 }
 
 bool Dot::doesLineCollide(const Line& ray) const {

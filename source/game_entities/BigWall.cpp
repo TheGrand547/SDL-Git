@@ -37,5 +37,5 @@ Rect BigWall::getBoundingRect() const {
 
 void BigWall::draw() {
 	this->rect.setColorChannels(0x00, 0x00, 0xFF, 0xFF);
-	this->rect.draw(this->parent->getRenderer());
+	this->rect.drawFilled(this->parent->getRenderer());
 }

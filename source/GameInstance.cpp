@@ -1,13 +1,6 @@
 #include "GameInstance.h"
 #include "game_entities/base/ThingBase.h"
 
-// Comparator for the sake of the draw order pointer set
-bool Draw::compare::operator()(const ThingBase* lhs, const ThingBase* rhs) const {
-	if (lhs->originDistance() < rhs->originDistance()) return true;
-	if (lhs->originDistance() > rhs->originDistance()) return false;
-	return lhs < rhs;
-}
-
 GameInstance::GameInstance(SDL_Window* window, SDL_Renderer* renderer, BoundedPoint offset) : iterating(false), started(false), 
 							renderer({offset, renderer}), playableArea(0, 0, Screen::maxWidth, Screen::maxHeight), window(window),
 							ground(this), collision(this), sectors(this) {
@@ -32,7 +25,6 @@ void GameInstance::addThing(const ThingPtr& thing) {
 	int flags = thing->getAbsoluteFlags();
 	if (flags & DRAW) {
 		this->drawThings.push_back(thing);
-		this->drawOrder.insert(thing.get());
 	}
 	if (flags & SOLID) {
 		this->collisionThings.push_back(thing);
@@ -51,7 +43,6 @@ void GameInstance::removeThing(const ThingPtr& thing) {
 	if (flags & SOLID) removeValue(this->collisionThings, thing);
 	if (flags & DRAW) {
 		removeValue(this->drawThings, thing);
-		removeValue(this->drawOrder, thing.get());
 	}
 	if (flags & MOVEABLE) {
 		removeValue(this->movingThings, thing);
@@ -67,14 +58,16 @@ void GameInstance::addPlayer(const std::shared_ptr<ThingBase>& thing) {
 
 void GameInstance::draw() {
 	// Update screen position before drawing is done
-	if (this->getPlayer()->getPosition().x < Screen::width / 2) this->renderer.offset.x = 0;
-	if (this->getPlayer()->getPosition().y < Screen::height / 2) this->renderer.offset.y = 0;
+	// The .05 thing is to stop off by one errors. Yes I know this sounds idiotic but it works, somehow
+	if (this->getPlayer()->getPosition().x < Screen::width / 2) this->renderer.offset.x = .05;
+	if (this->getPlayer()->getPosition().y < Screen::height / 2) this->renderer.offset.y = .05;
 	if (this->getPlayer()->getPosition().x > Screen::xScrollMax) this->renderer.offset.x = Screen::xPositionMax;
 	if (this->getPlayer()->getPosition().y > Screen::yScrollMax) this->renderer.offset.y = Screen::yPositionMax;
 
 	// Draw things
 	this->ground.drawGroup();
-	for (ThingBase* thing: this->drawOrder) thing->draw();
+	for (ThingPtr& thing: this->drawThings) thing->draw();
+	this->PLAYER->draw();
 	this->text.draw();
 }
 
@@ -123,14 +116,6 @@ void GameInstance::update() {
 	for (ThingPtr& thing: this->movingThings) {
 		Point position = thing->getPosition();
 		thing->update();
-		// If the object has moved, its relative draw order might need to be adjusted
-		if (position != thing->getPosition()) {
-			std::set<ThingBase*, Draw::compare>::iterator iterator = this->drawOrder.find(thing.get());
-			if (iterator != this->drawOrder.end()) {
-				this->drawOrder.erase(iterator);
-				this->drawOrder.insert(thing.get());
-			}
-		}
 	}
 	TRACE("Update Removal");
 	while (this->remove.size()) {

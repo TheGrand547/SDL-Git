@@ -130,8 +130,26 @@ void Polygon::draw(SDL_Renderer* renderer, Point offset) {
 		x[i] = temp[i].x;
 		y[i] = temp[i].y;
 	}
-	//filledPolygonRGBA(renderer, x, y, temp.size(), this->r, this->g, this->b, this->a);
 	polygonRGBA(renderer, x, y, temp.size(), this->r, this->g, this->b, this->a);
+	delete[] x;
+	delete[] y;
+}
+
+void Polygon::drawFilled(Renderer renderer) {
+	this->drawFilled(renderer.renderer, renderer.offset);
+}
+
+void Polygon::drawFilled(SDL_Renderer* renderer, Point offset) {
+	// TODO: Accelerate this possibly?
+	std::vector<Point> temp = this->getPoints();
+	short* x = new short[this->numPoints()];
+	short* y = new short[this->numPoints()];
+	for (int i = 0; i < this->numPoints(); i++) {
+		temp[i] -= offset;
+		x[i] = temp[i].x;
+		y[i] = temp[i].y;
+	}
+	filledPolygonRGBA(renderer, x, y, temp.size(), this->r, this->g, this->b, this->a);
 	delete[] x;
 	delete[] y;
 }

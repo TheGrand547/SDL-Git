@@ -52,6 +52,7 @@ void SectorPathFollower::draw() {
 	int angle = this->getAngle() * 180.0 / M_PI;
 	Point p = (this->box.getCenter() - this->parent->getRenderer()).offset;
 	filledPieRGBA(this->parent->getRenderer().renderer, (int) p.x, (int) p.y, 200, angle - 20, angle + 20, 0x00, 0x00, 0x00, 0x40);
+	filledPieRGBA(this->parent->getRenderer().renderer, (int) p.x, (int) p.y, 100, angle - 40, angle + 40, 0x00, 0x00, 0x00, 0x40);
 }
 
 void SectorPathFollower::update() {

@@ -29,6 +29,8 @@ struct Polygon : public Color {
 	virtual Rect getBoundingRect() const;
 	virtual void draw(Renderer renderer);
 	virtual void draw(SDL_Renderer* renderer, Point offset);
+	virtual void drawFilled(Renderer renderer);
+	virtual void drawFilled(SDL_Renderer* renderer, Point offset);
 
 	bool operator==(const Polygon& other) const;
 	bool operator!=(const Polygon& other) const;
