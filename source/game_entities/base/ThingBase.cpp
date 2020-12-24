@@ -63,7 +63,7 @@ void ThingBase::unsetFlag(ENTITY_FLAG flag) {
 
 void ThingBase::update() {}
 
-double getAngleFromDirection(const ENTITY_DIRECTION& direction) {
+double ThingBase::getAngleFromDirection(const ENTITY_DIRECTION& direction) {
 	double angle = 0;
 	switch (direction) {
 		case RIGHT:
@@ -93,7 +93,7 @@ double getAngleFromDirection(const ENTITY_DIRECTION& direction) {
 	return angle;
 }
 
-ENTITY_DIRECTION getDirectionFromAngle(double angle) {
+ENTITY_DIRECTION ThingBase::getDirectionFromAngle(double angle) {
 	while (angle < 0 || angle > 2 * M_PI) {
 		if (angle < 0) {
 			angle += 2 * M_PI;

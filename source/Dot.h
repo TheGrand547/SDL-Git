@@ -18,8 +18,8 @@ class Dot : public EntityBase, public Color {
 		BoundedPoint position; // >:(
 		MovementWrapper mvmt; // >:(
 		Point lastDelta;
-
 		Surface surface;
+		Rect collisionRect() const;
 	public:
 		Dot(Point startingCoordinate);
 		~Dot();

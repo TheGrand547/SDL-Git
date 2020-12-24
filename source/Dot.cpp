@@ -6,18 +6,12 @@
 #include "GameInstance.h"
 #include "PositionLock.h"
 
-// TODO: This should be made less utterly awful
-Rect shorten(Rect r) {
-	return Rect(r.getTopLeft() + Point(0, r.getHeight() / 2), r.getWidth(), r.getHeight() / 2);
-}
-
-Dot::Dot(Point startingCoordinate) : EntityBase(DRAW | MOVEABLE) {
+Dot::Dot(Point start) : EntityBase(DRAW | MOVEABLE), lastDelta(start) {
 	this->surface.load("resources/images/cat.jpg");
 	this->surface.scale(Player::xDimension, Player::yDimension);
-	this->lastDelta = startingCoordinate;
 	this->setMaxVelocity(200); // Per second
 	this->setFriction(10);
-	this->position = BoundedPoint(startingCoordinate, Screen::maxWidth - Player::xDimension, Screen::maxHeight - Player::yDimension);
+	this->position = BoundedPoint(start, Screen::maxWidth - Player::xDimension, Screen::maxHeight - Player::yDimension);
 }
 
 Dot::~Dot() {}
@@ -27,11 +21,11 @@ Point Dot::getCenter() {
 }
 
 bool Dot::overlap(const Polygon& other) const {
-	return shorten(this->getBoundingRect()).overlap(other);
+	return this->collisionRect().overlap(other);
 }
 
 bool Dot::overlap(const std::shared_ptr<ThingBase>& other) const {
-	return other->overlap(shorten(this->getBoundingRect()));
+	return other->overlap(this->collisionRect());
 }
 
 bool Dot::doesLineCollide(const Line& ray) const {
@@ -43,14 +37,18 @@ double Dot::calcAngle(Point point) {
 	return 0;
 }
 
-Point Dot::getPosition() const {
-	return this->position;
-}
-
 Line Dot::getRay() {
 	Point temp = Point(this->getCenter());
 	temp += Player::rayCastLength * Point::vectorFromAngle(this->angle);
 	return Line(this->getCenter(), temp);
+}
+
+Point Dot::getPosition() const {
+	return this->position;
+}
+
+Rect Dot::collisionRect() const {
+	return Rect(this->position, Player::xDimension, Player::yDimension / 2) + Point(0, Player::yDimension / 2);
 }
 
 Rect Dot::getBoundingRect() const {

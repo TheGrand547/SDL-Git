@@ -14,6 +14,8 @@ class ThingBase;
 
 typedef std::shared_ptr<ThingBase> ThingPtr;
 
+// TODO: Maybe put all these enums inside the ThingBase namespace?
+// TODO: Update these flags to actually be useful
 enum ENTITY_FLAG {
 	SOLID                   = 0x0001, // Other objects can collide with this at some point
 	NOCLIP                  = 0x0002, // This doesn't collide with others
@@ -22,12 +24,18 @@ enum ENTITY_FLAG {
 	BLOCKS_VISIBILTY        = 0x0010, // This object can block visibility
 };
 
+// Directions that an entity can be facing
 enum ENTITY_DIRECTION {
 	RIGHT, UP_RIGHT, UP, UP_LEFT, LEFT, DOWN_LEFT, DOWN, DOWN_RIGHT
 };
 
-double getAngleFromDirection(const ENTITY_DIRECTION& direction);
-ENTITY_DIRECTION getDirectionFromAngle(double angle);
+// Types to check collision against
+enum OVERLAP_TYPE {
+	MOVEMENT                = 0x0001, // The object being passed is trying to move normally
+	SUPER_MOVEMENT          = 0x0002, // The object being passed is trying to move with increased priority, trivial objects need not interrupt it
+	VISION                  = 0x0004, // The object being passed is a vision indicator, but doesn't see through most things
+	SUPER_VISION            = 0x0008, // The object being passed is a vision indicator, but it does see through many common obstacles
+};
 
 class ThingBase : public std::enable_shared_from_this<ThingBase> {
 	protected:
@@ -40,6 +48,7 @@ class ThingBase : public std::enable_shared_from_this<ThingBase> {
 		const std::size_t hashValue;
 		virtual void pingInternal([[maybe_unused]] const std::string& info = "", [[maybe_unused]] const double& data = 0.0);
 	public:
+		// Investigate if this should be public or not
 		GameInstance* parent;
 
 		ThingBase(int flags = 0);
@@ -69,6 +78,9 @@ class ThingBase : public std::enable_shared_from_this<ThingBase> {
 		void setParent(GameInstance* parent);
 		void unsetFlag(ENTITY_FLAG flag);
 		//template<typename T, typename... Args> std::shared_ptr<T> createOwnedThing(Args&&... args);
+		
+		static double getAngleFromDirection(const ENTITY_DIRECTION& direction);
+		static ENTITY_DIRECTION getDirectionFromAngle(double angle);
 };
 
 namespace std {

@@ -96,7 +96,7 @@ int main(int argc, char* argv[]) {
 		}
 
 		// Misc testing
-		spriteSheetTest.draw("dumb", GAME.getTrueRenderer(), {200, 200}, getDirectionFromAngle(player->getAngle()));
+		spriteSheetTest.draw("dumb", GAME.getTrueRenderer(), {200, 200}, ThingBase::getDirectionFromAngle(player->getAngle()));
 
 		// For debug help
 		fps->drawFrameTime(GAME.getRenderer());
