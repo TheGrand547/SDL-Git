@@ -31,10 +31,11 @@ enum ENTITY_DIRECTION {
 
 // Types to check collision against
 enum OVERLAP_TYPE {
-	MOVEMENT                = 0x0001, // The object being passed is trying to move normally
-	SUPER_MOVEMENT          = 0x0002, // The object being passed is trying to move with increased priority, trivial objects need not interrupt it
-	VISION                  = 0x0004, // The object being passed is a vision indicator, but doesn't see through most things
-	SUPER_VISION            = 0x0008, // The object being passed is a vision indicator, but it does see through many common obstacles
+	DEFAULT                 = 0x0001, // Equivilent to DEFAULT | VISION
+	MOVEMENT                = 0x0002, // The object being passed is trying to move normally
+	SUPER_MOVEMENT          = 0x0004, // The object being passed is trying to move with increased priority, trivial objects need not interrupt it
+	VISION                  = 0x0008, // The object being passed is a vision indicator, but doesn't see through most things
+	SUPER_VISION            = 0x0010, // The object being passed is a vision indicator, but it does see through many common obstacles
 };
 
 class ThingBase : public std::enable_shared_from_this<ThingBase> {
@@ -46,7 +47,7 @@ class ThingBase : public std::enable_shared_from_this<ThingBase> {
 		std::vector<ThingPtr> myThings;
 		ThingBase* owner; // For whatever you need to have it do
 		const std::size_t hashValue;
-		virtual void pingInternal([[maybe_unused]] const std::string& info = "", [[maybe_unused]] const double& data = 0.0);
+		virtual void pingInternal(const std::string& info = "", const double& data = 0.0);
 	public:
 		// Investigate if this should be public or not
 		GameInstance* parent;
@@ -59,7 +60,9 @@ class ThingBase : public std::enable_shared_from_this<ThingBase> {
 		 * overlap(shared_ptr<Thing>) -> Does this object collide with this object(ie call the objects 
 		 * 		overlap with each hitbox in this */ 
 		virtual bool overlap(const Polygon& other) const = 0;
+		virtual bool overlap(const Polygon& other, const int& flags) const;
 		virtual bool overlap(const ThingPtr& other) const = 0;
+		virtual bool overlap(const ThingPtr& other, const int& flags) const;
 		virtual double originDistance() const = 0;
 		virtual Point collideLine(const Line& ray) const = 0;
 		virtual Point getPosition() const = 0;

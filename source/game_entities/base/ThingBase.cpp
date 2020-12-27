@@ -1,11 +1,23 @@
 #include "ThingBase.h"
 #include "../../GameInstance.h"
 
-// TODO: This is bad
+// TODO: This is a bad hasing algorithm
 ThingBase::ThingBase(int flags) : angle(0.0 / 0.0), absoluteFlags(flags), flags(flags), owner(NULL),
 									hashValue(((long long) this) >> ((SDL_GetTicks() % 5) * 4) % 7), parent(NULL) {}
 
 ThingBase::~ThingBase() {}
+
+bool ThingBase::overlap(const Polygon& other, [[maybe_unused]] const int& flags) const {
+	return this->overlap(other);
+}
+
+bool ThingBase::overlap(const ThingPtr& other, [[maybe_unused]] const int& flags) const {
+	return this->overlap(other);
+}
+
+double ThingBase::getAngle() const {
+	return this->angle;
+}
 
 int ThingBase::getAbsoluteFlags() const {
 	return this->flags;
@@ -17,10 +29,6 @@ int ThingBase::getFlags() const {
 
 bool ThingBase::isAlive() const {
 	return true;
-}
-
-double ThingBase::getAngle() const {
-	return this->angle;
 }
 
 std::size_t ThingBase::hash() const {
