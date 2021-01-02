@@ -4,15 +4,15 @@
 #include "Sector.h"
 #include "SectorGroup.h"
 
-CollisionHandler::CollisionHandler(GameInstance* parent) : parent(parent) {}
+_CollisionHandler::_CollisionHandler(GameInstance* parent) : parent(parent) {}
 
-CollisionHandler::~CollisionHandler() {}
+_CollisionHandler::~_CollisionHandler() {}
 
-int CollisionHandler::size() const {
+int _CollisionHandler::size() const {
 	return this->parent->collisionThings.size();
 }
 
-bool CollisionHandler::doesCollideWith(const Polygon& rect, const ThingPtr& something) const {
+bool _CollisionHandler::doesCollideWith(const Polygon& rect, const ThingPtr& something) const {
 	/* True - the rect DOES collide with this collide group
 	 * False - the rect DOESN'T collide with this collide group */
 	for (const ThingPtr& thing: this->parent->collisionThings) {
@@ -21,13 +21,13 @@ bool CollisionHandler::doesCollideWith(const Polygon& rect, const ThingPtr& some
 	return false;
 }
 
-bool CollisionHandler::doesNotCollideWith(const Polygon& rect, const ThingPtr& something) const {
+bool _CollisionHandler::doesNotCollideWith(const Polygon& rect, const ThingPtr& something) const {
 	/* True - the rect DOESN'T collide with this collide group
 	 * False - the rect DOES collide with this collide group */
 	return !this->doesCollideWith(rect, something);
 }
 
-bool CollisionHandler::doesCollideWith(const Line& line, const ThingPtr& something) const {
+bool _CollisionHandler::doesCollideWith(const Line& line, const ThingPtr& something) const {
 	/* True - the line DOES collide with this collide group
 	 * False - the line DOESN'T collide with this collide group */
 	for (const ThingPtr& thing: this->parent->collisionThings) {
@@ -36,13 +36,13 @@ bool CollisionHandler::doesCollideWith(const Line& line, const ThingPtr& somethi
 	return false;
 }
 
-bool CollisionHandler::doesNotCollideWith(const Line& line, const ThingPtr& thing) const {
+bool _CollisionHandler::doesNotCollideWith(const Line& line, const ThingPtr& thing) const {
 	/* True - the line DOESN'T collide with this collide group
 	 * False - the line DOES collide with this collide group */
 	return !this->doesCollideWith(line, thing);
 }
 
-bool CollisionHandler::doesCollideWith(const ThingPtr& thing) const {
+bool _CollisionHandler::doesCollideWith(const ThingPtr& thing) const {
 	/* True - the rect DOES collide with this collide group
 	 * False - the rect DOESN'T collide with this collide group */
 	for (const ThingPtr& ptr: this->parent->collisionThings) {
@@ -51,19 +51,18 @@ bool CollisionHandler::doesCollideWith(const ThingPtr& thing) const {
 	return false;
 }
 
-bool CollisionHandler::doesNotCollideWith(const ThingPtr& thing) const {
+bool _CollisionHandler::doesNotCollideWith(const ThingPtr& thing) const {
 	return !this->doesCollideWith(thing);
 }
 
-bool CollisionHandler::isPositionOpen(const ThingPtr& thing) {
+bool _CollisionHandler::isPositionOpen(const ThingPtr& thing) {
 	for (const ThingPtr& something: this->parent->collisionThings) {
 		if (thing.get() != something.get() && something->overlap(thing)) return false;
 	}
 	return true;
 }
 
-
-Point CollisionHandler::closestPointThatCollidesWith(const Line& ray, const ThingPtr& something) const {
+Point _CollisionHandler::closestPointThatCollidesWith(const Line& ray, const ThingPtr& something) const {
 	Point stored, temp;
 	for (const ThingPtr& thing: this->parent->collisionThings) {
 		if (thing.get() == something.get()) continue;
@@ -75,9 +74,3 @@ Point CollisionHandler::closestPointThatCollidesWith(const Line& ray, const Thin
 	}
 	return stored;
 }
-
-void CollisionHandler::finalize() {
-	// TODO: Maybe remove?
-}
-
-

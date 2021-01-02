@@ -56,6 +56,8 @@ class ThingBase : public std::enable_shared_from_this<ThingBase> {
 		virtual ~ThingBase() = 0;
 		virtual bool doesLineCollide(const Line& ray) const = 0;
 		virtual bool isAlive() const;
+		virtual bool overlap(const Line& other) const;
+		virtual bool overlap(const Line& other, const int& flags) const;
 		/* overlap(Polygon) -> Does /this/ collide with that specific polygon
 		 * overlap(shared_ptr<Thing>) -> Does this object collide with this object(ie call the objects 
 		 * 		overlap with each hitbox in this */ 

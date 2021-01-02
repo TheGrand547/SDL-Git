@@ -2,6 +2,7 @@
 #ifndef SECTOR_PATH_H
 #define SECTOR_PATH_H
 #include "base/ThingBase.h"
+#include "CollisionHandler.h"
 #include "Sector.h"
 #include <memory>
 #include <vector>

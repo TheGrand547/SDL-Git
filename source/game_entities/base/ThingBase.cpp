@@ -7,6 +7,18 @@ ThingBase::ThingBase(int flags) : angle(0.0 / 0.0), absoluteFlags(flags), flags(
 
 ThingBase::~ThingBase() {}
 
+bool ThingBase::isAlive() const {
+	return true;
+}
+
+bool ThingBase::overlap(const Line& other) const {
+	return this->collideLine(other).isReal();
+}
+
+bool ThingBase::overlap(const Line& other, [[maybe_unused]] const int& flags) const {
+	return this->overlap(other);
+}
+
 bool ThingBase::overlap(const Polygon& other, [[maybe_unused]] const int& flags) const {
 	return this->overlap(other);
 }
@@ -25,10 +37,6 @@ int ThingBase::getAbsoluteFlags() const {
 
 int ThingBase::getFlags() const {
 	return this->flags;
-}
-
-bool ThingBase::isAlive() const {
-	return true;
 }
 
 std::size_t ThingBase::hash() const {

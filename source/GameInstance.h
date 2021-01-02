@@ -3,12 +3,12 @@
 #define GAME_INSTANCE_H
 
 class GameInstance;
+class _CollisionHandler;
 
 #include "essential/log.h"
 #include "essential/SDL_Headers.h"
 #include "game_entities/base/ThingBase.h"
 #include "game_entities/BackgroundGroup.h"
-#include "game_entities/CollisionHandler.h"
 #include "game_entities/SectorGroup.h"
 #include "primitives/Polygon.h"
 #include "primitives/Rect.h"
@@ -24,10 +24,11 @@ class GameInstance;
 typedef std::shared_ptr<ThingBase> ThingPtr;
 typedef std::vector<ThingPtr> ThingVector;
 typedef std::queue<ThingPtr> ThingQueue;
+typedef std::shared_ptr<_CollisionHandler> CollisionHandler;
 
 class GameInstance {
 	protected:
-		friend class CollisionHandler;
+		friend class _CollisionHandler;
 		friend class SectorGroup;
 		friend class Dot;
 

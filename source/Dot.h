@@ -2,6 +2,7 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 #include "game_entities/base/EntityBase.h"
+#include "game_entities/CollisionHandler.h"
 #include "primitives/Point.h"
 #include "primitives/Rect.h"
 #include "wrappers/FpsText.h"

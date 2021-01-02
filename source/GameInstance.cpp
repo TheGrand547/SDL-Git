@@ -1,9 +1,10 @@
 #include "GameInstance.h"
 #include "game_entities/base/ThingBase.h"
+#include "game_entities/CollisionHandler.h"
 
 GameInstance::GameInstance(SDL_Window* window, SDL_Renderer* renderer, BoundedPoint offset) : iterating(false), started(false), 
 							renderer({offset, renderer}), playableArea(0, 0, Screen::maxWidth, Screen::maxHeight), window(window),
-							ground(this), collision(this), sectors(this) {
+							ground(this), collision(std::make_shared<_CollisionHandler>(this)), sectors(this) {
 	this->frameTimer.start();
 	this->text.parent = this;
 }
@@ -94,7 +95,9 @@ void GameInstance::instanceBegin() { // Do final things before playing starts
 	// Do cleanup on the pathfinding system
 	this->sectors.connectSectors();
 	this->sectors.purge();
-	this->collision.finalize();
+	
+	// Removed due to empty function, might return later
+	//this->collision.finalize();
 
 	// Clean up the rendering for the background group
 	this->ground.finalize();

@@ -6,6 +6,7 @@
 #include "paths/CirclePath.h"
 #include "paths/LinePath.h"
 #include "paths/ZeroRadiusTurnPath.h"
+#include "CollisionHandler.h"
 #include <math.h>
 #include <SDL.h>
 
@@ -30,7 +31,7 @@ bool BadTest::doesLineCollide(const Line& ray) const {
 bool BadTest::isLocationInvalid() const {
 	/* True  -> Invalid location, collision or some other predefined metric doesn't satisfy
 	 * False -> Valid location */
-	return this->parent->collision.doesCollideWith(Rect(this->position, this->width, this->height));
+	return this->parent->collision->doesCollideWith(Rect(this->position, this->width, this->height));
 }
 
 bool BadTest::overlap(const Polygon& other) const {

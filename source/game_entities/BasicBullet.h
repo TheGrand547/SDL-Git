@@ -5,6 +5,7 @@
 #include "../wrappers/MovementWrapper.h"
 #include "../wrappers/Surface.h"
 #include "base/ThingBase.h"
+#include "CollisionHandler.h"
 
 class BasicBullet : public ThingBase {
 	protected:

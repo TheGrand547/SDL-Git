@@ -2,6 +2,7 @@
 #include "../../essential/constants.h"
 #include "../../PositionLock.h"
 #include "../../GameInstance.h"
+#include "../CollisionHandler.h"
 #include <math.h>
 
 EnemyBase::EnemyBase(Point position, int flags) : ThingBase(flags | DRAW), maxVelocity(200) {
@@ -27,7 +28,7 @@ void EnemyBase::move(Point velocity) {
 	Point modified = px / 4.0;
 	for (int i = 0; i < 4; i++) {
 		this->position += modified;
-		if (this->parent->collision.isPositionOpen(this->shared_from_this())) {
+		if (this->parent->collision->isPositionOpen(this->shared_from_this())) {
 			lock.update();
 		} else break;
 	}

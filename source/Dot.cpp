@@ -72,14 +72,14 @@ void Dot::collideTest() {
 		// TODO: Feels sloppy as shit
 		if (temp.isZero()) break;
 		this->position += temp.onlyX();
-		if (this->parent->collision.isPositionOpen(this->shared_from_this())) {
+		if (this->parent->collision->isPositionOpen(this->shared_from_this())) {
 			lock.update();
 		} else {
 			temp.x = 0;
 			lock.revert();
 		}
 		this->position += temp.onlyY();
-		if (this->parent->collision.isPositionOpen(this->shared_from_this())) {
+		if (this->parent->collision->isPositionOpen(this->shared_from_this())) {
 			lock.update();
 		}  else {
 			temp.y = 0;
@@ -91,7 +91,7 @@ void Dot::collideTest() {
 		// Diagonal Check
 		for (int i = 0; i < CHECKS; i++) {
 			this->position += temp;
-			if (this->parent->collision.isPositionOpen(this->shared_from_this())) {
+			if (this->parent->collision->isPositionOpen(this->shared_from_this())) {
 				lock.update();
 			} else break;
 		}
@@ -111,7 +111,7 @@ void Dot::draw() {
 }
 
 void Dot::rayCast() {
-	Point newPoint = this->parent->collision.closestPointThatCollidesWith(this->getRay());
+	Point newPoint = this->parent->collision->closestPointThatCollidesWith(this->getRay());
 	if (newPoint.isReal()) {
 		Line tempLine = Line(this->getCenter(), newPoint.copy());
 		tempLine.setColorChannels(Colors::Cyan);
