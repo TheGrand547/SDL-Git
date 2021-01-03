@@ -4,9 +4,10 @@
 
 GameInstance::GameInstance(SDL_Window* window, SDL_Renderer* renderer, BoundedPoint offset) : iterating(false), started(false), 
 							renderer({offset, renderer}), playableArea(0, 0, Screen::maxWidth, Screen::maxHeight), window(window),
-							ground(this), collision(std::make_shared<_CollisionHandler>(this)), sectors(this) {
+							ground(this), sectors(this) {
 	this->frameTimer.start();
 	this->text.parent = this;
+	CollisionHandler::setTarget(this);
 }
 
 GameInstance::~GameInstance() {}

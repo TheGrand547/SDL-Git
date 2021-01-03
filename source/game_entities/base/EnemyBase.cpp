@@ -28,7 +28,7 @@ void EnemyBase::move(Point velocity) {
 	Point modified = px / 4.0;
 	for (int i = 0; i < 4; i++) {
 		this->position += modified;
-		if (this->parent->collision->isPositionOpen(this->shared_from_this())) {
+		if (CollisionHandler::locationValid(this->shared_from_this())) {
 			lock.update();
 		} else break;
 	}

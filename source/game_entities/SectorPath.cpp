@@ -74,7 +74,7 @@ Point SectorPath::currentTarget(Point currentPosition) {
 			Rect rect(this->owner->getBoundingRect());
 			rect.setCenter(edge.midPoint());
 			// Check if the simple collision box has to just proceeed to the center of the current setor
-			if (this->owner->parent->collision->doesCollideWith(rect)) {
+			if (!CollisionHandler::overlapTest(NULL, rect)) {
 				return centerDelta.getUnitVector();
 			}
 			return (edgePoint - currentPosition).getUnitVector();
@@ -102,7 +102,7 @@ void SectorPath::createPath(Point start, Point target) {
 		Point current = this->pointers.back();
 		Line line(current, target);
 		// Straight shot
-		if (!this->owner->parent->collision->doesCollideWith(line)) break;
+		if (!CollisionHandler::overlapTest(NULL, line)) break;
 		if (this->stored[i]->structure().containsPoint(current)) {
 			// TODO: Fill this in, you know what to do i hope <- what did this dumbass mean
 		}

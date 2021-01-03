@@ -86,7 +86,7 @@ void SectorPathFollower::update() {
 	double value = this->movement.getValue();
 	if (p.isNull() || !value) return;
 	this->box += p * value * 100;
-	if (this->parent->collision->isPositionOpen(this->shared_from_this())) {
+	if (CollisionHandler::locationValid(this->shared_from_this())) {
 		this->setAngle(p);
 	} else {
 		// Don't move, but removed cause that's not relevant to current testing

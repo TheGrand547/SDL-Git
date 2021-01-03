@@ -31,7 +31,7 @@ bool BadTest::doesLineCollide(const Line& ray) const {
 bool BadTest::isLocationInvalid() const {
 	/* True  -> Invalid location, collision or some other predefined metric doesn't satisfy
 	 * False -> Valid location */
-	return this->parent->collision->doesCollideWith(Rect(this->position, this->width, this->height));
+	return CollisionHandler::overlapTest(NULL, Rect(this->position, this->width, this->height));
 }
 
 bool BadTest::overlap(const Polygon& other) const {

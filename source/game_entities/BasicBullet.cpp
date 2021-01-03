@@ -74,7 +74,7 @@ void BasicBullet::update() {
 	if (!this->pain.overlap(this->parent->getPlayableArea())) this->remove();
 	PositionLock lock(this->position);
 	this->position += this->mvmt.getValue() * this->delta;
-	if (this->parent->collision->isPositionOpen(this->shared_from_this())) {
+	if (CollisionHandler::locationValid(this->shared_from_this())) {
 		lock.update();
 	} else {
 		this->parent->queueRemoval(this->shared_from_this());

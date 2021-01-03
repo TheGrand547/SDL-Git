@@ -24,11 +24,10 @@ class _CollisionHandler;
 typedef std::shared_ptr<ThingBase> ThingPtr;
 typedef std::vector<ThingPtr> ThingVector;
 typedef std::queue<ThingPtr> ThingQueue;
-typedef std::shared_ptr<_CollisionHandler> CollisionHandler;
 
 class GameInstance {
 	protected:
-		friend class _CollisionHandler;
+		friend class CollisionHandler;
 		friend class SectorGroup;
 		friend class Dot;
 
@@ -55,7 +54,6 @@ class GameInstance {
 		void removeThing(const ThingPtr& thing);
 	public:
 		BackgroundGroup ground;
-		CollisionHandler collision;
 		SectorGroup sectors;
 		std::map<std::string, int> gameState;
 
