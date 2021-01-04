@@ -15,8 +15,25 @@ bool BigWall::overlap(const Polygon& other) const {
 	return this->rect.overlap(other);
 }
 
+bool BigWall::overlap(const Polygon& other, [[maybe_unused]] const int& flags) const {
+	return this->rect.overlap(other);
+}
+
 bool BigWall::overlap(const std::shared_ptr<ThingBase>& other) const {
 	return other->overlap(this->rect);
+}
+
+bool BigWall::overlap(const std::shared_ptr<ThingBase>& other, const int& flags) const {
+	if (flags & SUPER_MOVEMENT) {
+		// Reduce to diagonal rectangle to determine priority movement
+		std::vector<Point> pts;
+		for (Line line: this->rect.getLines()) {
+			pts.push_back(line.midPoint());
+		}
+		return other->overlap(Rect(pts[0], pts[1], pts[2], pts[3]));
+	} else {
+		return other->overlap(this->rect);
+	}
 }
 
 double BigWall::originDistance() const {

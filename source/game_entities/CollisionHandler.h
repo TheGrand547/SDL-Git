@@ -18,6 +18,7 @@ typedef std::vector<WeakThingPtr> WeakThingVector;
 // Interface to interact with the collidable objects from GameInstance
 class CollisionHandler {
 	protected:
+		CollisionHandler();
 		inline static GameInstance* parent;
 	public:
 		static bool locationValid(const ThingPtr& source, const int& flags = OVERLAP_TYPE::DEFAULT);

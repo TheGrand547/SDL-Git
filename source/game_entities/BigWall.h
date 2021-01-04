@@ -16,7 +16,9 @@ class BigWall : public ThingBase {
 		~BigWall();
 		bool doesLineCollide(const Line& ray) const override;
 		bool overlap(const Polygon& other) const override;
+		bool overlap(const Polygon& other, const int& flags) const override;
 		bool overlap(const std::shared_ptr<ThingBase>& other) const override;
+		bool overlap(const std::shared_ptr<ThingBase>& other, const int& flags) const override;
 		double originDistance() const override;
 		Point collideLine(const Line& ray) const override;
 		Point getPosition() const override;

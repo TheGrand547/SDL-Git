@@ -31,7 +31,7 @@ enum ENTITY_DIRECTION {
 
 // Types to check collision against
 enum OVERLAP_TYPE {
-	DEFAULT                 = 0x0001, // Equivilent to DEFAULT | VISION
+	DEFAULT                 = 0x0001, // Equivilent to MOVEMENT | VISION
 	MOVEMENT                = 0x0002, // The object being passed is trying to move normally
 	SUPER_MOVEMENT          = 0x0004, // The object being passed is trying to move with increased priority, trivial objects need not interrupt it
 	VISION                  = 0x0008, // The object being passed is a vision indicator, but doesn't see through most things

@@ -3,6 +3,8 @@
 #include "Sector.h"
 #include "SectorGroup.h"
 
+CollisionHandler::CollisionHandler() {}
+
 bool CollisionHandler::locationValid(const ThingPtr& source, const int& flags) {
 	for (const ThingPtr& something: CollisionHandler::parent->collisionThings) {
 		if (source.get() != something.get() && something->overlap(source, flags)) return false;

@@ -86,12 +86,12 @@ void SectorPathFollower::update() {
 	double value = this->movement.getValue();
 	if (p.isNull() || !value) return;
 	this->box += p * value * 100;
-	if (CollisionHandler::locationValid(this->shared_from_this())) {
+	if (CollisionHandler::locationValid(this->shared_from_this()), SUPER_MOVEMENT) {
 		this->setAngle(p);
 	} else {
 		// Don't move, but removed cause that's not relevant to current testing
-		//LOG("I'm stuck at (%f, %f)", this->box.getCenter().x, this->box.getCenter().y);
-		//this->box -= p * value * 100;
+		LOG("I'm stuck at (%f, %f)", this->box.getCenter().x, this->box.getCenter().y);
+		this->box -= p * value * 100;
 	}
 	this->parent->gameState["PathFinished"] = (int) this->mine.isFinished();
 }
