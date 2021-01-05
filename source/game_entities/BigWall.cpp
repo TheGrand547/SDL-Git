@@ -30,7 +30,9 @@ bool BigWall::overlap(const std::shared_ptr<ThingBase>& other, const int& flags)
 		for (Line line: this->rect.getLines()) {
 			pts.push_back(line.midPoint());
 		}
-		return other->overlap(Rect(pts[0], pts[1], pts[2], pts[3]));
+		Rect g(pts[0], pts[1], pts[2], pts[3]);
+		// This appears to not work, probably fix it
+		return other->overlap(g);
 	} else {
 		return other->overlap(this->rect);
 	}
@@ -55,4 +57,11 @@ Rect BigWall::getBoundingRect() const {
 void BigWall::draw() {
 	this->rect.setColorChannels(0x00, 0x00, 0xFF, 0xFF);
 	this->rect.drawFilled(this->parent->getRenderer());
+	std::vector<Point> pts;
+	for (Line line: this->rect.getLines()) {
+		pts.push_back(line.midPoint());
+	}
+	Rect g(pts[0], pts[1], pts[2], pts[3]);
+	this->rect.setColorChannels(0xFF, 0x00, 0xFF, 0xFF);
+	g.drawFilled(this->parent->getRenderer());
 }

@@ -56,6 +56,7 @@ class GameInstance {
 		BackgroundGroup ground;
 		SectorGroup sectors;
 		std::map<std::string, int> gameState;
+		std::map<std::string, Point> gamePoints;
 
 		GameInstance(SDL_Window* window, SDL_Renderer* renderer, BoundedPoint offset);
 		~GameInstance();

@@ -10,6 +10,9 @@
 
 class SectorPathFollower : public ThingBase {
 	protected:
+		static inline const int VISION_WIDE = 60;
+		static inline const int VISION_SHALLOW = 30;
+		static inline const int VISION_RANGE = 200;
 		int seen;
 		bool created = false;
 		MovementWrapper movement;

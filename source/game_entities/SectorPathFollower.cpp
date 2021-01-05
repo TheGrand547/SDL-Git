@@ -51,8 +51,8 @@ void SectorPathFollower::draw() {
 	this->texture.draw(this->getPosition() - this->parent->getRenderer());
 	int angle = this->getAngle() * 180.0 / M_PI;
 	Point p = (this->box.getCenter() - this->parent->getRenderer()).offset;
-	filledPieRGBA(this->parent->getRenderer().renderer, (int) p.x, (int) p.y, 200, angle - 20, angle + 20, 0x00, 0x00, 0x00, 0x40);
-	filledPieRGBA(this->parent->getRenderer().renderer, (int) p.x, (int) p.y, 100, angle - 40, angle + 40, 0x00, 0x00, 0x00, 0x40);
+	filledPieRGBA(this->parent->getRenderer().renderer, (int) p.x, (int) p.y, 200, angle - VISION_SHALLOW, angle + VISION_SHALLOW, 0x00, 0x00, 0x00, 0x40);
+	filledPieRGBA(this->parent->getRenderer().renderer, (int) p.x, (int) p.y, 200, angle - VISION_WIDE, angle + VISION_WIDE, 0x00, 0x00, 0x00, 0x40);
 }
 
 void SectorPathFollower::update() {
@@ -67,19 +67,22 @@ void SectorPathFollower::update() {
 			break;
 		}
 	}
-	Point p12 = this->box.getCenter();
-	Point pp2 = this->parent->getPlayer()->getBoundingRect().getCenter();
+	Point myCenter = this->box.getCenter();
+	Point playerCenter = this->parent->getPlayer()->getBoundingRect().getCenter();
+	double difference = abs(Math::angleBetween(myCenter, playerCenter) - this->angle);
 	// TODO: Make sure this is relatively accurate instead of rarely accurate
 	int ticks = this->timer.getTicks();
-	if (p12.distanceToPoint(pp2) < 150 && abs(Math::angleBetween(p12, pp2) - this->angle) < (20 * M_PI / 180.0)) {
+	if (myCenter.distanceToPoint(playerCenter) < VISION_RANGE && difference < (VISION_WIDE * M_PI / 180.0) 
+		&& CollisionHandler::closestPointThatCollidesWith(NULL, Line(myCenter, playerCenter)).isNull()) {
+		if (difference < (VISION_SHALLOW * M_PI / 180.0)) this->seen += ticks;
 		this->seen += ticks;
-		if (this->seen > 750) {
+		if (this->seen > 2000) {
 			this->seen = 0;
-			this->parent->createText<AlertText>("Spotted a dumbo :D", p12, Colors::Red, 2500);
+			this->parent->gameState["PlayerSpotted"] = 1;
+			//this->parent->createText<AlertText>("Spotted a dumbo :D", p12, Colors::Red, 2500);
 		}
-		// this->createOwnedThing<BasicBullet>(p12, this->angle, 500);
 	} else {
-		this->seen = (this->seen > ticks) ? this->seen - (ticks * .25) : 0;
+		this->seen = (this->seen > ticks) ? this->seen - (ticks * .5) : 0;
 	}
 	this->timer.start();
 	Point p = this->mine.currentTarget(this->box.getCenter());

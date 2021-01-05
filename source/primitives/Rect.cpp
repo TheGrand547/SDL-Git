@@ -45,7 +45,6 @@ Rect::Rect(Point a, Point b, Point c, Point d) {
 	*this = Rect(Line(a, b), Line(c, d));
 }
 
-
 Rect::Rect(Point topLeft, Point bottomRight) {
 	// Constructor for a standard, coordinate system orthogonal rectangle
 	orderPoints(topLeft, bottomRight);

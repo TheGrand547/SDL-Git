@@ -10,6 +10,7 @@
 
 typedef uint Uint;
 
+// TODO: Make this a utility class that is addable to the other texts
 // TODO: Combine AppearingText and AlertText
 class AppearingText : public Text {
 	private:
