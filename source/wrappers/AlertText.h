@@ -11,7 +11,6 @@ typedef uint Uint;
 
 class AlertText : public Text {
 	protected:
-		bool done;
 		Point position;
 		std::string message;
 		Timer timer;

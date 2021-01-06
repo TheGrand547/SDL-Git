@@ -56,10 +56,12 @@ void SectorPathFollower::draw() {
 }
 
 void SectorPathFollower::update() {
+	// Testing thingy
 	if (!this->created)  {
 		this->created = true;
-		this->parent->createText<LinkedText<int>>(Point(500, 100), this->seen);
+		//this->parent->createText<LinkedText<int>>(Point(500, 100), this->seen);
 	}
+	// Bullet Collision
 	for (const ThingPtr& thing: this->parent->getPlayer()->getMyThings()) {
 		if (thing->overlap(this->box)) {
 			this->parent->queueRemoval(this->shared_from_this());
@@ -67,24 +69,33 @@ void SectorPathFollower::update() {
 			break;
 		}
 	}
+	// TODO: Add decacy of seen even if in ai state
 	Point myCenter = this->box.getCenter();
 	Point playerCenter = this->parent->getPlayer()->getBoundingRect().getCenter();
-	double difference = abs(Math::angleBetween(myCenter, playerCenter) - this->angle);
-	// TODO: Make sure this is relatively accurate instead of rarely accurate
-	int ticks = this->timer.getTicks();
-	if (myCenter.distanceToPoint(playerCenter) < VISION_RANGE && difference < (VISION_WIDE * M_PI / 180.0) 
-		&& CollisionHandler::closestPointThatCollidesWith(NULL, Line(myCenter, playerCenter)).isNull()) {
-		if (difference < (VISION_SHALLOW * M_PI / 180.0)) this->seen += ticks;
-		this->seen += ticks;
-		if (this->seen > 2000) {
-			this->seen = 0;
-			this->parent->gameState["PlayerSpotted"] = 1;
-			//this->parent->createText<AlertText>("Spotted a dumbo :D", p12, Colors::Red, 2500);
+	if (!this->parent->gameState["PlayerSpotted"]) {
+		double difference = abs(Math::angleBetween(myCenter, playerCenter) - this->angle);
+		int ticks = this->timer.getTicks();
+		if (myCenter.distanceToPoint(playerCenter) < VISION_RANGE && difference < (VISION_WIDE * M_PI / 180.0) 
+			&& CollisionHandler::closestPointThatCollidesWith(NULL, Line(myCenter, playerCenter)).isNull()) {
+			if (difference < (VISION_SHALLOW * M_PI / 180.0)) this->seen += ticks;
+			this->seen += ticks;
+			if (this->seen > 1500) {
+				this->parent->gameState["PlayerSpotted"] = 1;
+				this->parent->gamePoints["PlayerSpotted"] = playerCenter;
+				this->mine.createPath(myCenter, playerCenter);
+				this->parent->createText<AlertText>("Spotted a dumbo :D", myCenter - Point(50, 50), Colors::Red, 1000);
+			}
+		} else {
+			this->seen = (this->seen > ticks) ? this->seen - (ticks * .5) : 0;
 		}
 	} else {
-		this->seen = (this->seen > ticks) ? this->seen - (ticks * .5) : 0;
+		if (this->mine.size() == 0) {
+			this->mine.createPath(myCenter, this->parent->gamePoints["PlayerSpotted"]);
+		}
 	}
 	this->timer.start();
+
+	// Movement
 	Point p = this->mine.currentTarget(this->box.getCenter());
 	double value = this->movement.getValue();
 	if (p.isNull() || !value) return;

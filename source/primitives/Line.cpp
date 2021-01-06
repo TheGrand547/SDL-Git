@@ -107,7 +107,7 @@ Point Line::midPoint() const {
 }
 
 void Line::draw(Renderer renderer) {
-	aalineRGBA(renderer.renderer, this->originPoint - renderer.offset, this->endingPoint - renderer.offset, r, g, b, a);
+	lineRGBA(renderer.renderer, this->originPoint - renderer.offset, this->endingPoint - renderer.offset, r, g, b, a);
 }
 
 void Line::setColor(Uint8 red, Uint8 green, Uint8 blue, Uint8 alpha) {

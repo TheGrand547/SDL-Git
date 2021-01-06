@@ -12,6 +12,7 @@ typedef uint Uint;
 
 // TODO: Make this a utility class that is addable to the other texts
 // TODO: Combine AppearingText and AlertText
+// TODO: Make this not shit
 class AppearingText : public Text {
 	private:
 		int charWrap, leftOver, ticksPerLetter;

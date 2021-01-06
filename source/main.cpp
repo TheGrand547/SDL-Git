@@ -35,7 +35,6 @@ int main(int argc, char* argv[]) {
 
 	// Enemy
 	const Point BAD_POINT(220, 360);
-	std::shared_ptr<BadTest> heck = GAME.createThing<BadTest>(BAD_POINT);
 	GAME.gameState["verbose"] = 1;
 	// TODO: Add to analyzer
 	for (int x = 0; x <= Screen::maxWidth + 100; x += 100) {
@@ -58,6 +57,8 @@ int main(int argc, char* argv[]) {
 	spriteSheetTest.addAnimation("dumb", 0, 4, 500);
 
 	std::shared_ptr<SectorPathFollower> foodd = GAME.createThing<SectorPathFollower>(Rect(GAME.sectors[3]->structure().getCenter(), 25, 25));
+	// Create the true gamer
+	GAME.createThing<SectorPathFollower>(Rect(GAME.sectors[5]->structure().getCenter(), 25, 25));
 
 	SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
 	SDL_RenderClear(gRenderer);

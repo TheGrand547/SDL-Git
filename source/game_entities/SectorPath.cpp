@@ -98,6 +98,8 @@ void SectorPath::createPath(Point start, Point target) {
 	this->clear();
 	this->stored = AStar::generatePath(startSector, endSector, getValue, edgeFunction);
 	this->pointers = {start};
+	// TODO: For each node check if it can see any of the following nodes(except the direct next one cause that's trivial)
+	// and then cull the middle nodes if necssary
 	for (Uint i = 0; i + 2 < this->stored.size(); i++) {
 		Point current = this->pointers.back();
 		Line line(current, target);
