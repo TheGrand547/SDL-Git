@@ -38,7 +38,7 @@ SectorPath& SectorPath::operator=(const SectorPath& that) {
 }
 
 bool SectorPath::isFinished() const {
-	return this->stored.size() <= 1;
+	return this->pointers.size();
 }
 
 int SectorPath::size() {
@@ -46,39 +46,19 @@ int SectorPath::size() {
 }
 
 Point SectorPath::currentTarget(Point currentPosition) {
-	Point centerDelta;
-	if (!this->stored.size()) {
-		TRACE("Uninitialized path");
+	Point value;
+	if (!this->pointers.size()) {
+		TRACE("Path is Finished");
 	} else {
-		centerDelta = (this->stored[0]->structure().getCenter() - currentPosition);
+		if (currentPosition.fastDistanceToPoint(this->pointers[0]) > 1) {
+			value = (this->pointers[0] - currentPosition).getUnitVector();
+		} else {
+			std::cout << "Going deeper" << std::endl;
+			this->pointers.erase(this->pointers.begin());
+			value = this->currentTarget(currentPosition);
+		}
 	}
-	switch (this->stored.size()) {
-		case 1: 
-			// This is the end state
-			if (centerDelta.getFastMagnitude() > 10) {
-				return centerDelta.getUnitVector();
-			}
-			[[fallthrough]];
-		case 0: return Point();
-		default:
-			// Get the point of contact between the current sector and the next sector
-			Point edgePoint = this->stored[0]->pointsOfContact()[this->stored[1].get()];
-			// If we are at the contact point then we need to calculate the next vector to the next point of contact
-			if ((edgePoint - currentPosition).getFastMagnitude() < 5 ) {//|| (currentPosition - this->stored[1]->structure().getCenter()).getFastMagnitude() < 5) {
-				this->stored.erase(this->stored.begin());
-				edgePoint = this->stored[0]->pointsOfContact()[this->stored[1].get()];
-			}
-			// Create line between the current position and the (current) target point
-			Line edge(currentPosition, edgePoint);
-			// Get a simple collision box of the owner of this path
-			Rect rect(this->owner->getBoundingRect());
-			rect.setCenter(edge.midPoint());
-			// Check if the simple collision box has to just proceeed to the center of the current setor
-			if (!CollisionHandler::overlapTest(NULL, rect)) {
-				return centerDelta.getUnitVector();
-			}
-			return (edgePoint - currentPosition).getUnitVector();
-	}
+	return value;
 }
 
 void SectorPath::clear() {
@@ -88,6 +68,24 @@ void SectorPath::clear() {
 void SectorPath::createPath(SectorPtr startingSector, SectorPtr target) {
 	this->clear();
 	this->stored = AStar::generatePath(startingSector, target, getValue, edgeFunction);
+	this->pointers = {startingSector->structure().getCenter()};
+	
+	// TODO: Function this or something idk
+	for (uint i = 1; i + 1 < this->stored.size(); i++) {
+		if (i != 0) {
+			this->pointers.push_back(this->stored[i - 1]->pointsOfContact()[this->stored[i].get()]);
+		}
+		this->pointers.push_back(this->stored[i]->structure().getCenter());
+	}
+	this->pointers.push_back(target->structure().getCenter());
+	for (std::vector<Point>::iterator i = this->pointers.begin(); i + 1 != this->pointers.end(); i++) {
+		for (std::vector<Point>::iterator j = this->pointers.end()--; j != i + 2; j--) {
+			if (CollisionHandler::overlapTest(NULL, Line(*i, *j))) {
+				i = this->pointers.erase(i + 1, j - 1);
+				break;
+			}
+		}
+	}
 }
 void SectorPath::createPath(Point start, Point target) {
 	SectorPtr startSector = this->owner->parent->sectors.currentSector(start), endSector = this->owner->parent->sectors.currentSector(target);
@@ -98,19 +96,24 @@ void SectorPath::createPath(Point start, Point target) {
 	this->clear();
 	this->stored = AStar::generatePath(startSector, endSector, getValue, edgeFunction);
 	this->pointers = {start};
-	// TODO: For each node check if it can see any of the following nodes(except the direct next one cause that's trivial)
-	// and then cull the middle nodes if necssary
-	for (Uint i = 0; i + 2 < this->stored.size(); i++) {
-		Point current = this->pointers.back();
-		Line line(current, target);
-		// Straight shot
-		if (!CollisionHandler::overlapTest(NULL, line)) break;
-		if (this->stored[i]->structure().containsPoint(current)) {
-			// TODO: Fill this in, you know what to do i hope <- what did this dumbass mean
+	std::cout << this->stored.size() << std::endl;
+	for (uint i = 1; i < this->stored.size(); i++) {
+		std::cout << "Gamer" << std::endl;
+		if (i != 0) {
+			this->pointers.push_back(this->stored[i - 1]->pointsOfContact()[this->stored[i].get()]);
 		}
-		//line = Line(current,);
+		this->pointers.push_back(this->stored[i]->structure().getCenter());
 	}
 	this->pointers.push_back(target);
+	// TODO: Something fucky is up here, dunno what
+	for (std::vector<Point>::iterator i = this->pointers.begin(); i + 1 != this->pointers.end(); i++) {
+		for (std::vector<Point>::iterator j = this->pointers.end()--; j != i + 1; j--) {
+			if (CollisionHandler::overlapTest(NULL, Line(*i, *j))) {
+				i = this->pointers.erase(i + 1, j - 1);
+				break;
+			}
+		}
+	}
 }
 
 

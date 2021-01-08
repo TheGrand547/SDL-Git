@@ -23,6 +23,11 @@ int main(int argc, char* argv[]) {
 		if (!strcmp(argv[i], "-uncappedfps")) GAME.gameState["cv_capped_fps"] = 1;
 	}
 
+	// TODO: Overload SDL_* for Surface
+	SDL_Surface* logo = IMG_Load("resources/images/logo.png");
+	SDL_SetWindowIcon(gameWindow, logo);
+	SDL_FreeSurface(logo);
+
 	srand(time(NULL));
 	std::shared_ptr<Dot> player = std::make_shared<Dot>(Point(150, 150));
 	player->setColorChannels((Uint8) 0xFF);
@@ -58,7 +63,7 @@ int main(int argc, char* argv[]) {
 
 	std::shared_ptr<SectorPathFollower> foodd = GAME.createThing<SectorPathFollower>(Rect(GAME.sectors[3]->structure().getCenter(), 25, 25));
 	// Create the true gamer
-	GAME.createThing<SectorPathFollower>(Rect(GAME.sectors[5]->structure().getCenter(), 25, 25));
+	//GAME.createThing<SectorPathFollower>(Rect(GAME.sectors[5]->structure().getCenter(), 25, 25));
 
 	SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
 	SDL_RenderClear(gRenderer);
@@ -90,6 +95,7 @@ int main(int argc, char* argv[]) {
 		}
 		if (contra.checkListener(config["PathReset"]).getHeld() && GAME.gameState["PathFinished"]) {
 			foodd->mine.createPath(foodd->getPosition(), player->getPosition());
+			GAME.gameState["PlayerSpotted"] = 0;
 		}
 		if (contra.checkListener(config["Shoot"]).getHeld()) {
 			player->shoot();
