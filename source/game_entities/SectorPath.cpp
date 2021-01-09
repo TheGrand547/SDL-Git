@@ -51,9 +51,11 @@ Point SectorPath::currentTarget(Point currentPosition) {
 		TRACE("Path is Finished");
 	} else {
 		if (currentPosition.fastDistanceToPoint(this->pointers[0]) > 1) {
+			if (this->pointers.size() > 2 && CollisionHandler::overlapTest(this->owner->shared_from_this(), Line(currentPosition, this->pointers[1]))) 
+				this->pointers.erase(this->pointers.begin());
 			value = (this->pointers[0] - currentPosition).getUnitVector();
 		} else {
-			std::cout << "Going deeper" << std::endl;
+			//std::cout << "Going deeper" << std::endl;
 			this->pointers.erase(this->pointers.begin());
 			value = this->currentTarget(currentPosition);
 		}
@@ -95,23 +97,29 @@ void SectorPath::createPath(Point start, Point target) {
 	}
 	this->clear();
 	this->stored = AStar::generatePath(startSector, endSector, getValue, edgeFunction);
-	this->pointers = {start};
-	std::cout << this->stored.size() << std::endl;
-	for (uint i = 1; i < this->stored.size(); i++) {
-		std::cout << "Gamer" << std::endl;
-		if (i != 0) {
-			this->pointers.push_back(this->stored[i - 1]->pointsOfContact()[this->stored[i].get()]);
-		}
-		this->pointers.push_back(this->stored[i]->structure().getCenter());
+	this->pointers = {};
+	//std::cout << this->stored.size() << std::endl;
+	for (uint i = 0; i + 1 < this->stored.size(); i++) {
+		//std::cout << "Gamer" << std::endl;
+		if (i != 0) this->pointers.push_back(this->stored[i]->structure().getCenter());
+		this->pointers.push_back(this->stored[i + 1]->pointsOfContact()[this->stored[i].get()]);
 	}
 	this->pointers.push_back(target);
 	// TODO: Something fucky is up here, dunno what
-	for (std::vector<Point>::iterator i = this->pointers.begin(); i + 1 != this->pointers.end(); i++) {
-		for (std::vector<Point>::iterator j = this->pointers.end()--; j != i + 1; j--) {
-			if (CollisionHandler::overlapTest(NULL, Line(*i, *j))) {
-				i = this->pointers.erase(i + 1, j - 1);
-				break;
+	if (this->pointers.size() > 4) {
+		for (std::vector<Point>::iterator i = this->pointers.begin(); i != this->pointers.end(); i++) {
+			for (std::vector<Point>::iterator j = this->pointers.end()--; j != i + 1; j--) {
+				if (CollisionHandler::overlapTest(NULL, Line(*i, *j))) {
+					auto q = i;
+					for (; q != j; q++) {
+						std::cout << *q << " ";
+					}
+					std::cout << std::endl;
+					i = this->pointers.erase(i + 1, j - 1);
+					break;
+				}
 			}
+			//if (i == this->pointers.end()) break;
 		}
 	}
 }

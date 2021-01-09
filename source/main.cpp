@@ -63,7 +63,7 @@ int main(int argc, char* argv[]) {
 
 	std::shared_ptr<SectorPathFollower> foodd = GAME.createThing<SectorPathFollower>(Rect(GAME.sectors[3]->structure().getCenter(), 25, 25));
 	// Create the true gamer
-	//GAME.createThing<SectorPathFollower>(Rect(GAME.sectors[5]->structure().getCenter(), 25, 25));
+	GAME.createThing<SectorPathFollower>(Rect(GAME.sectors[5]->structure().getCenter(), 25, 25));
 
 	SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
 	SDL_RenderClear(gRenderer);
@@ -72,7 +72,7 @@ int main(int argc, char* argv[]) {
 	std::shared_ptr<FpsText> fps = GAME.createText<FpsText>(Point(100, 10), Colors::Red);
 	GAME.instanceBegin();
 	// TODO: Do more testing on pathfinding
-	foodd->mine.createPath(GAME.sectors[3], GAME.sectors[0]);
+	foodd->mine.createPath(GAME.sectors[3]->structure().getCenter(), Point(500, 150));
 	LOG("Section: Main Loop");
 	while (!contra.quit) {
 		// Handle events
