@@ -42,6 +42,7 @@ struct Point {
 	Point operator/(const double& num) const;
 	Point operator*(const double& num) const;
 	Point& operator=(const Point& point);
+	Point orthogonal() const;
 	Point rotate90() const;
 	Point toInt() const;
 	void operator+=(const Point& delta);

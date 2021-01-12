@@ -135,6 +135,10 @@ Point& Point::operator=(const Point& point) {
 	return *this;
 }
 
+Point Point::orthogonal() const {
+	return {this->y, -this->x};
+}
+
 Point Point::rotate90() const {
 	return Point(this->y, -this->x);
 }

@@ -50,9 +50,13 @@ Point SectorPath::currentTarget(Point currentPosition) {
 	if (!this->pointers.size()) {
 		TRACE("Path is Finished");
 	} else {
+		Line ray(currentPosition, this->pointers[1]);
 		if (currentPosition.fastDistanceToPoint(this->pointers[0]) > 1) {
-			if (this->pointers.size() > 2 && CollisionHandler::overlapTest(this->owner->shared_from_this(), Line(currentPosition, this->pointers[1]))) 
+			/*
+			if (this->pointers.size() > 2 && CollisionHandler::overlapTest(this->owner->shared_from_this(), 
+					Rect(currentPosition, ray.getVector(), ray.getUnitVector().orthogonal() * 3))) {
 				this->pointers.erase(this->pointers.begin());
+			}*/
 			value = (this->pointers[0] - currentPosition).getUnitVector();
 		} else {
 			//std::cout << "Going deeper" << std::endl;
@@ -107,7 +111,10 @@ void SectorPath::createPath(Point start, Point target) {
 	this->pointers.push_back(target);
 	// TODO: Something fucky is up here, dunno what
 	if (this->pointers.size() > 4) {
-		for (std::vector<Point>::iterator i = this->pointers.begin(); i != this->pointers.end(); i++) {
+		for (std::vector<Point>::iterator i = this->pointers.begin(); i + 1 != this->pointers.end() && i != this->pointers.end(); i++) {
+			if (!CollisionHandler::overlapTest(NULL, Line(*i, *(i + 1)))) {
+				i = this->pointers.erase(i + 1);
+			}
 			for (std::vector<Point>::iterator j = this->pointers.end()--; j != i + 1; j--) {
 				if (CollisionHandler::overlapTest(NULL, Line(*i, *j))) {
 					auto q = i;
@@ -119,7 +126,7 @@ void SectorPath::createPath(Point start, Point target) {
 					break;
 				}
 			}
-			//if (i == this->pointers.end()) break;
+			if (i == this->pointers.end()) break;
 		}
 	}
 }
